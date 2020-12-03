@@ -281,6 +281,7 @@ Item {
               }
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
+                    console.log('ADDREMOVE THAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -362,6 +363,7 @@ Item {
               }
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
+                      console.log('ADDREMOVE TRAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -432,6 +434,7 @@ Item {
               }
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
+                      console.log('ADDREMOVE BLAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -502,6 +505,7 @@ Item {
               }
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
+                      console.log('ADDREMOVE BRHAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -569,6 +573,7 @@ Item {
               onExited: { framerect.hoverColor = '#ffffff'}
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
+                      console.log('ADDREMOVE CENTER PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
