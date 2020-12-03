@@ -104,6 +104,7 @@ private:
 signals:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
+    void updateEffectKeyframe(bool);
 };
 
 #endif
