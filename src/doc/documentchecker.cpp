@@ -245,7 +245,7 @@ bool DocumentChecker::hasErrorInClips()
             }
             continue;
         }
-
+        QString producerResource = resource;
         QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 1) {
             bool proxyFound = true;
@@ -305,7 +305,10 @@ bool DocumentChecker::hasErrorInClips()
                 if (service.startsWith(QLatin1String("avformat"))) {
                     Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
                 }
+                slidePattern = QFileInfo(resource).fileName();
                 resource = QFileInfo(resource).absolutePath();
+            } else {
+                slideshow = false;
             }
         }
         if (!QFile::exists(resource)) {
@@ -348,7 +351,7 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         // Make sure we don't query same path twice
-        verifiedPaths.append(resource);
+        verifiedPaths.append(producerResource);
     }
 
     // Get list of used Luma files
