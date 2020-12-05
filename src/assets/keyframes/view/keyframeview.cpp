@@ -197,6 +197,20 @@ void KeyframeView::slotGoToPrev()
     }
 }
 
+void KeyframeView::slotCenterKeyframe()
+{
+    if (m_currentKeyframeOriginal == -1 || m_currentKeyframeOriginal == m_position) {
+        return;
+    }
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    if (!m_model->hasKeyframe(m_currentKeyframeOriginal + offset)) {
+        return;
+    }
+    GenTime initPos(m_currentKeyframeOriginal + offset, pCore->getCurrentFps());
+    GenTime targetPos(m_position + offset, pCore->getCurrentFps());
+    m_model->moveKeyframe(initPos, targetPos, true);
+}
+
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
     emit activateEffect();
@@ -216,9 +230,15 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
                 // Select and seek to keyframe
                 m_currentKeyframe = m_currentKeyframeOriginal;
-                emit seekToPos(m_currentKeyframeOriginal);
+                if (KdenliveSettings::keyframeseek()) {
+                    emit seekToPos(m_currentKeyframeOriginal);
+                } else {
+                    update();
+                }
                 return;
             }
+            // no keyframe next to mouse
+            m_currentKeyframe = m_currentKeyframeOriginal = -1;
         } else if (event->y() > m_zoomHeight + 2) {
             // click on zoom area
             if (m_hoverZoom) {
@@ -241,9 +261,6 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             return;
         }
     }
-
-    // no keyframe next to mouse
-    m_currentKeyframe = m_currentKeyframeOriginal = -1;
     emit seekToPos(pos);
     update();
 }
@@ -293,7 +310,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         if (m_currentKeyframe == pos) {
             return;
         }
-        if (m_currentKeyframe > 0) {
+        if (m_currentKeyframe > 0 && (m_currentKeyframe != m_currentKeyframeOriginal || event->y() < m_lineHeight)) {
             if (!m_model->hasKeyframe(pos + offset)) {
                 GenTime currentPos(m_currentKeyframe + offset, pCore->getCurrentFps());
                 if (m_model->moveKeyframe(currentPos, position, false)) {
@@ -403,11 +420,37 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
 void KeyframeView::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::AltModifier) {
-        if (event->angleDelta().y() > 0) {
+        // Alt modifier seems to invert x/y axis
+        if (event->angleDelta().x() > 0) {
             slotGoToPrev();
         } else {
             slotGoToNext();
         }
+        return;
+    }
+    if (event->modifiers() & Qt::ControlModifier) {
+        int maxWidth = width() - 2 * m_offset;
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+        double scaledPos = m_position * m_scale;
+        double zoomRange = (m_zoomHandle.y() - m_zoomHandle.x()) * maxWidth;
+        if (event->angleDelta().y() > 0) {
+            zoomRange /= 1.5;
+        } else {
+            zoomRange *= 1.5;
+        }
+        if (zoomRange < 5) {
+            // Don't allow too small zoombar
+            return;
+        }
+        double length = (scaledPos - zoomRange / 2) / maxWidth;
+        m_zoomHandle.setX(qMax(0., length));
+        if (length < 0) {
+            m_zoomHandle.setY(qMin(1.0, (scaledPos + zoomRange / 2) / maxWidth - length));
+        } else {
+            m_zoomHandle.setY(qMin(1.0, (scaledPos + zoomRange / 2) / maxWidth));
+        }
+        update();
         return;
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;

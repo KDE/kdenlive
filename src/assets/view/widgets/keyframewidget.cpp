@@ -41,6 +41,7 @@
 #include <QMenu>
 #include <QPointer>
 #include <QToolButton>
+#include <QStyle>
 #include <QVBoxLayout>
 #include <klocalizedstring.h>
 #include <utility>
@@ -78,6 +79,13 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonNext->setAutoRaise(true);
     m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
+    
+    // Move keyframe to cursor
+    m_buttonCenter = new QToolButton(this);
+    m_buttonCenter->setAutoRaise(true);
+    m_buttonCenter->setIcon(QIcon::fromTheme(QStringLiteral("align-horizontal-center")));
+    m_buttonCenter->setToolTip(i18n("Move selected keyframe to cursor"));
+    
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
@@ -96,6 +104,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
     m_toolbar = new QToolBar(this);
+    m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    m_toolbar->setIconSize(QSize(size, size));
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
@@ -105,8 +116,15 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addWidget(m_buttonPrevious);
     m_toolbar->addWidget(m_buttonAddDelete);
     m_toolbar->addWidget(m_buttonNext);
+    m_toolbar->addWidget(m_buttonCenter);
     m_toolbar->addAction(m_selectType);
 
+    QAction *seekKeyframe = new QAction(i18n("Seek to keyframe on select"), this);
+    seekKeyframe->setCheckable(true);
+    seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
+    connect(seekKeyframe, &QAction::triggered, [&](bool selected) {
+        KdenliveSettings::setKeyframeseek(selected);
+    });
     // copy/paste keyframes from clipboard
     QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
@@ -144,6 +162,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered),
             this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
     auto *container = new QMenu(this);
+    container->addAction(seekKeyframe);
     container->addAction(copy);
     container->addAction(paste);
     container->addSeparator();
@@ -171,6 +190,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
+    connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
     QMargins mrg = m_lay->contentsMargins();
     m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();
@@ -286,6 +306,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
         m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
+    m_buttonCenter->setEnabled(!atKeyframe);
     emit updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
