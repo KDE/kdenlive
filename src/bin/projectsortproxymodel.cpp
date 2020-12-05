@@ -28,6 +28,7 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_searchType(0)
     , m_searchRating(0)
+    , m_unusedFilter(false)
 {
     m_collator.setLocale(QLocale()); // Locale used for sorting → OK
     m_collator.setCaseSensitivity(Qt::CaseInsensitive);
@@ -49,6 +50,13 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
+    if (m_unusedFilter) {
+        // Column 8 contains the usage
+        QModelIndex indexTag = sourceModel()->index(sourceRow, 8, sourceParent);
+        if (sourceModel()->data(indexTag).toInt() > 0) {
+            return false;
+        }
+    }
     if (m_searchRating > 0) {
         // Column 7 contains the rating
         QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
@@ -146,11 +154,12 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetFilters(const QStringList tagFilters, const int rateFilters, const int typeFilters)
+void ProjectSortProxyModel::slotSetFilters(const QStringList tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
 {
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
     m_searchTag = tagFilters;
+    m_unusedFilter = unusedFilter;
     invalidateFilter();
 }
 
@@ -159,6 +168,7 @@ void ProjectSortProxyModel::slotClearSearchFilters()
     m_searchTag.clear();
     m_searchRating = 0;
     m_searchType = 0;
+    m_unusedFilter = false;
     invalidateFilter();
 }
 

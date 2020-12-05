@@ -104,6 +104,9 @@ int ProjectItemModel::mapToColumn(int column) const
     case 7:
         return AbstractProjectItem::DataRating;
         break;
+    case 8:
+        return AbstractProjectItem::UsageCount;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }

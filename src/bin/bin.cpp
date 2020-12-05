@@ -1091,11 +1091,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         QList<QAction *> list = m_filterMenu->actions();
         int rateFilters = 0;
         int typeFilters = 0;
+        bool usedFilter = false;
         QStringList tagFilters;
         for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 QString actionData = ac->data().toString();
-                if (actionData.startsWith(QLatin1Char('#'))) {
+                if (actionData == QLatin1String("unused")) {
+                    usedFilter = true;
+                } else if (actionData.startsWith(QLatin1Char('#'))) {
                     // Filter by tag
                     tagFilters << actionData;
                 } else if (actionData.startsWith(QLatin1Char('.'))) {
@@ -1118,7 +1121,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         } else {
             m_filterButton->setChecked(false);
         }
-        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters);
+        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usedFilter);
     });
 
     connect(m_filterMenu, &QMenu::triggered, this, [this](QAction *action) {
@@ -1137,11 +1140,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         QList<QAction *> list = m_filterMenu->actions();
         int rateFilters = 0;
         int typeFilters = 0;
+        bool usedFilter = false;
         QStringList tagFilters;
         for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 QString actionData = ac->data().toString();
-                if (actionData.startsWith(QLatin1Char('#'))) {
+                if (actionData == QLatin1String("unused")) {
+                    usedFilter = true;
+                } else if (actionData.startsWith(QLatin1Char('#'))) {
                     // Filter by tag
                     tagFilters << actionData;
                 } else if (actionData.startsWith(QLatin1Char('.'))) {
@@ -1164,7 +1170,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         } else {
             m_filterButton->setChecked(false);
         }
-        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters);
+        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usedFilter);
     });
 
     m_tagAction->setCheckable(true);
@@ -1738,6 +1744,12 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
+    // Add unused filter
+    m_filterMenu->addSeparator();
+    QAction *unusedFilter = new QAction(i18n("Unused clips"), this);
+    unusedFilter->setData(QStringLiteral("unused"));
+    unusedFilter->setCheckable(true);
+    m_filterMenu->addAction(unusedFilter);
 
     // Add type filters
     m_filterMenu->addSeparator();
