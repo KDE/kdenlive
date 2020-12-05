@@ -92,6 +92,7 @@ private:
     QToolButton *m_buttonAddDelete;
     QToolButton *m_buttonPrevious;
     QToolButton *m_buttonNext;
+    QToolButton *m_buttonCenter;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;

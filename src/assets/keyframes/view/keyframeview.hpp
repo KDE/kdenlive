@@ -57,6 +57,8 @@ public slots:
     void slotEditType(int type, const QPersistentModelIndex &index);
     /* @brief Emit initial info for monitor. */
     void initKeyframePos();
+    /** @brief Move selected keyframe to cursor position. */
+    void slotCenterKeyframe();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

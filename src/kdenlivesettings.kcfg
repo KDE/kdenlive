@@ -806,7 +806,7 @@
 
     <entry name="keyframeseek" type="Bool">
       <label>When editing an effect with position, seek to the keyframe pos.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="showbuiltstack" type="Bool">
       <label>Show builtin effect stack.</label>
