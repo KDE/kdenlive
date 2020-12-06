@@ -921,7 +921,11 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 // Required to load master audio effects
                 if (m_ownerId.first == ObjectType::Master && filter->get("mlt_service") == QLatin1String("avfilter.subtitles")) {
                     // A subtitle filter, update project
-                    pCore->window()->slotEditSubtitle(true);
+                    QMap<QString, QString> subProperties;
+                    //subProperties.insert(QStringLiteral("av.filename"), filter->get("av.filename"));
+                    subProperties.insert(QStringLiteral("disable"), filter->get("disable"));
+                    subProperties.insert(QStringLiteral("kdenlive:locked"), filter->get("kdenlive:locked"));
+                    pCore->window()->slotEditSubtitle(subProperties);
                 } else if (auto ms = m_masterService.lock()) {
                     ms->attach(*filter.get());
                 }

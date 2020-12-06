@@ -135,6 +135,8 @@ public:
     bool isDisabled() const;
     void switchLocked();
     bool isLocked() const;
+    /** @brief Load some subtitle filter properties from file */
+    void loadProperties(QMap<QString, QString> subProperties);
 
 public slots:
     /** @brief Function that parses through a subtitle file */

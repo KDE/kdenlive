@@ -122,6 +122,7 @@ Item {
             anchors.fill: parent
             //visible: timeScale >= 6
             enabled: parent.textEditBegin
+            opacity: root.subtitlesDisabled ? 0.5 : 1
             onEnabledChanged: {
                 if (enabled) {
                     selectAll()
@@ -135,7 +136,7 @@ Item {
             wrapMode: TextField.WordWrap
             horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
             background: Rectangle {
-                color: enabled ? "#fff" : '#ccccff'
+                color: root.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
                 border {
                     color: subtitleRoot.selected ? root.selectionColor : "#000"
                     width: 2

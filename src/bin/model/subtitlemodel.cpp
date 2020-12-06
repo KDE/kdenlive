@@ -88,7 +88,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
      * turn = 1 -> Add string to timeLine
      * turn > 1 -> Add string to completeLine
      */
-    if (filePath.isEmpty())
+    if (filePath.isEmpty() || isLocked())
         return;
     Fun redo = []() { return true; };
     Fun undo = [this]() {
@@ -314,6 +314,9 @@ GenTime SubtitleModel::stringtoTime(QString &str)
 
 bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter)
 {
+    if (isLocked()) {
+        return false;
+    }
     int id = TimelineModel::getNextId();
     Fun local_redo = [this, id, start, end, str, updateFilter]() {
         addSubtitle(id, start, end, str, false, updateFilter);
@@ -331,7 +334,7 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, F
 
 bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary, bool updateFilter)
 {
-	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0) {
+	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0 || isLocked()) {
         qDebug()<<"Time error: is negative";
         return false;
     }
@@ -439,7 +442,7 @@ QString SubtitleModel::getText(int id) const
 
 bool SubtitleModel::setText(int id, const QString text)
 {
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end() || isLocked()) {
         return false;
     }
     GenTime start = m_timeline->m_allSubtitles.at(id);
@@ -463,6 +466,9 @@ bool SubtitleModel::setText(int id, const QString text)
 
 std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFrame) const
 {
+    if (isLocked()) {
+        return {};
+    }
     GenTime startTime(startFrame, pCore->getCurrentFps());
     GenTime endTime(endFrame, pCore->getCurrentFps());
     std::unordered_set<int> matching;
@@ -490,6 +496,9 @@ void SubtitleModel::cutSubtitle(int position)
 
 bool SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
 {
+    if (isLocked()) {
+        return false;
+    }
     GenTime pos(position, pCore->getCurrentFps());
     GenTime start = GenTime(-1);
     for (const auto &subtitles : m_subtitleList) {
@@ -600,6 +609,9 @@ bool SubtitleModel::requestResize(int id, int size, bool right)
 
 bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
+    if (isLocked()) {
+        return false;
+    }
     Q_ASSERT(m_timeline->m_allSubtitles.find( id ) != m_timeline->m_allSubtitles.end());
     GenTime startPos = m_timeline->m_allSubtitles.at(id);
     GenTime endPos = m_subtitleList.at(startPos).second;
@@ -694,6 +706,9 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
 
 void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText)
 {
+    if (isLocked()) {
+        return;
+    }
     if(startPos.frames(pCore->getCurrentFps()) < 0) {
         qDebug()<<"Time error: is negative";
         return;
@@ -711,6 +726,9 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText)
 bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
 {
     qDebug()<<"Deleting subtitle in model";
+    if (isLocked()) {
+        return false;
+    }
     if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
         qDebug()<<"No Subtitle at pos in model";
         return false;
@@ -744,6 +762,9 @@ bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
 
 void SubtitleModel::removeAllSubtitles()
 {
+    if (isLocked()) {
+        return;
+    }
     auto ids = m_timeline->m_allSubtitles;
     for (const auto &p : ids) {
         removeSubtitle(p.first);
@@ -769,7 +790,7 @@ void SubtitleModel::requestSubtitleMove(int clipId, GenTime position)
 bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView)
 {
     qDebug()<<"Moving Subtitle";
-    if (m_timeline->m_allSubtitles.count(subId) == 0) {
+    if (m_timeline->m_allSubtitles.count(subId) == 0 || isLocked()) {
         return false;
     }
     GenTime oldPos = m_timeline->m_allSubtitles.at(subId);
@@ -1012,6 +1033,9 @@ int SubtitleModel::getSubtitlePlaytime(int id) const
 
 void SubtitleModel::setSelected(int id, bool select)
 {
+    if (isLocked()) {
+        return;
+    }
     if (select) {
         m_selected << id;
     } else {
@@ -1040,7 +1064,15 @@ void SubtitleModel::switchDisabled()
 
 void SubtitleModel::switchLocked()
 {
-    m_subtitleFilter->set("kdenlive:locked", 1 - m_subtitleFilter->get_int("kdenlive:locked"));
+    bool isLocked = m_subtitleFilter->get_int("kdenlive:locked") == 1;
+    m_subtitleFilter->set("kdenlive:locked", isLocked ? 0 : 1);
+    if (!isLocked) {
+        // Clear selection
+        while (!m_selected.isEmpty()) {
+            int id = m_selected.takeFirst();
+            updateSub(id, {SelectedRole});
+        }
+    }
 }
 
 
@@ -1052,4 +1084,15 @@ bool SubtitleModel::isDisabled() const
 bool SubtitleModel::isLocked() const
 {
     return m_subtitleFilter->get_int("kdenlive:locked") == 1;
+}
+
+void SubtitleModel::loadProperties(QMap<QString, QString> subProperties)
+{
+    QMap<QString, QString>::const_iterator i = subProperties.constBegin();
+    while (i != subProperties.constEnd()) {
+        if (!i.value().isEmpty()) {
+            m_subtitleFilter->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+        }
+        ++i;
+    }
 }
