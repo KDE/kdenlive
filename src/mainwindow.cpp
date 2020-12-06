@@ -4208,7 +4208,7 @@ void MainWindow::resetSubtitles()
     }
 }
 
-void MainWindow::slotEditSubtitle(bool loadExisting)
+void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {
@@ -4224,6 +4224,7 @@ void MainWindow::slotEditSubtitle(bool loadExisting)
             subFile.copy(workPath);
             subtitleModel->parseSubtitle(workPath);
         }
+        subtitleModel->loadProperties(subProperties);
         getMainTimeline()->showSubtitles = true;
         m_buttonSubtitleEditTool->setChecked(true);
         getMainTimeline()->connectSubtitleModel(true);
