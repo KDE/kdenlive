@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="197" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="198" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -30,6 +30,9 @@
       <Menu name="subtitles" ><text>Subtitles</text>
           <Action name="subtitle_tool" />
           <Action name="add_subtitle" />
+          <Action name="disable_subtitle" />
+          <Action name="lock_subtitle" />
+          <Separator />
           <Action name="import_subtitle" />
           <Action name="export_subtitle" />
       </Menu>

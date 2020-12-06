@@ -85,6 +85,8 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor selectionColor READ selectionColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
+    Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
+    Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -176,6 +178,10 @@ public:
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
+    void switchSubtitleDisable();
+    bool subtitlesDisabled() const;
+    void switchSubtitleLock();
+    bool subtitlesLocked() const;
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -689,6 +695,8 @@ signals:
     void dirtyChunksChanged();
     void renderedChunksChanged();
     void workingPreviewChanged();
+    void subtitlesDisabledChanged();
+    void subtitlesLockedChanged();
     void useRulerChanged();
     void updateZoom(double);
     /* @brief emitted when timeline selection changes, true if a clip is selected

@@ -1032,3 +1032,24 @@ int SubtitleModel::trackDuration() const
     }
     return m_subtitleList.rbegin()->second.second.frames(pCore->getCurrentFps());
 }
+
+void SubtitleModel::switchDisabled()
+{
+    m_subtitleFilter->set("disable", 1 - m_subtitleFilter->get_int("disable"));
+}
+
+void SubtitleModel::switchLocked()
+{
+    m_subtitleFilter->set("kdenlive:locked", 1 - m_subtitleFilter->get_int("kdenlive:locked"));
+}
+
+
+bool SubtitleModel::isDisabled() const
+{
+    return m_subtitleFilter->get_int("disable") == 1;
+}
+
+bool SubtitleModel::isLocked() const
+{
+    return m_subtitleFilter->get_int("kdenlive:locked") == 1;
+}

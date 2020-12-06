@@ -311,6 +311,8 @@ Rectangle {
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
+    property bool subtitlesLocked: timeline.subtitlesLocked
+    property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width
 
     onSeekingFinishedChanged : {
@@ -750,6 +752,90 @@ Rectangle {
                         font: miniFont
                         text: i18n("Subtitles")
                         visible: (subtitleTrackHeader.height > root.collapsedHeight + subLabel.height)
+                    }
+                    
+                    Row {
+                        id: subButtonsRow
+                        width: childrenRect.width
+                        x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
+                        spacing: 0
+                        ToolButton {
+                            id: muteButton
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: root.subtitlesDisabled ? "image://icon/view-hidden" : "image://icon/view-visible"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            onClicked: timeline.triggerAction('disable_subtitle')
+                            ToolTip {
+                                visible: muteButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: isDisabled? i18n("Show") : i18n("Hide")
+                                }
+                            }
+                        }
+
+                        ToolButton {
+                            id: lockButton
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: root.subtitlesLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            onClicked: timeline.triggerAction('lock_subtitle')
+                            ToolTip {
+                                visible: lockButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                                }
+                            }
+                            SequentialAnimation {
+                                id: flashLock
+                                loops: 1
+                                ScaleAnimator {
+                                    target: lockButton
+                                    from: 1
+                                    to: 1.6
+                                    duration: 200
+                                }
+                                ScaleAnimator {
+                                    target: lockButton
+                                    from: 1.6
+                                    to: 1
+                                    duration: 200
+                                }
+                            }
+                        }
                     }
                 }
                 Column {
