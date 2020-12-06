@@ -1719,6 +1719,9 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
+    addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
+    addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
+
     addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
     addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Subtitle"), this, SLOT(slotDeleteItem()), QIcon::fromTheme(QStringLiteral("edit-delete")));
@@ -4237,6 +4240,16 @@ void MainWindow::slotAddSubtitle()
         m_buttonSubtitleEditTool->setChecked(true);
     }
     getCurrentTimeline()->controller()->addSubtitle();
+}
+
+void MainWindow::slotDisableSubtitle()
+{
+    getCurrentTimeline()->controller()->switchSubtitleDisable();
+}
+
+void MainWindow::slotLockSubtitle()
+{
+    getCurrentTimeline()->controller()->switchSubtitleLock();
 }
 
 void MainWindow::slotImportSubtitle()

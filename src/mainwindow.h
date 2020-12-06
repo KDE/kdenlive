@@ -514,6 +514,10 @@ private slots:
     void slotActivateTarget();
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle();
+    /** @brief Enable/disable subtitle track */
+    void slotDisableSubtitle();
+    /** @brief Lock / unlock subtitle track */
+    void slotLockSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
     /** @brief Export a subtitle file */

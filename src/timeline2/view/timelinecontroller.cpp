@@ -3931,3 +3931,39 @@ void TimelineController::deleteSubtitle(int startframe, int endframe, QString te
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
 }
+
+void TimelineController::switchSubtitleDisable()
+{
+    auto subtitleModel = pCore->getSubtitleModel();
+    if (subtitleModel) {
+        subtitleModel->switchDisabled();
+        emit subtitlesDisabledChanged();
+        pCore->requestMonitorRefresh();
+    }
+}
+
+bool TimelineController::subtitlesDisabled() const
+{
+    auto subtitleModel = pCore->getSubtitleModel();
+    if (subtitleModel) {
+        return subtitleModel->isDisabled();
+    }
+    return false;
+}
+
+void TimelineController::switchSubtitleLock()
+{
+    auto subtitleModel = pCore->getSubtitleModel();
+    if (subtitleModel) {
+        subtitleModel->switchLocked();
+        emit subtitlesLockedChanged();
+    }
+}
+bool TimelineController::subtitlesLocked() const
+{
+    auto subtitleModel = pCore->getSubtitleModel();
+    if (subtitleModel) {
+        return subtitleModel->isLocked();
+    }
+    return false;
+}
