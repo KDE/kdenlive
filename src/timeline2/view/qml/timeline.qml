@@ -785,7 +785,7 @@ Rectangle {
                                 }
                                 contentItem: Label {
                                     color: activePalette.text
-                                    text: isDisabled? i18n("Show") : i18n("Hide")
+                                    text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
                                 }
                             }
                         }
@@ -816,7 +816,7 @@ Rectangle {
                                 }
                                 contentItem: Label {
                                     color: activePalette.text
-                                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                                    text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
                                 }
                             }
                             SequentialAnimation {
