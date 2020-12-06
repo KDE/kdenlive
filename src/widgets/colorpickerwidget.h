@@ -64,6 +64,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     /** @brief Closes the event filter and makes mouse and keyboard work again on other widgets/windows. */
@@ -78,6 +79,7 @@ private:
     bool m_filterActive{false};
     QRect m_grabRect;
     QFrame *m_grabRectFrame;
+    QColor m_mouseColor;
 #ifdef Q_WS_X11
     XImage *m_image;
 #else
