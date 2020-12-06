@@ -4224,7 +4224,12 @@ void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
             subFile.copy(workPath);
             subtitleModel->parseSubtitle(workPath);
         }
-        subtitleModel->loadProperties(subProperties);
+        if (!subProperties.isEmpty()) {
+            subtitleModel->loadProperties(subProperties);
+            // Load the disabled / locked state of the subtitle
+            getMainTimeline()->controller()->subtitlesLockedChanged();
+            getMainTimeline()->controller()->subtitlesDisabledChanged();
+        }
         getMainTimeline()->showSubtitles = true;
         m_buttonSubtitleEditTool->setChecked(true);
         getMainTimeline()->connectSubtitleModel(true);
