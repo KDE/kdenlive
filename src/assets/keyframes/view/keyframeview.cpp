@@ -42,6 +42,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_scale(1)
     , m_zoomFactor(1)
     , m_zoomStart(0)
+    , m_moveKeyframeMode(false)
     , m_zoomHandle(0,1)
     , m_hoverZoomIn(false)
     , m_hoverZoomOut(false)
@@ -220,6 +221,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
     int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
     pos = qBound(0, pos, m_duration - 1);
+    m_moveKeyframeMode = false;
     if (event->button() == Qt::LeftButton) {
         if (event->y() < m_lineHeight) {
             // mouse click in keyframes area
@@ -230,6 +232,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
                 // Select and seek to keyframe
                 m_currentKeyframe = m_currentKeyframeOriginal;
+                m_moveKeyframeMode = true;
                 if (KdenliveSettings::keyframeseek()) {
                     emit seekToPos(m_currentKeyframeOriginal);
                 } else {
@@ -310,7 +313,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         if (m_currentKeyframe == pos) {
             return;
         }
-        if (m_currentKeyframe > 0 && (m_currentKeyframe != m_currentKeyframeOriginal || event->y() < m_lineHeight)) {
+        if (m_currentKeyframe > 0 && m_moveKeyframeMode) {
             if (!m_model->hasKeyframe(pos + offset)) {
                 GenTime currentPos(m_currentKeyframe + offset, pCore->getCurrentFps());
                 if (m_model->moveKeyframe(currentPos, position, false)) {
@@ -375,6 +378,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
+    m_moveKeyframeMode = false;
     if (m_currentKeyframe >= 0 && m_currentKeyframeOriginal != m_currentKeyframe) {
         int offset = pCore->getItemIn(m_model->getOwnerId());
         GenTime initPos(m_currentKeyframeOriginal + offset, pCore->getCurrentFps());

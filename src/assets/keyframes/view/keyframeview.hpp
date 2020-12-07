@@ -81,6 +81,7 @@ private:
     double m_scale;
     double m_zoomFactor;
     double m_zoomStart;
+    bool m_moveKeyframeMode;
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
