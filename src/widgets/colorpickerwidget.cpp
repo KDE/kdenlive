@@ -92,6 +92,7 @@ ColorPickerWidget::~ColorPickerWidget()
 
 void ColorPickerWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     QStylePainter painter(this);
     
     QStyleOptionComplex option;
