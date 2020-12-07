@@ -17,4 +17,8 @@
         <parameter type="bool" name="fill" default="0">
                 <name>Fill</name>
         </parameter>
+        <parameter type="list" name="show_channel"  default="0" paramlist="-1;0;1;2;3;4;5;6;7;8;9;10">
+        <paramlistdisplay>Merge,All,1,2,3,4,5,6,7,8,9,10</paramlistdisplay>
+        <name>Channel to draw</name>
+	</parameter>
 </effect>
