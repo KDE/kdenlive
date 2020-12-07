@@ -1066,6 +1066,27 @@ void SubtitleModel::switchLocked()
 {
     bool isLocked = m_subtitleFilter->get_int("kdenlive:locked") == 1;
     m_subtitleFilter->set("kdenlive:locked", isLocked ? 0 : 1);
+    
+    // En/disable snapping on lock
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
+    for (const auto &snapModel : m_regSnaps) {
+        if (auto ptr = snapModel.lock()) {
+            validSnapModels.push_back(snapModel);
+            if (isLocked) {
+                for (const auto &subtitle : m_subtitleList) {
+                    ptr->addPoint(subtitle.first.frames(pCore->getCurrentFps()));
+                    ptr->addPoint(subtitle.second.second.frames(pCore->getCurrentFps()));
+                }
+            } else {
+                for (const auto &subtitle : m_subtitleList) {
+                    ptr->removePoint(subtitle.first.frames(pCore->getCurrentFps()));
+                    ptr->removePoint(subtitle.second.second.frames(pCore->getCurrentFps()));
+                }
+            }
+        }
+    }
+    // Update the list of snapModel known to be valid
+    std::swap(m_regSnaps, validSnapModels);
     if (!isLocked) {
         // Clear selection
         while (!m_selected.isEmpty()) {
