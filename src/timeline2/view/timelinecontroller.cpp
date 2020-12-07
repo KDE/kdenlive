@@ -3936,9 +3936,15 @@ void TimelineController::switchSubtitleDisable()
 {
     auto subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel) {
-        subtitleModel->switchDisabled();
-        emit subtitlesDisabledChanged();
-        pCore->requestMonitorRefresh();
+        bool disabled = subtitleModel->isDisabled();
+        Fun local_switch = [this, subtitleModel]() {
+            subtitleModel->switchDisabled();
+            emit subtitlesDisabledChanged();
+            pCore->requestMonitorRefresh();
+            return true;
+        };
+        local_switch();
+        pCore->pushUndo(local_switch, local_switch, disabled ? i18n("Show subtitle track") : i18n("Hide subtitle track"));
     }
 }
 
@@ -3955,8 +3961,14 @@ void TimelineController::switchSubtitleLock()
 {
     auto subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel) {
-        subtitleModel->switchLocked();
-        emit subtitlesLockedChanged();
+        bool locked = subtitleModel->isLocked();
+        Fun local_switch = [this, subtitleModel]() {
+            subtitleModel->switchLocked();
+            emit subtitlesLockedChanged();
+            return true;
+        };
+        local_switch();
+        pCore->pushUndo(local_switch, local_switch, locked ? i18n("Unlock subtitle track") : i18n("Lock subtitle track"));
     }
 }
 bool TimelineController::subtitlesLocked() const
