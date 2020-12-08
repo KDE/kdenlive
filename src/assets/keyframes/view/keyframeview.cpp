@@ -43,6 +43,8 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_zoomFactor(1)
     , m_zoomStart(0)
     , m_moveKeyframeMode(false)
+    , m_clickPoint(-1)
+    , m_clickEnd(-1)
     , m_zoomHandle(0,1)
     , m_hoverZoomIn(false)
     , m_hoverZoomOut(false)
@@ -237,6 +239,10 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             // mouse click in keyframes area
             bool ok;
             GenTime position(pos + offset, pCore->getCurrentFps());
+            if (event->modifiers() & Qt::ShiftModifier) {
+                m_clickPoint = pos;
+                return;
+            }
             auto keyframe = m_model->getClosestKeyframe(position, &ok);
             if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
@@ -356,6 +362,24 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                 }
             }
         }
+        // Rubberband selection
+        if (m_clickPoint >= 0) {
+            m_clickEnd = pos;
+            int min = qMin(m_clickPoint, m_clickEnd);
+            int max = qMax(m_clickPoint, m_clickEnd);
+            min = qMax(1, min);
+            m_selectedKeyframes.clear();
+            double fps = pCore->getCurrentFps();
+            for (const auto &keyframe : *m_model.get()) {
+                int pos = keyframe.first.frames(fps) - offset;
+                if (pos > min && pos < max) {
+                    m_selectedKeyframes << pos;
+                }
+            }
+            update();
+            return;
+        }
+        
         if (KdenliveSettings::keyframeseek()) {
             emit seekToPos(pos);
         }
@@ -416,6 +440,11 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
     m_moveKeyframeMode = false;
+    m_clickPoint = -1;
+    if (m_clickEnd >= 0) {
+        m_clickEnd = -1;
+        update();
+    }
     if (m_currentKeyframe >= 0 && m_currentKeyframeOriginal != m_currentKeyframe) {
         int offset = pCore->getItemIn(m_model->getOwnerId());
         int delta = m_currentKeyframe - m_currentKeyframeOriginal;
@@ -638,6 +667,14 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             p.setBrush(m_colKeyframe);
             p.drawPolygon(position);
         }
+    }
+    // Rubberband
+    if (m_clickEnd >= 0) {
+        int min = (qMin(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
+        int max = (qMax(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
+        p.setOpacity(0.5);
+        p.fillRect(QRect(min, 0, max - min, m_lineHeight), palette().highlight());
+        p.setOpacity(1);
     }
 
     // Zoom bar
