@@ -42,7 +42,7 @@ public slots:
     /* @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
      */
-    void slotRemoveKeyframe(int pos);
+    void slotRemoveKeyframe(QVector<int> positions);
     /* @brief Add a keyframe with given parameter value at given pos.
        If pos is negative, then keyframe is added at current position
     */
@@ -74,6 +74,7 @@ private:
     int m_position;
     int m_currentKeyframe;
     int m_currentKeyframeOriginal;
+    QVector <int>m_selectedKeyframes;
     int m_hoverKeyframe;
     int m_lineHeight;
     int m_zoomHeight;

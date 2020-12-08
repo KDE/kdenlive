@@ -124,7 +124,12 @@ void KeyframeView::slotAddRemove()
     emit activateEffect();
     int offset = pCore->getItemIn(m_model->getOwnerId());
     if (m_model->hasKeyframe(m_position + offset)) {
-        slotRemoveKeyframe(m_position);
+        if (m_selectedKeyframes.contains(m_position)) {
+            // Delete all selected keyframes
+            slotRemoveKeyframe(m_selectedKeyframes);
+        } else {
+            slotRemoveKeyframe({m_position});
+        }
     } else {
         slotAddKeyframe(m_position);
     }
@@ -138,18 +143,23 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
     }
 }
 
-void KeyframeView::slotRemoveKeyframe(int pos)
+void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
 {
     if (m_model->singleKeyframe()) {
         // Don't allow zero keyframe
         pCore->displayMessage(i18n("Cannot remove the last keyframe"), MessageType::InformationMessage, 500);
         return;
     }
-    if (pos < 0) {
-        pos = m_position;
-    }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->removeKeyframe(GenTime(pos + offset, pCore->getCurrentFps()));
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (int pos : positions) {
+        if (m_selectedKeyframes.contains(pos)) {
+            m_selectedKeyframes.removeAll(pos);
+        }
+        m_model->removeKeyframeWithUndo(GenTime(pos + offset, pCore->getCurrentFps()), undo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
 void KeyframeView::setDuration(int dur)
@@ -230,6 +240,15 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             auto keyframe = m_model->getClosestKeyframe(position, &ok);
             if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
+                if (event->modifiers() & Qt::ControlModifier) {
+                    if (m_selectedKeyframes.contains(m_currentKeyframeOriginal)) {
+                        m_selectedKeyframes.removeAll(m_currentKeyframeOriginal);
+                    } else if (m_currentKeyframeOriginal > 0) {
+                        m_selectedKeyframes << m_currentKeyframeOriginal;
+                    }
+                } else if (!m_selectedKeyframes.contains(m_currentKeyframeOriginal)) {
+                    m_selectedKeyframes = {m_currentKeyframeOriginal};
+                }
                 // Select and seek to keyframe
                 m_currentKeyframe = m_currentKeyframeOriginal;
                 m_moveKeyframeMode = true;
@@ -241,6 +260,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 return;
             }
             // no keyframe next to mouse
+            m_selectedKeyframes.clear();
             m_currentKeyframe = m_currentKeyframeOriginal = -1;
         } else if (event->y() > m_zoomHeight + 2) {
             // click on zoom area
@@ -315,13 +335,30 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         }
         if (m_currentKeyframe > 0 && m_moveKeyframeMode) {
             if (!m_model->hasKeyframe(pos + offset)) {
-                GenTime currentPos(m_currentKeyframe + offset, pCore->getCurrentFps());
-                if (m_model->moveKeyframe(currentPos, position, false)) {
-                    m_currentKeyframe = pos;
+                int delta = pos + offset - m_currentKeyframe;
+                // Check that the move is possible
+                for (int kf : m_selectedKeyframes) {
+                    if (m_model->hasKeyframe(kf + offset + delta)) {
+                        return;
+                    }
+                }
+                for (int kf : m_selectedKeyframes) {
+                    GenTime currentPos(kf + offset, pCore->getCurrentFps());
+                    GenTime updatedPos(kf + offset + delta, pCore->getCurrentFps());
+                    if (m_model->moveKeyframe(currentPos, updatedPos, false)) {
+                        if (kf == m_currentKeyframe) {
+                           m_currentKeyframe = pos;
+                        }
+                    }
+                }
+                for (int &kf : m_selectedKeyframes) {
+                    kf += delta;
                 }
             }
         }
-        emit seekToPos(pos);
+        if (KdenliveSettings::keyframeseek()) {
+            emit seekToPos(pos);
+        }
         return;
     }
     if (event->y() < m_lineHeight) {
@@ -381,11 +418,23 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
     m_moveKeyframeMode = false;
     if (m_currentKeyframe >= 0 && m_currentKeyframeOriginal != m_currentKeyframe) {
         int offset = pCore->getItemIn(m_model->getOwnerId());
-        GenTime initPos(m_currentKeyframeOriginal + offset, pCore->getCurrentFps());
-        GenTime targetPos(m_currentKeyframe + offset, pCore->getCurrentFps());
-        bool ok1 = m_model->moveKeyframe(targetPos, initPos, false);
-        bool ok2 = m_model->moveKeyframe(initPos, targetPos, true);
-        qDebug() << "RELEASING keyframe move" << ok1 << ok2 << initPos.frames(pCore->getCurrentFps()) << targetPos.frames(pCore->getCurrentFps());
+        int delta = m_currentKeyframe - m_currentKeyframeOriginal;
+        // Move back all keyframes to their initial positions
+        for (int kf : m_selectedKeyframes) {
+            GenTime initPos(kf - delta + offset, pCore->getCurrentFps());
+            GenTime targetPos(kf + offset, pCore->getCurrentFps());
+            m_model->moveKeyframe(targetPos, initPos, false);
+        }
+        // Move all keyframes to their new positions
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (int kf : m_selectedKeyframes) {
+            GenTime initPos(kf - delta + offset, pCore->getCurrentFps());
+            GenTime targetPos(kf + offset, pCore->getCurrentFps());
+            m_model->moveKeyframeWithUndo(initPos, targetPos, undo, redo);
+        }
+        pCore->pushUndo(undo, redo, i18np("Move keyframe", "Move keyframes", m_selectedKeyframes.size()));
+        qDebug() << "RELEASING keyframe move" << delta;
     }
 }
 
@@ -405,6 +454,9 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
             if (keyframe.first.frames(pCore->getCurrentFps()) != offset) {
                 m_model->removeKeyframe(keyframe.first);
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
+                    if (m_selectedKeyframes.contains(m_currentKeyframe)) {
+                        m_selectedKeyframes.removeAll(m_currentKeyframe);
+                    }
                     m_currentKeyframe = m_currentKeyframeOriginal = -1;
                 }
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
@@ -532,8 +584,10 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         if (scaledPos < m_zoomStart || qFloor(scaledPos) > zoomEnd) {
             continue;
         }
-        if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
+        if (m_selectedKeyframes.contains(pos)) {
             p.setBrush(m_colSelected);
+        } else if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
+            p.setBrush(Qt::green);
         } else {
             p.setBrush(m_colKeyframe);
         }
