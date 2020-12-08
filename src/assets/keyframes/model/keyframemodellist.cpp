@@ -151,6 +151,15 @@ bool KeyframeModelList::removeKeyframe(GenTime pos)
     return applyOperation(op, i18n("Delete keyframe"));
 }
 
+bool KeyframeModelList::removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo)
+{
+    bool result = true;
+    for (const auto &param : m_parameters) {
+        result = result && param.second->removeKeyframe(pos, undo, redo);
+    }
+    return result;
+}
+
 bool KeyframeModelList::removeAllKeyframes()
 {
     QWriteLocker locker(&m_lock);
@@ -173,6 +182,15 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
     Q_ASSERT(m_parameters.size() > 0);
     auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo); };
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
+}
+
+bool KeyframeModelList::moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo)
+{
+    bool result = true;
+    for (const auto &param : m_parameters) {
+        result = result && param.second->moveKeyframe(oldPos, pos, QVariant(), undo, redo);
+    }
+    return result;
 }
 
 bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo)
