@@ -47,6 +47,9 @@ public slots:
        If pos is negative, then keyframe is added at current position
     */
     void slotAddKeyframe(int pos = -1);
+    /* @brief Duplicate selected keyframe at cursor position
+    */
+    void slotDuplicateKeyframe();
     /* @brief If there is a keyframe at current position, it is removed.
        Otherwise, we add a new one with given value.
     */

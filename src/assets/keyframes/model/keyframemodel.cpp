@@ -134,6 +134,21 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     return false;
 }
 
+bool KeyframeModel::duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_keyframeList.count(srcPos) > 0);
+    KeyframeType oldType = m_keyframeList[srcPos].first;
+    QVariant oldValue = m_keyframeList[srcPos].second;
+    Fun local_redo = addKeyframe_lambda(dstPos, oldType, oldValue, true);
+    Fun local_undo = deleteKeyframe_lambda(dstPos, true);
+    if (local_redo()) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
+}
+
 bool KeyframeModel::removeKeyframe(int frame)
 {
     GenTime pos(frame, pCore->getCurrentFps());
