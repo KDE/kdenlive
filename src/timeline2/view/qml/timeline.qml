@@ -720,6 +720,7 @@ Rectangle {
                     width: trackHeaders.width
                     height: subtitleTrack.height
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
+                    visible: height > 0
                     ToolButton {
                         id: expandSubButton
                         focusPolicy: Qt.NoFocus
