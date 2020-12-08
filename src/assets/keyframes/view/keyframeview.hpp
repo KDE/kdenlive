@@ -83,6 +83,8 @@ private:
     double m_zoomFactor;
     double m_zoomStart;
     bool m_moveKeyframeMode;
+    int m_clickPoint;
+    int m_clickEnd;
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
