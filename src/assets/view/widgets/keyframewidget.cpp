@@ -86,6 +86,12 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonCenter->setIcon(QIcon::fromTheme(QStringLiteral("align-horizontal-center")));
     m_buttonCenter->setToolTip(i18n("Move selected keyframe to cursor"));
     
+    // Duplicate selected keyframe at cursor pos
+    m_buttonCopy = new QToolButton(this);
+    m_buttonCopy->setAutoRaise(true);
+    m_buttonCopy->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_buttonCopy->setToolTip(i18n("Duplicate selected keyframe"));
+    
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
@@ -117,6 +123,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addWidget(m_buttonAddDelete);
     m_toolbar->addWidget(m_buttonNext);
     m_toolbar->addWidget(m_buttonCenter);
+    m_toolbar->addWidget(m_buttonCopy);
     m_toolbar->addAction(m_selectType);
 
     QAction *seekKeyframe = new QAction(i18n("Seek to keyframe on select"), this);
@@ -191,6 +198,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
+    connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
     QMargins mrg = m_lay->contentsMargins();
     m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();

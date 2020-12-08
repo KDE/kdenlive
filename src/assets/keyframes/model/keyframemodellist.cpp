@@ -160,6 +160,15 @@ bool KeyframeModelList::removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo
     return result;
 }
 
+bool KeyframeModelList::duplicateKeyframeWithUndo(GenTime srcPos, GenTime destPos, Fun &undo, Fun &redo)
+{
+    bool result = true;
+    for (const auto &param : m_parameters) {
+        result = result && param.second->duplicateKeyframe(srcPos, destPos, undo, redo);
+    }
+    return result;
+}
+
 bool KeyframeModelList::removeAllKeyframes()
 {
     QWriteLocker locker(&m_lock);

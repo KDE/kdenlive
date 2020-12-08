@@ -81,6 +81,8 @@ protected:
     /* @brief Removes the keyframe at the given position. */
     bool removeKeyframe(int frame);
     bool moveKeyframe(int oldPos, int pos, QVariant newVal);
+    /* @brief Duplicate a keyframe at the given position. */
+    bool duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo);
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();

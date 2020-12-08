@@ -65,6 +65,9 @@ public:
     /* @brief Removes the keyframe at the given position. */
     bool removeKeyframe(GenTime pos);
     bool removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo);
+    
+    /* @brief Duplicate a keyframe at the given position. */
+    bool duplicateKeyframeWithUndo(GenTime srcPos, GenTime destPos, Fun &undo, Fun &redo);
     /* @brief Delete all the keyframes of the model (except first) */
     bool removeAllKeyframes();
     /* @brief Delete all the keyframes after a certain position (except first) */
