@@ -988,7 +988,19 @@ const QString ProjectClip::hash()
 
 const QByteArray ProjectClip::getFolderHash(QDir dir, QString fileName)
 {
-    fileName.append(dir.entryList(QDir::Files).join(QLatin1Char(',')));
+    QStringList files = dir.entryList(QDir::Files);
+    fileName.append(files.join(QLatin1Char(',')));
+    // Include file hash info in case we have several folders with same file names (can happen for image sequences)
+    if (!files.isEmpty()) {
+        QPair<QByteArray, qint64> hashData = calculateHash(dir.absoluteFilePath(files.first()));
+        fileName.append(hashData.first);
+        fileName.append(QString::number(hashData.second));
+        if (files.size() > 1) {
+            hashData = calculateHash(dir.absoluteFilePath(files.at(files.size() / 2)));
+            fileName.append(hashData.first);
+            fileName.append(QString::number(hashData.second));
+        }
+    }
     QByteArray fileData = fileName.toUtf8();
     return QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
 }
