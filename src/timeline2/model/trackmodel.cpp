@@ -1271,10 +1271,7 @@ bool TrackModel::requestCompositionDeletion(int compoId, bool updateView, bool f
     int old_position = old_composition->getPosition();
     Q_ASSERT(m_compoPos.count(old_position) > 0);
     Q_ASSERT(m_compoPos[old_position] == compoId);
-    if (finalDeletion) {
-        m_allCompositions[compoId]->selected = false;
-    }
-    auto operation = requestCompositionDeletion_lambda(compoId, updateView, finalMove);
+    auto operation = requestCompositionDeletion_lambda(compoId, updateView, finalMove && finalDeletion);
     if (operation()) {
         auto reverse = requestCompositionInsertion_lambda(compoId, old_position, updateView, finalMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
