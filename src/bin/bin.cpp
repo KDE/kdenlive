@@ -881,7 +881,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
             // focus last selected item when clearing search line
             QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
             if (current.isValid()) {
-                m_itemView->scrollTo(current, QAbstractItemView::PositionAtCenter);
+                m_itemView->scrollTo(current, QAbstractItemView::EnsureVisible);
             }
         }
     });
@@ -1857,7 +1857,7 @@ void Bin::slotAddFolder()
     auto ix = m_itemModel->getIndexFromItem(folder);
 
     // Scroll to ensure folder is visible
-    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
+    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
     qDebug() << "selecting" << ix;
     if (ix.isValid()) {
         qDebug() << "ix valid";
@@ -1919,7 +1919,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
             if (id.isValid() && id2.isValid()) {
                 m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
             }
-            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
+            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
         }
     } else {
         m_proxyModel->selectionModel()->clearSelection();
@@ -2661,7 +2661,7 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
         auto *view = static_cast<QTreeView *>(m_itemView);
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
     }
-    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
+    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
 }
 
 void Bin::slotOpenCurrent()
@@ -3290,7 +3290,7 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
         if (item) {
             QModelIndex ix = m_itemModel->getIndexFromItem(item);
-            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
+            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
         }
     }
 }
