@@ -23,7 +23,7 @@
 #define MLTPREVIEW_H
 
 #include <kio/thumbcreator.h>
-
+#include <memory>
 #include <mlt++/Mlt.h>
 
 #include <QObject>
@@ -38,7 +38,7 @@ public:
 
 protected:
     static uint imageVariance(const QImage &image);
-    QImage getFrame(Mlt::Producer *producer, int framepos, int width, int height);
+    QImage getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height);
 };
 
 #endif
