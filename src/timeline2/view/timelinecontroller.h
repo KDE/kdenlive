@@ -178,6 +178,7 @@ public:
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
+    Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     void switchSubtitleDisable();
     bool subtitlesDisabled() const;
     void switchSubtitleLock();

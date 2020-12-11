@@ -310,15 +310,17 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = new_duration - clip.originalDuration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2\n%3:%4'.arg((delta <= 0)? '+' : '-')
+                    s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
                         .arg(i18n("In"))
                         .arg(timeline.simplifiedTC(clip.inPoint))
-                    bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
+                    timeline.showToolTip(s)
+                    //bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedIn: {
-                bubbleHelp.hide()
+                //bubbleHelp.hide()
+                timeline.showToolTip();
                 if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
@@ -357,15 +359,17 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2\n%3:%4'.arg((delta <= 0)? '+' : '-')
+                    s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
                         .arg(i18n("Duration"))
                         .arg(timeline.simplifiedTC(new_duration))
-                    bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
+                    timeline.showToolTip(s);
+                    //bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedOut: {
-                bubbleHelp.hide()
+                timeline.showToolTip();
+                //bubbleHelp.hide()
                 if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     if (controlTrim) {
@@ -401,11 +405,13 @@ Item{
                     s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
                         .arg(timeline.simplifiedTC(new_duration))
-                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
+                    timeline.showToolTip(s)
+                    //bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedIn: {
-                bubbleHelp.hide()
+                timeline.showToolTip()
+                //bubbleHelp.hide()
                 controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping)
                 controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
             }
@@ -419,11 +425,13 @@ Item{
                     s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
                         .arg(timeline.simplifiedTC(new_duration))
-                    bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
+                    timeline.showToolTip(s)
+                    //bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedOut: {
-                bubbleHelp.hide()
+                timeline.showToolTip()
+                //bubbleHelp.hide()
                 controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)
                 controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping)
             }
