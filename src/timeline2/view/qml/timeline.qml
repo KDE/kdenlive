@@ -1252,7 +1252,7 @@ Rectangle {
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
                                 onWheel: zoomByWheel(wheel)
-                                cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                                //cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
                             }
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                         }
@@ -1405,9 +1405,13 @@ Rectangle {
                                             var delta = dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
                                                 var s = timeline.simplifiedTC(Math.abs(delta))
-                                                s = ((delta < 0)? '-' : '+') + s + i18n("\nPosition:%1", timeline.simplifiedTC(dragFrame))
-                                                bubbleHelp.show(parent.x + mouseX, Math.max(ruler.height, Logic.getTrackYFromId(timeline.activeTrack)), s)
-                                            } else bubbleHelp.hide()
+                                                s = i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, timeline.simplifiedTC(dragFrame))
+                                                timeline.showToolTip(s);
+                                                /*bubbleHelp.show(parent.x + mouseX, Math.max(ruler.height, Logic.getTrackYFromId(timeline.activeTrack)), s)*/
+                                            } else {
+                                                timeline.showToolTip()
+                                                //bubbleHelp.hide()
+                                            }
                                         }
                                     }
                                     onReleased: {
@@ -1432,7 +1436,8 @@ Rectangle {
                                             }
                                             dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
                                             dragProxy.sourceFrame = dragFrame
-                                            bubbleHelp.hide()
+                                            timeline.showToolTip()
+                                            //bubbleHelp.hide()
                                         }
                                     }
                                     onDoubleClicked: {

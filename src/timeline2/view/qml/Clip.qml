@@ -98,6 +98,7 @@ Rectangle {
         if (clipRoot.isGrabbed) {
             grabItem()
         } else {
+            timeline.showToolTip()
             mouseArea.focus = false
         }
     }
@@ -116,24 +117,6 @@ Rectangle {
     onClipResourceChanged: {
         if (itemType == ProducerType.Color) {
             color: Qt.darker(getColor(), 1.5)
-        }
-    }
-    ToolTip {
-        visible: mouseArea.containsMouse && !dragProxyArea.pressed && !trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !fadeInMouseArea.containsMouse && !fadeOutMouseArea.containsMouse && !fadeInMouseArea.drag.active && !fadeOutMouseArea.drag.active && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active
-        delay: 1000
-        timeout: 5000
-        background: Rectangle {
-            color: activePalette.alternateBase
-            border.color: activePalette.light
-        }
-        contentItem: Label {
-            color: activePalette.text
-            font: miniFont
-            text: '%1 (%2-%3)\n%4: %5'.arg(label.text)
-                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
-                        .arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(clipRoot.clipDuration))
         }
     }
 
@@ -289,11 +272,15 @@ Rectangle {
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true);
+            if (controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
+                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            }
         }
         Keys.onRightPressed: {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true);
+            if (controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
+                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            }
         }
         Keys.onUpPressed: {
             controller.requestClipMove(clipRoot.clipId, controller.getNextTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
@@ -312,10 +299,17 @@ Rectangle {
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
             initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+            var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
+            timeline.showToolTip(text)
         }
 
         onExited: {
             endDrag()
+            timeline.showToolTip()
         }
         onWheel: zoomByWheel(wheel)
 
@@ -442,11 +436,13 @@ Rectangle {
                         onEntered: {
                             if (!pressed) {
                                 mixOut.color = 'darkorchid'
+                                timeline.showToolTip(i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration)))
                             }
                         }
                         onExited: {
                             if (!pressed) {
                                 mixOut.color = clipRoot.border.color
+                                timeline.showToolTip()
                             }
                         }
                         Rectangle {
@@ -457,21 +453,6 @@ Rectangle {
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
                             visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
-
-                            ToolTip {
-                                visible: trimInMixArea.containsMouse && !trimInMixArea.pressed
-                                delay: 1000
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    font: miniFont
-                                    text: i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration))
-                                }
-                            }
                         }
                     }
                 }
@@ -595,10 +576,24 @@ Rectangle {
                         trimIn.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+                        var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                        timeline.showToolTip(s)
                     }
                 }
                 onExited: {
                     trimIn.opacity = 0
+                    if (!pressed) {
+                        if (!mouseArea.containsMouse) {
+                            timeline.showToolTip()
+                        } else {
+                            var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
+                             timeline.showToolTip(text)
+                        }
+                    }
                 }
                 Rectangle {
                     id: trimIn
@@ -611,7 +606,7 @@ Rectangle {
                     Drag.proposedAction: Qt.MoveAction
                     visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
 
-                    ToolTip {
+                    /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
                         delay: 1000
                         timeout: 5000
@@ -624,7 +619,7 @@ Rectangle {
                             font: miniFont
                             text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -687,10 +682,26 @@ Rectangle {
                         trimOut.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+                        var s = i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
+                        timeline.showToolTip(s)
                     }
                 }
-                onExited: trimOut.opacity = 0
-                ToolTip {
+                onExited: {
+                    trimOut.opacity = 0
+                    if (!pressed) {
+                         if (!mouseArea.containsMouse) {
+                            timeline.showToolTip()
+                         } else {
+                             var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
+                             timeline.showToolTip(text)
+                         }
+                    }
+                }
+                /*ToolTip {
                     visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
                     delay: 1000
                     timeout: 5000
@@ -703,7 +714,7 @@ Rectangle {
                         font: miniFont
                         text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
                     }
-                }
+                }*/
                 Rectangle {
                     id: trimOut
                     anchors.right: parent.right
@@ -789,19 +800,12 @@ Rectangle {
                         onClicked: {
                             clearAndMove(positionOffset)
                         }
-                        ToolTip {
-                            visible: offsetArea.containsMouse
-                            delay: 1000
-                            timeout: 5000
-                            background: Rectangle {
-                                color: activePalette.alternateBase
-                                border.color: activePalette.light
-                            }
-                            contentItem: Label {
-                                color: activePalette.text
-                                font: miniFont
-                                text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
-                            }
+                        onEntered: {
+                            var text = positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            timeline.showToolTip(text)
+                        }
+                        onExited: {
+                            timeline.showToolTip()
                         }
                         Text {
                             id: offsetLabel
@@ -1040,7 +1044,8 @@ Rectangle {
                 anchors.right = parent.right
                 var duration = clipRoot.fadeOut
                 timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
-                bubbleHelp.hide()
+                //bubbleHelp.hide()
+                timeline.showToolTip()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
@@ -1052,7 +1057,8 @@ Rectangle {
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
                         var s = timeline.simplifiedTC(clipRoot.fadeOut)
-                        bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
+                        timeline.showToolTip(s)
+                        //bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
                     }
                 }
             }
@@ -1130,7 +1136,8 @@ Rectangle {
                 root.autoScrolling = timeline.autoScroll
                 fadeInTriangle.opacity = 0.4
                 timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
-                bubbleHelp.hide()
+                //bubbleHelp.hide()
+                timeline.showToolTip()
                 anchors.left = container.left
             }
             onPositionChanged: {
@@ -1142,7 +1149,8 @@ Rectangle {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
                         var s = timeline.simplifiedTC(clipRoot.fadeIn)
-                        bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
+                        timeline.showToolTip(s)
+                        //bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
                     }
                 }
             }

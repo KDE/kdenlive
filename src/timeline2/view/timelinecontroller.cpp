@@ -3979,3 +3979,8 @@ bool TimelineController::subtitlesLocked() const
     }
     return false;
 }
+
+void TimelineController::showToolTip(const QString &info) const
+{
+    pCore->displayMessage(info, DirectMessage);
+}

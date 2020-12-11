@@ -76,6 +76,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_label = new QLabel(this);
     m_label->setAlignment(Qt::AlignLeft);
+    m_label->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_progress = new QProgressBar(this);
     lay->addWidget(m_pixmap);
     lay->addWidget(m_label);
@@ -124,7 +125,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
 
     m_queueSemaphore.acquire();
     if (!m_messageQueue.contains(item)) {
-        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage || item.type == OperationCompletedMessage) {
+        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage || item.type == OperationCompletedMessage || item.type == DirectMessage) {
             qCDebug(KDENLIVE_LOG) << item.text;
 
             // Put the new error message at first place and immediately show it
