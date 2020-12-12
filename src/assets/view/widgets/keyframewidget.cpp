@@ -98,9 +98,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
     m_buttonApply->setToolTip(i18n("Apply value to selected keyframes"));
     m_buttonApply->setFocusPolicy(Qt::StrongFocus);
-    connect(qApp, &QApplication::focusChanged, [this](QWidget *old, QWidget *now) {
+    m_focusConnection = connect(qApp, &QApplication::focusChanged, [this](QWidget *old, QWidget *now) {
         if (now == m_buttonApply) {
-            if (old && old->parentWidget()) {
+            if (old && old->parentWidget() && isAncestorOf(old->parentWidget())) {
                 m_lastFocusedParam = old->parentWidget()->objectName();
                 qDebug()<<"======= FROM PARENT: "<<old->parentWidget()->objectName();
             }
@@ -241,6 +241,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
 KeyframeWidget::~KeyframeWidget()
 {
+    QObject::disconnect( m_focusConnection );
     delete m_keyframeview;
     delete m_buttonAddDelete;
     delete m_buttonPrevious;

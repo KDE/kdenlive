@@ -87,6 +87,7 @@ private:
     QVBoxLayout *m_lay;
     QToolBar *m_toolbar;
     std::shared_ptr<KeyframeModelList> m_keyframes;
+    QMetaObject::Connection m_focusConnection;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
     QToolButton *m_buttonAddDelete;
