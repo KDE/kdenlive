@@ -239,7 +239,8 @@ public:
     void temporaryUnplug(QList<int> clipIds, bool hide);
     /** @brief Returns the current doc's subtitle model. */
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
-    
+    /** @brief Transcode a video file. */
+    void transcodeFile(const QString url);
     KSharedDataCache audioThumbCache;
 
 private:

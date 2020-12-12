@@ -299,6 +299,7 @@ public slots:
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
     void slotEditSubtitle(QMap<QString, QString> subProperties = {});
+    void slotTranscode(const QStringList &urls = QStringList());
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -426,7 +427,6 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
-    void slotTranscode(const QStringList &urls = QStringList());
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
     void slotArchiveProject();

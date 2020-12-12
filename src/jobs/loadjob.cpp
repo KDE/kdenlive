@@ -419,21 +419,14 @@ bool LoadJob::startJob()
             m_producer.reset();
         }
         qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60);
+        QAction *ac = new QAction(i18n("Transcode"), this);
+        connect(ac, &QAction::triggered, [&]() {
+            pCore->transcodeFile(m_resource);
+        });
+        QList<QAction*>actions = {ac};
+        
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", m_resource)),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
-        m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
-        return false;
-    }
-    if (m_producer->get_length() == INT_MAX && m_producer->get("eof") == QLatin1String("loop")) {
-        // This is a live source or broken clip
-        m_done = true;
-        m_successful = false;
-        if (m_producer) {
-            m_producer.reset();
-        }
-        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60);
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", m_resource)),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
+                                  Q_ARG(int, (int)KMessageWidget::Warning), Q_ARG(QList<QAction*>, actions));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
