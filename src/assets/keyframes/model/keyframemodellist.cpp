@@ -236,7 +236,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 
-bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index)
+bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index, QUndoCommand *parentCommand)
 {
     if (singleKeyframe()) {
         bool ok = false;
@@ -244,8 +244,10 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const
         pos = kf.first;
     }
     if (auto ptr = m_model.lock()) {
-        auto *command = new AssetKeyframeCommand(ptr, index, value, pos);
-        pCore->pushUndo(command);
+        auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
+        if (parentCommand == nullptr) {
+            pCore->pushUndo(command);
+        }
     }
     return true;
 }
@@ -545,4 +547,14 @@ GenTime KeyframeModelList::getPosAtIndex(int ix)
         return GenTime();
     }
     return positions.at(ix);
+}
+
+QModelIndex KeyframeModelList::getIndexAtRow(int row)
+{
+    for (auto &w : m_parameters) {
+        if (w.first.row() == row) {
+            return w.first;
+        }
+    }
+    return QModelIndex();
 }
