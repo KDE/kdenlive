@@ -710,3 +710,46 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     p.setBrush(palette().highlight());
     p.drawRoundedRect(m_offset + (width() - m_offset) * m_zoomHandle.x(), m_zoomHeight + 3, (width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x()), m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
 }
+
+
+void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
+{
+    const QString val = m_model->getInterpolatedValue(m_position, ix).toString();
+    QString newVal;
+    const QStringList vals = val.split(QLatin1Char(' '));
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    qDebug()<<"=== COPYING VALS: "<<val<<", PARAM NAME_ "<<paramName;
+    QUndoCommand *parentCommand = new QUndoCommand();
+    for (int kf : m_selectedKeyframes) {
+        QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
+        QStringList oldVals = oldValue.split(QLatin1Char(' '));
+        if (paramName == QLatin1String("spinX")) {
+            oldVals[0] = vals.at(0);
+            newVal = oldVals.join(QLatin1Char(' '));
+            parentCommand->setText(i18n("Update keyframes X position"));
+        } else if (paramName == QLatin1String("spinY")) {
+            oldVals[1] = vals.at(1);
+            newVal = oldVals.join(QLatin1Char(' '));
+            parentCommand->setText(i18n("Update keyframes Y position"));
+        } else if (paramName == QLatin1String("spinW")) {
+            oldVals[2] = vals.at(2);
+            newVal = oldVals.join(QLatin1Char(' '));
+            parentCommand->setText(i18n("Update keyframes width"));
+        } else if (paramName == QLatin1String("spinH")) {
+            oldVals[3] = vals.at(3);
+            newVal = oldVals.join(QLatin1Char(' '));
+            parentCommand->setText(i18n("Update keyframes height"));
+        } else if (paramName == QLatin1String("spinO")) {
+            oldVals[4] = vals.at(4);
+            newVal = oldVals.join(QLatin1Char(' '));
+            parentCommand->setText(i18n("Update keyframes opacity"));
+        } else {
+            newVal = val;
+            parentCommand->setText(i18n("Update keyframes value"));
+        }
+        qDebug()<<"=== UPDATED VAL: "<<newVal;
+        m_model->updateKeyframe(GenTime(kf + offset, pCore->getCurrentFps()), newVal, ix, parentCommand);
+    }
+    pCore->pushUndo(parentCommand);
+    //m_model->copyCurrentValue(paramName);
+}

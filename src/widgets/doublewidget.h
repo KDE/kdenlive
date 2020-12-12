@@ -58,6 +58,8 @@ public:
     void enableEdit(bool enable);
     /** @brief Returns true if widget is currently being edited */
     bool hasEditFocus() const;
+    /** @brief Define dragValue object name */
+    void setDragObjectName(const QString &name);
 
 public slots:
     /** @brief Sets the value to @param value. */

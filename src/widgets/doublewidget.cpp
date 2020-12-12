@@ -43,6 +43,11 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     connect(m_dragVal, &DragValue::valueChanged, this, &DoubleWidget::slotSetValue);
 }
 
+void DoubleWidget::setDragObjectName(const QString &name)
+{
+    m_dragVal->setObjectName(name);
+}
+
 bool DoubleWidget::hasEditFocus() const
 {
     return m_dragVal->hasEditFocus();

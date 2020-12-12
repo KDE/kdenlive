@@ -56,14 +56,17 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinX, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinX);
+    m_spinX->setObjectName("spinX");
 
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinY, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinY);
+    m_spinY->setObjectName("spinY");
 
     m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinWidth, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectWidth);
     horLayout->addWidget(m_spinWidth);
+    m_spinWidth->setObjectName("spinW");
 
     // Lock ratio stuff
     m_lockRatio = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Lock aspect ratio"), this);
@@ -75,6 +78,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinHeight, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectHeight);
+    m_spinHeight->setObjectName("spinH");
     horLayout->addWidget(m_spinHeight);
     horLayout->addStretch(10);
 
@@ -82,6 +86,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     horLayout2->setSpacing(2);
     m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this);
     m_spinSize->setStep(5);
+    m_spinSize->setObjectName("spinS");
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
 
@@ -89,6 +94,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, false, this);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
         connect(m_opacity, &DragValue::valueChanged, this, [&]() { emit valueChanged(getValue()); });
+        m_opacity->setObjectName("spinO");
         horLayout2->addWidget(m_opacity);
     }
     horLayout2->addStretch(10);

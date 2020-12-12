@@ -59,6 +59,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     l->setSpacing(0);
     l->setContentsMargins(0, 0, 0, 0);
     m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
+    m_label->setObjectName("draggLabel");
     l->addWidget(m_label);
     setMinimumHeight(m_label->sizeHint().height());
     if (decimals == 0) {

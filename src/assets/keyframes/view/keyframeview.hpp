@@ -35,6 +35,8 @@ public:
     explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
     void setDuration(int dur);
     const QString getAssetId();
+    /** @brief Copy a keyframe parameter to selected keyframes. */
+    void copyCurrentValue(QModelIndex ix, const QString paramName);
 
 public slots:
     /* @brief moves the current position*/

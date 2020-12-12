@@ -92,6 +92,21 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonCopy->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_buttonCopy->setToolTip(i18n("Duplicate selected keyframe"));
     
+    // Apply current value to selected keyframes
+    m_buttonApply = new QToolButton(this);
+    m_buttonApply->setAutoRaise(true);
+    m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
+    m_buttonApply->setToolTip(i18n("Apply value to selected keyframes"));
+    m_buttonApply->setFocusPolicy(Qt::StrongFocus);
+    connect(qApp, &QApplication::focusChanged, [this](QWidget *old, QWidget *now) {
+        if (now == m_buttonApply) {
+            if (old && old->parentWidget()) {
+                m_lastFocusedParam = old->parentWidget()->objectName();
+                qDebug()<<"======= FROM PARENT: "<<old->parentWidget()->objectName();
+            }
+        }
+    });
+    
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
@@ -124,6 +139,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addWidget(m_buttonNext);
     m_toolbar->addWidget(m_buttonCenter);
     m_toolbar->addWidget(m_buttonCopy);
+    m_toolbar->addWidget(m_buttonApply);
     m_toolbar->addAction(m_selectType);
 
     QAction *seekKeyframe = new QAction(i18n("Seek to keyframe on select"), this);
@@ -199,6 +215,23 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
+    connect(m_buttonApply, &QAbstractButton::pressed, [this]() {
+        if (!m_lastFocusedParam.isEmpty()) {
+            qDebug()<<"=== ADJUSTING KF PARAM: "<<m_lastFocusedParam;
+            if (m_lastFocusedParam.startsWith(QLatin1String("spin"))) {
+                for (const auto &w : m_parameters) {
+                    auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+                    if (type != ParamType::AnimatedRect) {
+                        continue;
+                    }
+                    QModelIndex ix = w.first;
+                    m_keyframeview->copyCurrentValue(ix, m_lastFocusedParam);
+                }
+            } else {
+                m_keyframeview->copyCurrentValue(m_keyframes->getIndexAtRow(m_lastFocusedParam.toInt()), QString());
+            }
+        }
+    });
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
     QMargins mrg = m_lay->contentsMargins();
     m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();
@@ -422,6 +455,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             emit activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
+        doubleWidget->setDragObjectName(QString::number(index.row()));
         paramWidget = doubleWidget;
     }
     if (paramWidget) {

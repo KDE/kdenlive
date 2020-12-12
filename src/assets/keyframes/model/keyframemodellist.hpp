@@ -86,7 +86,7 @@ public:
        @param value is the new value of the param
        @param index is the index of the wanted keyframe
     */
-    bool updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index);
+    bool updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index, QUndoCommand *parentCommand = nullptr);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
     bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
     KeyframeType keyframeType(GenTime pos) const;
@@ -149,6 +149,7 @@ public:
     
     /** @brief Return position of the nth keyframe (ix = nth)*/
     GenTime getPosAtIndex(int ix);
+    QModelIndex getIndexAtRow(int row);
 
     /** @brief Check that all keyframable parameters have the same keyframes on loading
      *  (that's how our model works) */

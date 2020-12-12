@@ -94,6 +94,7 @@ private:
     QToolButton *m_buttonNext;
     QToolButton *m_buttonCenter;
     QToolButton *m_buttonCopy;
+    QToolButton *m_buttonApply;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
@@ -102,6 +103,7 @@ private:
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
     int m_baseHeight;
     int m_addedHeight;
+    QString m_lastFocusedParam;
 
 signals:
     void addIndex(QPersistentModelIndex ix);
