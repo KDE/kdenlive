@@ -1158,7 +1158,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     Q_ASSERT(isSubTitle(subId));
     int currentPos = getSubtitlePosition(subId);
     int offset = 0;
-    if (currentPos == position) {
+    if (currentPos == position || m_subtitleModel->isLocked()) {
         return position;
     }
     int newPos = position;
@@ -2156,6 +2156,11 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         } else if (isSubTitle(affectedItemId)) {
             sorted_subtitles.push_back({affectedItemId, m_allSubtitles.at(affectedItemId)});
         }
+    }
+    
+    if (!sorted_subtitles.empty() && m_subtitleModel->isLocked()) {
+        // Group with a locked subtitle, abort
+        return false;
     }
 
     // Sort clips first
