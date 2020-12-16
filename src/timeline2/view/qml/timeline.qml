@@ -1667,8 +1667,8 @@ Rectangle {
 
     Connections {
         target: timeline
-        onFrameFormatChanged: ruler.adjustFormat()
-        onSelectionChanged: {
+        function onFrameFormatChanged() { ruler.adjustFormat() }
+        function onSelectionChanged() {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
