@@ -277,7 +277,7 @@ private slots:
     void slotSeekPosition(int);
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
-    /** @brief Pause monitor and process seek */
+    /** @brief Process seek and optionally pause monitor */
     void processSeek(int pos);
     /** @brief Check and display dropped frames */
     void checkDrops();
