@@ -58,7 +58,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         //m_playlists[1].set("hide", 3);
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_track->set("kdenlive:timeline_active", 1);
-        m_effectStack = EffectStackModel::construct(m_mainPlaylist, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
         // TODO
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
