@@ -2301,7 +2301,9 @@ void Monitor::processSeek(int pos)
     if (!slotActivateMonitor()) {
         return;
     }
-    pause();
+    if (KdenliveSettings::pauseonseek()) {
+        pause();
+    }
     m_glMonitor->requestSeek(pos);
     emit m_monitorManager->cleanMixer();
 }
