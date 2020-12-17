@@ -1068,7 +1068,7 @@ void SubtitleModel::switchLocked()
     m_subtitleFilter->set("kdenlive:locked", isLocked ? 0 : 1);
     
     // En/disable snapping on lock
-    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
+    /*std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_regSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
@@ -1093,7 +1093,7 @@ void SubtitleModel::switchLocked()
             int id = m_selected.takeFirst();
             updateSub(id, {SelectedRole});
         }
-    }
+    }*/
 }
 
 
@@ -1115,5 +1115,13 @@ void SubtitleModel::loadProperties(QMap<QString, QString> subProperties)
             m_subtitleFilter->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
         }
         ++i;
+    }
+}
+
+void SubtitleModel::allSnaps(std::vector<int> &snaps)
+{
+    for (const auto &subtitle : m_subtitleList) {
+        snaps.push_back(subtitle.first.frames(pCore->getCurrentFps()));
+        snaps.push_back(subtitle.second.second.frames(pCore->getCurrentFps()));
     }
 }
