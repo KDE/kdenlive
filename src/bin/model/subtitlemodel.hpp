@@ -137,6 +137,8 @@ public:
     bool isLocked() const;
     /** @brief Load some subtitle filter properties from file */
     void loadProperties(QMap<QString, QString> subProperties);
+    /** @brief Add all subtitle items to snaps */
+    void allSnaps(std::vector<int> &snaps);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
