@@ -3707,6 +3707,10 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
                 newprops.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(dia_ui.duration()));
             }
         }
+        if (clip->clipName().contains(i18n("(copy)"))) {
+            // We edited a duplicated title clip, update name from new content text
+            newprops.insert(QStringLiteral("kdenlive:clipname"), dia_ui.titleSuggest());
+        }
         // trigger producer reload
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
         if (!path.isEmpty()) {
