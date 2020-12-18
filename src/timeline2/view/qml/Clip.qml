@@ -1092,7 +1092,7 @@ Rectangle {
                     background: Rectangle {
                         color: activePalette.alternateBase
                         border.color: activePalette.light
-                    }    
+                    }
                     contentItem: Label {
                         color: activePalette.text
                         font: miniFont
