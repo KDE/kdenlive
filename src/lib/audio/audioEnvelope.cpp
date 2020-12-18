@@ -69,7 +69,7 @@ void AudioEnvelope::startComputeEnvelope()
 bool AudioEnvelope::hasComputationStarted() const
 {
     // An empty qFuture is canceled. QtConcurrent::run() returns a
-    // future that does not support cancelation, so this is a good way
+    // future that does not support cancellation, so this is a good way
     // to check whether the computations have started.
     return !m_audioSummary.isCanceled();
 }

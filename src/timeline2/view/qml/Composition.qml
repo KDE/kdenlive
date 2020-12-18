@@ -194,6 +194,7 @@ Item {
                 root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
             }
         }
+
         onWheel: zoomByWheel(wheel)
     }
 
@@ -214,7 +215,6 @@ Item {
             anchors.fill: displayRect
             anchors.margins:1.5
             clip: true
-
             Rectangle {
                 // text background
                 id: labelRect

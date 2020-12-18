@@ -268,7 +268,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
 
             // Use linear interpolation in order to get smoother display
             if (xi == 0 || xi == (int)in.size() - 1) {
-                // ... except if we are at the left or right border of the input sigal.
+                // ... except if we are at the left or right border of the input signal.
                 // Special case here since we consider previous and future values as well for
                 // the actual interpolation (not possible here).
                 out[i] = in[xi];

@@ -3,9 +3,9 @@
 	<name>DeBlock</name>
 	<description>Remove blocking artifacts from input video.</description>
 	<author>libavfilter</author>
-    <parameter type="list" name="av.fiter" default="strong" paramlist="weak;strong">
+    <parameter type="list" name="av.filter" default="strong" paramlist="weak;strong">
         <paramlistdisplay>All,Y,U,V,Alpha,Red,Green,Blue</paramlistdisplay>
-                <name>Filter strenght</name>
+                <name>Filter strength</name>
         </parameter>        
     <parameter type="constant" name="av.block" default="8" min="4" max="512" factor="1">
                 <name>Block size</name>

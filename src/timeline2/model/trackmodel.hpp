@@ -187,7 +187,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
        @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
-       @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delte/insert)
+       @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
     bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
     /* @brief This function returns a lambda that performs the requested operation */
@@ -306,7 +306,7 @@ protected:
 
     /* @brief Import effects from a service that contains some (another track) */
     bool importEffects(std::weak_ptr<Mlt::Service> service);
-    /* @brief Copy effects from anoter effect stack */
+    /* @brief Copy effects from another effect stack */
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /* @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);

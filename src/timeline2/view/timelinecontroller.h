@@ -246,7 +246,7 @@ public:
     Q_INVOKABLE void triggerAction(const QString &name);
     Q_INVOKABLE const QString actionText(const QString &name);
 
-    /* @brief Returns id of the timeline selcted clip if there is only 1 clip selected
+    /* @brief Returns id of the timeline selected clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if 
      * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will
      * only return the id if timeline cursor is inside item
@@ -421,7 +421,7 @@ public:
 
     /** @brief Make current timeline track active/inactive*/
     Q_INVOKABLE void switchTrackActive(int trackId = -1);
-    /** @brief Toogle the active/inactive state of all tracks*/
+    /** @brief Toggle the active/inactive state of all tracks*/
     void switchAllTrackActive();
     /** @brief Make all tracks active or inactive */
     void makeAllTrackActive();
@@ -550,7 +550,7 @@ public:
     void updatePreviewConnection(bool enable);
     /** @brief Display project master effects */
     Q_INVOKABLE void showMasterEffects();
-    /** @brief Return true if an instance of this bin clip is currently undet timeline cursor */
+    /** @brief Return true if an instance of this bin clip is currently under timeline cursor */
     bool refreshIfVisible(int cid);
     /** @brief Collapse / expand active track */
     void collapseActiveTrack();

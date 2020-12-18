@@ -61,7 +61,7 @@ public:
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
     QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;// overide the same function of QAbstractListModel
+    QHash<int, QByteArray> roleNames() const override;// override the same function of QAbstractListModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /** @brief Returns all subtitles in the model */

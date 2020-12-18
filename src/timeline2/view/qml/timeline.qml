@@ -69,7 +69,7 @@ Rectangle {
         root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
-        // Disable caching fot track header icons
+        // Disable caching for track header icons
         root.paletteUnchanged = false
     }
 

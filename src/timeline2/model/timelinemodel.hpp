@@ -53,7 +53,7 @@ class TrackModel;
 
    This is the entry point for any modifications that has to be made on an element. The dataflow beyond this entry point may vary, for example when the user
    request a clip resize, the call is deferred to the clip itself, that check if there is enough data to extend by the requested amount, compute the new in and
-   out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, rembember to always call the
+   out, and then asks the track if there is enough room for extension. To avoid any confusion on which function to call first, remember to always call the
    version in timeline. This is also required to generate the Undo/Redo operators
 
    The undo/redo system is designed around lambda functions. Each time a function executes an elementary change to the model, it writes the corresponding

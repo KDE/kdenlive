@@ -5,6 +5,6 @@
 	<author>libavfilter</author>
 	<parameter type="list" name="av.type" default="top" paramlist="top;botom">
                 <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
-                <name>Fied priority</name>
+                <name>Field priority</name>
         </parameter>
 </effect>
