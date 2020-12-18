@@ -82,7 +82,7 @@ Item {
                     if (subtitleBase.x < 0)
                         subtitleBase.x = 0
                     if (oldStartFrame != snappedFrame) {
-                        console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
+                        console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
                         controller.requestSubtitleMove(subId, oldStartFrame, false, false);
                         controller.requestSubtitleMove(subId, snappedFrame, true, true);
                         x = snappedFrame * root.timeScale

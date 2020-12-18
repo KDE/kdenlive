@@ -13,7 +13,7 @@
                 <name>Top</name>
         </parameter>
  <parameter type="constant" name="av.bottom" default="0" min="0" max="%height/2" factor="1">
-     <name>Botton</name>
+     <name>Bottom</name>
         </parameter>        
         <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed">
         <paramlistdisplay>Smear,Mirror,Fixed</paramlistdisplay>

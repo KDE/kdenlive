@@ -96,7 +96,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8}));
     }
 
-    SECTION("Test root retieving")
+    SECTION("Test root retrieving")
     {
         std::set<int> first_tree = {0, 1, 2, 3, 4, 6, 7, 9};
         for (int n : first_tree) {
@@ -138,7 +138,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
     }
 
-    SECTION("Test root retieving 2")
+    SECTION("Test root retrieving 2")
     {
         std::set<int> first_tree = {0, 1, 2};
         for (int n : first_tree) {
@@ -180,7 +180,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
     }
 
-    SECTION("Test root retieving 3")
+    SECTION("Test root retrieving 3")
     {
         for (int i = 0; i < 10; i++) {
             CAPTURE(i);
@@ -216,7 +216,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5}));
     }
 
-    SECTION("Test root retieving 4")
+    SECTION("Test root retrieving 4")
     {
         std::set<int> first_tree = {0, 1, 2, 5};
         for (int n : first_tree) {
@@ -552,7 +552,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
                     qDebug() << "ERROR: did not find correspondence for group" << gid;
                 }
             } else {
-                // we find correspondances of all the children
+                // we find correspondences of all the children
                 auto children = timeline2->m_groups->getDirectChildren(gid);
                 std::unordered_set<int> corresp;
                 for (int c : children) {

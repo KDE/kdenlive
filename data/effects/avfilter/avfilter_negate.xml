@@ -3,7 +3,7 @@
 	<name>Invert</name>
 	<description>Negate (invert) the input video.</description>
 	<author>libavfilter</author>
-    <paramter type="bool" name="av.negate_alpha" default="0">
+    <parameter type="bool" name="av.negate_alpha" default="0">
         <name>Negate alpha</name>
         </parameter>
 </effect>

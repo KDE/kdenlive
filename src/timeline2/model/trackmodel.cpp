@@ -2248,7 +2248,7 @@ bool TrackModel::reAssignEndMix(int currentId, int newId)
 
 void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &redo)
 {
-    // First remove exisiting mix
+    // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     const QString currentAsset = m_sameCompositions[cid]->getAssetId();
     Fun local_redo = [this, cid, composition]() {

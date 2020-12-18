@@ -48,7 +48,7 @@ public:
     void deregisterTrack(int tid);
     void setModel(std::shared_ptr<TimelineItemModel> model);
     void cleanup();
-    /** @brief Connect the mixer widgets to the correspondant filters */
+    /** @brief Connect the mixer widgets to the correspondent filters */
     void connectMixer(bool doConnect);
     void collapseMixers();
     /** @brief Pause/unpause audio monitoring */

@@ -3,10 +3,10 @@
 	<name>Light Show</name>
 	<description>An audio visualization filter that colors the image proportional to the magnitude of the audio spectrum.</description>
 	<author>Brian Matherly</author>
-    <parameter type="integer" name="frequency_low" deafult="20" min="20" max="20000" factor="1" suffix=" Hz">
+    <parameter type="integer" name="frequency_low" default="20" min="20" max="20000" factor="1" suffix=" Hz">
         <name>Low frequency</name>
     </parameter>
-        <parameter type="integer" name="frequency_high" deafult="20000" min="20" max="20000" factor="1" suffix=" Hz">
+        <parameter type="integer" name="frequency_high" default="20000" min="20" max="20000" factor="1" suffix=" Hz">
         <name>High frequency</name>
     </parameter>
         <parameter type="float" name="threshold" default="-30" min="-100" max="0" factor="1" suffix=" db">
