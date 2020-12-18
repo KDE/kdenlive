@@ -60,13 +60,13 @@ public:
     void clear();
     static void property_changed( mlt_service , MixerWidget *self, char *name );
     void setMute(bool mute);
-    /** @brief Returs true if track is muted
+    /** @brief Returns true if track is muted
      * */
     bool isMute() const;
     /** @brief Uncheck the solo button
      * */
     void unSolo();
-    /** @brief Connect the mixer widgets to the correspondant filters */
+    /** @brief Connect the mixer widgets to the correspondent filters */
     void connectMixer(bool doConnect);
     /** @brief Disable/enable monitoring by disabling/enabling filter */
     void pauseMonitoring(bool pause);

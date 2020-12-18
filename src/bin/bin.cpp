@@ -1567,7 +1567,7 @@ void Bin::slotReplaceClip()
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(fileName).fileName());
                 // Check if replacement clip is long enough
                 if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
-                    // Clip is used in timeline, make sure lentgh is similar
+                    // Clip is used in timeline, make sure length is similar
                     std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData()));
                     int currentDuration = (int)currentItem->frameDuration();
                     if (replacementProd->is_valid()) {
@@ -2294,7 +2294,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                                     continue;
                                 }
                                 if (noCodecInfo) {
-                                    // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
+                                    // No audio / video codec, this is an MLT clip, disable conditional transcoding
                                     transcodeActions.at(i)->setEnabled(false);
                                     continue;
                                 }
@@ -4226,12 +4226,12 @@ void Bin::slotBack()
     }
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentRootIx));
     if (!item) {
-        qDebug()<<"=== ERRO CANNOT FIND ROOT FOR CURRENT VIEW";
+        qDebug()<<"=== ERROR CANNOT FIND ROOT FOR CURRENT VIEW";
         return;
     }
     std::shared_ptr<AbstractProjectItem> parentItem = item->parent();
     if (!parentItem) {
-        qDebug()<<"=== ERRO CANNOT FIND PARENT FOR CURRENT VIEW";
+        qDebug()<<"=== ERROR CANNOT FIND PARENT FOR CURRENT VIEW";
         return;
     }
     if (parentItem != m_itemModel->getRootFolder()) {

@@ -93,7 +93,7 @@ public:
      */
     QPair<int, int> tracksCount();
 
-    /** @brief Add requested audio tracks number to projet.
+    /** @brief Add requested audio tracks number to project.
      */
     void addAudioTracks(int tracksCount);
 
@@ -150,7 +150,7 @@ public slots:
 
     /** @brief Make current timeline track active/inactive*/
     void slotSwitchTrackActive();
-    /** @brief Toogle the active/inactive state of all tracks*/
+    /** @brief Toggle the active/inactive state of all tracks*/
     void slotSwitchAllTrackActive();
     /** @brief Make all tracks active or inactive */
     void slotMakeAllTrackActive();

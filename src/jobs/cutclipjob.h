@@ -36,7 +36,7 @@ class CutClipJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    /** @brief Extract part of a clip with ffmpeg whithout re-encoding
+    /** @brief Extract part of a clip with ffmpeg without re-encoding
      */
     CutClipJob(const QString &binId, const QString sourcePath, GenTime inTime, GenTime outTime, const QString destPath, QStringList encodingParams);
 

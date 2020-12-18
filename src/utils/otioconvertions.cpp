@@ -131,7 +131,7 @@ void OtioConvertions::slotImportProject()
     if (importedFile.isNull()) {
         return;
     }
-    // Start convertion process
+    // Start conversion process
     QProcess convert;
     convert.start(QStringLiteral("otioconvert"), {"-i", importFile, "-o", importedFile});
     convert.waitForFinished();

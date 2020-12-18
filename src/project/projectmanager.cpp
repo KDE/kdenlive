@@ -556,7 +556,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     } else {
         doc->m_autosave = stale;
         stale->setParent(doc);
-        // if loading from an autosave of unnamed file, or restor failed then keep unnamed
+        // if loading from an autosave of unnamed file, or restore failed then keep unnamed
         bool loadingFailed = doc->url().isEmpty();
         if (url.fileName().contains(QStringLiteral("_untitled.kdenlive"))) {
             doc->setUrl(QUrl());

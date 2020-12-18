@@ -12,7 +12,7 @@
     <parameter type="constant" name="av.blend"  default="0" max="1" min="0" decimals="2">
 		<name>Blend</name>
 	</parameter>
-    <paramter type="bool" name="av.yuv" default="false">
+    <parameter type="bool" name="av.yuv" default="false">
         <name>for YUV color</name>
         </parameter>
 </effect>
