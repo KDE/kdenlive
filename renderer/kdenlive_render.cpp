@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                 fprintf(stderr, "DONE:%d \n", frame.toInt());
             }
             // Mlt::Factory::close();
-            fprintf(stderr, "+ + + RENDERING FINSHED + + + \n");
+            fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
         }
         int in = -1;
