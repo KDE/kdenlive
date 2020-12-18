@@ -194,7 +194,6 @@ Item {
                 root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
             }
         }
-
         onWheel: zoomByWheel(wheel)
     }
 
