@@ -123,7 +123,7 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
                                          std::shared_ptr<MarkerListModel> guideModel)
 {
     Q_UNUSED(guideModel)
-    // Clear previous properties
+    // Clear previous properites
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     Mlt::Properties docProperties;
     docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
