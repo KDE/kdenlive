@@ -10,4 +10,5 @@
         <parameter type="list" name="av.out" default="arcd" paramlist="sbsl;sbsr;abl;abr;irl;irr;arbg;argg;arcg;arch;arcc;arcd;agmg;agmh;agmc;agmd;aybg;aybh;aybc;aybd;ml;mr;chl;chr;icl;icr;hdmi">
             <paramlistdisplay>side by side parallel,side by side crosseye,above-below left top,above-below right top,interleaved rows (letf top),interleaved rows (right top),anaglyph red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,anaglyph red/cyan half colored,anaglyph red/cyan color,anaglyph red/cyan dubois,anaglyph green/magenta gray,anaglyph green/magenta half colored,anaglyph green/magenta colored,anaglyph green/magenta dubois,anaglyph yellow/blue gray,anaglyph yellow/blue half colored,anaglyph yellow/blue colored,anaglyph yellow/blue dubois,mono output left,mono output right,checkerboard left eye first,checkerboard right eye first,interleaved columns left eye first,interleaved columns right eye first,HDMI frame pack</paramlistdisplay>
                 <name>Output format</name>
-                </effect>
+		</parameter>
+	</effect>
