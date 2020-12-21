@@ -31,7 +31,7 @@
 #include "kdenlive_debug.h"
 #include <QObject>
 
-const double MonitorManager::speedArray[5] = {1.1, 1.5, 3., 5.5, 10.};
+const double MonitorManager::speedArray[5] = {1.5, 2., 3., 5.5, 10.};
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)

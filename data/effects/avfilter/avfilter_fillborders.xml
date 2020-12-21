@@ -4,21 +4,22 @@
 	<description>Fill borders of the input video, without changing video stream dimensions. Sometimes video can have garbage at the four edges and you may not want to crop video input to keep size multiple of some number</description>
 	<author>libavfilter</author>
     <parameter type="constant" name="av.left" default="0" min="0" max="%width/2" factor="1">
-                <name>Left</name>
-        </parameter>
-<parameter type="constant" name="av.right" default="0" min="0" max="%width/2" factor="1">
-                <name>Right</name>
-        </parameter>        
+            <name>Left</name>
+    </parameter>
+    <parameter type="constant" name="av.right" default="0" min="0" max="%width/2" factor="1">
+        <name>Right</name>
+    </parameter>        
     <parameter type="constant" name="av.top" default="0" min="0" max="%height/2" factor="1">
-                <name>Top</name>
-        </parameter>
- <parameter type="constant" name="av.bottom" default="0" min="0" max="%height/2" factor="1">
-     <name>Botton</name>
-        </parameter>        
-        <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed">
+            <name>Top</name>
+    </parameter>
+    <parameter type="constant" name="av.bottom" default="0" min="0" max="%height/2" factor="1">
+        <name>Bottom</name>
+    </parameter>        
+    <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed">
         <paramlistdisplay>Smear,Mirror,Fixed</paramlistdisplay>
-                <name>Mode</name>
-        </parameter>  
-        <parameter type="color" name="av.color" default="black">
-            <name>Color</name>
+        <name>Mode</name>
+    </parameter>  
+    <parameter type="color" name="av.color" default="black">
+        <name>Color</name>
+    </parameter>
 </effect>

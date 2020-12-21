@@ -935,12 +935,16 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("force_colorspace_value"));
+        combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
         combo->addItem(ProfileRepository::getColorspaceDescription(601), 601);
         combo->addItem(ProfileRepository::getColorspaceDescription(709), 709);
-        combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
+        combo->addItem(ProfileRepository::getColorspaceDescription(10), 10);
         int force_colorspace = m_properties->get_int("force_colorspace");
         m_originalProperties.insert(QStringLiteral("force_colorspace"), force_colorspace == 0 ? QStringLiteral("-") : QString::number(force_colorspace));
         int colorspace = controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
+        if (colorspace == 9) {
+            colorspace = 10;
+        }
         if (force_colorspace > 0) {
             box->setChecked(true);
             combo->setEnabled(true);

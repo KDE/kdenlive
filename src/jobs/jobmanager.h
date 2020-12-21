@@ -133,7 +133,7 @@ public:
 
 protected:
     // Helper function to launch a given job.
-    // This has to be launched asynchrnously since it blocks until all parents are finished
+    // This has to be launched asynchronously since it blocks until all parents are finished
     void createJob(const std::shared_ptr<Job_t> &job);
 
     void updateJobCount();

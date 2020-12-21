@@ -3728,8 +3728,8 @@ void MainWindow::slotAlignPlayheadToMousePos()
 
 void MainWindow::triggerKey(QKeyEvent *ev)
 {
-    // Hack: The QQuickWindow that displays fullscreen monitor does not integrate quith QActions.
-    // so on keypress events we parse keys and check for shortcuts in all existing actions
+    // Hack: The QQuickWindow that displays fullscreen monitor does not integrate with QActions.
+    // So on keypress events we parse keys and check for shortcuts in all existing actions
     QKeySequence seq;
     // Remove the Num modifier or some shortcuts like "*" will not work
     if (ev->modifiers() != Qt::KeypadModifier) {

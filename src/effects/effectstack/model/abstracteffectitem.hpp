@@ -66,7 +66,7 @@ public:
     virtual void unplantClone(const std::weak_ptr<Mlt::Service> &service) = 0;
 
 protected:
-    /* @brief Toogles the mlt effect according to the current activation state*/
+    /* @brief Toggles the mlt effect according to the current activation state*/
     virtual void updateEnable(bool updateTimeline = true) = 0;
 
     EffectItemType m_effectItemType;

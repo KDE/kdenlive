@@ -10,4 +10,5 @@
         <parameter type="list" name="av.passthrough" default="none" paramlist="none;portrait;landscape">
             <paramlistdisplay>None,Portrait,Landscape</paramlistdisplay>
                 <name>Override if</name>
-                </effect>
+		</parameter>
+	</effect>
