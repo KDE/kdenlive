@@ -12,4 +12,5 @@
         </parameter>
         <parameter type="constant" name="av.scale_factor" default="2" min="2" max="4" factor="1">
                 <name>Scale factor for SRCNN</name>
+		</parameter>
 </effect>
