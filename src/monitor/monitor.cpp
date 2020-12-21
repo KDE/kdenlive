@@ -1525,8 +1525,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 if (activeStreams.size() > 1) {
                     m_glMonitor->getControllerProxy()->setAudioStream(i18np("%1 audio stream", "%1 audio streams", activeStreams.size()));
                     // TODO: Mix audio channels
-                } else {
-                    m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
+                } else if (!activeStreams.isEmpty()) {
+                    m_glMonitor->getControllerProxy()->setAudioStream(activeStreams.first());
                 }
                 QAction *ac;
                 while (i.hasNext()) {
