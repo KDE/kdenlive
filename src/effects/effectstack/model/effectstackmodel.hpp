@@ -144,6 +144,9 @@ public:
 
     /* @brief Return true if an asset id is already added to this effect stack */
     bool hasEffect(const QString &assetId) const;
+    
+    /* @brief Remove all effects for this stack */
+    void removeAllEffects(Fun &undo, Fun & redo);
 
 public slots:
     /* @brief Delete an effect from the stack */

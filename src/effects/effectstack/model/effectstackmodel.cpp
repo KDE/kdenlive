@@ -113,6 +113,63 @@ void EffectStackModel::removeCurrentEffect()
     }
 }
 
+void EffectStackModel::removeAllEffects(Fun &undo, Fun & redo)
+{
+    QWriteLocker locker(&m_lock);
+    int current = -1;
+    if (auto srv = m_masterService.lock()) {
+        current = srv->get_int("kdenlive:activeeffect");
+    }
+    while (rootItem->childCount() > 0) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(0));
+        int parentId = -1;
+        if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
+        Fun local_undo = addItem_lambda(effect, parentId);
+        Fun local_redo = removeItem_lambda(effect->getId());
+        local_redo();
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    std::unordered_set<int> fadeIns = m_fadeIns;
+    std::unordered_set<int> fadeOuts = m_fadeOuts;
+    Fun undo_current = [this, current, fadeIns, fadeOuts]() {
+        if (auto srv = m_masterService.lock()) {
+            srv->set("kdenlive:activeeffect", current);
+        }
+        m_fadeIns = fadeIns;
+        m_fadeOuts = fadeOuts;
+        QVector<int> roles = {TimelineModel::EffectNamesRole};
+        if (!m_fadeIns.empty()) {
+            roles << TimelineModel::FadeInRole;
+        }
+        if (!m_fadeOuts.empty()) {
+            roles << TimelineModel::FadeOutRole;
+        }
+        emit dataChanged(QModelIndex(), QModelIndex(), roles);
+        pCore->updateItemKeyframes(m_ownerId);
+        return true;
+    };
+    Fun redo_current = [this]() {
+        if (auto srv = m_masterService.lock()) {
+            srv->set("kdenlive:activeeffect", -1);
+        }
+        QVector<int> roles = {TimelineModel::EffectNamesRole};
+        if (!m_fadeIns.empty()) {
+            roles << TimelineModel::FadeInRole;
+        }
+        if (!m_fadeOuts.empty()) {
+            roles << TimelineModel::FadeOutRole;
+        }
+        m_fadeIns.clear();
+        m_fadeOuts.clear();
+        emit dataChanged(QModelIndex(), QModelIndex(), roles);
+        pCore->updateItemKeyframes(m_ownerId);
+        return true;
+    };
+    redo_current();
+    PUSH_LAMBDA(redo_current, redo);
+    PUSH_LAMBDA(undo_current, undo);
+}
+
 void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effect)
 {
     qDebug() << "* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
