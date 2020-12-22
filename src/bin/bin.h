@@ -40,6 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QWidget>
 #include <QActionGroup>
+#include <QtWidgets>
+
+#include "KFileWidget"
+#include "KRecentDirs"
 
 class AbstractProjectItem;
 class BinItemDelegate;
@@ -162,6 +166,14 @@ signals:
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
  */
+
+class ClipWidget : public QWidget
+{
+public:
+    explicit ClipWidget(){}
+    ~ClipWidget() override;
+    void init(QDockWidget* m_DockClipWidget);
+};
 
 class Bin : public QWidget
 {
@@ -298,6 +310,7 @@ public:
     void loadFolderState(QStringList foldersToExpand);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
+    ClipWidget* getWidget();
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -471,6 +484,7 @@ private:
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
+    ClipWidget *m_clipWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterGroup;
     QActionGroup m_filterRateGroup;
