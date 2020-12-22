@@ -4208,7 +4208,7 @@ void MainWindow::resetSubtitles()
 {
     // Hide subtitle track
     m_buttonSubtitleEditTool->setChecked(false);
-    getMainTimeline()->showSubtitles = false;
+    KdenliveSettings::setShowSubtitles(false);
     pCore->subtitleWidget()->setModel(nullptr);
     if (pCore->currentDoc()) {
         const QString workPath = pCore->currentDoc()->subTitlePath(false);
@@ -4241,18 +4241,18 @@ void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
             getMainTimeline()->controller()->subtitlesLockedChanged();
             getMainTimeline()->controller()->subtitlesDisabledChanged();
         }
-        getMainTimeline()->showSubtitles = true;
+        KdenliveSettings::setShowSubtitles(true);
         m_buttonSubtitleEditTool->setChecked(true);
         getMainTimeline()->connectSubtitleModel(true);
     } else {
-        getMainTimeline()->showSubtitles = m_buttonSubtitleEditTool->isChecked();
+        KdenliveSettings::setShowSubtitles(m_buttonSubtitleEditTool->isChecked());
         getMainTimeline()->connectSubtitleModel(false);
     }
 }
 
 void MainWindow::slotAddSubtitle()
 {
-    if (pCore->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
+    if (pCore->getSubtitleModel() == nullptr || !KdenliveSettings::showSubtitles()) {
         slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
     }
@@ -4271,7 +4271,7 @@ void MainWindow::slotLockSubtitle()
 
 void MainWindow::slotImportSubtitle()
 {
-    if (pCore->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
+    if (pCore->getSubtitleModel() == nullptr || !KdenliveSettings::showSubtitles()) {
         slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
     }
