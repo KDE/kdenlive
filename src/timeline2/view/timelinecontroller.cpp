@@ -1338,8 +1338,6 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
         emit zoneMoved(m_zone);
         return;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     Fun undo_zone = [this, oldZone]() {
             setZone(oldZone, false);
             return true;
@@ -1349,8 +1347,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
             return true;
     };
     redo_zone();
-    UPDATE_UNDO_REDO_NOLOCK(redo_zone, undo_zone, undo, redo);
-    pCore->pushUndo(undo, redo, i18n("Set Zone"));
+    pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
 void TimelineController::setZoneIn(int inPoint)
