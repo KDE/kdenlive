@@ -555,6 +555,7 @@ void MainWindow::init()
     QMenu *timelineClipMenu = new QMenu(this);
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("paste_effects")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_effects")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
@@ -1630,6 +1631,16 @@ void MainWindow::setupActions()
     pasteEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
+    
+    QAction *delEffects = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Effects"), this);
+    addAction(QStringLiteral("delete_effects"), delEffects, QKeySequence(), clipActionCategory);
+    delEffects->setEnabled(false);
+    // "C" as data means this action should only be available for clips - not for compositions
+    delEffects->setData('C');
+    connect(delEffects, &QAction::triggered, [this]() {
+        getMainTimeline()->controller()->deleteEffects();
+    });
+    
 
     QAction *groupClip = addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()),
                                    QIcon::fromTheme(QStringLiteral("object-group")), Qt::CTRL + Qt::Key_G, clipActionCategory);

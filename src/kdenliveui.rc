@@ -67,6 +67,7 @@
         <Action name="delete_all_clip_markers" />
         </Menu>
 	  <Action name="auto_transition" />
+      <Action name="delete_effects" />
       <Menu name="extract_audio" ><text>Extract Audio</text>
 	  <ActionList name="audio_transcoders_list" />
       </Menu>
