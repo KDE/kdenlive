@@ -916,6 +916,10 @@
       <default>#000000</default>
     </entry>
     
+    <entry name="showSubtitles" type="Bool">
+      <label>Show subtitle track.</label>
+      <default>false</default>
+    </entry>
     
     <entry name="thumbColor1" type="Color">
       <label>Color to draw even audio channels.</label>

@@ -3883,7 +3883,14 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
         ++it;
     }
     bool hasSubtitles = m_subtitleModel && !m_allSubtitles.empty();
-    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && (!hasSubtitles || !m_subtitleModel->isLocked())) {
+    bool filterOutSubtitles = false;
+    if (hasSubtitles) {
+        // If subtitle track is locked or hidden, don't snap to it
+        if (m_subtitleModel->isLocked() || !KdenliveSettings::showSubtitles()) {
+            filterOutSubtitles = true;
+        }
+    }
+    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
         // No active track, use all possible snap points
         return m_snaps->getNextPoint((int)pos);
     }
@@ -3896,7 +3903,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
         }
     }
     // Subtitle snaps
-    if (hasSubtitles && !m_subtitleModel->isLocked()) {
+    if (hasSubtitles && !filterOutSubtitles) {
         // Add subtitle snaps
         m_subtitleModel->allSnaps(snaps);
     }
@@ -3922,7 +3929,14 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
         ++it;
     }
     bool hasSubtitles = m_subtitleModel && !m_allSubtitles.empty();
-    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && (!hasSubtitles || !m_subtitleModel->isLocked())) {
+    bool filterOutSubtitles = false;
+    if (hasSubtitles) {
+        // If subtitle track is locked or hidden, don't snap to it
+        if (m_subtitleModel->isLocked() || !KdenliveSettings::showSubtitles()) {
+            filterOutSubtitles = true;
+        }
+    }
+    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
         // No active track, use all possible snap points
         return m_snaps->getPreviousPoint((int)pos);
     }
@@ -3935,7 +3949,7 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
         }
     }
     // Subtitle snaps
-    if (hasSubtitles && !m_subtitleModel->isLocked()) {
+    if (hasSubtitles && !filterOutSubtitles) {
         // Add subtitle snaps
         m_subtitleModel->allSnaps(snaps);
     }

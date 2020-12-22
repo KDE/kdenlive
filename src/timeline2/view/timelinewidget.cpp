@@ -502,7 +502,7 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
     else
     {
         //qDebug()<<"null ptr NOT here at root context";
-        rootObject()->setProperty("showSubtitles", showSubtitles);
+        rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
         if (firstConnect) {
             rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
         }
