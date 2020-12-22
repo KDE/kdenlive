@@ -10,7 +10,7 @@
                 <name>Red white input</name>
         </parameter>
         <parameter type="constant" name="av.romin" default="0" min="0" max="1" decimals="2">
-                <name>Red black ouput input</name>
+                <name>Red black output input</name>
         </parameter>
         	<parameter type="constant" name="av.romax" default="1" min="0" max="1" decimals="2">
                 <name>Red white output</name>
@@ -22,7 +22,7 @@
                 <name>Green white input</name>
         </parameter>
         <parameter type="constant" name="av.gomin" default="0" min="0" max="1" decimals="2">
-                <name>Green black ouput input</name>
+                <name>Green black output input</name>
         </parameter>
         	<parameter type="constant" name="av.gomax" default="1" min="0" max="1" decimals="2">
                 <name>Green white output</name>
@@ -34,7 +34,7 @@
                 <name>Blue white input</name>
         </parameter>
         <parameter type="constant" name="av.bomin" default="0" min="0" max="1" decimals="2">
-                <name>Blue black ouput input</name>
+                <name>Blue black output input</name>
         </parameter>
         	<parameter type="constant" name="av.bomax" default="1" min="0" max="1" decimals="2">
                 <name>Blue white output</name>

@@ -970,7 +970,7 @@ Rectangle {
             id: compOutArea
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            width: Math.min(root.baseUnit, container.height)
+            width: Math.min(root.baseUnit, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -1092,7 +1092,7 @@ Rectangle {
                     background: Rectangle {
                         color: activePalette.alternateBase
                         border.color: activePalette.light
-                    }    
+                    }
                     contentItem: Label {
                         color: activePalette.text
                         font: miniFont
