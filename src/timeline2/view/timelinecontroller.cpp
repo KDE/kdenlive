@@ -1338,8 +1338,6 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
         emit zoneMoved(m_zone);
         return;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     Fun undo_zone = [this, oldZone]() {
             setZone(oldZone, false);
             return true;
@@ -1349,8 +1347,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
             return true;
     };
     redo_zone();
-    UPDATE_UNDO_REDO_NOLOCK(redo_zone, undo_zone, undo, redo);
-    pCore->pushUndo(undo, redo, i18n("Set Zone"));
+    pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
 void TimelineController::setZoneIn(int inPoint)
@@ -2750,39 +2747,72 @@ void TimelineController::selectCurrentTrack()
     m_model->requestSetSelection(ids);
 }
 
-void TimelineController::pasteEffects(int targetId)
+void TimelineController::deleteEffects(int targetId)
 {
     std::unordered_set<int> targetIds;
+    std::unordered_set<int> sel;
     if (targetId == -1) {
-        std::unordered_set<int> sel = m_model->getCurrentSelection();
-        if (sel.empty()) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
-        }
-        for (int s : sel) {
-            if (m_model->isGroup(s)) {
-                std::unordered_set<int> sub = m_model->m_groups->getLeaves(s);
-                for (int current_id : sub) {
-                    if (m_model->isClip(current_id)) {
-                        targetIds.insert(current_id);
-                    }
-                }
-            } else if (m_model->isClip(s)) {
-                targetIds.insert(s);
-            }
-        }
+        sel = m_model->getCurrentSelection();
     } else {
         if (m_model->m_groups->isInGroup(targetId)) {
-            targetId = m_model->m_groups->getRootId(targetId);
+            sel = {m_model->m_groups->getRootId(targetId)};
+        } else {
+            sel = {targetId};
         }
-        if (m_model->isGroup(targetId)) {
-            std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetId);
+    }
+    if (sel.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+    }
+    for (int s : sel) {
+        if (m_model->isGroup(s)) {
+            std::unordered_set<int> sub = m_model->m_groups->getLeaves(s);
             for (int current_id : sub) {
                 if (m_model->isClip(current_id)) {
                     targetIds.insert(current_id);
                 }
             }
-        } else if (m_model->isClip(targetId)) {
-            targetIds.insert(targetId);
+        } else if (m_model->isClip(s)) {
+            targetIds.insert(s);
+        }
+    }
+    if (targetIds.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    for (int target : targetIds) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(target);
+        destStack->removeAllEffects(undo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete effects"));
+}
+
+void TimelineController::pasteEffects(int targetId)
+{
+    std::unordered_set<int> targetIds;
+    std::unordered_set<int> sel;
+    if (targetId == -1) {
+        sel = m_model->getCurrentSelection();
+    } else {
+        if (m_model->m_groups->isInGroup(targetId)) {
+            sel = {m_model->m_groups->getRootId(targetId)};
+        } else {
+            sel = {targetId};
+        }
+    }
+    if (sel.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+    }
+    for (int s : sel) {
+        if (m_model->isGroup(s)) {
+            std::unordered_set<int> sub = m_model->m_groups->getLeaves(s);
+            for (int current_id : sub) {
+                if (m_model->isClip(current_id)) {
+                    targetIds.insert(current_id);
+                }
+            }
+        } else if (m_model->isClip(s)) {
+            targetIds.insert(s);
         }
     }
     if (targetIds.empty()) {

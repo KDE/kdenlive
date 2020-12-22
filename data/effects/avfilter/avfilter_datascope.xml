@@ -23,8 +23,9 @@
 	</parameter>
     <parameter type="constant" name="av.o" max="1" min="0" default="0.75" decimals="2">
 		<name>Opacity</name>
-        <parameter type="list" name="av.f" default="hex" paramlist="hex;dec">
+	</parameter>
+		<parameter type="list" name="av.f" default="hex" paramlist="hex;dec">
          <paramlistdisplay>Hex,Dec</paramlistdisplay>
 		<name>Format</name>
-	</parameter>
+		</parameter>
     </effect>

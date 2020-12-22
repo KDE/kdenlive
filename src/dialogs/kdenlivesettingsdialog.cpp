@@ -1101,6 +1101,10 @@ void KdenliveSettingsDialog::updateSettings()
         emit pCore->autoScrollChanged();
     }
 
+    if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
+        KdenliveSettings::setPauseonseek(m_configTimeline.kcfg_pauseonseek->isChecked());
+    }
+
     // Mimes
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
         // Update list

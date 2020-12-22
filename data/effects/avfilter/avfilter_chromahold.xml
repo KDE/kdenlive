@@ -14,5 +14,5 @@
 	</parameter>
     <parameter type="bool" name="av.yuv" default="false">
         <name>for YUV color</name>
-        </parameter>
+    </parameter>
 </effect>

@@ -1158,7 +1158,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     Q_ASSERT(isSubTitle(subId));
     int currentPos = getSubtitlePosition(subId);
     int offset = 0;
-    if (currentPos == position) {
+    if (currentPos == position || m_subtitleModel->isLocked()) {
         return position;
     }
     int newPos = position;
@@ -1880,7 +1880,6 @@ bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bo
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
-    undo();
     return false;
 }
 
@@ -2157,6 +2156,11 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_subtitles.push_back({affectedItemId, m_allSubtitles.at(affectedItemId)});
         }
     }
+    
+    if (!sorted_subtitles.empty() && m_subtitleModel->isLocked()) {
+        // Group with a locked subtitle, abort
+        return false;
+    }
 
     // Sort clips first
     std::sort(sorted_clips.begin(), sorted_clips.end(), [delta_pos](const std::pair<int, int> &clipId1, const std::pair<int, int> &clipId2) {
@@ -2352,7 +2356,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 if (getTrackById_const(current_track_id)->hasStartMix(item.first)) {
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
-                if (!getTrackById_const(current_track_id)->isAvailable(target_position, -delta_pos, subPlaylist)) {
+                if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime, subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
@@ -2881,10 +2885,15 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         TRACE_RES(-1)
         return -1;
     }
-    int in = getItemPosition(itemId);
+    int in = 0;
     int offset = getItemPlaytime(itemId);
-    int out = in + offset;
-    size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
+    int tid = getItemTrackId(itemId);
+    int out = offset;
+    if (tid != -1) {
+        in = getItemPosition(itemId);
+        out += in;
+        size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
+    }
     offset -= size;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -2896,8 +2905,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     std::unordered_set<int> all_items;
     QList <int> tracksWithMixes;
     all_items.insert(itemId);
-    if (logUndo && isClip(itemId)) {
-        int tid = getItemTrackId(itemId);
+    if (logUndo && isClip(itemId)) { 
         if (tid > -1) {
             if (right) {
                 if (getTrackById_const(tid)->hasEndMix(itemId)) {
@@ -3076,6 +3084,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     for (int id : all_items) {
         int tid = getItemTrackId(id);
         if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        if (tid == -2 && m_subtitleModel && m_subtitleModel->isLocked()) {
             continue;
         }
         if (right) {
@@ -3871,7 +3882,15 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
         }
         ++it;
     }
-    if (tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) {
+    bool hasSubtitles = m_subtitleModel && !m_allSubtitles.empty();
+    bool filterOutSubtitles = false;
+    if (hasSubtitles) {
+        // If subtitle track is locked or hidden, don't snap to it
+        if (m_subtitleModel->isLocked() || !KdenliveSettings::showSubtitles()) {
+            filterOutSubtitles = true;
+        }
+    }
+    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
         // No active track, use all possible snap points
         return m_snaps->getNextPoint((int)pos);
     }
@@ -3882,6 +3901,11 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
             auto clip = (cp.second);
             clip->allSnaps(snaps);
         }
+    }
+    // Subtitle snaps
+    if (hasSubtitles && !filterOutSubtitles) {
+        // Add subtitle snaps
+        m_subtitleModel->allSnaps(snaps);
     }
     // sort snaps
     std::sort(snaps.begin(), snaps.end());
@@ -3904,7 +3928,15 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
         }
         ++it;
     }
-    if (tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) {
+    bool hasSubtitles = m_subtitleModel && !m_allSubtitles.empty();
+    bool filterOutSubtitles = false;
+    if (hasSubtitles) {
+        // If subtitle track is locked or hidden, don't snap to it
+        if (m_subtitleModel->isLocked() || !KdenliveSettings::showSubtitles()) {
+            filterOutSubtitles = true;
+        }
+    }
+    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
         // No active track, use all possible snap points
         return m_snaps->getPreviousPoint((int)pos);
     }
@@ -3915,6 +3947,11 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
             auto clip = (cp.second);
             clip->allSnaps(snaps);
         }
+    }
+    // Subtitle snaps
+    if (hasSubtitles && !filterOutSubtitles) {
+        // Add subtitle snaps
+        m_subtitleModel->allSnaps(snaps);
     }
     // sort snaps
     std::sort(snaps.begin(), snaps.end());

@@ -322,6 +322,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="pauseonseek" type="Bool">
+      <label>Pause playback when seeking.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="verticalzoom" type="Bool">
       <label>Vertical drag in timeline ruler zooms.</label>
       <default>false</default>
@@ -911,6 +916,10 @@
       <default>#000000</default>
     </entry>
     
+    <entry name="showSubtitles" type="Bool">
+      <label>Show subtitle track.</label>
+      <default>false</default>
+    </entry>
     
     <entry name="thumbColor1" type="Color">
       <label>Color to draw even audio channels.</label>

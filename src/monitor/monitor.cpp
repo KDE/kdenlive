@@ -774,14 +774,60 @@ void Monitor::slotLoadClipZone(const QPoint &zone)
 
 void Monitor::slotSetZoneStart()
 {
-    m_glMonitor->getControllerProxy()->setZoneIn(m_glMonitor->getCurrentPos());
-    checkOverlay();
+    QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
+    int currentIn = m_glMonitor->getCurrentPos();
+    int updatedZoneOut = -1;
+    if (currentIn > oldZone.y()) {
+        updatedZoneOut = qMin(m_glMonitor->duration(), currentIn + (oldZone.y() - oldZone.x()));
+    }
+    
+    Fun undo_zone = [this, oldZone, updatedZoneOut]() {
+            m_glMonitor->getControllerProxy()->setZoneIn(oldZone.x());
+            if (updatedZoneOut > -1) {
+                m_glMonitor->getControllerProxy()->setZoneOut(oldZone.y());
+            }
+            checkOverlay();
+            return true;
+    };
+    Fun redo_zone = [this, currentIn, updatedZoneOut]() {
+            if (updatedZoneOut > -1) {
+                m_glMonitor->getControllerProxy()->setZoneOut(updatedZoneOut);
+            }
+            m_glMonitor->getControllerProxy()->setZoneIn(currentIn);
+            checkOverlay();
+            return true;
+    };
+    redo_zone();
+    pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
 void Monitor::slotSetZoneEnd()
 {
-    m_glMonitor->getControllerProxy()->setZoneOut(m_glMonitor->getCurrentPos() + 1);
-    checkOverlay();
+    QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
+    int currentOut = m_glMonitor->getCurrentPos() + 1;
+    int updatedZoneIn = -1;
+    if (currentOut < oldZone.x()) {
+        updatedZoneIn = qMax(0, currentOut - (oldZone.y() - oldZone.x()));
+    }
+    Fun undo_zone = [this, oldZone, updatedZoneIn]() {
+            m_glMonitor->getControllerProxy()->setZoneOut(oldZone.y());
+            if (updatedZoneIn > -1) {
+                m_glMonitor->getControllerProxy()->setZoneIn(oldZone.x());
+            }
+            checkOverlay();
+            return true;
+    };
+    
+    Fun redo_zone = [this, currentOut, updatedZoneIn]() {
+            if (updatedZoneIn > -1) {
+                m_glMonitor->getControllerProxy()->setZoneIn(updatedZoneIn);
+            }
+            m_glMonitor->getControllerProxy()->setZoneOut(currentOut);
+            checkOverlay();
+            return true;
+    };
+    redo_zone();
+    pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
 }
 
 // virtual
@@ -1525,8 +1571,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 if (activeStreams.size() > 1) {
                     m_glMonitor->getControllerProxy()->setAudioStream(i18np("%1 audio stream", "%1 audio streams", activeStreams.size()));
                     // TODO: Mix audio channels
-                } else {
-                    m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
+                } else if (!activeStreams.isEmpty()) {
+                    m_glMonitor->getControllerProxy()->setAudioStream(activeStreams.first());
                 }
                 QAction *ac;
                 while (i.hasNext()) {
@@ -2301,7 +2347,9 @@ void Monitor::processSeek(int pos)
     if (!slotActivateMonitor()) {
         return;
     }
-    pause();
+    if (KdenliveSettings::pauseonseek()) {
+        pause();
+    }
     m_glMonitor->requestSeek(pos);
     emit m_monitorManager->cleanMixer();
 }

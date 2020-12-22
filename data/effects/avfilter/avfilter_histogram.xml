@@ -9,7 +9,7 @@
         <parameter type="constant" name="av.scale_height" default="12" min="0" max="40" factor="1">
         <name>Scale height</name>
     </parameter>   
-    <parameter type="list" name="av.display_mode" default="parade" paramlist="overlay;stack;parade">
+    <parameter type="list" name="av.display_mode" default="stack" paramlist="overlay;stack;parade">
                 <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
                 <name>Display</name>
         </parameter>
@@ -17,12 +17,11 @@
         <paramlistdisplay>Linear,Logarithmic</paramlistdisplay>
         <name>Mode</name>
     </parameter>
-    <parameter type="list" name="av.c" default="7" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>All,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
+    <parameter type="list" name="av.c" default="1" paramlist="0;1;2;3;4;5;6;7;8">
+        <paramlistdisplay>All,Y,U,YU,V,YV,UV,All,Alpha</paramlistdisplay>
             <name>Components to display</name>
         </parameter>
-        </parameter>
-        <parameter type="constant" name="av.f" default="0.7" min="0" max="1" decimals="1">
+            <parameter type="constant" name="av.f" default="0.7" min="0" max="1" decimals="1">
         <name>Foreground Opacity</name>
     </parameter>
         <parameter type="constant" name="av.b" default="0.5" min="0" max="1" decimals="1">

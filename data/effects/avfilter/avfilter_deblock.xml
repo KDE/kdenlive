@@ -4,7 +4,7 @@
 	<description>Remove blocking artifacts from input video.</description>
 	<author>libavfilter</author>
     <parameter type="list" name="av.filter" default="strong" paramlist="weak;strong">
-        <paramlistdisplay>All,Y,U,V,Alpha,Red,Green,Blue</paramlistdisplay>
+        <paramlistdisplay>Weak,Strong</paramlistdisplay>
                 <name>Filter strength</name>
         </parameter>        
     <parameter type="constant" name="av.block" default="8" min="4" max="512" factor="1">

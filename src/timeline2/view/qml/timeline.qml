@@ -118,25 +118,26 @@ Rectangle {
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
-            scrollTimer.horizontal = 10
+            scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
             scrollTimer.horizontal = 0
             scrollTimer.stop()
         } else if (x < scrollView.contentX + root.baseUnit * 3) {
-            scrollTimer.horizontal = -10
+            scrollTimer.horizontal = -root.baseUnit
             scrollTimer.start()
         } else {
-            if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit * 3) {
-                scrollTimer.vertical = root.baseUnit / 3
+            if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit) {
+                scrollTimer.vertical = root.baseUnit
                 scrollTimer.horizontal = 0
                 scrollTimer.start()
-            } else if (y - scrollView.contentY - ruler.height < root.baseUnit * 3) {
-                scrollTimer.vertical = -root.baseUnit / 3
+            } else if (scrollView.contentY > 0 && (y - (scrollView.contentY + ruler.height ) < root.baseUnit)) {
+                scrollTimer.vertical = -root.baseUnit
                 scrollTimer.horizontal = 0
                 scrollTimer.start()
             } else {
+                console.log('TRIGGERING VERTICAL STOP: ', y, ', SCROLL: ',scrollView.contentY, 'SCH:', scrollView.height)
                 scrollTimer.vertical = 0
                 scrollTimer.horizontal = 0
                 scrollTimer.stop()
@@ -345,10 +346,10 @@ Rectangle {
 
     onViewActiveTrackChanged: {
         var tk = Logic.getTrackById(timeline.activeTrack)
-        if (tk.y < scrollView.contentY) {
-            scrollView.contentY = Math.max(0, tk.y - scrollView.height / 3)
-        } else if (tk.y + tk.height > scrollView.contentY + scrollView.height) {
-            var newY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
+        if (tk.y + subtitleTrack.height < scrollView.contentY) {
+            scrollView.contentY = Math.max(0, tk.y + subtitleTrack.height)
+        } else if (tk.y + tk.height + subtitleTrack.height > scrollView.contentY + scrollView.height) {
+            var newY = Math.min(trackHeaders.height + subtitleTrack.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y + tk.height - scrollView.height + subtitleTrack.height)
             if (newY >= 0) {
                 scrollView.contentY = newY
             }
@@ -1102,19 +1103,22 @@ Rectangle {
                     var y = rubberSelect.y - ruler.height + scrollView.contentY
                     var selectSubs = false
                     var selectOnlySubs = false
+                    var selectionHeight = rubberSelect.height
                     if (showSubtitles) {
                         selectSubs = y < subtitleTrack.height
-                        if (y + rubberSelect.height > subtitleTrack.height) {
+                        var bottomRubber = y + rubberSelect.height
+                        if (bottomRubber > subtitleTrack.height) {
                             y = Math.max(0, y - subtitleTrack.height)
+                            selectionHeight = bottomRubber - subtitleTrack.height
                         } else {
                             y -= subtitleTrack.height
                             selectOnlySubs = true
                         }
                     }
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
-                    var bottomTrack = Logic.getTrackIndexFromPos(Math.max(0, y) + rubberSelect.height)
+                    var bottomTrack = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
                     // Check if bottom of rubber selection covers the last track compositions
-                    var selectBottomCompositions = ((y + rubberSelect.height) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId) - scrollView.contentY) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
+                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId) - scrollView.contentY) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
                     if (bottomTrack >= topTrack) {
                         var t = []
                         if (!selectOnlySubs) {
@@ -1367,7 +1371,7 @@ Rectangle {
                                             return
                                         }
                                         if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
-                                            continuousScrolling(mouse.x + parent.x, mouse.y + parent.y)
+                                            continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset + ruler.height + subtitleTrack.height)
                                             snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                             moveItem()
                                         }
@@ -1439,6 +1443,7 @@ Rectangle {
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
                                         }
+                                        tracksArea.focus = true
                                     }
                                     onDoubleClicked: {
                                         if (dragProxy.masterObject.keyframeModel) {
@@ -1662,8 +1667,8 @@ Rectangle {
 
     Connections {
         target: timeline
-        onFrameFormatChanged: ruler.adjustFormat()
-        onSelectionChanged: {
+        function onFrameFormatChanged() { ruler.adjustFormat() }
+        function onSelectionChanged() {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
@@ -1674,7 +1679,7 @@ Rectangle {
     // This provides continuous scrolling at the left/right edges.
     Timer {
         id: scrollTimer
-        interval: 25
+        interval: 80
         repeat: true
         triggeredOnStart: true
         property int horizontal: 0
@@ -1691,7 +1696,7 @@ Rectangle {
                         vertical = 0
                         stop()
                     } else {
-                        var maxScroll = trackHeaders.height - tracksArea.height + horScroll.height + ruler.height
+                        var maxScroll = trackHeaders.height - tracksArea.height + horScroll.height + ruler.height + subtitleTrack.height
                         if (scrollView.contentY > maxScroll) {
                             scrollView.contentY = Math.max(0, maxScroll)
                             vertical = 0

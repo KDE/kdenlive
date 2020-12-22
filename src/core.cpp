@@ -80,6 +80,7 @@ void Core::build(bool isAppImage, const QString &MltPath)
 
     qRegisterMetaType<audioShortVector>("audioShortVector");
     qRegisterMetaType<QVector<double>>("QVector<double>");
+    qRegisterMetaType<QList<QAction*>>("QList<QAction*>");
     qRegisterMetaType<MessageType>("MessageType");
     qRegisterMetaType<stringMap>("stringMap");
     qRegisterMetaType<audioByteArray>("audioByteArray");
@@ -990,4 +991,10 @@ void Core::addGuides(QList <int> guides)
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
 {
     pCore->window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+}
+
+void Core::transcodeFile(const QString url)
+{
+    qDebug()<<"=== TRANSCODING: "<<url;
+    pCore->window()->slotTranscode({url});
 }

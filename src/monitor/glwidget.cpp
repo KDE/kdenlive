@@ -1606,14 +1606,21 @@ void GLWidget::switchPlay(bool play, double speed)
         if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() && speed > 0) {
             m_producer->seek(0);
         }
+        double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         if (speed <= 1. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
         } else {
             m_consumer->set("scrub_audio", 1);
         }
-        m_consumer->start();
-        m_consumer->set("refresh", 1);
+        if (qFuzzyIsNull(current_speed)) {
+            m_consumer->start();
+            m_consumer->set("refresh", 1);
+        } else {
+            // Speed change, purge to reduce latency
+            m_consumer->purge();
+            m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
+        }
     } else {
         emit paused();
         m_producer->set_speed(0);

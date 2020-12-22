@@ -155,7 +155,7 @@ protected:
     void unlock();
 
     /* @brief Returns a lambda that performs a resize of the given clip.
-       The lamda returns true if the operation succeeded, and otherwise nothing is modified
+       The lambda returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clipId is the id of the clip
        @param in is the new starting on the clip
