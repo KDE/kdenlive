@@ -140,13 +140,6 @@ void MonitorProxy::setZoneIn(int pos)
     if (m_zoneIn > 0) {
         emit removeSnap(m_zoneIn);
     }
-    if (pos > m_zoneOut) {
-        if (m_zoneOut > 0) {
-            emit removeSnap(m_zoneOut - 1);
-        }
-        m_zoneOut = qMin(q->duration(), pos + (m_zoneOut - m_zoneIn));
-        emit addSnap(m_zoneOut - 1);
-    }
     m_zoneIn = pos;
     if (pos > 0) {
         emit addSnap(pos);
@@ -159,13 +152,6 @@ void MonitorProxy::setZoneOut(int pos)
 {
     if (m_zoneOut > 0) {
         emit removeSnap(m_zoneOut - 1);
-    }
-    if (pos < m_zoneIn) {
-        if (m_zoneIn > 0) {
-            emit removeSnap(m_zoneIn);
-        }
-        m_zoneIn = qMax(0, pos - (m_zoneOut - m_zoneIn));
-        emit addSnap(m_zoneIn);
     }
     m_zoneOut = pos;
     if (pos > 0) {
