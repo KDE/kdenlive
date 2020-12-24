@@ -172,7 +172,8 @@ class ClipWidget : public QWidget
 public:
     explicit ClipWidget(){}
     ~ClipWidget() override;
-    void init(QDockWidget* m_DockClipWidget);
+    void init(QDockWidget* m_DockClipWidget, KdenliveDoc* doc,
+                  std::shared_ptr<ProjectItemModel> model );
 };
 
 class Bin : public QWidget
@@ -187,7 +188,7 @@ public:
     ~Bin() override;
 
     bool isLoading;
-
+    void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
     void setDocument(KdenliveDoc *project);
     /** @brief Delete all project related data, to be called before setDocument  */
