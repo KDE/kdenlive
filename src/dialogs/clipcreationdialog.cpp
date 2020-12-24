@@ -457,7 +457,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
 
-    QPushButton* importseq = new QPushButton("Import image sequence");
+    QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     fileWidget->setCustomWidget(importseq);
 
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
@@ -472,7 +472,6 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
 
         QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
         if (count >= 1) {
-                // get image sequence base name
             while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
                   fileName.chop(1);
             }
