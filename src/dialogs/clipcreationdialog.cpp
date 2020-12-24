@@ -357,7 +357,7 @@ for (const QUrl & file :  list) {
     }
 }*/
 //}
-#include <iostream>
+
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
 {
     qDebug() << "/////////// starting to add bin clips";
@@ -455,7 +455,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
 
-    QPushButton* importseq = new QPushButton("Import image sequence");
+    /*QPushButton* importseq = new QPushButton("Import image sequence");
     fileWidget->setCustomWidget(importseq);
 
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
@@ -467,7 +467,6 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
         //fileWidget->accept();
         QList<QUrl> list;
         list  = fileWidget->selectedUrls(); // work if this line is commented
-        std::cout << list.size() << "\n";
-    });
+    });*/
     m_DockClipWidget->setWidget(fileWidget);
 }
