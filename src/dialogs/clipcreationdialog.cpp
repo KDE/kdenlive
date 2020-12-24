@@ -357,7 +357,7 @@ for (const QUrl & file :  list) {
     }
 }*/
 //}
-
+#include <iostream>
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
 {
     qDebug() << "/////////// starting to add bin clips";
@@ -447,4 +447,27 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }
+}
+
+void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
+{
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+
+    QPushButton* importseq = new QPushButton("Import image sequence");
+    fileWidget->setCustomWidget(importseq);
+
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accepted);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accept);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [&]{
+        //fileWidget->slotOk();
+        //fileWidget->accepted();
+        //fileWidget->accept();
+        QList<QUrl> list;
+        list  = fileWidget->selectedUrls(); // work if this line is commented
+        std::cout << list.size() << "\n";
+    });
+    m_DockClipWidget->setWidget(fileWidget);
 }

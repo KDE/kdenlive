@@ -826,9 +826,11 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
 
 void ClipWidget::init(QDockWidget* m_DockClipWidget)
 {
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    ClipCreationDialog::clipWidget(m_DockClipWidget);
+    /*QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
-    m_DockClipWidget->setWidget(fileWidget);
+    fileWidget->setMode(KFile::Files);
+    m_DockClipWidget->setWidget(fileWidget);*/
 }
 
 Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
