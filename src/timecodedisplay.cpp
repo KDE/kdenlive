@@ -52,6 +52,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     , m_minimum(0)
     , m_maximum(-1)
     , m_value(0)
+    , m_offset(0)
 {
     const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
@@ -218,7 +219,8 @@ void TimecodeDisplay::setValue(int value)
             return;
         }
         m_value = value;
-        lineEdit()->setText(m_timecode.getTimecodeFromFrames(value - m_minimum));
+        lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + value - m_minimum));
+        emit timeCodeUpdated();
     }
 }
 
@@ -233,7 +235,7 @@ void TimecodeDisplay::slotEditingFinished()
     if (m_frametimecode) {
         setValue(lineEdit()->text().toInt() + m_minimum);
     } else {
-        setValue(m_timecode.getFrameCount(lineEdit()->text()) + m_minimum);
+        setValue(m_timecode.getFrameCount(lineEdit()->text()) + m_minimum - m_offset);
     }
     emit timeCodeEditingFinished(m_value);
 }
@@ -241,4 +243,14 @@ void TimecodeDisplay::slotEditingFinished()
 const QString TimecodeDisplay::displayText() const
 {
     return lineEdit()->displayText();
+}
+
+void TimecodeDisplay::setOffset(int offset)
+{
+    m_offset = GenTime(offset/1000.).frames(m_timecode.fps());
+    // Update timecode display
+    if (!m_frametimecode) {
+        lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
+        emit timeCodeUpdated();
+    }
 }

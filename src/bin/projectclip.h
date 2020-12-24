@@ -247,6 +247,7 @@ public:
     static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
+    int getRecordTime();
 
 protected:
     friend class ClipModel;

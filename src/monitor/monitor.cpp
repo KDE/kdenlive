@@ -46,6 +46,7 @@
 #include <KDualAction>
 #include <KFileWidget>
 #include <KMessageWidget>
+#include <KMessageBox>
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KWindowConfig>
@@ -432,6 +433,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+    m_timePos = new TimecodeDisplay(pCore->timecode(), this);
 
     if (id == Kdenlive::ProjectMonitor) {
         // TODO: reimplement
@@ -441,6 +443,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     } else if (id == Kdenlive::ClipMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }
+    m_glMonitor->getControllerProxy()->setTimeCode(m_timePos);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekNextKeyframe, this, &Monitor::seekToNextKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekPreviousKeyframe, this, &Monitor::seekToPreviousKeyframe);
@@ -454,7 +457,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addAction(m_sceneVisibilityAction);
 
     m_toolbar->addSeparator();
-    m_timePos = new TimecodeDisplay(pCore->timecode(), this);
+    connect(m_timePos, &TimecodeDisplay::timeCodeUpdated, m_glMonitor->getControllerProxy(), &MonitorProxy::timecodeChanged);
     m_toolbar->addWidget(m_timePos);
 
     auto *configButton = new QToolButton(m_toolbar);
@@ -646,6 +649,14 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
     switchAudioMonitor->setCheckable(true);
     switchAudioMonitor->setChecked((KdenliveSettings::monitoraudio() & m_id) != 0);
+    
+    if (m_id == Kdenlive::ClipMonitor) {
+        QAction *recordTimecode = new QAction(i18n("Show Record Timecode"), this);
+        recordTimecode->setCheckable(true);
+        connect(recordTimecode, &QAction::triggered, this, &Monitor::slotSwitchRecTimecode);
+        recordTimecode->setChecked(KdenliveSettings::rectimecode());
+        m_configMenu->addAction(recordTimecode);
+    }
 
     // For some reason, the frame in QAbstracSpinBox (base class of TimeCodeDisplay) needs to be displayed once, then hidden
     // or it will never appear (supposed to appear on hover).
@@ -1608,6 +1619,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
+        if (KdenliveSettings::rectimecode()) {
+            m_timePos->setOffset(m_controller->getRecordTime());
+        }
         if (m_controller->statusReady()) {
             m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
             m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
@@ -2458,5 +2472,35 @@ void Monitor::updateMultiTrackView(int tid)
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         root->setProperty("activeTrack", tid);
+    }
+}
+
+void Monitor::slotSwitchRecTimecode(bool enable)
+{
+    qDebug()<<"=== SLOT SWITCH REC: "<<enable;
+    if (!enable) {
+        m_timePos->setOffset(0);
+        KdenliveSettings::setRectimecode(false);
+        return;
+    }
+    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
+        // Try to find binary
+        const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
+        QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
+        if (mediainfopath.isEmpty()) {
+            mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
+        }
+        if (mediainfopath.isEmpty()) {
+            //TODO: propose to install mediainfo
+            KMessageBox::sorry(this, i18n("The MediaInfo application is required for the recording timecode feature, please install it and re-enable the feature in Kdenlive"));
+            return;
+        }
+        KdenliveSettings::setMediainfopath(mediainfopath);
+    }
+    qDebug()<<"========== READY TO READ OFFSET\n\n.............::";
+    KdenliveSettings::setRectimecode(true);
+    if (m_controller) {
+        qDebug()<<"=== GOT TIMECODE OFFSET: "<<m_controller->getRecordTime();
+        m_timePos->setOffset(m_controller->getRecordTime());
     }
 }

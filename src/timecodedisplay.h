@@ -85,6 +85,10 @@ public:
     void stepBy(int steps) override;
 
     const QString displayText() const;
+    
+    /** @brief Sets an offset for timecode display only, Used to show recording time instead of absolute timecode
+     * @param offset the offset in msecs */
+    void setOffset(int offset);
 
 private:
     /** timecode for widget */
@@ -94,6 +98,7 @@ private:
     int m_minimum;
     int m_maximum;
     int m_value;
+    int m_offset;
 
 public slots:
     /** @brief Sets the value.
@@ -112,6 +117,7 @@ private slots:
 
 signals:
     void timeCodeEditingFinished(int value = -1);
+    void timeCodeUpdated();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;

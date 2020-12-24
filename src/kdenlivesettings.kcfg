@@ -458,6 +458,11 @@
       <label>FFprobe / avprobe binary path.</label>
       <default></default>
     </entry>
+    
+    <entry name="mediainfopath" type="Path">
+      <label>mediaInfo binary path.</label>
+      <default></default>
+    </entry>
 
     <entry name="mltthreads" type="Int">
       <label>Mlt processing thread count.</label>
@@ -791,6 +796,11 @@
 
     <entry name="frametimecode" type="Bool">
       <label>Show timecodes as frame number instead of hh:mm:ss:ff.</label>
+      <default>false</default>
+    </entry>
+    
+    <entry name="rectimecode" type="Bool">
+      <label>Show recorded timecode in clip monitor, in format hh:mm:ss:ff.</label>
       <default>false</default>
     </entry>
 

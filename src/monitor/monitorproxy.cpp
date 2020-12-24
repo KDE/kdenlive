@@ -42,6 +42,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_clipType(0)
     , m_clipId(-1)
     , m_seekFinished(true)
+    , m_td(nullptr)
 {
 }
 
@@ -373,4 +374,17 @@ void MonitorProxy::switchAutoKeyframe()
 bool MonitorProxy::autoKeyframe() const
 {
     return KdenliveSettings::autoKeyframe();
+}
+
+const QString MonitorProxy::timecode() const
+{
+    if (m_td) {
+        return m_td->displayText();
+    }
+    return QString();
+}
+
+void MonitorProxy::setTimeCode(TimecodeDisplay *td)
+{
+    m_td = td;
 }

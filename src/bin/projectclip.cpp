@@ -637,6 +637,52 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
+int ProjectClip::getRecordTime()
+{
+    if (m_masterProducer && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio)) {
+        int recTime = m_masterProducer->get_int("kdenlive:record_date");
+        if (recTime > 0) {
+            return recTime;
+        }
+        if (recTime < 0) {
+            // Cannot read record date on this clip, abort
+            return 0;
+        }
+        // Try to get record date metadata
+        if (KdenliveSettings::mediainfopath().isEmpty()) {
+        }
+        QProcess extractInfo;
+        extractInfo.start(KdenliveSettings::mediainfopath(), {url(),QStringLiteral("--output=XML")});
+        extractInfo.waitForFinished();
+        if(extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot extract metadata from %1\n%2", url(),
+                        QString(extractInfo.readAllStandardError())));
+            return 0;
+        }
+        QDomDocument doc;
+        doc.setContent(extractInfo.readAllStandardOutput());
+        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
+        if (!nodes.isEmpty()) {
+            QString recDate = nodes.at(0).toElement().text();
+            if (!recDate.isEmpty()) {
+                if (recDate.contains(QLatin1Char('+'))) {
+                    recDate = recDate.section(QLatin1Char('+'), 0, 0);
+                } else if (recDate.contains(QLatin1Char('-'))) {
+                    recDate = recDate.section(QLatin1Char('-'), 0, 0);
+                }
+                QDateTime date = QDateTime::fromString(recDate, "yyyy-MM-dd hh:mm:ss");
+                recTime = date.time().msecsSinceStartOfDay();
+                m_masterProducer->set("kdenlive:record_date", recTime);
+                return recTime;
+            }
+        } else {
+            m_masterProducer->set("kdenlive:record_date", -1);
+            return 0;
+        }
+    }
+    return 0;
+}
+
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist)
 {
     if (!m_masterProducer) {

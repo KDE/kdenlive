@@ -281,6 +281,8 @@ private slots:
     void processSeek(int pos);
     /** @brief Check and display dropped frames */
     void checkDrops();
+    /** @brief En/Disable the show record timecode feature in clip monitor */
+    void slotSwitchRecTimecode(bool enable);
 
 public slots:
     void slotSetScreen(int screenIndex);

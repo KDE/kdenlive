@@ -406,7 +406,7 @@ Item {
                 background: Rectangle {
                     color: "#66000000"
                 }
-                text: controller.toTimecode(controller.position)
+                text: controller.timecode
                 visible: root.showTimecode
                 anchors {
                     right: parent.right

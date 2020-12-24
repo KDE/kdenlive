@@ -32,6 +32,7 @@
 #include <QObject>
 
 class GLWidget;
+class TimecodeDisplay;
 
 class MonitorProxy : public QObject
 {
@@ -44,6 +45,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
+    Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
@@ -72,6 +74,7 @@ public:
     int overlayType() const;
     void setOverlayType(int ix);
     QString markerComment() const;
+    const QString timecode() const;
     /** brief: update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
      * */
@@ -107,6 +110,8 @@ public:
     void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
+    /** @brief Store a reference to the timecode display */
+    void setTimeCode(TimecodeDisplay *td);
 
 signals:
     void positionChanged(int);
@@ -136,6 +141,7 @@ signals:
     void audioThumbNormalizeChanged();
     void profileChanged();
     void autoKeyframeChanged();
+    void timecodeChanged();
 
 private:
     GLWidget *q;
@@ -152,6 +158,7 @@ private:
     int m_clipId;
     bool m_seekFinished;
     QPoint m_undoZone;
+    TimecodeDisplay *m_td;
 };
 
 #endif

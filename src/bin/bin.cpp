@@ -3508,14 +3508,14 @@ void Bin::slotOpenClip()
         if (KdenliveSettings::defaultimageapp().isEmpty()) {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
         } else {
-            QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << clip->url());
+            QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
         }
         break;
     case ClipType::Audio:
         if (KdenliveSettings::defaultaudioapp().isEmpty()) {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
         } else {
-            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << clip->url());
+            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
         }
         break;
     default:
