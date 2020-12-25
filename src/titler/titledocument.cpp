@@ -15,6 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+/***************************************************************************
+ *                                                                         *
+ *   Modifications by Rafał Lalik to implement Patterns mechanism          *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "titledocument.h"
 #include "gradientwidget.h"
 
@@ -78,7 +84,7 @@ void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
     m_height = height;
 }
 
-int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed)
+int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString & pojectPath)
 {
     if (embed) {
         if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
@@ -92,8 +98,8 @@ int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool e
         QString base64 = item->data(Qt::UserRole + 1).toString();
         if (!base64.isEmpty()) {
             QString titlePath;
-            if (!m_projectPath.isEmpty()) {
-                titlePath = m_projectPath;
+            if (!pojectPath.isEmpty()) {
+                titlePath = pojectPath;
             } else {
                 titlePath = QStringLiteral("/tmp/titles");
             }
@@ -127,11 +133,16 @@ const QString TitleDocument::extractBase64Image(const QString &titlePath, const 
 
 QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed)
 {
+    return xml(m_scene->items(), m_width, m_height, startv, endv, embed, m_projectPath);
+}
+
+QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed, const QString & projectPath)
+{
     QDomDocument doc;
 
     QDomElement main = doc.createElement(QStringLiteral("kdenlivetitle"));
-    main.setAttribute(QStringLiteral("width"), m_width);
-    main.setAttribute(QStringLiteral("height"), m_height);
+    main.setAttribute(QStringLiteral("width"), width);
+    main.setAttribute(QStringLiteral("height"), height);
 
     // Save locale. Since 20.08, we always use the C locale for serialising.
     main.setAttribute(QStringLiteral("LC_NUMERIC"), "C");
@@ -139,7 +150,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     QTextCursor cur;
     QTextBlockFormat format;
 
-    for (QGraphicsItem *item : m_scene->items()) {
+    for (QGraphicsItem *item : items) {
         if (!(item->flags() & QGraphicsItem::ItemIsSelectable)) {
             continue;
         }
@@ -154,12 +165,12 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
         case 7:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsPixmapItem"));
             content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
-            base64ToUrl(item, content, embed);
+            base64ToUrl(item, content, embed, projectPath);
             break;
         case 13:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsSvgItem"));
             content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
-            base64ToUrl(item, content, embed);
+            base64ToUrl(item, content, embed, projectPath);
             break;
         case 3:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
@@ -204,7 +215,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
                 if (t->alignment() == Qt::AlignHCenter) {
                     // grow dimensions on both sides
                     double xcenter = item->pos().x() + (t->baseBoundingRect().width()) / 2;
-                    double offset = qMin(xcenter, m_width - xcenter);
+                    double offset = qMin(xcenter, width - xcenter);
                     xPosition = xcenter - offset;
                     content.setAttribute(QStringLiteral("box-width"), QString::number(2 * offset));
                 } else if (t->alignment() == Qt::AlignRight) {
@@ -214,7 +225,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
                     content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
                 } else {
                     // left align, grow on right side
-                    double offset = m_width - item->pos().x();
+                    double offset = width - item->pos().x();
                     content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
                 }
             } else {
@@ -306,7 +317,7 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
         main.appendChild(endport);
     }
     QDomElement backgr = doc.createElement(QStringLiteral("background"));
-    QColor color = getBackgroundColor();
+    QColor color = getBackgroundColor(items);
     backgr.setAttribute(QStringLiteral("color"), colorToString(color));
     main.appendChild(backgr);
 
@@ -319,12 +330,20 @@ QColor TitleDocument::getBackgroundColor() const
 {
     QColor color(0, 0, 0, 0);
     if (m_scene) {
-        QList<QGraphicsItem *> items = m_scene->items();
-        for (auto item : qAsConst(items)) {
-            if ((int)item->zValue() == -1100) {
-                color = static_cast<QGraphicsRectItem *>(item)->brush().color();
-                return color;
-            }
+        return getBackgroundColor(m_scene->items());
+    }
+    return color;
+}
+
+/** \brief Get the background color (incl. alpha) from list of items, if possibly
+ * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
+QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> & items)
+{
+    QColor color(0, 0, 0, 0);
+    for (auto item : qAsConst(items)) {
+        if ((int)item->zValue() == -1100) {
+            color = static_cast<QGraphicsRectItem *>(item)->brush().color();
+            return color;
         }
     }
     return color;
@@ -364,18 +383,37 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
 int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
-    m_missingElements = 0;
+
+    QList<QGraphicsItem *> items;
+    int width, height;
+    int res = loadFromXml(doc, items, width, height, startv, endv, duration, m_missingElements);
+
+    if (m_width != width || m_height != height) {
+        KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
+        // TODO: convert using QTransform
+        m_width = width;
+        m_height = height;
+    }
+
+    for (auto i : items) {
+        m_scene->addItem(i);
+    }
+    return res;
+}
+
+int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
+{
+    for (auto * i : gitems) {
+        delete i;
+    }
+    gitems.clear();
+
+    missingElements = 0;
     QDomNodeList titles = doc.elementsByTagName(QStringLiteral("kdenlivetitle"));
     // TODO: Check if the opened title size is equal to project size, otherwise warn user and rescale
     if (doc.documentElement().hasAttribute(QStringLiteral("width")) && doc.documentElement().hasAttribute(QStringLiteral("height"))) {
-        int doc_width = doc.documentElement().attribute(QStringLiteral("width")).toInt();
-        int doc_height = doc.documentElement().attribute(QStringLiteral("height")).toInt();
-        if (doc_width != m_width || doc_height != m_height) {
-            KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
-            // TODO: convert using QTransform
-            m_width = doc_width;
-            m_height = doc_height;
-        }
+        width = doc.documentElement().attribute(QStringLiteral("width")).toInt();
+        height = doc.documentElement().attribute(QStringLiteral("height")).toInt();
     } else {
         // Document has no size info, it is likely an old version title, so ignore viewport data
         QDomNodeList viewportlist = doc.documentElement().elementsByTagName(QStringLiteral("startviewport"));
@@ -436,7 +474,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
                     MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), nullptr);
-                    m_scene->addItem(txt);
+                    gitems.append(txt);
                     txt->setFont(font);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     QTextCursor cursor(txt->document());
@@ -528,7 +566,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     } else {
                         rec->setBrush(QBrush(stringToColor(br_str)));
                     }
-                    m_scene->addItem(rec);
+                    gitems.append(rec);
 
                     gitem = rec;
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsPixmapItem")) {
@@ -539,8 +577,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     if (base64.isEmpty()) {
                         pix.load(url);
                         if (pix.isNull()) {
-                            pix = createInvalidPixmap(url);
-                            m_missingElements++;
+                            pix = createInvalidPixmap(url, height);
+                            missingElements++;
                             missing = true;
                         }
                     } else {
@@ -550,7 +588,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                     if (missing) {
                         rec->setData(Qt::UserRole + 2, 1);
                     }
-                    m_scene->addItem(rec);
+                    gitems.append(rec);
                     rec->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                     rec->setData(Qt::UserRole, url);
                     if (!base64.isEmpty()) {
@@ -573,18 +611,18 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                         // QRectF bounds = renderer->boundsOnElement(elem);
                     }
                     if (rec) {
-                        m_scene->addItem(rec);
+                        gitems.append(rec);
                         rec->setData(Qt::UserRole, url);
                         if (!base64.isEmpty()) {
                             rec->setData(Qt::UserRole + 1, base64);
                         }
                         gitem = rec;
                     } else {
-                        QPixmap pix = createInvalidPixmap(url);
-                        m_missingElements++;
+                        QPixmap pix = createInvalidPixmap(url, height);
+                        missingElements++;
                         auto *rec2 = new MyPixmapItem(pix);
                         rec2->setData(Qt::UserRole + 2, 1);
-                        m_scene->addItem(rec2);
+                        gitems.append(rec2);
                         rec2->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
                         rec2->setData(Qt::UserRole, url);
                         gitem = rec2;
@@ -632,8 +670,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
-                QList<QGraphicsItem *> sceneItems = m_scene->items();
-                for (auto sceneItem : qAsConst(sceneItems)) {
+                for (auto sceneItem : qAsConst(gitems)) {
                     if ((int)sceneItem->zValue() == -1100) {
                         static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
                         break;
@@ -660,9 +697,9 @@ int TitleDocument::invalidCount() const
     return m_missingElements;
 }
 
-QPixmap TitleDocument::createInvalidPixmap(const QString &url)
+QPixmap TitleDocument::createInvalidPixmap(const QString &url, int height)
 {
-    int missingHeight = m_height / 10;
+    int missingHeight = height / 10;
     QPixmap pix(missingHeight, missingHeight);
     QIcon icon = QIcon::fromTheme(QStringLiteral("messagebox_warning"));
     pix.fill(QColor(255, 0, 0, 50));

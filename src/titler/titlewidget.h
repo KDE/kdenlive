@@ -14,6 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   Modifications by Rafał Lalik to implement Patterns mechanism          *
+ *                                                                         *
+ ***************************************************************************/
 
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
@@ -26,6 +31,9 @@
 
 #include <QMap>
 #include <QSignalMapper>
+#include <QModelIndex>
+
+class PatternsModel;
 
 class Monitor;
 class KMessageWidget;
@@ -152,6 +160,8 @@ private:
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
 
+    PatternsModel *m_patternsModel;
+
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 
     /** @brief Sets the font weight value in the combo box. (#909) */
@@ -230,6 +240,13 @@ private:
     /** Open title download dialog */
     void downloadTitleTemplates();
     int getNewStuff(const QString &configFile);
+
+    /** @brief Read patterns from config file
+     */
+    void readPatterns();
+    /** @brief Write patterns to config file
+     */
+    void writePatterns();
 
 public slots:
     void slotNewText(MyTextItem *tt);
@@ -372,8 +389,20 @@ private slots:
     /** @brief List missing items from the scene. */
     void showMissingItems();
 
+    // slots for patterns list
+
+    /** @brief When scale slider is changed. */
+    void slotPatternsTileWidth(int width);
+    /** @brief Pattern in the list double clicked. */
+    void slotPatternDblClicked(const QModelIndex & idx);
+    /** @brief Pattern add button clicked. */
+    void slotPatternBtnAddClicked();
+    /** @brief Pattern remove button clicked. */
+    void slotPatternBtnRemoveClicked();
+
 signals:
     void requestBackgroundFrame(bool request);
+    void updatePatternsBackgroundFrame();
 };
 
 #endif

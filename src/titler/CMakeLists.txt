@@ -5,5 +5,6 @@ set(kdenlive_SRCS
   titler/gradientwidget.cpp
   titler/graphicsscenerectmove.cpp
   titler/unicodedialog.cpp
+  titler/patternsmodel.cpp
   PARENT_SCOPE)
 

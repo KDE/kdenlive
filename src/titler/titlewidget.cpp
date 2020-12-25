@@ -14,6 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   Modifications by Rafał Lalik to implement Patterns mechanism          *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "titlewidget.h"
 #include "core.h"
@@ -22,6 +27,8 @@
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "titler/patternsmodel.h"
+#include "profiles/profilemodel.hpp"
 
 #include <cmath>
 
@@ -567,6 +574,43 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     });
     refreshTitleTemplates(m_projectTitlePath);
 
+    // patterns
+
+    m_patternsModel = new PatternsModel(this);
+    m_patternsModel->setBackgroundPixmap(m_frameImage);
+    connect(this, &TitleWidget::updatePatternsBackgroundFrame, m_patternsModel, &PatternsModel::repaintScenes);
+
+    connect(scaleSlider, &QSlider::valueChanged, this, &TitleWidget::slotPatternsTileWidth);
+    connect(patternsList, &QListView::doubleClicked, this, &TitleWidget::slotPatternDblClicked);
+
+    connect(btn_add, &QToolButton::clicked, this, &TitleWidget::slotPatternBtnAddClicked);
+    connect(btn_remove, &QToolButton::clicked, this, &TitleWidget::slotPatternBtnRemoveClicked);
+    connect(btn_removeAll, &QToolButton::clicked, this, 
+            [&] () {
+                m_patternsModel->removeAll();
+                btn_remove->setEnabled(false);
+                btn_removeAll->setEnabled(false);
+            });
+
+    scaleSlider->setRange(6, 16);
+    patternsList->setModel(m_patternsModel);
+    connect(patternsList->selectionModel(), &QItemSelectionModel::currentChanged, this, [&] (const QModelIndex& cur, const QModelIndex& prev) {
+        btn_remove->setEnabled(cur != prev && cur.isValid());
+    });
+
+    btn_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    btn_remove->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    btn_removeAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+
+    btn_add->setToolTip(i18n("Add pattern"));
+    btn_remove->setToolTip(i18n("Delete pattern"));
+    btn_removeAll->setToolTip(i18n("Delete all patterns"));
+
+    btn_add->setEnabled(false);
+    btn_remove->setEnabled(false);
+
+    readPatterns();
+
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
     m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
@@ -574,6 +618,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
 
 TitleWidget::~TitleWidget()
 {
+    writePatterns();
+    delete m_patternsModel;
+
     m_scene->blockSignals(true);
     delete m_buttonRect;
     delete m_buttonText;
@@ -744,6 +791,7 @@ void TitleWidget::slotSelectTool()
             break;
         }
     }
+    btn_add->setEnabled(!l.isEmpty());
 
     enableToolbars(t);
     if (t == TITLE_RECTANGLE && (l.at(0) == m_endViewport || l.at(0) == m_startViewport)) {
@@ -897,6 +945,7 @@ void TitleWidget::displayBackgroundFrame()
                 m_frameImage->setPixmap(bg);
             }
         }
+        emit updatePatternsBackgroundFrame();
     } else {
         emit requestBackgroundFrame(true);
     }
@@ -907,6 +956,7 @@ void TitleWidget::slotGotBackground(const QImage &img)
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
     emit requestBackgroundFrame(false);
+    emit updatePatternsBackgroundFrame();
 }
 
 void TitleWidget::initAnimation()
@@ -1067,6 +1117,7 @@ void TitleWidget::setFontBoxWeight(int weight)
 void TitleWidget::setCurrentItem(QGraphicsItem *item)
 {
     m_scene->setSelectedItem(item);
+    btn_add->setEnabled(item != nullptr);
 }
 
 void TitleWidget::zIndexChanged(int v)
@@ -3203,4 +3254,89 @@ void TitleWidget::guideColorChanged(const QColor &col)
         QPen framePen(guideCol);
         it->setPen(framePen);
     }
+}
+
+void TitleWidget::slotPatternsTileWidth(int width)
+{
+    int w = width * pCore->getCurrentProfile()->display_aspect_num();
+    int h = width * pCore->getCurrentProfile()->display_aspect_den();
+    m_patternsModel->setTileSize(QSize(w, h));
+    patternsList->setGridSize(QSize(w+4, h+4));
+    m_patternsModel->repaintScenes();
+}
+
+void TitleWidget::slotPatternDblClicked(const QModelIndex& idx)
+{
+    if (!idx.isValid()) return;
+
+    QString data = m_patternsModel->data(idx, Qt::UserRole).toString();
+
+    QDomDocument doc;
+    doc.setContent(data);
+
+    QList<QGraphicsItem *> items;
+    int width, height, duration, missing;
+    TitleDocument::loadFromXml(doc, items, width, height, nullptr, nullptr, &duration, missing);
+
+    for (QGraphicsItem *item : qAsConst(items)) {
+        item->setZValue(m_count++);
+        updateAxisButtons(item);
+        prepareTools(item);
+        m_scene->addNewItem(item);
+    }
+    m_scene->clearSelection();
+    for (QGraphicsItem *item : qAsConst(items)) {
+        item->setSelected(true);
+    }
+}
+
+void TitleWidget::slotPatternBtnAddClicked()
+{
+    QDomDocument doc = TitleDocument::xml(graphicsView->scene()->selectedItems(), m_frameWidth, m_frameHeight, nullptr, nullptr, false);
+
+    m_patternsModel->addScene(doc.toString());
+    btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);
+}
+
+void TitleWidget::slotPatternBtnRemoveClicked()
+{
+    QModelIndexList items =  patternsList->selectionModel()->selectedIndexes();
+    std::sort(items.begin(), items.end());
+    std::reverse(items.begin(), items.end());
+    for (auto idx : items) {
+        m_patternsModel->removeScene(idx);
+    }
+    btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);
+}
+
+void TitleWidget::readPatterns()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup titleConfig(config, "TitlePatterns");
+
+    // Read the entries
+    scaleSlider->setValue(titleConfig.readEntry("scale_factor", scaleSlider->minimum()));
+    m_patternsModel->deserialize(titleConfig.readEntry("patterns", QByteArray()));
+
+    btn_remove->setEnabled(false);
+    btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);
+}
+
+void TitleWidget::writePatterns()
+{
+
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup titleConfig(config, "TitlePatterns");
+
+    int sf = titleConfig.readEntry("scale_factor", scaleSlider->minimum());
+
+    // check whether the model was updated or scale slider differs
+    if ((!m_patternsModel->getModifiedCounter()) && (sf == scaleSlider->value())) return;
+
+    // Write the entries
+    titleConfig.writeEntry("scale_factor", scaleSlider->value());
+    QByteArray ba = m_patternsModel->serialize();
+    titleConfig.writeEntry("patterns", ba);
+
+    config->sync();
 }

@@ -643,7 +643,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>344</width>
+                    <width>396</width>
                     <height>433</height>
                    </rect>
                   </property>
@@ -1339,6 +1339,77 @@
               </size>
              </property>
             </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_4">
+          <attribute name="title">
+           <string>Patterns</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QListView" name="patternsList">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="spacing">
+              <number>4</number>
+             </property>
+             <property name="viewMode">
+              <enum>QListView::IconMode</enum>
+             </property>
+             <property name="uniformItemSizes">
+              <bool>true</bool>
+             </property>
+             <property name="itemAlignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QToolButton" name="btn_add">
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btn_remove">
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btn_removeAll">
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSlider" name="scaleSlider">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
