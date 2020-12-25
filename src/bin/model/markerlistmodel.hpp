@@ -90,6 +90,16 @@ public:
     */
     bool editMarker(GenTime oldPos, GenTime pos, QString comment = QString(), int type = -1);
 
+    /* @brief Moves all markers from on to another position
+       @param markers list of markers to move
+       @param fromPos
+       @param toPos
+       @param undo
+       @param redo
+    */
+    bool moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
+
+
     /* @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 5> markerTypes;
 
@@ -98,6 +108,12 @@ public:
 
     /* @brief Returns all markers in model */
     QList<CommentedTime> getAllMarkers() const;
+
+    /* @brief Returns all markers of model that are intersect with a given range.
+     * @param start is the position where start to search for markers
+     * @param end is the position after which markers will not be returned, set to -1 to get all markers after start
+    */
+    QList<CommentedTime> getMarkersInRange(int start, int end) const;
 
     /* @brief Returns all markers positions in model */
     std::vector<int> getSnapPoints() const;

@@ -197,6 +197,32 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     return res;
 }
 
+bool MarkerListModel::moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+
+    if(markers.length() <= 0) {
+        return false;
+    }
+
+    bool res = false;
+    for (const auto &marker : markers) {
+
+        GenTime oldPos = marker.time();
+        QString oldComment = marker.comment();
+        int oldType = marker.markerType();
+        GenTime newPos = oldPos.operator+(toPos.operator-(fromPos));
+
+        res = removeMarker(oldPos, undo, redo);
+        if (res) {
+            res = addMarker(newPos, oldComment, oldType, undo, redo);
+        } else {
+            break;
+        }
+    }
+    return res;
+}
+
 Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);
@@ -353,6 +379,20 @@ QList<CommentedTime> MarkerListModel::getAllMarkers() const
     for (const auto &marker : m_markerList) {
         CommentedTime t(marker.first, marker.second.first, marker.second.second);
         markers << t;
+    }
+    return markers;
+}
+
+QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) const
+{
+    READ_LOCK();
+    QList<CommentedTime> markers;
+    for (const auto &marker : m_markerList) {
+        int pos = marker.first.frames(pCore->getCurrentFps());
+        if(pos > start && (end == -1 || pos < end)) {
+            CommentedTime t(marker.first, marker.second.first, marker.second.second);
+            markers << t;
+        }
     }
     return markers;
 }

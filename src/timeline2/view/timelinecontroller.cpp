@@ -1073,6 +1073,33 @@ void TimelineController::moveGuide(int frame, int newFrame)
     guideModel->editMarker(pos, newPos);
 }
 
+bool TimelineController::moveGuidesInRange(int start, int end, int offset)
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool final = false;
+    final = moveGuidesInRange(start, end, offset, undo, redo);
+    if (final) {
+        if (offset > 0) {
+            pCore->pushUndo(undo, redo, i18n("Insert space"));
+        } else {
+            pCore->pushUndo(undo, redo, i18n("Remove space"));
+        }
+        return true;
+    } else {
+        undo();
+    }
+    return false;
+}
+
+bool TimelineController::moveGuidesInRange(int start, int end, int offset, Fun &undo, Fun &redo)
+{
+    GenTime fromPos(start, pCore->getCurrentFps());
+    GenTime toPos(start + offset, pCore->getCurrentFps());
+    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getMarkersInRange(start, end);
+    return pCore->projectManager()->current()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+}
+
 void TimelineController::switchGuide(int frame, bool deleteOnly)
 {
     bool markerFound = false;
@@ -1505,10 +1532,17 @@ int TimelineController::requestSpacerStartOperation(int trackId, int position)
     return itemId;
 }
 
-bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack)
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart)
 {
     QMutexLocker lk(&m_metaMutex);
-    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack);
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    if(guideStart > -1) {
+        moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
+    }
+
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, undo, redo);
     return result;
 }
 

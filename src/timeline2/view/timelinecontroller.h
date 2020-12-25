@@ -299,6 +299,21 @@ public:
      */
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuide(int frame, int newFrame);
+    /* @brief Move all guides in the given range
+     * @param start the start point of the range in frames
+     * @param end the end point of the range in frames
+     * @param offset how many frames the guides are moved
+     */
+    Q_INVOKABLE bool moveGuidesInRange(int start, int end, int offset);
+    /* @brief Move all guides in the given range (same as above but with undo/redo)
+     * @param start the start point of the range in frames
+     * @param end the end point of the range in frames
+     * @param offset how many frames the guides are moved
+     * @param undo
+     * @param redo
+     */
+    Q_INVOKABLE bool moveGuidesInRange(int start, int end, int offset, Fun &undo, Fun &redo);
+
     /* @brief Add a timeline guide
      */
     Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
@@ -373,7 +388,7 @@ public:
     Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
     /* @brief Request a spacer operation
      */
-    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack);
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart = -1);
     /* @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);

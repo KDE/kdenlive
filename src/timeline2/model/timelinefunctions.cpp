@@ -325,7 +325,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, Fun &undo, Fun &redo)
 {
     // Move group back to original position
     int track = timeline->getItemTrackId(itemId);
@@ -338,9 +338,6 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         timeline->requestSubtitleMove(itemId, startPosition, false, false);
     }
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
-    // Start undoable command
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     int mainGroup = timeline->m_groups->getRootId(itemId);
     bool final = false;
     bool liftOk = true;
@@ -1818,7 +1815,10 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
         return false;
     }
     int start = timeline->getItemPosition(cid);
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId);
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, undo, redo);
     return true;
 }
 
