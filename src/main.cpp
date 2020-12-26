@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2020 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
+                         i18n("Copyright © 2007–2021 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
