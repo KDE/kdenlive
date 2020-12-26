@@ -661,17 +661,40 @@ int ProjectClip::getRecordTime()
         }
         QDomDocument doc;
         doc.setContent(extractInfo.readAllStandardOutput());
-        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
+        bool dateFormat = false;
+        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
+        if (nodes.isEmpty()) {
+            nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
+            dateFormat = true;
+        }
         if (!nodes.isEmpty()) {
-            QString recDate = nodes.at(0).toElement().text();
-            if (!recDate.isEmpty()) {
-                if (recDate.contains(QLatin1Char('+'))) {
-                    recDate = recDate.section(QLatin1Char('+'), 0, 0);
-                } else if (recDate.contains(QLatin1Char('-'))) {
-                    recDate = recDate.section(QLatin1Char('-'), 0, 0);
+            // Parse recorded time (HH:MM:SS)
+            QString recInfo = nodes.at(0).toElement().text();
+            if (!recInfo.isEmpty()) {
+                if (dateFormat) {
+                    if (recInfo.contains(QLatin1Char('+'))) {
+                        recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
+                    } else if (recInfo.contains(QLatin1Char('-'))) {
+                        recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
+                    }
+                    QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
+                    recTime = date.time().msecsSinceStartOfDay();
+                } else {
+                    // Timecode Format HH:MM:SS:FF
+                    // Check if we have a different fps
+                    double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
+                    if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
+                        // Producer and project have a different fps
+                        bool ok;
+                        int frames = recInfo.section(QLatin1Char(':'), -1).toInt(&ok);
+                        if (ok) {
+                            frames *= pCore->getCurrentFps() / producerFps;
+                            recInfo.chop(2);
+                            recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
+                        }
+                    }
+                    recTime = 1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps();
                 }
-                QDateTime date = QDateTime::fromString(recDate, "yyyy-MM-dd hh:mm:ss");
-                recTime = date.time().msecsSinceStartOfDay();
                 m_masterProducer->set("kdenlive:record_date", recTime);
                 return recTime;
             }
