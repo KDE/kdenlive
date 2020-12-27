@@ -12,7 +12,7 @@
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
   <profile name="AV1 - patent-free" extension="webm"
    qualities="15,20,45" defaultquality="30"
-   args="f=webm acodec=libopus ar=48000 ab=128k vcodec=libaom-av1 vb=0 crf=%quality row-mt=1 tile-columns=2 tile-rows=1 cpu-used=4"/>
+   args="f=webm acodec=libopus ar=48000 ab=128k vcodec=libaom-av1 vb=0 crf=%quality row-mt=1 tile-columns=2 tile-rows=1 cpu-used=4 strict=experimental"/>
   <profile name="MPEG-2" extension="mpg"
    qualities="3,15" defaultquality="5"
    audioqualities="3,7" defaultaudioquality="3"
