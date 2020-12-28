@@ -303,6 +303,7 @@
       <caption xml:lang="ko">Kdenlive 타임라인</caption>
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
       <caption xml:lang="nn">Tidslinje i Kdenlive</caption>
+      <caption xml:lang="pl">Oś czasu Kdenlive</caption>
       <caption xml:lang="pt">Linha Temporal do Kdenlive</caption>
       <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
       <caption xml:lang="ru">Монтажный стол Kdenlive</caption>
@@ -333,6 +334,7 @@
       <caption xml:lang="ko">Kdenlive 오디오 조정</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="nn">Lysjustering i Kdenlive</caption>
+      <caption xml:lang="pl">Dostosowanie dźwięku Kdenlive</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
       <caption xml:lang="ru">Настройка звука Kdenlive</caption>
@@ -363,6 +365,7 @@
       <caption xml:lang="ko">Kdenlive 효과</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="nn">Kdenlive-effektar</caption>
+      <caption xml:lang="pl">Efekty Kdenlive</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
       <caption xml:lang="ru">Эффекты Kdenlive</caption>
