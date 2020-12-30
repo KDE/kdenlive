@@ -2889,8 +2889,8 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int offset = getItemPlaytime(itemId);
     int tid = getItemTrackId(itemId);
     int out = offset;
-    if (tid != -1) {
-        in = getItemPosition(itemId);
+    if (tid != -1 || isComposition(itemId)) {
+        in = qMax(0, getItemPosition(itemId));
         out += in;
         size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
     }
@@ -3090,11 +3090,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             continue;
         }
         if (right) {
-            finalSize = finalPos - getItemPosition(id);
+            finalSize = finalPos - qMax(0, getItemPosition(id));
         } else {
-            finalSize = getItemPosition(id) + getItemPlaytime(id) - finalPos;
+            finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
         }
-        
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
         resizedCount++;
     }
