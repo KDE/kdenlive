@@ -249,7 +249,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(QString layout, const Q
         visibleName = suggestedName;
     }
 
-    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Import Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
+    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
     if (layoutName.isEmpty()) {
         return {nullptr, nullptr};
     }
@@ -266,7 +266,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(QString layout, const Q
     KConfigGroup order(config, "Order");
 
     if (layouts.hasKey(saveName)) {
-        // Layout already exist
+        // Layout already exists
         int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
         if(res != KMessageBox::ButtonCode::Yes) {
             return {nullptr, nullptr};
@@ -288,42 +288,13 @@ void LayoutManagement::slotSaveLayout()
     if (button) {
         saveName = button->text();
     }
-    /*QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
-    if (layoutName.isEmpty()) {
-        return;
-    }
-    if (saveName == layoutName) {
-        // No rename, check button id
-        if (button && button->property("layoutid").toString() != saveName) {
-            // This is a default layout, save under id
-            layoutName = button->property("layoutid").toString();
-        }
-    }
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
-    KConfigGroup layouts(config, "Layouts");
-    KConfigGroup order(config, "Order");
-
-    if (layouts.hasKey(layoutName)) {
-        // Layout already exist
-        int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
-        if(res != KMessageBox::ButtonCode::Yes) {
-            return;
-        }
-    }*/
 
     QByteArray st = pCore->window()->saveState();
     if (!pCore->window()->timelineVisible()) {
         st.prepend("NO-TL");
     }
     std::pair<QString, QString> names = saveLayout(st.toBase64(), saveName);
-    /*layouts.writeEntry(layoutName, st.toBase64());
-    if (!order.entryMap().values().contains(layoutName)) {
-        int pos = order.keyList().last().toInt() + 1;
-        order.writeEntry(QString::number(pos), layoutName);
-    }
-    
-    config->reparseConfiguration();
-    initializeLayouts();*/
+
     // Activate layout button
     if(names.first != nullptr) {
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
@@ -473,46 +444,6 @@ void LayoutManagement::slotManageLayouts()
         QFileInfo fileInfo(url);
         QString suggestedName(fileInfo.baseName());
 
-        /*QString visibleName;
-        if (translatedLayoutNames.contains(suggestedName)) {
-            visibleName = translatedLayoutNames.value(suggestedName);
-        } else {
-            visibleName = suggestedName;
-        }
-
-        QString layoutName = QInputDialog::getText(pCore->window(), i18n("Import Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
-        if (layoutName.isEmpty()) {
-            return;
-        }
-
-        QString saveName;
-        if (translatedLayoutNames.values().contains(layoutName)) {
-            qDebug() << "Yes it contains";
-            saveName = translatedLayoutNames.key(layoutName);
-        } else {
-            saveName = layoutName;
-        }
-
-        KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
-        KConfigGroup layouts(config, "Layouts");
-        KConfigGroup order(config, "Order");
-
-        qDebug() << saveName;
-
-        if (layouts.hasKey(saveName)) {
-            // Layout already exist
-            int res = KMessageBox::questionYesNo(&d, i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
-            if(res != KMessageBox::ButtonCode::Yes) {
-                return;
-            }
-        }
-
-        layouts.writeEntry(saveName, state);
-        if (!order.entryMap().values().contains(saveName)) {
-            int pos = order.keyList().last().toInt() + 1;
-            order.writeEntry(QString::number(pos), saveName);
-        }*/
-
         std::pair<QString, QString> names = saveLayout(state, suggestedName);
 
         if(names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
@@ -520,9 +451,6 @@ void LayoutManagement::slotManageLayouts()
                 item->setData(Qt::UserRole, names.second);
                 item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             }
-
-            /*config->reparseConfiguration();
-            initializeLayouts();*/
     });
     l2->addWidget(&tb5);
 
