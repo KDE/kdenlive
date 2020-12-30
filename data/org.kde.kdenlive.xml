@@ -45,4 +45,11 @@
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kdenlivetitle"/>
   </mime-type>
+  <mime-type type="application/kdenlivelayout">
+    <comment>Kdenlive application layout</comment>
+    <comment xml:lang="en_GB">Kdenlive application layout</comment>
+    <comment xml:lang="de">Kdenlive Programmlayout</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.kdenlivelayout"/>
+  </mime-type>
 </mime-info>

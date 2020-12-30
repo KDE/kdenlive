@@ -19,6 +19,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QListWidget>
 #include <QMenuBar>
 #include <QButtonGroup>
+#include <KMessageBox>
+#include <QFileDialog>
 
 #include <KConfigGroup>
 #include <KColorScheme>
@@ -237,6 +239,47 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     return true;
 }
 
+std::pair<QString, QString> LayoutManagement::saveLayout(QString layout, const QString suggestedName) {
+
+    QString visibleName;
+    if (translatedLayoutNames.contains(suggestedName)) {
+        visibleName = translatedLayoutNames.value(suggestedName);
+    } else {
+        visibleName = suggestedName;
+    }
+
+    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Import Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
+    if (layoutName.isEmpty()) {
+        return {nullptr, nullptr};
+    }
+
+    QString saveName;
+    if (translatedLayoutNames.values().contains(layoutName)) {
+        saveName = translatedLayoutNames.key(layoutName);
+    } else {
+        saveName = layoutName;
+    }
+
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+    KConfigGroup layouts(config, "Layouts");
+    KConfigGroup order(config, "Order");
+
+    if (layouts.hasKey(saveName)) {
+        // Layout already exist
+        int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
+        if(res != KMessageBox::ButtonCode::Yes) {
+            return {nullptr, nullptr};
+        }
+    }
+
+    layouts.writeEntry(saveName, layout);
+    if (!order.entryMap().values().contains(saveName)) {
+        int pos = order.keyList().last().toInt() + 1;
+        order.writeEntry(QString::number(pos), saveName);
+    }
+    return {layoutName, saveName};
+}
+
 void LayoutManagement::slotSaveLayout()
 {
     QAbstractButton *button = m_containerGrp->checkedButton();
@@ -244,7 +287,7 @@ void LayoutManagement::slotSaveLayout()
     if (button) {
         saveName = button->text();
     }
-    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
+    /*QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
     if (layoutName.isEmpty()) {
         return;
     }
@@ -259,26 +302,38 @@ void LayoutManagement::slotSaveLayout()
     KConfigGroup layouts(config, "Layouts");
     KConfigGroup order(config, "Order");
 
+    if (layouts.hasKey(layoutName)) {
+        // Layout already exist
+        int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
+        if(res != KMessageBox::ButtonCode::Yes) {
+            return;
+        }
+    }*/
+
     QByteArray st = pCore->window()->saveState();
     if (!pCore->window()->timelineVisible()) {
         st.prepend("NO-TL");
     }
-    layouts.writeEntry(layoutName, st.toBase64());
+    std::pair<QString, QString> names = saveLayout(st.toBase64(), saveName);
+    /*layouts.writeEntry(layoutName, st.toBase64());
     if (!order.entryMap().values().contains(layoutName)) {
         int pos = order.keyList().last().toInt() + 1;
         order.writeEntry(QString::number(pos), layoutName);
     }
     
     config->reparseConfiguration();
-    initializeLayouts();
+    initializeLayouts();*/
     // Activate layout button
-    QList<QAbstractButton *>buttons = m_containerGrp->buttons();
-    for (auto *button : buttons) {
-        if (button->text() == layoutName) {
-            QSignalBlocker bk(m_containerGrp);
-            button->setChecked(true);
+    if(names.first != nullptr) {
+        QList<QAbstractButton *>buttons = m_containerGrp->buttons();
+        for (auto *button : buttons) {
+            if (button->text() == names.first) {
+                QSignalBlocker bk(m_containerGrp);
+                button->setChecked(true);
+            }
         }
     }
+
 }
 
 void LayoutManagement::slotManageLayouts()
@@ -327,7 +382,7 @@ void LayoutManagement::slotManageLayouts()
     });
     l2->addWidget(&tb2);
 
-     // Down button
+    // Down button
     QToolButton tb3(&d);
     tb3.setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     tb3.setAutoRaise(true);
@@ -385,7 +440,142 @@ void LayoutManagement::slotManageLayouts()
         }
     });
     l2->addWidget(&tb4);
-    
+
+    // Import button
+    QToolButton tb5(&d);
+    tb5.setIcon(QIcon::fromTheme(QStringLiteral("document-import")));
+    tb5.setAutoRaise(true);
+    tb5.setToolTip(i18n("Import"));
+    connect(&tb5, &QToolButton::clicked, [this, &d, &list](){
+        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18n("Load Layout")));
+        fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
+        fd->setFileMode(QFileDialog::ExistingFile);
+        if (fd->exec() != QDialog::Accepted) {
+            return;
+        }
+        QStringList selection = fd->selectedFiles();
+        QString url;
+        if (!selection.isEmpty()) {
+            url = selection.first();
+        }
+        if (url.isEmpty()) {
+            return;
+        }
+        QFile file(url);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            KMessageBox::error(&d, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
+            return;
+        }
+        QString state = QString::fromUtf8(file.readAll());
+        file.close();
+
+        QFileInfo fileInfo(url);
+        QString suggestedName(fileInfo.baseName());
+
+        /*QString visibleName;
+        if (translatedLayoutNames.contains(suggestedName)) {
+            visibleName = translatedLayoutNames.value(suggestedName);
+        } else {
+            visibleName = suggestedName;
+        }
+
+        QString layoutName = QInputDialog::getText(pCore->window(), i18n("Import Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
+        if (layoutName.isEmpty()) {
+            return;
+        }
+
+        QString saveName;
+        if (translatedLayoutNames.values().contains(layoutName)) {
+            qDebug() << "Yes it contains";
+            saveName = translatedLayoutNames.key(layoutName);
+        } else {
+            saveName = layoutName;
+        }
+
+        KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+        KConfigGroup layouts(config, "Layouts");
+        KConfigGroup order(config, "Order");
+
+        qDebug() << saveName;
+
+        if (layouts.hasKey(saveName)) {
+            // Layout already exist
+            int res = KMessageBox::questionYesNo(&d, i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
+            if(res != KMessageBox::ButtonCode::Yes) {
+                return;
+            }
+        }
+
+        layouts.writeEntry(saveName, state);
+        if (!order.entryMap().values().contains(saveName)) {
+            int pos = order.keyList().last().toInt() + 1;
+            order.writeEntry(QString::number(pos), saveName);
+        }*/
+
+        std::pair<QString, QString> names = saveLayout(state, suggestedName);
+
+        if(names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
+                QListWidgetItem *item = new QListWidgetItem(names.first, &list);
+                item->setData(Qt::UserRole, names.second);
+                item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            }
+
+            /*config->reparseConfiguration();
+            initializeLayouts();*/
+    });
+    l2->addWidget(&tb5);
+
+    // Export selected button
+    QToolButton tb6(&d);
+    tb6.setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
+    tb6.setAutoRaise(true);
+    tb6.setToolTip(i18n("Export selected"));
+    connect(&tb6, &QToolButton::clicked, [this, &d, &list](){
+
+        if (!list.currentItem()) {
+            // Error, no layout selected
+            KMessageBox::error(&d, i18n("No layout selected"));
+            return;
+        }
+
+        QListWidgetItem *item = list.item(list.currentRow());
+        QString layoutId = item->data(Qt::UserRole).toString();
+
+        KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+        KConfigGroup layouts(config, "Layouts");
+        if (!layouts.hasKey(layoutId)) {
+            // Error, layout not found
+            KMessageBox::error(&d, i18n("Cannot find layout %1", layoutId));
+            return;
+        }
+
+        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18n("Export Layout")));
+        fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
+        fd->selectFile(layoutId + ".kdenlivelayout");
+        fd->setDefaultSuffix(QStringLiteral("kdenlivelayout"));
+        fd->setFileMode(QFileDialog::AnyFile);
+        fd->setAcceptMode(QFileDialog::AcceptSave);
+        if (fd->exec() != QDialog::Accepted) {
+            return;
+        }
+        QStringList selection = fd->selectedFiles();
+        QString url;
+        if (!selection.isEmpty()) {
+            url = selection.first();
+        }
+        if (url.isEmpty()) {
+            return;
+        }
+        QFile file(url);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::error(&d, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
+            return;
+        }
+        file.write(layouts.readEntry(layoutId).toUtf8());
+        file.close();
+    });
+    l2->addWidget(&tb6);
+
     connect(&list, &QListWidget::currentRowChanged, [&list, &tb2, &tb3] (int row) {
         tb2.setEnabled(row > 0);
         tb3.setEnabled(row < list.count() - 1);

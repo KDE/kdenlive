@@ -40,6 +40,12 @@ private slots:
     void slotManageLayouts();
 
 private:
+    /** @brief Saves the given layout asking the user for a name.
+     * @param layout
+     * @param suggestedName name that is filled in to the save layout dialog
+     * @return names of the saved layout. First is the visible name, second the internal name (they are different if the layout is a default one)
+    */
+    std::pair<QString, QString> saveLayout(QString layout, QString suggestedName);
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
     QWidget *m_container;
