@@ -1196,7 +1196,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
             updateRoles << TimelineModel::ResourceRole;
-        } else {
+        } else if (!properties.contains("kdenlive:proxy")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
             resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
