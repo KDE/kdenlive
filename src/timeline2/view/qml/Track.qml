@@ -402,11 +402,9 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
-                        .arg(s)
-                        .arg(timeline.simplifiedTC(new_duration))
+                    s = i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                        , s, timeline.simplifiedTC(new_duration))
                     timeline.showToolTip(s)
-                    //bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedIn: {
@@ -422,11 +420,9 @@ Item{
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
-                        .arg(s)
-                        .arg(timeline.simplifiedTC(new_duration))
+                    s = i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
+                        , s, timeline.simplifiedTC(new_duration))
                     timeline.showToolTip(s)
-                    //bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
             onTrimmedOut: {

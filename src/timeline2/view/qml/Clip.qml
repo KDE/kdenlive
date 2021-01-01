@@ -174,7 +174,7 @@ Rectangle {
     
     function updateLabelOffset()
     {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
     border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -760,9 +760,7 @@ Rectangle {
                     // Clip name background
                     id: labelRect
                     color: clipRoot.selected ? 'darkred' : '#66000000'
-                    x: clipRoot.border.width
-                    y: 0
-                    width: label.width + 2 * clipRoot.border.width
+                    width: label.width + (2 * clipRoot.border.width)
                     height: label.height
                     visible: clipRoot.width > width / 2
                     Text {
