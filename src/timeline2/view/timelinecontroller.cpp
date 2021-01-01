@@ -3582,6 +3582,10 @@ void TimelineController::switchRecording(int trackId)
 
 void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
 {
+    if (droppedFile.isEmpty()) {
+        // Empty url passed, abort
+        return;
+    }
     m_recordTrack = tid;
     m_recordStart = {frame, -1};
     qDebug()<<"=== GOT DROPPED FILED: "<<droppedFile<<"\n======";
