@@ -79,7 +79,7 @@ public:
      * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static void build(bool isAppImage, const QString &MltPath = QString());
+    static bool build(bool isAppImage, const QString &MltPath = QString());
 
     /**
      * @brief Init the GUI part of the app and show the main window

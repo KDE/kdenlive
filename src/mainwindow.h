@@ -143,6 +143,9 @@ public:
 
     /** @brief Hide subtitle track */
     void resetSubtitles();
+    
+    /** @brief Restart the application and delete config files if clean is true */
+    void cleanRestart(bool clean);
 
 protected:
     /** @brief Closes the window.

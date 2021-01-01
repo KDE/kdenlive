@@ -36,6 +36,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCoreApplication>
 #include <QInputDialog>
 #include <QDir>
+#include <QLockFile>
 #include <QQuickStyle>
 #include <locale>
 #ifdef Q_OS_MAC
@@ -70,10 +71,10 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-void Core::build(bool isAppImage, const QString &MltPath)
+bool Core::build(bool isAppImage, const QString &MltPath)
 {
     if (m_self) {
-        return;
+        return true;
     }
     m_self.reset(new Core());
     m_self->initLocale();
@@ -89,6 +90,15 @@ void Core::build(bool isAppImage, const QString &MltPath)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
+    
+    // Check if we had a crash
+    QLockFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    if (!lockFile.tryLock()) {
+        // a previous instance crashed, propose to delete config files
+        if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes) {
+            return false;
+        }
+    }
 
     if (isAppImage) {
         QString appPath = qApp->applicationDirPath();
@@ -119,6 +129,7 @@ void Core::build(bool isAppImage, const QString &MltPath)
     m_self->m_projectItemModel = ProjectItemModel::construct();
     // Job manager must be created before bin to correctly connect
     m_self->m_jobManager.reset(new JobManager(m_self.get()));
+    return true;
 }
 
 void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
@@ -225,6 +236,10 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
+
+    // Release startup crash lock file
+    QLockFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.unlock();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)

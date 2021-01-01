@@ -254,13 +254,18 @@ int main(int argc, char *argv[])
         }
     }
     qApp->processEvents(QEventLoop::AllEvents);
-    Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
-    QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-    QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
-        splash.finish(pCore->window());
-    });
-    pCore->initGUI(url, clipsToLoad);
-    int result = app.exec();
+    int result = 0;
+    if (!Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")))) {
+        // App is crashing, delete config files and restart
+        result = EXIT_CLEAN_RESTART;
+    } else {
+        QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
+            splash.finish(pCore->window());
+        });
+        pCore->initGUI(url, clipsToLoad);
+        result = app.exec();
+    }
     Core::clean();
     if (result == EXIT_RESTART || result == EXIT_CLEAN_RESTART) {
         qCDebug(KDENLIVE_LOG) << "restarting app";

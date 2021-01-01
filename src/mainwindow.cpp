@@ -2450,6 +2450,11 @@ void MainWindow::slotRestart(bool clean)
             return;
         }
     }
+    cleanRestart(clean);
+}
+
+void MainWindow::cleanRestart(bool clean)
+{
     m_exitCode = clean ? EXIT_CLEAN_RESTART : EXIT_RESTART;
     QApplication::closeAllWindows();
 }
