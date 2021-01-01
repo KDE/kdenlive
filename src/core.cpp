@@ -36,7 +36,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCoreApplication>
 #include <QInputDialog>
 #include <QDir>
-#include <QLockFile>
 #include <QQuickStyle>
 #include <locale>
 #ifdef Q_OS_MAC
@@ -92,12 +91,17 @@ bool Core::build(bool isAppImage, const QString &MltPath)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     
     // Check if we had a crash
-    QLockFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    if (!lockFile.tryLock()) {
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    if (lockFile.exists()) {
         // a previous instance crashed, propose to delete config files
         if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes) {
             return false;
         }
+    } else {
+        // Create lock file
+        lockFile.open(QFile::WriteOnly);
+        lockFile.write(QByteArray());
+        lockFile.close();
     }
 
     if (isAppImage) {
@@ -238,8 +242,8 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 
     // Release startup crash lock file
-    QLockFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    lockFile.unlock();
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
