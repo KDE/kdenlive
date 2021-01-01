@@ -2482,10 +2482,13 @@ void TimelineController::setAudioRef(int clipId)
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, this, [&](int cid, int shift) {
-        int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
-        bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true, true);
-        if (!result) {
-            pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
+        // Ensure the clip was not deleted while processing calculations
+        if (m_model->isClip(cid)) {
+            int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
+            bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true, true);
+            if (!result) {
+                pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
+            }
         }
     });
     connect(m_audioCorrelator.get(), &AudioCorrelation::displayMessage, pCore.get(), &Core::displayMessage);
