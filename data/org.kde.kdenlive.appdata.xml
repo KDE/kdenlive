@@ -262,7 +262,7 @@
       <li xml:lang="tr">Temel DVD Sihirbazı</li>
       <li xml:lang="uk">Базовий майстер створення DVD.</li>
       <li xml:lang="x-test">xxBasic DVD Wizardxx</li>
-      <li xml:lang="zh-CN">基础 DVD 向导</li>
+      <li xml:lang="zh-CN">简易 DVD 向导</li>
       <li xml:lang="zh-TW">基本 DVD 精靈</li>
     </ul>
   </description>
@@ -312,7 +312,7 @@
       <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Timelinexx</caption>
-      <caption xml:lang="zh-CN">Kdenlive 时间线</caption>
+      <caption xml:lang="zh-CN">Kdenlive 时间轴</caption>
       <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
