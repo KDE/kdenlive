@@ -36,7 +36,7 @@
 #include <memory>
 #include <mlt++/Mlt.h>
 StabilizeJob::StabilizeJob(const QString &binId, const QString &filterName, QString destUrl, std::unordered_map<QString, QString> filterParams)
-    : MeltJob(binId, STABILIZEJOB, false, -1, -1)
+    : MeltJob(binId, {ObjectType::BinClip, binId.toInt()}, STABILIZEJOB, false, -1, -1)
     , m_filterName(filterName)
     , m_destUrl(std::move(destUrl))
     , m_filterParams(std::move(filterParams))

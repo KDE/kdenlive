@@ -393,6 +393,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
                 tr.set("b_track", i);
                 tr.set("always_active", 1);
                 tr.set("sum", 1);
+                tr.set("accepts_blanks", 1);
                 tr.set("internal_added", 237);
                 field->plant_transition(tr, 0, i);
             }

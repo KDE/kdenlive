@@ -2489,6 +2489,9 @@ void TimelineController::setAudioRef(int clipId)
             if (!result) {
                 pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
             }
+        } else {
+            // Clip was deleted, discard audio reference
+            m_audioRef = -1;
         }
     });
     connect(m_audioCorrelator.get(), &AudioCorrelation::displayMessage, pCore.get(), &Core::displayMessage);
@@ -2504,7 +2507,7 @@ void TimelineController::alignAudio(int clipId)
             return;
         }
     }
-    if (m_audioRef == -1 || m_audioRef == clipId) {
+    if (m_audioRef == -1 || m_audioRef == clipId || !m_model->isClip(m_audioRef)) {
         pCore->displayMessage(i18n("Set audio reference before attempting to align"), InformationMessage, 500);
         return;
     }

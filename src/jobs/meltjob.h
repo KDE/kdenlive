@@ -50,7 +50,7 @@ public:
         if useProducerProfile == true, the profile used will be the one of the producer
         in and out represent the portion of the clip we deal with. Leave to -1 for default (whole clip)
      */
-    MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile = false, int in = -1, int out = -1);
+    MeltJob(const QString &binId, const ObjectId &owner, JOBTYPE type, bool useProducerProfile = false, int in = -1, int out = -1);
     bool startJob() override;
 
     int length;

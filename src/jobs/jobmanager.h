@@ -143,7 +143,7 @@ protected:
 
 public slots:
     /** @brief Discard jobs running on a given clip */
-    void slotDiscardClipJobs(const QString &binId);
+    void slotDiscardClipJobs(const QString &binId, const ObjectId &owner = {ObjectType::NoItem,-1});
     /** @brief Discard all running jobs. */
     void slotCancelJobs();
     /** @brief Discard all pending jobs. */

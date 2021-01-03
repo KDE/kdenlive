@@ -181,16 +181,23 @@ void JobManager::prepareJobs(const QList<ProjectClip *> &clips, double fps, Abst
 }
 */
 
-void JobManager::slotDiscardClipJobs(const QString &binId)
+void JobManager::slotDiscardClipJobs(const QString &binId, const ObjectId &owner)
 {
     QWriteLocker locker(&m_lock);
     if (m_jobsByClip.count(binId) > 0) {
         for (int jobId : m_jobsByClip.at(binId)) {
             Q_ASSERT(m_jobs.count(jobId) > 0);
+            bool abortJob = true;
             for (const std::shared_ptr<AbstractClipJob> &job : m_jobs.at(jobId)->m_job) {
+                if (owner.first != ObjectType::NoItem && job->owner() != owner) {
+                    abortJob = false;
+                    break;
+                }
                 emit job->jobCanceled();
             }
-            m_jobs[jobId]->m_future.cancel();
+            if (abortJob) {
+                m_jobs[jobId]->m_future.cancel();
+            }
         }
     }
 }

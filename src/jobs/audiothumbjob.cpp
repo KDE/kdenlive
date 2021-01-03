@@ -38,7 +38,7 @@
 #include <mlt++/MltProducer.h>
 
 AudioThumbJob::AudioThumbJob(const QString &binId)
-    : AbstractClipJob(AUDIOTHUMBJOB, binId)
+    : AbstractClipJob(AUDIOTHUMBJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_ffmpegProcess(nullptr)
 {
 }

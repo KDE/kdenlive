@@ -53,7 +53,7 @@ public:
         SPEEDJOB = 10,
         CACHEJOB = 11
     };
-    AbstractClipJob(JOBTYPE type, QString id, QObject *parent = nullptr);
+    AbstractClipJob(JOBTYPE type, QString id, const ObjectId &owner, QObject *parent = nullptr);
     ~AbstractClipJob() override;
 
     template <typename T, typename... Args> static std::shared_ptr<T> make(const QString &binId, Args &&... args)
@@ -82,6 +82,9 @@ public:
     /* @brief return the type of this job */
     JOBTYPE jobType() const;
 
+    /* @brief return the owner of this job */
+    const ObjectId owner();
+
 protected:
     QString m_clipId;
     QString m_errorMessage;
@@ -90,6 +93,7 @@ protected:
     JOBTYPE m_jobType;
     int m_inPoint;
     int m_outPoint;
+    const ObjectId m_owner;
     bool m_resultConsumed{false};
 
 signals:

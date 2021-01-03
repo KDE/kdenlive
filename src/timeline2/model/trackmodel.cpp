@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include "logger.hpp"
 #include "snapmodel.hpp"
+#include "jobs/jobmanager.h"
 #include "timelinemodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
@@ -430,6 +431,9 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     int old_position = old_clip->getPosition();
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     int duration = trackDuration();
+    if (finalDeletion) {
+        pCore->jobManager()->slotDiscardClipJobs(m_allClips[clipId]->binId(), {ObjectType::TimelineClip,clipId});
+    }
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {
         if (finalMove && duration != trackDuration()) {

@@ -1219,6 +1219,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
             Mlt::Transition t(*newTractor.profile(), isAudio ? "mix" : composite.toUtf8().constData());
             if (isAudio) {
                 t.set("sum", 1);
+                t.set("accepts_blanks", 1);
             }
             t.set("always_active", 1);
             t.set("internal_added", 237);

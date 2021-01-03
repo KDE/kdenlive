@@ -37,8 +37,8 @@ static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_p
     emit self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
 }
 
-MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)
-    : AbstractClipJob(type, binId)
+MeltJob::MeltJob(const QString &binId, const ObjectId &owner, JOBTYPE type, bool useProducerProfile, int in, int out)
+    : AbstractClipJob(type, binId, owner)
     , m_useProducerProfile(useProducerProfile)
     , m_in(in)
     , m_out(out)
@@ -208,6 +208,7 @@ bool MeltJob::startJob()
     if (m_filter) {
         m_producer->attach(*m_filter.get());
     }
+    qDebug()<<"=== FILTER READY TO PROCESS; LENGTH: "<<length;
     m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, (mlt_listener)consumer_frame_render));
     connect(this, &MeltJob::jobCanceled, [&] () {
         m_showFrameEvent.reset();
