@@ -1312,8 +1312,8 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     timeline->requestClearSelection();
     // TODO better guess for master track
     int masterTid = timeline->getItemTrackId(clipId);
-    bool audioCopy = timeline->isAudioTrack(masterTid);
-    int masterTrack = timeline->getTrackPosition(masterTid);
+    bool audioCopy = masterTid >= 0 ? timeline->isAudioTrack(masterTid) : false;
+    int masterTrack = masterTid >= 0 ? timeline->getTrackPosition(masterTid) : 0;
     QDomDocument copiedItems;
     int offset = -1;
     QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
