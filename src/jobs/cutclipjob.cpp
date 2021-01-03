@@ -41,7 +41,7 @@
 #include <QPointer>
 
 CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime inTime, GenTime outTime, const QString destPath, QStringList encodingParams)
-    : AbstractClipJob(CUTJOB, binId)
+    : AbstractClipJob(CUTJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_sourceUrl(sourcePath)
     , m_destUrl(destPath)
     , m_done(false)

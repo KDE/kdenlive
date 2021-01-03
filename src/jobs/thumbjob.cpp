@@ -33,7 +33,7 @@
 #include <mlt++/MltProducer.h>
 
 ThumbJob::ThumbJob(const QString &binId, int frameNumber, bool persistent, bool reloadAllThumbs)
-    : AbstractClipJob(THUMBJOB, binId)
+    : AbstractClipJob(THUMBJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_frameNumber(frameNumber)
     , m_imageHeight(pCore->thumbProfile()->height())
     , m_imageWidth(pCore->thumbProfile()->width())

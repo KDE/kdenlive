@@ -44,7 +44,7 @@
 #include <mlt++/Mlt.h>
 
 SpeedJob::SpeedJob(const QString &binId, double speed, bool warp_pitch, QString destUrl)
-    : MeltJob(binId, SPEEDJOB, false, -1, -1)
+    : MeltJob(binId, {ObjectType::BinClip, binId.toInt()}, SPEEDJOB, false, -1, -1)
     , m_speed(speed)
     , m_warp_pitch(warp_pitch)
     , m_destUrl(std::move(destUrl))

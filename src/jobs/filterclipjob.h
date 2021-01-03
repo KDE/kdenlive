@@ -57,7 +57,6 @@ protected:
     std::unordered_map<QString, QVariant> m_filterParams;
     std::unordered_map<QString, QString> m_filterData;
     QStringList m_consumerArgs;
-    ObjectId m_owner;
 };
 
 #endif

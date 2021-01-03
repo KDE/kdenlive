@@ -38,7 +38,7 @@
 #include <mlt++/Mlt.h>
 
 SceneSplitJob::SceneSplitJob(const QString &binId, bool subClips, int markersType, int minInterval)
-    : MeltJob(binId, STABILIZEJOB, true, -1, -1)
+    : MeltJob(binId, {ObjectType::BinClip, binId.toInt()}, STABILIZEJOB, true, -1, -1)
     , m_subClips(subClips)
     , m_markersType(markersType)
     , m_minInterval(minInterval)

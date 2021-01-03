@@ -35,7 +35,7 @@
 #include <klocalizedstring.h>
 
 ProxyJob::ProxyJob(const QString &binId)
-    : AbstractClipJob(PROXYJOB, binId)
+    : AbstractClipJob(PROXYJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)

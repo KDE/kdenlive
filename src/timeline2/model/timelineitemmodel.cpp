@@ -672,6 +672,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
+            transition->set("accepts_blanks", 1);
             transition->set("sum", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);

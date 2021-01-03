@@ -43,7 +43,7 @@
 #include <mlt++/MltProfile.h>
 
 LoadJob::LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack)
-    : AbstractClipJob(LOADJOB, binId)
+    : AbstractClipJob(LOADJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_xml(xml)
     , m_readyCallBack(readyCallBack)
 {

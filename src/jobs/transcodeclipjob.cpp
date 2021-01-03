@@ -35,7 +35,7 @@
 #include <klocalizedstring.h>
 
 TranscodeJob::TranscodeJob(const QString &binId, QString params)
-    : AbstractClipJob(TRANSCODEJOB, binId)
+    : AbstractClipJob(TRANSCODEJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)

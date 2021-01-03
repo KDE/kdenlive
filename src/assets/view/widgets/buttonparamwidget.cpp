@@ -115,6 +115,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         } else if (owner.first == ObjectType::TimelineTrack || owner.first == ObjectType::Master) {
             in = 0;
             out = pCore->getItemDuration(owner);
+            binId = QStringLiteral("-1");
         }
         std::unordered_map<QString, QVariant> fParams;
         std::unordered_map<QString, QString> fData;
