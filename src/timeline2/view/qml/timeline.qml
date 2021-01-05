@@ -105,26 +105,34 @@ Rectangle {
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
             if (scrollVertically) {
-                // Horizontal scroll
-                var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
-                scrollView.contentX = Math.max(newScroll, 0)
+                horizontalScroll(wheel)
             } else {
-                // Vertical scroll
-                var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + horScroll.height + ruler.height)
-                scrollView.contentY = Math.max(newScroll, 0)
+                verticalScroll(wheel)
             }
         } else {
             if (scrollVertically) {
-                // Vertical scroll
-                var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + horScroll.height + ruler.height)
-                scrollView.contentY = Math.max(newScroll, 0)
+                verticalScroll(wheel)
             } else {
-                // Horizontal scroll
-                var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
-                scrollView.contentX = Math.max(newScroll, 0)
+                horizontalScroll(wheel)
             }
         }
         wheel.accepted = true
+    }
+
+    function horizontalScroll(wheel) {
+        var newScroll = Math.min(
+          scrollView.contentX - wheel.angleDelta.y,
+          timeline.fullDuration * root.timeScale - scrollView.width
+        )
+        scrollView.contentX = Math.max(newScroll, 0)
+    }
+
+    function verticalScroll(wheel) {
+        var newScroll = Math.min(
+            scrollView.contentY - wheel.angleDelta.y,
+            trackHeaders.height - tracksArea.height + horScroll.height + ruler.height
+        )
+        scrollView.contentY = Math.max(newScroll, 0)
     }
 
     function continuousScrolling(x, y) {
