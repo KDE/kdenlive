@@ -72,11 +72,11 @@ Item {
                 }
             }
             onReleased: {
+                root.autoScrolling = timeline.autoScroll
                 if (subtitleBase.textEditBegin) {
                     mouse.accepted = false
                     return
                 }
-                root.autoScrolling = timeline.autoScroll
                 if (startMove) {
                     startMove = false
                     if (subtitleBase.x < 0)

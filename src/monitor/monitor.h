@@ -163,6 +163,8 @@ public:
     void refreshAudioThumbs();
     /** @brief Trigger a refresh of audio thumbs on notrmalization change */
     void normalizeAudioThumbs();
+    /** @brief Returns true if monitor is playing */
+    bool isPlaying() const;
     
 
 protected:
@@ -294,6 +296,7 @@ public slots:
     void stop() override;
     void start() override;
     void switchPlay(bool play);
+    void updatePlayAction(bool play);
     void slotPlay() override;
     void pause();
     void slotPlayZone();

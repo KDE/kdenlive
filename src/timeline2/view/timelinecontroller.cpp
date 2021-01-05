@@ -2714,7 +2714,7 @@ bool TimelineController::hasVideoTarget() const
 
 bool TimelineController::autoScroll() const
 {
-    return KdenliveSettings::autoscroll();
+    return !pCore->monitorManager()->projectMonitor()->isPlaying() || KdenliveSettings::autoscroll();
 }
 
 void TimelineController::resetTrackHeight()
