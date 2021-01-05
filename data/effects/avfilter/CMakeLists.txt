@@ -4,7 +4,6 @@ acompressor.xml
 aecho.xml
 agate.xml
 subtitles.xml
-equalizer.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
 avfilter_boxblur.xml
