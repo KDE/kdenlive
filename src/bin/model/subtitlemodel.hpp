@@ -139,6 +139,7 @@ public:
     void loadProperties(QMap<QString, QString> subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
+    QDomElement toXml(int sid, QDomDocument &document);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
