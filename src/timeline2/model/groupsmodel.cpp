@@ -919,6 +919,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
         }
         ok = ok && fromJson(elem.toObject(), local_undo, local_redo);
     }
+
     if (ok) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     } else {

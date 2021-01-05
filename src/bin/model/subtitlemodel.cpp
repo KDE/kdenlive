@@ -261,7 +261,6 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         return true;
     };
     PUSH_LAMBDA(update_model, redo);
-    redo();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
     }
@@ -328,6 +327,7 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, F
         pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
         return true;
     };
+    local_redo();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -1125,3 +1125,15 @@ void SubtitleModel::allSnaps(std::vector<int> &snaps)
         snaps.push_back(subtitle.second.second.frames(pCore->getCurrentFps()));
     }
 }
+
+QDomElement SubtitleModel::toXml(int sid, QDomDocument &document)
+{
+    GenTime startPos = m_timeline->m_allSubtitles.at(sid);
+    int endPos = m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps());
+    QDomElement container = document.createElement(QStringLiteral("subtitle"));
+    container.setAttribute(QStringLiteral("in"), startPos.frames(pCore->getCurrentFps()));
+    container.setAttribute(QStringLiteral("out"), endPos);
+    container.setAttribute(QStringLiteral("text"), m_subtitleList.at(startPos).first);
+    return container;
+}
+

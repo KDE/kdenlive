@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
+#include "bin/model/subtitlemodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
@@ -1301,19 +1302,32 @@ QPair<QList<int>, QList<int>> TimelineFunctions::getAVTracksIds(const std::share
 
 QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds)
 {
-    int clipId = *(itemIds.begin());
+    int mainId = *(itemIds.begin());
     // We need to retrieve ALL the involved clips, ie those who are also grouped with the given clips
     std::unordered_set<int> allIds;
     for (const auto &itemId : itemIds) {
         std::unordered_set<int> siblings = timeline->getGroupElements(itemId);
         allIds.insert(siblings.begin(), siblings.end());
     }
+    // Avoid using a subtitle item as reference since it doesn't work with track offset
+    if (timeline->isSubTitle(mainId)) {
+        for (const auto &id : allIds) {
+            if (!timeline->isSubTitle(id)) {
+                mainId = id;
+                break;
+            }
+        }
+    }
+    bool subtitleOnlyCopy = false;
+    if (timeline->isSubTitle(mainId)) {
+        subtitleOnlyCopy = true;
+    }
 
     timeline->requestClearSelection();
     // TODO better guess for master track
-    int masterTid = timeline->getItemTrackId(clipId);
-    bool audioCopy = masterTid >= 0 ? timeline->isAudioTrack(masterTid) : false;
-    int masterTrack = masterTid >= 0 ? timeline->getTrackPosition(masterTid) : 0;
+    int masterTid = timeline->getItemTrackId(mainId);
+    bool audioCopy = subtitleOnlyCopy ? false : timeline->isAudioTrack(masterTid);
+    int masterTrack = subtitleOnlyCopy ? -1 : timeline->getTrackPosition(masterTid);
     QDomDocument copiedItems;
     int offset = -1;
     QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
@@ -1332,7 +1346,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
         } else if (timeline->isComposition(id)) {
             container.appendChild(timeline->m_allCompositions[id]->toXml(copiedItems));
         } else if (timeline->isSubTitle(id)) {
-            //TODO
+            container.appendChild(timeline->getSubtitleModel()->toXml(id, copiedItems));
         } else {
             Q_ASSERT(false);
         }
@@ -1411,6 +1425,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack"), QStringLiteral("-1")).toInt();
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
+    QDomNodeList subtitles = copiedItems.documentElement().elementsByTagName(QStringLiteral("subtitle"));
     // find paste tracks
     // List of all source audio tracks
     QList<int> audioTracks;
@@ -1471,7 +1486,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
         videoTracks << atrackPos;
     }
-    if (audioTracks.isEmpty() && videoTracks.isEmpty()) {
+    if (audioTracks.isEmpty() && videoTracks.isEmpty() && subtitles.isEmpty()) {
         // playlist does not have any tracks, exit
         semaphore.release(1);
         return true;
@@ -1519,7 +1534,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             }
             trackId = projectTracks.second.at(updatedPos);
         }
-    } else {
+    } else if (requestedAudioTracks > 0) {
         // Audio only
         masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
         int tracksBelow = masterSourceTrack - audioTracks.first();
@@ -1655,6 +1670,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             }
         }
     }
+
     if (!clipsImported) {
         // Clips from same document, directly proceed to pasting
         return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false);
@@ -1675,8 +1691,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     // Wait until all bin clips are inserted
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
+    QDomNodeList subtitles = copiedItems.documentElement().elementsByTagName(QStringLiteral("subtitle"));
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
-
     bool res = true;
     std::unordered_map<int, int> correspondingIds;
     for (int i = 0; i < clips.count(); i++) {
@@ -1755,9 +1771,18 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, timeline_undo, timeline_redo);
         }
     }
+    if (res && !subtitles.isEmpty()) {
+        auto subModel = pCore->getSubtitleModel(true);
+        for (int i = 0; res && i < subtitles.count(); i++) {
+            QDomElement prod = subtitles.at(i).toElement();
+            int in = prod.attribute(QStringLiteral("in")).toInt() - offset;
+            int out = prod.attribute(QStringLiteral("out")).toInt() - offset;
+            QString text = prod.attribute(QStringLiteral("text"));
+            res = res && subModel->addSubtitle(GenTime(position + in, pCore->getCurrentFps()), GenTime(position + out, pCore->getCurrentFps()), text, timeline_undo, timeline_redo);
+        }
+    }
     if (!res) {
         timeline_undo();
-        //pCore->pushUndo(undo, redo, i18n("Paste clips"));
         pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
         semaphore.release(1);
         return false;

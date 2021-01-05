@@ -5215,3 +5215,4 @@ std::pair<int, GenTime> TimelineModel::getSubtitleIdFromIndex(int index) const
     std::advance(it, index);
     return {it->first, it->second};
 }
+
