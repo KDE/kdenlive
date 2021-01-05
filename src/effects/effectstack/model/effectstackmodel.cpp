@@ -409,7 +409,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     return effectAdded;
 }
 
-bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
@@ -467,6 +467,12 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
+        update();
+        if (logUndo) {
+            PUSH_LAMBDA(update, local_redo);
+            PUSH_LAMBDA(update, local_undo);
+            pCore->pushUndo(local_undo, local_redo, i18n("Paste effect"));
+        }
     }
     return res;
 }
@@ -938,7 +944,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         // NO undo. this should only be used on project opening
-        if (copyEffect(item, state)) {
+        if (copyEffect(item, state, false)) {
             found = true;
             if (item->isEnabled()) {
                 effectEnabled = true;

@@ -62,7 +62,7 @@ public:
     bool appendEffect(const QString &effectId, bool makeCurrent = false);
     /* @brief Copy an existing effect and append it at the bottom of the stack
      */
-    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state);
+    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
     bool copyXmlEffect(QDomElement effect);
     /* @brief Import all effects from the given effect stack
      */
