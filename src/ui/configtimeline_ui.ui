@@ -11,7 +11,7 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="0" colspan="4">
+   <item row="9" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Raise properties pane when selecting in timeline</string>
@@ -54,7 +54,7 @@
      </layout>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -113,7 +113,7 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="4">
+   <item row="8" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Multi stream audio clips</string>
@@ -168,7 +168,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="4">
+   <item row="7" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
@@ -226,6 +226,13 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_scrollvertically">
+     <property name="text">
+      <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QCheckBox" name="kcfg_showmarkers">
      <property name="text">
@@ -240,6 +247,7 @@
   <tabstop>kcfg_showmarkers</tabstop>
   <tabstop>kcfg_autoscroll</tabstop>
   <tabstop>kcfg_verticalzoom</tabstop>
+  <tabstop>kcfg_scrollvertically</tabstop>
   <tabstop>kcfg_trackheight</tabstop>
  </tabstops>
  <resources/>

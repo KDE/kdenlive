@@ -1397,7 +1397,7 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
             auto currentSubs = subtitleModel->getItemsInRange(startFrame, endFrame);
             itemsToSelect.insert(currentSubs.begin(), currentSubs.end());
         }
-        
+
     }
     m_model->requestSetSelection(itemsToSelect);
 }
@@ -1472,7 +1472,7 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
         Fun redo = []() { return true; };
         bool res = subtitleModel->cutSubtitle(timelinePos, undo, redo);
         if (res) {
-            Fun local_redo = [subtitleModel, start, position, firstText, secondText]() { 
+            Fun local_redo = [subtitleModel, start, position, firstText, secondText]() {
                 subtitleModel->editSubtitle(start, firstText);
                 subtitleModel->editSubtitle(position, secondText);
                 return true;
@@ -1861,6 +1861,11 @@ int TimelineController::workingPreview() const
 bool TimelineController::useRuler() const
 {
     return pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1;
+}
+
+bool TimelineController::scrollVertically() const
+{
+    return KdenliveSettings::scrollvertically() == 1;
 }
 
 void TimelineController::resetPreview()

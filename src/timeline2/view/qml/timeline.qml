@@ -59,7 +59,7 @@ Rectangle {
             mainItemId = -1
         }
     }
-    
+
     function getActiveTrackStreamPos() {
         return Logic.getTrackYFromId(timeline.activeTrack) + rulercontainer.height
     }
@@ -104,13 +104,25 @@ Rectangle {
                 root.wheelAccumulatedDelta = 0;
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
-            // Vertical scroll
-            var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + horScroll.height + ruler.height)
-            scrollView.contentY = Math.max(newScroll, 0)
+            if (scrollVertically) {
+                // Horizontal scroll
+                var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
+                scrollView.contentX = Math.max(newScroll, 0)
+            } else {
+                // Vertical scroll
+                var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + horScroll.height + ruler.height)
+                scrollView.contentY = Math.max(newScroll, 0)
+            }
         } else {
-            // Horizontal scroll
-            var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
-            scrollView.contentX = Math.max(newScroll, 0)
+            if (scrollVertically) {
+                // Vertical scroll
+                var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + horScroll.height + ruler.height)
+                scrollView.contentY = Math.max(newScroll, 0)
+            } else {
+                // Horizontal scroll
+                var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
+                scrollView.contentX = Math.max(newScroll, 0)
+            }
         }
         wheel.accepted = true
     }
@@ -202,7 +214,7 @@ Rectangle {
         }
         return col
     }
-    
+
     function centerViewOnCursor() {
         scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
     }
@@ -315,11 +327,12 @@ Rectangle {
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width
+    property bool scrollVertically: timeline.scrollVertically
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
     }
-    
+
     onShowSubtitlesChanged: {
         subtitleTrack.height = showSubtitles? root.baseUnit * 5 : 0
     }
@@ -729,7 +742,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 2 * root.trackTagWidth
                         width: root.collapsedHeight
-                        height: root.collapsedHeight   
+                        height: root.collapsedHeight
                         contentItem: Item {
                             Image {
                                 source: subtitleTrackHeader.collapsed ? "image://icon/go-next" : "image://icon/go-down"
@@ -755,7 +768,7 @@ Rectangle {
                         text: i18n("Subtitles")
                         visible: (subtitleTrackHeader.height > root.collapsedHeight + subLabel.height)
                     }
-                    
+
                     Row {
                         id: subButtonsRow
                         width: childrenRect.width

@@ -80,12 +80,12 @@
       <label>Default image sequence frame duration.</label>
       <default>00:00:03:00</default>
     </entry>
-    
+
     <entry name="mix_duration" type="String">
       <label>Default mix transition duration.</label>
       <default>00:00:01:00</default>
     </entry>
-    
+
     <entry name="subtitle_duration" type="String">
       <label>Default subtitle duration.</label>
       <default>00:00:05:00</default>
@@ -311,7 +311,7 @@
       <label>Display all channels in audio thumbnails.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="normalizechannels" type="Bool">
       <label>Normalize audio channels in thumbnails.</label>
       <default>true</default>
@@ -329,6 +329,11 @@
 
     <entry name="verticalzoom" type="Bool">
       <label>Vertical drag in timeline ruler zooms.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="scrollvertically" type="Bool">
+      <label>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</label>
       <default>false</default>
     </entry>
 
@@ -458,7 +463,7 @@
       <label>FFprobe / avprobe binary path.</label>
       <default></default>
     </entry>
-    
+
     <entry name="mediainfopath" type="Path">
       <label>mediaInfo binary path.</label>
       <default></default>
@@ -508,7 +513,7 @@
       <label>Open Library in default system folder.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="videotodefaultfolder" type="Bool">
       <label>Save titles, scripted renderings in default system folder.</label>
       <default>true</default>
@@ -518,7 +523,7 @@
       <label>Default folder for library.</label>
       <default></default>
     </entry>
-    
+
     <entry name="videofolder" type="Path">
       <label>Default folder for various stored files, like titles, scripted rendering.</label>
       <default></default>
@@ -577,7 +582,7 @@
       <label>Audio device for v4l capture.</label>
       <default></default>
     </entry>
-    
+
     <entry name="alsachannels" type="UInt">
       <label>Number of audio channels.</label>
       <default>2</default>
@@ -607,27 +612,27 @@
       <label>Should we capture video.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="v4l_captureaudio" type="Bool">
       <label>Should we also capture audio.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="v4l_profile" type="Int">
       <label>default v4l encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="grab_profile" type="Int">
       <label>default screen grab encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="grab_parameters" type="String">
       <label>Default video4linux format.</label>
       <default></default>
     </entry>
-    
+
     <entry name="grab_extension" type="String">
       <label>Default screen grab file extension.</label>
       <default></default>
@@ -697,7 +702,7 @@
       <label>default HDMI capture filename.</label>
       <default>capture</default>
     </entry>
-  
+
   <entry name="decklink_parameters" type="String">
       <label>Default Decklink encoding parameters.</label>
       <default></default>
@@ -724,7 +729,7 @@
       <label>Available shuttle device names.</label>
       <default></default>
     </entry>
-    
+
     <entry name="shuttledevicepaths" type="StringList">
       <label>Available shuttle device paths.</label>
       <default></default>
@@ -735,7 +740,7 @@
       <default></default>
     </entry>
   </group>
-  
+
   <group name="bezier_spline">
     <entry name="bezier_gridlines" type="Int">
       <label>Number of lines to use for the grid.</label>
@@ -798,7 +803,7 @@
       <label>Show timecodes as frame number instead of hh:mm:ss:ff.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="rectimecode" type="Bool">
       <label>Show recorded timecode in clip monitor, in format hh:mm:ss:ff.</label>
       <default>false</default>
@@ -846,12 +851,12 @@
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x05</default>
     </entry>
-    
+
     <entry name="previewScaling" type="Int">
       <label>Divide monitor resolution by this factor to speedup preview.</label>
       <default>1</default>
     </entry>
-    
+
     <entry name="autoKeyframe" type="Bool">
       <label>Automatically create a new keyframe on keyframe move.</label>
       <default>true</default>
@@ -865,7 +870,7 @@
       <label>index of current guides overlay for project monitor.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="alwaysShowMonitorAudio" type="Bool">
       <label>Always display audio thumbs in clip monitor.</label>
       <default>false</default>
@@ -925,17 +930,17 @@
       <label>Color to preselect in the color clip dialog.</label>
       <default>#000000</default>
     </entry>
-    
+
     <entry name="showSubtitles" type="Bool">
       <label>Show subtitle track.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="thumbColor1" type="Color">
       <label>Color to draw even audio channels.</label>
       <default>#2ac1a0</default>
     </entry>
-    
+
     <entry name="thumbColor2" type="Color">
       <label>Color to draw odd audio channels.</label>
       <default>#2ed172</default>
@@ -978,7 +983,7 @@
     <entry name="showstopmotionthumbs" type="Bool">
       <label>Show sequence thumbnails in stopmotion widget.</label>
       <default>true</default>
-    </entry> 
+    </entry>
 
     <entry name="captureinterval" type="Int">
       <label>Interval between each capture (in seconds).</label>
@@ -1004,12 +1009,12 @@
       <label>Should we play a sound to notify of captured frame in stop motion.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="sm_framesplayback" type="Int">
       <label>Number of frames to play back in stop motion playback.</label>
       <default>10</default>
     </entry>
-    
+
     <entry name="stopmotioneffect" type="Int">
       <label>Effect applied to stopmotion frame overlay.</label>
       <default>0</default>

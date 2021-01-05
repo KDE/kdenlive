@@ -62,6 +62,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
+    Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(QVariantList audioTarget READ audioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
@@ -247,7 +248,7 @@ public:
     Q_INVOKABLE const QString actionText(const QString &name);
 
     /* @brief Returns id of the timeline selected clip if there is only 1 clip selected
-     * or an AVSplit group. If allowComposition is true, returns composition id if 
+     * or an AVSplit group. If allowComposition is true, returns composition id if
      * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will
      * only return the id if timeline cursor is inside item
      */
@@ -502,6 +503,10 @@ public:
 
     /** @brief Return true if we want to use timeline ruler zone for editing */
     bool useRuler() const;
+
+    /** @brief Return true if the scroll wheel should scroll vertically (Shift key for horizontal); false if it should scroll horizontally (Shift for vertical) */
+    bool scrollVertically() const;
+
     /* @brief Load timeline preview from saved doc
      */
     void loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable);
@@ -700,6 +705,7 @@ signals:
     void subtitlesDisabledChanged();
     void subtitlesLockedChanged();
     void useRulerChanged();
+    void scrollVerticallyChanged();
     void updateZoom(double);
     /* @brief emitted when timeline selection changes, true if a clip is selected
      */

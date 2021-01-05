@@ -159,7 +159,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configColors.setupUi(p10);
     m_page10 = addPage(p10, i18n("Colors"));
     m_page10->setIcon(QIcon::fromTheme(QStringLiteral("color-management")));
-    
+
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
     // Remove ffmpeg tab, unused
@@ -395,7 +395,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
         // No blackmagic card found
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
-    
+
     initAudioRecDevice();
 
     // Config dialog size
@@ -880,7 +880,7 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configEnv.mediainfourl->text().isEmpty()) {
         m_configEnv.mediainfourl->setText(KdenliveSettings::mediainfopath());
     }
-    
+
     if (m_configTimeline.kcfg_trackheight->value() == 0) {
         QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
         // Default unit for timeline.qml objects size
@@ -895,7 +895,7 @@ void KdenliveSettingsDialog::updateSettings()
             m_configTimeline.kcfg_trackheight->setValue(baseUnit);
         }
     }
-    
+
     bool resetConsumer = false;
     bool fullReset = false;
     bool updateCapturePath = false;
@@ -1041,7 +1041,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
         emit updateMonitorBg();
     }
-    
+
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() || m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
@@ -1107,6 +1107,11 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
         KdenliveSettings::setPauseonseek(m_configTimeline.kcfg_pauseonseek->isChecked());
+    }
+
+    if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
+        KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
+        emit pCore->window()->getMainTimeline()->controller()->scrollVerticallyChanged();
     }
 
     // Mimes
