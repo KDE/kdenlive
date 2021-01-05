@@ -164,7 +164,7 @@ public:
     Q_INVOKABLE int hasAudioTarget() const;
     Q_INVOKABLE int clipTargets() const;
     Q_INVOKABLE bool hasVideoTarget() const;
-    Q_INVOKABLE bool autoScroll() const;
+    bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;

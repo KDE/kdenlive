@@ -1332,7 +1332,7 @@ void Monitor::slotRewind(double speed)
             m_speedLabel->setText(QString("x%1").arg(speed));
         }
     }
-    m_playAction->setActive(true);
+    updatePlayAction(true);
     m_glMonitor->switchPlay(true, speed);
 }
 
@@ -1347,7 +1347,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
                 resetSpeedInfo();
-                m_playAction->setActive(true);
+                updatePlayAction(true);
                 m_glMonitor->switchPlay(true, 1);
                 return;
             } else {
@@ -1363,7 +1363,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
         m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
         m_speedLabel->setText(QString("x%1").arg(speed));
     }
-    m_playAction->setActive(true);
+    updatePlayAction(true);
     m_glMonitor->switchPlay(true, speed);
 }
 
@@ -1404,7 +1404,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel>
 
 void Monitor::stop()
 {
-    m_playAction->setActive(false);
+    updatePlayAction(false);
     m_glMonitor->stop();
 }
 
@@ -1463,22 +1463,34 @@ void Monitor::pause()
     if (!m_playAction->isActive() || !slotActivateMonitor()) {
         return;
     }
-    m_glMonitor->switchPlay(false);
-    m_playAction->setActive(false);
-    resetSpeedInfo();
+    switchPlay(false);
 }
 
 void Monitor::switchPlay(bool play)
 {
     m_playAction->setActive(play);
+    if (!KdenliveSettings::autoscroll()) {
+        emit pCore->autoScrollChanged();
+    }
     m_glMonitor->switchPlay(play);
     resetSpeedInfo();
+}
+
+void Monitor::updatePlayAction(bool play)
+{
+    m_playAction->setActive(play);
+    if (!KdenliveSettings::autoscroll()) {
+        emit pCore->autoScrollChanged();
+    }
 }
 
 void Monitor::slotSwitchPlay()
 {
     if (!slotActivateMonitor()) {
         return;
+    }
+    if (!KdenliveSettings::autoscroll()) {
+        emit pCore->autoScrollChanged();
     }
     m_glMonitor->switchPlay(m_playAction->isActive());
     bool showDropped = false;
@@ -1501,6 +1513,11 @@ void Monitor::slotPlay()
     m_playAction->trigger();
 }
 
+bool Monitor::isPlaying() const
+{
+    return m_playAction->isActive();
+}
+
 void Monitor::resetPlayOrLoopZone(const QString &binId)
 {
     if (activeClipId() == binId) {
@@ -1515,7 +1532,7 @@ void Monitor::slotPlayZone()
     }
     bool ok = m_glMonitor->playZone();
     if (ok) {
-        m_playAction->setActive(true);
+        updatePlayAction(true);
     }
 }
 
@@ -1526,7 +1543,7 @@ void Monitor::slotLoopZone()
     }
     bool ok = m_glMonitor->playZone(true);
     if (ok) {
-        m_playAction->setActive(true);
+        updatePlayAction(true);
     }
 }
 
@@ -1537,7 +1554,7 @@ void Monitor::slotLoopClip(QPoint inOut)
     }
     bool ok = m_glMonitor->loopClip(inOut);
     if (ok) {
-        m_playAction->setActive(true);
+        updatePlayAction(true);
     }
 }
 
@@ -1637,7 +1654,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_snaps->addPoint((int)m_controller->frameDuration() - 1);
             // Loading new clip / zone, stop if playing
             if (m_playAction->isActive()) {
-                m_playAction->setActive(false);
+                updatePlayAction(false);
             }
             m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
@@ -1951,7 +1968,7 @@ void Monitor::updateAudioForAnalysis()
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_offset, m_playAction->isActive())) {
-        m_playAction->setActive(false);
+        updatePlayAction(false);
     }
     emit m_monitorManager->frameDisplayed(frame);
 }
