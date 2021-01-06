@@ -172,8 +172,7 @@ class ClipWidget : public QWidget
 public:
     explicit ClipWidget(){}
     ~ClipWidget() override;
-    void init(QDockWidget* m_DockClipWidget, KdenliveDoc* doc,
-                  std::shared_ptr<ProjectItemModel> model );
+    void init(QDockWidget* m_DockClipWidget);
 };
 
 class Bin : public QWidget

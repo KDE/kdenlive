@@ -339,15 +339,21 @@ void MainWindow::init()
     connect(spectrumDock, &QDockWidget::visibilityChanged, this, [&](bool visible) {
         m_audioSpectrum->dockVisible(visible);
     });
-    // Close library and audiospectrum on first run
+    
+    // Project bin
+    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
+    
+    // Media browser widget
+    QDockWidget* clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->getWidget());
+    pCore->bin()->dockWidgetInit(clipDockWidget);
+
+    // Close library and audiospectrum and others on first run
     screenGrabDock->close();
     libraryDock->close();
     subtitlesDock->close();
     spectrumDock->close();
+    clipDockWidget->close();
 
-    m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
-    QDockWidget* m_ClipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->getWidget());
-    pCore->bin()->dockWidgetInit(m_ClipDockWidget);
     m_assetPanel = new AssetPanel(this);
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);

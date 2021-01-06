@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
+#include <KDirOperator>
 
 #include <QDialog>
 #include <QDir>
@@ -56,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWindow>
 #include <unordered_map>
 #include <utility>
+
 // static
 QStringList ClipCreationDialog::getExtensions()
 {
@@ -450,8 +452,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     }
 }
 
-void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
-                                    KdenliveDoc* doc, const std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
@@ -459,11 +460,18 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
 
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     fileWidget->setCustomWidget(importseq);
-
+    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [=] {
+        KFileItemList files = fileWidget->dirOperator()->selectedItems();
+        QList <QUrl> urls;
+        for (auto &f : files) {
+            urls << f.url();
+        }
+        pCore->bin()->droppedUrls(urls);
+    });
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accepted);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accept);
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=, &doc]{
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
         QUrl url;
         url  = fileWidget->selectedUrl();
         QStringList patternlist;
@@ -476,6 +484,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
                   fileName.chop(1);
             }
             QString parentFolder = "-1";
+            KdenliveDoc *doc = pCore->currentDoc();
             QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
             std::unordered_map<QString, QString> properties;
             properties[QStringLiteral("ttl")] = QString::number(doc->getFramePos(duration));
@@ -485,7 +494,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
             properties[QStringLiteral("luma_duration")] =
                 QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps())))));
             int frame_duration = doc->getFramePos(duration) * count;
-            ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, model);
+            ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, pCore->projectItemModel());
             return;
 
         }
