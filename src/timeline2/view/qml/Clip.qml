@@ -186,8 +186,8 @@ Rectangle {
     }
 
     function getColor() {
-        if (clipState == ClipState.Disabled) {
-            return 'grey'
+        if (clipRoot.clipState == ClipState.Disabled) {
+            return '#888'
         }
         if (clipRoot.tagColor) {
             return clipRoot.tagColor

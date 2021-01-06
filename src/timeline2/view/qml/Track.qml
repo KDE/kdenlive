@@ -209,8 +209,8 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "clipStatus"
-                    value: model.clipStatus
+                    property: "clipState"
+                    value: model.clipState
                     when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
