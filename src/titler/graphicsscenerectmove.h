@@ -142,6 +142,7 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *) override;
     void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
     void drawForeground(QPainter *painter, const QRectF &rect) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent) override;
 
 private:
     void setCursor(const QCursor &);

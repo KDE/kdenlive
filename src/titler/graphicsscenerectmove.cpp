@@ -506,6 +506,11 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent)
     m_fontSize = 0;
 }
 
+void GraphicsSceneRectMove::contextMenuEvent(QGraphicsSceneContextMenuEvent *)
+{
+    // Disable QGraphicsScene standard context menu that was crashing
+}
+
 void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
 {
     clearSelection();
@@ -758,18 +763,22 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         m_selectedItem = nullptr;
         e->ignore();
     } else if (m_tool == TITLE_TEXT) {
-        clearTextSelection();
-        MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
-        yPos = (((int)e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
-        textItem->setPos(xPos, yPos);
-        addItem(textItem);
-        textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-        textItem->setFocus(Qt::MouseFocusReason);
-        emit newText(textItem);
-        m_selectedItem = textItem;
-        m_selectedItem->setSelected(true);
-        m_createdText = true;
+        if (e->button() == Qt::LeftButton) {
+            clearTextSelection();
+            MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
+            yPos = (((int)e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
+            textItem->setPos(xPos, yPos);
+            addItem(textItem);
+            textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+            textItem->setFocus(Qt::MouseFocusReason);
+            emit newText(textItem);
+            m_selectedItem = textItem;
+            m_selectedItem->setSelected(true);
+            m_createdText = true;
+        } else {
+            QGraphicsScene::mousePressEvent(e);
+        }
     }
     // qCDebug(KDENLIVE_LOG) << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 }
