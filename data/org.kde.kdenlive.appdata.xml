@@ -90,7 +90,7 @@
     <p xml:lang="ko">Kdenlive는 비선형 동영상 편집기입니다. MLT 프레임워크를 사용하며 여러 음악 및 동영상 형식을 지원하고, 효과 및 트랜지션을 추가할 수 있으며, 원하는 형식으로 렌더링할 수 있습니다.</p>
     <p xml:lang="nl">Kdenlive is een niet lineaire videobewerker. Het is gebaseerd op het MLT-framework en accepteert vele audio- en video-formaten, biedt de mogelijkheid effecten en overgangen toe te voegen en om te zetten naar het formaat van uw keuze.</p>
     <p xml:lang="nn">Kdenlive er eit program for ikkje-lineær videoredigering. Det er basert på MLT-rammeverket og støttar mange ulike video- og lydformat. Du kan leggja til spesialeffektar og overgangar, og eksportera til ulike filformat.</p>
-    <p xml:lang="pl">Kdenlive jest nieliniowym edytorem wideo. Oparty jest na szkielecie MLT i może pracować na wielu formatach obrazu i dźwięku, umożliwia dodawanie efektów, przejść i renderowanie ich do dowolnego formatu.</p>
+    <p xml:lang="pl">Kdenlive jest nieliniowym edytorem wideo. Oparty na szkielecie MLT, obsługuje wiele formatów obrazu i dźwięku, umożliwia dodawanie efektów i przejść, umożliwia składanie filmu w całość do dowolnego formatu.</p>
     <p xml:lang="pt">O Kdenlive é um editor de vídeo não-linear. Baseia-se na plataforma MLT e aceita diversos formatos de áudio e vídeo, permitindo-lhe adicionar efeitos, transições e gravar no formato da sua escolha.</p>
     <p xml:lang="pt-BR">Kdenlive é um editor de vídeo não-linear. É baseado na plataforma MLT e aceita diversos formatos de áudio e vídeo, permitindo-lhe adicionar efeitos, transições e gravar no formato da sua escolha.</p>
     <p xml:lang="ru">Kdenlive — это нелинейный видеоредактор. Основан на Framework MLT и берёт из него множество звуковых и видео форматов, позволяет добавлять эффекты и переходы, собирать видео в выбранный вами формат.</p>
@@ -156,7 +156,7 @@
       <li xml:lang="ko">사용하기 편한 다중 트랙 인터페이스.</li>
       <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>
       <li xml:lang="nn">Intuitivt fleirsporsgrensesnitt</li>
-      <li xml:lang="pl">Intuicyjny interfejs wielościeżkowy.</li>
+      <li xml:lang="pl">Intuicyjny interfejs wielościeżkowy</li>
       <li xml:lang="pt">Interface multi-faixas intuitiva.</li>
       <li xml:lang="pt-BR">Interface multifaixa intuitiva.</li>
       <li xml:lang="ru">Интуитивно понятный многодорожечный интерфейс;</li>
@@ -188,7 +188,7 @@
       <li xml:lang="ko">다양한 효과와 트랜지션.</li>
       <li xml:lang="nl">Veel effecten en overgangen.</li>
       <li xml:lang="nn">Mange effektar og overgangar</li>
-      <li xml:lang="pl">Wiele efektów i przejść.</li>
+      <li xml:lang="pl">Wiele efektów i przejść</li>
       <li xml:lang="pt">Diversos efeitos e transições.</li>
       <li xml:lang="pt-BR">Diversos efeitos e transições.</li>
       <li xml:lang="ru">Множество эффектов и переходов;</li>
@@ -252,7 +252,7 @@
       <li xml:lang="ko">기본 DVD 마법사</li>
       <li xml:lang="nl">Basis dvd-assistent</li>
       <li xml:lang="nn">Enkel DVD-vegvisar</li>
-      <li xml:lang="pl">Pomocnik podstawowego DVD</li>
+      <li xml:lang="pl">Podstawowy pomocnik DVD</li>
       <li xml:lang="pt">Assistente Básico de DVD's</li>
       <li xml:lang="pt-BR">Assistente básico para DVDs</li>
       <li xml:lang="ru">Мастер создания DVD.</li>
