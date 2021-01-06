@@ -417,6 +417,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
                         while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
                             fileName.chop(1);
                         }
+
                         QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
                         std::unordered_map<QString, QString> properties;
                         properties[QStringLiteral("ttl")] = QString::number(doc->getFramePos(duration));
@@ -447,4 +448,47 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }
+}
+
+void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget,
+                                    KdenliveDoc* doc, const std::shared_ptr<ProjectItemModel> model)
+{
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+
+    QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
+    fileWidget->setCustomWidget(importseq);
+
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accepted);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accept);
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=, &doc]{
+        QUrl url;
+        url  = fileWidget->selectedUrl();
+        QStringList patternlist;
+        QString pattern = SlideshowClip::selectedPath(url, false, QString(), &patternlist);
+        int count = patternlist.size();
+
+        QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
+        if (count >= 1) {
+            while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
+                  fileName.chop(1);
+            }
+            QString parentFolder = "-1";
+            QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
+            std::unordered_map<QString, QString> properties;
+            properties[QStringLiteral("ttl")] = QString::number(doc->getFramePos(duration));
+            properties[QStringLiteral("loop")] = QString::number(0);
+            properties[QStringLiteral("crop")] = QString::number(0);
+            properties[QStringLiteral("fade")] = QString::number(0);
+            properties[QStringLiteral("luma_duration")] =
+                QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps())))));
+            int frame_duration = doc->getFramePos(duration) * count;
+            ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, model);
+            return;
+
+        }
+    });
+    m_DockClipWidget->setWidget(fileWidget);
 }

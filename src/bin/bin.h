@@ -40,6 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QWidget>
 #include <QActionGroup>
+#include <QtWidgets>
+
+#include "KFileWidget"
+#include "KRecentDirs"
 
 class AbstractProjectItem;
 class BinItemDelegate;
@@ -163,6 +167,15 @@ signals:
  * @brief The bin widget takes care of both item model and view upon project opening.
  */
 
+class ClipWidget : public QWidget
+{
+public:
+    explicit ClipWidget(){}
+    ~ClipWidget() override;
+    void init(QDockWidget* m_DockClipWidget, KdenliveDoc* doc,
+                  std::shared_ptr<ProjectItemModel> model );
+};
+
 class Bin : public QWidget
 {
     Q_OBJECT
@@ -175,7 +188,7 @@ public:
     ~Bin() override;
 
     bool isLoading;
-
+    void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
     void setDocument(KdenliveDoc *project);
     /** @brief Delete all project related data, to be called before setDocument  */
@@ -298,6 +311,7 @@ public:
     void loadFolderState(QStringList foldersToExpand);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
+    ClipWidget* getWidget();
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -471,6 +485,7 @@ private:
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
+    ClipWidget *m_clipWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterGroup;
     QActionGroup m_filterRateGroup;

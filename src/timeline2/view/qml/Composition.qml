@@ -216,7 +216,6 @@ Item {
             anchors.fill: displayRect
             anchors.margins: displayRect.border.width
             clip: true
-
             Rectangle {
                 // text background
                 id: labelRect

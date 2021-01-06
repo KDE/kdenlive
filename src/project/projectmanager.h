@@ -89,7 +89,7 @@ public:
      */
     void saveWithUpdatedProfile(const QString &updatedProfile);
 
-    /** @brief Get the number of tracks in this projec (video, audio).
+    /** @brief Get the number of tracks in this project (video, audio).
      */
     QPair<int, int> tracksCount();
 
