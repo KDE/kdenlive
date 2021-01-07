@@ -457,6 +457,8 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+    QString allExtensions = getExtensions().join(QLatin1Char(' '));
+    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
 
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     fileWidget->setCustomWidget(importseq);
@@ -468,6 +470,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
         }
         pCore->bin()->droppedUrls(urls);
     });
+    fileWidget->setFilter(dialogFilter);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accepted);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accept);
