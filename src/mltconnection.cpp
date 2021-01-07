@@ -235,7 +235,11 @@ void MltConnection::refreshLumas()
             } else {
                 format = f;
             }
-            QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
+            QStringList filesnames;
+            QDirIterator it(dir.absolutePath(), fileFilters, QDir::Files, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                filesnames.append(it.next());
+            }
             if (MainWindow::m_lumaFiles.contains(format)) {
                 imagefiles = MainWindow::m_lumaFiles.value(format);
             }
