@@ -256,56 +256,54 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     };
     if (operation()) {
         Fun reverse = []() { return true; };
-        if (logUndo) {
-            // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-            if (m_currentTrackId != -1) {
-                if (auto ptr = m_parent.lock()) {
-                    if (trackDuration > 0) {
-                        // Operation changed parent track duration, update effect stack
-                        int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
-                        if (logUndo || trackDuration != newDuration) {
-                            // A clip move changed the track duration, update track effects
-                            ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
-                        }
+        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        if (m_currentTrackId != -1) {
+            if (auto ptr = m_parent.lock()) {
+                if (trackDuration > 0) {
+                    // Operation changed parent track duration, update effect stack
+                    int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
+                    if (logUndo || trackDuration != newDuration) {
+                        // A clip move changed the track duration, update track effects
+                        ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
                     }
-                    track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
                 }
-            }
-            reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
-                if (track_reverse()) {
-                    setInOut(old_in, old_out);
-                    if (m_currentTrackId > -1) {
-                        if (auto ptr = m_parent.lock()) {
-                            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                            ptr->notifyChange(ix, ix, roles);
-                            if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                                if (right) {
-                                    int newOut = m_position + getOut() - getIn();
-                                    if (oldOut < newOut) {
-                                        emit ptr->invalidateZone(oldOut, newOut);
-                                    } else {
-                                        emit ptr->invalidateZone(newOut, oldOut);
-                                    }
+                track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
+                }
+        }
+        reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
+            if (track_reverse()) {
+                setInOut(old_in, old_out);
+                if (m_currentTrackId > -1) {
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, roles);
+                        if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                            if (right) {
+                                int newOut = m_position + getOut() - getIn();
+                                if (oldOut < newOut) {
+                                    emit ptr->invalidateZone(oldOut, newOut);
                                 } else {
-                                    if (oldIn < m_position) {
-                                        emit ptr->invalidateZone(oldIn, m_position);
-                                    } else {
-                                        emit ptr->invalidateZone(m_position, oldIn);
-                                    }
+                                    emit ptr->invalidateZone(newOut, oldOut);
+                                }
+                            } else {
+                                if (oldIn < m_position) {
+                                    emit ptr->invalidateZone(oldIn, m_position);
+                                } else {
+                                    emit ptr->invalidateZone(m_position, oldIn);
                                 }
                             }
                         }
                     }
-                    return true;
                 }
-                qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
-                return false;
-            };
-            qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
-                 << m_producer->get_playtime();
+                return true;
+            }
+            qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
+            return false;
+        };
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
+                << m_producer->get_playtime();
 
-            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
-        }
+        adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }

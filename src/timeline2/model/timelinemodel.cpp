@@ -2809,8 +2809,9 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
                 //TODO: don't allow subtitle overlap?
                 success = true;
             }
+            // undo temp move
+            temp_undo();
             if (success) {
-                temp_undo(); // undo temp move
                 size = proposed_size;
             }
         }
