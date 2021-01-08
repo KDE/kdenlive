@@ -18,9 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/*
- *
- */
 #include "resourcewidget.h"
 #include "archiveorg.h"
 #include "freesound.h"
@@ -758,7 +755,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
         QUrl srcUrl(m_currentInfo.itemDownload);
         request.setUrl(srcUrl); //  Download url of a freesound file
         // eg https://www.freesound.org/apiv2/sounds/39206/download/
-        request.setRawHeader(QByteArray("Authorization"), QByteArray("Bearer").append(sAccessToken.toUtf8()));
+        request.setRawHeader(QByteArray("Authorization"), QByteArray("Bearer ").append(sAccessToken.toUtf8())); //Space after "Bearer" is necessary
 
         m_meta = QString();
         m_desc = QStringLiteral("<br><b>") + i18n("Starting File Download") + QStringLiteral("</b><br>");
@@ -792,6 +789,7 @@ QString ResourceWidget::GetSaveFileNameAndPathS(const QString &path, const QStri
     {
         return saveUrlstring;
     }
+
     if (QFile::exists(saveUrlstring)) {
         int ret = QMessageBox::warning(this, i18n("File Exists"), i18n("Do you want to overwrite the existing file?"), QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
@@ -835,7 +833,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 file.close();
 
                 KMessageBox::information(this, i18n("Resource saved to %1", m_saveLocation), i18n("Data Imported"));
-                emit addClip(QUrl(m_saveLocation), QString()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
+                emit addClip(QUrl::fromLocalFile(m_saveLocation), QString()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
                 m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
                 m_desc.append(m_saveLocation);

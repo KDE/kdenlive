@@ -83,15 +83,15 @@ void LoginDialog::slotRejected()
 void LoginDialog::urlChanged(const QUrl &url)
 {
     // qCDebug(KDENLIVE_LOG) << "URL =" << url;
-    const QString str = url.toString();
-    const int posCode = str.indexOf(QLatin1String("&code="));
-    const int posErr = str.indexOf(QLatin1String("&error="));
+    const QString str = url.query(QUrl::FullyDecoded);
+    const int posCode = str.indexOf(QLatin1String("code="));
+    const int posErr = str.indexOf(QLatin1String("error="));
     if (posCode != -1) {
-        m_strAuthCode = str.mid(posCode + 6);
+        m_strAuthCode = str.mid(posCode + 5);
         emit authCodeObtained();
         QDialog::accept();
     } else if (posErr != -1) {
-        QString sError = str.mid(posErr + 7);
+        QString sError = str.mid(posErr + 6);
         if (sError == QLatin1String("access_denied")) {
             emit accessDenied();
         }
