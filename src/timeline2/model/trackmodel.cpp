@@ -1548,10 +1548,10 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     if (auto ptr = m_parent.lock()) {
-        // Resize main clip
-        result = ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, true);
         // Resize first part clip
-        result = result && ptr->getClipPtr(clipIds.first)->requestResize(secondInPos - firstInPos, true, local_undo, local_redo, true, true);
+        result = ptr->getClipPtr(clipIds.first)->requestResize(secondInPos - firstInPos, true, local_undo, local_redo, true, true);
+        // Resize main clip
+        result = result && ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, true);
     }
     if (result) {
         PUSH_LAMBDA(local_redo, redo);
