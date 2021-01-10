@@ -105,6 +105,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         qDebug()<< "srt File";
         //parsing srt file
         QTextStream stream(&srtFile);
+        stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
         while (stream.readLineInto(&line)) {
             line = line.simplified();
@@ -158,6 +159,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
             return;
         }
         QTextStream stream(&assFile);
+        stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();
