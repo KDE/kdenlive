@@ -457,28 +457,36 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
+    QString allExtensions = getExtensions().join(QLatin1Char(' '));
+    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
 
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
+    // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
+    importseq->setCheckable(true);
     fileWidget->setCustomWidget(importseq);
-    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [=] {
-        KFileItemList files = fileWidget->dirOperator()->selectedItems();
-        QList <QUrl> urls;
-        for (auto &f : files) {
-            urls << f.url();
+    // Required to only add file on double click and not on single click
+    fileWidget->setOperationMode(KFileWidget::Saving);
+    QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq]() {
+        if (importseq->isChecked()) {
+            // We are importing an image sequence, abort
+            return;
         }
+        fileWidget->accept();
+        QList <QUrl> urls = fileWidget->selectedUrls();
         pCore->bin()->droppedUrls(urls);
     });
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accepted);
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, &KFileWidget::accept);
+    fileWidget->setFilter(dialogFilter);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
-        QUrl url;
-        url  = fileWidget->selectedUrl();
+        fileWidget->slotOk();
+        fileWidget->accepted();
+        fileWidget->accept();
+        QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;
         QString pattern = SlideshowClip::selectedPath(url, false, QString(), &patternlist);
         int count = patternlist.size();
 
         QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
+        importseq->setChecked(false);
         if (count >= 1) {
             while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
                   fileName.chop(1);

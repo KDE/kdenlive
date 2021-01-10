@@ -688,9 +688,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             if (old_trackId == trackId) {
                 // We are moving a clip on same track
                 if (finalMove && position >= mixData.first.firstClipInOut.second) {
+                    position += m_allClips[clipId]->getMixDuration() - m_allClips[clipId]->getMixCutPosition();
                     removeMixWithUndo(clipId, local_undo, local_redo);
                 }
-            } else if (finalMove) {
+            } else {
                 // Clip moved to another track, delete mix
                 int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
                 update_playlist = [this, clipId, old_trackId, trackId, finalMove]() {
@@ -718,6 +719,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 if (finalMove && (position + clipDuration <= mixData.second.secondClipInOut.first)) {
                     // Moved outside mix zone
                     removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
+                    
                 }
             } else {
                 // Clip moved to another track, delete mix
@@ -738,11 +740,8 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 int mixEnd = m_allClips[mixData.first.firstClipId]->getPosition() + m_allClips[mixData.first.firstClipId]->getPlaytime();
                 if (mixEnd < position) {
                     // Mix will be deleted, recreate on undo
-                    bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
-                    update_playlist_undo = [this, mixData, old_trackId, isAudio]() {
-                        bool result = getTrackById_const(old_trackId)->createMix(mixData.first, isAudio);
-                        return result;
-                    };
+                    position += m_allClips[mixData.first.secondClipId]->getMixDuration() - m_allClips[mixData.first.secondClipId]->getMixCutPosition();
+                    removeMixWithUndo(mixData.first.secondClipId, local_undo, local_redo);
                 }
             }
         }
@@ -752,11 +751,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition();
                 if (mixEnd > position + m_allClips[clipId]->getPlaytime()) {
                     // Mix will be deleted, recreate on undo
-                    bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
-                    update_playlist_undo = [this, mixData, old_trackId, isAudio]() {
-                        bool result = getTrackById_const(old_trackId)->createMix(mixData.second, isAudio);
-                        return result;
-                    };
+                    removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
                 }
             }
         }
@@ -785,6 +780,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         Q_ASSERT(undone);
         return false;
     }
+    qDebug()<<":::MOVED CLIP: "<<clipId<<" TO "<<position;
     sync_mix();
     update_model();
     simple_move_mix();
@@ -2364,7 +2360,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                         Q_ASSERT(undone);
                         return false;
                     }
-                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
+                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1, subPlaylist);
                     delta_pos = qMax(delta_pos, newStart - current_in);
                 }
             } else {
@@ -2374,7 +2370,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
                 if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart, subPlaylist)) {
-                    int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime);
+                    int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime, subPlaylist);
                     if (newStart == current_in + playtime) {
                         // No move possible, abort
                         bool undone = local_undo();
@@ -2814,8 +2810,9 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
                 //TODO: don't allow subtitle overlap?
                 success = true;
             }
+            // undo temp move
+            temp_undo();
             if (success) {
-                temp_undo(); // undo temp move
                 size = proposed_size;
             }
         }

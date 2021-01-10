@@ -3109,7 +3109,7 @@ void MainWindow::slotSetTool(ProjectTool tool)
         QString message;
         switch (tool) {
         case SpacerTool:
-            message = i18n("Ctrl + click to use spacer on current track only");
+            message = i18n("Ctrl + click to use spacer on current track only, Shift + click to move guides too. You can combine both modifiers.");
             break;
         case RazorTool:
             message = i18n("Click on a clip to cut it, Shift + move to preview cut frame");

@@ -315,6 +315,7 @@ Rectangle {
     property int spacerFrame: -1
     property int finalSpacerFrame: -1
     property int spacerClickFrame: -1
+    property bool spacerGuides: false
     property real timeScale: timeline.scaleFactor
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
@@ -1018,13 +1019,19 @@ Rectangle {
                                 spacerTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId
                             }
                         }
+
+                        if(mouse.modifiers & Qt.ShiftModifier) {
+                            //spacer tool and shift modifier
+                            spacerGuides = true;
+                        }
+
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
-                        if (spacerGroup > -1) {
+                        if (spacerGroup > -1 || spacerGuides) {
                             drag.axis = Drag.XAxis
                             Drag.active = true
                             Drag.proposedAction = Qt.MoveAction
                             spacerClickFrame = frame
-                            spacerFrame = controller.getItemPosition(spacerGroup)
+                            spacerFrame = spacerGroup > -1 ? controller.getItemPosition(spacerGroup) : frame
                             finalSpacerFrame = spacerFrame
                         }
                     } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
@@ -1103,7 +1110,7 @@ Rectangle {
                         rubberSelect.height = newY - rubberSelect.originY
                     }
                     continuousScrolling(newX, newY)
-                } else if ((pressedButtons & Qt.LeftButton) && !shiftPress) {
+                } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
@@ -1112,7 +1119,10 @@ Rectangle {
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
+                    } else if (spacerGuides) {
+                        finalSpacerFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
                     }
+
                     scim = true
                 } else {
                     scim = false
@@ -1152,7 +1162,7 @@ Rectangle {
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions, selectSubs);
                     }
                     rubberSelect.y = -1
-                } else if (shiftPress) {
+                } else if (shiftPress && !spacerGuides) {
                     if (root.activeTool == 1) {
                         // Shift click, process seek
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
@@ -1169,13 +1179,21 @@ Rectangle {
                     }
                     return
                 }
+
                 if (spacerGroup > -1 && finalSpacerFrame > -1) {
                     var frame = controller.getItemPosition(spacerGroup)
-                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack);
+                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, spacerGuides ? spacerClickFrame : -1);
+                } else if (spacerGuides) {
+                   timeline.moveGuidesInRange(spacerClickFrame, -1, finalSpacerFrame - spacerFrame)
+                }
+
+                if (spacerGroup > -1 && finalSpacerFrame > -1 || spacerGuides) {
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1
+                    spacerGuides = false
                 }
+
                 scim = false
             }
 
@@ -1449,7 +1467,7 @@ Rectangle {
                                                 controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
-                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false)
+                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, false, false, false)
                                                     controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move
