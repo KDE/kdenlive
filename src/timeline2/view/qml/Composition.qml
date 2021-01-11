@@ -319,8 +319,18 @@ Item {
                 }
             }
         }
-        onEntered: if (!pressed) trimIn.opacity = 1
-        onExited: trimIn.opacity = 0
+        onEntered: {
+            if (!pressed) {
+                trimIn.opacity = 1
+                timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+            }
+        }
+        onExited: {
+            trimIn.opacity = 0
+            if (!mouseArea.containsMouse) {
+                timeline.showKeyBinding()
+            }
+        }
         Rectangle {
             id: trimIn
             anchors.left: parent.left
@@ -364,8 +374,18 @@ Item {
                 compositionRoot.trimmingOut(compositionRoot, newDuration, mouse)
             }
         }
-        onEntered: if (!pressed) trimOut.opacity = 1
-        onExited: trimOut.opacity = 0
+        onEntered: {
+            if (!pressed) {
+                trimIn.opacity = 1
+                timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
+            }
+        }
+        onExited: {
+            trimIn.opacity = 0
+            if (!mouseArea.containsMouse) {
+                timeline.showKeyBinding()
+            }
+        }
         Rectangle {
             id: trimOut
             anchors.right: parent.right

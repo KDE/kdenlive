@@ -3114,7 +3114,7 @@ void MainWindow::showToolMessage()
 {
     QString message;
     if (m_buttonSelectTool->isChecked()) {
-        message = i18n("<b>Shift</b> to create a selection rectangle, <b>Ctrl</b> to add an item to selection");
+        message = i18n("<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for multiple selection, <b>Ctrl drag</b> to pan");
     } else if (m_buttonRazorTool->isChecked()) {
         message = i18n("<b>Shift</b> to preview cut frame");
     } else if (m_buttonSpacerTool->isChecked()) {

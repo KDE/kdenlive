@@ -148,6 +148,7 @@ sox_gain.xml
 sox_phaser.xml
 sox_stretch.xml
 speed.xml
+strobe.xml
 swapchannels.xml
 tcolor.xml
 threshold.xml

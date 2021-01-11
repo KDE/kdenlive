@@ -584,7 +584,7 @@ Rectangle {
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         timeline.showToolTip(s)
-                        timeline.showKeyBinding(i18n("<b>Ctrl</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                        timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                     }
                 }
                 onExited: {
@@ -595,7 +595,9 @@ Rectangle {
                         } else {
                             clipRoot.showClipInfo()
                         }
-                        timeline.showKeyBinding()
+                        if (!fadeInMouseArea.containsMouse) {
+                            timeline.showKeyBinding()
+                        }
                     }
                 }
                 Rectangle {
@@ -687,7 +689,9 @@ Rectangle {
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         timeline.showToolTip(s)
-                        timeline.showKeyBinding(i18n("<b>Ctrl</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                        if (!fadeOutMouseArea.containsMouse) {
+                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                        }
                     }
                 }
                 onExited: {
@@ -703,7 +707,9 @@ Rectangle {
                         .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
                              timeline.showToolTip(text)
                          }
-                         timeline.showKeyBinding()
+                         if (!fadeOutMouseArea.containsMouse) {
+                             timeline.showKeyBinding()
+                         }
                     }
                 }
                 /*ToolTip {
@@ -1054,7 +1060,7 @@ Rectangle {
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to add a fade, <b>Double click</b> to add default duration fade"))
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1072,7 +1078,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.right: clipRoot.fadeOut > 0 ? undefined : parent.right
                 anchors.horizontalCenter: clipRoot.fadeOut > 0 ? parent.horizontalCenter : undefined
-                width: fadeOutMouseArea.containsMouse || Drag.active ? parent.width : 5
+                width: fadeOutMouseArea.containsMouse || Drag.active ? parent.width : parent.width / 2
                 height: width
                 radius: width / 2
                 color: 'darkred'
@@ -1097,7 +1103,7 @@ Rectangle {
             // Fade in drag zone
             id: fadeInMouseArea
             anchors.left: container.left
-            anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 2)
+            anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 3)
             anchors.top: parent.top
             width: Math.min(root.baseUnit, container.height / 3)
             height: width
@@ -1149,7 +1155,7 @@ Rectangle {
                     } else {
                         clipRoot.showClipInfo()
                     }
-                    timeline.showKeyBinding(i18n("<b>Drag</b> to add a fade, <b>Double click</b> to add default duration fade"))
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"))
                 }
             }
             onExited: {
@@ -1167,7 +1173,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.left: clipRoot.fadeIn > 0 ? undefined : parent.left
                 anchors.horizontalCenter: clipRoot.fadeIn > 0 ? parent.horizontalCenter : undefined
-                width: fadeInMouseArea.containsMouse || Drag.active ? parent.width : 5
+                width: fadeInMouseArea.containsMouse || Drag.active ? parent.width : parent.width / 3
                 height: width
                 radius: width / 2
                 color: 'green'

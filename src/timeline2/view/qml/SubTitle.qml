@@ -46,6 +46,10 @@ Item {
             drag.minimumX: 0
             onEntered: {
                 console.log('ENTERED SUBTITLE MOUSE AREA')
+                timeline.showKeyBinding(i18n("<b>Double click</b> to edit text"))
+            }
+            onExited: {
+                timeline.showKeyBinding()
             }
             onPressed: {
                 console.log('ENTERED ITEM CLCKD')
@@ -203,9 +207,15 @@ Item {
             onEntered: {
                 if (!pressed) {
                     trimIn.opacity = 1
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
                 }
             }
-            onExited: trimIn.opacity = 0
+            onExited: {
+                trimIn.opacity = 0
+                if (!subtitleClipArea.containsMouse) {
+                    timeline.showKeyBinding()
+                }
+            }
 
             Rectangle {
                 id: trimIn
@@ -286,9 +296,15 @@ Item {
                 console.log('ENTER MOUSE END AREA')
                 if (!pressed) {
                     trimOut.opacity = 1
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to resize"))
                 }
             }
-            onExited: trimOut.opacity = 0
+            onExited: {
+                trimOut.opacity = 0
+                if (!subtitleClipArea.containsMouse) {
+                    timeline.showKeyBinding()
+                }
+            }
 
             Rectangle {
                 id: trimOut

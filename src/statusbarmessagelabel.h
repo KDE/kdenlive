@@ -84,7 +84,7 @@ struct StatusBarMessageItem
  * DolphinStatusBar::Error a dynamic color blending is done to get the
  * attention from the user.
  */
-class StatusBarMessageLabel : public FlashLabel
+class StatusBarMessageLabel : public QWidget
 {
     Q_OBJECT
 
@@ -127,6 +127,7 @@ private:
     enum { BorderGap = 2 };
 
     int m_minTextHeight;
+    FlashLabel *m_container;
     QLabel *m_pixmap;
     QLabel *m_label;
     QLabel *m_keyMap;

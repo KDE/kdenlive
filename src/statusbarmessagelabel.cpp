@@ -66,12 +66,14 @@ QColor FlashLabel::color() const
 }
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
-    : FlashLabel(parent)
+    : QWidget(parent)
     , m_minTextHeight(-1)
     , m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
+    m_container = new FlashLabel(this);
     auto *lay = new QHBoxLayout(this);
+    auto *lay2 = new QHBoxLayout(m_container);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_label = new QLabel(this);
@@ -81,9 +83,10 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_keyMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_keyMap->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_progress = new QProgressBar(this);
-    lay->addWidget(m_pixmap);
-    lay->addWidget(m_label);
-    lay->addWidget(m_progress);
+    lay2->addWidget(m_pixmap);
+    lay2->addWidget(m_label);
+    lay2->addWidget(m_progress);
+    lay->addWidget(m_container);
     
     
     QFrame* line = new QFrame(this);
@@ -231,9 +234,9 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         }
     }
 
-    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(this).color();
+    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(m_container).color();
     const char *iconName = nullptr;
-    setColor(parentWidget()->palette().window().color());
+    m_container->setColor(m_container->palette().window().color());
     switch (m_currentMessage.type) {
     case ProcessingJobMessage:
         iconName = "chronometer";
@@ -247,11 +250,11 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     case InformationMessage: {
         iconName = "dialog-information";
         m_pixmap->setCursor(Qt::ArrowCursor);
-        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
         anim->setDuration(3000);
         anim->setEasingCurve(QEasingCurve::InOutQuad);
-        anim->setKeyValueAt(0.2, parentWidget()->palette().highlight().color());
-        anim->setEndValue(parentWidget()->palette().window().color());
+        anim->setKeyValueAt(0.2, m_container->palette().highlight().color());
+        anim->setEndValue(m_container->palette().window().color());
         anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
     }
@@ -259,10 +262,10 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     case ErrorMessage: {
         iconName = "dialog-warning";
         m_pixmap->setCursor(Qt::ArrowCursor);
-        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
         anim->setStartValue(bgColor);
         anim->setKeyValueAt(0.8, bgColor);
-        anim->setEndValue(parentWidget()->palette().window().color());
+        anim->setEndValue(m_container->palette().window().color());
         anim->setEasingCurve(QEasingCurve::OutCubic);
         anim->setDuration(4000);
         anim->start(QPropertyAnimation::DeleteWhenStopped);
@@ -271,7 +274,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     case MltError: {
         iconName = "dialog-close";
         m_pixmap->setCursor(Qt::PointingHandCursor);
-        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
         anim->setStartValue(bgColor);
         anim->setEndValue(bgColor);
         anim->setEasingCurve(QEasingCurve::OutCubic);
