@@ -4063,3 +4063,20 @@ void TimelineController::showToolTip(const QString &info) const
 {
     pCore->displayMessage(info, DirectMessage);
 }
+
+void TimelineController::showKeyBinding(const QString &info) const
+{
+    pCore->window()->showKeyBinding(info);
+}
+
+
+void TimelineController::showTimelineToolInfo(bool show) const
+{
+    if (show) {
+        pCore->window()->showToolMessage();
+    } else {
+        pCore->window()->clearToolMessage();
+    }
+}
+
+

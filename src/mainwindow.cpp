@@ -3105,22 +3105,32 @@ void MainWindow::slotChangeEdit(QAction *action)
 void MainWindow::slotSetTool(ProjectTool tool)
 {
     if (pCore->currentDoc()) {
-        // pCore->currentDoc()->setTool(tool);
-        QString message;
-        switch (tool) {
-        case SpacerTool:
-            message = i18n("Ctrl + click to use spacer on current track only, Shift + click to move guides too. You can combine both modifiers.");
-            break;
-        case RazorTool:
-            message = i18n("Click on a clip to cut it, Shift + move to preview cut frame");
-            break;
-        default:
-            message = i18n("Shift + click to create a selection rectangle, Ctrl + click to add an item to selection");
-            break;
-        }
-        m_messageLabel->setMessage(message, InformationMessage);
+        showToolMessage();
         getMainTimeline()->setTool(tool);
     }
+}
+
+void MainWindow::showToolMessage()
+{
+    QString message;
+    if (m_buttonSelectTool->isChecked()) {
+        message = i18n("<b>Shift</b> to create a selection rectangle, <b>Ctrl</b> to add an item to selection");
+    } else if (m_buttonRazorTool->isChecked()) {
+        message = i18n("<b>Shift</b> to preview cut frame");
+    } else if (m_buttonSpacerTool->isChecked()) {
+        message = i18n("<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move guides. You can combine both modifiers.");
+    }
+    m_messageLabel->setKeyMap(message);
+}
+
+void MainWindow::clearToolMessage()
+{
+    m_messageLabel->setKeyMap(QString());
+}
+
+void MainWindow::showKeyBinding(const QString &text)
+{
+    m_messageLabel->setTmpKeyMap(text);
 }
 
 void MainWindow::slotCopy()

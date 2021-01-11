@@ -184,6 +184,15 @@ Rectangle {
         var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
     }
+    
+    function showClipInfo() {
+        var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
+                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
+        timeline.showToolTip(text)
+    }
 
     function getColor() {
         if (clipRoot.clipState == ClipState.Disabled) {
@@ -299,17 +308,14 @@ Rectangle {
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
             initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
-            var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
-                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
-                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
-            timeline.showToolTip(text)
+            showClipInfo()
         }
 
         onExited: {
             endDrag()
-            timeline.showToolTip()
+            if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
+                timeline.showToolTip()
+            }
         }
         onWheel: zoomByWheel(wheel)
 
@@ -578,6 +584,7 @@ Rectangle {
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         timeline.showToolTip(s)
+                        timeline.showKeyBinding(i18n("<b>Ctrl</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                     }
                 }
                 onExited: {
@@ -586,13 +593,9 @@ Rectangle {
                         if (!mouseArea.containsMouse) {
                             timeline.showToolTip()
                         } else {
-                            var text = i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
-                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
-                        .arg(timeline.simplifiedTC(clipRoot.modelStart))
-                        .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
-                             timeline.showToolTip(text)
+                            clipRoot.showClipInfo()
                         }
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -684,6 +687,7 @@ Rectangle {
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = i18n("Out:%1, Position:%2", timeline.simplifiedTC(clipRoot.outPoint),timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         timeline.showToolTip(s)
+                        timeline.showKeyBinding(i18n("<b>Ctrl</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
                     }
                 }
                 onExited: {
@@ -699,6 +703,7 @@ Rectangle {
                         .arg(timeline.simplifiedTC(clipRoot.clipDuration)))
                              timeline.showToolTip(text)
                          }
+                         timeline.showKeyBinding()
                     }
                 }
                 /*ToolTip {
@@ -933,19 +938,11 @@ Rectangle {
             onPressed: {
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
-            ToolTip {
-                visible: compInArea.containsMouse && !dragProxyArea.pressed
-                delay: 1000
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    font: miniFont
-                    text: i18n("Click to add composition")
-                }
+            onEntered: {
+                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+            }
+            onExited: {
+                timeline.showKeyBinding()
             }
             Rectangle {
                 // Start composition box
@@ -977,19 +974,11 @@ Rectangle {
             onPressed: {
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
-            ToolTip {
-                visible: compOutArea.containsMouse && !dragProxyArea.pressed
-                delay: 1000
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    font: miniFont
-                    text: i18n("Click to add composition")
-                }
+            onEntered: {
+                timeline.showKeyBinding(i18n("<b>Click</b> to add composition"))
+            }
+            onExited: {
+                timeline.showKeyBinding()
             }
             Rectangle {
                 // End composition box
@@ -1054,9 +1043,27 @@ Rectangle {
                         lastDuration = duration
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        var s = timeline.simplifiedTC(clipRoot.fadeOut)
-                        timeline.showToolTip(s)
-                        //bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
+                        timeline.showToolTip(i18n("Fade out: %1", timeline.simplifiedTC(clipRoot.fadeOut)))
+                    }
+                }
+            }
+            onEntered: {
+                if (!pressed) {
+                    if (clipRoot.fadeOut > 0) {
+                        timeline.showToolTip(i18n("Fade out: %1", timeline.simplifiedTC(clipRoot.fadeOut)))
+                    } else {
+                        clipRoot.showClipInfo()
+                    }
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to add a fade, <b>Double click</b> to add default duration fade"))
+                }
+            }
+            onExited: {
+                if (!pressed) {
+                    timeline.showKeyBinding()
+                    if (mouseArea.containsMouse) {
+                        clipRoot.showClipInfo()
+                    } else {
+                        timeline.showToolTip()
                     }
                 }
             }
@@ -1082,21 +1089,6 @@ Rectangle {
                     height: container.height
                     width: 1
                     visible : clipRoot.fadeOut > 0 && (fadeOutMouseArea.containsMouse || fadeOutMouseArea.drag.active)
-                }
-                ToolTip {
-                    visible: fadeOutMouseArea.containsMouse && !fadeOutMouseArea.drag.active
-                    delay: 1000
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        font: miniFont
-                        text: clipRoot.fadeOut > 0 ? '%1: %2'.arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(clipRoot.fadeOut)) : i18n("Double click or drag to add a fade")
-                    }
                 }
             }
         }
@@ -1146,9 +1138,27 @@ Rectangle {
                     if (duration != clipRoot.fadeIn) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        var s = timeline.simplifiedTC(clipRoot.fadeIn)
-                        timeline.showToolTip(s)
-                        //bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
+                        timeline.showToolTip(i18n("Fade in: %1", timeline.simplifiedTC(clipRoot.fadeIn)))
+                    }
+                }
+            }
+            onEntered: {
+                if (!pressed) {
+                    if (clipRoot.fadeIn > 0) {
+                        timeline.showToolTip(i18n("Fade in: %1", timeline.simplifiedTC(clipRoot.fadeIn)))
+                    } else {
+                        clipRoot.showClipInfo()
+                    }
+                    timeline.showKeyBinding(i18n("<b>Drag</b> to add a fade, <b>Double click</b> to add default duration fade"))
+                }
+            }
+            onExited: {
+                if (!pressed) {
+                    timeline.showKeyBinding()
+                    if (mouseArea.containsMouse) {
+                        clipRoot.showClipInfo()
+                    } else {
+                        timeline.showToolTip()
                     }
                 }
             }
@@ -1174,21 +1184,6 @@ Rectangle {
                     height: container.height
                     width: 1
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
-                }
-                ToolTip {
-                    visible: fadeInMouseArea.containsMouse && !fadeInMouseArea.drag.active
-                    delay: 1000
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        font: miniFont
-                        text: clipRoot.fadeIn > 0 ? '%1: %2'.arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(clipRoot.fadeIn)) : i18n("Double click or drag to add a fade")
-                    }
                 }
             }
         }

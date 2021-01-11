@@ -147,6 +147,13 @@ public:
     /** @brief Restart the application and delete config files if clean is true */
     void cleanRestart(bool clean);
 
+    /** @brief Show current tool key combination in status bar */
+    void showToolMessage();
+    /** @brief Hide the current tool key combination in status bar */
+    void clearToolMessage();
+    /** @brief Show a key binding in status bar */
+    void showKeyBinding(const QString &text);
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or

@@ -102,6 +102,10 @@ protected:
 public slots:
     void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100);
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
+    /** @brief Display a key binding info in status bar */
+    void setKeyMap(const QString &text);
+    /** @brief Display a temporary key binding info in status bar, revert to defaut one if text is empty */
+    void setTmpKeyMap(const QString &text);
 
 private slots:
 
@@ -125,6 +129,8 @@ private:
     int m_minTextHeight;
     QLabel *m_pixmap;
     QLabel *m_label;
+    QLabel *m_keyMap;
+    QString m_keymapText;
     QProgressBar *m_progress;
     QTimerWithTime m_queueTimer;
     QSemaphore m_queueSemaphore;

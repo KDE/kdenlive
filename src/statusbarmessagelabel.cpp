@@ -77,10 +77,20 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_label = new QLabel(this);
     m_label->setAlignment(Qt::AlignLeft);
     m_label->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    m_keyMap = new QLabel(this);
+    m_keyMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_keyMap->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_progress = new QProgressBar(this);
     lay->addWidget(m_pixmap);
     lay->addWidget(m_label);
     lay->addWidget(m_progress);
+    
+    
+    QFrame* line = new QFrame(this);
+    line->setFrameShape(QFrame::VLine);
+    line->setFrameShadow(QFrame::Sunken);
+    lay->addWidget(line);
+    lay->addWidget(m_keyMap);
     setLayout(lay);
     m_progress->setVisible(false);
     lay->setContentsMargins(BorderGap, 0, 2 * BorderGap, 0);
@@ -96,6 +106,21 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
     if (m_pixmap->rect().contains(event->localPos().toPoint()) && m_currentMessage.type == MltError) {
         confirmErrorMessage();
+    }
+}
+
+void StatusBarMessageLabel::setKeyMap(const QString &text)
+{
+    m_keyMap->setText(text);
+    m_keymapText = text;
+}
+
+void StatusBarMessageLabel::setTmpKeyMap(const QString &text)
+{
+    if (text.isEmpty()) {
+        m_keyMap->setText(m_keymapText);
+    } else {
+        m_keyMap->setText(text);
     }
 }
 

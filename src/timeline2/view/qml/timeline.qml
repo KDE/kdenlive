@@ -1057,6 +1057,10 @@ Rectangle {
             property bool scim: false
             onExited: {
                 scim = false
+                timeline.showTimelineToolInfo(false)
+            }
+            onEntered: {
+                timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: {
                 if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {

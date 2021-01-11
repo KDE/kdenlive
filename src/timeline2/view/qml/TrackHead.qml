@@ -261,9 +261,16 @@ Rectangle {
                 // Used to pass modifier state to expand button
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton
+                hoverEnabled: true
                 onPressed: {
                     expandButton.modifier = mouse.modifiers
                     mouse.accepted = false
+                }
+                onEntered: {
+                    timeline.showKeyBinding(i18n("<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"))
+                }
+                onExited: {
+                    timeline.showKeyBinding()
                 }
             }
             anchors.left: parent.left

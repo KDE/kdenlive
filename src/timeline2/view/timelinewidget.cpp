@@ -61,6 +61,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     kdeclarative.setupEngine(engine());
     kdeclarative.setupContext();
     setClearColor(palette().window().color());
+    setMouseTracking(true);
     registerTimelineItems();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     m_proxy = new TimelineController(this);

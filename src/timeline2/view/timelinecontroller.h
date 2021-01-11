@@ -180,6 +180,8 @@ public:
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
+    Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
+    Q_INVOKABLE void showTimelineToolInfo(bool show) const;
     void switchSubtitleDisable();
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
