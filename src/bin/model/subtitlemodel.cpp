@@ -261,6 +261,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         return true;
     };
     PUSH_LAMBDA(update_model, redo);
+    update_model();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
     }
