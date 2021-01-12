@@ -38,6 +38,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTextCodec>
 #include <QApplication>
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
