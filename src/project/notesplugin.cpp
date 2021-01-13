@@ -35,6 +35,8 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     lay->addWidget(m_widget);
     container->setLayout(lay);
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
+    connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
+
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
@@ -124,6 +126,11 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
         }
         ix++;
     }
+}
+
+void NotesPlugin::slotInsertText(const QString &text)
+{
+    m_widget->insertHtml(text);
 }
 
 NotesWidget *NotesPlugin::widget()

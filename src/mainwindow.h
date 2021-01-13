@@ -369,6 +369,7 @@ private slots:
     void slotAddEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url, const QString &folderInfo);
+    void slotAddTextNote(const QString &text);
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);

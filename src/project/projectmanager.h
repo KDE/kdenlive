@@ -169,6 +169,8 @@ public slots:
     void activateAsset(const QVariantMap &effectData);
     /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */
     void slotAddProjectNote();
+    /** @brief insert license text in notes widget and focus widget to allow entering quick note */
+    void slotAddTextNote(const QString &text);
 
 private slots:
     void slotRevert();

@@ -47,6 +47,7 @@ struct OnlineItemInfo
     QString author;
     QString authorUrl;
     QString description;
+    int filesize;
     QString fileType;
     QString HQpreview;
 };

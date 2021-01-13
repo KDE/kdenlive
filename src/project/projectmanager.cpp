@@ -743,6 +743,14 @@ void ProjectManager::slotAddProjectNote()
     m_notesPlugin->widget()->addProjectNote();
 }
 
+void ProjectManager::slotAddTextNote(const QString &text)
+{
+    m_notesPlugin->showDock();
+    m_notesPlugin->widget()->raise();
+    m_notesPlugin->widget()->setFocus();
+    m_notesPlugin->widget()->addTextNote(text);
+}
+
 void ProjectManager::prepareSave()
 {
     pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),

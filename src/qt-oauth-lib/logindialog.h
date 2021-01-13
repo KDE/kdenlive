@@ -82,6 +82,9 @@ signals:
      */
     void useHQPreview();
 
+public slots:
+    void open();
+
 private slots:
     void urlChanged(const QUrl &url);
 

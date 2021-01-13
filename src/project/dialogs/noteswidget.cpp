@@ -215,6 +215,15 @@ void NotesWidget::addProjectNote()
     emit insertNotesTimecode();
 }
 
+void NotesWidget::addTextNote(const QString &text)
+{
+    if (!textCursor().atBlockStart()) {
+        textCursor().movePosition(QTextCursor::EndOfBlock);
+        insertPlainText(QStringLiteral("\n"));
+    }
+    emit insertTextNote(text);
+}
+
 void NotesWidget::insertFromMimeData(const QMimeData *source)
 {
     QString pastedText = source->text();
