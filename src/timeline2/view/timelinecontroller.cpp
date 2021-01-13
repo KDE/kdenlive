@@ -2657,15 +2657,30 @@ void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {
         // apply to active track only
-        bool locked = m_model->getTrackById_const(m_activeTrack)->isLocked();
-        m_model->setTrackLockedState(m_activeTrack, !locked);
+        if (m_activeTrack == -2) {
+            // Subtitle track
+            switchSubtitleLock();
+        } else {
+            bool locked = m_model->getTrackById_const(m_activeTrack)->isLocked();
+            m_model->setTrackLockedState(m_activeTrack, !locked);
+        }
     } else {
         // Invert track lock
         const auto ids = m_model->getAllTracksIds();
         // count the number of tracks to be locked
         int toBeLockedCount =
             std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
-        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount();
+        auto subtitleModel = pCore->getSubtitleModel();
+        bool subLocked = false;
+        bool hasSubtitleTrack = false;
+        if (subtitleModel) {
+            hasSubtitleTrack = true;
+            subLocked= subtitleModel->isLocked();
+            if (!subLocked) {
+                toBeLockedCount++;
+            }
+        }
+        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? 1 : 0;
         for (const int id : ids) {
             // leave active track unlocked
             if (leaveOneUnlocked && id == m_activeTrack) {
@@ -2674,11 +2689,19 @@ void TimelineController::switchTrackLock(bool applyToAll)
             bool isLocked = m_model->getTrackById_const(id)->isLocked();
             m_model->setTrackLockedState(id, !isLocked);
         }
+        if (hasSubtitleTrack) {
+            if (!leaveOneUnlocked || m_activeTrack != -2) {
+                switchSubtitleLock();
+            }
+        }
     }
 }
 
 void TimelineController::switchTargetTrack()
 {
+    if (m_activeTrack < 0) {
+        return;
+    }
     bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
     if (isAudio) {
         QMap<int, int> current = m_model->m_audioTarget;
@@ -2780,17 +2803,30 @@ void TimelineController::selectAll()
     for (const auto &clp : m_model->m_allCompositions) {
         ids.insert(clp.first);
     }
+    // Subtitles
+    for (const auto &sub : m_model->m_allSubtitles) {
+        ids.insert(sub.first);
+    }
     m_model->requestSetSelection(ids);
 }
 
 void TimelineController::selectCurrentTrack()
 {
-    std::unordered_set<int> ids;
-    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
-        ids.insert(clp.first);
+    if (m_activeTrack == -1) {
+        return;
     }
-    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
-        ids.insert(clp.first);
+    std::unordered_set<int> ids;
+    if (m_activeTrack == -2) {
+        for (const auto &sub : m_model->m_allSubtitles) {
+            ids.insert(sub.first);
+        }
+    } else {
+        for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
+            ids.insert(clp.first);
+        }
+        for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
+            ids.insert(clp.first);
+        }
     }
     m_model->requestSetSelection(ids);
 }
