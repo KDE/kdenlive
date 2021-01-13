@@ -1809,7 +1809,13 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
 bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks)
 {
     // find blank duration
-    int spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
+    int spaceDuration;
+    if (trackId == -2) {
+        // Subtitle track
+        spaceDuration = timeline->getSubtitleModel()->getBlankSizeAtPos(position);
+    } else {
+        spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
+    }
     int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
     if (cid == -1) {
         return false;

@@ -1078,7 +1078,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.right: clipRoot.fadeOut > 0 ? undefined : parent.right
                 anchors.horizontalCenter: clipRoot.fadeOut > 0 ? parent.horizontalCenter : undefined
-                width: fadeOutMouseArea.containsMouse || Drag.active ? parent.width : parent.width / 2
+                width: fadeOutMouseArea.containsMouse || Drag.active ? parent.width : parent.width / 3
                 height: width
                 radius: width / 2
                 color: 'darkred'

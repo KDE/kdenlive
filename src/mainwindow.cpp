@@ -608,6 +608,7 @@ void MainWindow::init()
 
     //Timeline subtitle menu
     QMenu *timelineSubtitleMenu = new QMenu(this);
+    timelineSubtitleMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     timelineSubtitleMenu->addAction(actionCollection()->action(QStringLiteral("delete_subtitle_clip")));
 
     // Timeline headers menu

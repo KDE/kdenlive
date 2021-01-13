@@ -1141,3 +1141,21 @@ QDomElement SubtitleModel::toXml(int sid, QDomDocument &document)
     return container;
 }
 
+
+int SubtitleModel::getBlankSizeAtPos(int pos) const
+{
+    GenTime matchPos(pos, pCore->getCurrentFps());
+    std::unordered_set<int> matching;
+    GenTime min;
+    GenTime max;
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.first > matchPos && (max == GenTime() ||  subtitles.first < max)) {
+            // Outside range
+            max = subtitles.first;
+        }
+        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+            min = subtitles.second.second;
+        }
+    }
+    return max.frames(pCore->getCurrentFps()) - min.frames(pCore->getCurrentFps());
+}

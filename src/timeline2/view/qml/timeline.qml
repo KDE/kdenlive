@@ -51,6 +51,14 @@ Rectangle {
         scrollView.contentX = pos
     }
 
+    function switchSubtitleTrack() {
+        if (subtitleTrack.height > root.collapsedHeight) {
+            subtitleTrack.height = root.collapsedHeight
+        } else {
+            subtitleTrack.height = 5 * root.baseUnit
+        }
+    }
+    
     function checkDeletion(itemId) {
         if (dragProxy.draggedItem == itemId) {
             endDrag()
@@ -74,12 +82,29 @@ Rectangle {
     }
 
     function moveSelectedTrack(offset) {
-        var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
-        var newTrack = cTrack + offset
+        var newTrack
+        if (timeline.activeTrack < 0 ) {
+            if (offset <0) {
+                newTrack = -2
+            } else {
+                newTrack = max
+            }
+        } else {
+            var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
+            newTrack = cTrack + offset
+        }
         var max = tracksRepeater.count;
         if (newTrack < 0) {
+            if (showSubtitles && newTrack == -1) {
+                timeline.activeTrack = -2
+                return
+            }
             newTrack = max - 1;
         } else if (newTrack >= max) {
+            if (showSubtitles) {
+                timeline.activeTrack = -2
+                return
+            }
             newTrack = 0;
         }
         timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackInternalId
@@ -738,12 +763,19 @@ Rectangle {
                         scrollView.contentY = Math.max(newScroll, 0)
                     }
                 }
-                Item {
+                Rectangle {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     visible: height > 0
+                    color: (timeline.activeTrack == -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            timeline.activeTrack = -2
+                        }
+                    }
                     ToolButton {
                         id: expandSubButton
                         focusPolicy: Qt.NoFocus
@@ -902,7 +934,7 @@ Rectangle {
                     width: root.baseUnit / 2
                     Rectangle {
                         id: resizer
-                        height: trackHeaders.height
+                        height: trackHeaders.height + subtitleTrackHeader.height
                         width: root.baseUnit / 2
                         x: root.headerWidth - 2
                         color: 'red'
@@ -1041,13 +1073,14 @@ Rectangle {
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
-                    if (mouse.y > ruler.height + subtitleTrack.height) {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
+                    if (mouse.y > ruler.height) {
+                        if (mouse.y > ruler.height + subtitleTrack.height) {    
+                            timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
+                        } else {
+                            timeline.activeTrack = -2
+                        }
                         root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
-                    } else if (mouse.y > ruler.height) {
-                        //TODO:
-                        // subtitle track menu
                     } else {
                         // ruler menu
                         root.showRulerMenu()
@@ -1248,6 +1281,13 @@ Rectangle {
                     // These make the striped background for the tracks.
                     // It is important that these are not part of the track visual hierarchy;
                     // otherwise, the clips will be obscured by the Track's background.
+                    Rectangle {
+                        width: scrollView.width
+                        border.width: 1
+                        border.color: root.frameColor
+                        height: subtitleTrack.height
+                        color: (timeline.activeTrack == -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    }
                     Column {
                         y: subtitleTrack.height
                         topPadding: -scrollView.contentY
@@ -1301,6 +1341,7 @@ Rectangle {
                                 onWheel: zoomByWheel(wheel)
                                 //cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
                             }
+                            
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                         }
                         Item {
@@ -1620,7 +1661,6 @@ Rectangle {
             height: trackHeight
             isAudio: audio
             trackThumbsFormat: thumbsFormat
-            isCurrentTrack: item === timeline.activeTrack
             trackInternalId: item
             z: tracksRepeater.count - index
         }

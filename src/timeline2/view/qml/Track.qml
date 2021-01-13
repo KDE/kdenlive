@@ -26,7 +26,6 @@ Item{
     property alias rootIndex : trackModel.rootIndex
     property bool isAudio
     property real timeScale: 1.0
-    property bool isCurrentTrack: false
     property bool isLocked: false
     property int trackInternalId : -42
     property int trackThumbsFormat
