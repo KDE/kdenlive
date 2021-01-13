@@ -4121,7 +4121,7 @@ void TimelineController::showTimelineToolInfo(bool show) const
     if (show) {
         pCore->window()->showToolMessage();
     } else {
-        pCore->window()->clearToolMessage();
+        pCore->window()->setWidgetKeyBinding();
     }
 }
 

@@ -1296,13 +1296,10 @@ void MainWindow::setupActions()
     int small = style()->pixelMetric(QStyle::PM_SmallIconSize);
     statusBar()->setMaximumHeight(2 * small);
     m_messageLabel = new StatusBarMessageLabel(this);
-    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+    m_messageLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     connect(this, &MainWindow::displayMessage, m_messageLabel, &StatusBarMessageLabel::setMessage);
     connect(this, &MainWindow::displayProgressMessage, m_messageLabel, &StatusBarMessageLabel::setProgressMessage);
-    statusBar()->addWidget(m_messageLabel, 0);
-    QWidget *spacer = new QWidget(this);
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    statusBar()->addWidget(spacer, 1);
+    statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addPermanentWidget(toolbar);
     toolbar->setIconSize(QSize(small, small));
     toolbar->layout()->setContentsMargins(0, 0, 0, 0);
@@ -3129,9 +3126,9 @@ void MainWindow::showToolMessage()
     m_messageLabel->setKeyMap(message);
 }
 
-void MainWindow::clearToolMessage()
+void MainWindow::setWidgetKeyBinding(const QString &mess)
 {
-    m_messageLabel->setKeyMap(QString());
+    m_messageLabel->setKeyMap(mess);
 }
 
 void MainWindow::showKeyBinding(const QString &text)

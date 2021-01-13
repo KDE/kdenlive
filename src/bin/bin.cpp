@@ -541,6 +541,18 @@ void MyListView::focusInEvent(QFocusEvent *event)
     }
 }
 
+void MyListView::enterEvent(QEvent *event)
+{
+    QListView::enterEvent(event);
+    pCore->window()->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+}
+
+void MyListView::leaveEvent(QEvent *event)
+{
+    QListView::leaveEvent(event);
+    pCore->window()->setWidgetKeyBinding();
+}
+
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
     QListView::mousePressEvent(event);
@@ -559,10 +571,10 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (KdenliveSettings::hoverPreview()) {
-        QModelIndex index = indexAt(event->pos());
-        if (index.isValid()) {
-            QAbstractItemDelegate *del = itemDelegate(index);
+    QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        QAbstractItemDelegate *del = itemDelegate(index);
+        if (KdenliveSettings::hoverPreview()) {
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
@@ -572,6 +584,9 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 qDebug()<<"<<< NO DELEGATE!!!";
             }
         }
+        pCore->window()->showKeyBinding(i18n("F2 to rename selected item"));
+    } else {
+        pCore->window()->showKeyBinding();
     }
     QListView::mouseMoveEvent(event);
 }
@@ -606,6 +621,18 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
+void MyTreeView::enterEvent(QEvent *event)
+{
+    QTreeView::enterEvent(event);
+    pCore->window()->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+}
+
+void MyTreeView::leaveEvent(QEvent *event)
+{
+    QTreeView::leaveEvent(event);
+    pCore->window()->setWidgetKeyBinding();
+}
+
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     bool dragged = false;
@@ -614,12 +641,17 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();
         }
-    } else if (KdenliveSettings::hoverPreview()) {
+    } else {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
-            QAbstractItemDelegate *del = itemDelegate(index);
-            int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
-            emit displayBinFrame(index, frame);
+            if (KdenliveSettings::hoverPreview()) {
+                QAbstractItemDelegate *del = itemDelegate(index);
+                int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
+                emit displayBinFrame(index, frame);
+            }
+            pCore->window()->showKeyBinding(i18n("F2 to rename selected item"));
+        } else {
+            pCore->window()->showKeyBinding();
         }
     }
     if (!dragged) {
@@ -845,6 +877,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_iconSize(160, 90)
     , m_propertiesPanel(nullptr)
     , m_blankThumb()
+    , m_clipWidget()
     , m_filterGroup(this)
     , m_filterRateGroup(this)
     , m_filterTypeGroup(this)
@@ -852,7 +885,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
-    , m_clipWidget()
 {
     m_layout = new QVBoxLayout(this);
 

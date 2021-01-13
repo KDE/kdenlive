@@ -149,10 +149,10 @@ public:
 
     /** @brief Show current tool key combination in status bar */
     void showToolMessage();
-    /** @brief Hide the current tool key combination in status bar */
-    void clearToolMessage();
+    /** @brief Show the widget's default key binding message */
+    void setWidgetKeyBinding(const QString &text = QString());
     /** @brief Show a key binding in status bar */
-    void showKeyBinding(const QString &text);
+    void showKeyBinding(const QString &text = QString());
 
 protected:
     /** @brief Closes the window.

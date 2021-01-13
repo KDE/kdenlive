@@ -80,8 +80,11 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
-    void focusInEvent(QFocusEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
@@ -104,6 +107,8 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 protected slots:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
