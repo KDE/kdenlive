@@ -3,7 +3,7 @@
 	<name>Zoom Pan</name>
 	<description>Apply Zoom and Pan effect</description>
 	<author>libavfilter</author>
-    <parameter type="constant" name="av.z" default="1" min="0" max="10" decimals="2">
+    <parameter type="constant" name="av.z" default="1" min="1" max="10" decimals="2">
                 <name>Zoom</name>
         </parameter>
 <parameter type="constant" name="av.x"  default="0" min="0" max="%width" factor="1">
