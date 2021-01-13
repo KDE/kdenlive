@@ -1413,6 +1413,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         qDebug() << " / / READING CLIPS FROM CLIPBOARD";
     } else {
         semaphore.release(1);
+        pCore->displayMessage(i18n("No valid data in clipboard"), InformationMessage, 500);
         return false;
     }
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
