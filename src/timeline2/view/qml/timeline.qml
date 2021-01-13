@@ -1338,8 +1338,14 @@ Rectangle {
                             MouseArea {
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
+                                hoverEnabled: true
                                 onWheel: zoomByWheel(wheel)
-                                //cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                                onEntered: {
+                                    timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
+                                }
+                                onExited: {
+                                    timeline.showKeyBinding()
+                                }
                             }
                             
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
