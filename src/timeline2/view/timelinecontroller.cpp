@@ -1918,7 +1918,7 @@ QMap<QString, QString> TimelineController::documentProperties()
     QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
     int audioTarget = m_model->m_audioTarget.isEmpty() ? -1 : m_model->getTrackPosition(m_model->m_audioTarget.firstKey());
     int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
-    int activeTrack = m_activeTrack == -1 ? -1 : m_model->getTrackPosition(m_activeTrack);
+    int activeTrack = m_activeTrack < 0 ? m_activeTrack : m_model->getTrackPosition(m_activeTrack);
     props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
     props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
@@ -2571,6 +2571,9 @@ void TimelineController::switchTrackActive(int trackId)
 {
     if (trackId == -1) {
         trackId = m_activeTrack;
+    }
+    if (trackId < 0) {
+        return;
     }
     bool active = m_model->getTrackById_const(trackId)->isTimelineActive();
     m_model->setTrackProperty(trackId, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
@@ -3705,8 +3708,15 @@ void TimelineController::collapseActiveTrack()
     if (m_activeTrack == -1) {
         return;
     }
+    if (m_activeTrack == -2) {
+        // Subtitle track
+        QMetaObject::invokeMethod(m_root, "switchSubtitleTrack", Qt::QueuedConnection);
+        return;
+    }
     int collapsed = m_model->getTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed")).toInt();
-    m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QStringLiteral("5"));
+    // Default unit for timeline.qml objects size
+    int baseUnit = qMax(28, (int) (QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.8 + 0.5));
+    m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QString::number(baseUnit));
 }
 
 void TimelineController::setActiveTrackProperty(const QString &name, const QString &value)
