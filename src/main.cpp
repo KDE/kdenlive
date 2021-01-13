@@ -288,13 +288,13 @@ int main(int argc, char *argv[])
                 }
             }
         }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
-        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
-        // Remove app name
-        progArgs.takeFirst();
+        QStringList progArgs;
+        if (argc > 1) {
+            // Start at 1 to remove app name
+            for (int i = 1; i < argc; i++) {
+                progArgs << QString(argv[i]);
+            }
+        }
         auto *restart = new QProcess;
         restart->start(app.applicationFilePath(), progArgs);
         restart->waitForReadyRead();
