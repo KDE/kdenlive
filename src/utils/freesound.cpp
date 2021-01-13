@@ -122,7 +122,6 @@ void FreeSound::slotShowResults(KJob *job)
 
                                     QVariant authorInfo = soundmap.value(QStringLiteral("username"));
                                     item->setData(authorRole, authorInfo);
-
                                     item->setData(authorUrl,
                                                   QStringLiteral("http://freesound.org/people/") + soundmap.value(QStringLiteral("username")).toString());
                                     item->setData(licenseRole, soundmap.value(QStringLiteral("license")));
@@ -221,6 +220,7 @@ void FreeSound::slotParseResults(KJob *job)
                     QStringLiteral("</td></tr>");
         }
         if (info.contains(QStringLiteral("filesize"))) {
+            m_metaInfo.insert(QStringLiteral("filesize"), info.value(QStringLiteral("filesize")).toString());
             html += QLatin1String("<tr class=\"cellone\">");
             KIO::filesize_t fSize = info.value(QStringLiteral("filesize")).toDouble();
             html += QStringLiteral("<td>") + i18n("File size") + QStringLiteral("</td><td>") + KIO::convertSize(fSize) + QStringLiteral("</td></tr>");
@@ -259,6 +259,9 @@ void FreeSound::slotParseResults(KJob *job)
         }
         if (info.contains(QStringLiteral("type"))) { // wav, aif, mp3 etc
             m_metaInfo.insert(QStringLiteral("fileType"), info.value(QStringLiteral("type")).toString());
+        }
+        if (info.contains(QStringLiteral("url"))) {
+            m_metaInfo.insert(QStringLiteral("url"), info.value(QStringLiteral("url")).toString());
         }
     }
 

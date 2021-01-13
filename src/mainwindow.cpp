@@ -2899,6 +2899,11 @@ void MainWindow::slotAddProjectClip(const QUrl &url, const QString &folderInfo)
     pCore->bin()->droppedUrls(QList<QUrl>() << url, folderInfo);
 }
 
+void MainWindow::slotAddTextNote(const QString &text)
+{
+   pCore->projectManager()->slotAddTextNote(text);
+}
+
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
 {
     pCore->bin()->droppedUrls(urls);
@@ -3734,7 +3739,10 @@ void MainWindow::slotDownloadResources()
     }
     auto *d = new ResourceWidget(currentFolder);
     connect(d, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
+    connect(d, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
     d->show();
+    d->raise();
+    d->activateWindow();
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)

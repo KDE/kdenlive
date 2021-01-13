@@ -33,6 +33,7 @@
 #include <QNetworkConfigurationManager>
 #include <QPushButton>
 #include <QTemporaryFile>
+#include <QProgressDialog>
 
 #include <KConfigGroup>
 #include <KFileItem>
@@ -88,6 +89,7 @@ ResourceWidget::ResourceWidget(QString folder, QWidget *parent)
     connect(info_browser, &QTextBrowser::anchorClicked, this, &ResourceWidget::slotOpenLink);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
+    connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &ResourceWidget::DownloadRequestFinished);
 
     m_autoPlay = new QAction(i18n("Auto Play"), this);
     m_autoPlay->setCheckable(true);
@@ -171,6 +173,9 @@ void ResourceWidget::slotStartSearch(int page)
  */
 void ResourceWidget::slotUpdateCurrentSound()
 {
+    // sound_box is the group of objects in the Online resources window on the RHS with the preview and import buttons and the details about the currently selected item.
+    sound_box->setEnabled(false);
+
     if (!m_autoPlay->isChecked()) {
         m_currentService->stopItemPreview(nullptr);
         button_preview->setText(i18n("Preview"));
@@ -183,9 +188,6 @@ void ResourceWidget::slotUpdateCurrentSound()
     m_meta.clear();
     QListWidgetItem *item = search_results->currentItem(); // get the item the user selected
     if (!item) {
-        sound_box->setEnabled(false); // sound_box  is the group of objects in the Online resources window on the RHS with the
-        // preview and import buttons and the details about the currently selected item.
-        // if nothing is selected then we disable all these
         return;
     }
     m_currentInfo = m_currentService->displayItemDetails(item); // Not so much displaying the items details
@@ -194,7 +196,6 @@ void ResourceWidget::slotUpdateCurrentSound()
     if (m_autoPlay->isChecked() && m_currentService->hasPreview) {
         m_currentService->startItemPreview(item);
     }
-    sound_box->setEnabled(true);                     // enable the group with the preview and import buttons
     QString title = "<h3>" + m_currentInfo.itemName; // title is not just a title. It is a whole lot of HTML for displaying the
     // the info for the current item.
     // updateLayout() adds  m_image,m_desc and m_meta to the title to make up the html that displays on the widget
@@ -225,6 +226,8 @@ void ResourceWidget::slotUpdateCurrentSound()
     if (!m_currentInfo.license.isEmpty()) {
         parseLicense(m_currentInfo.license);
     }
+
+    sound_box->setEnabled(true); //enable the group with the preview and import buttons
 }
 
 /**
@@ -315,6 +318,12 @@ void ResourceWidget::slotDisplayMetaInfo(const QMap<QString, QString> &metaInfo)
     if (metaInfo.contains(QStringLiteral("HQpreview"))) {
         m_currentInfo.HQpreview = metaInfo.value(QStringLiteral("HQpreview"));
     }
+    if (metaInfo.contains(QStringLiteral("filesize"))) {
+        m_currentInfo.filesize = metaInfo.value(QStringLiteral("filesize")).toInt();
+    }
+    if (metaInfo.contains(QStringLiteral("url"))) {
+        m_currentInfo.infoUrl = metaInfo.value(QStringLiteral("url"));
+    }
 }
 
 /**
@@ -397,11 +406,10 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     if (m_currentService->serviceType != AbstractService::FREESOUND) {
         saveUrl = QUrl::fromLocalFile(m_saveLocation);
     }
-    slotSetDescription(QString());
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
 #ifdef QT5_USE_WEBENGINE
     if (m_currentService->serviceType == AbstractService::FREESOUND) { // open a dialog to authenticate with free sound and download the file
-        m_pOAuth2->obtainAccessToken();                                // when  job finished   ResourceWidget::slotAccessTokenReceived will be called
+        m_pOAuth2->obtainAccessToken();                                // when job finished ResourceWidget::slotAccessTokenReceived will be called
     } else {                                                           // not freesound - do file download via a KIO file copy job
         DoFileDownload(srcUrl, QUrl(saveUrl));
     }
@@ -544,6 +552,7 @@ void ResourceWidget::slotChangeService()
     button_preview->setVisible(m_currentService->hasPreview);
 
     button_import->setVisible(!m_currentService->inlineDownload);
+    cb_licenseTitle->setVisible(!m_currentService->inlineDownload);
 
     search_info->setText(QString());
     if (!search_text->text().isEmpty()) {
@@ -601,32 +610,76 @@ void ResourceWidget::slotPreviousPage()
  */
 void ResourceWidget::parseLicense(const QString &licenseUrl)
 {
+    QString licenseName = licenseNameFromUrl(licenseUrl, false);
+
+    item_license->setText(licenseName);
+    item_license->setUrl(licenseUrl);
+}
+
+/**
+ * @brief ResourceWidget::licenseNameFromUrl returns a name for the licence based on the license URL
+ * @param licenseUrl
+ * @param shortName wether the like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @return the license name
+ */
+QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)
+{
     QString licenseName;
+    QString licenseShortName;
 
     // TODO translate them ?
     if (licenseUrl.contains(QStringLiteral("/sampling+/"))) {
         licenseName = QStringLiteral("Sampling+");
     } else if (licenseUrl.contains(QStringLiteral("/by/"))) {
         licenseName = QStringLiteral("Attribution");
+        licenseShortName = QStringLiteral("CC BY");
     } else if (licenseUrl.contains(QStringLiteral("/by-nd/"))) {
         licenseName = QStringLiteral("Attribution-NoDerivs");
+        licenseShortName = QStringLiteral("CC BY-ND");
     } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
         licenseName = QStringLiteral("Attribution-NonCommercial-ShareAlike");
+        licenseShortName = QStringLiteral("CC BY-ND-SA");
     } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
         licenseName = QStringLiteral("Attribution-ShareAlike");
+        licenseShortName = QStringLiteral("CC BY-SA");
     } else if (licenseUrl.contains(QStringLiteral("/by-nc/"))) {
         licenseName = QStringLiteral("Attribution-NonCommercial");
+        licenseShortName = QStringLiteral("CC BY-NC");
     } else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/"))) {
         licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
+        licenseShortName = QStringLiteral("CC BY-NC-ND");
     } else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
         licenseName = QStringLiteral("Creative Commons 0");
+        licenseShortName = QStringLiteral("CC 0");
     } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share"))) {
         licenseName = QStringLiteral("Public Domain");
     } else {
         licenseName = i18n("Unknown");
+        licenseShortName = i18n("Unknown");
     }
-    item_license->setText(licenseName);
-    item_license->setUrl(licenseUrl);
+
+    if (licenseUrl.contains(QStringLiteral("/1.0"))) {
+        licenseName.append(QStringLiteral(" 1.0"));
+        licenseShortName.append(QStringLiteral(" 1.0"));
+    } else if (licenseUrl.contains(QStringLiteral("/2.0"))) {
+        licenseName.append(QStringLiteral(" 2.0"));
+        licenseShortName.append(QStringLiteral(" 2.0"));
+    } else if (licenseUrl.contains(QStringLiteral("/2.5"))) {
+        licenseName.append(QStringLiteral(" 2.5"));
+        licenseShortName.append(QStringLiteral(" 2.5"));
+    } else if (licenseUrl.contains(QStringLiteral("/3.0"))) {
+        licenseName.append(QStringLiteral(" 3.0"));
+        licenseShortName.append(QStringLiteral(" 3.0"));
+    } else if (licenseUrl.contains(QStringLiteral("/4.0"))) {
+        licenseName.append(QStringLiteral(" 4.0"));
+        licenseShortName.append(QStringLiteral(" 4.0"));
+    }
+
+    if(shortName) {
+        return licenseShortName;
+    } else {
+        return licenseName;
+    }
 }
 
 /**
@@ -666,7 +719,7 @@ void ResourceWidget::slotSetDescription(const QString &desc)
  * @param desc /n
  * The meta data is info on the sounds length, samplerate, filesize and  number of channels. This is called when gotMetaInfo(Qstring) signal fires. That signal
  * is passing html in the parameter
- * This function is updating the html (m_meta) in the ResourceWidget and then calls  updateLayout()
+ * This function is updating the html (m_meta) in the ResourceWidget and then calls updateLayout()
  * which updates actual widget
  */
 void ResourceWidget::slotSetMetadata(const QString &metadata)
@@ -732,9 +785,7 @@ void ResourceWidget::slotPreviewFinished()
 void ResourceWidget::slotFreesoundAccessDenied()
 {
     button_import->setEnabled(true);
-    info_browser->setHtml(QStringLiteral("<html>") +
-                          i18n("Access Denied from Freesound.  Have you authorised the Kdenlive application on your freesound account?") +
-                          QStringLiteral("</html>"));
+    KMessageBox::sorry(this, i18n("Access Denied from Freesound.  Have you authorised the Kdenlive application on your freesound account?"));
 }
 
 /**
@@ -757,19 +808,16 @@ void ResourceWidget::slotAccessTokenReceived(const QString &sAccessToken)
         // eg https://www.freesound.org/apiv2/sounds/39206/download/
         request.setRawHeader(QByteArray("Authorization"), QByteArray("Bearer ").append(sAccessToken.toUtf8())); //Space after "Bearer" is necessary
 
-        m_meta = QString();
-        m_desc = QStringLiteral("<br><b>") + i18n("Starting File Download") + QStringLiteral("</b><br>");
-        updateLayout();
-
+        QProgressDialog *pd = new QProgressDialog(i18n("Download in progress"), i18n("Cancel"), 0, m_currentInfo.filesize, this);
+        pd->setWindowModality(Qt::WindowModal);
         QNetworkReply *reply2 = m_networkAccessManager->get(request);
-        connect(reply2, &QIODevice::readyRead, this, &ResourceWidget::slotReadyRead);
-        connect(m_networkAccessManager, &QNetworkAccessManager::finished, this, &ResourceWidget::DownloadRequestFinished);
+        connect(pd, &QProgressDialog::canceled, reply2, &QNetworkReply::abort);
+        connect(reply2, &QIODevice::readyRead, this, [reply2, pd](){
+            int pos = static_cast<int> (reply2->bytesAvailable());
+            pd->setValue(pos);
+        });
     } else {
-
-        m_meta = QString();
-        m_desc = QStringLiteral("<br><b>") + i18n("Error Getting Access Token from Freesound.") + QStringLiteral("</b>");
-        m_desc.append(QStringLiteral("<br><b>") + i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
-        updateLayout();
+        KMessageBox::error(this, i18n("Try importing again to obtain a new freesound connection"), i18n("Error Getting Access Token from Freesound."));
     }
 }
 /**
@@ -789,26 +837,9 @@ QString ResourceWidget::GetSaveFileNameAndPathS(const QString &path, const QStri
     {
         return saveUrlstring;
     }
-
-    if (QFile::exists(saveUrlstring)) {
-        int ret = QMessageBox::warning(this, i18n("File Exists"), i18n("Do you want to overwrite the existing file?"), QMessageBox::Yes | QMessageBox::No,
-                                       QMessageBox::No);
-        if (ret == QMessageBox::No) {
-            return QString();
-        }
-    }
     return saveUrlstring;
 }
-/**
- * @brief ResourceWidget::slotReadyRead
- * Fires each time the download of the freesound file grabs some more data.
- * Prints dots to the dialog indicating download is progressing.
- */
-void ResourceWidget::slotReadyRead()
-{
-    m_desc.append(QLatin1Char('.'));
-    updateLayout();
-}
+
 /**
  * @brief ResourceWidget::DownloadRequestFinished
  * @param reply
@@ -834,16 +865,16 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 
                 KMessageBox::information(this, i18n("Resource saved to %1", m_saveLocation), i18n("Data Imported"));
                 emit addClip(QUrl::fromLocalFile(m_saveLocation), QString()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
+                if(cb_licenseTitle->isChecked()) {
+                    const QString licenseText("This video uses \"" + m_currentInfo.itemName + "\" (" + m_currentInfo.infoUrl+ ") by \"" + m_currentInfo.author + "\" licensed under " + ResourceWidget::licenseNameFromUrl(m_currentInfo.license, true) + ". To view a copy of this license, visit " + m_currentInfo.license);
+                    emit addLicenseInfo(licenseText); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
+                }
 
-                m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
-                m_desc.append(m_saveLocation);
-                updateLayout();
             } else {
 #ifdef QT5_USE_WEBENGINE
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append(QStringLiteral("<br>") + i18n("Error Saving File"));
-                updateLayout();
+                KMessageBox::sorry(this, i18n("Error Saving File"));
             }
         } else {
 
@@ -855,9 +886,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 #ifdef QT5_USE_WEBENGINE
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: %1", reply->error()) + QStringLiteral("<br>"));
-                m_desc.append(QStringLiteral("<br><b>") + i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
-                updateLayout();
+                KMessageBox::sorry(this, i18n("Try importing again to obtain a new freesound connection\nError code: %1", reply->error()), i18n("Error Downloading File"));
             }
         }
     }

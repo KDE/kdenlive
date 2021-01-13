@@ -82,7 +82,6 @@ void OAuth2::buildLoginDialog()
 {
     m_pLoginDialog = new LoginDialog(m_pParent);
     connect(m_pLoginDialog, &LoginDialog::authCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
-
     connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
     connect(m_pLoginDialog, &LoginDialog::canceled, this, &OAuth2::SlotCanceled);
     connect(m_pLoginDialog, &LoginDialog::useHQPreview, this, &OAuth2::SlotDownloadHQPreview);
@@ -144,19 +143,16 @@ QString OAuth2::loginUrl()
  */
 void OAuth2::obtainAccessToken()
 {
-
     if (m_bAccessTokenRec) {
-
-        emit accessTokenReceived(m_strAccessToken);
-        // if we already have the access token then carry on as if we have already  logged on and have the access token
+        emit accessTokenReceived(m_strAccessToken); // if we already have the access token then carry on as if we have already logged on and have the access token
     } else {
-        //  login to free sound via our login dialog
+        // login to free sound via our login dialog
         QUrl vUrl(loginUrl());
         if (!m_pLoginDialog) {
             buildLoginDialog();
         }
         m_pLoginDialog->setLoginUrl(vUrl);
-        m_pLoginDialog->exec();
+        m_pLoginDialog->open();
     }
 }
 
@@ -167,6 +163,7 @@ void OAuth2::SlotAccessDenied()
 {
     qCDebug(KDENLIVE_LOG) << "access denied";
     emit accessDenied();
+    m_pLoginDialog = nullptr;
 }
 /**
  * @brief OAuth2::SlotAuthCodeObtained - fires when the LogonDialog has obtained an Auth Code and has sent the LogonDialog::AuthCodeObtained signal
@@ -177,6 +174,7 @@ void OAuth2::SlotAccessDenied()
 void OAuth2::SlotAuthCodeObtained()
 {
     m_strAuthorizationCode = m_pLoginDialog->authCode(); // get the Auth code we have obtained
+    m_pLoginDialog = nullptr;
     // has a lifetime of 10 minutes
     OAuth2::RequestAccessCode(false, m_strAuthorizationCode);
 }

@@ -42,6 +42,8 @@ private slots:
     void slotInsertTimecode();
     /** @brief Re-assign timestamps to current Bin Clip. */
     void slotReAssign(QStringList anchors, QList <QPoint> points);
+    /** @brief Insert the given text into the widget. */
+    void slotInsertText(const QString &text);
 
 private:
     NotesWidget *m_widget;

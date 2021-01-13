@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>368</height>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,20 +131,6 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="5" column="1" colspan="2">
-        <widget class="QPushButton" name="button_import">
-         <property name="text">
-          <string>Import</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="button_preview">
-         <property name="text">
-          <string>Preview</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1" colspan="2">
         <widget class="KUrlLabel" name="item_license">
          <property name="text">
@@ -171,10 +157,10 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label">
+       <item row="6" column="1" colspan="2">
+        <widget class="QPushButton" name="button_import">
          <property name="text">
-          <string>License</string>
+          <string>Import</string>
          </property>
         </widget>
        </item>
@@ -182,6 +168,33 @@
         <widget class="QLabel" name="GifLabel">
          <property name="text">
           <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="button_preview">
+         <property name="text">
+          <string>Preview</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>License</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QCheckBox" name="cb_licenseTitle">
+         <property name="text">
+          <string>Add attribution text to project notes</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

@@ -51,6 +51,7 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
 public:
     explicit ResourceWidget(QString folder, QWidget *parent = nullptr);
     ~ResourceWidget() override;
+    QString licenseNameFromUrl(const QString &licenseUrl, const bool shortName);
 
 private slots:
     void slotStartSearch(int page = 0);
@@ -79,7 +80,6 @@ private slots:
     void slotSetMaximum(int max);
     void slotPreviewFinished();
     void slotFreesoundAccessDenied();
-    void slotReadyRead();
     void DownloadRequestFinished(QNetworkReply *reply);
     void slotAccessTokenReceived(const QString &sAccessToken);
     void slotFreesoundUseHQPreview();
@@ -111,6 +111,7 @@ private:
 
 signals:
     void addClip(const QUrl &, const QString &);
+    void addLicenseInfo(const QString &);
 };
 
 #endif
