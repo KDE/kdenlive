@@ -241,6 +241,8 @@ public:
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
     void transcodeFile(const QString url);
+    /** @brief Display key binding info in statusbar. */
+    void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
 
 private:

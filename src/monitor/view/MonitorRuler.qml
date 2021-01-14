@@ -417,6 +417,12 @@ Rectangle {
                 wheel.accepted = false
             }
         }
+        onEntered: {
+            controller.setWidgetKeyBinding(i18n("<b>Wheel</b> or <b>arrows</b> to seek 1 frame, <b>Shift</b> to seek 1 second, <b>Alt</b> to seek to marker, <b>Home</b> / <b>End</b> to go to first / last frame"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
     }
     // Zone duration indicator
     Rectangle {

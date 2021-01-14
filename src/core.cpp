@@ -1004,16 +1004,22 @@ void Core::addGuides(QList <int> guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    pCore->currentDoc()->getGuideModel()->addMarkers(markers);
+    currentDoc()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
 {
-    pCore->window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+    window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
 void Core::transcodeFile(const QString url)
 {
     qDebug()<<"=== TRANSCODING: "<<url;
-    pCore->window()->slotTranscode({url});
+    window()->slotTranscode({url});
 }
+
+void Core::setWidgetKeyBinding(const QString &mess)
+{
+    window()->setWidgetKeyBinding(mess);
+}
+

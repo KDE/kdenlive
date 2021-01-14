@@ -388,3 +388,8 @@ void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 {
     m_td = td;
 }
+
+void MonitorProxy::setWidgetKeyBinding(const QString &text) const
+{
+    pCore->setWidgetKeyBinding(text);
+}

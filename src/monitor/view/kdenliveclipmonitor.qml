@@ -141,6 +141,12 @@ Item {
         onWheel: {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
+        onEntered: {
+            controller.setWidgetKeyBinding(i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
     }
 
     SceneToolBar {

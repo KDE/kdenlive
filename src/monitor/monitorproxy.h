@@ -105,6 +105,7 @@ public:
     Q_INVOKABLE double fps() const;
     Q_INVOKABLE void switchAutoKeyframe();
     Q_INVOKABLE bool autoKeyframe() const;
+    Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());

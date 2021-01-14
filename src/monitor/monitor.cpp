@@ -106,25 +106,15 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         }
         break;
     }
-    default:
-        break;
-    }
-    return QObject::eventFilter(obj, event);
-}
-
-QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent)
-    : QObject(parent)
-{
-}
-
-bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
-{
     if (event->type() == QEvent::KeyPress) {
         auto *ev = static_cast<QKeyEvent *>(event);
         if (ev) {
             emit doKeyPressEvent(ev);
             return true;
         }
+    }
+    default:
+        break;
     }
     return QObject::eventFilter(obj, event);
 }
@@ -170,15 +160,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     auto *leventEater = new QuickEventEater(this);
     m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
+    connect(leventEater, &QuickEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
     connect(m_qmlManager, &QmlManager::activateTrack, this, &Monitor::activateTrack);
-
-    auto *monitorEventEater = new QuickMonitorEventEater(this);
-    m_videoWidget->installEventFilter(monitorEventEater);
-    connect(monitorEventEater, &QuickMonitorEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);

@@ -544,13 +544,13 @@ void MyListView::focusInEvent(QFocusEvent *event)
 void MyListView::enterEvent(QEvent *event)
 {
     QListView::enterEvent(event);
-    pCore->window()->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+    pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
 }
 
 void MyListView::leaveEvent(QEvent *event)
 {
     QListView::leaveEvent(event);
-    pCore->window()->setWidgetKeyBinding();
+    pCore->setWidgetKeyBinding();
 }
 
 void MyListView::mousePressEvent(QMouseEvent *event)
@@ -584,7 +584,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 qDebug()<<"<<< NO DELEGATE!!!";
             }
         }
-        pCore->window()->showKeyBinding(i18n("F2 to rename selected item"));
+        pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
     } else {
         pCore->window()->showKeyBinding();
     }
@@ -624,13 +624,13 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
 void MyTreeView::enterEvent(QEvent *event)
 {
     QTreeView::enterEvent(event);
-    pCore->window()->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+    pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
 }
 
 void MyTreeView::leaveEvent(QEvent *event)
 {
     QTreeView::leaveEvent(event);
-    pCore->window()->setWidgetKeyBinding();
+    pCore->setWidgetKeyBinding();
 }
 
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
@@ -649,7 +649,7 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
                 emit displayBinFrame(index, frame);
             }
-            pCore->window()->showKeyBinding(i18n("F2 to rename selected item"));
+            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
         } else {
             pCore->window()->showKeyBinding();
         }
