@@ -988,7 +988,7 @@ void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
         getMainTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().second, filter);
         m_projectMonitor->activateSplit();
     } else {
-        pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage);
+        pCore->displayMessage(i18n("Select a clip to compare effect"), ErrorMessage);
     }
 }
 
@@ -2078,6 +2078,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
+        connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2776,7 +2777,7 @@ void MainWindow::slotInsertClipInsert()
     const QString &binId = m_clipMonitor->activeClipId();
     if (binId.isEmpty()) {
         // No clip in monitor
-        pCore->displayMessage(i18n("No clip selected in project bin"), InformationMessage);
+        pCore->displayMessage(i18n("No clip selected in project bin"), ErrorMessage);
         return;
     }
     getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
@@ -2934,10 +2935,10 @@ void MainWindow::addEffect(const QString &effectId)
         pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
     } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip || m_assetPanel->effectStackOwner().first == ObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         }
     } else {
-        pCore->displayMessage(i18n("Select an item to add effect"), InformationMessage);
+        pCore->displayMessage(i18n("Select an item to add effect"), ErrorMessage);
     }
 }
 
@@ -4290,7 +4291,7 @@ void MainWindow::slotImportSubtitle()
 void MainWindow::slotExportSubtitle()
 {
     if (pCore->getSubtitleModel() == nullptr) {
-        pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
+        pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
     getCurrentTimeline()->controller()->exportSubtitle();

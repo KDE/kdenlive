@@ -1926,7 +1926,7 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
     }
     QString ext;
 
-    if (extension.at(0) == '.') {
+    if (extension.startsWith(QLatin1Char('.'))) {
         ext = extension;
     } else {
         ext = '.' + extension;
@@ -1988,15 +1988,6 @@ void RenderWidget::refreshParams()
     }
     QUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
-    //     if (!url.isEmpty()) {
-    //         QString path = url.path();
-    //         int pos = path.lastIndexOf('.') + 1;
-    //  if (pos == 0) path.append('.' + extension);
-    //         else path = path.left(pos) + extension;
-    //         m_view.out_file->setUrl(QUrl(path));
-    //     } else {
-    //         m_view.out_file->setUrl(QUrl(QDir::homePath() + QStringLiteral("/untitled.") + extension));
-    //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(0, EditableRole).toString();
     if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
@@ -3191,4 +3182,24 @@ void RenderWidget::prepareMenu(const QPoint &pos)
     menu.addAction(newAct);
     
     menu.exec(m_view.running_jobs->mapToGlobal(pos));
+}
+
+void RenderWidget::resetRenderPath(const QString &path)
+{
+    QTreeWidgetItem *item = m_view.formats->currentItem();
+    QString extension;
+    if (item && item->parent()) { // categories have no parent
+        extension = item->data(0, ExtensionRole).toString();
+    } else {
+        extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
+    }
+    QString fileName = QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(path + extension);
+    QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
+    if (QFileInfo(url).isRelative()) {
+        url.prepend(pCore->currentDoc()->documentRoot());
+    }
+    m_view.out_file->setUrl(QUrl::fromLocalFile(url));
+    QMap<QString, QString> renderProps;
+    renderProps.insert(QStringLiteral("renderurl"), url);
+    emit selectedRenderProfile(renderProps);
 }
