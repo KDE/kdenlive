@@ -35,7 +35,7 @@ Item {
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     property bool iskeyframe
-    property int requestedKeyFrame
+    property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
     onCenterPointsChanged: canvas.requestPaint()
@@ -68,15 +68,20 @@ Item {
         if (context && root.centerPoints.length > 0) {
             context.beginPath()
             context.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
-            context.fillStyle = Qt.rgba(1, 0, 0, 0.5)
-            context.lineWidth = 2
+            context.fillStyle = Qt.rgba(1, 0, 0, 1)
+            context.lineWidth = 1
+            context.setLineDash([3,3])
             var p1 = convertPoint(root.centerPoints[0])
             context.moveTo(p1.x, p1.y)
             context.clearRect(0,0, width, height);
-            context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             for(var i = 0; i < root.centerPoints.length; i++)
             {
-                context.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                context.translate(p1.x, p1.y)
+                context.rotate(Math.PI/4);
+                context.fillRect(- handleSize, 0, 2 * handleSize, 1);
+                context.fillRect(0, - handleSize, 1, 2 * handleSize);
+                context.rotate(-Math.PI/4);
+                context.translate(-p1.x, -p1.y)
                 if (i + 1 < root.centerPoints.length)
                 {
                     var end = convertPoint(root.centerPoints[i + 1])
@@ -152,7 +157,6 @@ Item {
     Rectangle {
         id: frame
         objectName: "referenceframe"
-        property color hoverColor: "#ff0000"
         width: root.profile.x * root.scalex
         height: root.profile.y * root.scaley
         x: root.center.x - width / 2 - root.offsetx;
@@ -239,11 +243,17 @@ Item {
             root.requestedKeyFrame = -1
             isMoving = false;
         }
+        onEntered: {
+            controller.setWidgetKeyBinding(i18n("<b>Double click</b> to add a keyframe, <b>Shift drag</b> for proportional rescale, <b>Hover right</b> for toolbar, <b>Click</b> on a center to seek to its keyframe"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
     }
 
     Rectangle {
         id: framerect
-        property color hoverColor: "#ffffff"
+        property color hoverColor: activePalette.highlight //"#ffff00"
         x: frame.x + root.framesize.x * root.scalex
         y: frame.y + root.framesize.y * root.scaley
         width: root.framesize.width * root.scalex
@@ -271,7 +281,7 @@ Item {
               cursorShape: Qt.SizeFDiagCursor
               onEntered: { 
                 if (!pressed) {
-                  tlhandle.color = '#ffff00'
+                  tlhandle.color = framerect.hoverColor
                 }
               }
               onExited: {
@@ -287,7 +297,7 @@ Item {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
-                  tlhandle.color = '#ffff00'
+                  tlhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
@@ -353,7 +363,7 @@ Item {
               cursorShape: Qt.SizeBDiagCursor
               onEntered: {
                 if (!pressed) {
-                  trhandle.color = '#ffff00'
+                  trhandle.color = framerect.hoverColor
                 }
               }
               onExited: {
@@ -369,7 +379,7 @@ Item {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
-                  trhandle.color = '#ffff00'
+                  trhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
@@ -424,7 +434,7 @@ Item {
               cursorShape: Qt.SizeBDiagCursor
               onEntered: {
                 if (!pressed) {
-                  blhandle.color = '#ffff00'
+                  blhandle.color = framerect.hoverColor
                 }
               }
               onExited: {
@@ -440,7 +450,7 @@ Item {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
-                  blhandle.color = '#ffff00'
+                  blhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
@@ -495,7 +505,7 @@ Item {
               cursorShape: Qt.SizeFDiagCursor
               onEntered: {
                 if (!pressed) {
-                  brhandle.color = '#ffff00'
+                  brhandle.color = framerect.hoverColor
                 }
               }
               onExited: {
@@ -511,7 +521,7 @@ Item {
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
-                  brhandle.color = '#ffff00'
+                  brhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
@@ -558,10 +568,15 @@ Item {
         }
         Rectangle {
             anchors.centerIn: parent
-            width: 1
-            height: root.iskeyframe ? effectsize.height * 1.5 : effectsize.height / 2
-            color: framerect.hoverColor
+            width: root.iskeyframe ? effectsize.height : effectsize.height / 2
+            height: width
+            radius: width / 2
+            border.color: centerArea.containsMouse || centerArea.pressed ? framerect.hoverColor : "#ff0000"
+            border.width: 1
+            color: centerArea.containsMouse || centerArea.pressed ? framerect.hoverColor : "transparent"
+            opacity: centerArea.containsMouse || centerArea.pressed ? 0.5 : 1
             MouseArea {
+                id: centerArea
               width: effectsize.height * 1.5; height: effectsize.height * 1.5
               anchors.centerIn: parent
               property int oldMouseX
@@ -569,8 +584,6 @@ Item {
               hoverEnabled: true
               enabled: root.iskeyframe || controller.autoKeyframe
               cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
-              onEntered: { framerect.hoverColor = '#ffff00'}
-              onExited: { framerect.hoverColor = '#ffffff'}
               onPressed: {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE CENTER PRESSED')
@@ -591,12 +604,6 @@ Item {
                   effectpos.visible = false
               }
             }
-        }
-        Rectangle {
-            anchors.centerIn: parent
-            width: root.iskeyframe ? effectsize.height * 1.5 : effectsize.height / 2
-            height: 1
-            color: framerect.hoverColor
         }
     }
     EffectToolBar {

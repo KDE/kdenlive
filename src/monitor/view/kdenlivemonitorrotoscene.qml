@@ -134,7 +134,7 @@ Item {
                     p1 = convertPoint(root.centerPoints[i])
                     ctx.lineTo(p1.x, p1.y);
                     if (i == root.requestedKeyFrame) {
-                        ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
+                        ctx.fillStyle = activePalette.highlight
                         ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                         ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
                     } else {
@@ -143,6 +143,7 @@ Item {
                 }
             } else {
                 var c1; var c2
+                var alphaColor = Qt.hsla(activePalette.highlight.hslHue, activePalette.highlight.hslSaturation, activePalette.highlight.hslLightness, 0.5)
                 for (var i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
@@ -172,21 +173,21 @@ Item {
                     if ((iskeyframe || autoKeyframe) && !root.displayResize) {
                         // Draw control points and segments
                         if (subkf) {
-                            ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
+                            ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(c1.x - handleSize/2, c1.y - handleSize/2, handleSize, handleSize);
                             ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
                         } else {
                             ctx.fillRect(c1.x - handleSize/2, c1.y - handleSize/2, handleSize, handleSize);
                         }
                         if (root.requestedSubKeyFrame == 2 * i) {
-                            ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
+                            ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(c2.x - handleSize/2, c2.y - handleSize/2, handleSize, handleSize);
                             ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
                         } else {
                             ctx.fillRect(c2.x - handleSize/2, c2.y - handleSize/2, handleSize, handleSize);
                         }
                         if (i == root.requestedKeyFrame) {
-                            ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
+                            ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                             ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
                         } else {
@@ -208,19 +209,19 @@ Item {
                 // Calculate and draw center
                 centerCross.x = bottomLeft.x + (topRight.x - bottomLeft.x)/2
                 centerCross.y = topRight.y + (bottomLeft.y - topRight.y)/2
-                ctx.moveTo(centerCross.x - root.baseUnit, centerCross.y)
-                ctx.lineTo(centerCross.x + root.baseUnit, centerCross.y)
-                ctx.moveTo(centerCross.x, centerCross.y - root.baseUnit)
-                ctx.lineTo(centerCross.x, centerCross.y + root.baseUnit)
+                ctx.moveTo(centerCross.x - root.baseUnit/2, centerCross.y - root.baseUnit/2)
+                ctx.lineTo(centerCross.x + root.baseUnit/2, centerCross.y + root.baseUnit/2)
+                ctx.moveTo(centerCross.x + root.baseUnit/2, centerCross.y - root.baseUnit/2)
+                ctx.lineTo(centerCross.x - root.baseUnit/2, centerCross.y + root.baseUnit/2)
             }
             ctx.stroke()
             if (root.addedPointIndex > -1 && !root.displayResize) {
                 // Ghost point where a new one could be inserted
                 ctx.beginPath()
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
-                ctx.strokeStyle = Qt.rgba(1, 1, 0, 0.5)
+                ctx.fillStyle = activePalette.highlight
+                ctx.strokeStyle = activePalette.highlight
                 ctx.lineWidth = 1
-                ctx.fillRect(addPointPossible.x - handleSize, addPointPossible.y - handleSize, 2 * handleSize, 2 * handleSize);
+                ctx.roundedRect(addPointPossible.x - handleSize, addPointPossible.y - handleSize, 2 * handleSize, 2 * handleSize, handleSize, handleSize);
                 if (root.addedPointIndex === 0) {
                     p1 = convertPoint(root.centerPoints[root.centerPoints.length - 1])
                 } else {
@@ -235,63 +236,63 @@ Item {
             if (root.displayResize) {
                 // Draw resize rectangle / handles
                 ctx.beginPath()
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
-                ctx.strokeStyle = Qt.rgba(1, 1, 0, 0.5)
+                ctx.fillStyle = alphaColor
+                ctx.strokeStyle = activePalette.highlight
                 ctx.lineWidth = 1
                 ctx.rect(bottomLeft.x, topRight.y, topRight.x - bottomLeft.x, bottomLeft.y - topRight.y)
                 if (root.resizeContainsMouse == 4) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(bottomLeft.x - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(bottomLeft.x - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 3) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(topRight.x - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(topRight.x - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 2) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(topRight.x - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(topRight.x - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 1) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(bottomLeft.x - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(bottomLeft.x - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 5) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 7) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 6) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(topRight.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(topRight.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 if (root.resizeContainsMouse == 8) {
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillStyle = activePalette.highlight
                     ctx.fillRect(bottomLeft.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
-                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                    ctx.fillStyle = alphaColor
                 } else {
                     ctx.fillRect(bottomLeft.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
                 }
@@ -310,7 +311,6 @@ Item {
     Rectangle {
         id: frame
         objectName: "referenceframe"
-        property color hoverColor: "#ff0000"
         width: root.profile.x * root.scalex
         height: root.profile.y * root.scaley
         x: root.center.x - width / 2 - root.offsetx;
@@ -368,6 +368,12 @@ Item {
         property bool centerContainsMouse
         hoverEnabled: true
         cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0 || resizeContainsMouse > 0 ) ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onEntered: {
+            controller.setWidgetKeyBinding(i18n("<b>Double click</b> on center to resize, <b>Double click</b> on line segment to add new point, <b>Double click</b> point to delete it, <b>Double click</b> background to create new keyframe, <b>Hover right</b> for toolbar"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding()
+        }
         onWheel: {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
@@ -631,7 +637,7 @@ Item {
                   addedPointIndex = -1
               }
               // Check if we are on center point
-              if (Math.abs(centerCross.x - mouseX) <= canvas.handleSize/2 && Math.abs(centerCross.y - mouseY) <= canvas.handleSize/2) {
+              if (Math.abs(centerCross.x - mouseX) <= canvas.handleSize && Math.abs(centerCross.y - mouseY) <= canvas.handleSize) {
                     centerContainsMouse = true;
                     pointContainsMouse = false;
                     canvas.requestPaint()
