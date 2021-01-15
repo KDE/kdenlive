@@ -343,7 +343,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             continue;
         }
         if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
-            pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+            pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
             return false;
         }
         bool effectEnabled = true;
@@ -428,7 +428,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
     if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
-        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
     bool enabled = sourceEffect->isEnabled();
@@ -481,7 +481,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
     if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
-        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
     std::unordered_set<int> previousFadeIn = m_fadeIns;
@@ -1000,7 +1000,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
             if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
-                pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+                pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
                 continue;
             }
             if (filter->get_int("disable") == 0) {

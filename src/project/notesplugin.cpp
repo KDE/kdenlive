@@ -74,7 +74,7 @@ void NotesPlugin::slotInsertTimecode()
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
         const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
         if (binId.isEmpty()) {
-            pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), ErrorMessage);
             return;
         }
         QString clipName = pCore->bin()->getBinClipName(binId);
@@ -92,7 +92,7 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
     int ix = 0;
     if (points.count() != anchors.count()) {
         // Something is wrong, abort
-        pCore->displayMessage(i18n("Cannot perform assign"), InformationMessage);
+        pCore->displayMessage(i18n("Cannot perform assign"), ErrorMessage);
         return;
     }
     for (const QString & a : anchors) {

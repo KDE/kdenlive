@@ -798,9 +798,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::mixClip(int idToMove, int delta)
 {
     int selectedTrack = -1;
+    qDebug()<<"==== REQUEST CLIP MIX STEP 1";
     std::unordered_set<int> initialSelection = getCurrentSelection();
     if (idToMove == -1 && initialSelection.empty()) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
         return false;
     }
     std::pair<int, int> clipsToMix;
@@ -884,12 +885,12 @@ bool TimelineModel::mixClip(int idToMove, int delta)
             break;
         }
     }
+    if (noSpaceInClip > 0) {
+        pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), ErrorMessage, 500);
+        return false;
+    }
     if (idToMove == -1 || !isClip(idToMove)) {
-        if (noSpaceInClip > 0) {
-            pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), InformationMessage, 500);
-        } else {
-            pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
-        }
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
         return false;
     }
 
@@ -1511,7 +1512,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
     }
     if (useTargets && allowedTracks.isEmpty()) {
-        pCore->displayMessage(i18n("No available track for insert operation"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage, 500);
         return false;
     }
     bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks);
@@ -2869,7 +2870,7 @@ bool TimelineModel::removeMix(int cid)
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Remove mix"));
     } else {
-        pCore->displayMessage(i18n("Removing mix failed"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Removing mix failed"), ErrorMessage, 500);
     }
     return res;
 }
@@ -3430,7 +3431,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(isTrack(trackId));
     if (m_allTracks.size() < 2) {
-        pCore->displayMessage(i18n("Cannot delete last track in timeline"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot delete last track in timeline"), ErrorMessage, 500);
         return false;
     }
     // Discard running jobs
@@ -3663,7 +3664,7 @@ bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
     Q_ASSERT(m_iteratorTable.count(trackId) > 0);
     if ((*m_iteratorTable.at(trackId))->addEffect(effectId) == false) {
         QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->displayMessage(i18n("Cannot add effect %1 to selected track", effectName), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot add effect %1 to selected track", effectName), ErrorMessage, 500);
         return false;
     }
     return true;
@@ -3678,7 +3679,7 @@ bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
     int itemRow = source.at(2).toInt();
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
     if ((*m_iteratorTable.at(trackId))->copyEffect(effectStack, itemRow) == false) {
-        pCore->displayMessage(i18n("Cannot paste effect to selected track"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot paste effect to selected track"), ErrorMessage, 500);
         return false;
     }
     return true;
@@ -3696,7 +3697,7 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId, bool noti
     bool result = m_allClips.at(clipId)->addEffect(effectId);
     if (!result && notify) {
         QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
     }
     return result;
 }

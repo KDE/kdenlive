@@ -285,7 +285,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     }
 
     if (affectedTracks.isEmpty()) {
-        pCore->displayMessage(i18n("All tracks are locked"), InformationMessage, 500);
+        pCore->displayMessage(i18n("All tracks are locked"), ErrorMessage, 500);
         return false;
     }
 
@@ -307,7 +307,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     }
 
     if (!count) {
-        pCore->displayMessage(i18n("No clips to cut"), InformationMessage);
+        pCore->displayMessage(i18n("No clips to cut"), ErrorMessage);
     } else {
         pCore->pushUndo(undo, redo, i18n("Cut all clips"));
     }
@@ -447,7 +447,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     if (res) {
         pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
     } else {
-        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
         undo();
     }
     return res;
@@ -480,7 +480,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (affectedTracks.isEmpty()) {
-        pCore->displayMessage(i18n("Please activate a track by clicking on a track's label"), InformationMessage);
+        pCore->displayMessage(i18n("Please activate a track by clicking on a track's label"), ErrorMessage);
         return false;
     }
     result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
@@ -950,7 +950,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
         videoTracks.push_back(tid);
     }
     if (videoTracks.size() < 2) {
-        pCore->displayMessage(i18n("Cannot enable multitrack view on a single track"), InformationMessage);
+        pCore->displayMessage(i18n("Cannot enable multitrack view on a single track"), ErrorMessage);
     }
     // First, dis/enable track compositing
     QScopedPointer<Mlt::Service> service(timeline->m_tractor->field());
@@ -1413,7 +1413,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         qDebug() << " / / READING CLIPS FROM CLIPBOARD";
     } else {
         semaphore.release(1);
-        pCore->displayMessage(i18n("No valid data in clipboard"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No valid data in clipboard"), ErrorMessage, 500);
         return false;
     }
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
@@ -1439,7 +1439,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         QDomElement prod = clips.at(i).toElement();
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
         if (trackPos < 0) {
-            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
         }
@@ -1497,7 +1497,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
-        pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
         semaphore.release(1);
         return false;
     }
@@ -1526,7 +1526,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         if (requestedAudioTracks > 0 && projectTracks.first.size() <= (projectTracks.second.indexOf(trackId) + topAudioOffset)) {
             int updatedPos = projectTracks.first.size() - topAudioOffset - 1;
             if (updatedPos < 0 || updatedPos >= projectTracks.second.size()) {
-                pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+                pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
                 semaphore.release(1);
                 return false;
             }
@@ -1557,7 +1557,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     for (int tk : qAsConst(videoTracks)) {
         int newPos = masterIx + tk - masterSourceTrack;
         if (newPos < 0 || newPos >= projectTracks.second.size()) {
-            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
         }
@@ -1591,7 +1591,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
         int offsetId = oldPos + audioOffset;
         if (offsetId < 0 || offsetId >= projectTracks.first.size()) {
-            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
         }
@@ -1661,7 +1661,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             clipsImported = true;
             bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
             if (!insert) {
-                pCore->displayMessage(i18n("Could not add bin clip"), InformationMessage, 500);
+                pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
                 undo();
                 semaphore.release(1);
                 return false;
@@ -1705,7 +1705,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         if (!timeline->isTrack(curTrackId)) {
             // Something is broken
-            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             timeline_undo();
             semaphore.release(1);
             return false;
@@ -1721,7 +1721,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), audioStream, speed, warp_pitch, timeline_undo, timeline_redo);
         if (!created) {
             // Something is broken
-            pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Could not paste items in timeline"), ErrorMessage, 500);
             timeline_undo();
             semaphore.release(1);
             return false;
@@ -1781,7 +1781,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     }
     if (!res) {
         timeline_undo();
-        pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Could not paste items in timeline"), ErrorMessage, 500);
         semaphore.release(1);
         return false;
     }

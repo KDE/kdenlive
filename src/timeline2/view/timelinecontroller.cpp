@@ -290,7 +290,7 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
     int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition())
                                                        : m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
     if (currentClip == -1) {
-        pCore->displayMessage(i18n("No item under timeline cursor in active track"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No item under timeline cursor in active track"), ErrorMessage, 500);
         return;
     }
     if (!select) {
@@ -467,7 +467,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     }
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, std::move(props), id, logUndo)) {
         id = -1;
-        pCore->displayMessage(i18n("Could not add composition at selected position"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Could not add composition at selected position"), ErrorMessage, 500);
     }
     return id;
 }
@@ -661,7 +661,7 @@ void TimelineController::addTrack(int tid)
         if (result) {
             pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18n("Insert Tracks") : i18n("Insert Track"));
         } else {
-            pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Could not insert track"), ErrorMessage, 500);
             undo();
         }
     }
@@ -699,7 +699,7 @@ void TimelineController::switchTrackRecord(int tid)
         tid = m_activeTrack;
     }
     if (!m_model->getTrackById_const(tid)->isAudioTrack()) {
-        pCore->displayMessage(i18n("Select an audio track to display record controls"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select an audio track to display record controls"), ErrorMessage, 500);
     }
     int recDisplayed = m_model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_rec")).toInt();
     if (recDisplayed == 1) {
@@ -810,7 +810,7 @@ void TimelineController::groupSelection()
 {
     const auto selection = m_model->getCurrentSelection();
     if (selection.size() < 2) {
-        pCore->displayMessage(i18n("Select at least 2 items to group"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select at least 2 items to group"), ErrorMessage, 500);
         return;
     }
     m_model->requestClearSelection();
@@ -926,7 +926,7 @@ void TimelineController::editMarker(int cid, int position)
     if (cid == -1) {
         cid = getMainSelectedClip();
         if (cid == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -938,7 +938,7 @@ void TimelineController::editMarker(int cid, int position)
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
@@ -946,7 +946,7 @@ void TimelineController::editMarker(int cid, int position)
         GenTime pos(position, pCore->getCurrentFps());
         clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
     } else {
-        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
     }
 }
 
@@ -955,7 +955,7 @@ void TimelineController::addMarker(int cid, int position)
     if (cid == -1) {
         cid = getMainSelectedClip();
         if (cid == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -967,7 +967,7 @@ void TimelineController::addMarker(int cid, int position)
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
@@ -995,7 +995,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     if (cid == -1) {
         cid = getMainSelectedClip();
         if (cid == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -1007,7 +1007,7 @@ void TimelineController::addQuickMarker(int cid, int position)
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > ((m_model->getClipIn(cid) + m_model->getClipPlaytime(cid) * speed))) {
-        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
@@ -1021,7 +1021,7 @@ void TimelineController::deleteMarker(int cid, int position)
     if (cid == -1) {
         cid = getMainSelectedClip();
         if (cid == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -1033,7 +1033,7 @@ void TimelineController::deleteMarker(int cid, int position)
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
@@ -1046,7 +1046,7 @@ void TimelineController::deleteAllMarkers(int cid)
     if (cid == -1) {
         cid = getMainSelectedClip();
         if (cid == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -1109,7 +1109,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
     CommentedTime marker = pCore->projectManager()->current()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
-            pCore->displayMessage(i18n("No guide found at current position"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
@@ -1138,10 +1138,10 @@ void TimelineController::addAsset(const QVariantMap &data)
         }
         if (!foundMatch) {
             QString effectName = EffectsRepository::get()->getName(effect);
-            pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), InformationMessage, 500);
+            pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
         }
     } else {
-        pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to apply an effect"), ErrorMessage, 500);
     }
 }
 
@@ -1269,7 +1269,7 @@ void TimelineController::switchAudioTarget(int trackId)
 void TimelineController::assignCurrentTarget(int index)
 {
     if (m_activeTrack == -1 || !m_model->isTrack(m_activeTrack)) {
-        pCore->displayMessage(i18n("No active track"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No active track"), ErrorMessage, 500);
         return;
     }
     bool isAudio = m_model->isAudioTrack(m_activeTrack);
@@ -1474,7 +1474,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         }
     }
     if (!foundClip) {
-        pCore->displayMessage(i18n("No clip to cut"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No clip to cut"), ErrorMessage, 500);
     }
 }
 
@@ -1707,7 +1707,7 @@ bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Fil
         return true;
     }
     if (clipId == -1) {
-        pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to compare effect"), ErrorMessage, 500);
         return false;
     }
     std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
@@ -2004,7 +2004,7 @@ void TimelineController::insertSpace(int trackId, int frame)
     int spaceDuration = d->selectedDuration().frames(pCore->getCurrentFps());
     delete d;
     if (cid == -1) {
-        pCore->displayMessage(i18n("No clips found to insert space"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No clips found to insert space"), ErrorMessage, 500);
         return;
     }
     int start = m_model->getItemPosition(cid);
@@ -2021,7 +2021,7 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
     }
     bool res = TimelineFunctions::requestDeleteBlankAt(m_model, trackId, frame, affectAllTracks);
     if (!res) {
-        pCore->displayMessage(i18n("Cannot remove space at given position"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot remove space at given position"), ErrorMessage, 500);
     }
 }
 
@@ -2066,7 +2066,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         clipId = getMainSelectedClip();
     }
     if (clipId == -1) {
-        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
     bool pitchCompensate = m_model->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
@@ -2159,7 +2159,7 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
         ++it;
     }
     if (tracks.isEmpty()) {
-        pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), InformationMessage);
+        pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
     }
     if (m_zone == QPoint()) {
         // Use current timeline position and clip zone length
@@ -2180,7 +2180,7 @@ void TimelineController::extract(int clipId)
             }
         }
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2216,7 +2216,7 @@ void TimelineController::saveZone(int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2329,7 +2329,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
         UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
         pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
     } else {
-        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
         undo();
     }
     return res;
@@ -2372,7 +2372,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         target_tracks << aTrack;
     }
     if (target_tracks.isEmpty()) {
-        pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), InformationMessage);
+        pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), ErrorMessage);
         return -1;
     }
     std::function<bool(void)> undo = []() { return true; };
@@ -2401,7 +2401,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
         pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
     } else {
-        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
         undo();
     }
     return res;
@@ -2442,7 +2442,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2454,7 +2454,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
     if (assetId.isEmpty()) {
         QStringList compositions = KdenliveSettings::favorite_transitions();
         if (compositions.isEmpty()) {
-            pCore->displayMessage(i18n("Select a favorite composition"), InformationMessage, 500);
+            pCore->displayMessage(i18n("Select a favorite composition"), ErrorMessage, 500);
             return;
         }
         compoId = insertNewComposition(track, clipId, offset, compositions.first(), true);
@@ -2471,7 +2471,7 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2492,7 +2492,7 @@ bool TimelineController::splitAV()
             return TimelineFunctions::requestSplitAudio(m_model, cid, targetTrack);
         }
     }
-    pCore->displayMessage(i18n("No clip found to perform AV split operation"), InformationMessage, 500);
+    pCore->displayMessage(i18n("No clip found to perform AV split operation"), ErrorMessage, 500);
     return false;
 }
 
@@ -2513,7 +2513,7 @@ void TimelineController::setAudioRef(int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2526,7 +2526,7 @@ void TimelineController::setAudioRef(int clipId)
             int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
             bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true, true);
             if (!result) {
-                pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
+                pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), ErrorMessage, 500);
             }
         } else {
             // Clip was deleted, discard audio reference
@@ -2542,7 +2542,7 @@ void TimelineController::alignAudio(int clipId)
     if (clipId == -1) {
         clipId = getMainSelectedClip();
         if (clipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
             return;
         }
     }
@@ -2589,7 +2589,7 @@ void TimelineController::alignAudio(int clipId)
                 bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), newPos, true, true, true);
                 processed ++;
                 if (!result) {
-                    pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), InformationMessage, 500);
+                    pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), ErrorMessage, 500);
                 }
                 continue;
             }
@@ -2602,7 +2602,7 @@ void TimelineController::alignAudio(int clipId)
     }
     if (processed == 0) {
         //TODO: improve feedback message after freeze
-        pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to apply an effect"), ErrorMessage, 500);
     }
 }
 
@@ -2860,7 +2860,7 @@ void TimelineController::deleteEffects(int targetId)
         }
     }
     if (targetIds.empty()) {
-        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -2885,7 +2885,7 @@ void TimelineController::pasteEffects(int targetId)
         }
     }
     if (sel.empty()) {
-        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
     }
     for (int s : sel) {
         if (m_model->isGroup(s)) {
@@ -2900,24 +2900,24 @@ void TimelineController::pasteEffects(int targetId)
         }
     }
     if (targetIds.empty()) {
-        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
     }
 
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
     if (txt.isEmpty()) {
-        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
     QDomDocument copiedItems;
     copiedItems.setContent(txt);
     if (copiedItems.documentElement().tagName() != QLatin1String("kdenlive-scene")) {
-        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     if (clips.isEmpty()) {
-        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
     std::function<bool(void)> undo = []() { return true; };
@@ -2942,7 +2942,7 @@ void TimelineController::pasteEffects(int targetId)
     if (insertedEffects > 0) {
         pCore->pushUndo(undo, redo, i18n("Paste effects"));
     } else {
-        pCore->displayMessage(i18n("Cannot paste effect on selected clip"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot paste effect on selected clip"), ErrorMessage, 500);
         undo();
     }
 }
@@ -2962,13 +2962,13 @@ void TimelineController::editItemDuration(int id)
                 id = *sel.begin();
             }
             if (id == -1) {
-                pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+                pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
                 return;
             }
         }
     }
     if (id == -1 || !m_model->isItem(id)) {
-        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
     int start = m_model->getItemPosition(id);
@@ -2986,7 +2986,7 @@ void TimelineController::editItemDuration(int id)
         // nothing to do
         isComposition = true;
     } else {
-        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
     int trackId = m_model->getItemTrackId(id);
@@ -3853,7 +3853,7 @@ void TimelineController::expandActiveClip()
                     pCore->pushUndo(undo, redo, i18n("Expand clip"));
                 } else {
                     undo();
-                    pCore->displayMessage(i18n("Could not expand clip"), InformationMessage, 500);
+                    pCore->displayMessage(i18n("Could not expand clip"), ErrorMessage, 500);
                 }
             }
         }
@@ -3896,7 +3896,7 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     if (result) {
         pCore->pushUndo(undo, redo, i18np("Insert Track", "Insert Tracks", total));
     } else {
-        pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Could not insert track"), ErrorMessage, 500);
         undo();
     }
 }
@@ -4017,7 +4017,7 @@ void TimelineController::exportSubtitle()
     }
     QString currentSub = subtitleModel->getUrl();
     if (currentSub.isEmpty()) {
-        pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
+        pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
     const QString url =

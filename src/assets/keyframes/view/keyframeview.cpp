@@ -163,7 +163,7 @@ void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
 {
     if (m_model->singleKeyframe()) {
         // Don't allow zero keyframe
-        pCore->displayMessage(i18n("Cannot remove the last keyframe"), MessageType::InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot remove the last keyframe"), MessageType::ErrorMessage, 500);
         return;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());

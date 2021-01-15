@@ -1648,7 +1648,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             // check if we have enough frames, or limit duration
             int leftFrames = secondClip->getIn();
             if (leftFrames < 3) {
-                pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", i18n("start")), InformationMessage, 500);
+                pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", i18n("start")), ErrorMessage, 500);
                 return false;
             }
             if (leftFrames < mixDuration / 2) {

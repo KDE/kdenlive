@@ -279,7 +279,7 @@ void TimelineWidget::showTargetMenu(int tid)
             return;
         }
         if (m_proxy->clipTargets() < 2 || !model()->isAudioTrack(tid)) {
-            pCore->displayMessage(i18n("No available stream"), MessageType::InformationMessage);
+            pCore->displayMessage(i18n("No available stream"), MessageType::ErrorMessage);
             return;
         }
         QVariant returnedValue;
