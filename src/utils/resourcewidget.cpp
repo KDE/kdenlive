@@ -619,7 +619,7 @@ void ResourceWidget::parseLicense(const QString &licenseUrl)
 /**
  * @brief ResourceWidget::licenseNameFromUrl returns a name for the licence based on the license URL
  * @param licenseUrl
- * @param shortName wether the like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @param shortName whether the like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
  * @return the license name
  */
 QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)

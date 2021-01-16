@@ -5364,12 +5364,12 @@ namespace fakeit {
 
         template<typename C>
         static unsigned int getVTSize() {
-            struct Derrived : public C {
+            struct Derived : public C {
                 virtual void endOfVt() {
                 }
             };
 
-            unsigned int vtSize = getOffset(&Derrived::endOfVt);
+            unsigned int vtSize = getOffset(&Derived::endOfVt);
             return vtSize;
         }
     };

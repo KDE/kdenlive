@@ -245,7 +245,7 @@ void KeyframeView::slotCenterKeyframe()
     QVector<int>updatedSelection;
     for (int kf : m_selectedKeyframes) {
         if (kf == 0) {
-            // Dont't allow moving first keyframe
+            // Don't allow moving first keyframe
             continue;
         }
         GenTime initPos(kf + offset, pCore->getCurrentFps());

@@ -677,7 +677,7 @@ bool TimelineFunctions::requestItemCopy(const std::shared_ptr<TimelineItemModel>
         }
         mapping[id] = newId;
     }
-    qDebug() << "Successful copy, coping groups...";
+    qDebug() << "Successful copy, copying groups...";
     res = timeline->m_groups->copyGroups(mapping, undo, redo);
     if (!res) {
         bool undone = undo();

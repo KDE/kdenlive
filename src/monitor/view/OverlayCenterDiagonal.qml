@@ -4,7 +4,7 @@ import QtQuick 2.11
 
 Item {
     id: overlay
-    property double diagonalLenght: Math.sqrt(Math.pow(parent.height, 2) + Math.pow(parent.width, 2))
+    property double diagonalLength: Math.sqrt(Math.pow(parent.height, 2) + Math.pow(parent.width, 2))
 
     function degreesRotation(width, height) {
         var a = height/width;
@@ -15,7 +15,7 @@ Item {
 
     Rectangle {
         color: root.overlayColor
-        width: overlay.diagonalLenght
+        width: overlay.diagonalLength
         height: 1
         rotation: degreesRotation(parent.height, parent.width)
         anchors.centerIn: parent
@@ -24,7 +24,7 @@ Item {
 
     Rectangle {
         color: root.overlayColor
-        height: overlay.diagonalLenght
+        height: overlay.diagonalLength
         width: 1
         rotation: degreesRotation(parent.width, parent.height)
         anchors.centerIn: parent

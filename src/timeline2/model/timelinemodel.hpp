@@ -176,7 +176,7 @@ public:
      */
     void loadTractor();
 
-    /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
+    /* @brief Returns the current tractor's producer, useful for control seeking, playing, etc
      */
     std::shared_ptr<Mlt::Producer> producer();
     Mlt::Profile *getProfile();

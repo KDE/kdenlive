@@ -104,7 +104,7 @@ public slots:
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
     /** @brief Display a key binding info in status bar */
     void setKeyMap(const QString &text);
-    /** @brief Display a temporary key binding info in status bar, revert to defaut one if text is empty */
+    /** @brief Display a temporary key binding info in status bar, revert to default one if text is empty */
     void setTmpKeyMap(const QString &text);
 
 private slots:

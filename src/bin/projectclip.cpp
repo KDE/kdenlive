@@ -1392,8 +1392,8 @@ bool ProjectClip::matches(const QString &condition)
 
 bool ProjectClip::rename(const QString &name, int column)
 {
-    QMap<QString, QString> newProperites;
-    QMap<QString, QString> oldProperites;
+    QMap<QString, QString> newProperties;
+    QMap<QString, QString> oldProperties;
     bool edited = false;
     switch (column) {
     case 0:
@@ -1401,8 +1401,8 @@ bool ProjectClip::rename(const QString &name, int column)
             return false;
         }
         // Rename clip
-        oldProperites.insert(QStringLiteral("kdenlive:clipname"), m_name);
-        newProperites.insert(QStringLiteral("kdenlive:clipname"), name);
+        oldProperties.insert(QStringLiteral("kdenlive:clipname"), m_name);
+        newProperties.insert(QStringLiteral("kdenlive:clipname"), name);
         m_name = name;
         edited = true;
         break;
@@ -1412,18 +1412,18 @@ bool ProjectClip::rename(const QString &name, int column)
         }
         // Rename clip
         if (m_clipType == ClipType::TextTemplate) {
-            oldProperites.insert(QStringLiteral("templatetext"), m_description);
-            newProperites.insert(QStringLiteral("templatetext"), name);
+            oldProperties.insert(QStringLiteral("templatetext"), m_description);
+            newProperties.insert(QStringLiteral("templatetext"), name);
         } else {
-            oldProperites.insert(QStringLiteral("kdenlive:description"), m_description);
-            newProperites.insert(QStringLiteral("kdenlive:description"), name);
+            oldProperties.insert(QStringLiteral("kdenlive:description"), m_description);
+            newProperties.insert(QStringLiteral("kdenlive:description"), name);
         }
         m_description = name;
         edited = true;
         break;
     }
     if (edited) {
-        pCore->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
+        pCore->bin()->slotEditClipCommand(m_binId, oldProperties, newProperties);
     }
     return edited;
 }
