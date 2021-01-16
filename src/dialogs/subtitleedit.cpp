@@ -79,9 +79,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     m_position = new TimecodeDisplay(pCore->timecode(), this);
     m_endPosition = new TimecodeDisplay(pCore->timecode(), this);
     m_duration = new TimecodeDisplay(pCore->timecode(), this);
-    m_position->setEnabled(false);
-    m_endPosition->setEnabled(false);
-    m_duration->setEnabled(false);
+    frame_position->setEnabled(false);
+    buttonDelete->setEnabled(false);
 
     position_box->addWidget(m_position);
     auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -144,6 +143,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonDelete, &QToolButton::clicked, [this]() {
         pCore->triggerAction(QStringLiteral("delete_timeline_clip"));
     });
+    buttonNext->setToolTip(i18n("Go to next subtitle"));
+    buttonPrev->setToolTip(i18n("Go to previous subtitle"));
+    buttonAdd->setToolTip(i18n("Add subtitle"));
+    buttonCut->setToolTip(i18n("Split subtitle at cursor position"));
+    buttonApply->setToolTip(i18n("Update subtitle text"));
+    buttonDelete->setToolTip(i18n("Delete subtitle"));
 }
 
 void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
@@ -184,9 +189,8 @@ void SubtitleEdit::setActiveSubtitle(int id)
     if (m_model && id > -1) {
         subText->setEnabled(true);
         QSignalBlocker bk(subText);
-        m_position->setEnabled(true);
-        m_endPosition->setEnabled(true);
-        m_duration->setEnabled(true);
+        frame_position->setEnabled(true);
+        buttonDelete->setEnabled(true);
         /*QSignalBlocker bk2(m_position);
         QSignalBlocker bk3(m_endPosition);
         QSignalBlocker bk4(m_duration);*/
@@ -199,9 +203,8 @@ void SubtitleEdit::setActiveSubtitle(int id)
         m_duration->setValue(duration);
     } else {
         subText->setEnabled(false);
-        m_position->setEnabled(false);
-        m_endPosition->setEnabled(false);
-        m_duration->setEnabled(false);
+        frame_position->setEnabled(false);
+        buttonDelete->setEnabled(false);
         QSignalBlocker bk(subText);
         subText->clear();
     }
