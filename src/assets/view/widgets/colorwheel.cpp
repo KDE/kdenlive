@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QDoubleSpinBox>
 #include <QLabel>
+#include <QDebug>
 #include <QFontDatabase>
 
 #include <qmath.h>
@@ -198,9 +199,11 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
+        qDebug()<<"== CLICK VALIE: "<<value;
         if (!qFuzzyCompare(m_zeroShift, 0.)) {
             value = value - m_zeroShift;
         }
+        qDebug()<<"== CLICK VALIE AFTER SHIFT: "<<value<<", SIZE F: "<<m_sizeFactor;
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
     return {};
