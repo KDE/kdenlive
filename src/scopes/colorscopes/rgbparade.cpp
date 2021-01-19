@@ -10,6 +10,7 @@
 
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
+#include <QDebug>
 #include <QPainter>
 #include <QRect>
 #include <QElapsedTimer>
@@ -92,7 +93,12 @@ QImage RGBParade::renderHUD(uint)
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0, 0, 0, 0));
 
-    QPainter davinci(&hud);
+    QPainter davinci;
+    bool ok = davinci.begin(&hud);
+    if (!ok) {
+        qDebug() << "Could not initialise QPainter for RGB Parade.";
+        return hud;
+    }
     davinci.setPen(penLight);
 
     int x = scopeRect().width() - 30;
