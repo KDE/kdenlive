@@ -16,6 +16,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QSize>
+#include <QDebug>
 #include <QElapsedTimer>
 #include <vector>
 
@@ -125,7 +126,13 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     }
 
     if (drawAxis) {
-        QPainter davinci(&wave);
+        QPainter davinci;
+        bool ok = davinci.begin(&wave);
+        if (!ok) {
+            qDebug() << "Could not initialise QPainter for Waveform.";
+            return wave;
+        }
+
         QRgb opx;
         davinci.setPen(qRgba(150, 255, 200, 32));
         davinci.setCompositionMode(QPainter::CompositionMode_Overlay);

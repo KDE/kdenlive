@@ -119,7 +119,12 @@ QImage Waveform::renderHUD(uint)
     QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
     hud.fill(qRgba(0, 0, 0, 0));
 
-    QPainter davinci(&hud);
+    QPainter davinci;
+    bool ok = davinci.begin(&hud);
+    if (!ok) {
+        qDebug() << "Could not initialise QPainter for Waveform HUD.";
+        return hud;
+    }
     davinci.setPen(penLight);
 
     //    qCDebug(KDENLIVE_LOG) << values.value("width");
