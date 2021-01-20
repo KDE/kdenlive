@@ -273,7 +273,15 @@ void AbstractScopeWidget::showEvent(QShowEvent *event)
 
 void AbstractScopeWidget::paintEvent(QPaintEvent *)
 {
-    QPainter davinci(this);
+    QPainter davinci;
+    bool ok = davinci.begin(this);
+    if (!ok) {
+        if (!m_scopeWarningPrinted) {
+            qDebug() << "Warning: Could not initialise painter for drawing scope.";
+            m_scopeWarningPrinted = true;
+        }
+        return;
+    }
     davinci.drawImage(m_scopeRect.topLeft(), m_imgBackground);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgScope);
     davinci.drawImage(m_scopeRect.topLeft(), m_imgHUD);

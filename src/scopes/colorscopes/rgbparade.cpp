@@ -96,7 +96,7 @@ QImage RGBParade::renderHUD(uint)
     QPainter davinci;
     bool ok = davinci.begin(&hud);
     if (!ok) {
-        qDebug() << "Could not initialise QPainter for RGB Parade.";
+        qDebug() << "Could not initialise QPainter for RGB Parade HUD.";
         return hud;
     }
     davinci.setPen(penLight);

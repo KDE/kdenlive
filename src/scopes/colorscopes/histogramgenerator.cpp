@@ -104,7 +104,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     QPainter davinci;
     bool ok = davinci.begin(&histogram);
     if (!ok) {
-        qDebug() << "Could not initialise QPainter for histogram.";
+        qDebug() << "Could not initialise QPainter for Histogram.";
         return histogram;
     }
     davinci.setPen(QColor(220, 220, 220, 255));
