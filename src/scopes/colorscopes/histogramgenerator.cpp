@@ -14,6 +14,7 @@
 #include "klocalizedstring.h"
 #include <QImage>
 #include <QPainter>
+#include <QDebug>
 #include <algorithm>
 #include <cmath>
 
@@ -100,7 +101,12 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     const int dist = 40;
 
     QImage histogram(paradeSize, QImage::Format_ARGB32);
-    QPainter davinci(&histogram);
+    QPainter davinci;
+    bool ok = davinci.begin(&histogram);
+    if (!ok) {
+        qDebug() << "Could not initialise QPainter for Histogram.";
+        return histogram;
+    }
     davinci.setPen(QColor(220, 220, 220, 255));
     histogram.fill(qRgba(0, 0, 0, 0));
 

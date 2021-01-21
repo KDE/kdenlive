@@ -12,6 +12,7 @@
 #include "klocalizedstring.h"
 #include <QColor>
 #include <QPainter>
+#include <QDebug>
 
 #define CHOP255(a) ((255) < (a) ? (255) : int(a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))
@@ -43,7 +44,12 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     QImage parade(paradeSize, QImage::Format_ARGB32);
     parade.fill(Qt::transparent);
 
-    QPainter davinci(&parade);
+    QPainter davinci;
+    bool ok = davinci.begin(&parade);
+    if (!ok) {
+        qDebug() << "Could not initialise QPainter for RGB parade.";
+        return parade;
+    }
 
     const uint ww = (uint)paradeSize.width();
     const uint wh = (uint)paradeSize.height();
