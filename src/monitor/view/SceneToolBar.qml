@@ -5,24 +5,15 @@ import QtQuick 2.11
 
 Rectangle {
     id: scenetoolbar
+    property bool rightSide: true
     objectName: "scenetoolbar"
     width: fullscreenButton.width
-    height: childrenRect.height
-    property bool rightSide: true
-    property bool barContainsMouse
+    height: barZone.childrenRect.height
     SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
     color: Qt.rgba(myPalette.window.r, myPalette.window.g, myPalette.window.b, 0.7)
     radius: 4
     border.color : Qt.rgba(0, 0, 0, 0.3)
     border.width: 1
-    Timer {
-        id: fadeTimer
-        interval: 2500; running: false;
-        onTriggered: {
-            scenetoolbar.visible = false
-            scenetoolbar.opacity = 1
-        }
-    }
     OpacityAnimator {
         id: animator
         target: scenetoolbar;
@@ -34,12 +25,25 @@ Rectangle {
 
     function fadeBar()
     {
-        scenetoolbar.visible = true
         animator.start()
-        fadeTimer.start()
     }
 
+    MouseArea {
+        id: barZone
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        x: scenetoolbar.rightSide ? -root.baseUnit : 0
+        width: fullscreenButton.width + root.baseUnit
+        height: scenetoolbar.parent.height
+        onEntered: {
+            scenetoolbar.opacity = 1
+        }
+        onExited: {
+            scenetoolbar.opacity = 0
+        }
+        
     Column {
+        x: scenetoolbar.rightSide ? root.baseUnit : 0
         ToolButton {
             id: fullscreenButton
             objectName: "fullScreen"
@@ -115,5 +119,9 @@ Rectangle {
                 }
             }
         }
+    }
+}
+    Component.onCompleted: {
+        scenetoolbar.fadeBar()
     }
 }
