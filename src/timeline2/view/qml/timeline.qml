@@ -11,7 +11,8 @@ Rectangle {
     color: activePalette.window
     property bool validMenu: false
     property color textColor: activePalette.text
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active
+    property var groupTrimData
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData != undefined
 
     signal clipClicked()
     signal mousePosChanged(int position)
