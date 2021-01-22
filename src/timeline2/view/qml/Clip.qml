@@ -549,7 +549,11 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        updateDrag()
+                        if (!controlTrim) {
+                            updateDrag()
+                        } else {
+                            endDrag()
+                        }
                     }
                 }
                 onDoubleClicked: {
@@ -658,7 +662,11 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        updateDrag()
+                        if (!controlTrim) {
+                            updateDrag()
+                        } else {
+                            endDrag()
+                        }
                     }
                 }
                 onDoubleClicked: {
