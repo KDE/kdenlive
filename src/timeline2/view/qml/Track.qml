@@ -284,7 +284,7 @@ Item{
             height: trackRoot.height
             onInitGroupTrim: {
                 // We are resizing a group, remember coordinates of all elements
-                clip.groupTrimData = controller.getGroupData(clip.clipId)
+                root.groupTrimData = controller.getGroupData(clip.clipId)
             }
             onTrimmingIn: {
                 if (controlTrim) {
@@ -320,7 +320,7 @@ Item{
             onTrimmedIn: {
                 //bubbleHelp.hide()
                 timeline.showToolTip();
-                if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     if (controlTrim) {
@@ -333,9 +333,9 @@ Item{
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
-                    controller.processGroupResize(clip.groupTrimData, updatedGroupData, false)
+                    controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
                 }
-                clip.groupTrimData = undefined
+                root.groupTrimData = undefined
             }
             onTrimmingOut: {
                 if (controlTrim) {
@@ -369,7 +369,7 @@ Item{
             onTrimmedOut: {
                 timeline.showToolTip();
                 //bubbleHelp.hide()
-                if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     if (controlTrim) {
                         speedController.visible = false
@@ -381,9 +381,9 @@ Item{
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
-                    controller.processGroupResize(clip.groupTrimData, updatedGroupData, true)
+                    controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
                 }
-                clip.groupTrimData = undefined
+                root.groupTrimData = undefined
             }
         }
     }

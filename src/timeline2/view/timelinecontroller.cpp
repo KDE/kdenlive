@@ -808,6 +808,11 @@ void TimelineController::gotoPreviousGuide()
 
 void TimelineController::groupSelection()
 {
+    if (dragOperationRunning()) {
+        // Don't allow timeline operation while drag in progress
+        pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
+        return;
+    }
     const auto selection = m_model->getCurrentSelection();
     if (selection.size() < 2) {
         pCore->displayMessage(i18n("Select at least 2 items to group"), ErrorMessage, 500);
@@ -820,6 +825,11 @@ void TimelineController::groupSelection()
 
 void TimelineController::unGroupSelection(int cid)
 {
+    if (dragOperationRunning()) {
+        // Don't allow timeline operation while drag in progress
+        pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
+        return;
+    }
     auto ids = m_model->getCurrentSelection();
     // ask to unselect if needed
     m_model->requestClearSelection();
@@ -842,7 +852,8 @@ void TimelineController::setInPoint()
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
-        qDebug() << "Cannot operate while dragging";
+        pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
+        qDebug()<< "Cannot operate while dragging";
         return;
     }
 
@@ -885,6 +896,7 @@ void TimelineController::setOutPoint()
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
+        pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         qDebug() << "Cannot operate while dragging";
         return;
     }

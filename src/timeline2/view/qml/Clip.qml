@@ -78,7 +78,6 @@ Rectangle {
     property bool forceReloadThumb
     property bool isComposition: false
     property bool hideClipViews: false
-    property var groupTrimData
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
