@@ -637,7 +637,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     switchAudioMonitor->setChecked((KdenliveSettings::monitoraudio() & m_id) != 0);
     
     if (m_id == Kdenlive::ClipMonitor) {
-        QAction *recordTimecode = new QAction(i18n("Show Record Timecode"), this);
+        QAction *recordTimecode = new QAction(i18n("Show Source Timecode"), this);
         recordTimecode->setCheckable(true);
         connect(recordTimecode, &QAction::triggered, this, &Monitor::slotSwitchRecTimecode);
         recordTimecode->setChecked(KdenliveSettings::rectimecode());
