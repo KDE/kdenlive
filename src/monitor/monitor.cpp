@@ -444,7 +444,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addAction(m_sceneVisibilityAction);
 
     m_toolbar->addSeparator();
-    connect(m_timePos, &TimecodeDisplay::timeCodeUpdated, m_glMonitor->getControllerProxy(), &MonitorProxy::timecodeChanged);
     m_toolbar->addWidget(m_timePos);
 
     auto *configButton = new QToolButton(m_toolbar);

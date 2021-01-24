@@ -387,6 +387,7 @@ const QString MonitorProxy::timecode() const
 void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 {
     m_td = td;
+    connect(m_td, &TimecodeDisplay::timeCodeUpdated, this, &MonitorProxy::timecodeChanged);
 }
 
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const

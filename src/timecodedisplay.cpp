@@ -220,8 +220,8 @@ void TimecodeDisplay::setValue(int value)
         }
         m_value = value;
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + value - m_minimum));
-        emit timeCodeUpdated();
     }
+    emit timeCodeUpdated();
 }
 
 void TimecodeDisplay::setValue(const GenTime &value)
