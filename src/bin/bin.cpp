@@ -3486,7 +3486,7 @@ void Bin::renameSubClip(const QString &id, const QString &newName, int in, int o
     if (!sub) {
         return;
     }
-    sub->setName(newName);
+    sub->setName(newName.isEmpty() ? i18n("Unnamed") : newName);
     clip->updateZones();
     emit itemUpdated(sub);
 }
