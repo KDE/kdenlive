@@ -560,7 +560,7 @@ QString ClipController::clipName() const
     if (!name.isEmpty()) {
         return name;
     }
-    return QFileInfo(m_path).fileName();
+    return m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
