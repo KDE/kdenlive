@@ -141,6 +141,10 @@ bool ProxyJob::startJob()
                 continue;
             } else {
                 t.replace(QLatin1Char(' '), QLatin1String("="));
+                if (t == QLatin1String("acodec=copy") && type == ClipType::Playlist) {
+                    // drop this for playlists, otherwise we have no sound in proxies
+                    continue;
+                }
             }
             mltParameters << t;
         }
