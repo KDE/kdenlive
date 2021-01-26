@@ -425,11 +425,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
         connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
         vbox->addLayout(hlay);
+    }
 
+    if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image || m_type == ClipType::Playlist) {
         // Proxy
         QString proxy = m_properties->get("kdenlive:proxy");
         m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
-        hlay = new QHBoxLayout;
+        QHBoxLayout *hlay = new QHBoxLayout;
         auto *bg = new QGroupBox(this);
         bg->setCheckable(false);
         bg->setFlat(true);
@@ -1050,6 +1052,7 @@ void ClipPropertiesController::slotReloadProperties()
         break;
     case ClipType::Image:
     case ClipType::AV:
+    case ClipType::Playlist:
     case ClipType::Video: {
         QString proxy = m_properties->get("kdenlive:proxy");
         if (proxy != m_originalProperties.value(QStringLiteral("kdenlive:proxy"))) {
