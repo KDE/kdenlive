@@ -268,19 +268,20 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         return false;
     }
     if (auto ptr = m_parent.lock()) {
-        if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+        if (isAudioTrack() && !clip->canBeAudio()) {
             qDebug() << "// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
             return false;
         }
-        if (!isAudioTrack() && !ptr->getClipPtr(clipId)->canBeVideo()) {
+        if (!isAudioTrack() && !clip->canBeVideo()) {
             qDebug() << "// ATTEMPTING TO INSERT NON VIDEO CLIP ON VIDEO TRACK";
             return false;
         }
         Fun local_undo = []() { return true; };
         Fun local_redo = []() { return true; };
         bool res = true;
-        if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
-            res = ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+        if (clip->clipState() != PlaylistState::Disabled) {
+            res = clip->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         }
         int duration = trackDuration();
         auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove, groupMove);
