@@ -324,7 +324,7 @@ bool LoadJob::startJob()
             }
             m_producer->set("length", producerLength);
             m_producer->set("kdenlive:duration", duration);
-            m_producer->set("out", duration - 1);
+            m_producer->set("out", producerLength - 1);
         }
         break;
     case ClipType::QText:

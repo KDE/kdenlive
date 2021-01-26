@@ -1732,6 +1732,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             out = out - in;
             in = 0;
             timeline->m_allClips[newId]->m_producer->set("length", out + 1);
+            timeline->m_allClips[newId]->m_producer->set("out", out);
         }
         timeline->m_allClips[newId]->setInOut(in, out);
         int targetId = prod.attribute(QStringLiteral("id")).toInt();

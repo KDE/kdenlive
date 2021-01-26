@@ -3991,7 +3991,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         }
         if (clip->isValid()) {
             clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
-            clip->resetProducerProperty(QStringLiteral("length"));
+            if (clip->hasLimitedDuration()) {
+                clip->resetProducerProperty(QStringLiteral("length"));
+            }
         }
         if (!xml.isNull()) {
             clip->setClipStatus(FileStatus::StatusWaiting);
