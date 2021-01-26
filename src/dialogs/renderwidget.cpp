@@ -1299,12 +1299,14 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;
         QString producerService;
+        QString originalProducerService;
         QString suffix;
         QString prefix;
         for (int n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
             producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+            originalProducerService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
             if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
                 continue;
             }
@@ -1327,6 +1329,10 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
                     producerResource.prepend(root);
                 }
                 if (proxies.contains(producerResource)) {
+                    if (!originalProducerService.isEmpty() && originalProducerService!= producerService) {
+                        // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
+                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), originalProducerService);
+                    }
                     QString replacementResource = proxies.value(producerResource);
                     Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
                     if (producerService == QLatin1String("timewarp")) {
