@@ -53,7 +53,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kimagecache.h>
 
 #include "kdenlive_debug.h"
-#include "logger.hpp"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -63,6 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <memory>
 
+#ifdef CRASH_AUTO_TEST
+#include "logger.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -77,6 +78,8 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<ProjectClip>("ProjectClip");
 }
+#endif
+
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)

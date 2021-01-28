@@ -22,6 +22,7 @@ endif()
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)
+option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 
 # Minimum versions of main dependencies.
@@ -109,10 +110,15 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
   endif()
 endif()
 
-find_package(RTTR 0.9.6 QUIET)
-if(NOT RTTR_FOUND)
-  message(STATUS "RTTR not found on system, will download source and build it")
-  include(rttr.CMakeLists.txt)
+if(CRASH_AUTO_TEST)
+  find_package(RTTR 0.9.6 QUIET)
+  if(NOT RTTR_FOUND)
+    message(STATUS "RTTR not found on system, will download source and build it")
+    include(rttr.CMakeLists.txt)
+  endif()
+  if(BUILD_FUZZING)
+    set(ECM_ENABLE_SANITIZERS fuzzer;address)
+  endif()
 endif()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
@@ -120,10 +126,6 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-
-if(BUILD_FUZZING)
-    set(ECM_ENABLE_SANITIZERS fuzzer;address)
-endif()
 
 # Sources
 add_subdirectory(src)

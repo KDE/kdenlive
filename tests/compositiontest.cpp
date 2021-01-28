@@ -4,7 +4,6 @@ Mlt::Profile profile_composition;
 QString aCompo;
 TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 {
-    Logger::clear();
     // Check whether repo works
     QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
     REQUIRE(!transitions.isEmpty());
@@ -45,12 +44,10 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(timeline->getCompositionsCount() == 1);
     REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->getCompositionsCount() == 0);
-    Logger::print_trace();
 }
 
 TEST_CASE("Composition manipulation", "[CompositionModel]")
 {
-    Logger::clear();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(undoStack));
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_composition, guideModel, undoStack);
@@ -412,5 +409,4 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->requestItemResize(cid1, length - 2, true) > -1);
         REQUIRE(timeline->requestItemResize(cid2, length, false) > -1);
     }
-    Logger::print_trace();
 }

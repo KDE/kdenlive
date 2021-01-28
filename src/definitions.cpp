@@ -22,6 +22,7 @@
 
 #include <QColor>
 
+#ifdef CRASH_AUTO_TEST
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -48,6 +49,7 @@ RTTR_REGISTRATION
         );
     // clang-format on
 }
+#endif
 
 QDebug operator<<(QDebug qd, const ItemInfo &info)
 {

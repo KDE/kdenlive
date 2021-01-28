@@ -24,7 +24,11 @@
 #include "clipsnapmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#else
+#define TRACE_CONSTR(...)
+#endif
 #include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"

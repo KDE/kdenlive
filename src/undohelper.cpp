@@ -20,7 +20,9 @@
  ***************************************************************************/
 
 #include "undohelper.hpp"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#endif
 #include <QDebug>
 #include <utility>
 FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &text, QUndoCommand *parent)
@@ -35,7 +37,9 @@ FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &
 void FunctionalUndoCommand::undo()
 {
     // qDebug() << "UNDOING " <<text();
+#ifdef CRASH_AUTO_TEST
     Logger::log_undo(true);
+#endif
     m_undone = true;
     bool res = m_undo();
     Q_ASSERT(res);
@@ -45,7 +49,9 @@ void FunctionalUndoCommand::redo()
 {
     if (m_undone) {
         // qDebug() << "REDOING " <<text();
+#ifdef CRASH_AUTO_TEST
         Logger::log_undo(false);
+#endif
         bool res = m_redo();
         Q_ASSERT(res);
     }

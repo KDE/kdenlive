@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
-#include "logger.hpp"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -44,6 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <klocalizedstring.h>
 #include <unordered_map>
 
+#ifdef CRASH_AUTO_TEST
+#include "logger.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -53,11 +54,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <rttr/registration>
 #pragma GCC diagnostic pop
 
-QStringList waitingBinIds;
-QMap<QString, QString> mappedIds;
-QMap<int, int> tracksMap;
-QSemaphore semaphore(1);
-
 RTTR_REGISTRATION
 {
     using namespace rttr;
@@ -65,6 +61,15 @@ RTTR_REGISTRATION
         .method("requestClipCut", select_overload<bool(std::shared_ptr<TimelineItemModel>, int, int)>(&TimelineFunctions::requestClipCut))(
             parameter_names("timeline", "clipId", "position"));
 }
+#else
+#define TRACE_STATIC(...)
+#define TRACE_RES(...)
+#endif
+
+QStringList waitingBinIds;
+QMap<QString, QString> mappedIds;
+QMap<int, int> tracksMap;
+QSemaphore semaphore(1);
 
 bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo,
                                   Fun &redo)
