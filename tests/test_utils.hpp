@@ -8,7 +8,6 @@
 #include <random>
 #include <string>
 
-#include "logger.hpp"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic push
 #include "fakeit.hpp"

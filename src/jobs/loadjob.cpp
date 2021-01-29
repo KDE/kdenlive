@@ -272,6 +272,11 @@ bool LoadJob::startJob()
     if (type == ClipType::Unknown) {
         type = getTypeForService(service, m_resource);
     }
+    if (type == ClipType::Playlist && Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:proxy")).length() > 2) {
+        // If this is a proxied playlist, load as AV
+        type = ClipType::AV;
+        service.clear();
+    }
     switch (type) {
     case ClipType::Color:
         m_producer = loadResource(m_resource, QStringLiteral("color:"));

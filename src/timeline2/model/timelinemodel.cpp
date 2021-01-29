@@ -33,7 +33,6 @@
 #include "jobs/jobmanager.h"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
-#include "logger.hpp"
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 #include "trackmodel.hpp"
@@ -48,9 +47,12 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 #include <queue>
+#include <set>
 
 #include "macros.hpp"
 
+#ifdef CRASH_AUTO_TEST
+#include "logger.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -101,6 +103,12 @@ RTTR_REGISTRATION
         //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
         .method("requestClipTimeWarp", select_overload<bool(int, double,bool,bool)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed","pitchCompensate","changeDuration"));
 }
+#else
+#define TRACE_CONSTR(...)
+#define TRACE_STATIC(...)
+#define TRACE_RES(...)
+#define TRACE(...)
+#endif
 
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;

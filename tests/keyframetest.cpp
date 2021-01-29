@@ -28,7 +28,6 @@ bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 
 TEST_CASE("Keyframe model", "[KeyframeModel]")
 {
-    Logger::clear();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     // Here we do some trickery to enable testing.
@@ -252,5 +251,4 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         state1(6.1);
     }
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }

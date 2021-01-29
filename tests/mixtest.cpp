@@ -18,7 +18,6 @@ Mlt::Profile profile_mix;
 
 TEST_CASE("Simple Mix", "[SameTrackMix]")
 {
-    Logger::clear();
     // Create timeline
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -435,5 +434,4 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }

@@ -1,4 +1,4 @@
-include_directories(${MLT_INCLUDE_DIR} ..)
+include_directories(${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR} ..)
 kde_enable_exceptions()
 add_executable(runTests
     TestMain.cpp

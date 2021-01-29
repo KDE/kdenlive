@@ -26,7 +26,11 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "kdenlivesettings.h"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#else
+#define TRACE_CONSTR(...)
+#endif
 #include "snapmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "timelinemodel.hpp"
@@ -2119,7 +2123,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
 {
     QList<int>toDelete;
     for( const auto& n : m_sameCompositions ) {
-        std::cout << "Key:[" << n.first << "] Value:[" << n.second << "]\n";
+        //qDebug() << "Key:[" << n.first << "] Value:[" << n.second << "]\n";
         int secondClipId = n.first;
         int firstClip = m_mixList.key(secondClipId, -1);
         Q_ASSERT(firstClip > -1);
