@@ -151,6 +151,7 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
+    timeline->m_allClips[newId]->setSubPlaylistIndex(timeline->m_allClips[clipId]->getSubPlaylistIndex(), trackId);
     res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
     
     if (timeline->getTrackById_const(trackId)->hasEndMix(clipId)) {
