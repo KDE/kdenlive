@@ -43,6 +43,7 @@ public:
      * regardless of the user's locale; many locales use , or another character as decimal point.
      */
     static void resetLocale();
+    static void resetAllLocale();
 };
 
 #endif // KDENLIVE_LOCALEHANDLING_H

@@ -78,7 +78,7 @@ int main(int argc, char **argv)
             // After initialising the MLT factory, set the locale back from user default to C
             // to ensure numbers are always serialised with . as decimal point.
             Mlt::Factory::init();
-            LocaleHandling::resetLocale();
+            LocaleHandling::resetAllLocale();
 
             Mlt::Profile profile(profilePath.toUtf8().constData());
             profile.set_explicit(1);
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-
+        LocaleHandling::resetAllLocale();
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
         rJob->start();
         QObject::connect(rJob, &RenderJob::renderingFinished, [&, rJob]() {
