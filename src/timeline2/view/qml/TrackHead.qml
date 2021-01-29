@@ -101,7 +101,7 @@ Rectangle {
         background: Rectangle {
             color: trackTarget.bgColor
         }
-        width: 2 * root.trackTagWidth
+        width: 1.5 * root.baseUnit
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
@@ -294,7 +294,7 @@ Rectangle {
             background: Rectangle {
                 color: trackLed.bgColor
             }
-            width: root.trackTagWidth * trackHeadRoot.trackTag.length
+            width: root.trackTagWidth
             height: root.collapsedHeight - 2
             y: 1
             verticalAlignment: Text.AlignVCenter

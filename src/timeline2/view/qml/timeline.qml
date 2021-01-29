@@ -340,7 +340,7 @@ Rectangle {
     property bool showSubtitles: false
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
-    property int trackTagWidth: fontMetrics.boundingRect("M").width
+    property int trackTagWidth: fontMetrics.boundingRect("M").width * (trackHeaderRepeater.count < 10 ? 2 : 3)
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -760,7 +760,7 @@ Rectangle {
                         focusPolicy: Qt.NoFocus
                         property var modifier: 0
                         anchors.left: parent.left
-                        anchors.leftMargin: 2 * root.trackTagWidth
+                        anchors.leftMargin: 1.5 * root.baseUnit
                         width: root.collapsedHeight
                         height: root.collapsedHeight   
                         contentItem: Item {
