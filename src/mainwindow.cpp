@@ -3872,6 +3872,11 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 
 void MainWindow::updateDockTitleBars(bool isTopLevel)
 {
+    QList<QTabBar *> tabbars = findChildren<QTabBar *>();
+    for (QTabBar *tab : tabbars) {
+        tab->setAcceptDrops(true);
+        tab->setChangeCurrentOnDrag(true);
+    }
     if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
         return;
     }
