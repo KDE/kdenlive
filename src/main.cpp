@@ -92,7 +92,6 @@ int main(int argc, char *argv[])
         QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
     }
 #endif
-    qputenv("LANG", QLocale().name().toUtf8());
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
