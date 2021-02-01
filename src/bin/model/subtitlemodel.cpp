@@ -1035,6 +1035,12 @@ int SubtitleModel::getSubtitlePlaytime(int id) const
     return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps()) - startPos.frames(pCore->getCurrentFps());
 }
 
+int SubtitleModel::getSubtitleEnd(int id) const
+{
+    GenTime startPos = m_timeline->m_allSubtitles.at(id);
+    return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps());
+}
+
 void SubtitleModel::setSelected(int id, bool select)
 {
     if (isLocked()) {

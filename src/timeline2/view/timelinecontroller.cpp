@@ -886,8 +886,37 @@ void TimelineController::setInPoint()
                 if (start != cursorPos) {
                     int size = start + m_model->getItemPlaytime(cid) - cursorPos;
                     m_model->requestItemResize(cid, size, false, true, 0, false);
+                    selectionFound = true;
                 }
             }
+        } else if (m_activeTrack == -2) {
+            // Subtitle track
+            auto subtitleModel = pCore->getSubtitleModel();
+            if (subtitleModel) {
+                int sid = -1;
+                std::unordered_set<int> sids = subtitleModel->getItemsInRange(cursorPos, cursorPos);
+                if (sids.empty()) {
+                    sids = subtitleModel->getItemsInRange(cursorPos, -1);
+                    for (int s : sids) {
+                        if (sid == -1 || subtitleModel->getStartPosForId(s) < subtitleModel->getStartPosForId(sid)) {
+                            sid = s;
+                        }
+                    }
+                } else {
+                    sid = *sids.begin();
+                }
+                if (sid > -1) {
+                    int start = m_model->getItemPosition(sid);
+                    if (start != cursorPos) {
+                        int size = start + m_model->getItemPlaytime(sid) - cursorPos;
+                        m_model->requestItemResize(sid, size, false, true, 0, false);
+                        selectionFound = true;
+                    }
+                }
+            }
+        }
+        if (!selectionFound) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         }
     }
 }
@@ -927,8 +956,37 @@ void TimelineController::setOutPoint()
                 if (start + m_model->getItemPlaytime(cid) != cursorPos) {
                     int size = cursorPos - start;
                     m_model->requestItemResize(cid, size, true, true, 0, false);
+                    selectionFound = true;
                 }
             }
+        } else if (m_activeTrack == -2) {
+            // Subtitle track
+            auto subtitleModel = pCore->getSubtitleModel();
+            if (subtitleModel) {
+                int sid = -1;
+                std::unordered_set<int> sids = subtitleModel->getItemsInRange(cursorPos, cursorPos);
+                if (sids.empty()) {
+                    sids = subtitleModel->getItemsInRange(0, cursorPos);
+                    for (int s : sids) {
+                        if (sid == -1 || subtitleModel->getSubtitleEnd(s) > subtitleModel->getSubtitleEnd(sid)) {
+                            sid = s;
+                        }
+                    }
+                } else {
+                    sid = *sids.begin();
+                }
+                if (sid > -1) {
+                    int start = m_model->getItemPosition(sid);
+                    if (start + m_model->getItemPlaytime(sid) != cursorPos) {
+                        int size = cursorPos - start;
+                        m_model->requestItemResize(sid, size, true, true, 0, false);
+                        selectionFound = true;
+                    }
+                }
+            }
+        }
+        if (!selectionFound) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         }
     }
 }

@@ -117,6 +117,7 @@ public:
     int getIdForStartPos(GenTime startTime) const;
     /** @brief Get the duration of a subtitle by id*/
     int getSubtitlePlaytime(int id) const;
+    int getSubtitleEnd(int id) const;
     /** @brief Mark the subtitle item as selected or not*/
     void setSelected(int id, bool select);
     bool isSelected(int id) const;
