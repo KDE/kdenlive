@@ -1713,6 +1713,7 @@ Rectangle {
             startFrame: model.startframe
             endFrame: model.endframe
             subtitle: model.subtitle
+            isGrabbed: model.grabbed
         }
     }
 
