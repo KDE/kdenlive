@@ -13,15 +13,38 @@ Item {
     property double tScale: root.timeScale
     property string subtitle
     property bool selected
+    property bool isGrabbed: false
     height: subtitleTrack.height
     onStartFrameChanged: {
         if (!subtitleClipArea.pressed) {
             subtitleClipArea.x = startFrame * root.timeScale
         }
     }
+
     onTScaleChanged: {
         subtitleClipArea.x = startFrame * root.timeScale;
     }
+
+    onIsGrabbedChanged: {
+        if (subtitleRoot.isGrabbed) {
+            grabItem()
+        } else {
+            timeline.showToolTip()
+            subtitleClipArea.focus = false
+        }
+    }
+
+    onSelectedChanged: {
+        if (!selected && isGrabbed) {
+            //timeline.grabCurrent()
+        }
+    }
+
+    function grabItem() {
+        subtitleClipArea.forceActiveFocus()
+        subtitleClipArea.focus = true
+    }
+
     MouseArea {
             // Clip shifting
             id: subtitleClipArea
@@ -103,6 +126,29 @@ Item {
             onDoubleClicked: {
                 subtitleBase.textEditBegin = true
             }
+            Keys.onShortcutOverride: event.accepted = subtitleRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
+            Keys.onLeftPressed: {
+                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame - offset, true, true)) {
+                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                }
+            }
+            Keys.onRightPressed: {
+                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame + offset, true, true)) {
+                    timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
+                }
+            }
+            /*Keys.onUpPressed: {
+                controller.requestClipMove(subtitleRoot.subId, controller.getNextTrackId(subtitleRoot.trackId), subtitleRoot.startFrame, true, true, true);
+            }
+            Keys.onDownPressed: {
+                controller.requestClipMove(subtitleRoot.subId, controller.getPreviousTrackId(subtitleRoot.trackId), subtitleRoot.startFrame, true, true, true);
+            }*/
+            Keys.onEscapePressed: {
+                timeline.grabCurrent()
+                //focus = false
+            }
         }
     Item {
         id: subtitleBase
@@ -143,7 +189,7 @@ Item {
                 color: root.subtitlesLocked ? "#ff6666" : enabled ? "#fff" : '#ccccff'
                 border {
                     color: subtitleRoot.selected ? root.selectionColor : "#000"
-                    width: 2
+                    width: subtitleRoot.isGrabbed ? 8 : 2
                 }
             }
             color: 'black'

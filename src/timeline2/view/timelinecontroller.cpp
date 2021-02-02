@@ -3271,6 +3271,8 @@ void TimelineController::grabCurrent()
         } else if (m_model->isComposition(id)) {
             std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
             clip->setGrab(!clip->isGrabbed());
+        } else if (m_model->isSubTitle(id)) {
+            pCore->getSubtitleModel()->switchGrab(id);
         }
     }
     if (mainId > -1) {
@@ -3280,6 +3282,8 @@ void TimelineController::grabCurrent()
         } else if (m_model->isComposition(mainId)) {
             std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(mainId);
             clip->setGrab(!clip->isGrabbed());
+        } else if (m_model->isSubTitle(mainId)) {
+            pCore->getSubtitleModel()->switchGrab(mainId);
         }
     }
 }

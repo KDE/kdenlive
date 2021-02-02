@@ -376,6 +376,7 @@ QHash<int, QByteArray> SubtitleModel::roleNames() const
     roles[EndPosRole] = "endposition";
     roles[StartFrameRole] = "startframe";
     roles[EndFrameRole] = "endframe";
+    roles[GrabRole] = "grabbed";
     roles[IdRole] = "id";
     roles[SelectedRole] = "selected";
     return roles;
@@ -404,6 +405,8 @@ QVariant SubtitleModel::data(const QModelIndex& index, int role) const
             return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
         case SelectedRole:
             return m_selected.contains(subInfo.first);
+        case GrabRole:
+            return m_grabbedIds.contains(subInfo.first);
     }
     return QVariant();
 }
@@ -595,6 +598,27 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refresh
         emit modelChanged();
     }
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+}
+
+void SubtitleModel::switchGrab(int sid)
+{
+    if (m_grabbedIds.contains(sid)) {
+        m_grabbedIds.removeAll(sid);
+    } else {
+        m_grabbedIds << sid;
+    }
+    int row = m_timeline->getSubtitleIndex(sid);
+    emit dataChanged(index(row), index(row), {GrabRole});
+}
+
+void SubtitleModel::clearGrab()
+{
+    QVector<int> grabbed = m_grabbedIds;
+    m_grabbedIds.clear();
+    for (int sid : grabbed) {
+        int row = m_timeline->getSubtitleIndex(sid);
+        emit dataChanged(index(row), index(row), {GrabRole});
+    }
 }
 
 bool SubtitleModel::requestResize(int id, int size, bool right)

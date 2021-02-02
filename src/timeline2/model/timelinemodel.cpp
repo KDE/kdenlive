@@ -4897,6 +4897,9 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         Q_ASSERT(onDeletion || isClip(m_currentSelection) || isComposition(m_currentSelection) || isSubTitle(m_currentSelection));
     }
     m_currentSelection = -1;
+    if (m_subtitleModel) {
+        m_subtitleModel->clearGrab();
+    }
     emit selectionChanged();
     TRACE_RES(true);
     return true;
@@ -5031,6 +5034,9 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
         }
         result = (m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection)) >= 0;
         Q_ASSERT(m_currentSelection >= 0);
+    }
+    if (m_subtitleModel) {
+        m_subtitleModel->clearGrab();
     }
     emit selectionChanged();
     return result;
