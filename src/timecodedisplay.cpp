@@ -69,7 +69,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
-    connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished);
+    connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
 }
 
 // virtual protected

@@ -191,9 +191,9 @@ void SubtitleEdit::setActiveSubtitle(int id)
         QSignalBlocker bk(subText);
         frame_position->setEnabled(true);
         buttonDelete->setEnabled(true);
-        /*QSignalBlocker bk2(m_position);
+        QSignalBlocker bk2(m_position);
         QSignalBlocker bk3(m_endPosition);
-        QSignalBlocker bk4(m_duration);*/
+        QSignalBlocker bk4(m_duration);
         subText->setPlainText(m_model->getText(id));
         m_startPos = m_model->getStartPosForId(id);
         GenTime duration = GenTime(m_model->getSubtitlePlaytime(id), pCore->getCurrentFps());
@@ -201,7 +201,13 @@ void SubtitleEdit::setActiveSubtitle(int id)
         m_position->setValue(m_startPos);
         m_endPosition->setValue(m_endPos);
         m_duration->setValue(duration);
+        m_position->setEnabled(true);
+        m_endPosition->setEnabled(true);
+        m_duration->setEnabled(true);
     } else {
+        m_position->setEnabled(false);
+        m_endPosition->setEnabled(false);
+        m_duration->setEnabled(false);
         subText->setEnabled(false);
         frame_position->setEnabled(false);
         buttonDelete->setEnabled(false);
@@ -213,7 +219,24 @@ void SubtitleEdit::setActiveSubtitle(int id)
 void SubtitleEdit::goToPrevious()
 {
     if (m_model) {
-        int id = m_model->getPreviousSub(m_activeSub);
+        int id = -1;
+        if (m_activeSub > -1) {
+            id = m_model->getPreviousSub(m_activeSub);
+        } else {
+            // Start from timeline cursor position
+            int cursorPos = pCore->getTimelinePosition();
+            std::unordered_set<int> sids = m_model->getItemsInRange(cursorPos, cursorPos);
+            if (sids.empty()) {
+                sids = m_model->getItemsInRange(0, cursorPos);
+                for (int s : sids) {
+                    if (id == -1 || m_model->getSubtitleEnd(s) > m_model->getSubtitleEnd(id)) {
+                        id = s;
+                    }
+                }
+            } else {
+                id = m_model->getPreviousSub(*sids.begin());
+            }
+        }
         if (id > -1) {
             if (buttonApply->isEnabled()) {
                 updateSubtitle();
@@ -228,7 +251,24 @@ void SubtitleEdit::goToPrevious()
 void SubtitleEdit::goToNext()
 {
     if (m_model) {
-        int id = m_model->getNextSub(m_activeSub);
+        int id = -1;
+        if (m_activeSub > -1) {
+             id = m_model->getNextSub(m_activeSub);
+        } else {
+            // Start from timeline cursor position
+            int cursorPos = pCore->getTimelinePosition();
+            std::unordered_set<int> sids = m_model->getItemsInRange(cursorPos, cursorPos);
+            if (sids.empty()) {
+                sids = m_model->getItemsInRange(cursorPos, -1);
+                for (int s : sids) {
+                    if (id == -1 || m_model->getStartPosForId(s) < m_model->getStartPosForId(id)) {
+                        id = s;
+                    }
+                }
+            } else {
+                id = m_model->getNextSub(*sids.begin());
+            }
+        }
         if (id > -1) {
             if (buttonApply->isEnabled()) {
                 updateSubtitle();
