@@ -122,7 +122,7 @@ public:
     void setSelected(int id, bool select);
     bool isSelected(int id) const;
     /** @brief Cut a subtitle */
-    void cutSubtitle(int position);
+    bool cutSubtitle(int position);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
     QString getText(int id) const;
     int getRowForId(int id) const;

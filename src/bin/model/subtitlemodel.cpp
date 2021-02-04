@@ -485,19 +485,26 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFr
             continue;
         }
         if (subtitles.first >= startTime || subtitles.second.second >= startTime) {
-            matching.emplace(getIdForStartPos(subtitles.first));
+            int sid = getIdForStartPos(subtitles.first);
+            if (sid > -1) {
+                matching.emplace(sid);
+            } else {
+                qDebug()<<"==== FOUND INVALID SUBTILE AT: "<<subtitles.first.frames(pCore->getCurrentFps());
+            }
         }
     }
     return matching;
 }
 
-void SubtitleModel::cutSubtitle(int position)
+bool SubtitleModel::cutSubtitle(int position)
 {
     Fun redo = []() { return true; };
     Fun undo = []() { return true; };
     if (cutSubtitle(position, undo, redo)) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
+        return true;
     }
+    return false;
 }
 
 
