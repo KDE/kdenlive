@@ -1541,6 +1541,10 @@ void TimelineController::cutClipUnderCursor(int position, int track)
             if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
+        } else if (track == -2) {
+            // Subtitle cut
+            auto subtitleModel = pCore->getSubtitleModel();
+            foundClip = subtitleModel->cutSubtitle(position);
         }
     }
     if (!foundClip) {
