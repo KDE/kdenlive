@@ -3577,6 +3577,11 @@ void TimelineModel::registerSubtitle(int id, GenTime startTime, bool temporary)
     }
 }
 
+int TimelineModel::positionForIndex(int id)
+{
+    return std::distance(m_allSubtitles.begin(),m_allSubtitles.find(id));
+}
+
 void TimelineModel::deregisterSubtitle(int id, bool temporary)
 {
     Q_ASSERT(m_allSubtitles.count(id) > 0);

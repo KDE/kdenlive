@@ -4031,6 +4031,10 @@ void TimelineController::addSubtitle(int startframe)
     if (local_redo()) {
         m_model->requestAddToSelection(id, true);
         pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+        int index = m_model->positionForIndex(id);
+        if (index > -1) {
+            QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index));
+        }
     }
 }
 

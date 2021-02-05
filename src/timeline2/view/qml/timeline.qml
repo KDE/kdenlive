@@ -60,6 +60,11 @@ Rectangle {
         }
     }
     
+    function highlightSub(ix) {
+        var currentSub = subtitlesRepeater.itemAt(ix)
+        currentSub.editText()
+    }
+    
     function checkDeletion(itemId) {
         if (dragProxy.draggedItem == itemId) {
             endDrag()
