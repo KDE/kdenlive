@@ -15,6 +15,12 @@ Item {
     property bool selected
     property bool isGrabbed: false
     height: subtitleTrack.height
+    
+    function editText()
+    {
+        subtitleBase.textEditBegin = true
+    }
+
     onStartFrameChanged: {
         if (!subtitleClipArea.pressed) {
             subtitleClipArea.x = startFrame * root.timeScale

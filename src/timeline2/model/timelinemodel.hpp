@@ -743,6 +743,9 @@ protected:
     
     void registerSubtitle(int id, GenTime startTime, bool temporary = false);
     void deregisterSubtitle(int id, bool temporary = false);
+    /* @brief Returns the index for a subtitle's id (it's position in the list
+     */
+    int positionForIndex(int id);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
