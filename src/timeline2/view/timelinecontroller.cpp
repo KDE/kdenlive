@@ -32,6 +32,7 @@
 #include "core.h"
 #include "dialogs/spacerdialog.h"
 #include "dialogs/speeddialog.h"
+#include "dialogs/speechdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -4119,6 +4120,12 @@ void TimelineController::exportSubtitle()
     if (!src.copy(srcFile.fileName())) {
         KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", srcFile.fileName()));
     }
+}
+
+void TimelineController::subtitleSpeechRecognition()
+{
+    SpeechDialog d(m_model, m_zone, false, false, qApp->activeWindow());
+    d.exec();
 }
 
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)

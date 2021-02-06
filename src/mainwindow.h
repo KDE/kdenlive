@@ -533,6 +533,8 @@ private slots:
     void slotImportSubtitle();
     /** @brief Export a subtitle file */
     void slotExportSubtitle();
+    /** @brief Start a speech recognition on timeline zone */
+    void slotSpeechRecognition();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

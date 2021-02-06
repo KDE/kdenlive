@@ -822,6 +822,36 @@ Rectangle {
                         x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
                         spacing: 0
                         ToolButton {
+                            id: analyseButton
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: "image://icon/autocorrection"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            onClicked: timeline.triggerAction('audio_recognition')
+                            ToolTip {
+                                visible: muteButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: i18n("Speech recognition")
+                                }
+                            }
+                        }
+                        ToolButton {
                             id: muteButton
                             focusPolicy: Qt.NoFocus
                             contentItem: Item {

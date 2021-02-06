@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   dialogs/markerdialog.cpp
   dialogs/profilesdialog.cpp
   dialogs/renderwidget.cpp
+  dialogs/speechdialog.cpp
   dialogs/subtitleedit.cpp
   dialogs/titletemplatedialog.cpp
   dialogs/wizard.cpp

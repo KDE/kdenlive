@@ -1741,6 +1741,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
     addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Subtitle"), this, SLOT(slotDeleteItem()), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("audio_recognition"), i18n("Speech Recognition"), this, SLOT(slotSpeechRecognition()), QIcon::fromTheme(QStringLiteral("autocorrection")));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -4319,6 +4320,14 @@ void MainWindow::slotExportSubtitle()
         return;
     }
     getCurrentTimeline()->controller()->exportSubtitle();
+}
+
+void MainWindow::slotSpeechRecognition()
+{
+    if (pCore->getSubtitleModel() == nullptr) {
+        slotEditSubtitle();
+    }
+    getCurrentTimeline()->controller()->subtitleSpeechRecognition();
 }
 
 #ifdef DEBUG_MAINW

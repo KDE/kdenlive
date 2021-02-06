@@ -35,6 +35,8 @@
           <Separator />
           <Action name="import_subtitle" />
           <Action name="export_subtitle" />
+          <Separator />
+          <Action name="audio_recognition" />
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
