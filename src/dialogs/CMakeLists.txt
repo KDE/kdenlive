@@ -8,6 +8,7 @@ set(kdenlive_SRCS
   dialogs/renderwidget.cpp
   dialogs/speechdialog.cpp
   dialogs/subtitleedit.cpp
+  dialogs/textbasededit.cpp
   dialogs/titletemplatedialog.cpp
   dialogs/wizard.cpp
   dialogs/splash.cpp

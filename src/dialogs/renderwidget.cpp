@@ -1201,7 +1201,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         }
         playlistPath = projectFolder.absoluteFilePath(renderName);
     } else {
-        QTemporaryFile tmp(QDir::tempPath() + "/kdenlive-XXXXXX.mlt");
+        QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
         if (!tmp.open()) {
             // Something went wrong
             return;
@@ -2903,7 +2903,7 @@ bool RenderWidget::startWaitingRenderJobs()
 #else
     const QLatin1String ScriptFormat(".sh");
 #endif
-    QTemporaryFile tmp(QDir::tempPath() + QStringLiteral("/kdenlive-XXXXXX") + ScriptFormat);
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX") + ScriptFormat));
     if (!tmp.open()) {
         // Something went wrong
         return false;

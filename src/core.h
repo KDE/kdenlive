@@ -41,6 +41,7 @@ class ProjectItemModel;
 class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
+class TextBasedEdit;
 
 namespace Mlt {
     class Repository;
@@ -120,6 +121,8 @@ public:
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */
     SubtitleEdit *subtitleWidget();
+    /** @brief Returns a pointer to the text based editing widget. */
+    TextBasedEdit *textEditWidget();
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -260,6 +263,7 @@ private:
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
+    TextBasedEdit *m_textEditWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;

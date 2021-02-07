@@ -72,7 +72,7 @@
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
-
+#include "dialogs/textbasededit.h"
 #include "project/dialogs/temporarydata.h"
 
 #ifdef USE_JOGSHUTTLE
@@ -263,6 +263,7 @@ void MainWindow::init()
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
+    QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -351,6 +352,7 @@ void MainWindow::init()
     screenGrabDock->close();
     libraryDock->close();
     subtitlesDock->close();
+    textEditingDock->close();
     spectrumDock->close();
     clipDockWidget->close();
 
