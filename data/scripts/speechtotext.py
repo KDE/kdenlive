@@ -34,7 +34,7 @@ def transcribe():
     results = []
     subs = []
     while True:
-       data = process.stdout.read(4000)
+       data = process.stdout.read(2000)
        if len(data) == 0:
            break
        if rec.AcceptWaveform(data):

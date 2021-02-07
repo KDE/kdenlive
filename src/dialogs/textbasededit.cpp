@@ -138,31 +138,50 @@ void TextBasedEdit::slotProcessSpeech()
     QString saveData = QString::fromUtf8(m_speechJob->readAll());
     //saveData.replace(QStringLiteral("\\\""), QStringLiteral("\""));
     qDebug()<<"=== GOT DATA:\n"<<saveData;
-    //QJsonDocument loadDoc(QJsonDocument::fromJson(saveData.toUtf8().constData()));
-    QJsonParseError error;
-    auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);
-    qDebug()<<"===JSON ERROR: "<<error.errorString();
-    
-    if (loadDoc.isArray()) {
-        qDebug()<<"==== ITEM IS ARRAY";
-        QJsonArray array = loadDoc.array();
-        for (int i = 0; i < array.size(); i++) {
-            QJsonValue val = array.at(i);
-            qDebug()<<"==== FOUND KEYS: "<<val.toObject().keys();
-            if (val.isObject() && val.toObject().keys().contains("text")) {
-                textEdit->append(val.toObject().value("text").toString());
-            }
+    int ix = 0;
+    QVector <int> indexes;
+    while (ix > -1) {
+        ix = saveData.indexOf(QStringLiteral("{\n  \"result\""), ix);
+        if (ix > -1) {
+            indexes << ix;
+            ix++;
         }
-    } else if (loadDoc.isObject()) {
-        QJsonObject obj = loadDoc.object();
-        qDebug()<<"==== ITEM IS OBJECT";
-        if (!obj.isEmpty()) {    
-            textEdit->append(obj["text"].toString());
-        }
-    } else if (loadDoc.isEmpty()) {
-        qDebug()<<"==== EMPTY OBJEC DOC";
     }
+    qDebug()<<"Found res: "<<indexes;
+    QString chunk;
+    while (!indexes.isEmpty()) {
+        int first = indexes.takeFirst();
+        if (indexes.isEmpty()) {
+            chunk = saveData.mid(first);
+        } else {
+            chunk = saveData.mid(first, indexes.at(0) - first);
+        }
+        qDebug()<<"cut: "<<saveData;
+
+        QJsonParseError error;
+        auto loadDoc = QJsonDocument::fromJson(chunk.toUtf8(), &error);
+        qDebug()<<"===JSON ERROR: "<<error.errorString();
     
+        if (loadDoc.isArray()) {
+            qDebug()<<"==== ITEM IS ARRAY";
+            QJsonArray array = loadDoc.array();
+            for (int i = 0; i < array.size(); i++) {
+                QJsonValue val = array.at(i);
+                qDebug()<<"==== FOUND KEYS: "<<val.toObject().keys();
+                if (val.isObject() && val.toObject().keys().contains("text")) {
+                    textEdit->append(val.toObject().value("text").toString());
+                }
+            }
+        } else if (loadDoc.isObject()) {
+            QJsonObject obj = loadDoc.object();
+            qDebug()<<"==== ITEM IS OBJECT";
+            if (!obj.isEmpty()) {    
+                textEdit->append(obj["text"].toString());
+            }
+        } else if (loadDoc.isEmpty()) {
+            qDebug()<<"==== EMPTY OBJEC DOC";
+        }
+    }
 }
 
 void TextBasedEdit::slotParseDictionaries()
