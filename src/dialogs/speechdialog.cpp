@@ -29,6 +29,7 @@
 #include "mlt++/MltTractor.h"
 #include "mlt++/MltConsumer.h"
 
+#include <kio_version.h>
 #include <QFontDatabase>
 #include <QDir>
 #include <QProcess>
@@ -38,7 +39,9 @@
 #include <KZip>
 #include <KTar>
 #include <KIO/FileCopyJob>
+#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
 #include <KIO/OpenUrlJob>
+#endif
 #include <KIO/JobUiDelegate>
 #include <KArchiveDirectory>
 #include <KMessageWidget>
@@ -61,11 +64,13 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     });
     connect(dict_info, &KMessageWidget::linkActivated, [&](const QString &contents) {
         qDebug()<<"=== LINK CLICKED: "<<contents;
+#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
+#endif
     });
     //TODO: check for the python scripts vosk and srt
 
@@ -76,7 +81,10 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
 {
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
-        //TODO
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("Cannot find python3, please install it on your system."));
+        speech_info->animatedShow();
+        return;
     }
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting audio export"));
@@ -85,9 +93,9 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
     QString sceneList;
     QString speech;
     QString audio;
-    QTemporaryFile tmpPlaylist(QDir::tempPath() + QStringLiteral("/XXXXXX.mlt"));
-    QTemporaryFile tmpSpeech(QDir::tempPath() + QStringLiteral("/XXXXXX.srt"));
-    QTemporaryFile tmpAudio(QDir::tempPath() + QStringLiteral("/XXXXXX.wav"));
+    QTemporaryFile tmpPlaylist(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
+    QTemporaryFile tmpSpeech(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt")));
+    QTemporaryFile tmpAudio(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav")));
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
@@ -126,6 +134,12 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
     qDebug()<<"=== STARTING RENDER D";
     QString language = language_box->currentText();
     QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speech.py"));
+    if (speechScript.isEmpty()) {
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("The speech script was not found, check your install."));
+        speech_info->animatedShow();
+        return;
+    }
 
     qDebug()<<"=== RUNNING SPEECH ANALYSIS: "<<speechScript;
     QProcess speechJob;
