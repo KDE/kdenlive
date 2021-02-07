@@ -182,7 +182,7 @@ void SpeechDialog::processArchive(KJob* job)
         if (jb) {
             qDebug()<<"=== JOB FOUND!!";
             QMimeDatabase db;
-            QString archiveFile = jb->destUrl().path();
+            QString archiveFile = jb->destUrl().toLocalFile();
             QMimeType type = db.mimeTypeForFile(archiveFile);
             std::unique_ptr<KArchive> archive;
             if (type.inherits(QStringLiteral("application/zip"))) {
