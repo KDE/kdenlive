@@ -29,7 +29,6 @@
 #include "timecodedisplay.h"
 
 #include "klocalizedstring.h"
-#include "QTextEdit"
 
 #include <QEvent>
 #include <QKeyEvent>
@@ -47,6 +46,18 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
     });
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
+    listWidget->setWordWrap(true);
+    connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
+        if (ix > -1) {
+            QListWidgetItem  *item = listWidget->item(ix);
+            if (!item) {
+                return;
+            }
+            double ms = item->data(Qt::UserRole).toDouble();
+            qDebug()<<"=== SEEKING TO: "<<ms;
+            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(ms).frames(pCore->getCurrentFps()));
+        }
+    });
     info_message->hide();
     slotParseDictionaries();
 }
@@ -82,14 +93,16 @@ void TextBasedEdit::startRecognition()
     qApp->processEvents();
     QString modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language;
-    if (m_sourceUrl.isEmpty()) {
-        const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
-        std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
-        if (clip) {
-            std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
-            if (clipItem) {
-                m_sourceUrl = clipItem->url();
-            }
+    
+    m_sourceUrl.clear();
+    QString clipName;
+    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
+    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
+    if (clip) {
+        std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
+        if (clipItem) {
+            m_sourceUrl = clipItem->url();
+            clipName = clipItem->clipName();
         }
     }
     if (m_sourceUrl.isEmpty()) {
@@ -99,14 +112,14 @@ void TextBasedEdit::startRecognition()
         return;
     }
     info_message->setMessageType(KMessageWidget::Information);
-    info_message->setText(i18n("Starting speech recognition."));
+    info_message->setText(i18n("Starting speech recognition on %1.", clipName));
     info_message->addAction(m_abortAction);
     info_message->animatedShow();
     qApp->processEvents();
     //m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
-    textEdit->clear();
+    listWidget->clear();
     qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl;
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl});
     /*if (m_speechJob->QFile::exists(speech)) {
@@ -169,14 +182,25 @@ void TextBasedEdit::slotProcessSpeech()
                 QJsonValue val = array.at(i);
                 qDebug()<<"==== FOUND KEYS: "<<val.toObject().keys();
                 if (val.isObject() && val.toObject().keys().contains("text")) {
-                    textEdit->append(val.toObject().value("text").toString());
+                    //textEdit->append(val.toObject().value("text").toString());
                 }
             }
         } else if (loadDoc.isObject()) {
             QJsonObject obj = loadDoc.object();
             qDebug()<<"==== ITEM IS OBJECT";
-            if (!obj.isEmpty()) {    
-                textEdit->append(obj["text"].toString());
+            if (!obj.isEmpty()) {
+                QListWidgetItem *item = new QListWidgetItem(obj["text"].toString(), listWidget);
+                if (obj["result"].isObject()) {
+                    qDebug()<<"==== RESULT IS OBJECT";
+                } else if (obj["result"].isArray()) {
+                    qDebug()<<"==== RESULT IS ARRAY";
+                    QJsonArray obj2 = obj["result"].toArray();
+                    QJsonValue val = obj2.at(0);
+                    if (val.isObject() && val.toObject().keys().contains("start")) {
+                        double ms = val.toObject().value("start").toDouble();
+                        item->setData(Qt::UserRole, ms);
+                    }
+                }
             }
         } else if (loadDoc.isEmpty()) {
             qDebug()<<"==== EMPTY OBJEC DOC";
