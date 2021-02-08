@@ -47,15 +47,17 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     listWidget->setWordWrap(true);
+    search_frame->setVisible(false);
     connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
         if (ix > -1) {
             QListWidgetItem  *item = listWidget->item(ix);
             if (!item) {
                 return;
             }
-            double ms = item->data(Qt::UserRole).toDouble();
-            qDebug()<<"=== SEEKING TO: "<<ms;
-            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(ms).frames(pCore->getCurrentFps()));
+            double startMs = item->data(Qt::UserRole).toDouble();
+            double endMs = item->data(Qt::UserRole + 1).toDouble();
+            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
+            pCore->getMonitor(Kdenlive::ClipMonitor)->slotLoadClipZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
         }
     });
     info_message->hide();
@@ -189,18 +191,26 @@ void TextBasedEdit::slotProcessSpeech()
             QJsonObject obj = loadDoc.object();
             qDebug()<<"==== ITEM IS OBJECT";
             if (!obj.isEmpty()) {
-                QListWidgetItem *item = new QListWidgetItem(obj["text"].toString(), listWidget);
+                QString itemText = obj["text"].toString();
+                QListWidgetItem *item = new QListWidgetItem(listWidget);
                 if (obj["result"].isObject()) {
                     qDebug()<<"==== RESULT IS OBJECT";
                 } else if (obj["result"].isArray()) {
                     qDebug()<<"==== RESULT IS ARRAY";
                     QJsonArray obj2 = obj["result"].toArray();
-                    QJsonValue val = obj2.at(0);
+                    QJsonValue val = obj2.first();
                     if (val.isObject() && val.toObject().keys().contains("start")) {
                         double ms = val.toObject().value("start").toDouble();
+                        itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
                         item->setData(Qt::UserRole, ms);
                     }
+                    val = obj2.last();
+                    if (val.isObject() && val.toObject().keys().contains("end")) {
+                        double ms = val.toObject().value("end").toDouble();
+                        item->setData(Qt::UserRole + 1, ms);
+                    }
                 }
+                item->setText(itemText);
             }
         } else if (loadDoc.isEmpty()) {
             qDebug()<<"==== EMPTY OBJEC DOC";

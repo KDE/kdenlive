@@ -41,6 +41,8 @@
 #include <KIO/FileCopyJob>
 #if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
 #include <KIO/OpenUrlJob>
+#else
+#include <KRun>
 #endif
 #include <KIO/JobUiDelegate>
 #include <KArchiveDirectory>
@@ -53,7 +55,6 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
-    dict_info->hide();
     speech_info->hide();
     slotParseDictionaries();
     button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
@@ -62,7 +63,7 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, timeline, zone]() {
         slotProcessSpeech(timeline, zone);
     });
-    connect(dict_info, &KMessageWidget::linkActivated, [&](const QString &contents) {
+    connect(speech_info, &KMessageWidget::linkActivated, [&](const QString &contents) {
         qDebug()<<"=== LINK CLICKED: "<<contents;
 #if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
@@ -70,6 +71,8 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
+#else
+        new KRun(QUrl(contents), this);
 #endif
     });
     //TODO: check for the python scripts vosk and srt
@@ -170,9 +173,9 @@ void SpeechDialog::getDictionary()
     QString tmpFile;
     if (!url.isLocalFile()) {
         KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
-        dict_info->setMessageType(KMessageWidget::Information);
-        dict_info->setText(i18n("Downloading model..."));
-        dict_info->animatedShow();
+        speech_info->setMessageType(KMessageWidget::Information);
+        speech_info->setText(i18n("Downloading model..."));
+        speech_info->animatedShow();
         connect(copyjob, &KIO::FileCopyJob::result, this, &SpeechDialog::processArchive);
         /*if (copyjob->exec()) {
             qDebug()<<"=== GOT REST: "<<copyjob->destUrl();
@@ -209,33 +212,33 @@ void SpeechDialog::processArchive(KJob* job)
             dir.mkdir(QStringLiteral("speechmodels"));
             if (!dir.cd(QStringLiteral("speechmodels"))) {
                 qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-                dict_info->setMessageType(KMessageWidget::Warning);
-                dict_info->setText(i18n("Cannot access dictionary folder"));
+                speech_info->setMessageType(KMessageWidget::Warning);
+                speech_info->setText(i18n("Cannot access dictionary folder"));
                 return;
             }
             if (archive->open(QIODevice::ReadOnly)) {
-                dict_info->setText(i18n("Extracting archive..."));
+                speech_info->setText(i18n("Extracting archive..."));
                 const KArchiveDirectory *archiveDir = archive->directory();
                 if (!archiveDir->copyTo(dir.absolutePath())) {
                     qDebug()<<"=== Error extracting archive!!";
                 } else {
                     QFile::remove(archiveFile);
                     emit parseDictionaries();
-                    dict_info->setMessageType(KMessageWidget::Positive);
-                    dict_info->setText(i18n("New dictionary installed"));
+                    speech_info->setMessageType(KMessageWidget::Positive);
+                    speech_info->setText(i18n("New dictionary installed"));
                 }
             } else {
                 qDebug()<<"=== CANNOT OPEN ARCHIVE!!";
             }
         } else {
             qDebug()<<"=== JOB NOT FOUND!!";
-            dict_info->setMessageType(KMessageWidget::Warning);
-            dict_info->setText(i18n("Download error"));
+            speech_info->setMessageType(KMessageWidget::Warning);
+            speech_info->setText(i18n("Download error"));
         }
     } else {
         qDebug()<<"=== GOT JOB ERROR: "<<job->error();
-        dict_info->setMessageType(KMessageWidget::Warning);
-        dict_info->setText(i18n("Download error %1", job->errorString()));
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("Download error %1", job->errorString()));
     }
 }
 
@@ -249,9 +252,9 @@ void SpeechDialog::slotParseDictionaries()
     if (!dir.cd(QStringLiteral("speechmodels"))) {
         qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
         tabWidget->setCurrentIndex(1);
-        dict_info->setMessageType(KMessageWidget::Information);
-        dict_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        dict_info->animatedShow();
+        speech_info->setMessageType(KMessageWidget::Information);
+        speech_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
+        speech_info->animatedShow();
         return;
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -259,11 +262,11 @@ void SpeechDialog::slotParseDictionaries()
     language_box->addItems(dicts);
     if (!dicts.isEmpty()) {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        dict_info->animatedHide();
+        speech_info->animatedHide();
     } else {
         tabWidget->setCurrentIndex(1);
-        dict_info->setMessageType(KMessageWidget::Information);
-        dict_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        dict_info->animatedShow();
+        speech_info->setMessageType(KMessageWidget::Information);
+        speech_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
+        speech_info->animatedShow();
     }
 }

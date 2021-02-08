@@ -8,7 +8,6 @@ import sys
 import os
 import wave
 import subprocess
-import srt
 import json
 import datetime
 
@@ -23,7 +22,6 @@ if not os.path.exists(sys.argv[2]):
 sample_rate=16000
 model = Model(sys.argv[2])
 rec = KaldiRecognizer(model, sample_rate)
-
 process = subprocess.Popen(['ffmpeg', '-loglevel', 'quiet', '-i',
                             sys.argv[3],
                             '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '-'],
@@ -34,7 +32,7 @@ def transcribe():
     results = []
     subs = []
     while True:
-       data = process.stdout.read(2000)
+       data = process.stdout.read(4000)
        if len(data) == 0:
            break
        if rec.AcceptWaveform(data):

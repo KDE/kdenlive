@@ -71,9 +71,6 @@
          </property>
         </spacer>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="KMessageWidget" name="speech_info"/>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -81,14 +78,14 @@
        <string>Dictionaries</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="2" column="0">
-        <widget class="QToolButton" name="button_add">
-         <property name="text">
-          <string>...</string>
+       <item row="0" column="0" colspan="3">
+        <widget class="QListWidget" name="listWidget">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="1" column="2">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -101,28 +98,25 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="1">
+       <item row="1" column="1">
         <widget class="QToolButton" name="button_delete">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="3">
-        <widget class="QListWidget" name="listWidget">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="button_add">
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0" colspan="3">
-        <widget class="KMessageWidget" name="dict_info"/>
        </item>
       </layout>
      </widget>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -131,6 +125,9 @@
       <set>QDialogButtonBox::Apply|QDialogButtonBox::Close</set>
      </property>
     </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="KMessageWidget" name="speech_info"/>
    </item>
   </layout>
  </widget>
