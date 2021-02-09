@@ -305,6 +305,8 @@ signals:
     void loadingMessageUpdated(const QString &, int progress = 0, int max = -1);
     /** @brief Opening finished, close splash screen */
     void closeSplash();
+    /** @brief Trigger an update of the the speech models list */
+    void voskModelUpdate(const QStringList models);
 };
 
 #endif

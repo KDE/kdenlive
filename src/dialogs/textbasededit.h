@@ -46,7 +46,7 @@ public:
 private slots:
     void startRecognition();
     void slotProcessSpeech();
-    void slotParseDictionaries();
+    void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
 
 private:

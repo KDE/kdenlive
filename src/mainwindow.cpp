@@ -1360,7 +1360,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
 
-    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("reload")), i18n("Reset configuration"), this);
+    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset configuration"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
     connect(resetAction, &QAction::triggered, this, [&]() {
         slotRestart(true);

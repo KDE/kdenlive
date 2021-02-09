@@ -29,23 +29,10 @@
 #include "mlt++/MltTractor.h"
 #include "mlt++/MltConsumer.h"
 
-#include <kio_version.h>
 #include <QFontDatabase>
 #include <QDir>
 #include <QProcess>
 #include <KLocalizedString>
-#include <KUrlRequesterDialog>
-#include <KArchive>
-#include <KZip>
-#include <KTar>
-#include <KIO/FileCopyJob>
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
-#include <KIO/OpenUrlJob>
-#else
-#include <KRun>
-#endif
-#include <KIO/JobUiDelegate>
-#include <KArchiveDirectory>
 #include <KMessageWidget>
 
 SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
@@ -56,28 +43,20 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     setupUi(this);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
-    slotParseDictionaries();
-    button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-    connect(button_add, &QToolButton::clicked, this, &SpeechDialog::getDictionary);
+    connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
+        language_box->clear();
+        language_box->addItems(models);
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(!models.isEmpty());
+        if (models.isEmpty()) {
+            speech_info->setMessageType(KMessageWidget::Information);
+            speech_info->setText(i18n("Please install speech recognition models"));
+            speech_info->animatedShow();
+        }
+    });
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, timeline, zone]() {
         slotProcessSpeech(timeline, zone);
     });
-    connect(speech_info, &KMessageWidget::linkActivated, [&](const QString &contents) {
-        qDebug()<<"=== LINK CLICKED: "<<contents;
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
-        auto *job = new KIO::OpenUrlJob(QUrl(contents));
-        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-        // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
-        // exist in both classes
-        job->start();
-#else
-        new KRun(QUrl(contents), this);
-#endif
-    });
-    //TODO: check for the python scripts vosk and srt
-
-    connect(this, &SpeechDialog::parseDictionaries, this, &SpeechDialog::slotParseDictionaries);
+    parseVoskDictionaries();
 }
     
 void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone)
@@ -163,110 +142,21 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
     }
 }
 
-
-void SpeechDialog::getDictionary()
+void SpeechDialog::parseVoskDictionaries()
 {
-    QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter url for the new dictionary"));
-    if (url.isEmpty()) {
-        return;
-    }
-    QString tmpFile;
-    if (!url.isLocalFile()) {
-        KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
-        speech_info->setMessageType(KMessageWidget::Information);
-        speech_info->setText(i18n("Downloading model..."));
-        speech_info->animatedShow();
-        connect(copyjob, &KIO::FileCopyJob::result, this, &SpeechDialog::processArchive);
-        /*if (copyjob->exec()) {
-            qDebug()<<"=== GOT REST: "<<copyjob->destUrl();
-            //
-        } else {
-            qDebug()<<"=== CANNOT DOWNLOAD";
-        }*/
-    } else {
-        //KMessageBox::error(this, KIO::NetAccess::lastErrorString());
-        //KArchive ar(tmpFile);
-    }
-    
-}
-
-void SpeechDialog::processArchive(KJob* job)
-{
-    qDebug()<<"=== DOWNLOAD FINISHED!!";
-    if (job->error() == 0 || job->error() == 112) {
-        qDebug()<<"=== NO ERROR ON DWNLD!!";
-        KIO::FileCopyJob *jb = static_cast<KIO::FileCopyJob*>(job);
-        if (jb) {
-            qDebug()<<"=== JOB FOUND!!";
-            QMimeDatabase db;
-            QString archiveFile = jb->destUrl().toLocalFile();
-            QMimeType type = db.mimeTypeForFile(archiveFile);
-            std::unique_ptr<KArchive> archive;
-            if (type.inherits(QStringLiteral("application/zip"))) {
-                archive.reset(new KZip(archiveFile));
-            } else {
-                archive.reset(new KTar(archiveFile));
-            }
-            QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-            QDir dir(modelDirectory);
-            dir.mkdir(QStringLiteral("speechmodels"));
-            if (!dir.cd(QStringLiteral("speechmodels"))) {
-                qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-                speech_info->setMessageType(KMessageWidget::Warning);
-                speech_info->setText(i18n("Cannot access dictionary folder"));
-                return;
-            }
-            if (archive->open(QIODevice::ReadOnly)) {
-                speech_info->setText(i18n("Extracting archive..."));
-                const KArchiveDirectory *archiveDir = archive->directory();
-                if (!archiveDir->copyTo(dir.absolutePath())) {
-                    qDebug()<<"=== Error extracting archive!!";
-                } else {
-                    QFile::remove(archiveFile);
-                    emit parseDictionaries();
-                    speech_info->setMessageType(KMessageWidget::Positive);
-                    speech_info->setText(i18n("New dictionary installed"));
-                }
-            } else {
-                qDebug()<<"=== CANNOT OPEN ARCHIVE!!";
-            }
-        } else {
-            qDebug()<<"=== JOB NOT FOUND!!";
-            speech_info->setMessageType(KMessageWidget::Warning);
-            speech_info->setText(i18n("Download error"));
+    QString modelDirectory = KdenliveSettings::vosk_folder_path();
+    QDir dir;
+    if (modelDirectory.isEmpty()) {
+        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        dir = QDir(modelDirectory);
+        if (!dir.cd(QStringLiteral("speechmodels"))) {
+            qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
+            pCore->voskModelUpdate({});
+            return;
         }
     } else {
-        qDebug()<<"=== GOT JOB ERROR: "<<job->error();
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Download error %1", job->errorString()));
-    }
-}
-
-void SpeechDialog::slotParseDictionaries()
-{
-    listWidget->clear();
-    language_box->clear();
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QDir dir(modelDirectory);
-    if (!dir.cd(QStringLiteral("speechmodels"))) {
-        qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-        tabWidget->setCurrentIndex(1);
-        speech_info->setMessageType(KMessageWidget::Information);
-        speech_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        speech_info->animatedShow();
-        return;
+        dir = QDir(modelDirectory);
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    listWidget->addItems(dicts);
-    language_box->addItems(dicts);
-    if (!dicts.isEmpty()) {
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        speech_info->animatedHide();
-    } else {
-        tabWidget->setCurrentIndex(1);
-        speech_info->setMessageType(KMessageWidget::Information);
-        speech_info->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        speech_info->animatedShow();
-    }
+    pCore->voskModelUpdate(dicts);
 }

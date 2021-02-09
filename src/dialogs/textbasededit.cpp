@@ -48,6 +48,16 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     listWidget->setWordWrap(true);
     search_frame->setVisible(false);
+    connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
+        language_box->clear();
+        language_box->addItems(models);
+        button_start->setEnabled(!models.isEmpty());
+        if (models.isEmpty()) {
+            info_message->setMessageType(KMessageWidget::Information);
+            info_message->setText(i18n("Please install speech recognition models"));
+            info_message->animatedShow();
+        }
+    });
     connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
         if (ix > -1) {
             QListWidgetItem  *item = listWidget->item(ix);
@@ -61,7 +71,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
     });
     info_message->hide();
-    slotParseDictionaries();
+    parseVoskDictionaries();
 }
 
 void TextBasedEdit::startRecognition()
@@ -218,28 +228,21 @@ void TextBasedEdit::slotProcessSpeech()
     }
 }
 
-void TextBasedEdit::slotParseDictionaries()
+void TextBasedEdit::parseVoskDictionaries()
 {
-    language_box->clear();
-    QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QDir dir(modelDirectory);
-    if (!dir.cd(QStringLiteral("speechmodels"))) {
-        qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-        info_message->setMessageType(KMessageWidget::Information);
-        info_message->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        info_message->animatedShow();
-        button_start->setEnabled(false);
-        return;
+    QString modelDirectory = KdenliveSettings::vosk_folder_path();
+    QDir dir;
+    if (modelDirectory.isEmpty()) {
+        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        dir = QDir(modelDirectory);
+        if (!dir.cd(QStringLiteral("speechmodels"))) {
+            qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
+            pCore->voskModelUpdate({});
+            return;
+        }
+    } else {
+        dir = QDir(modelDirectory);
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    language_box->addItems(dicts);
-    if (!dicts.isEmpty()) {
-        info_message->animatedHide();
-        button_start->setEnabled(true);
-    } else {
-        info_message->setMessageType(KMessageWidget::Information);
-        info_message->setText(i18n("Download dictionaries from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-        info_message->animatedShow();
-        button_start->setEnabled(false);
-    }
+    pCore->voskModelUpdate(dicts);
 }

@@ -1,4 +1,5 @@
 INSTALL(FILES 
+    checkvosk.py
     speech.py
     speechtotext.py
 

@@ -34,8 +34,10 @@
 #include "ui_configtimeline_ui.h"
 #include "ui_configtranscode_ui.h"
 #include "ui_configcolors_ui.h"
+#include "ui_configspeech_ui.h"
 
 class ProfileWidget;
+class KJob;
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -89,7 +91,11 @@ private slots:
     void loadExternalProxyProfiles();
     void slotUpdateAudioCaptureChannels(int index);
     void slotUpdateAudioCaptureSampleRate(int index);
-
+    void slotParseVoskDictionaries();
+    void getDictionary();
+    void processArchive(KJob* job);
+    void checkVoskDependencies();
+    
 private:
     KPageWidgetItem *m_page1;
     KPageWidgetItem *m_page2;
@@ -100,6 +106,7 @@ private:
     KPageWidgetItem *m_page7;
     KPageWidgetItem *m_page8;
     KPageWidgetItem *m_page10;
+    KPageWidgetItem *m_page11;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
@@ -110,8 +117,10 @@ private:
     Ui::ConfigTranscode_UI m_configTranscode;
     Ui::ConfigProject_UI m_configProject;
     Ui::ConfigProxy_UI m_configProxy;
+    Ui::ConfigSpeech_UI m_configSpeech;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
+    QAction *m_voskAction;
     bool m_modified;
     bool m_shuttleModified;
     QMap<QString, QString> m_mappable_actions;
@@ -128,6 +137,8 @@ private:
     static bool getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force = false);
     /** @brief Init QtMultimedia audio record settings */
     bool initAudioRecDevice();
+    void initSpeechPage();
+
 signals:
     void customChanged();
     void doResetConsumer(bool fullReset);
@@ -144,6 +155,8 @@ signals:
     void resetView();
     /** @brief Monitor background color changed, update monitors */
     void updateMonitorBg();
+    /** @brief Trigger parsing of the speech models folder */
+    void parseDictionaries();
 };
 
 #endif

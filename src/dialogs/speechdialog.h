@@ -24,9 +24,6 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "definitions.h"
 
-class KJob;
-
-
 /**
  * @class SpeechDialog
  * @brief A dialog for editing markers and guides.
@@ -40,14 +37,11 @@ class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
 public:
     explicit SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
 
-private slots:
-    void getDictionary();
-    void processArchive(KJob* job);
-    void slotParseDictionaries();
-    void slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone);
+private:
+    void parseVoskDictionaries();
 
-signals:
-    void parseDictionaries();
+private slots:
+    void slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone);
 };
 
 #endif
