@@ -57,6 +57,6 @@ def transcribe():
 
 subtitle = srt.compose(transcribe())
 print (subtitle)
-with open(sys.argv[4], 'w') as f:
+with open(sys.argv[4], 'w',encoding='utf8') as f:
     f.writelines(subtitle)
 f.close()
