@@ -52,7 +52,17 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
             speech_info->setMessageType(KMessageWidget::Information);
             speech_info->setText(i18n("Please install speech recognition models"));
             speech_info->animatedShow();
+        } else {
+            if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
+                int ix = language_box->findText(KdenliveSettings::vosk_srt_model());
+                if (ix > -1) {
+                    language_box->setCurrentIndex(ix);
+                }
+            }
         }
+    });
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+        KdenliveSettings::setVosk_srt_model(language_box->currentText());
     });
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, timeline, zone]() {
         slotProcessSpeech(timeline, zone);

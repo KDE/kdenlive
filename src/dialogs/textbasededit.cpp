@@ -57,7 +57,17 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             info_message->setMessageType(KMessageWidget::Information);
             info_message->setText(i18n("Please install speech recognition models"));
             info_message->animatedShow();
+        } else {
+            if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
+                int ix = language_box->findText(KdenliveSettings::vosk_text_model());
+                if (ix > -1) {
+                    language_box->setCurrentIndex(ix);
+                }
+            }
         }
+    });
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+        KdenliveSettings::setVosk_text_model(language_box->currentText());
     });
     connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
         if (ix > -1) {
