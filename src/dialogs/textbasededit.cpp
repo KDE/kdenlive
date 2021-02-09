@@ -103,7 +103,10 @@ void TextBasedEdit::startRecognition()
     info_message->setMessageType(KMessageWidget::Information);
     info_message->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
-    QString modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    QString modelDirectory = KdenliveSettings::vosk_folder_path();
+    if (modelDirectory.isEmpty()) {
+        modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    }
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language;
     
     m_sourceUrl.clear();

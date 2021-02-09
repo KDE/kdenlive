@@ -128,7 +128,10 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
-    QString modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    QString modelDirectory = KdenliveSettings::vosk_folder_path();
+    if (modelDirectory.isEmpty()) {
+        modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    }
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
     speechJob.start(pyExec, {speechScript, modelDirectory, language, audio, speech});
     speechJob.waitForFinished();
