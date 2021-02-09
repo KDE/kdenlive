@@ -93,6 +93,7 @@ private slots:
     void slotUpdateAudioCaptureSampleRate(int index);
     void slotParseVoskDictionaries();
     void getDictionary();
+    void removeDictionary();
     void processArchive(KJob* job);
     void checkVoskDependencies();
     

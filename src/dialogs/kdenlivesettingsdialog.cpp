@@ -1776,10 +1776,8 @@ void KdenliveSettingsDialog::initSpeechPage()
                 m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
                 m_configSpeech.speech_info->setText(i18n("Installing modules..."));
                 m_configSpeech.speech_info->show();
-                qDebug()<<"==== STARTING INSTALL VOSK DEPS...";
                 checkJob.start(pyExec, {speechScript, QStringLiteral("install")});
                 checkJob.waitForFinished();
-                qDebug()<<"==== STARTING INSTALL VOSK DEPS... DONE";
             }
             checkVoskDependencies();
         }
@@ -1806,13 +1804,13 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.button_add->setToolTip(i18n("Add a new speech model from an archive file"));
     m_configSpeech.button_delete->setToolTip(i18n("Delete the selected speech model"));
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, &KdenliveSettingsDialog::getDictionary);
+    connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
 }
 
 void KdenliveSettingsDialog::checkVoskDependencies()
 {
-    qDebug()<<"==== CHECKING VOSK DEPS...";
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
         m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
@@ -1886,6 +1884,38 @@ void KdenliveSettingsDialog::getDictionary()
     
 }
 
+void KdenliveSettingsDialog::removeDictionary()
+{
+    if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
+        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
+        m_configSpeech.speech_info->setText(i18n("We do not allow deleting custom folder models, please do it manually."));
+        m_configSpeech.speech_info->animatedShow();
+        return;
+    }
+    QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir dir(modelDirectory);
+    if (!dir.cd(QStringLiteral("speechmodels"))) {
+        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
+        m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
+        m_configSpeech.speech_info->animatedShow();
+        return;
+    }
+
+    if (!m_configSpeech.listWidget->currentItem()) {
+        return;
+    }
+    QString currentModel = m_configSpeech.listWidget->currentItem()->text();
+    if (!currentModel.isEmpty() && dir.cd(currentModel)) {
+        if (KMessageBox::questionYesNo(this, i18n("Delete folder:\n%1", dir.absolutePath())) == KMessageBox::Yes) {
+            // Make sure we don't accidentally delete a folder that is not ours
+            if (dir.absolutePath().contains(QLatin1String("speechmodels"))) {
+                dir.removeRecursively();
+                slotParseVoskDictionaries();
+            }
+        }
+    }
+}
+
 void KdenliveSettingsDialog::processArchive(KJob* job)
 {
     qDebug()<<"=== DOWNLOAD FINISHED!!";
@@ -1903,14 +1933,20 @@ void KdenliveSettingsDialog::processArchive(KJob* job)
             } else {
                 archive.reset(new KTar(archiveFile));
             }
-            QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-            QDir dir(modelDirectory);
-            dir.mkdir(QStringLiteral("speechmodels"));
-            if (!dir.cd(QStringLiteral("speechmodels"))) {
-                qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-                m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-                m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
-                return;
+            QString modelDirectory = KdenliveSettings::vosk_folder_path();
+            QDir dir;
+            if (modelDirectory.isEmpty()) {
+                modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+                dir = QDir(modelDirectory);
+                dir.mkdir(QStringLiteral("speechmodels"));
+                if (!dir.cd(QStringLiteral("speechmodels"))) {
+                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
+                    m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
+                    m_configSpeech.speech_info->animatedShow();
+                    return;
+                }
+            } else {
+                dir = QDir(modelDirectory);
             }
             if (archive->open(QIODevice::ReadOnly)) {
                 m_configSpeech.speech_info->setText(i18n("Extracting archive..."));
