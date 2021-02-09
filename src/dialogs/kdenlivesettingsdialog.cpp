@@ -1785,6 +1785,16 @@ void KdenliveSettingsDialog::initSpeechPage()
     checkVoskDependencies();
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, [this](int state) {
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
+        if (state == Qt::Unchecked) {
+            // Clear custom folder
+            m_configSpeech.vosk_folder->clear();
+            KdenliveSettings::setVosk_folder_path(QString());
+            slotParseVoskDictionaries();
+        }
+    });
+    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, [this](QUrl url) {
+        KdenliveSettings::setVosk_folder_path(url.toLocalFile());
+        slotParseVoskDictionaries();
     });
     m_configSpeech.models_url->setText(i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
     connect(m_configSpeech.models_url, &QLabel::linkActivated, [&](const QString &contents) {
@@ -1870,16 +1880,9 @@ void KdenliveSettingsDialog::getDictionary()
         m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
         m_configSpeech.speech_info->setText(i18n("Downloading model..."));
         m_configSpeech.speech_info->animatedShow();
-        connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::processArchive);
-        /*if (copyjob->exec()) {
-            qDebug()<<"=== GOT REST: "<<copyjob->destUrl();
-            //
-        } else {
-            qDebug()<<"=== CANNOT DOWNLOAD";
-        }*/
+        connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::downloadModelFinished);
     } else {
-        //KMessageBox::error(this, KIO::NetAccess::lastErrorString());
-        //KArchive ar(tmpFile);
+        
     }
     
 }
@@ -1916,7 +1919,7 @@ void KdenliveSettingsDialog::removeDictionary()
     }
 }
 
-void KdenliveSettingsDialog::processArchive(KJob* job)
+void KdenliveSettingsDialog::downloadModelFinished(KJob* job)
 {
     qDebug()<<"=== DOWNLOAD FINISHED!!";
     if (job->error() == 0 || job->error() == 112) {
@@ -1924,44 +1927,8 @@ void KdenliveSettingsDialog::processArchive(KJob* job)
         KIO::FileCopyJob *jb = static_cast<KIO::FileCopyJob*>(job);
         if (jb) {
             qDebug()<<"=== JOB FOUND!!";
-            QMimeDatabase db;
             QString archiveFile = jb->destUrl().toLocalFile();
-            QMimeType type = db.mimeTypeForFile(archiveFile);
-            std::unique_ptr<KArchive> archive;
-            if (type.inherits(QStringLiteral("application/zip"))) {
-                archive.reset(new KZip(archiveFile));
-            } else {
-                archive.reset(new KTar(archiveFile));
-            }
-            QString modelDirectory = KdenliveSettings::vosk_folder_path();
-            QDir dir;
-            if (modelDirectory.isEmpty()) {
-                modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-                dir = QDir(modelDirectory);
-                dir.mkdir(QStringLiteral("speechmodels"));
-                if (!dir.cd(QStringLiteral("speechmodels"))) {
-                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-                    m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
-                    m_configSpeech.speech_info->animatedShow();
-                    return;
-                }
-            } else {
-                dir = QDir(modelDirectory);
-            }
-            if (archive->open(QIODevice::ReadOnly)) {
-                m_configSpeech.speech_info->setText(i18n("Extracting archive..."));
-                const KArchiveDirectory *archiveDir = archive->directory();
-                if (!archiveDir->copyTo(dir.absolutePath())) {
-                    qDebug()<<"=== Error extracting archive!!";
-                } else {
-                    QFile::remove(archiveFile);
-                    emit parseDictionaries();
-                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
-                    m_configSpeech.speech_info->setText(i18n("New dictionary installed"));
-                }
-            } else {
-                qDebug()<<"=== CANNOT OPEN ARCHIVE!!";
-            }
+            processArchive(archiveFile);
         } else {
             qDebug()<<"=== JOB NOT FOUND!!";
             m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
@@ -1971,6 +1938,52 @@ void KdenliveSettingsDialog::processArchive(KJob* job)
         qDebug()<<"=== GOT JOB ERROR: "<<job->error();
         m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
         m_configSpeech.speech_info->setText(i18n("Download error %1", job->errorString()));
+    }
+}
+
+void KdenliveSettingsDialog::processArchive(const QString archiveFile)
+{
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForFile(archiveFile);
+    std::unique_ptr<KArchive> archive;
+    if (type.inherits(QStringLiteral("application/zip"))) {
+        archive.reset(new KZip(archiveFile));
+    } else {
+        archive.reset(new KTar(archiveFile));
+    }
+    QString modelDirectory = KdenliveSettings::vosk_folder_path();
+    QDir dir;
+    if (modelDirectory.isEmpty()) {
+        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        dir = QDir(modelDirectory);
+        dir.mkdir(QStringLiteral("speechmodels"));
+        if (!dir.cd(QStringLiteral("speechmodels"))) {
+            m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
+            m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
+            m_configSpeech.speech_info->animatedShow();
+            return;
+        }
+    } else {
+        dir = QDir(modelDirectory);
+    }
+    if (archive->open(QIODevice::ReadOnly)) {
+        m_configSpeech.speech_info->setText(i18n("Extracting archive..."));
+        const KArchiveDirectory *archiveDir = archive->directory();
+        if (!archiveDir->copyTo(dir.absolutePath())) {
+            qDebug()<<"=== Error extracting archive!!";
+        } else {
+            QFile::remove(archiveFile);
+            emit parseDictionaries();
+            m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
+            m_configSpeech.speech_info->setText(i18n("New dictionary installed"));
+        }
+    } else {
+        // Test if it is a folder
+        QDir dir(archiveFile);
+        if (dir.exists()) {
+            
+        }
+        qDebug()<<"=== CANNOT OPEN ARCHIVE!!";
     }
 }
 

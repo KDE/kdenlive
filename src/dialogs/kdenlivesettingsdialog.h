@@ -94,7 +94,8 @@ private slots:
     void slotParseVoskDictionaries();
     void getDictionary();
     void removeDictionary();
-    void processArchive(KJob* job);
+    void downloadModelFinished(KJob* job);
+    void processArchive(const QString path);
     void checkVoskDependencies();
     
 private:
