@@ -54,7 +54,7 @@ private:
     std::unique_ptr<QProcess> m_speechJob;
     QString m_binId;
     QString m_sourceUrl;
-    QAction *m_abortAction;
+    double m_clipDuration;
 };
 
 #endif

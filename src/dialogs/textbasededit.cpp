@@ -37,15 +37,10 @@
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
+    , m_clipDuration(0.)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    m_abortAction = new QAction(i18n("Abort"), this);
-    connect(m_abortAction, &QAction::triggered, [this]() {
-        if (m_speechJob && m_speechJob->state() == QProcess::Running) {
-            m_speechJob->kill();
-        }
-    });
     vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     vosk_config->setToolTip(i18n("Configure speech recognition"));
     connect(vosk_config, &QToolButton::clicked, [this]() {
@@ -53,7 +48,13 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     listWidget->setWordWrap(true);
-    search_frame->setVisible(false);
+    frame_progress->setVisible(false);
+    button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+    connect(button_abort, &QToolButton::clicked, [this]() {
+        if (m_speechJob && m_speechJob->state() == QProcess::Running) {
+            m_speechJob->kill();
+        }
+    });
     connect(pCore.get(), &Core::updateVoskAvailability, this, &TextBasedEdit::updateAvailability);
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
@@ -79,6 +80,16 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
         KdenliveSettings::setVosk_text_model(language_box->currentText());
     });
+
+    connect(listWidget, &QListWidget::itemDoubleClicked, [this] (QListWidgetItem *item) {
+        if (item) {
+            double startMs = item->data(Qt::UserRole).toDouble();
+            double endMs = item->data(Qt::UserRole + 1).toDouble();
+            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
+            pCore->getMonitor(Kdenlive::ClipMonitor)->slotLoadClipZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
+            pCore->getMonitor(Kdenlive::ClipMonitor)->slotPlayZone();
+        }
+    });
     connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
         if (ix > -1) {
             QListWidgetItem  *item = listWidget->item(ix);
@@ -92,6 +103,71 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
     });
     info_message->hide();
+    
+    // Search stuff
+    search_frame->setVisible(false);
+    button_search->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
+    search_prev->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
+    search_next->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
+    connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
+        search_frame->setVisible(toggled);
+    });
+    connect(search_line, &QLineEdit::textChanged, [this](const QString &searchText) {
+        if (searchText.length() > 2) {
+            int ix = listWidget->currentRow();
+            bool found = false;
+            QListWidgetItem *item;
+            while (!found && ix < listWidget->count()) {
+                item = listWidget->item(ix);
+                if (item) {
+                    if (item->text().contains(searchText)) {
+                        listWidget->setCurrentRow(ix);
+                        found = true;
+                        break;
+                    }
+                }
+                ix++;
+            }
+        }
+    });
+    connect(search_next, &QToolButton::clicked, [this]() {
+        const QString searchText = search_line->text();
+        if (searchText.length() > 2) {
+            int ix = listWidget->currentRow() + 1;
+            bool found = false;
+            QListWidgetItem *item;
+            while (!found && ix < listWidget->count()) {
+                item = listWidget->item(ix);
+                if (item) {
+                    if (item->text().contains(searchText)) {
+                        listWidget->setCurrentRow(ix);
+                        found = true;
+                        break;
+                    }
+                }
+                ix++;
+            }
+        }
+    });
+    connect(search_prev, &QToolButton::clicked, [this]() {
+        const QString searchText = search_line->text();
+        if (searchText.length() > 2) {
+            int ix = listWidget->currentRow() - 1;
+            bool found = false;
+            QListWidgetItem *item;
+            while (!found && ix > 0) {
+                item = listWidget->item(ix);
+                if (item) {
+                    if (item->text().contains(searchText)) {
+                        listWidget->setCurrentRow(ix);
+                        found = true;
+                        break;
+                    }
+                }
+                ix--;
+            }
+        }
+    });
     parseVoskDictionaries();
 }
 
@@ -139,6 +215,7 @@ void TextBasedEdit::startRecognition()
         if (clipItem) {
             m_sourceUrl = clipItem->url();
             clipName = clipItem->clipName();
+            m_clipDuration = clipItem->duration().seconds();
         }
     }
     if (m_sourceUrl.isEmpty()) {
@@ -149,7 +226,6 @@ void TextBasedEdit::startRecognition()
     }
     info_message->setMessageType(KMessageWidget::Information);
     info_message->setText(i18n("Starting speech recognition on %1.", clipName));
-    info_message->addAction(m_abortAction);
     info_message->animatedShow();
     qApp->processEvents();
     //m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
@@ -158,6 +234,8 @@ void TextBasedEdit::startRecognition()
     listWidget->clear();
     qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl;
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl});
+    speech_progress->setValue(0);
+    frame_progress->setVisible(true);
     /*if (m_speechJob->QFile::exists(speech)) {
         timeline->getSubtitleModel()->importSubtitle(speech, zone.x(), true);
         speech_info->setMessageType(KMessageWidget::Positive);
@@ -177,7 +255,6 @@ void TextBasedEdit::updateAvailability()
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 {
-    info_message->removeAction(m_abortAction);
     if (status == QProcess::CrashExit) {
         info_message->setMessageType(KMessageWidget::Warning);
         info_message->setText(i18n("Speech recognition aborted."));
@@ -187,6 +264,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
         info_message->setText(i18n("Speech recognition finished."));
         info_message->animatedShow();
     }
+    frame_progress->setVisible(false);
 }
 
 void TextBasedEdit::slotProcessSpeech()
@@ -249,6 +327,9 @@ void TextBasedEdit::slotProcessSpeech()
                     if (val.isObject() && val.toObject().keys().contains("end")) {
                         double ms = val.toObject().value("end").toDouble();
                         item->setData(Qt::UserRole + 1, ms);
+                        if (m_clipDuration > 0.) {
+                            speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
+                        }
                     }
                 }
                 item->setText(itemText);
