@@ -6,7 +6,6 @@ Mlt::Profile profile_trimming;
 
 TEST_CASE("Advanced trimming operations", "[Trimming]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -531,12 +530,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Insert/delete", "[Trimming2]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -694,12 +691,10 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Copy/paste", "[CP]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1073,5 +1068,4 @@ TEST_CASE("Copy/paste", "[CP]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }

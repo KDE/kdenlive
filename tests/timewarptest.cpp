@@ -5,7 +5,6 @@ Mlt::Profile profile_timewarp;
 
 TEST_CASE("Test of timewarping", "[Timewarp]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -107,5 +106,4 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }

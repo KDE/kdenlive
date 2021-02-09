@@ -36,7 +36,6 @@
  *********************************************************************************************************/
 
 #include "oauth2.h"
-#include "kdenlive_debug.h"
 #include "logindialog.h"
 
 #include <KConfigGroup>
@@ -44,6 +43,7 @@
 #include <QJsonParseError>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QDebug>
 
 OAuth2::OAuth2(QWidget *parent)
 
@@ -132,7 +132,6 @@ QString OAuth2::loginUrl()
 {
 
     QString str = QStringLiteral("%1?client_id=%2&redirect_uri=%3&response_type=%4").arg(m_strEndPoint, m_strClientID, m_strRedirectURI, m_strResponseType);
-    //  qCDebug(KDENLIVE_LOG) << "Login URL" << str;
     return str;
 }
 
@@ -161,7 +160,7 @@ void OAuth2::obtainAccessToken()
  */
 void OAuth2::SlotAccessDenied()
 {
-    qCDebug(KDENLIVE_LOG) << "access denied";
+    qDebug() << "access denied";
     emit accessDenied();
     m_pLoginDialog = nullptr;
 }
@@ -236,7 +235,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
         QJsonParseError jsonError;
         QJsonDocument doc = QJsonDocument::fromJson(sReply, &jsonError);
         if (jsonError.error != QJsonParseError::NoError) {
-            qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished jsonError.error:  " << jsonError.errorString();
+            qDebug() << "OAuth2::serviceRequestFinished jsonError.error:  " << jsonError.errorString();
             ForgetAccessToken();
             emit accessTokenReceived(QString()); // notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
@@ -259,7 +258,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                 if (map.contains(QStringLiteral("error"))) {
                     m_bAccessTokenRec = false;
                     sErrorText = map.value(QStringLiteral("error")).toString();
-                    qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished map error:  " << sErrorText;
+                    qDebug() << "OAuth2::serviceRequestFinished map error:  " << sErrorText;
                     ForgetAccessToken();
                     emit accessTokenReceived(QString()); // notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
                 }

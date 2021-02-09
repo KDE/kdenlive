@@ -59,7 +59,7 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
         NegQColor liftColor = m_lift->color();
         QList <QModelIndex> ixes{indexes.value(QStringLiteral("lift_r")),indexes.value(QStringLiteral("lift_g")), indexes.value(QStringLiteral("lift_b"))};
-        QStringList values {QString::number(liftColor.redF(), 'f'), QString::number(liftColor.greenF(), 'f'), QString::number(liftColor.blueF(), 'f')};
+        QStringList values {QString::number(liftColor.redF() * LIFT_FACTOR, 'f'), QString::number(liftColor.greenF() * LIFT_FACTOR, 'f'), QString::number(liftColor.blueF() * LIFT_FACTOR, 'f')};
         emit valuesChanged(ixes, values, true);
     });
     connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes]() {

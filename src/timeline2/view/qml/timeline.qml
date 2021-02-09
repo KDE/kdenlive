@@ -11,7 +11,8 @@ Rectangle {
     color: activePalette.window
     property bool validMenu: false
     property color textColor: activePalette.text
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active
+    property var groupTrimData
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData != undefined
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -57,6 +58,11 @@ Rectangle {
         } else {
             subtitleTrack.height = 5 * root.baseUnit
         }
+    }
+    
+    function highlightSub(ix) {
+        var currentSub = subtitlesRepeater.itemAt(ix)
+        currentSub.editText()
     }
     
     function checkDeletion(itemId) {
@@ -360,7 +366,7 @@ Rectangle {
     property bool showSubtitles: false
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
-    property int trackTagWidth: fontMetrics.boundingRect("M").width
+    property int trackTagWidth: fontMetrics.boundingRect("M").width * (trackHeaderRepeater.count < 10 ? 2 : 3)
     property bool scrollVertically: timeline.scrollVertically
 
     onSeekingFinishedChanged : {
@@ -781,7 +787,7 @@ Rectangle {
                         focusPolicy: Qt.NoFocus
                         property var modifier: 0
                         anchors.left: parent.left
-                        anchors.leftMargin: 2 * root.trackTagWidth
+                        anchors.leftMargin: 1.5 * root.baseUnit
                         width: root.collapsedHeight
                         height: root.collapsedHeight
                         contentItem: Item {
@@ -815,6 +821,36 @@ Rectangle {
                         width: childrenRect.width
                         x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
                         spacing: 0
+                        ToolButton {
+                            id: analyseButton
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: "image://icon/autocorrection"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            onClicked: timeline.triggerAction('audio_recognition')
+                            ToolTip {
+                                visible: muteButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: i18n("Speech recognition")
+                                }
+                            }
+                        }
                         ToolButton {
                             id: muteButton
                             focusPolicy: Qt.NoFocus
@@ -1751,6 +1787,7 @@ Rectangle {
             startFrame: model.startframe
             endFrame: model.endframe
             subtitle: model.subtitle
+            isGrabbed: model.grabbed
         }
     }
 

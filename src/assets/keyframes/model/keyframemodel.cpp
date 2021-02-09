@@ -1028,7 +1028,7 @@ void KeyframeModel::sendModification()
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
             m_lastData = getAnimProperty();
-            ptr->setParameter(name, m_lastData, false);
+            ptr->setParameter(name, m_lastData, false, m_index);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }
@@ -1047,7 +1047,7 @@ void KeyframeModel::refresh()
     }
     if (animData == m_lastData) {
         // nothing to do
-        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n_________________";
+        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n";
         return;
     }
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {

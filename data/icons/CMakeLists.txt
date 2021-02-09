@@ -86,7 +86,7 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-zone-start.svgz
   sc-actions-kdenlive-zoom-large.svgz
   sc-actions-kdenlive-zoom-small.svgz
-  sc-actions-kdenlive-add-subtitle.svg
+  sc-actions-add-subtitle.svg
   sc-mimetypes-application-x-kdenlive.svgz
   sc-mimetypes-application-x-kdenlivetitle.svgz
   sc-mimetypes-video-mlt-playlist.svgz

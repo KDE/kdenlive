@@ -24,7 +24,11 @@
 #include "clipsnapmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#else
+#define TRACE_CONSTR(...)
+#endif
 #include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
@@ -132,6 +136,14 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     clip->setClipState_lambda(state)();
     clip->setSubPlaylistIndex(playlist, -1);
     parent->registerClip(clip);
+    if (clip->m_endlessResize) {
+        // Ensure parent is long enough
+        if (producer->parent().get_out() < producer->get_length() - 1) {
+            int out = producer->get_length();
+            producer->parent().set("length", out + 1);
+            producer->parent().set("out", out);
+        }
+    }
     clip->m_effectStack->importEffects(producer, state, result.second, originalDecimalPoint);
     clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
     return id;
@@ -215,6 +227,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         // Ensure producer is long enough
         if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
             m_producer->set("length", outPoint + 1);
+            m_producer->set("out", outPoint);
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};

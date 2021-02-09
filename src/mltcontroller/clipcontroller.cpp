@@ -560,7 +560,7 @@ QString ClipController::clipName() const
     if (!name.isEmpty()) {
         return name;
     }
-    return QFileInfo(m_path).fileName();
+    return m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
@@ -663,6 +663,10 @@ void ClipController::checkAudioVideo()
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
             m_hasAudio = m_masterProducer->get_int("audio_index") >= 0;
             m_hasVideo = m_masterProducer->get_int("video_index") >= 0;
+        } else if (orig_service == QStringLiteral("xml")) {
+            // Playlist, assume we have audio and video
+            m_hasAudio = true;
+            m_hasVideo = true;
         } else {
             // Assume image or text producer
             m_hasAudio = false;

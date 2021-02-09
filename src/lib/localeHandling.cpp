@@ -47,6 +47,16 @@ void LocaleHandling::resetLocale()
     ::qputenv(MLT_LC_NAME, "C");
 }
 
+void LocaleHandling::resetAllLocale()
+{
+#ifdef Q_OS_FREEBSD
+    setlocale(LC_ALL, "C");
+#else
+    std::setlocale(LC_ALL, "C");
+#endif
+    ::qputenv("LC_ALL", "C");
+}
+
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
 {
     // Parse installed locales to find one matching

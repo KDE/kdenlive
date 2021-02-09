@@ -966,7 +966,7 @@ void Wizard::testHwEncoders()
 {
     QProcess hwEncoders;
     // Testing vaapi support
-    QTemporaryFile tmp(QDir::tempPath() + "/XXXXXX.mp4");
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
     if (!tmp.open()) {
         // Something went wrong
         return;
@@ -1009,7 +1009,7 @@ void Wizard::testHwEncoders()
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
 
     // NVIDIA testing
-    QTemporaryFile tmp2(QDir::tempPath() + "/XXXXXX.mp4");
+    QTemporaryFile tmp2(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
     if (!tmp2.open()) {
         // Something went wrong
         return;

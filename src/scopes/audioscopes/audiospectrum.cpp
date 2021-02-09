@@ -252,7 +252,12 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
 #endif
 
 #ifdef AUDIOSPEC_LINES
-        QPainter davinci(&spectrum);
+        QPainter davinci;
+        bool ok = davinci.begin(&spectrum);
+        if (!ok) {
+            qDebug() << "Could not initialise QPainter for Audio spectrum.";
+            return spectrum;
+        }
         davinci.setPen(QPen(QBrush(spectrumColor.rgba()), 1, Qt::SolidLine));
 #endif
 
@@ -337,7 +342,12 @@ QImage AudioSpectrum::renderHUD(uint)
         QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
         hud.fill(qRgba(0, 0, 0, 0));
 
-        QPainter davinci(&hud);
+        QPainter davinci;
+        bool ok = davinci.begin(&hud);
+        if (!ok) {
+            qDebug() << "Could not initialise QPainter for Audio spectrum HUD.";
+            return hud;
+        }
         davinci.setPen(AbstractScopeWidget::penLight);
 
         int y;

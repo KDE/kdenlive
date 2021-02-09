@@ -1131,4 +1131,26 @@
         <default>false</default>
         </entry>
    </group>
+   <group name="speech">
+       <entry name="vosk_found" type="Bool">
+            <label>Is VOSK correctly found</label>
+           <default>false</default>
+       </entry>
+       <entry name="vosk_srt_found" type="Bool">
+            <label>Is the SRT package correctly found (used for auto subtitles)</label>
+           <default>false</default>
+       </entry>
+       <entry name="vosk_folder_path" type="String">
+           <label>Custom path for the folder containins the vosk speech models. Uses default XDG location if empty</label>
+           <default></default>
+       </entry>
+       <entry name="vosk_text_model" type="String">
+           <label>Last selected model for speech recognition</label>
+           <default></default>
+       </entry>
+       <entry name="vosk_srt_model" type="String">
+           <label>Last selected model for automatic subtitling</label>
+           <default></default>
+       </entry>
+   </group>
 </kcfg>

@@ -78,7 +78,6 @@ Rectangle {
     property bool forceReloadThumb
     property bool isComposition: false
     property bool hideClipViews: false
-    property var groupTrimData
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
@@ -556,7 +555,11 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        updateDrag()
+                        if (!controlTrim) {
+                            updateDrag()
+                        } else {
+                            endDrag()
+                        }
                     }
                 }
                 onDoubleClicked: {
@@ -664,7 +667,11 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        updateDrag()
+                        if (!controlTrim) {
+                            updateDrag()
+                        } else {
+                            endDrag()
+                        }
                     }
                 }
                 onDoubleClicked: {

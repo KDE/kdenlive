@@ -3075,7 +3075,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         }
     }
     if (moveCommand->childCount() == 0) {
-        pCore->displayMessage(i18n("No valid clip to insert"), MessageType::InformationMessage, 500);
+        pCore->displayMessage(i18n("No valid clip to insert"), MessageType::ErrorMessage, 500);
     } else {
         m_doc->commandStack()->push(moveCommand);
     }
@@ -3099,7 +3099,7 @@ void Bin::slotAddEffect(QString id, const QStringList &effectData)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::InformationMessage, 500);
+    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)
@@ -3133,7 +3133,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
         }
         if (!res) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
         } else {
             m_proxyModel->selectionModel()->clearSelection();
             const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
@@ -3179,14 +3179,14 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
+    pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::ErrorMessage);
 }
 
 void Bin::switchTag(const QString &tag, bool add)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
-        pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
+        pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::ErrorMessage);
     }
     // Check for folders
     QList <QString> allClips;
@@ -3486,7 +3486,7 @@ void Bin::renameSubClip(const QString &id, const QString &newName, int in, int o
     if (!sub) {
         return;
     }
-    sub->setName(newName);
+    sub->setName(newName.isEmpty() ? i18n("Unnamed") : newName);
     clip->updateZones();
     emit itemUpdated(sub);
 }
@@ -4029,7 +4029,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         }
         if (clip->isValid()) {
             clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
-            clip->resetProducerProperty(QStringLiteral("length"));
+            if (clip->hasLimitedDuration()) {
+                clip->resetProducerProperty(QStringLiteral("length"));
+            }
         }
         if (!xml.isNull()) {
             clip->setClipStatus(FileStatus::StatusWaiting);

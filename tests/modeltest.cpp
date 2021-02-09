@@ -6,7 +6,6 @@ Mlt::Profile profile_model;
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
@@ -114,12 +113,10 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
-    Logger::clear();
 
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -163,12 +160,10 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     REQUIRE(timeline->getClipsCount() == 0);
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1045,12 +1040,10 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1102,12 +1095,10 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     REQUIRE(all_ids.size() != track_ids.size());
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1718,12 +1709,10 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Snapping", "[Snapping]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -1836,12 +1825,10 @@ TEST_CASE("Snapping", "[Snapping]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Operations under locked tracks", "[Locked]")
 {
-    Logger::clear();
 
     QString aCompo;
     // Look for a compo
@@ -2069,5 +2056,4 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }

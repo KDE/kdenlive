@@ -73,7 +73,7 @@
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
-
+#include "dialogs/textbasededit.h"
 #include "project/dialogs/temporarydata.h"
 
 #ifdef USE_JOGSHUTTLE
@@ -264,6 +264,7 @@ void MainWindow::init()
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
+    QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -367,6 +368,7 @@ void MainWindow::init()
     screenGrabDock->close();
     libraryDock->close();
     subtitlesDock->close();
+    textEditingDock->close();
     spectrumDock->close();
     clipDockWidget->close();
     m_onlineResourcesDock->close();
@@ -1012,7 +1014,7 @@ void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
         getMainTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().second, filter);
         m_projectMonitor->activateSplit();
     } else {
-        pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage);
+        pCore->displayMessage(i18n("Select a clip to compare effect"), ErrorMessage);
     }
 }
 
@@ -1375,7 +1377,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
 
-    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("reload")), i18n("Reset configuration"), this);
+    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset configuration"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
     connect(resetAction, &QAction::triggered, this, [&]() {
         slotRestart(true);
@@ -1751,13 +1753,14 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
+    addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("add-subtitle")), Qt::SHIFT +Qt::Key_S);
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
     addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
 
     addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
     addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Subtitle"), this, SLOT(slotDeleteItem()), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("audio_recognition"), i18n("Speech Recognition"), this, SLOT(slotSpeechRecognition()), QIcon::fromTheme(QStringLiteral("autocorrection")));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -2099,6 +2102,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
+        connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2802,7 +2806,7 @@ void MainWindow::slotInsertClipInsert()
     const QString &binId = m_clipMonitor->activeClipId();
     if (binId.isEmpty()) {
         // No clip in monitor
-        pCore->displayMessage(i18n("No clip selected in project bin"), InformationMessage);
+        pCore->displayMessage(i18n("No clip selected in project bin"), ErrorMessage);
         return;
     }
     getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
@@ -2960,10 +2964,10 @@ void MainWindow::addEffect(const QString &effectId)
         pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
     } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip || m_assetPanel->effectStackOwner().first == ObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         }
     } else {
-        pCore->displayMessage(i18n("Select an item to add effect"), InformationMessage);
+        pCore->displayMessage(i18n("Select an item to add effect"), ErrorMessage);
     }
 }
 
@@ -3891,6 +3895,11 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 
 void MainWindow::updateDockTitleBars(bool isTopLevel)
 {
+    QList<QTabBar *> tabbars = findChildren<QTabBar *>();
+    for (QTabBar *tab : tabbars) {
+        tab->setAcceptDrops(true);
+        tab->setChangeCurrentOnDrag(true);
+    }
     if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
         return;
     }
@@ -4329,10 +4338,18 @@ void MainWindow::slotImportSubtitle()
 void MainWindow::slotExportSubtitle()
 {
     if (pCore->getSubtitleModel() == nullptr) {
-        pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
+        pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
     getCurrentTimeline()->controller()->exportSubtitle();
+}
+
+void MainWindow::slotSpeechRecognition()
+{
+    if (pCore->getSubtitleModel() == nullptr) {
+        slotEditSubtitle();
+    }
+    getCurrentTimeline()->controller()->subtitleSpeechRecognition();
 }
 
 #ifdef DEBUG_MAINW

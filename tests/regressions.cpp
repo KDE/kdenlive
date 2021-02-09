@@ -3,7 +3,6 @@
 Mlt::Profile reg_profile;
 TEST_CASE("Regression")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -64,12 +63,10 @@ TEST_CASE("Regression")
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("Regression2")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -218,7 +215,6 @@ TEST_CASE("Regression2")
     undoStack->redo();
     binModel->clean();
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 /*
@@ -420,7 +416,6 @@ TEST_CASE("Regression 4")
 
 TEST_CASE("FuzzBug1")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
@@ -556,12 +551,10 @@ TEST_CASE("FuzzBug1")
         REQUIRE(timeline_0->checkConsistency());
     }
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("FuzzBug2")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -640,7 +633,6 @@ TEST_CASE("FuzzBug2")
         REQUIRE(timeline_0->checkConsistency());
     }
     pCore->m_projectManager = nullptr;
-    Logger::print_trace();
 }
 
 TEST_CASE("FuzzBug3")

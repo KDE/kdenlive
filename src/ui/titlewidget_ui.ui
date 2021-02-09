@@ -1361,9 +1361,6 @@
              <property name="uniformItemSizes">
               <bool>true</bool>
              </property>
-             <property name="itemAlignment">
-              <set>Qt::AlignCenter</set>
-             </property>
             </widget>
            </item>
            <item>

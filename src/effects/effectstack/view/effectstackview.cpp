@@ -177,7 +177,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
             }
         }
         if (!added) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         } else {
             m_scrollTimer.start();
         }
