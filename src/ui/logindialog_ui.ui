@@ -13,8 +13,24 @@
   <property name="windowTitle">
    <string>Login Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="FreeSoundLoginLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Login to your account to download the highest quality version of this file. Or use the High Quality preview file instead (no account required).</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QWebEngineView" name="webView">
      <property name="url">
       <url>
@@ -23,27 +39,17 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item>
+    <widget class="QPushButton" name="GetPreview">
+     <property name="text">
+      <string>Get Preview File Instead</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="CancelButton">
      <property name="text">
       <string>Cancel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="GetHQpreview">
-     <property name="text">
-      <string>Get HQ Preview File Instead</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="FreeSoundLoginLabel">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter your freesound account details to download the highest quality version of this file. Or use the High Quality preview file instead (no freesound account required).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -53,7 +59,7 @@
   <customwidget>
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
-   <header>QtWebEngineWidgets/QWebEngineView</header>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
   </customwidget>
  </customwidgets>
  <resources/>

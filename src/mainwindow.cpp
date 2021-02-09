@@ -52,6 +52,7 @@
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "monitor/scopes/audiographspectrum.h"
+#include "onlineresources/resourcewidget.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
@@ -65,7 +66,7 @@
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/resourcewidget.h"
+//#include "utils/resourcewidget_old.h" //TODO
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
 #include "lib/localeHandling.h"
@@ -347,12 +348,28 @@ void MainWindow::init()
     QDockWidget* clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->getWidget());
     pCore->bin()->dockWidgetInit(clipDockWidget);
 
+    // Online resources widget
+    ResourceWidget *onlineResources = new ResourceWidget(this);
+    m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
+    //connect(m_clipMonitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
+    //connect(m_clipMonitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
+    connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path) {
+        m_clipMonitor->slotPreviewOnlineResource(path);
+        m_clipMonitorDock->show();
+        m_clipMonitorDock->raise();
+    });
+    connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
+    /*connect(spectrumDock, &QDockWidget::visibilityChanged, this, [&](bool visible) {
+        m_audioSpectrum->dockVisible(visible);
+    });*/
+
     // Close library and audiospectrum and others on first run
     screenGrabDock->close();
     libraryDock->close();
     subtitlesDock->close();
     spectrumDock->close();
     clipDockWidget->close();
+    m_onlineResourcesDock->close();
 
     m_assetPanel = new AssetPanel(this);
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
@@ -3734,12 +3751,15 @@ void MainWindow::slotDownloadResources()
     } else {
         currentFolder = KdenliveSettings::defaultprojectfolder();
     }
-    auto *d = new ResourceWidget(currentFolder);
-    connect(d, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
-    connect(d, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
-    d->show();
-    d->raise();
-    d->activateWindow();
+    m_onlineResourcesDock->show();
+    m_onlineResourcesDock->raise();
+    //auto *d = new ResourceWidget(currentFolder);
+    //auto *d = new ResourceDialog(currentFolder);
+    //connect(d, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
+    //connect(d, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
+    //d->show();
+    //d->raise();
+    //d->activateWindow();
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)

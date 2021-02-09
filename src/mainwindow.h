@@ -199,6 +199,7 @@ private:
 
     QDockWidget *m_undoViewDock;
     QDockWidget *m_mixerDock;
+    QDockWidget *m_onlineResourcesDock;
 
     KSelectAction *m_timeFormatButton;
     KSelectAction *m_compositeAction;

@@ -84,7 +84,7 @@ void OAuth2::buildLoginDialog()
     connect(m_pLoginDialog, &LoginDialog::authCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
     connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
     connect(m_pLoginDialog, &LoginDialog::canceled, this, &OAuth2::SlotCanceled);
-    connect(m_pLoginDialog, &LoginDialog::useHQPreview, this, &OAuth2::SlotDownloadHQPreview);
+    connect(m_pLoginDialog, &LoginDialog::usePreview, this, &OAuth2::SlotDownloadPreview);
     connect(this, &OAuth2::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 }
 /**
@@ -294,13 +294,13 @@ void OAuth2::SlotCanceled()
 }
 
 /**
- * @brief OAuth2::SlotDownloadHQPreview
- * Fires when user clicks the Use HQ preview file button on the freesound login page LoginDialog.
- *  emits UseHQPreview signal that is picked up by    ResourceWidget::slotFreesoundUseHQPreview()
+ * @brief OAuth2::SlotDownloadPreview
+ * Fires when user clicks the Use preview file button on the freesound login page LoginDialog.
+ *  emits UsePreview signal that is picked up by    ResourceWidget::slotFreesoundUsePreview()
  */
-void OAuth2::SlotDownloadHQPreview()
+void OAuth2::SlotDownloadPreview()
 {
-    emit UseHQPreview();
+    emit UsePreview();
     m_pLoginDialog = nullptr;
 }
 /**

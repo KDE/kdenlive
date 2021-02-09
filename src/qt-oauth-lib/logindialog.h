@@ -78,17 +78,17 @@ signals:
      */
     void canceled();
     /**
-     * @brief useHQPreview - signal emitted when user clicks the "use HQ preview" button in the logon dialog
+     * @brief usePreview - signal emitted when user clicks the "use HQ preview" button in the logon dialog
      */
-    void useHQPreview();
+    void usePreview();
 
 public slots:
-    void open();
+    void open() override;
 
 private slots:
     void urlChanged(const QUrl &url);
 
-    void slotGetHQPreview();
+    void slotGetPreview();
     void slotRejected();
 
 private:

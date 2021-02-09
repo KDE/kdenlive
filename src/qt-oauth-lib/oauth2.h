@@ -97,13 +97,13 @@ signals:
      */
     void DownloadCanceled();
     /**
-     * @brief DownloadHQPreview
+     * @brief DownloadPreview
      */
-    void DownloadHQPreview();
+    void DownloadPreview();
     /**
-     * @brief UseHQPreview
+     * @brief UsePreview
      */
-    void UseHQPreview();
+    void UsePreview();
     /**
      * @brief Canceled
      */
@@ -115,7 +115,7 @@ private slots:
     void serviceRequestFinished(QNetworkReply *reply);
     void SlotAuthCodeObtained();
     void SlotCanceled();
-    void SlotDownloadHQPreview();
+    void SlotDownloadPreview();
 
 private:
     QString m_strAuthorizationCode;

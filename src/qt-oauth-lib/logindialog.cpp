@@ -48,14 +48,15 @@ LoginDialog::LoginDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(i18n("Freesound Login"));
     connect(m_ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
-    connect(m_ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
-    m_ui->FreeSoundLoginLabel->setText(
+    connect(m_ui->GetPreview, &QPushButton::clicked, this, &LoginDialog::slotGetPreview);
+    /*m_ui->FreeSoundLoginLabel->setText(
         i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality "
-             "preview file instead (no freesound account required)."));
+             "preview file instead (no freesound account required)."));*/
     // m_ui->textBrowser
     connect(m_ui->webView, &QWebEngineView::urlChanged, this, &LoginDialog::urlChanged);
     connect(m_ui->webView, &QWebEngineView::loadFinished, this, [&](){
         qDebug() << "LoginDialog: loadFinished";
+        this->setCursor(Qt::ArrowCursor);
         this->setEnabled(true);
     });
 }
@@ -69,11 +70,12 @@ void LoginDialog::open()
 {
     QDialog::open();
     setEnabled(false);
+    setCursor(Qt::WaitCursor);
 }
 
-void LoginDialog::slotGetHQPreview()
+void LoginDialog::slotGetPreview()
 {
-    emit useHQPreview();
+    emit usePreview();
     QDialog::accept();
 }
 

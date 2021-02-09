@@ -1325,6 +1325,10 @@ std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
     return m_consumer;
 }
 
+Mlt::Producer *GLWidget::producer() {
+    return m_producer.get();
+}
+
 void GLWidget::resetConsumer(bool fullReset)
 {
     if (fullReset && m_consumer) {
