@@ -22,6 +22,7 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "mainwindow.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "kdenlive_debug.h"
 
@@ -43,8 +44,13 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     setupUi(this);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
-    connect(pCore.get(), &Core::updateVoskAvailability, this, &SpeechDialog::updateAvailability);
-    connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
+    vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    vosk_config->setToolTip(i18n("Configure speech recognition"));
+    connect(vosk_config, &QToolButton::clicked, [this]() {
+        pCore->window()->slotPreferences(8);
+    });
+    m_availableConnection = connect(pCore.get(), &Core::updateVoskAvailability, this, &SpeechDialog::updateAvailability);
+    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
         updateAvailability();
@@ -52,7 +58,11 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
             speech_info->setMessageType(KMessageWidget::Information);
             speech_info->setText(i18n("Please install speech recognition models"));
             speech_info->animatedShow();
+            vosk_config->setVisible(true);
         } else {
+            if (KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
+                vosk_config->setVisible(false);
+            }
             if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
                 int ix = language_box->findText(KdenliveSettings::vosk_srt_model());
                 if (ix > -1) {
@@ -70,9 +80,17 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     parseVoskDictionaries();
 }
 
+SpeechDialog::~SpeechDialog()
+{
+    QObject::disconnect(m_availableConnection);
+    QObject::disconnect(m_modelsConnection);
+}
+
 void SpeechDialog::updateAvailability()
 {
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found() && language_box->count() > 0);
+    bool enabled = KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found() && language_box->count() > 0;
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(enabled);
+    vosk_config->setVisible(!enabled);
 }
 
 void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone)

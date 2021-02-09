@@ -36,8 +36,11 @@ class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
 
 public:
     explicit SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
+    ~SpeechDialog() override;
 
 private:
+    QMetaObject::Connection m_availableConnection;
+    QMetaObject::Connection m_modelsConnection;
     void parseVoskDictionaries();
 
 private slots:

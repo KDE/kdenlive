@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>248</width>
-    <height>244</height>
+    <width>318</width>
+    <height>283</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,6 +48,13 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QRadioButton" name="timeline_clips">
+     <property name="text">
+      <string>Selected clips</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -61,7 +68,10 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="5" column="0" colspan="2">
+    <widget class="KMessageWidget" name="speech_info"/>
+   </item>
+   <item row="6" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -71,13 +81,10 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="KMessageWidget" name="speech_info"/>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QRadioButton" name="timeline_clips">
+   <item row="6" column="0">
+    <widget class="QToolButton" name="vosk_config">
      <property name="text">
-      <string>Selected clips</string>
+      <string>...</string>
      </property>
     </widget>
    </item>

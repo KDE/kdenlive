@@ -19,7 +19,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
+     <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QToolButton" name="button_delete">
         <property name="text">
@@ -53,6 +53,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="0" column="4">
+       <widget class="QToolButton" name="vosk_config">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

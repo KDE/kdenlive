@@ -25,6 +25,7 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "timecodedisplay.h"
 
@@ -45,6 +46,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_speechJob->kill();
         }
     });
+    vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    vosk_config->setToolTip(i18n("Configure speech recognition"));
+    connect(vosk_config, &QToolButton::clicked, [this]() {
+        pCore->window()->slotPreferences(8);
+    });
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     listWidget->setWordWrap(true);
     search_frame->setVisible(false);
@@ -57,7 +63,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             info_message->setMessageType(KMessageWidget::Information);
             info_message->setText(i18n("Please install speech recognition models"));
             info_message->animatedShow();
+            vosk_config->setVisible(true);
         } else {
+            if (KdenliveSettings::vosk_found()) {
+                vosk_config->setVisible(false);
+            }
             if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
                 int ix = language_box->findText(KdenliveSettings::vosk_text_model());
                 if (ix > -1) {
@@ -160,7 +170,9 @@ void TextBasedEdit::startRecognition()
 
 void TextBasedEdit::updateAvailability()
 {
-    button_start->setEnabled(KdenliveSettings::vosk_found() && language_box->count() > 0);
+    bool enabled = KdenliveSettings::vosk_found() && language_box->count() > 0;
+    button_start->setEnabled(enabled);
+    vosk_config->setVisible(!enabled);
 }
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
