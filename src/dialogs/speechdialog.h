@@ -42,6 +42,7 @@ private:
 
 private slots:
     void slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone);
+    void updateAvailability();
 };
 
 #endif

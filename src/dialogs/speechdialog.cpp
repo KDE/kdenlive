@@ -43,10 +43,11 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     setupUi(this);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
+    connect(pCore.get(), &Core::updateVoskAvailability, this, &SpeechDialog::updateAvailability);
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(!models.isEmpty());
+        updateAvailability();
         if (models.isEmpty()) {
             speech_info->setMessageType(KMessageWidget::Information);
             speech_info->setText(i18n("Please install speech recognition models"));
@@ -58,7 +59,12 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     });
     parseVoskDictionaries();
 }
-    
+
+void SpeechDialog::updateAvailability()
+{
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found() && language_box->count() > 0);
+}
+
 void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone)
 {
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
@@ -161,5 +167,12 @@ void SpeechDialog::parseVoskDictionaries()
         dir = QDir(modelDirectory);
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    pCore->voskModelUpdate(dicts);
+    QStringList final;
+    for (auto &d : dicts) {
+        QDir sub(dir.absoluteFilePath(d));
+        if (sub.exists(QStringLiteral("mfcc.conf")) || (sub.exists(QStringLiteral("conf/mfcc.conf")))) {
+            final << d;
+        }
+    }
+    pCore->voskModelUpdate(final);
 }

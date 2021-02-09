@@ -48,6 +48,7 @@ private slots:
     void slotProcessSpeech();
     void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
+    void updateAvailability();
 
 private:
     std::unique_ptr<QProcess> m_speechJob;

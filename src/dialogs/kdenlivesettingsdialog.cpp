@@ -1862,6 +1862,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
                 m_configSpeech.speech_info->removeAction(m_voskAction);
                 m_configSpeech.speech_info->animatedHide();
             }
+            pCore->updateVoskAvailability();
         }
     } else {
         m_configSpeech.speech_info->animatedHide();
@@ -1882,7 +1883,7 @@ void KdenliveSettingsDialog::getDictionary()
         m_configSpeech.speech_info->animatedShow();
         connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::downloadModelFinished);
     } else {
-        
+        processArchive(url.toLocalFile());
     }
     
 }
@@ -2004,14 +2005,21 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
         dir = QDir(modelDirectory);
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    m_configSpeech.listWidget->addItems(dicts);
+    QStringList final;
+    for (auto &d : dicts) {
+        QDir sub(dir.absoluteFilePath(d));
+        if (sub.exists(QStringLiteral("mfcc.conf")) || (sub.exists(QStringLiteral("conf/mfcc.conf")))) {
+            final << d;
+        }
+    }
+    m_configSpeech.listWidget->addItems(final);
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
         m_configSpeech.custom_vosk_folder->setChecked(true);
         m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));
     }
-    if (!dicts.isEmpty() && KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
+    if (!final.isEmpty() && KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
         m_configSpeech.speech_info->animatedHide();
     }
-    pCore->voskModelUpdate(dicts);
+    pCore->voskModelUpdate(final);
 }
 

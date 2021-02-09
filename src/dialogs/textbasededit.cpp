@@ -48,10 +48,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     listWidget->setWordWrap(true);
     search_frame->setVisible(false);
+    connect(pCore.get(), &Core::updateVoskAvailability, this, &TextBasedEdit::updateAvailability);
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
-        button_start->setEnabled(!models.isEmpty());
+        updateAvailability();
         if (models.isEmpty()) {
             info_message->setMessageType(KMessageWidget::Information);
             info_message->setText(i18n("Please install speech recognition models"));
@@ -145,6 +146,11 @@ void TextBasedEdit::startRecognition()
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition failed"));
     }*/
+}
+
+void TextBasedEdit::updateAvailability()
+{
+    button_start->setEnabled(KdenliveSettings::vosk_found() && language_box->count() > 0);
 }
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
@@ -247,5 +253,12 @@ void TextBasedEdit::parseVoskDictionaries()
         dir = QDir(modelDirectory);
     }
     QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    pCore->voskModelUpdate(dicts);
+    QStringList final;
+    for (auto &d : dicts) {
+        QDir sub(dir.absoluteFilePath(d));
+        if (sub.exists(QStringLiteral("mfcc.conf")) || (sub.exists(QStringLiteral("conf/mfcc.conf")))) {
+            final << d;
+        }
+    }
+    pCore->voskModelUpdate(final);
 }

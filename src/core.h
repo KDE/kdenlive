@@ -307,6 +307,8 @@ signals:
     void closeSplash();
     /** @brief Trigger an update of the the speech models list */
     void voskModelUpdate(const QStringList models);
+    /** @brief This signal means that VOSK and/or SRT module availability changed*/
+    void updateVoskAvailability();
 };
 
 #endif
