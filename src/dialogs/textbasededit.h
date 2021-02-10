@@ -56,6 +56,7 @@ private:
     QString m_sourceUrl;
     double m_clipDuration;
     double m_offset;
+    int m_lastPosition;
 };
 
 #endif

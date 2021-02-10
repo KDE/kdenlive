@@ -217,6 +217,7 @@ void TextBasedEdit::startRecognition()
     const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
     m_offset = 0;
+    m_lastPosition = 0;
     double endPos = 0;
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
@@ -226,6 +227,7 @@ void TextBasedEdit::startRecognition()
             if (speech_zone->isChecked()) {
                 // Analyse clip zone only
                 QPoint zone = clipItem->zone();
+                m_lastPosition = zone.x();
                 m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
                 m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
                 endPos = m_clipDuration;
@@ -240,6 +242,7 @@ void TextBasedEdit::startRecognition()
             m_sourceUrl = master->url();
             clipName = master->clipName();
             QPoint zone = clipItem->zone();
+            m_lastPosition = zone.x();
             m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
             m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
             endPos = m_clipDuration;
@@ -330,7 +333,7 @@ void TextBasedEdit::slotProcessSpeech()
             qDebug()<<"==== ITEM IS OBJECT";
             if (!obj.isEmpty()) {
                 QString itemText = obj["text"].toString();
-                QListWidgetItem *item = new QListWidgetItem(listWidget);
+                QListWidgetItem *item = new QListWidgetItem;
                 if (obj["result"].isObject()) {
                     qDebug()<<"==== RESULT IS OBJECT";
                 } else if (obj["result"].isArray()) {
@@ -339,6 +342,17 @@ void TextBasedEdit::slotProcessSpeech()
                     QJsonValue val = obj2.first();
                     if (val.isObject() && val.toObject().keys().contains("start")) {
                         double ms = val.toObject().value("start").toDouble() + m_offset;
+                        GenTime startPos(ms);
+                        if (startPos.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
+                            // Insert space item
+                            QListWidgetItem *spacer = new QListWidgetItem(listWidget);
+                            GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
+                            spacer->setData(Qt::UserRole, silenceStart.seconds());
+                            spacer->setData(Qt::UserRole + 1, GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+                            spacer->setText(i18n("%1: no speech", pCore->timecode().getDisplayTimecode(silenceStart, false)));
+                            spacer->setData(Qt::UserRole + 2, 1);
+                            spacer->setBackground(Qt::blue);
+                        }
                         itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
                         item->setData(Qt::UserRole, ms);
                     }
@@ -346,12 +360,14 @@ void TextBasedEdit::slotProcessSpeech()
                     if (val.isObject() && val.toObject().keys().contains("end")) {
                         double ms = val.toObject().value("end").toDouble();
                         item->setData(Qt::UserRole + 1, ms + m_offset);
+                        m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
                         if (m_clipDuration > 0.) {
                             speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
                         }
                     }
                 }
                 item->setText(itemText);
+                listWidget->addItem(item);
             }
         } else if (loadDoc.isEmpty()) {
             qDebug()<<"==== EMPTY OBJEC DOC";

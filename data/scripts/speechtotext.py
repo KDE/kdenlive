@@ -26,7 +26,7 @@ rec = KaldiRecognizer(model, sample_rate)
 # zone rendering
 if len(sys.argv) > 4 and (float(sys.argv[4])>0 or float(sys.argv[5])>0):
     process = subprocess.Popen(['ffmpeg', '-loglevel', 'quiet', '-i',
-                            sys.argv[3], '-t', sys.argv[4], '-ss', sys.argv[5],
+                            sys.argv[3], '-ss', sys.argv[4], '-t', sys.argv[5],
                             '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '-'],
                             stdout=subprocess.PIPE)
 else:
@@ -40,10 +40,10 @@ def transcribe():
     while True:
        data = process.stdout.read(4000)
        if len(data) == 0:
+           print(rec.FinalResult(), file = sys.stdout, flush=True)
            break
        if rec.AcceptWaveform(data):
-           sentence = rec.Result()
-           print (sentence, file = sys.stdout, flush=True)
+           print (rec.Result(), file = sys.stdout, flush=True)
 
 transcribe()
 #with open(sys.argv[3], 'w') as f:
