@@ -55,6 +55,7 @@ private:
     QString m_binId;
     QString m_sourceUrl;
     double m_clipDuration;
+    double m_offset;
 };
 
 #endif

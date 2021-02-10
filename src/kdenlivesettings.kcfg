@@ -1152,5 +1152,9 @@
            <label>Last selected model for automatic subtitling</label>
            <default></default>
        </entry>
+       <entry name="speech_zone" type="Bool">
+           <label>Last selected model for automatic subtitling</label>
+           <default>true</default>
+       </entry>
    </group>
 </kcfg>

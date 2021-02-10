@@ -23,6 +23,7 @@
 #include "monitor/monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "mainwindow.h"
@@ -103,6 +104,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
     });
     info_message->hide();
+    
+    speech_zone->setChecked(KdenliveSettings::speech_zone());
+    connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
+        KdenliveSettings::setSpeech_zone(state == Qt::Checked);
+    });
     
     // Search stuff
     search_frame->setVisible(false);
@@ -210,12 +216,33 @@ void TextBasedEdit::startRecognition()
     QString clipName;
     const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
-    if (clip) {
+    m_offset = 0;
+    double endPos = 0;
+    if (clip->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
         if (clipItem) {
             m_sourceUrl = clipItem->url();
             clipName = clipItem->clipName();
-            m_clipDuration = clipItem->duration().seconds();
+            if (speech_zone->isChecked()) {
+                // Analyse clip zone only
+                QPoint zone = clipItem->zone();
+                m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
+                m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
+                endPos = m_clipDuration;
+            } else {
+                m_clipDuration = clipItem->duration().seconds();
+            }
+        }
+    } else if (clip->itemType() == AbstractProjectItem::SubClipItem) {
+        std::shared_ptr<ProjectSubClip> clipItem = std::static_pointer_cast<ProjectSubClip>(clip);
+        if (clipItem) {
+            auto master = clipItem->getMasterClip();
+            m_sourceUrl = master->url();
+            clipName = master->clipName();
+            QPoint zone = clipItem->zone();
+            m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
+            m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
+            endPos = m_clipDuration;
         }
     }
     if (m_sourceUrl.isEmpty()) {
@@ -232,8 +259,8 @@ void TextBasedEdit::startRecognition()
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
     listWidget->clear();
-    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl;
-    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl});
+    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_offset<<", DUR: "<<endPos;
+    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_offset), QString::number(endPos)});
     speech_progress->setValue(0);
     frame_progress->setVisible(true);
 }
@@ -311,14 +338,14 @@ void TextBasedEdit::slotProcessSpeech()
                     QJsonArray obj2 = obj["result"].toArray();
                     QJsonValue val = obj2.first();
                     if (val.isObject() && val.toObject().keys().contains("start")) {
-                        double ms = val.toObject().value("start").toDouble();
+                        double ms = val.toObject().value("start").toDouble() + m_offset;
                         itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
                         item->setData(Qt::UserRole, ms);
                     }
                     val = obj2.last();
                     if (val.isObject() && val.toObject().keys().contains("end")) {
                         double ms = val.toObject().value("end").toDouble();
-                        item->setData(Qt::UserRole + 1, ms);
+                        item->setData(Qt::UserRole + 1, ms + m_offset);
                         if (m_clipDuration > 0.) {
                             speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
                         }
