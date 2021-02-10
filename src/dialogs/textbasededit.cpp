@@ -117,24 +117,41 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     search_next->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
         search_frame->setVisible(toggled);
+        search_line->setFocus();
     });
     connect(search_line, &QLineEdit::textChanged, [this](const QString &searchText) {
+        QPalette palette = this->palette();
+        QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
             int ix = listWidget->currentRow();
+            int startIx = ix;
             bool found = false;
             QListWidgetItem *item;
-            while (!found && ix < listWidget->count()) {
+            while (!found) {
                 item = listWidget->item(ix);
                 if (item) {
                     if (item->text().contains(searchText)) {
                         listWidget->setCurrentRow(ix);
+                        col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
+                        palette.setColor(QPalette::Base,col);
                         found = true;
                         break;
                     }
                 }
                 ix++;
+                if (ix >= listWidget->count()) {
+                    // Reached end, start again on top
+                    ix = 0;
+                }
+                if (ix == startIx) {
+                    // Loop over, abort
+                    col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
+                    palette.setColor(QPalette::Base,col);
+                    break;
+                }
             }
         }
+        search_line->setPalette(palette);   
     });
     connect(search_next, &QToolButton::clicked, [this]() {
         const QString searchText = search_line->text();
