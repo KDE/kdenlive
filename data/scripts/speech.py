@@ -33,8 +33,11 @@ WORDS_PER_LINE = 7
 def transcribe():
     results = []
     subs = []
+    progress = 0
     while True:
        data = process.stdout.read(4000)
+       print("progress:" + str(progress), file = sys.stdout, flush=True)
+       progress += 1
        if len(data) == 0:
            break
        if rec.AcceptWaveform(data):
@@ -56,7 +59,7 @@ def transcribe():
     return subs
 
 subtitle = srt.compose(transcribe())
-print (subtitle)
+#print (subtitle)
 with open(sys.argv[4], 'w',encoding='utf8') as f:
     f.writelines(subtitle)
 f.close()

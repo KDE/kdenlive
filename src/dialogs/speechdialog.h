@@ -24,6 +24,9 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "definitions.h"
 
+#include <QProcess>
+#include <QTemporaryFile>
+
 /**
  * @class SpeechDialog
  * @brief A dialog for editing markers and guides.
@@ -39,13 +42,20 @@ public:
     ~SpeechDialog() override;
 
 private:
+    std::unique_ptr<QProcess> m_speechJob;
+    const std::shared_ptr<TimelineItemModel> m_timeline;
+    int m_duration;
+    std::unique_ptr<QTemporaryFile> m_tmpAudio;
+    std::unique_ptr<QTemporaryFile> m_tmpSrt;
     QMetaObject::Connection m_availableConnection;
     QMetaObject::Connection m_modelsConnection;
     void parseVoskDictionaries();
 
 private slots:
-    void slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone);
+    void slotProcessSpeech(QPoint zone);
+    void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone);
     void updateAvailability();
+    void slotProcessProgress();
 };
 
 #endif

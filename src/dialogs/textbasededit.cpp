@@ -196,7 +196,7 @@ void TextBasedEdit::startRecognition()
         info_message->animatedShow();
         return;
     }
-    m_speechJob.reset(new QProcess);
+    m_speechJob.reset(new QProcess(this));
     info_message->setMessageType(KMessageWidget::Information);
     info_message->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
@@ -236,14 +236,6 @@ void TextBasedEdit::startRecognition()
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl});
     speech_progress->setValue(0);
     frame_progress->setVisible(true);
-    /*if (m_speechJob->QFile::exists(speech)) {
-        timeline->getSubtitleModel()->importSubtitle(speech, zone.x(), true);
-        speech_info->setMessageType(KMessageWidget::Positive);
-        speech_info->setText(i18n("Subtitles imported"));
-    } else {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Speech recognition failed"));
-    }*/
 }
 
 void TextBasedEdit::updateAvailability()
@@ -269,7 +261,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 
 void TextBasedEdit::slotProcessSpeech()
 {
-    QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
     //saveData.replace(QStringLiteral("\\\""), QStringLiteral("\""));
     qDebug()<<"=== GOT DATA:\n"<<saveData;
     int ix = 0;

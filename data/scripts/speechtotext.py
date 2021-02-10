@@ -37,7 +37,7 @@ def transcribe():
            break
        if rec.AcceptWaveform(data):
            sentence = rec.Result()
-           print (sentence)
+           print (sentence, file = sys.stdout, flush=True)
 
 transcribe()
 #with open(sys.argv[3], 'w') as f:

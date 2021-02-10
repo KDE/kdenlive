@@ -38,6 +38,7 @@
 
 SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
     : QDialog(parent)
+    , m_timeline(timeline)
     
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -74,10 +75,17 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
         KdenliveSettings::setVosk_srt_model(language_box->currentText());
     });
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, timeline, zone]() {
-        slotProcessSpeech(timeline, zone);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, zone]() {
+        slotProcessSpeech(zone);
     });
     parseVoskDictionaries();
+    frame_progress->setVisible(false);
+    button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+    connect(button_abort, &QToolButton::clicked, [this]() {
+        if (m_speechJob && m_speechJob->state() == QProcess::Running) {
+            m_speechJob->kill();
+        }
+    });
 }
 
 SpeechDialog::~SpeechDialog()
@@ -93,7 +101,7 @@ void SpeechDialog::updateAvailability()
     vosk_config->setVisible(!enabled);
 }
 
-void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone)
+void SpeechDialog::slotProcessSpeech(QPoint zone)
 {
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
@@ -110,25 +118,32 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
     QString speech;
     QString audio;
     QTemporaryFile tmpPlaylist(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-    QTemporaryFile tmpSpeech(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt")));
-    QTemporaryFile tmpAudio(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav")));
+    m_tmpSrt.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt"))));
+    m_tmpAudio.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav"))));
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
     tmpPlaylist.close();    
-    if (tmpSpeech.open()) {
-        speech = tmpSpeech.fileName();
+    if (m_tmpSrt->open()) {
+        speech = m_tmpSrt->fileName();
     }
-    tmpSpeech.close();
-    if (tmpAudio.open()) {
-        audio = tmpAudio.fileName();
+    m_tmpSrt->close();
+    if (m_tmpAudio->open()) {
+        audio = m_tmpAudio->fileName();
     }
-    tmpAudio.close();
+    m_tmpAudio->close();
     pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(QDir::temp().absolutePath(), sceneList);
-    Mlt::Producer producer(*timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
+    Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
     qDebug()<<"=== STARTING RENDER B";
-    Mlt::Consumer xmlConsumer(*timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
-    qApp->processEvents();
+    Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
+    QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speech.py"));
+    if (speechScript.isEmpty()) {
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("The speech script was not found, check your install."));
+        speech_info->animatedShow();
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+        return;
+    }
     if (!xmlConsumer.is_valid() || !producer.is_valid()) {
         qDebug()<<"=== STARTING CONSUMER ERROR";
         if (!producer.is_valid()) {
@@ -139,26 +154,22 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
         qApp->processEvents();
         return;
     }
+    speech_progress->setValue(0);
+    frame_progress->setVisible(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    qApp->processEvents();
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("properties", "WAV");
     producer.set_in_and_out(zone.x(), zone.y());
     xmlConsumer.connect(producer);
     qDebug()<<"=== STARTING RENDER C, IN:"<<zone.x()<<" - "<<zone.y();
+    m_duration = zone.y() - zone.x();
     qApp->processEvents();
     xmlConsumer.run();
     qApp->processEvents();
     qDebug()<<"=== STARTING RENDER D";
     QString language = language_box->currentText();
-    QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speech.py"));
-    if (speechScript.isEmpty()) {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("The speech script was not found, check your install."));
-        speech_info->animatedShow();
-        return;
-    }
-
     qDebug()<<"=== RUNNING SPEECH ANALYSIS: "<<speechScript;
-    QProcess speechJob;
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
@@ -167,16 +178,44 @@ void SpeechDialog::slotProcessSpeech(const std::shared_ptr<TimelineItemModel> &t
         modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
-    speechJob.start(pyExec, {speechScript, modelDirectory, language, audio, speech});
-    speechJob.waitForFinished();
-    if (QFile::exists(speech)) {
-        timeline->getSubtitleModel()->importSubtitle(speech, zone.x(), true);
-        speech_info->setMessageType(KMessageWidget::Positive);
-        speech_info->setText(i18n("Subtitles imported"));
-    } else {
+    m_speechJob.reset(new QProcess(this));
+    connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
+    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, speech, zone](int, QProcess::ExitStatus status) {
+       slotProcessSpeechStatus(status, speech, zone);
+    });
+    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, audio, speech});
+}
+
+void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone)
+{
+    qDebug()<<"/// TERMINATING SPEECH JOB\n\n+++++++++++++++++++++++++++";
+    if (status == QProcess::CrashExit) {
         speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Speech recognition failed"));
+        speech_info->setText(i18n("Speech recognition aborted."));
+        speech_info->animatedShow();
+    } else {
+        if (QFile::exists(srtFile)) {
+            m_timeline->getSubtitleModel()->importSubtitle(srtFile, zone.x(), true);
+            speech_info->setMessageType(KMessageWidget::Positive);
+            speech_info->setText(i18n("Subtitles imported"));
+        } else {
+            speech_info->setMessageType(KMessageWidget::Warning);
+            speech_info->setText(i18n("Speech recognition failed"));
+        }
     }
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    frame_progress->setVisible(false);
+}
+
+void SpeechDialog::slotProcessProgress()
+{
+     QString saveData = QString::fromUtf8(m_speechJob->readAll());
+     qDebug()<<"==== GOT SPEECH DATA: "<<saveData;
+     if (saveData.startsWith(QStringLiteral("progress:"))) {
+         double prog = saveData.section(QLatin1Char(':'), 1).toInt() * 3.12;
+        qDebug()<<"=== GOT DATA:\n"<<saveData;
+        speech_progress->setValue(static_cast<int>(100 * prog / m_duration));
+     }
 }
 
 void SpeechDialog::parseVoskDictionaries()
