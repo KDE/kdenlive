@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="composite" id="slide" type="short">
-        <name>Slide</name>
+        <name context="Slide Transition Name">Slide</name>
         <description>Slide image from one side to another.</description>
         <author>Dan Dennedy</author>
         <parameter tag="geometry" type="wipe" default="-100%,0%:100%x100%;-1=0%,0%:100%x100%" name="geometry">
