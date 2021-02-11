@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
   <effect tag="frei0r.emboss" id="frei0r.emboss">
-	  <name>Emboss</name>
+	  <name context="Emboss Effect Name">Emboss</name>
 	  <description>Creates embossed relief image of source image</description>
 	  <author>Janne Liljeblad</author>
     <parameter type="animated" name="azimuth" default="0.375" min="0" max="360" factor="360">
