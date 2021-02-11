@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="fadeout" type="audio" unique="1">
-	<name>Fade out</name>
+	<name context="Audio Fade Out Effect Name">Fade out</name>
 	<description>Fade out audio track</description>
 	<author></author>
 	<parameter type="position" name="in" max="0" min="0" default="-%fade">
