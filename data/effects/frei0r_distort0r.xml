@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.distort0r" id="frei0r.distort0r">
-	<name>Distort</name>
+	<name context="Distort Effect Name">Distort</name>
 	<description>Plasma</description>
 	<author>Gephex crew</author>
         <parameter type="animated" name="Amplitude" max="1000" min="-1000" default="0" factor="1000">
