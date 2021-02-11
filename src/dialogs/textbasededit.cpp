@@ -35,6 +35,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QToolButton>
+#include <KMessageBox>
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
@@ -105,6 +106,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
     info_message->hide();
     
+    m_logAction = new QAction(i18n("Show log"), this);
+    connect(m_logAction, &QAction::triggered, [this]() {
+        KMessageBox::sorry(this, m_errorString, i18n("Detailed log"));
+    });
+
     speech_zone->setChecked(KdenliveSettings::speech_zone());
     connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
@@ -197,6 +203,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 void TextBasedEdit::startRecognition()
 {
     info_message->hide();
+    m_errorString.clear();
+    info_message->removeAction(m_logAction);
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
         info_message->setMessageType(KMessageWidget::Warning);
@@ -275,7 +283,8 @@ void TextBasedEdit::startRecognition()
     info_message->setText(i18n("Starting speech recognition on %1.", clipName));
     info_message->animatedShow();
     qApp->processEvents();
-    //m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
+
+    connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
     listWidget->clear();
@@ -297,6 +306,16 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit) {
         info_message->setMessageType(KMessageWidget::Warning);
         info_message->setText(i18n("Speech recognition aborted."));
+        if (!m_errorString.isEmpty()) {
+            info_message->addAction(m_logAction);
+        }
+        info_message->animatedShow();
+    } else if (listWidget->count() == 0) {
+        info_message->setMessageType(KMessageWidget::Information);
+        info_message->setText(i18n("No speech detected."));
+        if (!m_errorString.isEmpty()) {
+            info_message->addAction(m_logAction);
+        }
         info_message->animatedShow();
     } else {
         info_message->setMessageType(KMessageWidget::Positive);
@@ -304,6 +323,11 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
         info_message->animatedShow();
     }
     frame_progress->setVisible(false);
+}
+
+void TextBasedEdit::slotProcessSpeechError()
+{
+    m_errorString.append(QString::fromUtf8(m_speechJob->readAllStandardError()));
 }
 
 void TextBasedEdit::slotProcessSpeech()
