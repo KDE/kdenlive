@@ -335,84 +335,49 @@ void TextBasedEdit::slotProcessSpeech()
     QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
     //saveData.replace(QStringLiteral("\\\""), QStringLiteral("\""));
     qDebug()<<"=== GOT DATA:\n"<<saveData;
-    int ix = 0;
-    QVector <int> indexes;
-    while (ix > -1) {
-        ix = saveData.indexOf(QStringLiteral("{\n  \"result\""), ix);
-        if (ix > -1) {
-            indexes << ix;
-            ix++;
-        }
-    }
-    qDebug()<<"Found res: "<<indexes;
-    QString chunk;
-    while (!indexes.isEmpty()) {
-        int first = indexes.takeFirst();
-        if (indexes.isEmpty()) {
-            chunk = saveData.mid(first);
-        } else {
-            chunk = saveData.mid(first, indexes.at(0) - first);
-        }
-        qDebug()<<"cut: "<<saveData;
-
-        QJsonParseError error;
-        auto loadDoc = QJsonDocument::fromJson(chunk.toUtf8(), &error);
-        qDebug()<<"===JSON ERROR: "<<error.errorString();
+    QJsonParseError error;
+    auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);
+    qDebug()<<"===JSON ERROR: "<<error.errorString();
     
-        if (loadDoc.isArray()) {
-            qDebug()<<"==== ITEM IS ARRAY";
-            QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
-                qDebug()<<"==== FOUND KEYS: "<<val.toObject().keys();
-                if (val.isObject() && val.toObject().keys().contains("text")) {
-                    //textEdit->append(val.toObject().value("text").toString());
-                }
-            }
-        } else if (loadDoc.isObject()) {
-            QJsonObject obj = loadDoc.object();
-            qDebug()<<"==== ITEM IS OBJECT";
-            if (!obj.isEmpty()) {
-                QString itemText = obj["text"].toString();
-                QListWidgetItem *item = new QListWidgetItem;
-                if (obj["result"].isObject()) {
-                    qDebug()<<"==== RESULT IS OBJECT";
-                } else if (obj["result"].isArray()) {
-                    qDebug()<<"==== RESULT IS ARRAY";
-                    QJsonArray obj2 = obj["result"].toArray();
-                    QJsonValue val = obj2.first();
-                    if (val.isObject() && val.toObject().keys().contains("start")) {
-                        double ms = val.toObject().value("start").toDouble() + m_offset;
-                        GenTime startPos(ms);
-                        if (startPos.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
-                            // Insert space item
-                            QListWidgetItem *spacer = new QListWidgetItem(listWidget);
-                            GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
-                            spacer->setData(Qt::UserRole, silenceStart.seconds());
-                            spacer->setData(Qt::UserRole + 1, GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
-                            spacer->setText(i18n("%1: no speech", pCore->timecode().getDisplayTimecode(silenceStart, false)));
-                            spacer->setData(Qt::UserRole + 2, 1);
-                            spacer->setBackground(Qt::blue);
-                        }
-                        itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
-                        item->setData(Qt::UserRole, ms);
+    if (loadDoc.isObject()) {
+        QJsonObject obj = loadDoc.object();
+        if (!obj.isEmpty()) {
+            QString itemText = obj["text"].toString();
+            QListWidgetItem *item = new QListWidgetItem;
+            if (obj["result"].isArray()) {
+                QJsonArray obj2 = obj["result"].toArray();
+                QJsonValue val = obj2.first();
+                if (val.isObject() && val.toObject().keys().contains("start")) {
+                    double ms = val.toObject().value("start").toDouble() + m_offset;
+                    GenTime startPos(ms);
+                    if (startPos.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
+                        // Insert space item
+                        QListWidgetItem *spacer = new QListWidgetItem(listWidget);
+                        GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
+                        spacer->setData(Qt::UserRole, silenceStart.seconds());
+                        spacer->setData(Qt::UserRole + 1, GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+                        spacer->setText(i18n("%1: no speech", pCore->timecode().getDisplayTimecode(silenceStart, false)));
+                        spacer->setData(Qt::UserRole + 2, 1);
+                        spacer->setBackground(Qt::blue);
                     }
-                    val = obj2.last();
-                    if (val.isObject() && val.toObject().keys().contains("end")) {
-                        double ms = val.toObject().value("end").toDouble();
-                        item->setData(Qt::UserRole + 1, ms + m_offset);
-                        m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
-                        if (m_clipDuration > 0.) {
-                            speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
-                        }
+                    itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
+                    item->setData(Qt::UserRole, ms);
+                }
+                val = obj2.last();
+                if (val.isObject() && val.toObject().keys().contains("end")) {
+                    double ms = val.toObject().value("end").toDouble();
+                    item->setData(Qt::UserRole + 1, ms + m_offset);
+                    m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
+                    if (m_clipDuration > 0.) {
+                        speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
                     }
                 }
-                item->setText(itemText);
-                listWidget->addItem(item);
             }
-        } else if (loadDoc.isEmpty()) {
-            qDebug()<<"==== EMPTY OBJEC DOC";
+            item->setText(itemText);
+            listWidget->addItem(item);
         }
+    } else if (loadDoc.isEmpty()) {
+        qDebug()<<"==== EMPTY OBJEC DOC";
     }
 }
 
