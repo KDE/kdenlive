@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
   <effect tag="frei0r.curves" id="frei0r.curves">
-	  <name>Curves</name>
+	  <name context="Curves Effect Name">Curves</name>
 	  <description>Color curves adjustment</description>
 	  <author>Maksim Golovkin</author>
     <parameter type="list" name="Channel" default="0" paramlist="0;1;2;3">
