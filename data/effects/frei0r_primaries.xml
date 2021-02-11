@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.primaries" id="frei0r.primaries">
-	<name>Primaries</name>
+	<name context="Primaries Effect Name">Primaries</name>
 	<description>Reduce image to primary colors</description>
 	<author>Hedde Bosman</author>
 	<parameter type="animated" name="Factor" max="9" min="0" default="1">
