@@ -69,10 +69,10 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
-    connect(subText, &QPlainTextEdit::textChanged, [this]() {
+    connect(subText, &KTextEdit::textChanged, [this]() {
         buttonApply->setEnabled(true);
     });
-    connect(subText, &QPlainTextEdit::cursorPositionChanged, [this]() {
+    connect(subText, &KTextEdit::cursorPositionChanged, [this]() {
         buttonCut->setEnabled(true);
     });
     
