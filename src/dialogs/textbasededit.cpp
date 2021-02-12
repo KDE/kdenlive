@@ -227,6 +227,15 @@ void TextBasedEdit::startRecognition()
         info_message->animatedShow();
         return;
     }
+    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
+    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
+    if (clip == nullptr) {
+        info_message->setMessageType(KMessageWidget::Information);
+        info_message->setText(i18n("Select a clip in Project Bin."));
+        info_message->animatedShow();
+        return;
+    }
+
     m_speechJob.reset(new QProcess(this));
     info_message->setMessageType(KMessageWidget::Information);
     info_message->setText(i18n("Starting speech recognition"));
@@ -239,8 +248,6 @@ void TextBasedEdit::startRecognition()
     
     m_sourceUrl.clear();
     QString clipName;
-    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
-    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
     m_offset = 0;
     m_lastPosition = 0;
     double endPos = 0;
@@ -333,7 +340,6 @@ void TextBasedEdit::slotProcessSpeechError()
 void TextBasedEdit::slotProcessSpeech()
 {
     QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
-    //saveData.replace(QStringLiteral("\\\""), QStringLiteral("\""));
     qDebug()<<"=== GOT DATA:\n"<<saveData;
     QJsonParseError error;
     auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);

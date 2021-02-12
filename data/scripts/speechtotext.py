@@ -8,7 +8,7 @@ import sys
 import os
 import wave
 import subprocess
-import json
+import codecs
 import datetime
 
 SetLogLevel(-1)
@@ -40,10 +40,12 @@ def transcribe():
     while True:
        data = process.stdout.read(4000)
        if len(data) == 0:
-           print(rec.FinalResult(), file = sys.stdout, flush=True)
+           sys.stdout.buffer.write(rec.FinalResult().encode('utf-8'))
+           sys.stdout.flush()
            break
        if rec.AcceptWaveform(data):
-           print (rec.Result(), file = sys.stdout, flush=True)
+           sys.stdout.buffer.write(rec.Result().encode('utf-8'))
+           sys.stdout.flush()
 
 transcribe()
 #with open(sys.argv[3], 'w') as f:
