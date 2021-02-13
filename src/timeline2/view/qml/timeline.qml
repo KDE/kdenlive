@@ -837,7 +837,7 @@ Rectangle {
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('audio_recognition')
                             ToolTip {
-                                visible: muteButton.hovered
+                                visible: analyseButton.hovered
                                 font: miniFont
                                 delay: 1500
                                 timeout: 5000

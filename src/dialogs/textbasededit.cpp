@@ -23,6 +23,7 @@
 #include "monitor/monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "mainwindow.h"
@@ -34,6 +35,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QToolButton>
+#include <KMessageBox>
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
@@ -104,6 +106,16 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
     info_message->hide();
     
+    m_logAction = new QAction(i18n("Show log"), this);
+    connect(m_logAction, &QAction::triggered, [this]() {
+        KMessageBox::sorry(this, m_errorString, i18n("Detailed log"));
+    });
+
+    speech_zone->setChecked(KdenliveSettings::speech_zone());
+    connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
+        KdenliveSettings::setSpeech_zone(state == Qt::Checked);
+    });
+    
     // Search stuff
     search_frame->setVisible(false);
     button_search->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
@@ -111,24 +123,41 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     search_next->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
         search_frame->setVisible(toggled);
+        search_line->setFocus();
     });
     connect(search_line, &QLineEdit::textChanged, [this](const QString &searchText) {
+        QPalette palette = this->palette();
+        QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
             int ix = listWidget->currentRow();
+            int startIx = ix;
             bool found = false;
             QListWidgetItem *item;
-            while (!found && ix < listWidget->count()) {
+            while (!found) {
                 item = listWidget->item(ix);
                 if (item) {
                     if (item->text().contains(searchText)) {
                         listWidget->setCurrentRow(ix);
+                        col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
+                        palette.setColor(QPalette::Base,col);
                         found = true;
                         break;
                     }
                 }
                 ix++;
+                if (ix >= listWidget->count()) {
+                    // Reached end, start again on top
+                    ix = 0;
+                }
+                if (ix == startIx) {
+                    // Loop over, abort
+                    col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
+                    palette.setColor(QPalette::Base,col);
+                    break;
+                }
             }
         }
+        search_line->setPalette(palette);   
     });
     connect(search_next, &QToolButton::clicked, [this]() {
         const QString searchText = search_line->text();
@@ -174,6 +203,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 void TextBasedEdit::startRecognition()
 {
     info_message->hide();
+    m_errorString.clear();
+    info_message->removeAction(m_logAction);
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
         info_message->setMessageType(KMessageWidget::Warning);
@@ -196,7 +227,16 @@ void TextBasedEdit::startRecognition()
         info_message->animatedShow();
         return;
     }
-    m_speechJob.reset(new QProcess);
+    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
+    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
+    if (clip == nullptr) {
+        info_message->setMessageType(KMessageWidget::Information);
+        info_message->setText(i18n("Select a clip in Project Bin."));
+        info_message->animatedShow();
+        return;
+    }
+
+    m_speechJob.reset(new QProcess(this));
     info_message->setMessageType(KMessageWidget::Information);
     info_message->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
@@ -208,14 +248,36 @@ void TextBasedEdit::startRecognition()
     
     m_sourceUrl.clear();
     QString clipName;
-    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
-    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
-    if (clip) {
+    m_offset = 0;
+    m_lastPosition = 0;
+    double endPos = 0;
+    if (clip->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
         if (clipItem) {
             m_sourceUrl = clipItem->url();
             clipName = clipItem->clipName();
-            m_clipDuration = clipItem->duration().seconds();
+            if (speech_zone->isChecked()) {
+                // Analyse clip zone only
+                QPoint zone = clipItem->zone();
+                m_lastPosition = zone.x();
+                m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
+                m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
+                endPos = m_clipDuration;
+            } else {
+                m_clipDuration = clipItem->duration().seconds();
+            }
+        }
+    } else if (clip->itemType() == AbstractProjectItem::SubClipItem) {
+        std::shared_ptr<ProjectSubClip> clipItem = std::static_pointer_cast<ProjectSubClip>(clip);
+        if (clipItem) {
+            auto master = clipItem->getMasterClip();
+            m_sourceUrl = master->url();
+            clipName = master->clipName();
+            QPoint zone = clipItem->zone();
+            m_lastPosition = zone.x();
+            m_offset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
+            m_clipDuration = GenTime(zone.y() - zone.x(), pCore->getCurrentFps()).seconds();
+            endPos = m_clipDuration;
         }
     }
     if (m_sourceUrl.isEmpty()) {
@@ -228,22 +290,15 @@ void TextBasedEdit::startRecognition()
     info_message->setText(i18n("Starting speech recognition on %1.", clipName));
     info_message->animatedShow();
     qApp->processEvents();
-    //m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
+
+    connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
     listWidget->clear();
-    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl;
-    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl});
+    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_offset<<", DUR: "<<endPos;
+    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_offset), QString::number(endPos)});
     speech_progress->setValue(0);
     frame_progress->setVisible(true);
-    /*if (m_speechJob->QFile::exists(speech)) {
-        timeline->getSubtitleModel()->importSubtitle(speech, zone.x(), true);
-        speech_info->setMessageType(KMessageWidget::Positive);
-        speech_info->setText(i18n("Subtitles imported"));
-    } else {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Speech recognition failed"));
-    }*/
 }
 
 void TextBasedEdit::updateAvailability()
@@ -258,6 +313,16 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit) {
         info_message->setMessageType(KMessageWidget::Warning);
         info_message->setText(i18n("Speech recognition aborted."));
+        if (!m_errorString.isEmpty()) {
+            info_message->addAction(m_logAction);
+        }
+        info_message->animatedShow();
+    } else if (listWidget->count() == 0) {
+        info_message->setMessageType(KMessageWidget::Information);
+        info_message->setText(i18n("No speech detected."));
+        if (!m_errorString.isEmpty()) {
+            info_message->addAction(m_logAction);
+        }
         info_message->animatedShow();
     } else {
         info_message->setMessageType(KMessageWidget::Positive);
@@ -267,76 +332,58 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     frame_progress->setVisible(false);
 }
 
+void TextBasedEdit::slotProcessSpeechError()
+{
+    m_errorString.append(QString::fromUtf8(m_speechJob->readAllStandardError()));
+}
+
 void TextBasedEdit::slotProcessSpeech()
 {
-    QString saveData = QString::fromUtf8(m_speechJob->readAll());
-    //saveData.replace(QStringLiteral("\\\""), QStringLiteral("\""));
+    QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
     qDebug()<<"=== GOT DATA:\n"<<saveData;
-    int ix = 0;
-    QVector <int> indexes;
-    while (ix > -1) {
-        ix = saveData.indexOf(QStringLiteral("{\n  \"result\""), ix);
-        if (ix > -1) {
-            indexes << ix;
-            ix++;
-        }
-    }
-    qDebug()<<"Found res: "<<indexes;
-    QString chunk;
-    while (!indexes.isEmpty()) {
-        int first = indexes.takeFirst();
-        if (indexes.isEmpty()) {
-            chunk = saveData.mid(first);
-        } else {
-            chunk = saveData.mid(first, indexes.at(0) - first);
-        }
-        qDebug()<<"cut: "<<saveData;
-
-        QJsonParseError error;
-        auto loadDoc = QJsonDocument::fromJson(chunk.toUtf8(), &error);
-        qDebug()<<"===JSON ERROR: "<<error.errorString();
+    QJsonParseError error;
+    auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);
+    qDebug()<<"===JSON ERROR: "<<error.errorString();
     
-        if (loadDoc.isArray()) {
-            qDebug()<<"==== ITEM IS ARRAY";
-            QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
-                qDebug()<<"==== FOUND KEYS: "<<val.toObject().keys();
-                if (val.isObject() && val.toObject().keys().contains("text")) {
-                    //textEdit->append(val.toObject().value("text").toString());
-                }
-            }
-        } else if (loadDoc.isObject()) {
-            QJsonObject obj = loadDoc.object();
-            qDebug()<<"==== ITEM IS OBJECT";
-            if (!obj.isEmpty()) {
-                QString itemText = obj["text"].toString();
-                QListWidgetItem *item = new QListWidgetItem(listWidget);
-                if (obj["result"].isObject()) {
-                    qDebug()<<"==== RESULT IS OBJECT";
-                } else if (obj["result"].isArray()) {
-                    qDebug()<<"==== RESULT IS ARRAY";
-                    QJsonArray obj2 = obj["result"].toArray();
-                    QJsonValue val = obj2.first();
-                    if (val.isObject() && val.toObject().keys().contains("start")) {
-                        double ms = val.toObject().value("start").toDouble();
-                        itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
-                        item->setData(Qt::UserRole, ms);
+    if (loadDoc.isObject()) {
+        QJsonObject obj = loadDoc.object();
+        if (!obj.isEmpty()) {
+            QString itemText = obj["text"].toString();
+            QListWidgetItem *item = new QListWidgetItem;
+            if (obj["result"].isArray()) {
+                QJsonArray obj2 = obj["result"].toArray();
+                QJsonValue val = obj2.first();
+                if (val.isObject() && val.toObject().keys().contains("start")) {
+                    double ms = val.toObject().value("start").toDouble() + m_offset;
+                    GenTime startPos(ms);
+                    if (startPos.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
+                        // Insert space item
+                        QListWidgetItem *spacer = new QListWidgetItem(listWidget);
+                        GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
+                        spacer->setData(Qt::UserRole, silenceStart.seconds());
+                        spacer->setData(Qt::UserRole + 1, GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+                        spacer->setText(i18n("%1: no speech", pCore->timecode().getDisplayTimecode(silenceStart, false)));
+                        spacer->setData(Qt::UserRole + 2, 1);
+                        spacer->setBackground(Qt::blue);
                     }
-                    val = obj2.last();
-                    if (val.isObject() && val.toObject().keys().contains("end")) {
-                        double ms = val.toObject().value("end").toDouble();
-                        item->setData(Qt::UserRole + 1, ms);
-                        if (m_clipDuration > 0.) {
-                            speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
-                        }
+                    itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
+                    item->setData(Qt::UserRole, ms);
+                }
+                val = obj2.last();
+                if (val.isObject() && val.toObject().keys().contains("end")) {
+                    double ms = val.toObject().value("end").toDouble();
+                    item->setData(Qt::UserRole + 1, ms + m_offset);
+                    m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
+                    if (m_clipDuration > 0.) {
+                        speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
                     }
                 }
-                item->setText(itemText);
             }
-        } else if (loadDoc.isEmpty()) {
-            qDebug()<<"==== EMPTY OBJEC DOC";
+            item->setText(itemText);
+            listWidget->addItem(item);
         }
+    } else if (loadDoc.isEmpty()) {
+        qDebug()<<"==== EMPTY OBJEC DOC";
     }
 }
 

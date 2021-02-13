@@ -26,6 +26,7 @@
 #include "definitions.h"
 
 #include <QProcess>
+#include <QAction>
 
 
 
@@ -46,6 +47,7 @@ public:
 private slots:
     void startRecognition();
     void slotProcessSpeech();
+    void slotProcessSpeechError();
     void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     void updateAvailability();
@@ -55,6 +57,10 @@ private:
     QString m_binId;
     QString m_sourceUrl;
     double m_clipDuration;
+    double m_offset;
+    int m_lastPosition;
+    QString m_errorString;
+    QAction *m_logAction;
 };
 
 #endif
