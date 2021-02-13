@@ -35,6 +35,8 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     lay->addWidget(m_widget);
     container->setLayout(lay);
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
+    connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
+
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
@@ -72,7 +74,7 @@ void NotesPlugin::slotInsertTimecode()
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
         const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
         if (binId.isEmpty()) {
-            pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), ErrorMessage);
             return;
         }
         QString clipName = pCore->bin()->getBinClipName(binId);
@@ -90,7 +92,7 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
     int ix = 0;
     if (points.count() != anchors.count()) {
         // Something is wrong, abort
-        pCore->displayMessage(i18n("Cannot perform assign"), InformationMessage);
+        pCore->displayMessage(i18n("Cannot perform assign"), ErrorMessage);
         return;
     }
     for (const QString & a : anchors) {
@@ -124,6 +126,11 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
         }
         ix++;
     }
+}
+
+void NotesPlugin::slotInsertText(const QString &text)
+{
+    m_widget->insertHtml(text);
 }
 
 NotesWidget *NotesPlugin::widget()

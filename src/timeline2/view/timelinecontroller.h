@@ -610,6 +610,8 @@ public:
     void importSubtitle(const QString path = QString());
     /** @brief Export a subtitle file*/
     void exportSubtitle();
+    /** @brief Launch speech recognition on timeline zone*/
+    void subtitleSpeechRecognition();
 
 public slots:
     void resetView();

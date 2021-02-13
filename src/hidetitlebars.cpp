@@ -32,8 +32,11 @@ void HideTitleBars::slotInstallRightClick()
     QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
     for (QTabBar *tab : qAsConst(tabs)) {
         tab->setContextMenuPolicy(Qt::CustomContextMenu);
+        tab->setAcceptDrops(true);
+        tab->setChangeCurrentOnDrag(true);
         connect(tab, &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
     }
+    
     // connect
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (QDockWidget *dock : qAsConst(docks)) {

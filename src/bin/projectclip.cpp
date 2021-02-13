@@ -53,7 +53,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kimagecache.h>
 
 #include "kdenlive_debug.h"
-#include "logger.hpp"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -63,6 +62,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <memory>
 
+#ifdef CRASH_AUTO_TEST
+#include "logger.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -77,6 +78,8 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<ProjectClip>("ProjectClip");
 }
+#endif
+
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
@@ -821,6 +824,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
         warpProducer->set("length", (int) (original_length / std::abs(speed) + 0.5));
+        warpProducer->set("audio_index", audioStream);
     }
 
     qDebug() << "warp LENGTH" << warpProducer->get_length();
@@ -1392,8 +1396,8 @@ bool ProjectClip::matches(const QString &condition)
 
 bool ProjectClip::rename(const QString &name, int column)
 {
-    QMap<QString, QString> newProperites;
-    QMap<QString, QString> oldProperites;
+    QMap<QString, QString> newProperties;
+    QMap<QString, QString> oldProperties;
     bool edited = false;
     switch (column) {
     case 0:
@@ -1401,8 +1405,8 @@ bool ProjectClip::rename(const QString &name, int column)
             return false;
         }
         // Rename clip
-        oldProperites.insert(QStringLiteral("kdenlive:clipname"), m_name);
-        newProperites.insert(QStringLiteral("kdenlive:clipname"), name);
+        oldProperties.insert(QStringLiteral("kdenlive:clipname"), m_name);
+        newProperties.insert(QStringLiteral("kdenlive:clipname"), name);
         m_name = name;
         edited = true;
         break;
@@ -1412,18 +1416,18 @@ bool ProjectClip::rename(const QString &name, int column)
         }
         // Rename clip
         if (m_clipType == ClipType::TextTemplate) {
-            oldProperites.insert(QStringLiteral("templatetext"), m_description);
-            newProperites.insert(QStringLiteral("templatetext"), name);
+            oldProperties.insert(QStringLiteral("templatetext"), m_description);
+            newProperties.insert(QStringLiteral("templatetext"), name);
         } else {
-            oldProperites.insert(QStringLiteral("kdenlive:description"), m_description);
-            newProperites.insert(QStringLiteral("kdenlive:description"), name);
+            oldProperties.insert(QStringLiteral("kdenlive:description"), m_description);
+            newProperties.insert(QStringLiteral("kdenlive:description"), name);
         }
         m_description = name;
         edited = true;
         break;
     }
     if (edited) {
-        pCore->bin()->slotEditClipCommand(m_binId, oldProperites, newProperites);
+        pCore->bin()->slotEditClipCommand(m_binId, oldProperties, newProperties);
     }
     return edited;
 }

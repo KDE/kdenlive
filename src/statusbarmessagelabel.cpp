@@ -71,6 +71,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     , m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_container = new FlashLabel(this);
     auto *lay = new QHBoxLayout(this);
     auto *lay2 = new QHBoxLayout(m_container);
@@ -86,14 +87,11 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     lay2->addWidget(m_pixmap);
     lay2->addWidget(m_label);
     lay2->addWidget(m_progress);
-    lay->addWidget(m_container);
-    
-    
-    QFrame* line = new QFrame(this);
-    line->setFrameShape(QFrame::VLine);
-    line->setFrameShadow(QFrame::Sunken);
-    lay->addWidget(line);
     lay->addWidget(m_keyMap);
+
+    auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    lay->addItem(spacer);
+    lay->addWidget(m_container);
     setLayout(lay);
     m_progress->setVisible(false);
     lay->setContentsMargins(BorderGap, 0, 2 * BorderGap, 0);

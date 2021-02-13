@@ -1201,7 +1201,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         }
         playlistPath = projectFolder.absoluteFilePath(renderName);
     } else {
-        QTemporaryFile tmp(QDir::tempPath() + "/kdenlive-XXXXXX.mlt");
+        QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
         if (!tmp.open()) {
             // Something went wrong
             return;
@@ -1299,12 +1299,14 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;
         QString producerService;
+        QString originalProducerService;
         QString suffix;
         QString prefix;
         for (int n = 0; n < producers.length(); ++n) {
             QDomElement e = producers.item(n).toElement();
             producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
             producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+            originalProducerService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
             if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
                 continue;
             }
@@ -1327,6 +1329,10 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
                     producerResource.prepend(root);
                 }
                 if (proxies.contains(producerResource)) {
+                    if (!originalProducerService.isEmpty() && originalProducerService!= producerService) {
+                        // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
+                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), originalProducerService);
+                    }
                     QString replacementResource = proxies.value(producerResource);
                     Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
                     if (producerService == QLatin1String("timewarp")) {
@@ -1926,7 +1932,7 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
     }
     QString ext;
 
-    if (extension.at(0) == '.') {
+    if (extension.startsWith(QLatin1Char('.'))) {
         ext = extension;
     } else {
         ext = '.' + extension;
@@ -1988,15 +1994,6 @@ void RenderWidget::refreshParams()
     }
     QUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
-    //     if (!url.isEmpty()) {
-    //         QString path = url.path();
-    //         int pos = path.lastIndexOf('.') + 1;
-    //  if (pos == 0) path.append('.' + extension);
-    //         else path = path.left(pos) + extension;
-    //         m_view.out_file->setUrl(QUrl(path));
-    //     } else {
-    //         m_view.out_file->setUrl(QUrl(QDir::homePath() + QStringLiteral("/untitled.") + extension));
-    //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(0, EditableRole).toString();
     if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
@@ -2906,7 +2903,7 @@ bool RenderWidget::startWaitingRenderJobs()
 #else
     const QLatin1String ScriptFormat(".sh");
 #endif
-    QTemporaryFile tmp(QDir::tempPath() + QStringLiteral("/kdenlive-XXXXXX") + ScriptFormat);
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX") + ScriptFormat));
     if (!tmp.open()) {
         // Something went wrong
         return false;
@@ -3191,4 +3188,24 @@ void RenderWidget::prepareMenu(const QPoint &pos)
     menu.addAction(newAct);
     
     menu.exec(m_view.running_jobs->mapToGlobal(pos));
+}
+
+void RenderWidget::resetRenderPath(const QString &path)
+{
+    QTreeWidgetItem *item = m_view.formats->currentItem();
+    QString extension;
+    if (item && item->parent()) { // categories have no parent
+        extension = item->data(0, ExtensionRole).toString();
+    } else {
+        extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
+    }
+    QString fileName = QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(path + extension);
+    QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
+    if (QFileInfo(url).isRelative()) {
+        url.prepend(pCore->currentDoc()->documentRoot());
+    }
+    m_view.out_file->setUrl(QUrl::fromLocalFile(url));
+    QMap<QString, QString> renderProps;
+    renderProps.insert(QStringLiteral("renderurl"), url);
+    emit selectedRenderProfile(renderProps);
 }

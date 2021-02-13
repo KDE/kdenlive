@@ -299,6 +299,10 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
 {
     pCore->monitorManager()->pauseActiveMonitor();
     // Sync document properties
+    if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
+        // Project filename changed
+        pCore->window()->updateProjectPath(outputFileName);
+    }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateSubtitle(outputFileName);
@@ -741,6 +745,14 @@ void ProjectManager::slotAddProjectNote()
     m_notesPlugin->widget()->raise();
     m_notesPlugin->widget()->setFocus();
     m_notesPlugin->widget()->addProjectNote();
+}
+
+void ProjectManager::slotAddTextNote(const QString &text)
+{
+    m_notesPlugin->showDock();
+    m_notesPlugin->widget()->raise();
+    m_notesPlugin->widget()->setFocus();
+    m_notesPlugin->widget()->addTextNote(text);
 }
 
 void ProjectManager::prepareSave()

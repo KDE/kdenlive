@@ -149,10 +149,10 @@ public:
 
     /** @brief Show current tool key combination in status bar */
     void showToolMessage();
-    /** @brief Hide the current tool key combination in status bar */
-    void clearToolMessage();
+    /** @brief Show the widget's default key binding message */
+    void setWidgetKeyBinding(const QString &text = QString());
     /** @brief Show a key binding in status bar */
-    void showKeyBinding(const QString &text);
+    void showKeyBinding(const QString &text = QString());
 
 protected:
     /** @brief Closes the window.
@@ -380,6 +380,7 @@ private slots:
     void slotAddEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url, const QString &folderInfo);
+    void slotAddTextNote(const QString &text);
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
@@ -532,6 +533,8 @@ private slots:
     void slotImportSubtitle();
     /** @brief Export a subtitle file */
     void slotExportSubtitle();
+    /** @brief Start a speech recognition on timeline zone */
+    void slotSpeechRecognition();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
@@ -550,6 +553,7 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
+    void updateProjectPath(const QString &path);
 };
 
 #endif

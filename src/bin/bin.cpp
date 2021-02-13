@@ -541,6 +541,18 @@ void MyListView::focusInEvent(QFocusEvent *event)
     }
 }
 
+void MyListView::enterEvent(QEvent *event)
+{
+    QListView::enterEvent(event);
+    pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+}
+
+void MyListView::leaveEvent(QEvent *event)
+{
+    QListView::leaveEvent(event);
+    pCore->setWidgetKeyBinding();
+}
+
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
     QListView::mousePressEvent(event);
@@ -559,10 +571,10 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (KdenliveSettings::hoverPreview()) {
-        QModelIndex index = indexAt(event->pos());
-        if (index.isValid()) {
-            QAbstractItemDelegate *del = itemDelegate(index);
+    QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        QAbstractItemDelegate *del = itemDelegate(index);
+        if (KdenliveSettings::hoverPreview()) {
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
@@ -572,6 +584,9 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 qDebug()<<"<<< NO DELEGATE!!!";
             }
         }
+        pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
+    } else {
+        pCore->window()->showKeyBinding();
     }
     QListView::mouseMoveEvent(event);
 }
@@ -606,6 +621,18 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
+void MyTreeView::enterEvent(QEvent *event)
+{
+    QTreeView::enterEvent(event);
+    pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
+}
+
+void MyTreeView::leaveEvent(QEvent *event)
+{
+    QTreeView::leaveEvent(event);
+    pCore->setWidgetKeyBinding();
+}
+
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     bool dragged = false;
@@ -614,12 +641,17 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();
         }
-    } else if (KdenliveSettings::hoverPreview()) {
+    } else {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
-            QAbstractItemDelegate *del = itemDelegate(index);
-            int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
-            emit displayBinFrame(index, frame);
+            if (KdenliveSettings::hoverPreview()) {
+                QAbstractItemDelegate *del = itemDelegate(index);
+                int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
+                emit displayBinFrame(index, frame);
+            }
+            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
+        } else {
+            pCore->window()->showKeyBinding();
         }
     }
     if (!dragged) {
@@ -845,6 +877,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_iconSize(160, 90)
     , m_propertiesPanel(nullptr)
     , m_blankThumb()
+    , m_clipWidget()
     , m_filterGroup(this)
     , m_filterRateGroup(this)
     , m_filterTypeGroup(this)
@@ -852,7 +885,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
-    , m_clipWidget()
 {
     m_layout = new QVBoxLayout(this);
 
@@ -3043,7 +3075,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         }
     }
     if (moveCommand->childCount() == 0) {
-        pCore->displayMessage(i18n("No valid clip to insert"), MessageType::InformationMessage, 500);
+        pCore->displayMessage(i18n("No valid clip to insert"), MessageType::ErrorMessage, 500);
     } else {
         m_doc->commandStack()->push(moveCommand);
     }
@@ -3067,7 +3099,7 @@ void Bin::slotAddEffect(QString id, const QStringList &effectData)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::InformationMessage, 500);
+    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)
@@ -3101,7 +3133,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
         }
         if (!res) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
         } else {
             m_proxyModel->selectionModel()->clearSelection();
             const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
@@ -3147,14 +3179,14 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
+    pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::ErrorMessage);
 }
 
 void Bin::switchTag(const QString &tag, bool add)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
-        pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
+        pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::ErrorMessage);
     }
     // Check for folders
     QList <QString> allClips;
@@ -3454,7 +3486,7 @@ void Bin::renameSubClip(const QString &id, const QString &newName, int in, int o
     if (!sub) {
         return;
     }
-    sub->setName(newName);
+    sub->setName(newName.isEmpty() ? i18n("Unnamed") : newName);
     clip->updateZones();
     emit itemUpdated(sub);
 }
@@ -3997,7 +4029,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         }
         if (clip->isValid()) {
             clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
-            clip->resetProducerProperty(QStringLiteral("length"));
+            if (clip->hasLimitedDuration()) {
+                clip->resetProducerProperty(QStringLiteral("length"));
+            }
         }
         if (!xml.isNull()) {
             clip->setClipStatus(FileStatus::StatusWaiting);

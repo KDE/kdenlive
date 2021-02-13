@@ -65,20 +65,9 @@ protected:
 
 signals:
     void addEffect(const QStringList &);
-};
-
-class QuickMonitorEventEater : public QObject
-{
-    Q_OBJECT
-public:
-    explicit QuickMonitorEventEater(QWidget *parent);
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
-signals:
     void doKeyPressEvent(QKeyEvent *);
 };
+
 
 class Monitor : public AbstractMonitor
 {

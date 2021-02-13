@@ -19,7 +19,9 @@
  ***************************************************************************/
 
 #include "core.h"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#endif
 #include "dialogs/splash.hpp"
 #include <config-kdenlive.h>
 
@@ -74,7 +76,9 @@ int main(int argc, char *argv[])
     // Force QDomDocument to use a deterministic XML attribute order
     qSetGlobalQHashSeed(0);
 
+#ifdef CRASH_AUTO_TEST
     Logger::init();
+#endif
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     //TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
@@ -92,7 +96,6 @@ int main(int argc, char *argv[])
         QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
     }
 #endif
-    qputenv("LANG", QLocale().name().toUtf8());
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
@@ -293,13 +296,13 @@ int main(int argc, char *argv[])
                 }
             }
         }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
-        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
-        // Remove app name
-        progArgs.takeFirst();
+        QStringList progArgs;
+        if (argc > 1) {
+            // Start at 1 to remove app name
+            for (int i = 1; i < argc; i++) {
+                progArgs << QString(argv[i]);
+            }
+        }
         auto *restart = new QProcess;
         restart->start(app.applicationFilePath(), progArgs);
         restart->waitForReadyRead();

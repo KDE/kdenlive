@@ -106,25 +106,15 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         }
         break;
     }
-    default:
-        break;
-    }
-    return QObject::eventFilter(obj, event);
-}
-
-QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent)
-    : QObject(parent)
-{
-}
-
-bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
-{
     if (event->type() == QEvent::KeyPress) {
         auto *ev = static_cast<QKeyEvent *>(event);
         if (ev) {
             emit doKeyPressEvent(ev);
             return true;
         }
+    }
+    default:
+        break;
     }
     return QObject::eventFilter(obj, event);
 }
@@ -170,15 +160,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     auto *leventEater = new QuickEventEater(this);
     m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
+    connect(leventEater, &QuickEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
     connect(m_qmlManager, &QmlManager::activateTrack, this, &Monitor::activateTrack);
-
-    auto *monitorEventEater = new QuickMonitorEventEater(this);
-    m_videoWidget->installEventFilter(monitorEventEater);
-    connect(monitorEventEater, &QuickMonitorEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -457,7 +444,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addAction(m_sceneVisibilityAction);
 
     m_toolbar->addSeparator();
-    connect(m_timePos, &TimecodeDisplay::timeCodeUpdated, m_glMonitor->getControllerProxy(), &MonitorProxy::timecodeChanged);
     m_toolbar->addWidget(m_timePos);
 
     auto *configButton = new QToolButton(m_toolbar);
@@ -651,7 +637,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     switchAudioMonitor->setChecked((KdenliveSettings::monitoraudio() & m_id) != 0);
     
     if (m_id == Kdenlive::ClipMonitor) {
-        QAction *recordTimecode = new QAction(i18n("Show Record Timecode"), this);
+        QAction *recordTimecode = new QAction(i18n("Show Source Timecode"), this);
         recordTimecode->setCheckable(true);
         connect(recordTimecode, &QAction::triggered, this, &Monitor::slotSwitchRecTimecode);
         recordTimecode->setChecked(KdenliveSettings::rectimecode());

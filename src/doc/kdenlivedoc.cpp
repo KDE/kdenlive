@@ -134,7 +134,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
         QFile file(url.toLocalFile());
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             // The file cannot be opened
-            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file,\nDo you want to open a backup file?"),
+            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file %1,\nDo you want to open a backup file?", file.fileName()),
                                                    i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
                 *openBackup = true;
             }

@@ -34,107 +34,66 @@
  *   You should have received a copy of the GNU General Public License                                   *
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.                              *
  *********************************************************************************************************/
-#ifndef OAUTH2_H
-#define OAUTH2_H
+#ifndef LOGINDIALOG_H
+#define LOGINDIALOG_H
 
-#include <QNetworkReply>
-#include <QObject>
+#include <QDialog>
 #include <QString>
+#include <QUrl>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS // don't make this any more public than it is. 
-const QLatin1String OAuth2_strClientSecret("441d88374716e7a3503997151e4780566f007313"); // obtained when ttguy registered the kdenlive application with freesound
-#endif
-
-#ifdef QT5_USE_WEBENGINE
-
+namespace Ui {
 class LoginDialog;
+}
 
 /**
-  \brief This object does oAuth2 authentication on the freesound web site. \n
-Instantiated by ResourceWidget constructor. \n
-Freesounds OAuth2 authentication API is documented here http://www.freesound.org/docs/api/authentication.html#oauth2-authentication
-  */
-class OAuth2 : public QObject
+  \brief This is the dialog that is used to login to freesound
+ \details It contains a QWebEngineView object to display the freesound web page. I did try using a QTextBrowser
+ for this purpose but it responds to the URL that is used to connect with
+ "No document for
+ https://www.freesound.org/apiv2/oauth2/authorize/?client_id=3duhagdr874c&redirect_uri=https://www.freesound.org/home/app_permissions/permission_granted/&response_type=code"
+ */
+class LoginDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit OAuth2(QWidget *parent = nullptr);
+    explicit LoginDialog(QWidget *parent = nullptr);
+    ~LoginDialog() override;
+    void setLoginUrl(const QUrl &url);
 
-    void obtainAccessToken();
-    void obtainNewAccessToken();
-    void ForgetAccessToken();
-
-    QString getClientID() const;
-    QString getClientSecret() const;
-
-    static QString m_strClientSecret;
-
-    QString loginUrl();
+    QString authCode() const;
 
 signals:
-
     /**
-     * @brief AuthCodeObtained
-     * Signal that is emitted when login is ended OK and auth code obtained
+     * @brief authCodeObtained - emitted when freesound gives us an Authorisation code \n
+     * Authorisation codes last 10mins and must be exchanged for an access token in that time
      */
-    void AuthCodeObtained();
-
+    void authCodeObtained();
     /**
-     * @brief accessDenied
-     * signal emitted if the freesound has denied access to the application
+     * @brief accessDenied -signal emitted if freesound denies access - eg bad password or user has denied access to Kdenlive app.
      */
     void accessDenied();
     /**
-     * @brief accessTokenReceived   emitted when we have obtained an access token from freesound. \n Connected to ResourceWidget::slotAccessTokenReceived
-     * @param sAccessToken
-     *
+     * @brief canceled - signal emitted when user clicks cancel button in the logon dialog
      */
-    void accessTokenReceived(const QString &sAccessToken);
+    void canceled();
+    /**
+     * @brief useHQPreview - signal emitted when user clicks the "use HQ preview" button in the logon dialog
+     */
+    void useHQPreview();
 
-    /**
-     * @brief DownloadCanceled
-     */
-    void DownloadCanceled();
-    /**
-     * @brief DownloadHQPreview
-     */
-    void DownloadHQPreview();
-    /**
-     * @brief UseHQPreview
-     */
-    void UseHQPreview();
-    /**
-     * @brief Canceled
-     */
-    void Canceled();
+public slots:
+    void open();
 
 private slots:
+    void urlChanged(const QUrl &url);
 
-    void SlotAccessDenied();
-    void serviceRequestFinished(QNetworkReply *reply);
-    void SlotAuthCodeObtained();
-    void SlotCanceled();
-    void SlotDownloadHQPreview();
+    void slotGetHQPreview();
+    void slotRejected();
 
 private:
-    QString m_strAuthorizationCode;
-    QString m_strAccessToken;
-    QString m_strEndPoint;
-
-    QString m_strClientID;
-
-    QString m_strRedirectURI;
-    QString m_strResponseType;
-    QString m_strRefreshToken;
-    bool m_bAccessTokenRec;
-    void RequestAccessCode(bool pIsReRequest, const QString &pCode);
-
-    LoginDialog *m_pLoginDialog;
-    QWidget *m_pParent;
-    void buildLoginDialog();
+    Ui::LoginDialog *m_ui;
+    QString m_strAuthCode;
 };
 
-#endif // QT5_USE_WEBENGINE
-
-#endif // OAUTH2_H
+#endif // LOGINDIALOG_H

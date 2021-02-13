@@ -34,7 +34,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QPainterPath>
 #include <QVariant>
+
+#include <KLocalizedString>
 #include <utility>
+
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
     : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), isRoot)
     , m_name()
@@ -123,7 +126,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
     QVariant data;
     switch (type) {
     case DataName:
-        data = QVariant(m_name);
+        data = m_name.isEmpty() ? i18n("Unnamed") : QVariant(m_name);
         break;
     case DataDescription:
         data = QVariant(m_description);

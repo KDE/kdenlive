@@ -1608,7 +1608,7 @@ void GLWidget::switchPlay(bool play, double speed)
         }
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
-        if (speed <= 1. || speed > 6.) {
+        if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
         } else {
             m_consumer->set("scrub_audio", 1);
@@ -1633,7 +1633,7 @@ void GLWidget::switchPlay(bool play, double speed)
 bool GLWidget::playZone(bool loop)
 {
     if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
-        pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a zone to play"), ErrorMessage, 500);
         return false;
     }
     m_producer->seek(m_proxy->zoneIn());
@@ -1669,7 +1669,7 @@ bool GLWidget::restartConsumer()
 bool GLWidget::loopClip(QPoint inOut)
 {
     if (!m_producer || inOut.y() <= inOut.x()) {
-        pCore->displayMessage(i18n("Select a clip to play"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to play"), ErrorMessage, 500);
         return false;
     }
     m_loopIn = inOut.x();

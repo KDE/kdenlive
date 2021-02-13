@@ -36,6 +36,10 @@ public:
     ~NotesWidget() override;
     /** @brief insert current timeline timecode and focus widget to allow entering quick note */
     void addProjectNote();
+    /** @brief insert given text and focus widget to allow entering quick note
+     * @param text the text
+    */
+    void addTextNote(const QString &text);
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -54,6 +58,7 @@ private:
 
 signals:
     void insertNotesTimecode();
+    void insertTextNote(const QString &text);
     void seekProject(int);
     void reAssign(QStringList anchors, QList <QPoint> points);
 };

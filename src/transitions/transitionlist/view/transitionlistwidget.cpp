@@ -100,7 +100,7 @@ void TransitionListWidget::downloadNewLumas()
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
         MltConnection::refreshLumas();
-        // TODO: refresh currently displayd trans ?
+        // TODO: refresh currently displayed trans ?
     }
 }
 

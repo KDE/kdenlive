@@ -70,7 +70,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
-    connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished);
+    connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
 }
 
 // virtual protected
@@ -220,8 +220,8 @@ void TimecodeDisplay::setValue(int value)
         }
         m_value = value;
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + value - m_minimum));
-        emit timeCodeUpdated();
     }
+    emit timeCodeUpdated();
 }
 
 void TimecodeDisplay::setValue(const GenTime &value)

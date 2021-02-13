@@ -58,8 +58,8 @@ public:
     virtual void addScene(const QString & pattern);
 
     /**
-     * @brief Serialzie all patterns
-     * @reurn byte QByteArray
+     * @brief Serialize all patterns
+     * @return byte QByteArray
      */
     virtual QByteArray serialize();
     /**
@@ -75,7 +75,7 @@ public:
     int getModifiedCounter() const { return modified_counter; }
 
     /**
-     * @brief Repaint all scenes. Usefull when e.g. background was changed.
+     * @brief Repaint all scenes. Useful when e.g. background was changed.
      */
     virtual void repaintScenes();
 

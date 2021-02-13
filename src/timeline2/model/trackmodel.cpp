@@ -26,7 +26,11 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "kdenlivesettings.h"
+#ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
+#else
+#define TRACE_CONSTR(...)
+#endif
 #include "snapmodel.hpp"
 #include "jobs/jobmanager.h"
 #include "timelinemodel.hpp"
@@ -268,19 +272,20 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         return false;
     }
     if (auto ptr = m_parent.lock()) {
-        if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+        if (isAudioTrack() && !clip->canBeAudio()) {
             qDebug() << "// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
             return false;
         }
-        if (!isAudioTrack() && !ptr->getClipPtr(clipId)->canBeVideo()) {
+        if (!isAudioTrack() && !clip->canBeVideo()) {
             qDebug() << "// ATTEMPTING TO INSERT NON VIDEO CLIP ON VIDEO TRACK";
             return false;
         }
         Fun local_undo = []() { return true; };
         Fun local_redo = []() { return true; };
         bool res = true;
-        if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
-            res = ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+        if (clip->clipState() != PlaylistState::Disabled) {
+            res = clip->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         }
         int duration = trackDuration();
         auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove, groupMove);
@@ -1648,7 +1653,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             // check if we have enough frames, or limit duration
             int leftFrames = secondClip->getIn();
             if (leftFrames < 3) {
-                pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", i18n("start")), InformationMessage, 500);
+                pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", i18n("start")), ErrorMessage, 500);
                 return false;
             }
             if (leftFrames < mixDuration / 2) {
@@ -2118,7 +2123,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
 {
     QList<int>toDelete;
     for( const auto& n : m_sameCompositions ) {
-        std::cout << "Key:[" << n.first << "] Value:[" << n.second << "]\n";
+        //qDebug() << "Key:[" << n.first << "] Value:[" << n.second << "]\n";
         int secondClipId = n.first;
         int firstClip = m_mixList.key(secondClipId, -1);
         Q_ASSERT(firstClip > -1);

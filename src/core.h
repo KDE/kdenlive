@@ -41,6 +41,7 @@ class ProjectItemModel;
 class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
+class TextBasedEdit;
 
 namespace Mlt {
     class Repository;
@@ -120,6 +121,8 @@ public:
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */
     SubtitleEdit *subtitleWidget();
+    /** @brief Returns a pointer to the text based editing widget. */
+    TextBasedEdit *textEditWidget();
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -241,6 +244,8 @@ public:
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
     void transcodeFile(const QString url);
+    /** @brief Display key binding info in statusbar. */
+    void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
 
 private:
@@ -258,6 +263,7 @@ private:
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
+    TextBasedEdit *m_textEditWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;
@@ -299,6 +305,10 @@ signals:
     void loadingMessageUpdated(const QString &, int progress = 0, int max = -1);
     /** @brief Opening finished, close splash screen */
     void closeSplash();
+    /** @brief Trigger an update of the the speech models list */
+    void voskModelUpdate(const QStringList models);
+    /** @brief This signal means that VOSK and/or SRT module availability changed*/
+    void updateVoskAvailability();
 };
 
 #endif

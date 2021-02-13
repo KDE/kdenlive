@@ -33,7 +33,6 @@
 #include "jobs/jobmanager.h"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
-#include "logger.hpp"
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 #include "trackmodel.hpp"
@@ -48,9 +47,12 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 #include <queue>
+#include <set>
 
 #include "macros.hpp"
 
+#ifdef CRASH_AUTO_TEST
+#include "logger.hpp"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -101,6 +103,12 @@ RTTR_REGISTRATION
         //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
         .method("requestClipTimeWarp", select_overload<bool(int, double,bool,bool)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed","pitchCompensate","changeDuration"));
 }
+#else
+#define TRACE_CONSTR(...)
+#define TRACE_STATIC(...)
+#define TRACE_RES(...)
+#define TRACE(...)
+#endif
 
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
@@ -798,9 +806,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::mixClip(int idToMove, int delta)
 {
     int selectedTrack = -1;
+    qDebug()<<"==== REQUEST CLIP MIX STEP 1";
     std::unordered_set<int> initialSelection = getCurrentSelection();
     if (idToMove == -1 && initialSelection.empty()) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
         return false;
     }
     std::pair<int, int> clipsToMix;
@@ -884,12 +893,12 @@ bool TimelineModel::mixClip(int idToMove, int delta)
             break;
         }
     }
+    if (noSpaceInClip > 0) {
+        pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), ErrorMessage, 500);
+        return false;
+    }
     if (idToMove == -1 || !isClip(idToMove)) {
-        if (noSpaceInClip > 0) {
-            pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), InformationMessage, 500);
-        } else {
-            pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
-        }
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
         return false;
     }
 
@@ -1511,7 +1520,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
     }
     if (useTargets && allowedTracks.isEmpty()) {
-        pCore->displayMessage(i18n("No available track for insert operation"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage, 500);
         return false;
     }
     bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks);
@@ -2869,7 +2878,7 @@ bool TimelineModel::removeMix(int cid)
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Remove mix"));
     } else {
-        pCore->displayMessage(i18n("Removing mix failed"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Removing mix failed"), ErrorMessage, 500);
     }
     return res;
 }
@@ -3430,7 +3439,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(isTrack(trackId));
     if (m_allTracks.size() < 2) {
-        pCore->displayMessage(i18n("Cannot delete last track in timeline"), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot delete last track in timeline"), ErrorMessage, 500);
         return false;
     }
     // Discard running jobs
@@ -3582,6 +3591,11 @@ void TimelineModel::registerSubtitle(int id, GenTime startTime, bool temporary)
     }
 }
 
+int TimelineModel::positionForIndex(int id)
+{
+    return std::distance(m_allSubtitles.begin(),m_allSubtitles.find(id));
+}
+
 void TimelineModel::deregisterSubtitle(int id, bool temporary)
 {
     Q_ASSERT(m_allSubtitles.count(id) > 0);
@@ -3686,8 +3700,6 @@ bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
     int itemRow = source.at(2).toInt();
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
 
-    //AbstractEffectItem::is
-
     if(trackId == -1) {
         QWriteLocker locker(&m_lock);
         if(m_masterStack== nullptr || m_masterStack->copyEffect(effectStack->getEffectStackRow(itemRow), PlaylistState::Disabled) == false) { //We use "disabled" in a hacky way to accept video and audio on master
@@ -3716,7 +3728,7 @@ bool TimelineModel::addClipEffect(int clipId, const QString &effectId, bool noti
     bool result = m_allClips.at(clipId)->addEffect(effectId);
     if (!result && notify) {
         QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), InformationMessage, 500);
+        pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
     }
     return result;
 }
@@ -4908,6 +4920,9 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         Q_ASSERT(onDeletion || isClip(m_currentSelection) || isComposition(m_currentSelection) || isSubTitle(m_currentSelection));
     }
     m_currentSelection = -1;
+    if (m_subtitleModel) {
+        m_subtitleModel->clearGrab();
+    }
     emit selectionChanged();
     TRACE_RES(true);
     return true;
@@ -5042,6 +5057,9 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
         }
         result = (m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection)) >= 0;
         Q_ASSERT(m_currentSelection >= 0);
+    }
+    if (m_subtitleModel) {
+        m_subtitleModel->clearGrab();
     }
     emit selectionChanged();
     return result;

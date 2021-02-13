@@ -187,6 +187,9 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
     m_progressBar = new QProgressBar(this);
     lay->addWidget(m_progressBar);
     m_toolBar = new QToolBar(this);
+    m_toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    m_toolBar->setIconSize(QSize(size, size));
     m_progressBar->setRange(0, 100);
     m_progressBar->setOrientation(Qt::Horizontal);
     m_progressBar->setVisible(false);

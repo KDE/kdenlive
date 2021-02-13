@@ -10,6 +10,7 @@
 
 #include "spectrogram.h"
 
+#include <QDebug>
 #include <QPainter>
 #include <QElapsedTimer>
 
@@ -182,7 +183,13 @@ QImage Spectrogram::renderHUD(uint)
         QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
         hud.fill(qRgba(0, 0, 0, 0));
 
-        QPainter davinci(&hud);
+        QPainter davinci;
+        bool ok = davinci.begin(&hud);
+        if (!ok) {
+            qDebug() << "Warning: Could not initialise QPainter for Spectrogram HUD.";
+            return hud;
+        }
+
         davinci.setPen(AbstractScopeWidget::penLight);
 
         // Frame display
@@ -292,6 +299,7 @@ QImage Spectrogram::renderHUD(uint)
     emit signalHUDRenderingFinished(0, 1);
     return QImage();
 }
+
 QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData)
 {
     if (audioFrame.size() > 63 && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0) {
@@ -348,7 +356,14 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0, 0, 0, 0));
-        QPainter davinci(&spectrum);
+
+        QPainter davinci;
+        bool ok = davinci.begin(&spectrum);
+        if (!ok) {
+            qDebug() << "Warning: Could not initialise QPainter for rendering spectrogram.";
+            return spectrum;
+        }
+
         const int h = m_innerScopeRect.height();
         const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const int topDist = m_innerScopeRect.top() - m_scopeRect.top();

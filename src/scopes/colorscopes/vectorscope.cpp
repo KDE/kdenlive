@@ -223,7 +223,12 @@ QImage Vectorscope::renderHUD(uint)
         hud = QImage(m_visibleRect.size(), QImage::Format_ARGB32);
         hud.fill(qRgba(0, 0, 0, 0));
 
-        QPainter davinci(&hud);
+        QPainter davinci;
+        bool ok = davinci.begin(&hud);
+        if (!ok) {
+            qDebug() << "Could not initialise QPainter for Vectorscope HUD.";
+            return hud;
+        }
         QPoint widgetCenterPoint = m_scopeRect.topLeft() + m_centerPoint;
 
         int dx = -widgetCenterPoint.x() + m_mousePos.x();
@@ -290,7 +295,12 @@ QImage Vectorscope::renderBackground(uint)
     bg.fill(qRgba(0, 0, 0, 0));
 
     // Set up tools
-    QPainter davinci(&bg);
+    QPainter davinci;
+    bool ok = davinci.begin(&bg);
+    if (!ok) {
+        qDebug() << "Could not initialise QPainter for Vectorscope background.";
+        return bg;
+    }
     davinci.setRenderHint(QPainter::Antialiasing, true);
 
     QPoint vinciPoint;

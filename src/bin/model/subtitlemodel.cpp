@@ -376,6 +376,7 @@ QHash<int, QByteArray> SubtitleModel::roleNames() const
     roles[EndPosRole] = "endposition";
     roles[StartFrameRole] = "startframe";
     roles[EndFrameRole] = "endframe";
+    roles[GrabRole] = "grabbed";
     roles[IdRole] = "id";
     roles[SelectedRole] = "selected";
     return roles;
@@ -404,6 +405,8 @@ QVariant SubtitleModel::data(const QModelIndex& index, int role) const
             return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
         case SelectedRole:
             return m_selected.contains(subInfo.first);
+        case GrabRole:
+            return m_grabbedIds.contains(subInfo.first);
     }
     return QVariant();
 }
@@ -482,19 +485,26 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFr
             continue;
         }
         if (subtitles.first >= startTime || subtitles.second.second >= startTime) {
-            matching.emplace(getIdForStartPos(subtitles.first));
+            int sid = getIdForStartPos(subtitles.first);
+            if (sid > -1) {
+                matching.emplace(sid);
+            } else {
+                qDebug()<<"==== FOUND INVALID SUBTILE AT: "<<subtitles.first.frames(pCore->getCurrentFps());
+            }
         }
     }
     return matching;
 }
 
-void SubtitleModel::cutSubtitle(int position)
+bool SubtitleModel::cutSubtitle(int position)
 {
     Fun redo = []() { return true; };
     Fun undo = []() { return true; };
     if (cutSubtitle(position, undo, redo)) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
+        return true;
     }
+    return false;
 }
 
 
@@ -595,6 +605,27 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refresh
         emit modelChanged();
     }
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+}
+
+void SubtitleModel::switchGrab(int sid)
+{
+    if (m_grabbedIds.contains(sid)) {
+        m_grabbedIds.removeAll(sid);
+    } else {
+        m_grabbedIds << sid;
+    }
+    int row = m_timeline->getSubtitleIndex(sid);
+    emit dataChanged(index(row), index(row), {GrabRole});
+}
+
+void SubtitleModel::clearGrab()
+{
+    QVector<int> grabbed = m_grabbedIds;
+    m_grabbedIds.clear();
+    for (int sid : grabbed) {
+        int row = m_timeline->getSubtitleIndex(sid);
+        emit dataChanged(index(row), index(row), {GrabRole});
+    }
 }
 
 bool SubtitleModel::requestResize(int id, int size, bool right)
@@ -1035,6 +1066,12 @@ int SubtitleModel::getSubtitlePlaytime(int id) const
     return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps()) - startPos.frames(pCore->getCurrentFps());
 }
 
+int SubtitleModel::getSubtitleEnd(int id) const
+{
+    GenTime startPos = m_timeline->m_allSubtitles.at(id);
+    return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps());
+}
+
 void SubtitleModel::setSelected(int id, bool select)
 {
     if (isLocked()) {
@@ -1141,3 +1178,21 @@ QDomElement SubtitleModel::toXml(int sid, QDomDocument &document)
     return container;
 }
 
+
+int SubtitleModel::getBlankSizeAtPos(int pos) const
+{
+    GenTime matchPos(pos, pCore->getCurrentFps());
+    std::unordered_set<int> matching;
+    GenTime min;
+    GenTime max;
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.first > matchPos && (max == GenTime() ||  subtitles.first < max)) {
+            // Outside range
+            max = subtitles.first;
+        }
+        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+            min = subtitles.second.second;
+        }
+    }
+    return max.frames(pCore->getCurrentFps()) - min.frames(pCore->getCurrentFps());
+}

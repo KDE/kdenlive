@@ -191,7 +191,7 @@ void NotesWidget::assignProjectNote()
     if (!anchors.isEmpty()) {
         emit reAssign(anchors, anchorPoints);
     } else {
-        pCore->displayMessage(i18n("Select some timecodes to reassign"), InformationMessage);
+        pCore->displayMessage(i18n("Select some timecodes to reassign"), ErrorMessage);
     }
 }
 
@@ -202,7 +202,7 @@ void NotesWidget::createMarkers()
     if (!anchors.isEmpty()) {
         createMarker(anchors);
     } else {
-        pCore->displayMessage(i18n("Select some timecodes to create markers"), InformationMessage);
+        pCore->displayMessage(i18n("Select some timecodes to create markers"), ErrorMessage);
     }
 }
 
@@ -213,6 +213,15 @@ void NotesWidget::addProjectNote()
         insertPlainText(QStringLiteral("\n"));
     }
     emit insertNotesTimecode();
+}
+
+void NotesWidget::addTextNote(const QString &text)
+{
+    if (!textCursor().atBlockStart()) {
+        textCursor().movePosition(QTextCursor::EndOfBlock);
+        insertPlainText(QStringLiteral("\n"));
+    }
+    emit insertTextNote(text);
 }
 
 void NotesWidget::insertFromMimeData(const QMimeData *source)

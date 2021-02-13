@@ -282,6 +282,8 @@ private:
     RescaleDirection m_rescaleDirection{North};
     QPoint m_rescaleStartPoint;
 
+    bool m_scopeWarningPrinted{false};
+
 protected slots:
     void slotContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.

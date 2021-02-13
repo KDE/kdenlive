@@ -53,7 +53,7 @@ public:
     /* @brief Construct a subtitle list bound to the timeline */
     explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
-    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole };
+    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */ 
     bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false, bool updateFilter = true);
     bool addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter = true);
@@ -117,11 +117,12 @@ public:
     int getIdForStartPos(GenTime startTime) const;
     /** @brief Get the duration of a subtitle by id*/
     int getSubtitlePlaytime(int id) const;
+    int getSubtitleEnd(int id) const;
     /** @brief Mark the subtitle item as selected or not*/
     void setSelected(int id, bool select);
     bool isSelected(int id) const;
     /** @brief Cut a subtitle */
-    void cutSubtitle(int position);
+    bool cutSubtitle(int position);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
     QString getText(int id) const;
     int getRowForId(int id) const;
@@ -139,7 +140,14 @@ public:
     void loadProperties(QMap<QString, QString> subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
+    /** @brief Returns an xml representation of the subtitle with id @sid */
     QDomElement toXml(int sid, QDomDocument &document);
+    /** @brief Returns the size of the space between subtitles */
+    int getBlankSizeAtPos(int pos) const;
+    /** @brief Switch a subtitle's grab state */
+    void switchGrab(int sid);
+    /** @brief Ungrab all items */
+    void clearGrab();
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -168,6 +176,7 @@ private:
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
     Mlt::Tractor *m_tractor;
     QVector <int> m_selected;
+    QVector <int> m_grabbedIds;
 
 signals:
     void modelChanged();

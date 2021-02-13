@@ -1,3 +1,4 @@
+
 /*
 Copyright (C) 2017  Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.

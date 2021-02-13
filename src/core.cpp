@@ -30,6 +30,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "dialogs/subtitleedit.h"
+#include "dialogs/textbasededit.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -197,6 +198,7 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
+    m_textEditWidget = new TextBasedEdit(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
@@ -328,6 +330,11 @@ std::shared_ptr<JobManager> Core::jobManager()
 LibraryWidget *Core::library()
 {
     return m_library;
+}
+
+TextBasedEdit *Core::textEditWidget()
+{
+    return m_textEditWidget;
 }
 
 SubtitleEdit *Core::subtitleWidget()
@@ -1004,16 +1011,22 @@ void Core::addGuides(QList <int> guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    pCore->currentDoc()->getGuideModel()->addMarkers(markers);
+    currentDoc()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
 {
-    pCore->window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+    window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
 void Core::transcodeFile(const QString url)
 {
     qDebug()<<"=== TRANSCODING: "<<url;
-    pCore->window()->slotTranscode({url});
+    window()->slotTranscode({url});
 }
+
+void Core::setWidgetKeyBinding(const QString &mess)
+{
+    window()->setWidgetKeyBinding(mess);
+}
+

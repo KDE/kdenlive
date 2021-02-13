@@ -340,6 +340,8 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
                 KeyframeModel *km = m_keyframes->getKeyModel(paramIndex);
                 if (km) {
                     km->refresh();
+                } else {
+                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<paramIndex;
                 }
                 //m_keyframes->refresh();
             }
@@ -352,7 +354,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
 {
-    //qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    // qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     internalSetParameter(name, paramValue, paramIndex);
     bool updateChildRequired = true;
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {

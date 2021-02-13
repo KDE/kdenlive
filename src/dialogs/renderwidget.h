@@ -125,9 +125,9 @@ public:
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0, int frame = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
-    void updateDocumentPath();
     void reloadProfiles();
     void setRenderProfile(const QMap<QString, QString> &props);
+    void updateDocumentPath();
     int waitingJobsCount() const;
     QString getFreeScriptName(const QUrl &projectName = QUrl(), const QString &prefix = QString());
     bool startWaitingRenderJobs();
@@ -155,6 +155,9 @@ public slots:
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
     void adjustViewToProfile();
     void reloadGuides();
+    /** @brief Adjust render file name to current project name. */
+    void resetRenderPath(const QString &path);
+    
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
