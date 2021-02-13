@@ -19,7 +19,7 @@
                 "params": [
                     { "key": "format", "value": "json" },
                     { "key": "fields", "value": "id,url,name,description,license,filesize,duration,username,download,previews,images,type" },
-                    { "key": "filter", "value": "icense:(\"Attribution\"+OR+\"Creative+Commons+0\")"},
+                    { "key": "filter", "value": "license:(\"Attribution\"+OR+\"Creative+Commons+0\")"},
                     { "key": "page_size", "value": "%perpage%" },
                     { "key": "page", "value": "%pagenum%" },
                     { "key": "query", "value": "%query%" },
