@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel                                   *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +30,7 @@
 #include <QNetworkReply>
 #include <QTemporaryFile>
 #include <QPixmap>
+#include <QtNetworkAuth>
 
 struct ResourceItemInfo
 {
@@ -38,7 +40,6 @@ struct ResourceItemInfo
     QString id;
     QString infoUrl;
     QString license;
-    QString attributionText;
     QString author;
     QString authorUrl;
     int width;
@@ -58,17 +59,18 @@ class ProviderModel : public QObject
     Q_OBJECT
 public:
     enum SERVICETYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, IMAGE = 3};
-    enum INTEGRATIONTYPE { BUILDIN = 1, BROWSER = 2};
     ProviderModel() = delete;
     ProviderModel(const QString &path);
 
+    void authorize();
+    void refreshAccessToken();
     bool is_valid() const;
     QString name() const;
     QString homepage() const;
     ProviderModel::SERVICETYPE type() const;
-    ProviderModel::INTEGRATIONTYPE integratonType() const;
     QString attribution() const;
     bool downloadOAuth2() const;
+    bool requiresLogin() const;
 
 public slots:
     void slotStartSearch(const QString &searchText, int page);
@@ -76,10 +78,10 @@ public slots:
     //void slotShowResults(QNetworkReply *reply);
 
 protected:
+    QOAuth2AuthorizationCodeFlow m_oauth2;
     QString m_path;
     QString m_name;
     QString m_homepage;
-    INTEGRATIONTYPE m_integrationtype;
     SERVICETYPE m_type;
     QString m_clientkey;
     QString m_attribution;
@@ -93,6 +95,9 @@ private:
     void validate();
     QUrl getSearchUrl(const QString &searchText, const int page = 1);
     QUrl getFilesUrl(const QString &id);
+    QJsonValue objectGetValue(QJsonObject item, QString key);
+    QString objectGetString(QJsonObject item, QString key, const QString &id = QString(), const QString &parentKey = QString());
+    QString replacePlaceholders(QString string, const QString query = QString(), const int page = 0, const QString id = QString());
     std::pair<QList<ResourceItemInfo>, const int> parseSearchResponse(const QByteArray &res);
     std::pair<QStringList, QStringList> parseFilesResponse(const QByteArray &res, const QString &id);
     QTemporaryFile *m_tmpThumbFile;
@@ -102,6 +107,9 @@ signals:
     void searchDone(QList<ResourceItemInfo> &list, const int pageCount);
     void searchError(const QString &msg = QString());
     void fetchedFiles(QStringList, QStringList, const QString &token = QString());
+    void authenticated(const QString &token);
+    void usePreview();
+    void authorizeWithBrowser(const QUrl &url);
 
 };
 

@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel                                   *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +24,7 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QJsonValue>
@@ -34,6 +36,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QDesktopServices>
 
 ProviderModel::ProviderModel(const QString &path)
     : m_path(path)
@@ -44,7 +47,7 @@ ProviderModel::ProviderModel(const QString &path)
     QJsonParseError jsonError;
 
     if (!file.exists()) {
-        qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND PROVIDER " << path << ".";
+        qCWarning(KDENLIVE_LOG) << "WARNING, can not find provider configuration file at" << path << ".";
         m_invalid = true;
     } else {
         file.open(QFile::ReadOnly);
@@ -52,13 +55,8 @@ ProviderModel::ProviderModel(const QString &path)
         if (jsonError.error != QJsonParseError::NoError) {
             m_invalid = true;
             // There was an error parsing data
-            KMessageBox::error(nullptr, jsonError.errorString(), i18n("Error Loading Data"));
+            KMessageBox::error(nullptr, jsonError.errorString(), i18nc("@title:window", "Error Loading Data"));
             return;
-        }
-        if( m_doc["integration"].toString() == "buildin")  {
-            m_integrationtype = INTEGRATIONTYPE::BUILDIN;
-        } else if( m_doc["integration"].toString() == "browser")  {
-            m_integrationtype = INTEGRATIONTYPE::BROWSER;
         }
         validate();
     }
@@ -72,6 +70,15 @@ ProviderModel::ProviderModel(const QString &path)
         m_attribution = m_doc["attributionHtml"].toString();
         m_homepage = m_doc["homepage"].toString();
 
+        #ifndef DOXYGEN_SHOULD_SKIP_THIS // don't make this any more public than it is.
+        if(!m_clientkey.isEmpty()) {
+            //all these keys are registered with online-resources@kdenlive.org
+            m_clientkey.replace("%freesound_apikey%","aJuPDxHP7vQlmaPSmvqyca6YwNdP0tPaUnvmtjIn");
+            m_clientkey.replace("%pexels_apikey%","563492ad6f91700001000001c2c34d4986e5421eb353e370ae5a89d0");
+            m_clientkey.replace("%pixabay_apikey%","20228828-57acfa09b69e06ae394d206af");
+        }
+        #endif
+
         if( m_doc["type"].toString() == "music")  {
             m_type = SERVICETYPE::AUDIO;
         } else if( m_doc["type"].toString() == "sound")  {
@@ -84,42 +91,130 @@ ProviderModel::ProviderModel(const QString &path)
             m_type = SERVICETYPE::UNKNOWN;
         }
 
-        //KMessageBox::informationList (nullptr,"Resource Provider found",values, "Debug");
-        /*if(m_doc["name"].toString() == "Pexels Photos") {
-            QString data = "{ \"total_results\": 10000,\"page\": 1,\"per_page\": 1,\"photos\": [{\"id\": 3573351,\"width\": 3066,\"height\": 3968,\"url\": \"https://www.pexels.com/photo/trees-during-day-3573351/\",\"photographer\": \"Lukas Rodriguez\", \"photographer_url\": \"https://www.pexels.com/@lukas-rodriguez-1845331\",\"photographer_id\": 1845331,\"avg_color\": \"#374824\",\"src\": {\"original\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png\", \"large2x\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940\", \"large\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=650&w=940\", \"medium\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=350\", \"small\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=130\", \"portrait\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800\", \"landscape\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200\", \"tiny\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280\" },\"liked\": false}],\"next_page\": \"https://api.pexels.com/v1/search/?page=2&per_page=1&query=nature\" }";
-            parseSearchResponse(data.toUtf8());
-        }*/
+        if(downloadOAuth2() == true) {
+            QJsonObject ouath2Info= m_doc["api"].toObject()["oauth2"].toObject();
+            auto replyHandler = new QOAuthHttpServerReplyHandler(1337, this);
+            m_oauth2.setReplyHandler(replyHandler);
+            m_oauth2.setAuthorizationUrl(QUrl(ouath2Info["authorizationUrl"].toString()));
+            m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
+            m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
+            m_oauth2.setClientIdentifierSharedKey(m_clientkey);
 
-        if(m_doc["name"].toString() == "Pexels Video") {
-            //QString data = "{ \"total_results\": 10000,\"page\": 1,\"per_page\": 1,\"photos\": [{\"id\": 3573351,\"width\": 3066,\"height\": 3968,\"url\": \"https://www.pexels.com/photo/trees-during-day-3573351/\",\"photographer\": \"Lukas Rodriguez\", \"photographer_url\": \"https://www.pexels.com/@lukas-rodriguez-1845331\",\"photographer_id\": 1845331,\"avg_color\": \"#374824\",\"src\": {\"original\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png\", \"large2x\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940\", \"large\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=650&w=940\", \"medium\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=350\", \"small\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&h=130\", \"portrait\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800\", \"landscape\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200\", \"tiny\": \"https://images.pexels.com/photos/3573351/pexels-photo-3573351.png?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280\" },\"liked\": false}],\"next_page\": \"https://api.pexels.com/v1/search/?page=2&per_page=1&query=nature\" }";
-            //parseSearchResponse(data);
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken){
+                KSharedConfigPtr config = KSharedConfig::openConfig();
+                KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
+                authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
+            });
+
+            m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
+                if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
+                    if(m_oauth2.scope().isEmpty()) {
+                        parameters->remove("scope");
+                    }
+                }
+                if (stage == QAbstractOAuth::Stage::RefreshingAccessToken) {
+                    parameters->insert("client_id", m_oauth2.clientIdentifier());
+                    parameters->insert("client_secret", m_oauth2.clientIdentifierSharedKey());
+                }
+
+            });
+
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](QAbstractOAuth::Status status) {
+                if (status == QAbstractOAuth::Status::Granted ) {
+                    emit authenticated(m_oauth2.token());
+                } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
+                    KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
+                }
+            });
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, [=](const QString &error, const QString &errorDescription) {
+                qCWarning(KDENLIVE_LOG) << "Error in autorization flow. " << error << " " << errorDescription;
+                emit authenticated(QString());
+            });
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
         }
     } else {
-        KMessageBox::sorry(nullptr,"The provider config at " + path + " is invalid.");
+        qCWarning(KDENLIVE_LOG) << "The provider config file at " << path << " is invalid. ";
     }
 }
 
+void ProviderModel::authorize() {
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
+
+    QString strRefreshTokenFromSettings = authGroup.readEntry(QStringLiteral("refresh_token"));
+
+    if(m_oauth2.token().isEmpty()) {
+        if (!strRefreshTokenFromSettings.isEmpty()) {
+            m_oauth2.setRefreshToken(strRefreshTokenFromSettings);
+            m_oauth2.refreshAccessToken();
+        } else {
+            m_oauth2.grant();
+        }
+    }  else {
+        if(m_oauth2.expirationAt() < QDateTime::currentDateTime()) {
+            emit authenticated(m_oauth2.token());
+        } else {
+            m_oauth2.refreshAccessToken();
+        }
+
+    }
+}
+
+void ProviderModel::refreshAccessToken() {
+    m_oauth2.refreshAccessToken();
+}
+
+/**
+ * @brief ProviderModel::validate
+ * Check if config has all required fields. Result can be gotten with is_valid()
+ */
 void ProviderModel::validate() {
 
     m_invalid = true;
     if(m_doc.isNull() || m_doc.isEmpty() || !m_doc.isObject()) {
-        qDebug() << "Invalid document";
+        qCWarning(KDENLIVE_LOG) << "Root object missing or invalid";
+        return;
+    }
+
+    if(!m_doc["integration"].isString() || m_doc["integration"].toString() != "buildin") {
+        qCWarning(KDENLIVE_LOG) << "Currently only integration type \"buildin\" is supported";
         return;
     }
 
     if(!m_doc["name"].isString() ) {
-        qDebug() << "Missing key name of type string ";
+        qCWarning(KDENLIVE_LOG) << "Missing key name of type string ";
         return;
     }
 
-    if(m_integrationtype != INTEGRATIONTYPE::BROWSER) {
-        if(!m_doc["api"].isObject() || !m_doc["api"].toObject()["search"].isObject()) {
-            qDebug() << "Missing api of type object or key search of type object";
+    if(!m_doc["homepage"].isString() ) {
+        qCWarning(KDENLIVE_LOG) << "Missing key homepage of type string ";
+        return;
+    }
+
+    if(!m_doc["type"].isString() ) {
+        qCWarning(KDENLIVE_LOG) << "Missing key type of type string ";
+        return;
+    }
+
+    if(!m_doc["api"].isObject() || !m_doc["api"].toObject()["search"].isObject()) {
+        qCWarning(KDENLIVE_LOG)  << "Missing api of type object or key search of type object";
+        return;
+    }
+    if(downloadOAuth2()) {
+        if(!m_doc["api"].toObject()["oauth2"].isObject()) {
+            qCWarning(KDENLIVE_LOG) << "Missing OAuth2 configuration (required)";
             return;
         }
-    } else {
-        if(!m_doc["homepage"].isString() ) {
-            qDebug() << "Missing key homepage of type string ";
+        if(m_doc["api"].toObject()["oauth2"].toObject()["authorizationUrl"].toString().isEmpty()) {
+            qCWarning(KDENLIVE_LOG) << "Missing authorizationUrl for OAuth2";
+            return;
+        }
+        if(m_doc["api"].toObject()["oauth2"].toObject()["accessTokenUrl"].toString().isEmpty()) {
+            qCWarning(KDENLIVE_LOG) << "Missing accessTokenUrl for OAuth2";
+            return;
+        }
+        if(m_doc["api"].toObject()["oauth2"].toObject()["clientId"].toString().isEmpty()) {
+            qCWarning(KDENLIVE_LOG) << "Missing clientId for OAuth2";
             return;
         }
     }
@@ -131,76 +226,168 @@ bool ProviderModel::is_valid() const {
     return !m_invalid;
 }
 
-QString ProviderModel::name() const
-{
+QString ProviderModel::name() const {
     return m_name;
 }
 
-QString ProviderModel::homepage() const
-{
+QString ProviderModel::homepage() const {
     return m_homepage;
 }
 
-ProviderModel::SERVICETYPE ProviderModel::type() const
-{
+ProviderModel::SERVICETYPE ProviderModel::type() const {
     return m_type;
 }
 
-ProviderModel::INTEGRATIONTYPE ProviderModel::integratonType() const
-{
-    return m_integrationtype;
-}
-
-QString ProviderModel::attribution() const
-{
+QString ProviderModel::attribution() const {
     return m_attribution;
 }
 
-bool ProviderModel::downloadOAuth2() const
-{
+bool ProviderModel::downloadOAuth2() const {
     return m_doc["downloadOAuth2"].toBool(false);
 }
 
+bool ProviderModel::requiresLogin() const {
+    if(downloadOAuth2()) {
+        KSharedConfigPtr config = KSharedConfig::openConfig();
+        KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
+        authGroup.exists();
+
+        return !authGroup.exists() || authGroup.readEntry(QStringLiteral("refresh_token")).isEmpty();
+    }
+    return false;
+}
+
+/**
+ * @brief ProviderModel::objectGetValue
+ * @param item Object containing the value
+ * @param key General key of value to get
+ * @return value
+ * Gets a value of item identified by key. The key is translated to the key the provider uses (configured in the providers config file)
+ * E.g. the provider uses "photographer" as key for the author and another provider uses "user".
+ * With this funtion you can simply use "author" as key no matter of the providers specific key.
+ * In addition this function takes care of modifiers like "$" for placeholders, etc. but does not parse them (use objectGetString for this purpose)
+ */
+
+QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
+    QJsonObject tmpKeys = m_search["res"].toObject();
+    if(key.contains(".")) {
+        QStringList subkeys = key.split(".");
+
+        for (const auto &subkey : qAsConst(subkeys)) {
+            if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
+                key = subkey;
+            } else {
+                tmpKeys = tmpKeys[subkey].toObject();
+            }
+        }
+    }
+
+    QString parseKey = tmpKeys[key].toString();
+    // "$" means template, store template string instead of using as key
+    if(parseKey.startsWith("$")) {
+        return tmpKeys[key];
+    }
+
+    // "." in key means value is in a subobject
+    if(parseKey.contains(".")) {
+        QStringList subkeys = tmpKeys[key].toString().split(".");
+
+        for (const auto &subkey : qAsConst(subkeys)) {
+            if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
+                parseKey = subkey;
+            } else {
+                item = item[subkey].toObject();
+            }
+
+        }
+    }
+
+    // "%" means placeholder, store placeholder instead of using as key
+    if(parseKey.startsWith("%")) {
+        return tmpKeys[key];
+    }
+
+    return item[parseKey];
+}
+
+/**
+ * @brief ProviderModel::objectGetString
+ * @param item Object containing the value
+ * @param key General key of value to get
+ * @param id The id is used for to replace the palceholder "%id%" (optional)
+ * @param parentKey Key of the parent (json) object. Used for to replace the palceholder "&" (optional)
+ * @return result string
+ * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and palceholders.
+ */
+
+QString ProviderModel::objectGetString(QJsonObject item, QString key, const QString &id, const QString &parentKey) {
+    QJsonValue val = objectGetValue(item, key);
+    if(!val.isString()) {
+        return QString();
+    }
+    QString result = val.toString();
+
+    if(result.startsWith("$")) {
+        result = result.replace("%id%", id);
+        QStringList sections = result.split("{");
+        for (auto &section : sections) {
+            section.remove("{");
+            section.remove(section.indexOf("}"), section.length());
+
+            // "&" is a placeholder for the parent key
+            if(section.startsWith("&")) {
+                result.replace("{" + section + "}", parentKey);
+            } else {
+                result.replace("{" + section + "}", item[section].isDouble() ? QString::number(item[section].toDouble()) : item[section].toString());
+            }
+        }
+        result.remove("$");
+    }
+
+    return result;
+}
+
+QString ProviderModel::replacePlaceholders(QString string, const QString query, const int page, const QString id) {
+    string = string.replace("%query%", query);
+    string = string.replace("%pagenum%", QString::number(page));
+    string = string.replace("%perpage%", QString::number(m_perPage));
+    string = string.replace("%shortlocale%", "en-US"); //TODO
+    string = string.replace("%clientkey%", m_clientkey);
+    string = string.replace("%id%", id);
+
+    return string;
+}
+
+/**
+ * @brief ProviderModel::getFilesUrl
+ * @param searchText The search query
+ * @param page The page to request
+ * Get the url to search for items
+ */
 QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page) {
 
     QUrl url(m_apiroot);
     const QJsonObject req = m_search["req"].toObject();
-
+    QUrlQuery query;
     url.setPath(url.path().append(req["path"].toString()));
 
-    auto parseValue = [&](QString value) {
-        value = value.replace("%query%", searchText);
-        value = value.replace("%pagenum%", QString::number(page));
-        value = value.replace("%perpage%", QString::number(m_perPage));
-        value = value.replace("%shortlocale%", "en-US"); //TODO
-        value = value.replace("%clientkey%", m_clientkey);
-
-        return value;
-    };
-
-    QUrlQuery query;
-
     for (const auto param : req["params"].toArray()) {
-        query.addQueryItem(param.toObject()["key"].toString(), parseValue(param.toObject()["value"].toString()));
+        query.addQueryItem(param.toObject()["key"].toString(), replacePlaceholders(param.toObject()["value"].toString(), searchText, page));
     }
-
-
     url.setQuery(query);
 
     return url;
 }
 
-void ProviderModel::slotStartSearch(const QString &searchText, int page)
+/**
+ * @brief ProviderModel::slotFetchFiles
+ * @param searchText The search query
+ * @param page The page to request
+ * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ */
+void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 {
     QUrl uri = getSearchUrl(searchText, page);
-    //  qCDebug(KDENLIVE_LOG)<<uri;
-
-    auto parseValue = [&](QString value) {
-        value = value.replace("%shortlocale%", "en-US"); //TODO
-        value = value.replace("%clientkey%", m_clientkey);
-
-        return value;
-    };
 
     if(m_search["req"].toObject()["method"].toString() == "GET") {
 
@@ -210,7 +397,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, int page)
 
         if(m_search["req"].toObject()["header"].isArray()) {
             for (const auto &header: m_search["req"].toObject()["header"].toArray()) {
-                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), parseValue(header.toObject()["value"].toString()).toUtf8());
+                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString(), searchText, page).toUtf8());
             }
         }
         QNetworkReply *reply = manager->get(request);
@@ -238,129 +425,58 @@ void ProviderModel::slotStartSearch(const QString &searchText, int page)
     }
 }
 
+/**
+ * @brief ProviderModel::parseFilesResponse
+ * @param data Response data of the api request
+ * @return pair of  of QList containing ResourceItemInfo and int reflecting the number of found pages
+ * Parse the response data of a search request, usually after slotStartSearch
+ */
 std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse(const QByteArray &data) {
     QJsonObject keys = m_search["res"].toObject();
     QList<ResourceItemInfo> list;
     int pageCount = 0;
     if(keys["format"].toString() == "json") {
         QJsonDocument res = QJsonDocument::fromJson(data);
-        auto parse = [&](QJsonObject item, QString key) {
-
-            QJsonObject tmpKeys = keys;
-            if(key.contains(".")) {
-                QStringList subkeys = key.split(".");
-
-                for (const auto &subkey : qAsConst(subkeys)) {
-                    if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
-                        key = subkey;
-                    } else {
-                        tmpKeys = tmpKeys[subkey].toObject();
-                    }
-                }
-            }
-
-            QString parseKey = tmpKeys[key].toString();            
-            // TODO "$" means template, store template instead of using as key
-            if(parseKey.startsWith("$")) {
-                return tmpKeys[key];
-            }
-
-            // "." in key means value is in a subobject
-            if(parseKey.contains(".")) {
-                QStringList subkeys = tmpKeys[key].toString().split(".");
-
-                for (const auto &subkey : qAsConst(subkeys)) {
-                    if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
-                        parseKey = subkey;
-                    } else {
-                        item = item[subkey].toObject();
-                    }
-
-                }
-            }
-
-            // "%" means template, store template instead of using as key
-            if(parseKey.startsWith("%")) {
-                return tmpKeys[key];
-            }
-
-            return item[parseKey];
-        };
-
-        auto parseString = [&](QJsonObject item, QString key) {
-            QJsonValue val = parse(item, key);
-            if(!val.isString()) {
-                return QString();
-            }
-            QString result = val.toString();
-
-            if(result.startsWith("$")) {
-                QStringList sections = result.split("{");
-                for (auto &section : sections) {
-                    section.remove("{");
-                    section.remove(section.indexOf("}"), section.length());
-                    result.replace("{" + section + "}", item[section].isDouble() ? QString::number(item[section].toDouble()) : item[section].toString());
-                }
-                result.remove("$");
-            }
-
-            return result;
-        };
 
         QJsonArray items;
         if(keys["list"].toString("").isEmpty()) {
             items = res.array();
         } else {
-            items = parse(res.object(),"list").toArray();
+            items = objectGetValue(res.object(), "list").toArray();
         }
 
-        pageCount = parse(res.object(), "resultCount").toInt() / m_perPage;
+        pageCount = objectGetValue(res.object(), "resultCount").toInt() / m_perPage;
 
         for (const auto &item : qAsConst(items)) {
             ResourceItemInfo onlineItem;
-            onlineItem.author = parseString(item.toObject(), "author");
-            onlineItem.authorUrl = parseString(item.toObject(), "authorUrl");
-            onlineItem.name = parseString(item.toObject(), "name");
-            onlineItem.filetype = parseString(item.toObject(), "filetype");
-            onlineItem.description = parseString(item.toObject(), "description");
-            onlineItem.id = (parse(item.toObject(), "id").isString() ? parseString(item.toObject(), "id") : QString::number(parse(item.toObject(), "id").toInt()));
-            onlineItem.infoUrl = parseString(item.toObject(), "url");
-            onlineItem.license = parseString(item.toObject(), "license");
-            onlineItem.attributionText = parseString(item.toObject(), "attributionText");
-            onlineItem.imageUrl = parseString(item.toObject(), "imageUrl");
-            onlineItem.previewUrl = parseString(item.toObject(), "previewUrl");
-            onlineItem.width = parse(item.toObject(), "width").toInt();
-            onlineItem.height = parse(item.toObject(), "height").toInt();
-            onlineItem.duration = parse(item.toObject(), "duration").isDouble() ? (int) parse(item.toObject(), "duration").toDouble() : parse(item.toObject(), "duration").toInt();
+            onlineItem.author = objectGetString(item.toObject(), "author");
+            onlineItem.authorUrl = objectGetString(item.toObject(), "authorUrl");
+            onlineItem.name = objectGetString(item.toObject(), "name");
+            onlineItem.filetype = objectGetString(item.toObject(), "filetype");
+            onlineItem.description = objectGetString(item.toObject(), "description");
+            onlineItem.id = (objectGetValue(item.toObject(), "id").isString() ? objectGetString(item.toObject(), "id") : QString::number(objectGetValue(item.toObject(), "id").toInt()));
+            onlineItem.infoUrl = objectGetString(item.toObject(), "url");
+            onlineItem.license = objectGetString(item.toObject(), "licenseUrl");
+            onlineItem.imageUrl = objectGetString(item.toObject(), "imageUrl");
+            onlineItem.previewUrl = objectGetString(item.toObject(), "previewUrl");
+            onlineItem.width = objectGetValue(item.toObject(), "width").toInt();
+            onlineItem.height = objectGetValue(item.toObject(), "height").toInt();
+            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? (int) objectGetValue(item.toObject(), "duration").toDouble() : objectGetValue(item.toObject(), "duration").toInt();
 
             if(keys["downloadUrls"].isObject()) {
-                for (const auto urlItem : parse(item.toObject(), "downloadUrls.key").toArray()) {
-                    onlineItem.downloadUrls << parseString(urlItem.toObject(), "downloadUrls.url");
-                    onlineItem.downloadLabels << parseString(urlItem.toObject(), "downloadUrls.name");
+                for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
+                    onlineItem.downloadUrls << objectGetString(urlItem.toObject(), "downloadUrls.url");
+                    onlineItem.downloadLabels << objectGetString(urlItem.toObject(), "downloadUrls.name");
                 }
                 if (onlineItem.previewUrl.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrls.first();
                 }
             } else if(keys["downloadUrl"].isString()){
-                onlineItem.downloadUrl = parseString(item.toObject(), "downloadUrl");
+                onlineItem.downloadUrl = objectGetString(item.toObject(), "downloadUrl");
                 if (onlineItem.previewUrl.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrl;
                 }
             }
-            /*qDebug() << " < < < < < < < < < < < < < < < ";
-            qDebug() << " < Name: " << onlineItem.name;
-            qDebug() << " < Description: " << onlineItem.description;
-            qDebug() << " < ID: " << onlineItem.id;
-            qDebug() << " < URL: " << onlineItem.infoUrl;
-            qDebug() << " < License: " << onlineItem.license;
-            qDebug() << " < Attribution: " << onlineItem.attributionText;
-            qDebug() << " < Author: " << onlineItem.author;
-            qDebug() << " < Author URL: " << onlineItem.authorUrl;
-            qDebug() << " < Size: " << onlineItem.width << " x " << onlineItem.height;
-            qDebug() << " < Duration: " << onlineItem.duration;
-            qDebug() << " < Image URL: " << onlineItem.imageUrl;
-            qDebug() << " < Preview URL: " << onlineItem.previewUrl;
-            qDebug() << " < Download URL: " << onlineItem.downloadUrl;*/
 
             list << onlineItem;
         }
@@ -370,6 +486,12 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
     return std::pair<QList<ResourceItemInfo>, const int> (list, pageCount);
 }
 
+/**
+ * @brief ProviderModel::getFilesUrl
+ * @param id The providers id of the item the data should be fetched for
+ * @return the url
+ * Get the url to fetch metadata about the aviable files.
+ */
 QUrl ProviderModel::getFilesUrl(const QString &id) {
 
     QUrl url(m_apiroot);
@@ -377,20 +499,11 @@ QUrl ProviderModel::getFilesUrl(const QString &id) {
         return QUrl();
     }
     const QJsonObject req = m_download["req"].toObject();
-
-    auto parseValue = [&](QString value) {
-        value = value.replace("%id%", id);
-        value = value.replace("%clientkey%", m_clientkey);
-
-        return value;
-    };
-
-    url.setPath(url.path().append(parseValue(req["path"].toString())));
-
     QUrlQuery query;
+    url.setPath(url.path().append(replacePlaceholders(req["path"].toString(), QString(), 0, id)));
 
     for (const auto param : req["params"].toArray()) {
-        query.addQueryItem(param.toObject()["key"].toString(), parseValue(param.toObject()["value"].toString()));
+        query.addQueryItem(param.toObject()["key"].toString(), replacePlaceholders(param.toObject()["value"].toString(), QString(), 0, id));
     }
 
     url.setQuery(query);
@@ -398,6 +511,11 @@ QUrl ProviderModel::getFilesUrl(const QString &id) {
     return url;
 }
 
+/**
+ * @brief ProviderModel::slotFetchFiles
+ * @param id The providers id of the item the date should be fetched for
+ * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ */
 void ProviderModel::slotFetchFiles(const QString &id) {
 
     QUrl uri = getFilesUrl(id);
@@ -405,13 +523,6 @@ void ProviderModel::slotFetchFiles(const QString &id) {
     if(uri.isEmpty()) {
         return;
     }
-
-    auto parseValue = [&](QString value) {
-        value = value.replace("%shortlocale%", "en-US"); //TODO
-        value = value.replace("%clientkey%", m_clientkey);
-
-        return value;
-    };
 
     if(m_download["req"].toObject()["method"].toString() == "GET") {
 
@@ -421,21 +532,19 @@ void ProviderModel::slotFetchFiles(const QString &id) {
 
         if(m_download["req"].toObject()["header"].isArray()) {
             for (const auto &header: m_search["req"].toObject()["header"].toArray()) {
-                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), parseValue(header.toObject()["value"].toString()).toUtf8());
+                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString()).toUtf8());
             }
         }
         QNetworkReply *reply = manager->get(request);
 
         connect(reply, &QNetworkReply::finished, [=]() {
-            if(reply->error() == QNetworkReply::NoError)
-            {
+            if(reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);
                 emit fetchedFiles(result.first, result.second);
                 reply->deleteLater();
             }
-            else // handle error
-            {
+            else {
               emit fetchedFiles(QStringList(),QStringList());
               qCDebug(KDENLIVE_LOG) << reply->errorString();
             }
@@ -451,6 +560,13 @@ void ProviderModel::slotFetchFiles(const QString &id) {
     }
 }
 
+/**
+ * @brief ProviderModel::parseFilesResponse
+ * @param data Response data of the api request
+ * @param id The providers id of the item the date should be fetched for
+ * @return pair of two QStringList First list contains urls to files, second list contains labels describing the files
+ * Parse the response data of a fetch files request, usually after slotFetchFiles
+ */
 std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByteArray &data, const QString &id) {
     QJsonObject keys = m_download["res"].toObject();
     QStringList urls;
@@ -458,103 +574,35 @@ std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByt
 
     if(keys["format"].toString() == "json") {
         QJsonObject res = QJsonDocument::fromJson(data).object();
-        auto parse = [&](QJsonObject item, QString key) {
-
-            QJsonObject tmpKeys = keys;
-            if(key.contains(".")) {
-                QStringList subkeys = key.split(".");
-
-                for (const auto &subkey : qAsConst(subkeys)) {
-                    if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
-                        key = subkey;
-                    } else {
-                        tmpKeys = tmpKeys[subkey].toObject();
-                    }
-                }
-            }
-
-            QString parseKey = tmpKeys[key].toString();
-            // TODO "$" means template, store template instead of using as key
-            if(parseKey.startsWith("$")) {
-                return tmpKeys[key];
-            }
-
-            // "." in key means value is in a subobject
-            if(parseKey.contains(".")) {
-                QStringList subkeys = tmpKeys[key].toString().split(".");
-
-                for (const auto &subkey : qAsConst(subkeys)) {
-                    if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
-                        parseKey = subkey;
-                    } else {
-                        item = item[subkey].toObject();
-                    }
-
-                }
-            }
-
-            // "%" means template, store template instead of using as key
-            if(parseKey.startsWith("%") || parseKey.startsWith("&")) {
-                return tmpKeys[key];
-            }
-            return item[parseKey];
-        };
-
-        auto parseString = [&](QJsonObject item, QString key, QString parentKey = QString()) {
-            QJsonValue val = parse(item, key);
-            if(!val.isString()) {
-                return QString();
-            }
-            QString result = val.toString("");
-
-            if(result.startsWith("$")) {
-                result = result.replace("%id%", id);
-                QStringList sections = result.split("{");
-                for (auto &section : sections) {
-                    section.remove("{");
-                    section.remove(section.indexOf("}"), section.length());
-                    if(section.startsWith("&")) {
-                        result.replace("{" + section + "}", parentKey);
-                    } else {
-                        result.replace("{" + section + "}", item[section].isDouble() ? QString::number(item[section].toDouble()) : item[section].toString());
-                    }
-                }
-                result.remove("$");
-            }
-            return result;
-        };
-
 
         if(keys["downloadUrls"].isObject()) {
             if(keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
-                QJsonObject list = parse(res, "downloadUrls.key").toObject();
+                QJsonObject list = objectGetValue(res, "downloadUrls.key").toObject();
                 for (const auto key : list.keys()) {
                     QJsonObject urlItem = list[key].toObject();
-                    QString format = parseString(urlItem, "downloadUrls.format", key);
-                    //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs and metafiles
+                    QString format = objectGetString(urlItem, "downloadUrls.format", id, key);
+                    //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and metafiles
                     if(m_type == ProviderModel::VIDEO && m_homepage == "https://archive.org" && format != QLatin1String("Animated GIF") && format != QLatin1String("Metadata")
                             && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") && format != QLatin1String("JSON")
                             && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") && format != QLatin1String("PNG")
                             && format != QLatin1String("Video Index")) {
-                        urls << parseString(urlItem, "downloadUrls.url", key);
-                        labels << parseString(urlItem, "downloadUrls.name", key);
+                        urls << objectGetString(urlItem, "downloadUrls.url", id, key);
+                        labels << objectGetString(urlItem, "downloadUrls.name", id, key);
                     }
-
-
                 }
             } else {
-                for (const auto urlItem : parse(res, "downloadUrls.key").toArray()) {
-                    urls << parseString(urlItem.toObject(), "downloadUrls.url");
-                    labels << parseString(urlItem.toObject(), "downloadUrls.name");
+                for (const auto urlItem : objectGetValue(res, "downloadUrls.key").toArray()) {
+                    urls << objectGetString(urlItem.toObject(), "downloadUrls.url", id);
+                    labels << objectGetString(urlItem.toObject(), "downloadUrls.name", id);
                 }
             }
 
         } else if(keys["downloadUrl"].isString()){
-            urls << parseString(res, "downloadUrl");
+            urls << objectGetString(res, "downloadUrl", id);
         }
 
     } else {
-        qCWarning(KDENLIVE_LOG) << "WARNING: unknown response format: " << keys["format"];
+        qCWarning(KDENLIVE_LOG) << "WARNING fetch files: unknown response format: " << keys["format"];
     }
     return std::pair<QStringList, QStringList> (urls, labels);
 }

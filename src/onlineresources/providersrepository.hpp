@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel                                   *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,16 +23,14 @@
 #ifndef PROVIDERSREPOSITORY_H
 #define PROVIDERSREPOSITORY_H
 
-#include "definitions.h" //for QString hash function
+#include "definitions.h"
 #include "providermodel.hpp"
 #include <QReadWriteLock>
-//#include <QString>
-//#include <memory>
 #include <mutex>
 #include <unordered_map>
 
-/** @brief TODO This class is used to read all the profiles available to the user (MLT defaults one and Custom ones).
- * You can then query profiles based on their paths
+/** @brief This class is used to read all the provider configs available.
+ * You can then query providers based on their paths
  * Note that this class is a Singleton, with Mutex protections to allow concurrent access.
  */
 

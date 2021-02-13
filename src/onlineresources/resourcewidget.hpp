@@ -1,3 +1,25 @@
+/***************************************************************************
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.*
+ ***************************************************************************/
+
 #ifndef REOURCEWIDGET_H
 #define REOURCEWIDGET_H
 
@@ -11,9 +33,7 @@
 #include <QSlider>
 #include <QListWidgetItem>
 #include <QProcess>
-//#include <QOAuth2AuthorizationCodeFlow>
-
-class OAuth2;
+#include <QtNetworkAuth>
 
 const int imageRole = Qt::UserRole;
 const int urlRole = Qt::UserRole + 1;
@@ -42,21 +62,13 @@ public:
     explicit ResourceWidget(QWidget *parent = nullptr);
     ~ResourceWidget() override;
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *ev) override;
-
 private slots:
     void slotChangeProvider();
-    /**
-     * @brief ResourceWidget::slotOpenUrl. Opens the file on the URL using the associated application via a KRun object
-     * @param url
-     */
     void slotOpenUrl(const QString &url);
     void slotStartSearch();
     void slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount);
     void slotUpdateCurrentItem();
     void slotSetIconSize(int size);
-    void slotZoomView(bool zoomIn);
     void slotPreviewItem();
     void slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken = QString());
     void slotSaveItem(const QString &originalUrl = QString(), const QString &accessToken = QString());
@@ -67,8 +79,6 @@ private:
     std::unique_ptr<ProviderModel> *m_currentProvider;
     QListWidgetItem *m_currentItem;
     QTemporaryFile *m_tmpThumbFile;
-    OAuth2 *m_pOAuth2;
-    //QSlider *m_slider;
     /** @brief Default icon size for the views. */
     QSize m_iconSize;
     int wheelAccumulatedDelta;

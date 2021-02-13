@@ -352,17 +352,13 @@ void MainWindow::init()
     // Online resources widget
     ResourceWidget *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
-    //connect(m_clipMonitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
-    //connect(m_clipMonitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path) {
         m_clipMonitor->slotPreviewOnlineResource(path);
         m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
     });
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
-    /*connect(spectrumDock, &QDockWidget::visibilityChanged, this, [&](bool visible) {
-        m_audioSpectrum->dockVisible(visible);
-    });*/
+    connect(onlineResources, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
 
     // Close library and audiospectrum and others on first run
     screenGrabDock->close();
@@ -3756,14 +3752,7 @@ void MainWindow::slotDownloadResources()
         currentFolder = KdenliveSettings::defaultprojectfolder();
     }
     m_onlineResourcesDock->show();
-    m_onlineResourcesDock->raise();
-    //auto *d = new ResourceWidget(currentFolder);
-    //auto *d = new ResourceDialog(currentFolder);
-    //connect(d, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
-    //connect(d, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
-    //d->show();
-    //d->raise();
-    //d->activateWindow();
+    m_onlineResourcesDock->raise();;
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)

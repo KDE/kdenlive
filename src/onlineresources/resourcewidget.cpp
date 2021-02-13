@@ -1,3 +1,25 @@
+/***************************************************************************
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.*
+ ***************************************************************************/
+
 #include "resourcewidget.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
@@ -7,6 +29,7 @@
 #include <KSqueezedTextLabel>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QIcon>
 #include <QInputDialog>
 #include <QMenu>
 #include <QProgressDialog>
@@ -20,15 +43,10 @@
 #include <KRun>
 #include <KSelectAction>
 
-#ifdef QT5_USE_WEBENGINE
-#include "qt-oauth-lib/oauth2.h"
-#endif
-
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
     , m_currentProvider(nullptr)
     , m_currentItem(nullptr)
-    , m_pOAuth2(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -37,71 +55,40 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
 
-    // Zoom slider
-    //QWidget *container = new QWidget(this);
-    //auto *lay = new QHBoxLayout;
-    //m_slider = new QSlider(Qt::Horizontal, this);
-    //slider_zoom->setMaximumWidth(100);
-    //slider_zoom->setMinimumWidth(40);
     slider_zoom->setRange(0, 15);
     connect(slider_zoom, &QAbstractSlider::valueChanged, this, &ResourceWidget::slotSetIconSize);
-    //auto *tb1 = new QToolButton(this);
-    //tb1->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    connect(button_zoomin, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
-    //auto *tb2 = new QToolButton(this);
-    //tb2->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
+    connect(button_zoomin, &QToolButton::clicked, this, [&]() {
+        (qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
     connect(button_zoomout, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
-    //lay->addWidget(tb2);
-    //lay->addWidget(m_slider);
-    //lay->addWidget(tb1);
-    //container->setLayout(lay);
-    //auto *widgetslider = new QWidgetAction(this);
-    //widgetslider->setDefaultWidget(container);
-
-    // Settings menu
-    //QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
-    // View type
-    /*KSelectAction *listType = new KSelectAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
-    //pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode"), listType);
-    QAction *treeViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("Tree View"));
-    listType->addAction(treeViewAction);
-    treeViewAction->setData(BinTreeView);
-    if (m_listType == treeViewAction->data().toInt()) {
-        listType->setCurrentAction(treeViewAction);
-    }
-    //pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_tree"), treeViewAction);
-
-    QAction *iconViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18n("Icon View"));
-    iconViewAction->setData(BinIconView);
-    if (m_listType == iconViewAction->data().toInt()) {
-        listType->setCurrentAction(iconViewAction);
-    }
-    listType->setToolBarMode(KSelectAction::MenuMode);
-    connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
-    settingsMenu->addAction(listType);*/
-    //QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
-    //sliderMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    //sliderMenu->addAction(widgetslider);
-    //settingsMenu->addMenu(sliderMenu);
-    //settingsMenu->addMenu(sort);
-
-    //button->setToolTip(i18n("Options"));
-    //button_menu->setMenu(settingsMenu);
-    //button_menu->setPopupMode(QToolButton::InstantPopup);
 
     message_line->close();
 
     for (QPair<QString, QString> provider : ProvidersRepository::get()->getAllProviers()) {
-        service_list->addItem(provider.first, provider.second);
+        QIcon icon;
+        switch(ProvidersRepository::get()->getProvider(provider.second)->type()){
+        case ProviderModel::AUDIO:
+            icon = QIcon::fromTheme(QStringLiteral("player-volume"));
+            break;
+        case ProviderModel::VIDEO:
+            icon = QIcon::fromTheme(QStringLiteral("camera-video"));
+            break;
+        case ProviderModel::IMAGE:
+            icon = QIcon::fromTheme(QStringLiteral("camera-photo"));
+            break;
+        default:
+            icon = QIcon();
+        }
+        service_list->addItem(icon, provider.first, provider.second);
     }
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeProvider()));
+    loadConfig();
     connect(provider_info, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
+    connect(label_license, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
     connect(button_search, &QAbstractButton::clicked, this, &ResourceWidget::slotStartSearch);
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&](){
             if (!m_currentProvider) {
-                qDebug() << "No current Provider -> no Preview.";
                 return;
             }
 
@@ -110,12 +97,10 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 
     connect(button_import, &QAbstractButton::clicked, this, [&](){
         if(m_currentProvider->get()->downloadOAuth2()) {
-#ifdef QT5_USE_WEBENGINE
-            KMessageBox::error(this, "This download requires authenfication with OAuth2. Please install QtWebEngine and rebuild kdenlive to use this feature.");
-            m_pOAuth2->obtainAccessToken();
-#else
-            KMessageBox::error(this, "This download requires authenfication with OAuth2. Please install QtWebEngine and rebuild kdenlive to use this feature.");
-#endif
+            if(m_currentProvider->get()->requiresLogin()) {
+                KMessageBox::information(this, i18n("Login is required to download this item.\nYou will be redirected to the login page now."));
+            }
+            m_currentProvider->get()->authorize();
         } else {
             if(m_currentItem->data(singleDownloadRole).toBool()) {
                 if(m_currentItem->data(downloadRole).toString().isEmpty()) {
@@ -125,7 +110,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
                     slotSaveItem();
                 }
             } else {
-                slotChooseVersion(m_currentItem->data(downloadRole).toStringList(),m_currentItem->data(downloadLabelRole).toStringList());
+                slotChooseVersion(m_currentItem->data(downloadRole).toStringList(), m_currentItem->data(downloadLabelRole).toStringList());
             }
         }
 
@@ -134,24 +119,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     page_number->setEnabled(false);
 
     connect(page_number, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ResourceWidget::slotStartSearch);
-
-    #ifdef QT5_USE_WEBENGINE
-        m_pOAuth2 = new OAuth2(this);
-        connect(m_pOAuth2, &OAuth2::accessTokenReceived, this, &ResourceWidget::slotAccessTokenReceived);
-        connect(m_pOAuth2, &OAuth2::accessDenied, this, [&](){
-            button_import->setEnabled(true);
-            KMessageBox::sorry(this, i18n("Access Denied from Provider. Have you authorised the Kdenlive application on your account?"));
-
-        });
-        connect(m_pOAuth2, &OAuth2::UsePreview, this, [&](){
-            slotSaveItem(m_currentItem->data(previewRole).toString());
-        });
-        connect(m_pOAuth2, &OAuth2::Canceled, this, [&](){
-            button_import->setEnabled(true);
-        });
-    #endif
-    //slotChangeProvider();
-    loadConfig();
     adjustSize();
 }
 
@@ -160,20 +127,24 @@ ResourceWidget::~ResourceWidget()
     saveConfig();
     delete m_currentProvider;
     delete m_tmpThumbFile;
-    delete m_pOAuth2;
-    //delete m_networkAccessManager;
 }
 
+/**
+ * @brief ResourceWidget::saveConfig
+ * Load current provider and zoom value from config file
+ */
 void ResourceWidget::loadConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "OnlineResources");
-    service_list->setCurrentItem(resourceConfig.readEntry("provider", service_list->itemText(0)));
-    qDebug() << "Current Data: " << service_list->currentData();
     slider_zoom->setValue(resourceConfig.readEntry("zoom", 7));
+    service_list->setCurrentItem(resourceConfig.readEntry("provider", service_list->itemText(0)));
+    slotChangeProvider();
 }
+
 /**
  * @brief ResourceWidget::saveConfig
+ * Save current provider and zoom value to config file
  */
 void ResourceWidget::saveConfig()
 {
@@ -184,44 +155,23 @@ void ResourceWidget::saveConfig()
     config->sync();
 }
 
+/**
+ * @brief ResourceWidget::slotChangeProvider
+ * @param block
+ * Block or unblock the online resource ui
+ */
 void ResourceWidget::blockUI(bool block)
 {
-    browser->setEnabled(!block);
     buildin_box->setEnabled(!block);
     search_box->setEnabled(!block);
     service_list->setEnabled(!block);
     setCursor(block ? Qt::WaitCursor : Qt::ArrowCursor);
 }
 
-/*void ResourceWidget::setMonitor(Monitor *monitor)
-{
-    m_monitor = monitor;
-    connect(m_monitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
-    connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) {
-        m_monitor->slotOpenClip(clip, in, out);
-    });
-}*/
-
-bool ResourceWidget::eventFilter(QObject *obj, QEvent *event)
-{
-    //if (obj == search_results) {
-        if (event->type() == QEvent::Wheel) {
-            auto *e = static_cast<QWheelEvent *>(event);
-            if ((e != nullptr) && e->modifiers() == Qt::ControlModifier) {
-                wheelAccumulatedDelta += e->angleDelta().y();
-                if (abs(wheelAccumulatedDelta) >= QWheelEvent::DefaultDeltasPerStep) {
-                    slotZoomView(wheelAccumulatedDelta > 0);
-                }
-                // emit zoomView(e->delta() > 0);
-                return true;
-            }
-        }
-    //}
-
-    return QWidget::eventFilter(obj, event);
-}
-
+/**
+ * @brief ResourceWidget::slotChangeProvider
+ * Set m_currentProvider to the current selected provider of the service_list and update ui
+ */
 void ResourceWidget::slotChangeProvider()
 {
     if(m_currentProvider != nullptr) {
@@ -229,47 +179,40 @@ void ResourceWidget::slotChangeProvider()
     }
     m_currentProvider = &ProvidersRepository::get()->getProvider(service_list->currentData().toString());
 
-    if(m_currentProvider->get()->integratonType() == ProviderModel::BROWSER) {
-        buildin_box->hide();
-        search_box->hide();
-        browser->show();
-        browser->setUrl(QUrl(m_currentProvider->get()->homepage()));
-    } else {
-        browser->hide();
-        buildin_box->show();
-        search_box->show();
+    provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
+    provider_info->setUrl(m_currentProvider->get()->homepage());
+    connect(m_currentProvider->get(), &ProviderModel::searchDone, this, &ResourceWidget::slotSearchFinished);
+    connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg){
+        message_line->setMessageType(KMessageWidget::Error);
+        message_line->setText(i18n("Search failed! %1", msg));
+        message_line->show();
+        page_number->setEnabled(false);
+        service_list->setEnabled(true);
+        buildin_box->setEnabled(true);
+        setCursor(Qt::ArrowCursor);
+    });
+    connect(m_currentProvider->get(), &ProviderModel::fetchedFiles, this, &ResourceWidget::slotChooseVersion);
+    connect(m_currentProvider->get(), &ProviderModel::authenticated, this, &ResourceWidget::slotAccessTokenReceived);
 
-        provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
-        provider_info->setUrl(m_currentProvider->get()->homepage());
-        connect(m_currentProvider->get(), &ProviderModel::searchDone, this, &ResourceWidget::slotSearchFinished);
-        connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg){
-            message_line->setMessageType(KMessageWidget::Error);
-            message_line->setText(i18n("Search failed! %1", msg));
-            message_line->show();
-            page_number->setEnabled(false);
-            service_list->setEnabled(true);
-            buildin_box->setEnabled(true);
-            setCursor(Qt::ArrowCursor);
-        });
-        connect(m_currentProvider->get(), &ProviderModel::fetchedFiles, this, &ResourceWidget::slotChooseVersion);
+    details_box->setEnabled(false);
+    info_browser->clear();
+    search_results->clear();
+    page_number->blockSignals(true);
+    page_number->setValue(1);
+    page_number->setMaximum(1);
+    page_number->blockSignals(false);
 
-        //provider_info
-        details_box->setEnabled(false);
-        info_browser->clear();
-        search_results->clear();
-        page_number->blockSignals(true);
-        page_number->setValue(1);
-        page_number->setMaximum(1);
-        page_number->blockSignals(false);
-
-        saveConfig();
-        //search_text->setText(QString());
-        if (!search_text->text().isEmpty()) {
-            slotStartSearch(); // automatically kick of a search if we have search text and we switch services.
-        }
+    // automatically kick of a search if we have search text and we switch services.
+    if (!search_text->text().isEmpty()) {
+        slotStartSearch();
     }
 }
 
+/**
+ * @brief ResourceWidget::slotOpenUrl
+ * @param url link to open in external browser
+ * Open a url in a external browser
+ */
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
     new KRun(QUrl(url), this);
@@ -277,16 +220,13 @@ void ResourceWidget::slotOpenUrl(const QString &url)
 
 /**
  * @brief ResourceWidget::slotStartSearch
- * @param page
- * connected to the button_search clicked signal in ResourceWidget constructor
- * also connected to the page_number value changed signal in ResourceWidget constructor
  * Calls slotStartSearch on the object for the currently selected service.
  */
 void ResourceWidget::slotStartSearch()
 {
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
-    message_line->setText(i18n("Search pending..."));
+    message_line->setText(i18nc("@info:status", "Search pending..."));
 
     blockUI(true);
     details_box->setEnabled(false);
@@ -295,15 +235,29 @@ void ResourceWidget::slotStartSearch()
     m_currentProvider->get()->slotStartSearch(search_text->text(), page_number->value());
 }
 
+/**
+ * @brief ResourceWidget::slotSearchFinished
+ * @param list list of the found items
+ * @param pageCount number of found pages
+ * Displays the items of list in the search_results ListView
+ */
 void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount) {
+
+    if(list.isEmpty()) {
+        message_line->setMessageType(KMessageWidget::Error);
+        message_line->setText(i18nc("@info", "No items found."));
+        message_line->show();
+        blockUI(false);
+        return;
+    }
 
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
     int count = 0;
     for (const ResourceItemInfo &item: qAsConst(list)) {
-        message_line->setText(i18n("Parsing item %1 of %2...", count, list.count()));
-        //if item has no name use "Created by Author", if item even has no author use "Unnamed"
-        QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18n("Created by %1", item.author)) : item.name);
+        message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2...", count, list.count()));
+        // if item has no name use "Created by Author", if item even has no author use "Unnamed"
+        QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if(!item.imageUrl.isEmpty()) {
             QUrl img(item.imageUrl);
             if (img.isEmpty()) {
@@ -314,8 +268,6 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
                 KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
                 if(copyjob->exec()) {
                     QPixmap pic(m_tmpThumbFile->fileName());
-                    //GifLabel->setPixmap(pic); // pass a pointer as a parameter. Display the pic in our label
-                    //slotSetImage(m_tmpThumbFile->fileName());
                     listItem->setIcon(pic);
                 }
             }
@@ -345,22 +297,23 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
         search_results->addItem(listItem);
         count++;
     }
+    message_line->close();
     page_number->setMaximum(pageCount);
     page_number->setEnabled(true);
-    message_line->close();
     blockUI(false);
 }
 
 /**
- * @brief ResourceWidget::slotUpdateCurrentSound - Fires when user selects a different item in the list of found items
-
- * This is not just for sounds. It fires for clip art and videos too.
+ * @brief ResourceWidget::slotUpdateCurrentItem
+ * Set m_currentItem to the current selected item of the search_results ListView and
+ * show its details within the details_box
  */
 void ResourceWidget::slotUpdateCurrentItem()
 {
     details_box->setEnabled(false);
 
-    m_currentItem = search_results->currentItem(); // get the item the user selected
+    // get the item the user selected
+    m_currentItem = search_results->currentItem();
     if (!m_currentItem) {
         return;
     }
@@ -402,104 +355,105 @@ void ResourceWidget::slotUpdateCurrentItem()
     details.append(m_currentItem->data(descriptionRole).toString());
     info_browser->setHtml(details);
 
-    if (!m_currentItem->data(licenseRole).toString().isEmpty()) {
-        label_license->setText(m_currentItem->data(licenseRole).toString()); //TODO
-    }
+    label_license->setText(licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true));
+    label_license->setTipText(licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), false));
+    label_license->setUseTips(true);
+    label_license->setUrl(m_currentItem->data(licenseRole).toString());
 
     details_box->setEnabled(true);
 }
 
 /**
- * @brief ResourceWidget::licenseNameFromUrl returns a name for the licence based on the license URL
+ * @brief ResourceWidget::licenseNameFromUrl
  * @param licenseUrl
- * @param shortName wether the like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
- * @return the license name
+ * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @return the license name "Unnamed License" if url is not known.
  */
 QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)
 {
     QString licenseName;
     QString licenseShortName;
 
-    // TODO translate them ?
-    if (licenseUrl.contains(QStringLiteral("/sampling+/"))) {
-        licenseName = QStringLiteral("Sampling+");
-    } else if (licenseUrl.contains(QStringLiteral("/by/"))) {
-        licenseName = QStringLiteral("Attribution");
-        licenseShortName = QStringLiteral("CC BY");
-    } else if (licenseUrl.contains(QStringLiteral("/by-nd/"))) {
-        licenseName = QStringLiteral("Attribution-NoDerivs");
-        licenseShortName = QStringLiteral("CC BY-ND");
-    } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
-        licenseName = QStringLiteral("Attribution-NonCommercial-ShareAlike");
-        licenseShortName = QStringLiteral("CC BY-ND-SA");
-    } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
-        licenseName = QStringLiteral("Attribution-ShareAlike");
-        licenseShortName = QStringLiteral("CC BY-SA");
-    } else if (licenseUrl.contains(QStringLiteral("/by-nc/"))) {
-        licenseName = QStringLiteral("Attribution-NonCommercial");
-        licenseShortName = QStringLiteral("CC BY-NC");
-    } else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/"))) {
-        licenseName = QStringLiteral("Attribution-NonCommercial-NoDerivs");
-        licenseShortName = QStringLiteral("CC BY-NC-ND");
-    } else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
-        licenseName = QStringLiteral("Creative Commons 0");
-        licenseShortName = QStringLiteral("CC 0");
-    } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share"))) {
-        licenseName = QStringLiteral("Public Domain");
+    if(licenseUrl.contains("creativecommons.org")) {
+        if (licenseUrl.contains(QStringLiteral("/sampling+/"))) {
+            licenseName = i18nc("Creative Commons License", "CC Sampling+");
+        } else if (licenseUrl.contains(QStringLiteral("/by/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY");
+        } else if (licenseUrl.contains(QStringLiteral("/by-nd/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NoDerivs");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND");
+        } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial-ShareAlike");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND-SA");
+        } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-ShareAlike");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-SA");
+        } else if (licenseUrl.contains(QStringLiteral("/by-nc/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-NC");
+        } else if (licenseUrl.contains(QStringLiteral("/by-nc-nd/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial-NoDerivs");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-NC-ND");
+        } else if (licenseUrl.contains(QLatin1String("/publicdomain/zero/"))) {
+            licenseName = i18nc("Creative Commons License", "Creative Commons 0");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC 0");
+        } else if (licenseUrl.endsWith(QLatin1String("/publicdomain")) || licenseUrl.contains(QLatin1String("openclipart.org/share"))) {
+            licenseName = i18nc("License", "Public Domain");
+        } else {
+            licenseShortName = i18nc("Short for: Unknown Creative Commons License", "Unknown CC License");
+            licenseName = i18n("Unknown Creative Commons License");
+        }
+
+        if (licenseUrl.contains(QStringLiteral("/1.0"))) {
+            licenseName.append(QStringLiteral(" 1.0"));
+            licenseShortName.append(QStringLiteral(" 1.0"));
+        } else if (licenseUrl.contains(QStringLiteral("/2.0"))) {
+            licenseName.append(QStringLiteral(" 2.0"));
+            licenseShortName.append(QStringLiteral(" 2.0"));
+        } else if (licenseUrl.contains(QStringLiteral("/2.5"))) {
+            licenseName.append(QStringLiteral(" 2.5"));
+            licenseShortName.append(QStringLiteral(" 2.5"));
+        } else if (licenseUrl.contains(QStringLiteral("/3.0"))) {
+            licenseName.append(QStringLiteral(" 3.0"));
+            licenseShortName.append(QStringLiteral(" 3.0"));
+        } else if (licenseUrl.contains(QStringLiteral("/4.0"))) {
+            licenseName.append(QStringLiteral(" 4.0"));
+            licenseShortName.append(QStringLiteral(" 4.0"));
+        }
+    } else if (licenseUrl.contains("pexels.com/license/")){
+        licenseName = i18n("Pexels License");
+    } else if (licenseUrl.contains("pixabay.com/service/license/")) {
+        licenseName = i18n("Pixabay License");;
     } else {
-        licenseName = i18n("Unknown");
-        licenseShortName = i18n("Unknown");
+        licenseName = i18n("Unknown License");
     }
 
-    if (licenseUrl.contains(QStringLiteral("/1.0"))) {
-        licenseName.append(QStringLiteral(" 1.0"));
-        licenseShortName.append(QStringLiteral(" 1.0"));
-    } else if (licenseUrl.contains(QStringLiteral("/2.0"))) {
-        licenseName.append(QStringLiteral(" 2.0"));
-        licenseShortName.append(QStringLiteral(" 2.0"));
-    } else if (licenseUrl.contains(QStringLiteral("/2.5"))) {
-        licenseName.append(QStringLiteral(" 2.5"));
-        licenseShortName.append(QStringLiteral(" 2.5"));
-    } else if (licenseUrl.contains(QStringLiteral("/3.0"))) {
-        licenseName.append(QStringLiteral(" 3.0"));
-        licenseShortName.append(QStringLiteral(" 3.0"));
-    } else if (licenseUrl.contains(QStringLiteral("/4.0"))) {
-        licenseName.append(QStringLiteral(" 4.0"));
-        licenseShortName.append(QStringLiteral(" 4.0"));
-    }
-
-    if(shortName) {
+    if(shortName && !licenseShortName.isEmpty()) {
         return licenseShortName;
     } else {
         return licenseName;
     }
 }
 
+/**
+ * @brief ResourceWidget::slotSetIconSize
+ * @param size
+ * Set the icon size for the search_results ListView
+ */
 void ResourceWidget::slotSetIconSize(int size)
 {
     if (!search_results) {
         return;
     }
-    //KdenliveSettings::setBin_zoom(size); //TODO
     QSize zoom = m_iconSize;
     zoom = zoom * (size / 4.0);
     search_results->setIconSize(zoom);
 }
 
-void ResourceWidget::slotZoomView(bool zoomIn)
-{
-    wheelAccumulatedDelta = 0;
-    if (search_results->count() == 0) {
-        // Don't zoom on empty bin
-        return;
-    }
-    int progress = (zoomIn) ? 1 : -1;
-    slider_zoom->setValue(slider_zoom->value() + progress);
-}
-
 /**
- * @brief ResourceWidget::slotPlaySound
- * This slot starts the preview
+ * @brief ResourceWidget::slotPreviewItem
+ * Emits the previewClip signal if m_currentItem is valid to display a preview in the Clip Monitor
  */
 void ResourceWidget::slotPreviewItem()
 {
@@ -512,6 +466,13 @@ void ResourceWidget::slotPreviewItem()
     blockUI(false);
 }
 
+/**
+ * @brief ResourceWidget::slotChooseVersion
+ * @param urls list of download urls pointing to the certain file version
+ * @param labels list of labels for the certain file version (needs to have the same order than urls)
+ * @param accessToken access token to pass through to slotSaveItem
+ * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there a multiple versions avaible
+ */
 void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken) {
     if(urls.isEmpty() || labels.isEmpty()) {
         return;
@@ -521,7 +482,7 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
         return;
     }
     bool ok;
-    QString name = QInputDialog::getItem(this, i18n("Choose File Version"),QString(), labels, 0, false, &ok);
+    QString name = QInputDialog::getItem(this, i18n("Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
     if(!ok || name.isEmpty()) {
         return;
     }
@@ -529,16 +490,12 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
     slotSaveItem(url, accessToken);
 }
 
-
 /**
- * @brief Fires when import button on the ResourceWidget is clicked and also called by slotOpenLink()
- *
- * Opens a dialog for user to choose a save location.
- * If not freesound Starts a file download job and Connects the job to slotGotFile().
-   If is freesound  creates an OAuth2 object to connect to freesounds oauth2 authentication.
-  The  OAuth2 object is connected to a number of slots including  ResourceWidget::slotAccessTokenReceived
-  Calls OAuth2::obtainAccessToken to kick off the freesound authentication
-*/
+ * @brief ResourceWidget::slotSaveItem
+ * @param originalUrl url pointing to the download file
+ * @param accessToken the access token (optional)
+ * Opens a dialog for user to choose a save location and start the download of the file
+ */
 void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &accessToken)
 {
     QUrl saveUrl;
@@ -588,62 +545,55 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 
     QString attribution;
     if(KMessageBox::questionYesNo(this,
-                                  i18n("Be aware that the usage of the resource is maybe limited by license terms or law!\n"
-                                       "Do you want to add license attribution to your Project Notes?")) == KMessageBox::Yes) {
-        attribution = i18n("This is a placeholder for the attribution");
+                                  i18n("Be aware that the usage of the resource is maybe restricted by license terms or law!\n"
+                                       "Do you want to add license attribution to your Project Notes?"),
+                                  QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("Remember this decision")) == KMessageBox::Yes) {
+        attribution = i18nc("item name, item url, author name, license name, license url", "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
+            m_currentItem->data(nameRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
+            m_currentItem->data(urlRole).toString(),
+            m_currentItem->data(authorRole).toString(),
+            ResourceWidget::licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true),
+            m_currentItem->data(licenseRole).toString());
     }
 
     QString saveUrlstring = QFileDialog::getSaveFileName(this, QString(), path, ext);
 
-    if (saveUrlstring.isEmpty()) { // user canceled save
+    //if user cancels save
+    if (saveUrlstring.isEmpty()) {
         return;
     }
 
     saveUrl = QUrl::fromLocalFile(saveUrlstring);
 
-    button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
-
     KIO::FileCopyJob *getJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
-    if(!accessToken.isEmpty()){
-        getJob->addMetaData("customHTTPHeader", QByteArray("Authorization: Bearer ").append(accessToken.toUtf8()));
+    if(!accessToken.isEmpty()) {
+        getJob->addMetaData("customHTTPHeader", QStringLiteral("Authorization: Bearer %1").arg(accessToken));
     }
     KFileItem info(srcUrl);
     getJob->setSourceSize(info.size());
     getJob->setProperty("attribution", attribution);
     getJob->setProperty("usedOAuth2", !accessToken.isEmpty());
-    const QString licenseText = i18n("This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
-                                     m_currentItem->data(filetypeRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
-                                     m_currentItem->data(urlRole).toString().isEmpty(),
-                                     m_currentItem->data(authorRole).toString().isEmpty(),
-                                     ResourceWidget::licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true),
-                                     m_currentItem->data(licenseRole).toString().isEmpty());
 
     connect(getJob, &KJob::result, this, &ResourceWidget::slotGotFile);
     getJob->start();
-    button_import->setEnabled(true);
 }
 
 /**
- * @brief ResourceWidget::slotGotFile - fires when the file copy job started by  ResourceWidget::slotSaveItem() completes
- * emits addClip which causes clip to be added to the project bin.
- * Enables the import button
+ * @brief ResourceWidget::slotGotFile
  * @param job
+ * Finish the download by emiting addClip and if necessary addLicenseInfo
+ * Enables the import button
  */
 void ResourceWidget::slotGotFile(KJob *job)
 
 {
     if (job->error() != 0) {
         const QString errTxt = job->errorString();
-#ifdef QT5_USE_WEBENGINE
         if(job->property("usedOAuth2").toBool()) {
-            m_pOAuth2->ForgetAccessToken();
-            KMessageBox::sorry(this, errTxt + " " + i18n("Try again."), i18n("Error Loading Data"));
+            KMessageBox::sorry(this,  i18n("%1 Try again.", errTxt), i18n("Error Loading Data"));
         } else {
-#endif
             KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
-#ifdef QT5_USE_WEBENGINE
         }
-#endif
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
         return;
     }
@@ -653,6 +603,7 @@ void ResourceWidget::slotGotFile(KJob *job)
 
     KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
     emit addClip(filePath, QString());
+
     if(!copyJob->property("attribution").toString().isEmpty()) {
         emit addLicenseInfo(copyJob->property("attribution").toString());
     }
@@ -660,15 +611,11 @@ void ResourceWidget::slotGotFile(KJob *job)
 
 /**
  * @brief ResourceWidget::slotAccessTokenReceived
- * @param sAccessToken - the access token obtained from freesound website \n
- * Connected to OAuth2::accessTokenReceived signal in ResourceWidget constructor.
- * Fires when the OAuth2 object has obtained an access token. This slot then goes ahead
- * and starts the download of the requested file. ResourceWidget::DownloadRequestFinished will be
- * notified when that job finishes
+ * @param accessToken - the access token obtained from the provider
+ * Calls slotSaveItem or slotChooseVersion for auth protected files
  */
 void ResourceWidget::slotAccessTokenReceived(const QString &accessToken)
 {
-    // qCDebug(KDENLIVE_LOG) << "slotAccessTokenReceived: " <<sAccessToken;
     if (!accessToken.isEmpty()) {
         if(m_currentItem->data(singleDownloadRole).toBool()) {
             if(m_currentItem->data(downloadRole).toString().isEmpty()) {
@@ -678,10 +625,10 @@ void ResourceWidget::slotAccessTokenReceived(const QString &accessToken)
                 slotSaveItem(QString(), accessToken);
             }
         } else {
-            slotChooseVersion(m_currentItem->data(downloadRole).toStringList(),m_currentItem->data(downloadLabelRole).toStringList(), accessToken);
+            slotChooseVersion(m_currentItem->data(downloadRole).toStringList(), m_currentItem->data(downloadLabelRole).toStringList(), accessToken);
         }
 
     } else {
-        KMessageBox::error(this, i18n("Try importing again to obtain a new connection"), i18n("Error Getting Access Token from %1.",m_currentProvider->get()->name()));
+        KMessageBox::error(this, i18n("Try importing again to obtain a new connection"), i18n("Error Getting Access Token from %1.", m_currentProvider->get()->name()));
     }
 }

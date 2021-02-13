@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel                                   *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,7 +47,7 @@ void ProvidersRepository::refresh(bool fullRefresh) {
         m_providers.clear();
     }
 
-    // Helper function to check a profile and print debug info
+    // Helper function to check a provider and print debug info
     auto check_provider = [&](std::unique_ptr<ProviderModel> &provider, const QString &file) {
         if (m_providers.count(file) > 0) {
             return false;
@@ -59,7 +60,7 @@ void ProvidersRepository::refresh(bool fullRefresh) {
     };
 
     QStringList profilesFiles;
-    // list Providers
+    // list providers
     QStringList customProfilesDir = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("resourceproviders"), QStandardPaths::LocateDirectory);
     for (const auto &dir : qAsConst(customProfilesDir)) {
         QStringList files = QDir(dir).entryList(QDir::Files);
@@ -67,7 +68,6 @@ void ProvidersRepository::refresh(bool fullRefresh) {
             profilesFiles << QDir(dir).absoluteFilePath(file);
         }
     }
-    qDebug() << "Files: " << profilesFiles;
 
     // Iterate through files
     for (const auto &file : qAsConst(profilesFiles)) {
