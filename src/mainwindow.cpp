@@ -2528,10 +2528,11 @@ void MainWindow::slotShowTimelineTags()
 
 void MainWindow::slotDeleteItem()
 {
-    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
-        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+    if (QApplication::focusWidget() != nullptr && pCore->bin()->isAncestorOf(QApplication::focusWidget())) {
         pCore->bin()->slotDeleteClip();
-
+    } if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
+        qDebug()<<"===============\nDELETE TEXT BASED ITEM";
+        pCore->textEditWidget()->deleteItem();
     } else {
         QWidget *widget = QApplication::focusWidget();
         while ((widget != nullptr) && widget != this) {

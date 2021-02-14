@@ -25,6 +25,8 @@
 #include "bin/projectclip.h"
 #include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
@@ -37,19 +39,339 @@
 #include <QToolButton>
 #include <KMessageBox>
 
+VideoTextEdit::VideoTextEdit(QWidget *parent)
+    : QTextEdit(parent)
+    , m_hoveredBlock(-1)
+    , m_lastClickedBlock(-1)
+{
+    setMouseTracking(true);
+    setReadOnly(true);
+    //setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+    lineNumberArea = new LineNumberArea(this);
+    connect(this, &VideoTextEdit::cursorPositionChanged, [this]() {
+        lineNumberArea->update();
+    });
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, [this]() {
+        lineNumberArea->update();
+    });
+    QRect rect =  this->contentsRect();
+    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+    lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+}
+
+void VideoTextEdit::repaintLines()
+{
+    lineNumberArea->update();
+}
+
+int VideoTextEdit::lineNumberAreaWidth()
+{
+    int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * 11;
+    return space;
+}
+
+QVector<QPoint> VideoTextEdit::getInsertZones(double offset)
+{
+    if (m_selectedBlocks.isEmpty()) {
+        // return text selection, not blocks
+        QTextCursor cursor2 = textCursor();
+        int start = cursor2.selectionStart();
+        int end = cursor2.selectionEnd();
+        if (end > start) {
+            cursor2.setPosition(start + 1);
+            QString anchorStart = anchorAt(cursorRect(cursor2).center());
+            cursor2.setPosition(end - 1);
+            QString anchorEnd = anchorAt(cursorRect(cursor2).center());
+            if (!anchorStart.isEmpty() && !anchorEnd.isEmpty()) {
+                double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble() + offset;
+                double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble() + offset;
+                return {QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()))};
+            }
+        }
+        return {};
+    }
+    QVector<QPoint> zones;
+    int zoneStart = -1;
+    int zoneEnd = -1;
+    int currentEnd = -1;
+    int currentStart = -1;
+    qDebug()<<"=== FROM BLOCKS: "<<m_selectedBlocks;
+    for (auto &bk : m_selectedBlocks) {
+        QPair<double, double> z = m_zones.at(bk);
+        currentStart = GenTime(z.first).frames(pCore->getCurrentFps());
+        currentEnd = GenTime(z.second).frames(pCore->getCurrentFps());
+        if (zoneStart < 0) {
+            zoneStart = currentStart;
+        } else if (currentStart - zoneEnd > 1) {
+            // Insert last zone
+            zones << QPoint(zoneStart, zoneEnd);
+            zoneStart = currentStart;
+        }
+        zoneEnd = currentEnd;
+    }
+    qDebug()<<"=== INSERT LAST: "<<currentStart<<"-"<<currentEnd;
+    zones << QPoint(currentStart, currentEnd);
+
+    qDebug()<<"=== GOT RESULTING ZONES: "<<zones;
+    return zones;
+}
+
+void VideoTextEdit::updateLineNumberArea(const QRect &rect, int dy)
+{
+    if (dy)
+        lineNumberArea->scroll(0, dy);
+    else
+        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+}
+
+void VideoTextEdit::resizeEvent(QResizeEvent *e)
+{
+    QTextEdit::resizeEvent(e);
+
+    QRect cr = contentsRect();
+    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+void VideoTextEdit::keyPressEvent(QKeyEvent *e)
+{
+    QTextEdit::keyPressEvent(e);
+}
+
+void VideoTextEdit::checkHoverBlock(int yPos)
+{
+    QTextCursor curs = QTextCursor(this->document());
+    curs.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+    
+    m_hoveredBlock = -1;
+    for (int i = 0; i < this->document()->blockCount(); ++i) {
+        QTextBlock block = curs.block();
+        QRect r2 = this->document()->documentLayout()->blockBoundingRect(block).translated(
+                0, 0 - (
+                    this->verticalScrollBar()->sliderPosition()
+                    ) ).toRect();
+        if (yPos < r2.x()) {
+            break;
+        }
+        if (yPos > r2.x() && yPos < r2.bottom()) {
+            m_hoveredBlock = i;
+            break;
+        }
+        curs.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    }
+    setCursor(m_hoveredBlock == -1 ? Qt::ArrowCursor : Qt::PointingHandCursor);
+    lineNumberArea->update();
+}
+
+void VideoTextEdit::blockClicked(Qt::KeyboardModifiers modifiers, bool play)
+{
+    if (m_hoveredBlock > -1 && m_hoveredBlock < m_zones.count()) {
+        if (m_selectedBlocks.contains(m_hoveredBlock)) {
+            if (modifiers & Qt::ControlModifier) {
+                // remove from selection on ctrl+click an already selected block
+                m_selectedBlocks.removeAll(m_hoveredBlock);
+            } else {
+                m_selectedBlocks = {m_hoveredBlock};
+                lineNumberArea->update();
+            }
+        } else {
+            // Add to selection
+            if (modifiers & Qt::ControlModifier) {
+                m_selectedBlocks << m_hoveredBlock;
+            } else if (modifiers & Qt::ShiftModifier) {
+                if (m_lastClickedBlock > -1) {
+                    for (int i = qMin(m_lastClickedBlock, m_hoveredBlock); i <= qMax(m_lastClickedBlock, m_hoveredBlock); i++) {
+                        if (!m_selectedBlocks.contains(i)) {
+                            m_selectedBlocks << i;
+                        }
+                    }
+                } else {
+                    m_selectedBlocks = {m_hoveredBlock};
+                }
+            } else {
+                m_selectedBlocks = {m_hoveredBlock};
+            }
+        }
+        if (m_hoveredBlock >= 0) {
+            m_lastClickedBlock = m_hoveredBlock;
+        }
+        QPair<double, double> zone = m_zones.at(m_hoveredBlock);
+        double startMs = zone.first;
+        double endMs = zone.second;
+        pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
+        pCore->getMonitor(Kdenlive::ClipMonitor)->slotLoadClipZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
+        QTextCursor cursor = textCursor();
+        cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+        cursor.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor, m_hoveredBlock);
+        cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+        setTextCursor(cursor);        
+        if (play) {
+            pCore->getMonitor(Kdenlive::ClipMonitor)->slotPlayZone();
+        }
+    }
+}
+
+int VideoTextEdit::getFirstVisibleBlockId()
+{
+// Detect the first block for which bounding rect - once
+// translated in absolute coordinates - is contained
+// by the editor's text area
+
+// Costly way of doing but since 
+// "blockBoundingGeometry(...)" doesn't exist 
+// for "QTextEdit"...
+
+    QTextCursor curs = QTextCursor(this->document());
+    curs.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+    for(int i=0; i < this->document()->blockCount(); ++i)
+    {
+        QTextBlock block = curs.block();
+
+        QRect r1 = this->viewport()->geometry();
+        QRect r2 = this->document()->documentLayout()->blockBoundingRect(block).translated(
+                r1.x(), r1.y() - (
+                    this->verticalScrollBar()->sliderPosition()
+                    ) ).toRect();
+
+        if (r1.contains(r2, true)) { return i; }
+
+        curs.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
+    }
+    return 0;
+}
+
+void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
+{
+    this->verticalScrollBar()->setSliderPosition(this->verticalScrollBar()->sliderPosition());
+
+    QPainter painter(lineNumberArea);
+    painter.fillRect(event->rect(), palette().alternateBase().color());
+    int blockNumber = this->getFirstVisibleBlockId();
+
+    QTextBlock block = this->document()->findBlockByNumber(blockNumber);
+    QTextBlock prev_block = (blockNumber > 0) ? this->document()->findBlockByNumber(blockNumber-1) : block;
+    int translate_y = (blockNumber > 0) ? -this->verticalScrollBar()->sliderPosition() : 0;
+
+    int top = this->viewport()->geometry().top();
+
+    // Adjust text position according to the previous "non entirely visible" block 
+    // if applicable. Also takes in consideration the document's margin offset.
+    int additional_margin;
+    if (blockNumber == 0)
+        // Simply adjust to document's margin
+        additional_margin = (int) this->document()->documentMargin() -1 - this->verticalScrollBar()->sliderPosition();
+    else
+        // Getting the height of the visible part of the previous "non entirely visible" block
+        additional_margin = (int) this->document()->documentLayout()->blockBoundingRect(prev_block)
+                .translated(0, translate_y).intersected(this->viewport()->geometry()).height();
+
+    // Shift the starting point
+    top += additional_margin;
+
+    int bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+
+    QColor col_2 = palette().link().color();
+    QColor col_1 = palette().highlightedText().color();
+    QColor col_0 = palette().text().color();
+
+    // Draw the numbers (displaying the current line number in green)
+    while (block.isValid() && top <= event->rect().bottom()) {
+        if (blockNumber >= m_zones.count()) {
+            break;
+        }
+        if (block.isVisible() && bottom >= event->rect().top()) {
+            if (m_selectedBlocks.contains(blockNumber)) {
+                painter.fillRect(QRect(0, top, lineNumberArea->width(), bottom - top), palette().highlight().color());
+            }
+            QString number = pCore->timecode().getDisplayTimecode(GenTime(m_zones[blockNumber].first), false);
+            painter.setPen(QColor(120, 120, 120));
+            painter.setPen((this->textCursor().blockNumber() == blockNumber) ? col_2 : m_selectedBlocks.contains(blockNumber) ? col_1 : col_0);
+            painter.drawText(-5, top,
+                             lineNumberArea->width(), fontMetrics().height(),
+                             Qt::AlignRight, number);
+        }
+
+        block = block.next();
+        top = bottom;
+        bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+        ++blockNumber;
+    }
+
+}
+
+void VideoTextEdit::mousePressEvent(QMouseEvent *e)
+{
+    //QTextEdit::mousePressEvent(e);
+    const QString link = anchorAt(e->pos());
+    if (!link.isEmpty()) {
+        QTextCursor cursor2 = textCursor();
+        QTextCursor cursor = cursorForPosition(e->pos());
+        if (cursor.position() > cursor2.selectionStart() && cursor.position() < cursor2.selectionEnd()) {
+            return;
+        }
+        QTextEdit::mousePressEvent(e);
+        double startMs = link.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
+        cursor.select(QTextCursor::WordUnderCursor);
+        setTextCursor(cursor);
+    }
+}
+
+/*void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
+{
+    QTextEdit::mouseReleaseEvent(e);
+    QTextCursor cursor = textCursor();
+    int pos = cursor.position();
+    qDebug()<<"==== GOT TEXT CURSOR POS: "<<pos<<" - SELSTART: "<<cursor.selectionStart();
+    if (pos == cursor.selectionStart()) {
+        cursor.movePosition(QTextCursor::StartOfWord);
+    } else {
+        //cursor.movePosition(QTextCursor::EndOfWord);
+    }
+    //cursor.setPosition(pos);
+    setTextCursor(cursor);
+}*/
+
+void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
+{
+    QTextEdit::mouseMoveEvent(e);
+    if (e->buttons() & Qt::LeftButton) {
+        /*QTextCursor cursor = textCursor();
+        cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+        setTextCursor(cursor);*/
+    } else {
+        const QString link = anchorAt(e->pos());
+        viewport()->setCursor(link.isEmpty() ? Qt::ArrowCursor : Qt::PointingHandCursor);
+    }
+}
+
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
     , m_clipDuration(0.)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    setFocusPolicy(Qt::StrongFocus);
     vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     vosk_config->setToolTip(i18n("Configure speech recognition"));
     connect(vosk_config, &QToolButton::clicked, [this]() {
         pCore->window()->slotPreferences(8);
     });
+    
+    qDebug()<<"======= EDITOR TXT COLOR: "<<palette().text().color().name()<<"\n==========";
+    
+    // Visual text editor
+    QVBoxLayout *l = new QVBoxLayout;
+    m_visualEditor = new VideoTextEdit(this);
+    m_visualEditor->installEventFilter(this);
+    l->addWidget(m_visualEditor);
+    text_frame->setLayout(l);
+    m_visualEditor->setDocument(&m_document);
+    connect(&m_document, &QTextDocument::blockCountChanged, [this](int ct) {
+        m_visualEditor->repaintLines();
+        qDebug()<<"++++++++++++++++++++\n\nGOT BLOCKS: "<<ct<<"\n\n+++++++++++++++++++++";
+    });
+    
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
-    listWidget->setWordWrap(true);
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(button_abort, &QToolButton::clicked, [this]() {
@@ -82,28 +404,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
         KdenliveSettings::setVosk_text_model(language_box->currentText());
     });
-
-    connect(listWidget, &QListWidget::itemDoubleClicked, [this] (QListWidgetItem *item) {
-        if (item) {
-            double startMs = item->data(Qt::UserRole).toDouble();
-            double endMs = item->data(Qt::UserRole + 1).toDouble();
-            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
-            pCore->getMonitor(Kdenlive::ClipMonitor)->slotLoadClipZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
-            pCore->getMonitor(Kdenlive::ClipMonitor)->slotPlayZone();
-        }
-    });
-    connect(listWidget, &QListWidget::currentRowChanged, [this] (int ix) {
-        if (ix > -1) {
-            QListWidgetItem  *item = listWidget->item(ix);
-            if (!item) {
-                return;
-            }
-            double startMs = item->data(Qt::UserRole).toDouble();
-            double endMs = item->data(Qt::UserRole + 1).toDouble();
-            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(GenTime(startMs).frames(pCore->getCurrentFps()));
-            pCore->getMonitor(Kdenlive::ClipMonitor)->slotLoadClipZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
-        }
-    });
     info_message->hide();
     
     m_logAction = new QAction(i18n("Show log"), this);
@@ -115,6 +415,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
     });
+    button_insert->setIcon(QIcon::fromTheme(QStringLiteral("timeline-insert")));
+    button_insert->setToolTip(i18n("Insert selected blocks in timeline"));
+    connect(button_insert, &QToolButton::clicked, this, &TextBasedEdit::insertToTimeline);
     
     // Search stuff
     search_frame->setVisible(false);
@@ -129,37 +432,19 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         QPalette palette = this->palette();
         QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
-            int ix = listWidget->currentRow();
-            int startIx = ix;
-            bool found = false;
-            QListWidgetItem *item;
-            while (!found) {
-                item = listWidget->item(ix);
-                if (item) {
-                    if (item->text().contains(searchText)) {
-                        listWidget->setCurrentRow(ix);
-                        col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                        palette.setColor(QPalette::Base,col);
-                        found = true;
-                        break;
-                    }
-                }
-                ix++;
-                if (ix >= listWidget->count()) {
-                    // Reached end, start again on top
-                    ix = 0;
-                }
-                if (ix == startIx) {
-                    // Loop over, abort
-                    col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                    palette.setColor(QPalette::Base,col);
-                    break;
-                }
+            bool found = m_visualEditor->find(searchText);
+            if (found) {
+                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
+                palette.setColor(QPalette::Base,col);
+            } else {
+                // Loop over, abort
+                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
+                palette.setColor(QPalette::Base,col);
             }
         }
         search_line->setPalette(palette);   
     });
-    connect(search_next, &QToolButton::clicked, [this]() {
+    /*connect(search_next, &QToolButton::clicked, [this]() {
         const QString searchText = search_line->text();
         if (searchText.length() > 2) {
             int ix = listWidget->currentRow() + 1;
@@ -196,14 +481,34 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
                 ix--;
             }
         }
-    });
+    });*/
     parseVoskDictionaries();
+}
+
+bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        qDebug()<<"==== FOT TXTEDIT EVENT FILTER: "<<static_cast <QKeyEvent*> (event)->key();
+    }
+    /*if(obj == m_visualEditor && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast <QKeyEvent*> (event);
+        if (keyEvent->key() != Qt::Key_Left && keyEvent->key() != Qt::Key_Up && keyEvent->key() != Qt::Key_Right && keyEvent->key() != Qt::Key_Down) {
+            parentWidget()->setFocus();
+            return true;
+        }
+    }*/
+    return QObject::eventFilter(obj, event);
 }
 
 void TextBasedEdit::startRecognition()
 {
     info_message->hide();
     m_errorString.clear();
+    qDebug()<<"======= EDITOR TXT COLOR: "<<palette().text().color().name()<<"\n==========";
+    m_document.setDefaultStyleSheet(QString("body {font-size:%2px;}\na { text-decoration:none;color:%1;font-size:%2px;}").arg(palette().text().color().name()).arg(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize()));
+    m_visualEditor->insertHtml(QStringLiteral("<body>"));
+
     info_message->removeAction(m_logAction);
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
@@ -227,8 +532,8 @@ void TextBasedEdit::startRecognition()
         info_message->animatedShow();
         return;
     }
-    const QString cid = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
-    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(cid);
+    m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
+    std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
     if (clip == nullptr) {
         info_message->setMessageType(KMessageWidget::Information);
         info_message->setText(i18n("Select a clip in Project Bin."));
@@ -294,7 +599,8 @@ void TextBasedEdit::startRecognition()
     connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
-    listWidget->clear();
+    m_visualEditor->clear();
+    m_visualEditor->m_zones.clear();
     qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_offset<<", DUR: "<<endPos;
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_offset), QString::number(endPos)});
     speech_progress->setValue(0);
@@ -317,7 +623,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
             info_message->addAction(m_logAction);
         }
         info_message->animatedShow();
-    } else if (listWidget->count() == 0) {
+    } else if (m_visualEditor->toPlainText().isEmpty()) {
         info_message->setMessageType(KMessageWidget::Information);
         info_message->setText(i18n("No speech detected."));
         if (!m_errorString.isEmpty()) {
@@ -344,47 +650,65 @@ void TextBasedEdit::slotProcessSpeech()
     QJsonParseError error;
     auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);
     qDebug()<<"===JSON ERROR: "<<error.errorString();
-    
+    QTextCursor cursor = m_visualEditor->textCursor();
     if (loadDoc.isObject()) {
         QJsonObject obj = loadDoc.object();
         if (!obj.isEmpty()) {
-            QString itemText = obj["text"].toString();
-            QListWidgetItem *item = new QListWidgetItem;
+            //QString itemText = obj["text"].toString();
+            QString htmlLine;
+            QPair <double, double>sentenceZone;
             if (obj["result"].isArray()) {
                 QJsonArray obj2 = obj["result"].toArray();
+                foreach (const QJsonValue & v, obj2) {
+                    htmlLine.append(QString("<a href=\"%1#%2:%3\">%4</a> ").arg(m_binId).arg(v.toObject().value("start").toDouble()).arg(v.toObject().value("end").toDouble()).arg(v.toObject().value("word").toString()));
+                }
                 QJsonValue val = obj2.first();
+                
                 if (val.isObject() && val.toObject().keys().contains("start")) {
                     double ms = val.toObject().value("start").toDouble() + m_offset;
                     GenTime startPos(ms);
+                    sentenceZone.first = ms;
                     if (startPos.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
-                        // Insert space item
-                        QListWidgetItem *spacer = new QListWidgetItem(listWidget);
+                        // Insert space
                         GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
-                        spacer->setData(Qt::UserRole, silenceStart.seconds());
-                        spacer->setData(Qt::UserRole + 1, GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
-                        spacer->setText(i18n("%1: no speech", pCore->timecode().getDisplayTimecode(silenceStart, false)));
-                        spacer->setData(Qt::UserRole + 2, 1);
-                        spacer->setBackground(Qt::blue);
+                        m_visualEditor->moveCursor(QTextCursor::End);
+                        QString htmlSpace = QString("<a href=\"#%1:%2\">%3</a>").arg(silenceStart.seconds()).arg(GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()).arg(i18n("No speech"));
+                        m_visualEditor->insertHtml(htmlSpace);
+                        m_visualEditor->m_zones << QPair<double, double>(silenceStart.seconds(), GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+                        m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
                     }
-                    itemText.prepend(QString("%1: ").arg(pCore->timecode().getDisplayTimecode(GenTime(ms), false)));
-                    item->setData(Qt::UserRole, ms);
-                }
-                val = obj2.last();
-                if (val.isObject() && val.toObject().keys().contains("end")) {
-                    double ms = val.toObject().value("end").toDouble();
-                    item->setData(Qt::UserRole + 1, ms + m_offset);
-                    m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
-                    if (m_clipDuration > 0.) {
-                        speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
+                    val = obj2.last();
+                    if (val.isObject() && val.toObject().keys().contains("end")) {
+                        double ms = val.toObject().value("end").toDouble();
+                        sentenceZone.second = ms + m_offset;
+                        m_lastPosition = GenTime(ms + m_offset).frames(pCore->getCurrentFps());
+                        if (m_clipDuration > 0.) {
+                            speech_progress->setValue(static_cast<int>(100 * ms / m_clipDuration));
+                        }
                     }
                 }
+            } else {
+                // Last empty object - no speech detected
+                GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
+                m_visualEditor->moveCursor(QTextCursor::End);
+                QString htmlSpace = QString("<a href=\"#%1:%2\">%3</a>").arg(silenceStart.seconds()).arg(GenTime(m_clipDuration).seconds()).arg(i18n("No speech"));
+                m_visualEditor->insertHtml(htmlSpace);
+                m_visualEditor->m_zones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration).seconds());
+                m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
             }
-            item->setText(itemText);
-            listWidget->addItem(item);
+            if (!htmlLine.isEmpty()) {
+                m_visualEditor->insertHtml(htmlLine);
+                qDebug()<<"==== INSERTING ZONE MS: "<<sentenceZone.first;
+                m_visualEditor->m_zones << sentenceZone;
+                m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+            }
         }
     } else if (loadDoc.isEmpty()) {
         qDebug()<<"==== EMPTY OBJEC DOC";
     }
+    qDebug()<<"==== GOT BLOCKS: "<<m_document.blockCount();
+    qDebug()<<"=== LINES: "<<m_document.firstBlock().lineCount();
+    m_visualEditor->repaintLines();
 }
 
 void TextBasedEdit::parseVoskDictionaries()
@@ -412,3 +736,21 @@ void TextBasedEdit::parseVoskDictionaries()
     }
     pCore->voskModelUpdate(final);
 }
+
+void TextBasedEdit::deleteItem()
+{
+    QTextCursor cursor = m_visualEditor->textCursor();
+    cursor.removeSelectedText();
+}
+
+void TextBasedEdit::insertToTimeline()
+{
+    QVector<QPoint> zones = m_visualEditor->getInsertZones(m_offset);
+    if (zones.isEmpty()) {
+        return;
+    }
+    for (auto &zone : zones) {
+        pCore->window()->getMainTimeline()->controller()->insertZone(m_binId, zone, false);
+    }
+}
+
