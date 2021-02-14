@@ -27,8 +27,90 @@
 
 #include <QProcess>
 #include <QAction>
+#include <QTextEdit>
+#include <QMouseEvent>
 
+/**
+ * @class VideoTextEdit: Video speech text editor
+ * @brief A dialog for editing markers and guides.
+ * @author Jean-Baptiste Mardelle
+ */
 
+class VideoTextEdit : public QTextEdit
+{
+    Q_OBJECT
+
+public:
+    explicit VideoTextEdit(QWidget *parent = nullptr);
+    void lineNumberAreaPaintEvent(QPaintEvent *event);
+    int lineNumberAreaWidth();
+    void repaintLines();
+    void checkHoverBlock(int yPos);
+    void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
+    QVector<QPoint> getInsertZones(double offset);
+    QVector< QPair<double, double> > m_zones;
+    
+protected:
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    //void mouseReleaseEvent(QMouseEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void resizeEvent(QResizeEvent *e) override;
+
+private slots:
+    void updateLineNumberArea(const QRect &rect, int dy);
+    
+private:
+    QWidget *lineNumberArea;
+    int m_hoveredBlock;
+    int m_lastClickedBlock;
+    QVector <int> m_selectedBlocks;
+    int getFirstVisibleBlockId();
+};
+
+class LineNumberArea : public QWidget
+{
+public:
+    LineNumberArea(VideoTextEdit *editor) : QWidget(editor), codeEditor(editor)
+    {
+        setMouseTracking(true);
+    }
+
+    QSize sizeHint() const override
+    {
+        return QSize(codeEditor->lineNumberAreaWidth(), 0);
+    }
+
+protected:
+    void paintEvent(QPaintEvent *event) override
+    {
+        codeEditor->lineNumberAreaPaintEvent(event);
+    }
+    void mouseMoveEvent(QMouseEvent *e) override
+    {
+        codeEditor->checkHoverBlock(e->pos().y());
+        QWidget::mouseMoveEvent(e);
+    }
+    void mousePressEvent(QMouseEvent *e) override
+    {
+        codeEditor->blockClicked(e->modifiers());
+        QWidget::mousePressEvent(e);
+        
+    }
+    void mouseDoubleClickEvent(QMouseEvent *e) override
+    {
+        codeEditor->blockClicked(e->modifiers(), true);
+        QWidget::mouseDoubleClickEvent(e);
+    }
+    void leaveEvent(QEvent *e) override
+    {
+        codeEditor->checkHoverBlock(-1);
+        QWidget::leaveEvent(e);
+    }
+
+private:
+    VideoTextEdit *codeEditor;
+};
 
 /**
  * @class TextBasedEdit: Subtitle edit widget
@@ -42,7 +124,7 @@ class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 
 public:
     explicit TextBasedEdit(QWidget *parent = nullptr);
-
+    void deleteItem();
 
 private slots:
     void startRecognition();
@@ -51,6 +133,11 @@ private slots:
     void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     void updateAvailability();
+    /** @brief insert currently selected zones to timeline */
+    void insertToTimeline();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     std::unique_ptr<QProcess> m_speechJob;
@@ -61,6 +148,8 @@ private:
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
+    VideoTextEdit *m_visualEditor;
+    QTextDocument m_document;
 };
 
 #endif
