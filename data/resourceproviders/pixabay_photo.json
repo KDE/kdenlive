@@ -1,0 +1,36 @@
+{
+    "name": "Pixabay Photos",
+    "homepage": "https://pixabay.com/",
+    "type": "image",
+    "integration": "buildin",
+    "clientkey":"%pixabay_apikey%",
+    "api": {
+        "root": "https://pixabay.com/api/",
+        "search": {
+            "req": {
+                "path": "",
+                "method": "GET",
+                "params": [
+                    { "key": "per_page", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "q", "value": "%query%" },
+                    { "key": "key", "value": "%clientkey%" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"total",
+                "list":"hits",
+                "id":"id",
+                "url":"pageURL",
+                "licenseUrl":"$https://pixabay.com/service/license/",
+                "author": "user",
+                "authorUrl": "$https://pixabay.com/users/{user}-{user_id}/",
+                "width": "imageWidth",
+                "height": "imageHeight",
+                "downloadUrl": "largeImageURL",
+                "imageUrl": "previewURL"
+            }
+        }
+    }
+}

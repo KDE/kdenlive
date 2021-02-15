@@ -54,6 +54,7 @@ add_subdirectory(lib)
 add_subdirectory(library)
 add_subdirectory(mltcontroller)
 add_subdirectory(monitor)
+add_subdirectory(onlineresources)
 add_subdirectory(profiles)
 add_subdirectory(project)
 add_subdirectory(qml)
@@ -139,6 +140,7 @@ target_link_libraries(kdenliveLib
     Qt5::QuickWidgets
     Qt5::Concurrent
     Qt5::Multimedia
+    Qt5::NetworkAuth
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -179,14 +181,6 @@ endif()
 if(KF5_PURPOSE)
     target_compile_definitions(kdenliveLib PRIVATE -DKF5_USE_PURPOSE)
     target_link_libraries(kdenliveLib KF5::Purpose KF5::PurposeWidgets)
-endif()
-
-if(Qt5WebEngineWidgets_FOUND)
-    message(STATUS "Found Qt5 WebEngineWidgets. You can use your Freesound.org credentials to download files")
-    target_compile_definitions(kdenliveLib PRIVATE -DQT5_USE_WEBENGINE)
-    target_link_libraries(kdenliveLib Qt5::WebEngineWidgets qt-oauth-lib)
-else()
-    message(STATUS "Qt5 WebEngineWidgets not found. You cannot use your Freesound.org credentials, only preview files can be downloaded from the Online Resources Widget")
 endif()
 
 if(Q_WS_X11)

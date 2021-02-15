@@ -1,0 +1,58 @@
+{
+    "name": "Internet Archive Movies",
+    "homepage": "https://archive.org",
+    "description": "",
+    "type": "video",
+    "logoUrl":"",
+    "integration": "buildin",
+    "attributionHtml":"",
+    "apikey":"",
+    "api": {
+        "root": "https://archive.org",
+        "search": {
+            "req": {
+                "path": "/advancedsearch.php",
+                "method": "GET",
+                "params": [
+                    { "key": "rows", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "output", "value": "json"},
+                    { "key": "fl[]", "value": "creator"},
+                    { "key": "fl[]", "value": "description"},
+                    { "key": "fl[]", "value": "identifier"},
+                    { "key": "fl[]", "value": "licenseurl"},
+                    { "key": "fl[]", "value": "title"},
+                    { "key": "q", "value": "(%query%)+AND+mediatype:(movies)" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"response.numFound",
+                "list":"response.docs",
+                "name": "title",
+                "id":"identifier",
+                "url":"$http://archive.org/details/{identifier}",
+                "licenseUrl":"licenseurl",
+                "attributionText": "%generateDefault",
+                "description": "description",
+                "author": "creator",
+                "width": "width",
+                "height": "height",
+                "imageUrl": "image"
+            }
+        },
+        "downloadUrls": {
+            "req": {
+                "path": "/details/%id%",
+                "method": "GET",
+                "params": [
+                    { "key": "output", "value": "json"}
+                ]
+            },
+            "res": {
+                "format": "json",
+                "downloadUrls": {"key":"files", "isObject":true, "url":"$http://archive.org/download/%id%{&}", "format": "format", "name":"${source} {format} {width}x{height}"}
+            }
+        }
+    }
+}

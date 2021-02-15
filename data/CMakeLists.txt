@@ -7,6 +7,7 @@ add_subdirectory(scripts)
 add_subdirectory(man)
 add_subdirectory(titles)
 add_subdirectory(profiles)
+add_subdirectory(resourceproviders)
 add_subdirectory(shortcuts)
 
 install(FILES

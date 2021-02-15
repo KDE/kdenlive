@@ -1,0 +1,39 @@
+{
+    "name": "Pexels Photos",
+    "homepage": "https://pexels.com",
+    "type": "image",
+    "integration": "buildin",
+    "clientkey":"%pexels_apikey%",
+    "api": {
+        "root": "https://api.pexels.com/v1",
+        "search": {
+            "req": {
+                "path": "/search",
+                "method": "GET",
+                "header": [
+                    { "key": "Authorization", "value": "%clientkey%" }
+                ],
+                "params": [
+                    { "key": "locale", "value": "%shortlocale%" },
+                    { "key": "per_page", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "query", "value": "%query%" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"total_results",
+                "list":"photos",
+                "id":"id",
+                "url":"url",
+                "licenseUrl":"$https://www.pexels.com/license/",
+                "author": "photographer",
+                "authorUrl": "photographer_url",
+                "width": "width",
+                "height": "height",
+                "downloadUrl": "src.original",
+                "imageUrl": "src.tiny"
+            }
+        }
+    }
+}
