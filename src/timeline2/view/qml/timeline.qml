@@ -748,6 +748,29 @@ Rectangle {
                     onClicked: {
                         timeline.showMasterEffects()
                     }
+                    DropArea { //Drop area for tracks
+                        anchors.fill: parent
+                        keys: 'kdenlive/effect'
+                        property string dropData
+                        property string dropSource
+                        property int dropRow: -1
+                        onEntered: {
+                            dropData = drag.getDataAsString('kdenlive/effect')
+                            dropSource = drag.getDataAsString('kdenlive/effectsource')
+                        }
+                        onDropped: {
+                            console.log("Add effect: ", dropData)
+                            if (dropSource == '') {
+                                // drop from effects list
+                                controller.addTrackEffect(-1, dropData);
+                            } else {
+                                controller.copyTrackEffect(-1, dropSource);
+                            }
+                            dropSource = ''
+                            dropRow = -1
+                            drag.acceptProposedAction
+                        }
+                    }
                 }
             }
             Flickable {
