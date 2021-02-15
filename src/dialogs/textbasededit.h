@@ -45,10 +45,13 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
     void repaintLines();
+    void cleanup();
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
+    QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
     QVector<QPoint> getInsertZones(double offset);
     QVector< QPair<double, double> > m_zones;
+    QVector <QPoint> cutZones;
     
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -124,6 +127,8 @@ class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 
 public:
     explicit TextBasedEdit(QWidget *parent = nullptr);
+
+public slots:
     void deleteItem();
 
 private slots:
