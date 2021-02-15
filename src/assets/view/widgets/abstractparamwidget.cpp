@@ -38,6 +38,7 @@
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
+#include "urllistparamwidget.h"
 #include "urlparamwidget.hpp"
 
 #include <QLabel>
@@ -85,6 +86,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::List:
         widget = new ListParamWidget(model, index, parent);
+        break;
+    case ParamType::UrlList:
+        widget = new UrlListParamWidget(model, index, parent);
         break;
     case ParamType::Bool:
         widget = new BoolParamWidget(model, index, parent);

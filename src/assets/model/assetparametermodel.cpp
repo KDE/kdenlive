@@ -492,6 +492,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
         return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));
     }
+    case NewStuffRole:
+        return element.attribute(QStringLiteral("newstuff"));
     case List1Role:
         return parseAttribute(m_ownerId, QStringLiteral("list1"), element);
     case List2Role:
@@ -545,6 +547,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("list")) {
         return ParamType::List;
+    }
+    if (type == QLatin1String("urllist")) {
+        return ParamType::UrlList;
     }
     if (type == QLatin1String("bool")) {
         return ParamType::Bool;
