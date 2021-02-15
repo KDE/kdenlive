@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="brightness" id="fade_from_black" type="video" unique="1">
-	<name>Fade in</name>
+	<name context="Image Fade In Effect Name">Fade in</name>
 	<description>Fade video from black</description>
 	<author>Charles Yates</author>
 	<parameter type="position" name="out" max="90000" min="0" default="%fade">

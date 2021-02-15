@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect tag="frei0r.balanc0r" id="frei0r.balanc0r">
-	<name>White Balance</name>
+	<name context="White Balance Effect Name">White Balance</name>
 	<description>Adjust the white balance / color temperature</description>
 	<author>Dan Dennedy</author>
 	<parameter type="color" name="Neutral Color" default="0xffffffff">

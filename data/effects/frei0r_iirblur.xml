@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.IIRblur" id="frei0r.IIRblur">
-        <name>Blur</name>
+        <name context="Blur Effect name">Blur</name>
         <description>Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)</description>
         <author>Marko Cebokli</author>
 

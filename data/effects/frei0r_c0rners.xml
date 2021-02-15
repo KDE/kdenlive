@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.c0rners" id="frei0r.c0rners">
-	<name>Corners</name>
+	<name context="Corners Effect Name">Corners</name>
 	<description>Four corners geometry engine</description>
 	<author>Marko Cebokli</author>
 

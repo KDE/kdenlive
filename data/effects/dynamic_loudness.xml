@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="dynamic_loudness" id="dynamic_loudness" type="audio">
-	<name>Normalize</name>
+	<name context="Normalize Effect Name">Normalize</name>
 	<description>Dynamically correct audio loudness as recommended by EBU R128</description>
 	<author>Brian Matherly</author>
 	<parameter type="double" name="target_loudness" max="-10" min="-50" default="-23.00" decimals="2" suffix="LUFS">

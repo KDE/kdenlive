@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="luma" id="dissolve" type="short">
-    <name>Dissolve</name>
+    <name context="Dissolve Transition Name">Dissolve</name>
     <description>Fade out one video while fading in the other video.</description>
     <parameter type="list" name="resource" default="" paramlist="%lumaPaths" optional="1">
         <paramlistdisplay>%lumaNames</paramlistdisplay>

@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="affine" id="affine">
-    <name>Transform</name>
+    <name context="Affine Transform Transition Name">Transform</name>
         <description>Perform an affine transform on for compositing.</description>
         <author>Charles Yates</author>
     <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">

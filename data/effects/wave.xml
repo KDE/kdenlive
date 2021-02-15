@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="wave" id="wave">
-	<name>Wave</name>
+	<name context="Wave Effect Name">Wave</name>
 	<description>Make waves on your clip with keyframes</description>
 	<author>Leny Grisel</author>
 	<parameter type="animated" name="start" max="100" min="0" default="10">

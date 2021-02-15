@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="composite" id="composite">
-    <name>Composite</name>
+    <name context="Composite Transition Name">Composite</name>
         <description>A key-framable alpha-channel compositor for two frames.</description>
         <author>Dan Dennedy</author>
     <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">

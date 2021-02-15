@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="freeze" id="freeze">
-	<name>Freeze</name>
+	<name context="Freeze Effect Name">Freeze</name>
 	<description>Freeze video on a chosen frame</description>
 	<author>Jean-Baptiste Mardelle</author>
 	<parameter type="position" name="frame" max="1000000" min="0" default="0" relative="true">
