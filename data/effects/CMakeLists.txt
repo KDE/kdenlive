@@ -152,6 +152,7 @@ swapchannels.xml
 tcolor.xml
 threshold.xml
 tracker.xml
+typewriter.xml
 vidstab.xml
 vignette.xml
 volume.xml
