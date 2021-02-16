@@ -177,6 +177,11 @@ void ResourceWidget::slotChangeProvider()
     if(m_currentProvider != nullptr) {
         m_currentProvider->get()->disconnect(this);
     }
+
+    if(service_list->currentData().toString().isEmpty()) {
+        return;
+    }
+
     m_currentProvider = &ProvidersRepository::get()->getProvider(service_list->currentData().toString());
 
     provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
