@@ -67,13 +67,13 @@ MixerManager::MixerManager(QWidget *parent)
     setLayout(m_box);
 }
 
-void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag)
+void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName)
 {
     if (m_mixers.count(tid) > 0) {
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
     connect(mixer.get(), &MixerWidget::muteTrack, this, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
@@ -153,6 +153,14 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
             } else {
                 qDebug()<<"=== MODEL DATA CHANGED: MUTE DONE TRACK NOT FOUND!!!";
             }
+        } else if (roles.contains(TimelineModel::NameRole)) {
+            int id = (int) topLeft.internalId();
+            if (m_mixers.count(id) > 0) {
+                qDebug()<<"=== MODEL DATA CHANGED: CHANGED";
+                m_mixers[id]->setTrackName(m_model->data(topLeft, TimelineModel::NameRole).toString());
+            } else {
+                qDebug()<<"=== MODEL DATA CHANGED: CHANGE NAME DONE TRACK NOT FOUND!!!";
+            }
         }
     });
 
@@ -161,7 +169,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), this));
+    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });

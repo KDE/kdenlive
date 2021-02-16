@@ -44,7 +44,7 @@ class MixerManager : public QWidget
 public:
     MixerManager(QWidget *parent);
     /** @brief Shows the parameters of the given transition model */
-    void registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag);
+    void registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName);
     void deregisterTrack(int tid);
     void setModel(std::shared_ptr<TimelineItemModel> model);
     void cleanup();

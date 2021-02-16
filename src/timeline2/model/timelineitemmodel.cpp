@@ -679,7 +679,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
             if (hasMixer) {
-                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
+                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()), (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
                 connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
             }
         }
