@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="grain" id="grain" type="video" unique="1">
-	<name>Grain</name>
+	<name context="Grain Effect Name">Grain</name>
 	<description>Grain over the image</description>
 	<author>Marco Gittler</author>
 	<parameter type="double" name="noise" max="200" min="0" default="40" suffix="%">

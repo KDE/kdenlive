@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui>
+<effect tag="typewriter" id="typewriter" type="video" unique="1">
+    <name>TypeWriter</name>
+    <description>Typewriter effect v0.3.3</description>
+    <author>Rafal Lalik</author>
+    <parameter type="double" name="step_length" min="1" max="240" default="25">
+        <name>Frames step</name>
+    </parameter>
+    <parameter type="double" name="step_sigma" max="20" min="0" default="0">
+        <name>Sigma</name>
+    </parameter>
+    <parameter type="double" name="random_seed" min="0" max="100" default="0">
+        <name>Random Seed</name>
+    </parameter>
+    <parameter type="list" name="macro_type" default="1" paramlist="1;2;3;0">
+        <paramlistdisplay>Char by char,Word by word,Line by line,Custom macro</paramlistdisplay>
+        <name>Macro type</name>
+    </parameter>
+</effect>

@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="region" id="region">
-        <name>Regionalize</name>
+        <name context="Regionalize Transition Name">Regionalize</name>
         <description>Use alpha channel of another clip to create a transition.</description>
         <author>Dan Dennedy</author>
         <parameter type="url" name="resource" default="">

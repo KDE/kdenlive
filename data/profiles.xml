@@ -1,12 +1,12 @@
 <profiles version="0.1">
  <group name="Generic (HD for web, mobile devices...)" renderer="avformat" type="av">
-  <profile name="WebM - the widespread free format (VP8/Vorbis)" extension="webm"
-   qualities="15,45" defaultquality="30"
+  <profile name="WebM-VP8/Vorbis (libre)" extension="webm"
+   qualities="15,45" defaultquality="25"
    audioqualities="7,3" defaultaudioquality="5"
    args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
-  <profile name="MP4 - the dominating format (H264/AAC)" extension="mp4"
-   qualities="15,20,45" defaultquality="30"
+  <profile name="MP4-H264/AAC" extension="mp4"
+   qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 movflags=+faststart vcodec=libx264 progressive=1 g=15 bf=2 crf=%quality acodec=aac ab=%audiobitrate+'k'"
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
@@ -18,22 +18,33 @@
   <profile name="GIF High Quality" extension="GIF" args=""/>
  </group>
  <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
-  <profile name="WebM-VP9" extension="webm"
+  <profile name="WebM-VP9/Vorbis (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
    audioqualities="7,3" defaultaudioquality="5"
    args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+  <profile name="WebM-AV1/Opus (libre)" extension="webm"
+   qualities="15,45" defaultquality="25"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=webm acodec=libopus vcodec=libaom-av1 crf=%quality vb=0 row-mt=1 tile-columns=2 tile-rows=1 strict=experimental ab=%audiobitrate+'k'"
+   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="MP4-H265 (HEVC)" extension="mp4"
-   qualities="15,35" defaultquality="25"
-   audiobitrates="192,64" defaultaudiobitrate="160"
+   qualities="15,45" defaultquality="25"
+   audiobitrates="256,64" defaultaudiobitrate="160"
    args="properties=x265-medium f=mp4 vcodec=libx265 acodec=aac crf=%quality ab=%audiobitrate+'k'"
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
  </group>
  <group name="Video with Alpha" renderer="avformat" type="av">
   <profile name="Alpha VP8" extension="webm"
-   args="f=webm vcodec=libvpx g=120 rc_lookahead=16 quality=good speed=0 vprofile=0 qmax=51 qmin=11 slices=4 vb=2M maxrate=24M minrate=100k arnr_max_frames=7 arnr_strength=5 arnr_type=3 auto-alt-ref=0 mlt_image_format=rgb24a pix_fmt=yuva420p acodec=vorbis ab=128k"/>
+   qualities="15,45" defaultquality="25"
+   audioqualities="7,3" defaultaudioquality="5"
+   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgb24a pix_fmt=yuva420p"
+   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha VP9" extension="webm"
-   args="vcodec=libvpx-vp9 vb=2M g=120 bf=2 threads=0 rc_lookahead=16 quality=good speed=3 vprofile=0 qmax=51 qmin=4 slices=4 tile-columns=6 frame-parallel=1 lag-in-frames=25 row-mt=1 auto-alt-ref=0 mlt_image_format=rgb24a pix_fmt=yuva420p acodec=libopus ar=48000 ab=128k"/>
+   qualities="15,45" defaultquality="25"
+   audioqualities="7,3" defaultaudioquality="5"
+   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality mlt_image_format=rgb24a pix_fmt=yuva420p"
+   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha MOV" extension="mov" 
    args="vcodec=qtrle pix_fmt=argb"/>
  </group>
@@ -43,10 +54,6 @@
    audiobitrates="192,128" defaultaudiobitrate="160"
    args="properties=dv_%dv_standard/DVD mlt_profile=dv_%dv_standard f=dvd vcodec=mpeg2video acodec=ac3 qscale=%quality ab=%audiobitrate+'k'"
    speeds="subq=5 cmp=2 subcmp=2 trellis=1 bf=2;subq=3 cmp=1 subcmp=1 trellis=1 bf=2;subq=1"/>
-  <profile name="Flash" extension="flv"
-   qualities="5,15" defaultquality="5"
-   audiobitrates="160,96" defaultaudiobitrate="128"
-   args="properties=Flash qscale=%quality ab=%audiobitrate+'k'"/>
   <profile name="MPEG4-ASP/MP3 (DivX compatible)" extension="avi"
    qualities="5,15" defaultquality="5"
    audioqualities="3,7" defaultaudioquality="5"
@@ -57,13 +64,19 @@
    audioqualities="3,5,7" defaultaudioquality="5"
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
- <group name="GPU | testing" renderer="avformat" type="av">
-  <profile name="NVENC H264 CBR" extension="mp4"
-   args="f=mp4 vcodec=nvenc_h264 vb=30000k rc=cbr acodec=aac ab=192k"/>
+ <group name="Hardware Accelerated (experimental)" renderer="avformat" type="av">
+  <profile name="NVENC H264 ABR" extension="mp4"
+   bitrates="30000,1000" defaultbitrate="6000"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=nvenc_h264 vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 VBR" extension="mp4"
-   args="f=mp4 vcodec=nvenc_h264 vb=30000k minrate=20000k maxrate=60000k acodec=aac ab=192k"/>
-  <profile name="NVENC H265" extension="mp4"
-   args="f=mp4 vcodec=hevc_nvenc vb=30000k acodec=aac ab=192k"/>
+   qualities="15,45" defaultquality="25"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=nvenc_h264 rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
+  <profile name="NVENC H265 ABR" extension="mp4"
+   bitrates="30000,1000" defaultbitrate="6000"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="VAAPI Intel H264" extension="mp4"
    args="f=mp4 vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
   <profile name="VAAPI AMD H264" extension="mp4"

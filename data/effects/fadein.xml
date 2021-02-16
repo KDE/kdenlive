@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="fadein" type="audio" unique="1">
-	<name>Fade in</name>
+	<name context="Audio Fade In Effect Name">Fade in</name>
 	<description>Fade in audio track</description>
 	<author></author>
 	<parameter type="fixed" name="in" max="0" min="0" default="0">

@@ -3674,11 +3674,19 @@ const std::shared_ptr<TrackModel> TimelineModel::getTrackById_const(int trackId)
 
 bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
 {
-    Q_ASSERT(m_iteratorTable.count(trackId) > 0);
-    if ((*m_iteratorTable.at(trackId))->addEffect(effectId) == false) {
-        QString effectName = EffectsRepository::get()->getName(effectId);
-        pCore->displayMessage(i18n("Cannot add effect %1 to selected track", effectName), ErrorMessage, 500);
-        return false;
+    if(trackId == -1) {
+        if(m_masterStack== nullptr || m_masterStack->appendEffect(effectId) == false) {
+            QString effectName = EffectsRepository::get()->getName(effectId);
+            pCore->displayMessage(i18n("Cannot add effect %1 to master track", effectName), InformationMessage, 500);
+            return false;
+        }
+    } else {
+        Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+        if ((*m_iteratorTable.at(trackId))->addEffect(effectId) == false) {
+            QString effectName = EffectsRepository::get()->getName(effectId);
+            pCore->displayMessage(i18n("Cannot add effect %1 to selected track", effectName), InformationMessage, 500);
+            return false;
+        }
     }
     return true;
 }
@@ -3686,14 +3694,24 @@ bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
 bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
 {
     QStringList source = sourceId.split(QLatin1Char('-'));
-    Q_ASSERT(m_iteratorTable.count(trackId) > 0 && source.count() == 3);
+    Q_ASSERT(source.count() == 3);
     int itemType = source.at(0).toInt();
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
-    if ((*m_iteratorTable.at(trackId))->copyEffect(effectStack, itemRow) == false) {
-        pCore->displayMessage(i18n("Cannot paste effect to selected track"), ErrorMessage, 500);
-        return false;
+
+    if(trackId == -1) {
+        QWriteLocker locker(&m_lock);
+        if(m_masterStack== nullptr || m_masterStack->copyEffect(effectStack->getEffectStackRow(itemRow), PlaylistState::Disabled) == false) { //We use "disabled" in a hacky way to accept video and audio on master
+            pCore->displayMessage(i18n("Cannot paste effect to master track"), InformationMessage, 500);
+            return false;
+        }
+    } else {
+        Q_ASSERT(m_iteratorTable.count(trackId) > 0);
+        if ((*m_iteratorTable.at(trackId))->copyEffect(effectStack, itemRow) == false) {
+            pCore->displayMessage(i18n("Cannot paste effect to selected track"), InformationMessage, 500);
+            return false;
+        }
     }
     return true;
 }

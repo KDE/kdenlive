@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
 <effect tag="qtblend" id="qtblend">
-        <name>Transform</name>
+        <name context="Qtblend Transform Effect Name">Transform</name>
         <description>Position, scale and opacity.</description>
         <author>Jean-Baptiste Mardelle</author>
 	<parameter type="animatedrect" name="rect" default="0 0 %width %height 1">

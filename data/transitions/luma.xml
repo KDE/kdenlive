@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="luma" id="luma">
-    <name>Luma</name>
+    <name context="Luma Transition Name">Luma</name>
         <description>Applies a stationary transition between the current and next frames.</description>
         <author>Dan Dennedy</author>
     <parameter type="list" name="resource" default="" paramlist="%lumaPaths" optional="1">

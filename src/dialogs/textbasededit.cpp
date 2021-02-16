@@ -64,10 +64,85 @@ void VideoTextEdit::repaintLines()
     lineNumberArea->update();
 }
 
+void VideoTextEdit::cleanup()
+{
+    m_zones.clear();
+    cutZones.clear();
+    m_hoveredBlock = -1;
+    clear();
+}
+
 int VideoTextEdit::lineNumberAreaWidth()
 {
     int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * 11;
     return space;
+}
+
+QVector<QPoint> VideoTextEdit::processedZones(QVector<QPoint> sourceZones)
+{
+    QVector<QPoint> resultZones;
+    QVector<QPoint> zonesToRemove;
+    for (auto &zone : sourceZones) {
+        bool cutted = false;
+        QVector<QPoint> resultZone;
+        for (auto &cut : cutZones) {
+            if (!cutted) {
+                if (cut.x() > zone.x()) {
+                    if (cut.x() > zone.y()) {
+                        // Cut is outside zone
+                        continue;
+                    }
+                    // Cut is inside zone
+                    cutted = true;
+                    if (cut.y() > zone.y()) {
+                        // Only keep the start of this zone
+                        resultZone << QPoint(zone.x(), cut.x());
+                    } else {
+                        resultZone << QPoint(zone.x(), cut.x());
+                        resultZone << QPoint(cut.y(), zone.y());
+                    }
+                    zonesToRemove << cut;
+                } else if (cut.y() < zone.y()) {
+                    // Only keep the end of this zone
+                    resultZone << QPoint(cut.y(), zone.y());
+                    zonesToRemove << cut;
+                    cutted = true;
+                }
+            } else {
+                // Check in already cutted zones
+                for (auto &subCut : resultZone) {
+                    if (cut.x() > subCut.x()) {
+                        if (cut.x() > subCut.y()) {
+                            // cut is outside
+                            continue;
+                        }
+                        // Cut is inside zone
+                        if (cut.y() > subCut.y()) {
+                            // Only keep the start of this zone
+                            resultZone << QPoint(subCut.x(), cut.x());
+                        } else {
+                            resultZone << QPoint(subCut.x(), cut.x());
+                            resultZone << QPoint(cut.y(), subCut.y());
+                        }
+                        zonesToRemove << subCut;
+                    } else if (cut.y() < subCut.y()) {
+                        // Only keep the end of this zone
+                        resultZone << QPoint(cut.y(), subCut.y());
+                        zonesToRemove << subCut;
+                    }
+                }
+            }
+        }
+        if (!cutted) {
+            resultZones << zone;
+        } else {
+            resultZones << resultZone;
+        }
+    }
+    for (auto &toRemove : zonesToRemove) {
+        resultZones.removeAll(toRemove);
+    }
+    return resultZones;
 }
 
 QVector<QPoint> VideoTextEdit::getInsertZones(double offset)
@@ -85,7 +160,8 @@ QVector<QPoint> VideoTextEdit::getInsertZones(double offset)
             if (!anchorStart.isEmpty() && !anchorEnd.isEmpty()) {
                 double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble() + offset;
                 double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble() + offset;
-                return {QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()))};
+                QPoint originalZone(QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps())));
+                return processedZones({originalZone});
             }
         }
         return {};
@@ -113,7 +189,7 @@ QVector<QPoint> VideoTextEdit::getInsertZones(double offset)
     zones << QPoint(currentStart, currentEnd);
 
     qDebug()<<"=== GOT RESULTING ZONES: "<<zones;
-    return zones;
+    return processedZones(zones);
 }
 
 void VideoTextEdit::updateLineNumberArea(const QRect &rect, int dy)
@@ -371,6 +447,14 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         qDebug()<<"++++++++++++++++++++\n\nGOT BLOCKS: "<<ct<<"\n\n+++++++++++++++++++++";
     });
     
+    connect(m_visualEditor, &VideoTextEdit::selectionChanged, [this]() {
+        bool hasSelection = m_visualEditor->textCursor().selectedText().isEmpty() == false;
+        button_insert->setEnabled(hasSelection);
+        button_delete->setEnabled(hasSelection);
+        button_up->setEnabled(!m_visualEditor->m_zones.isEmpty());
+        button_down->setEnabled(!m_visualEditor->m_zones.isEmpty());
+    });
+    
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
@@ -415,9 +499,23 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
     });
+    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+    button_delete->setToolTip(i18n("Delete selected text"));
+    button_delete->setEnabled(false);
+    connect(button_delete, &QToolButton::clicked, this, &TextBasedEdit::deleteItem);
+    
+    button_up->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
+    button_up->setToolTip(i18n("Move selected block up"));
+    button_up->setEnabled(false);
+    
+    button_down->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
+    button_down->setToolTip(i18n("Move selected block down"));
+    button_down->setEnabled(false);
+    
     button_insert->setIcon(QIcon::fromTheme(QStringLiteral("timeline-insert")));
     button_insert->setToolTip(i18n("Insert selected blocks in timeline"));
     connect(button_insert, &QToolButton::clicked, this, &TextBasedEdit::insertToTimeline);
+    button_insert->setEnabled(false);
     
     // Search stuff
     search_frame->setVisible(false);
@@ -436,6 +534,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             if (found) {
                 col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
                 palette.setColor(QPalette::Base,col);
+                QTextCursor cur = m_visualEditor->textCursor();
+                cur.select(QTextCursor::WordUnderCursor);
+                m_visualEditor->setTextCursor(cur);
             } else {
                 // Loop over, abort
                 col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
@@ -444,44 +545,46 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
         search_line->setPalette(palette);   
     });
-    /*connect(search_next, &QToolButton::clicked, [this]() {
+    connect(search_next, &QToolButton::clicked, [this]() {
         const QString searchText = search_line->text();
+        QPalette palette = this->palette();
+        QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
-            int ix = listWidget->currentRow() + 1;
-            bool found = false;
-            QListWidgetItem *item;
-            while (!found && ix < listWidget->count()) {
-                item = listWidget->item(ix);
-                if (item) {
-                    if (item->text().contains(searchText)) {
-                        listWidget->setCurrentRow(ix);
-                        found = true;
-                        break;
-                    }
-                }
-                ix++;
+            bool found = m_visualEditor->find(searchText);
+            if (found) {
+                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
+                palette.setColor(QPalette::Base,col);
+                QTextCursor cur = m_visualEditor->textCursor();
+                cur.select(QTextCursor::WordUnderCursor);
+                m_visualEditor->setTextCursor(cur);
+            } else {
+                // Loop over, abort
+                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
+                palette.setColor(QPalette::Base,col);
             }
         }
+        search_line->setPalette(palette);  
     });
     connect(search_prev, &QToolButton::clicked, [this]() {
         const QString searchText = search_line->text();
+                QPalette palette = this->palette();
+        QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
-            int ix = listWidget->currentRow() - 1;
-            bool found = false;
-            QListWidgetItem *item;
-            while (!found && ix > 0) {
-                item = listWidget->item(ix);
-                if (item) {
-                    if (item->text().contains(searchText)) {
-                        listWidget->setCurrentRow(ix);
-                        found = true;
-                        break;
-                    }
-                }
-                ix--;
+            bool found = m_visualEditor->find(searchText, QTextDocument::FindBackward);
+            if (found) {
+                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
+                palette.setColor(QPalette::Base,col);
+                QTextCursor cur = m_visualEditor->textCursor();
+                cur.select(QTextCursor::WordUnderCursor);
+                m_visualEditor->setTextCursor(cur);
+            } else {
+                // Loop over, abort
+                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
+                palette.setColor(QPalette::Base,col);
             }
         }
-    });*/
+        search_line->setPalette(palette);  
+    });
     parseVoskDictionaries();
 }
 
@@ -503,10 +606,16 @@ bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 
 void TextBasedEdit::startRecognition()
 {
+    if (m_speechJob && m_speechJob->state() != QProcess::NotRunning) {
+        if (KMessageBox::questionYesNo(this, i18n("Another recognition job is running. Abort it ?")) !=  KMessageBox::Yes) {
+            return;
+        }
+    }
     info_message->hide();
     m_errorString.clear();
     qDebug()<<"======= EDITOR TXT COLOR: "<<palette().text().color().name()<<"\n==========";
     m_document.setDefaultStyleSheet(QString("body {font-size:%2px;}\na { text-decoration:none;color:%1;font-size:%2px;}").arg(palette().text().color().name()).arg(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize()));
+    m_visualEditor->cleanup();
     m_visualEditor->insertHtml(QStringLiteral("<body>"));
 
     info_message->removeAction(m_logAction);
@@ -635,6 +744,9 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
         info_message->setText(i18n("Speech recognition finished."));
         info_message->animatedShow();
     }
+    QTextCursor cur = m_visualEditor->textCursor();
+    cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+    m_visualEditor->setTextCursor(cur);
     frame_progress->setVisible(false);
 }
 
@@ -740,6 +852,22 @@ void TextBasedEdit::parseVoskDictionaries()
 void TextBasedEdit::deleteItem()
 {
     QTextCursor cursor = m_visualEditor->textCursor();
+    int start = cursor.selectionStart();
+    int end = cursor.selectionEnd();
+    qDebug()<<"=== CUTTONG: "<<start<<" - "<<end;
+    if (end > start) {
+        cursor.setPosition(start + 1);
+        QString anchorStart = m_visualEditor->anchorAt(m_visualEditor->cursorRect(cursor).center());
+        cursor.setPosition(end - 1);
+        QString anchorEnd = m_visualEditor->anchorAt(m_visualEditor->cursorRect(cursor).center());
+        double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble() + m_offset;
+        double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble() + m_offset;
+        qDebug()<<"=== CUTTONG times: "<<startMs<<" - "<<endMs;
+        if (startMs < endMs) {
+            m_visualEditor->cutZones << QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()));
+        }
+    }
+    cursor = m_visualEditor->textCursor();
     cursor.removeSelectedText();
 }
 
