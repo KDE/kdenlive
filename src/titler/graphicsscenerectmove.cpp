@@ -209,6 +209,7 @@ void MyTextItem::updateGeometry(int, int, int)
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
     if ((textInteractionFlags() & static_cast<int>((Qt::TextEditable) != 0)) != 0) {
+        document()->setDocumentMargin(0);
         QGraphicsTextItem::paint(painter, option, w);
     } else {
         painter->setRenderHint(QPainter::Antialiasing);
@@ -231,8 +232,9 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             pen.setWidthF(outline);
             painter->strokePath(m_path, pen);
         }
-        if (isSelected()) {
-            QPen pen(Qt::red);
+        document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
+        if (isSelected() || toPlainText().isEmpty()) {
+            QPen pen(isSelected() ? Qt::red : Qt::blue);
             pen.setStyle(Qt::DashLine);
             painter->setPen(pen);
             painter->drawRect(boundingRect());
