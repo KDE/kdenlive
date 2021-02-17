@@ -291,6 +291,16 @@ Rectangle {
         dragProxy.verticalOffset = 0
     }
 
+    function getAudioTracksCount(){
+        var audioCount = 0;
+        for (var i = 0; i < trackHeaderRepeater.count; i++) {
+            if(trackHeaderRepeater.itemAt(i).isAudio) {
+                audioCount++;
+            }
+        }
+        return audioCount;
+    }
+
     function getItemAtPos(tk, posx, isComposition) {
         var track = Logic.getTrackById(tk)
         var container = track.children[0]
@@ -366,7 +376,7 @@ Rectangle {
     property bool showSubtitles: false
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
-    property int trackTagWidth: fontMetrics.boundingRect("M").width * (trackHeaderRepeater.count < 10 ? 2 : 3)
+    property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
 
     onSeekingFinishedChanged : {
