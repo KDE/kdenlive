@@ -58,8 +58,9 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     slider_zoom->setRange(0, 15);
     connect(slider_zoom, &QAbstractSlider::valueChanged, this, &ResourceWidget::slotSetIconSize);
     connect(button_zoomin, &QToolButton::clicked, this, [&]() {
-        (qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
-    connect(button_zoomout, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
+        slider_zoom->setValue(qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
+    connect(button_zoomout, &QToolButton::clicked, this, [&]() { 
+        slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
 
     message_line->close();
 
@@ -84,7 +85,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     loadConfig();
     connect(provider_info, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
     connect(label_license, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
-    connect(button_search, &QAbstractButton::clicked, this, &ResourceWidget::slotStartSearch);
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&](){
@@ -163,7 +163,7 @@ void ResourceWidget::saveConfig()
 void ResourceWidget::blockUI(bool block)
 {
     buildin_box->setEnabled(!block);
-    search_box->setEnabled(!block);
+    search_text->setEnabled(!block);
     service_list->setEnabled(!block);
     setCursor(block ? Qt::WaitCursor : Qt::ArrowCursor);
 }
