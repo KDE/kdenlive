@@ -37,7 +37,7 @@
      </column>
      <column>
       <property name="text" >
-       <string>Size</string>
+       <string comment="Filesize">Size</string>
       </property>
      </column>
     </widget>

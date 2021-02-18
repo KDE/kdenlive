@@ -7,7 +7,7 @@ ExternalProject_Add(
 
   PATCH_COMMAND ${PATCH_COMMAND} -p1 -i ${CMAKE_CURRENT_SOURCE_DIR}/xml.diff
 
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${EXT_INSTALL_DIR} ${AT_HOST} --without-python --with-icu --without-catalog --with-lzma=${EXT_INSTALL_DIR}/lib CPPFLAGS=${AT_CPP_FLAGS} LDFLAGS=${AT_LD_FLAGS}
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${EXT_INSTALL_DIR} ${AT_HOST} --without-python --with-icu --with-lzma=${EXT_INSTALL_DIR}/lib CPPFLAGS=${AT_CPP_FLAGS} LDFLAGS=${AT_LD_FLAGS}
   BUILD_COMMAND $(MAKE)
   INSTALL_COMMAND $(MAKE) install
   DEPENDS ext_lzma ext_readline

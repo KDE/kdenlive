@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect tag="frei0r.levels" id="frei0r.levels">
-	<name>Levels</name>
+	<name context="Levels Effect Name">Levels</name>
 	<description>Adjust levels</description>
 	<author>Maksim Golovkin</author>
 

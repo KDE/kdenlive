@@ -67,7 +67,8 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     : QGraphicsTextItem(txt, parent)
     , m_alignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft)
 {
-    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    //Disabled because cache makes text cursor invisible and borders ugly
+    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     document()->setDocumentMargin(0);
     m_shadowEffect = new MyQGraphicsEffect(this);
@@ -208,6 +209,7 @@ void MyTextItem::updateGeometry(int, int, int)
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
     if ((textInteractionFlags() & static_cast<int>((Qt::TextEditable) != 0)) != 0) {
+        document()->setDocumentMargin(0);
         QGraphicsTextItem::paint(painter, option, w);
     } else {
         painter->setRenderHint(QPainter::Antialiasing);
@@ -230,8 +232,9 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             pen.setWidthF(outline);
             painter->strokePath(m_path, pen);
         }
-        if (isSelected()) {
-            QPen pen(Qt::red);
+        document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
+        if (isSelected() || toPlainText().isEmpty()) {
+            QPen pen(isSelected() ? Qt::red : Qt::blue);
             pen.setStyle(Qt::DashLine);
             painter->setPen(pen);
             painter->drawRect(boundingRect());
@@ -409,6 +412,7 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
     // SetTextInteraction(true);
     setTextInteractionFlags(Qt::TextEditorInteraction);
     setFocus(Qt::MouseFocusReason);
+    setCursor(QCursor(Qt::IBeamCursor));
     // 2. send a single click to this QGraphicsTextItem (this will set the cursor to the mouse position):
     // create a new mouse event with the same parameters as evt
     auto *click = new QGraphicsSceneMouseEvent(QEvent::GraphicsSceneMousePress);
@@ -421,7 +425,8 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
 MyRectItem::MyRectItem(QGraphicsItem *parent)
     : QGraphicsRectItem(parent)
 {
-    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    //Disabled because cache makes text cursor invisible and borders ugly
+    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -454,7 +459,8 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
 MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent)
     : QGraphicsPixmapItem(pixmap, parent)
 {
-    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    //Disabled because cache makes text cursor invisible and borders ugly
+    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -477,7 +483,8 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
 MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent)
     : QGraphicsSvgItem(fileName, parent)
 {
-    setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    //Disabled because cache makes text cursor invisible and borders ugly
+    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -792,6 +799,7 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
         QTextBlock cur = t->textCursor().block();
         t->setTextCursor(QTextCursor(cur));
         t->setTextInteractionFlags(Qt::NoTextInteraction);
+        t->unsetCursor();
     }
     if (reset) {
         m_selectedItem = nullptr;

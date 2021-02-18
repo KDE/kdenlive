@@ -39,6 +39,7 @@ class QDoubleSpinBox;
 class QLabel;
 class QToolButton;
 class MixerManager;
+class KSqueezedTextLabel;
 
 namespace Mlt {
     class Tractor;
@@ -50,15 +51,16 @@ class MixerWidget : public QWidget
     Q_OBJECT
 
 public:
-    MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent = nullptr);
-    MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent = nullptr);
+    MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName, MixerManager *parent = nullptr);
+    MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName, MixerManager *parent = nullptr);
     virtual ~MixerWidget();
-    void buildUI(Mlt::Tractor *service, const QString &trackTag);
+    void buildUI(Mlt::Tractor *service, const QString &trackName);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
     void reset();
     /** @brief discard stored audio values */
     void clear();
     static void property_changed( mlt_service , MixerWidget *self, char *name );
+    void setTrackName(const QString &name);
     void setMute(bool mute);
     /** @brief Returns true if track is muted
      * */
@@ -101,12 +103,13 @@ private:
     QToolButton *m_solo;
     QToolButton *m_record;
     QToolButton *m_collapse;
-    QLabel *m_trackLabel;
+    KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;
     int m_lastVolume;
     QVector <double>m_audioData;
     Mlt::Event *m_listener;
     bool m_recording;
+    const QString m_trackTag;
     /** @Update track label to reflect state */
     void updateLabel();
 

@@ -1,0 +1,40 @@
+{
+    "name": "Pexels Video",
+    "homepage": "https://pexels.com",
+    "type": "video",
+    "integration": "buildin",
+    "clientkey":"%pexels_apikey%",
+    "api": {
+        "root": "https://api.pexels.com/videos",
+        "search": {
+            "req": {
+                "path": "/search",
+                "method": "GET",
+                "header": [
+                    { "key": "Authorization", "value": "%clientkey%" }
+                ],
+                "params": [
+                    { "key": "locale", "value": "%shortlocale%" },
+                    { "key": "per_page", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "query", "value": "%query%" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"total_results",
+                "list":"videos",
+                "id":"id",
+                "url":"url",
+                "licenseUrl":"$https://www.pexels.com/license/",
+                "author": "user.name",
+                "authorUrl": "user.url",
+                "width": "width",
+                "height": "height",
+                "duration": "duration",
+                "imageUrl": "image",
+                "downloadUrls": { "key": "video_files", "url":"link", "name":"${quality} {width}x{height}"}
+            }
+        }
+    }
+}

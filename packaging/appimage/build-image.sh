@@ -44,10 +44,11 @@ cd $BUILD_PREFIX
 
 # Step 1: Copy over all the resources provided by dependencies that we need
 cp -r $DEPS_INSTALL_PREFIX/share/kf5 $APPDIR/usr/share
-#cp -r $DEPS_INSTALL_PREFIX/share/kstyle $APPDIR/usr/share
-#cp -r $DEPS_INSTALL_PREFIX/share/plasma $APPDIR/usr/share
+cp -r $DEPS_INSTALL_PREFIX/share/kstyle $APPDIR/usr/share
+cp -r $DEPS_INSTALL_PREFIX/share/plasma $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/alsa $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/kservices5 $APPDIR/usr/share
+cp -r $DEPS_INSTALL_PREFIX/share/kservicetypes5 $APPDIR/usr/share
 #cp -r $DEPS_INSTALL_PREFIX/share/qt5 $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/share/mime $APPDIR/usr/share
 
@@ -67,25 +68,32 @@ cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/libharfbuzz*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffplay  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffprobe  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/kbuildsycoca5  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/plugins/kf5  $APPIMAGEPLUGINS
-#cp -r $DEPS_INSTALL_PREFIX/plugins/styles  $APPIMAGEPLUGINS
+cp -r $DEPS_INSTALL_PREFIX/plugins/styles  $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/audio  $APPIMAGEPLUGINS
-#cp -r $DEPS_INSTALL_PREFIX/plugins/org.kde.kdecoration2 $APPIMAGEPLUGINS
-#cp -r $DEPS_INSTALL_PREFIX/plugins/kstyle_breeze_config.so $APPIMAGEPLUGINS
+cp -r $DEPS_INSTALL_PREFIX/plugins/org.kde.kdecoration2 $APPIMAGEPLUGINS
+cp -r $DEPS_INSTALL_PREFIX/plugins/kstyle_breeze_config.so $APPIMAGEPLUGINS
 
+cp /build/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1
 mkdir -p $APPDIR/usr/libexec
 
 cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
 
+
+#Put translation files where Qt looks for them
+cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/
+
 #libva accel
 cp -r /usr/lib/x86_64-linux-gnu/libva*  $APPDIR/usr/lib  || true
-cp -r /usr/lib/x86_64-linux-gnu/dri/*_drv_video.so  $APPDIR/usr/lib/va  || true
+cp -r /usr/lib/x86_64-linux-gnu/dri/*_drv_video.so  $APPDIR/usr/lib/va || true
 
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
@@ -123,13 +131,13 @@ for lib in $APPDIR/usr/lib/mlt/*.so*; do
 done
 
 
-#for lib in $APPDIR/usr/lib/libva*.so*; do
-#  patchelf --set-rpath '$ORIGIN' $lib;
-#done
+for lib in $APPDIR/usr/lib/libva*.so*; do
+  patchelf --set-rpath '$ORIGIN' $lib;
+done
 
-#for lib in $APPDIR/usr/lib/va/*.so*; do
-#  patchelf --set-rpath '$ORIGIN/..' $lib;
-#done
+for lib in $APPDIR/usr/lib/va/*.so*; do
+  patchelf --set-rpath '$ORIGIN/..' $lib;
+done
 
 
 ### GSTREAMER
@@ -171,16 +179,15 @@ cp $APPDIR/usr/share/icons/breeze/apps/48/kdenlive.svg $APPDIR
 #linuxdeployqt -executable $APPDIR/usr/lib/va/*.so
 
 
-#  -executable=$APPDIR/usr/lib/libva.so \
-#  -executable=$APPDIR/usr/lib/libva-drm.so \
-#  -executable=$APPDIR/usr/lib/libva-x11.so \
-
 linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -executable=$APPDIR/usr/bin/kdenlive \
+  -executable=$APPDIR/usr/lib/libva.so \
+  -executable=$APPDIR/usr/lib/libva-drm.so \
+  -executable=$APPDIR/usr/lib/libva-x11.so \
   -qmldir=$DEPS_INSTALL_PREFIX/qml \
   -verbose=2 \
   -bundle-non-qt-libs \
-  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins,$APPDIR/usr/qml \
+  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins,$APPDIR/usr/qml,$APPDIR/usr/share/locale \
   -exclude-libs=libnss3.so,libnssutil3.so,libGL.so.1
 
 #  -appimage \
@@ -195,6 +202,9 @@ rm $APPDIR/usr/lib/libxcb-dri{2,3}.so* || true
 
 rm $APPDIR/usr/lib/libgcrypt.so.20 || true
 
+# libdrm-* cause startup crash
+rm $APPDIR/usr/lib/libdrm_* || true
+
 rm  $APPDIR/AppRun
 
 cat > $APPDIR/AppRun << EOF
@@ -203,12 +213,18 @@ cat > $APPDIR/AppRun << EOF
 DIR="\`dirname \"\$0\"\`" 
 DIR="\`( cd \"\$DIR\" && pwd )\`"
 export APPDIR=\$DIR
+export LC_ALL=\$LANG
 
+export APPIMAGE_ORIGINAL_LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
+export APPIMAGE_ORIGINAL_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
+export APPIMAGE_ORIGINAL_XDG_DATA_DIRS=\$XDG_DATA_DIRS
+export APPIMAGE_ORIGINAL_PATH=\$PATH
 
 export LD_LIBRARY_PATH=\$DIR/usr/lib/:\$LD_LIBRARY_PATH
+export QT_PLUGIN_PATH=\$DIR/usr/plugins/
 export XDG_DATA_DIRS=\$DIR/usr/share/:\$XDG_DATA_DIRS
 export XDG_CONFIG_HOME=\$HOME/.config/
-export PATH=\$DIR/usr/bin:\$PATH
+export PATH=\$DIR/usr/bin:\$DIR/usr/lib:\$DIR/usr/lib/libexec/kf5::\$PATH
 export KDE_FORK_SLAVES=1
 
 export MLT_REPOSITORY=\$DIR/usr/lib/mlt/
@@ -220,9 +236,18 @@ export FREI0R_PATH=\$DIR/usr/lib/frei0r-1
 export MLT_PROFILES_PATH=\$DIR/usr/share/mlt/profiles/
 export MLT_PRESETS_PATH=\$DIR/usr/share/mlt/presets/
 export SDL_AUDIODRIVER=pulseaudio
-export XDG_CURRENT_DESKTOP=
 export GST_PLUGIN_SCANNER=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
 export GST_PLUGIN_PATH=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/
+
+export APPIMAGE_ORIGINAL_KDE_FULL_SESSION=\$KDE_FULL_SESSION
+export APPIMAGE_ORIGINAL_DESKTOP_SESSION=\$DESKTOP_SESSION
+export APPIMAGE_ORIGINAL_XDG_CURRENT_DESKTOP=\$XDG_CURRENT_DESKTOP
+export APPIMAGE_ORIGINAL_XDG_SESSION_DESKTOP=\$XDG_SESSION_DESKTOP
+
+export APPIMAGE_STARTUP_LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
+export APPIMAGE_STARTUP_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
+export APPIMAGE_STARTUP_XDG_DATA_DIRS=\$XDG_DATA_DIRS
+export APPIMAGE_STARTUP_PATH=\$PATH
 
 kdenlive --config kdenlive-appimagerc \$@
 EOF

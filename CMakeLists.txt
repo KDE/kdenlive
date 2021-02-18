@@ -52,7 +52,7 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
 
 # Qt
 set(QT_MIN_VERSION 5.11.0)
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia)
+find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 

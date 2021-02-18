@@ -583,7 +583,7 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     m_globalPie = new ChartWidget(this);
     m_listWidget = new QTreeWidget(this);
     m_listWidget->setColumnCount(3);
-    m_listWidget->setHeaderLabels(QStringList() << i18n("Folder") << i18n("Size") << i18n("Date"));
+    m_listWidget->setHeaderLabels(QStringList() << i18n("Folder") << i18nc("Filesize", "Size") << i18n("Date"));
     m_listWidget->setRootIsDecorated(false);
     m_listWidget->setAlternatingRowColors(true);
     m_listWidget->setSortingEnabled(true);

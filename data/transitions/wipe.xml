@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <transition tag="composite" id="wipe" type="short">
-        <name>Wipe</name>
+        <name context="Wipe Transition Name">Wipe</name>
         <description>Applies a stationary transition between the current and next frames.</description>
         <author>Dan Dennedy</author>
         <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">

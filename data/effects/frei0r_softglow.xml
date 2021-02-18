@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
   <effect tag="frei0r.softglow" id="frei0r.softglow">
-	  <name>Soft Glow</name>
+	  <name context="Soft Glow Effect Name">Soft Glow</name>
 	  <description>Does softglow effect on highlights</description>
 	  <author>Janne Liljeblad</author>
     <parameter type="animated" name="brightness" default="0.5" min="0" max="100" factor="100">

@@ -1,10 +1,18 @@
+SET(PREFIX_ext_openssl "${EXT_INSTALL_DIR}" )
+
 ExternalProject_Add(
   ext_openssl
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL https://www.openssl.org/source/openssl-1.1.1.tar.gz
-  URL_MD5 7079eb017429e0ffb9efb42bf80ccb21
+        DOWNLOAD_DIR ${EXTERNALS_DOWNLOAD_DIR}
+        URL https://www.openssl.org/source/openssl-1.1.1j.tar.gz
+        URL_HASH SHA256=aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf
 
-  CONFIGURE_COMMAND <SOURCE_DIR>/config --prefix=${EXT_INSTALL_DIR}/openssl --openssldir=${EXT_INSTALL_DIR}/openssl/ssl
-  BUILD_COMMAND $(MAKE)
-  INSTALL_COMMAND $(MAKE) install_sw
+        CONFIGURE_COMMAND <SOURCE_DIR>/config --prefix=${PREFIX_ext_openssl} --openssldir=openssl
+
+        BUILD_COMMAND make depend COMMAND make
+        INSTALL_COMMAND make install
+
+        INSTALL_DIR ${PREFIX_ext_openssl}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${PREFIX_ext_openssl} -DCMAKE_BUILD_TYPE=${GLOBAL_BUILD_TYPE} ${GLOBAL_PROFILE}
+
+        UPDATE_COMMAND ""
 )

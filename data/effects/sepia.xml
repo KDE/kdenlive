@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="sepia" id="sepia">
-	<name>Sepia</name>
+	<name context="Sepia Effect Name">Sepia</name>
 	<description>Turn clip colors to sepia</description>
 	<author>Charles Yates</author>
 	<parameter type="constant" name="u" max="255" min="0" default="75">

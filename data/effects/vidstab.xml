@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="vidstab" id="vidstab" type="hidden" version="0.2">
-	<name>Stabilize</name>
+	<name context="Stabilize Effect Name">Stabilize</name>
 	<description>Stabilize Video (for wiggly/rolling video)</description>
 	<author>Marco Gittler</author>
 	<parameter type="constant" name="accuracy" default="8" max="10" min="1">

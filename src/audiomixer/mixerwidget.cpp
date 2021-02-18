@@ -44,6 +44,7 @@
 #include <QMouseEvent>
 #include <QStyle>
 #include <QFontDatabase>
+#include <KSqueezedTextLabel>
 
 static inline double IEC_Scale(double dB)
 {
@@ -99,7 +100,7 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
     }
 }
 
-MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName, MixerManager *parent)
 : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -115,11 +116,12 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
+    , m_trackTag(trackTag)
 {
-    buildUI(service.get(), trackTag);
+    buildUI(service.get(), trackName);
 }
 
-MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName, MixerManager *parent)
     : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -135,8 +137,9 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
+    , m_trackTag(trackTag)
 {
-    buildUI(service, trackTag);
+    buildUI(service, trackName);
 }
 
 MixerWidget::~MixerWidget()
@@ -146,7 +149,7 @@ MixerWidget::~MixerWidget()
     }
 }
 
-void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
+void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Build audio meter widget
@@ -243,10 +246,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         }
     }
 
-    m_trackLabel = new QLabel(trackTag, this);
+    m_trackLabel = new KSqueezedTextLabel(this);
     m_trackLabel->setAutoFillBackground(true);
     m_trackLabel->setAlignment(Qt::AlignHCenter);
     m_trackLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    m_trackLabel->setTextElideMode(Qt::ElideRight);
+    setTrackName(trackName);
     m_muteAction = new KDualAction(i18n("Mute track"), i18n("Unmute track"), this);
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
@@ -408,6 +413,15 @@ void MixerWidget::mousePressEvent(QMouseEvent *event)
         }
     } else {
         QWidget::mousePressEvent(event);
+    }
+}
+
+void MixerWidget::setTrackName(const QString &name) {
+    // Show only tag on master or if name is empty
+    if (name.isEmpty() || m_tid == -1) {
+        m_trackLabel->setText(m_trackTag);
+    } else {
+        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag).arg(name));
     }
 }
 

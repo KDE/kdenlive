@@ -58,8 +58,9 @@ if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
 fi
 
 #download translations
-cd $KDENLIVE_SOURCES/packaging/appimage/
-ruby fetch_l10n_po.rb --enable-kdenlive
+#cd $KDENLIVE_SOURCES/packaging/appimage/
+#ruby fetch_l10n_po.rb --enable-kdenlive
+#export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # Now switch to it
 cd $BUILD_PREFIX/kdenlive-build/
@@ -70,8 +71,9 @@ CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
 # Configure Kdenlive
 cmake $KDENLIVE_SOURCES \
     -DCMAKE_INSTALL_PREFIX:PATH=$BUILD_PREFIX/kdenlive.appdir/usr \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DBUILD_TESTING=FALSE
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=FALSE \
+    -DKDE_L10N_SYNC_TRANSLATIONS=ON
 
 # Build and Install Kdenlive (ready for the next phase)
 make -j$CPU_COUNT install

@@ -1,0 +1,49 @@
+{
+    "name": "Freesound",
+    "homepage": "https://freesound.org",
+    "type": "sound",
+    "integration": "buildin",
+    "downloadOAuth2": true,
+    "clientkey": "%freesound_apikey%",
+    "api": {
+        "root": "https://freesound.org/apiv2",
+        "oauth2": {
+            "authorizationUrl": "https://freesound.org/apiv2/oauth2/authorize/",
+            "accessTokenUrl": "https://freesound.org/apiv2/oauth2/access_token/",
+            "clientId": "fFo1lNyrTSJDp5PAGgKg"
+        },
+        "search": {
+            "req": {
+                "path": "/search/text/",
+                "method": "GET",
+                "params": [
+                    { "key": "format", "value": "json" },
+                    { "key": "fields", "value": "id,url,name,description,license,filesize,duration,username,download,previews,images,type" },
+                    { "key": "filter", "value": "license:(\"Attribution\"+OR+\"Creative+Commons+0\")"},
+                    { "key": "page_size", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "query", "value": "%query%" },
+                    { "key": "token", "value": "%clientkey%" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"count",
+                "list":"results",
+                "name":"name",
+                "filetype":"type",
+                "id":"id",
+                "url":"url",
+                "licenseUrl":"license",
+                "description": "description",
+                "author": "username",
+                "authorUrl": "$https://freesound.org/people/{username}",
+                "duration": "duration",
+                "filesize":"filesize",
+                "downloadUrl": "download",
+                "previewUrl": "previews.preview-hq-mp3",
+                "imageUrl": "images.waveform_m"
+            }
+        }
+    }
+}

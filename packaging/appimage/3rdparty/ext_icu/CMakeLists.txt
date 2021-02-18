@@ -1,10 +1,17 @@
 ExternalProject_Add(
   ext_icu
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.icu-project.org/files/icu4c/63.1/icu4c-63_1-src.tgz
-  URL_MD5 9e40f6055294284df958200e308bce50
-
-  CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${EXT_INSTALL_DIR} --disable-tests
-  BUILD_COMMAND $(MAKE)
-  INSTALL_COMMAND $(MAKE) install
+  URL https://github.com/unicode-org/icu/archive/release-64-2.tar.gz
+  URL_MD5 b52fcb73e71545c6528beadc755e45e7
+  CONFIGURE_COMMAND cd <SOURCE_DIR>/icu4c/source &&
+                       ./configure --prefix ${EXT_INSTALL_DIR}/local
+                                   --enable-tests=no
+                                   --enable-samples=no
+                                   --with-data-packaging=library
+                                   --disable-renaming
+  BUILD_COMMAND cd <SOURCE_DIR>/icu4c/source && $(MAKE)
+  INSTALL_COMMAND cd <SOURCE_DIR>/icu4c/source && $(MAKE) install
+  UPDATE_COMMAND ""
+  BUILD_IN_SOURCE 1
+  ALWAYS 0
 )

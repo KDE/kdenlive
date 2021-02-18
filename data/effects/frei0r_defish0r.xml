@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.defish0r" id="frei0r.defish0r">
-	<name>Defish</name>
+	<name context="Defish Effect Name">Defish</name>
 	<description>Non rectilinear lens mappings</description>
 	<author>Marko Cebokli</author>
 	<parameter type="animated" name="Amount" default="0" min="0" max="1000" factor="1000">

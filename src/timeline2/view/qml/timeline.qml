@@ -291,6 +291,16 @@ Rectangle {
         dragProxy.verticalOffset = 0
     }
 
+    function getAudioTracksCount(){
+        var audioCount = 0;
+        for (var i = 0; i < trackHeaderRepeater.count; i++) {
+            if(trackHeaderRepeater.itemAt(i).isAudio) {
+                audioCount++;
+            }
+        }
+        return audioCount;
+    }
+
     function getItemAtPos(tk, posx, isComposition) {
         var track = Logic.getTrackById(tk)
         var container = track.children[0]
@@ -366,7 +376,7 @@ Rectangle {
     property bool showSubtitles: false
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
-    property int trackTagWidth: fontMetrics.boundingRect("M").width * (trackHeaderRepeater.count < 10 ? 2 : 3)
+    property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
 
     onSeekingFinishedChanged : {
@@ -747,6 +757,29 @@ Rectangle {
                     }
                     onClicked: {
                         timeline.showMasterEffects()
+                    }
+                    DropArea { //Drop area for tracks
+                        anchors.fill: parent
+                        keys: 'kdenlive/effect'
+                        property string dropData
+                        property string dropSource
+                        property int dropRow: -1
+                        onEntered: {
+                            dropData = drag.getDataAsString('kdenlive/effect')
+                            dropSource = drag.getDataAsString('kdenlive/effectsource')
+                        }
+                        onDropped: {
+                            console.log("Add effect: ", dropData)
+                            if (dropSource == '') {
+                                // drop from effects list
+                                controller.addTrackEffect(-1, dropData);
+                            } else {
+                                controller.copyTrackEffect(-1, dropSource);
+                            }
+                            dropSource = ''
+                            dropRow = -1
+                            drag.acceptProposedAction
+                        }
                     }
                 }
             }
