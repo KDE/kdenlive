@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
             KSharedConfigPtr config = KSharedConfig::openConfig();
             if (config->name().contains(QLatin1String("kdenlive"))) {
                 // Make sure we delete our config file
-                QFile f(QStandardPaths::locate(QStandardPaths::ConfigLocation, config->name(), QStandardPaths::LocateFile));
+                QFile f(QStandardPaths::locate(QStandardPaths::GenericConfigLocation, config->name(), QStandardPaths::LocateFile));
                 if (f.exists()) {
                     qDebug()<<" = = = =\nGOT Deleted file: "<<f.fileName();
                     f.remove();
