@@ -192,6 +192,14 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     container->addAction(kfType);
     container->addAction(removeNext);
 
+    // rotoscoping only supports linear keyframes
+    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
+        m_selectType->setVisible(false);
+        m_selectType->setCurrentAction(linear);
+        kfType->setVisible(false);
+        kfType->setCurrentAction(linear2);
+    }
+
     // Menu toolbutton
     auto *menuButton = new QToolButton(this);
     menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
