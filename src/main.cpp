@@ -269,15 +269,20 @@ int main(int argc, char *argv[])
         pCore->initGUI(url, clipsToLoad);
         result = app.exec();
     }
+    qDebug()<<" = = = =\nEXIT result: "<<result;
     Core::clean();
     if (result == EXIT_RESTART || result == EXIT_CLEAN_RESTART) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
+        qDebug() << "restarting app";
         if (result == EXIT_CLEAN_RESTART) {
+            qDebug() << "clean restarting app";
             // Delete config file
             KSharedConfigPtr config = KSharedConfig::openConfig();
+            qDebug()<<" = = = =\nCONFIG name: "<<config->name();
             if (config->name().contains(QLatin1String("kdenlive"))) {
                 // Make sure we delete our config file
                 QFile f(QStandardPaths::locate(QStandardPaths::ConfigLocation, config->name(), QStandardPaths::LocateFile));
+                qDebug()<<" = = = =\nWANT file: "<<f.fileName();
                 if (f.exists()) {
                     qDebug()<<" = = = =\nGOT Deleted file: "<<f.fileName();
                     f.remove();
@@ -285,6 +290,7 @@ int main(int argc, char *argv[])
             }
             // Delete xml ui rc file
             QDir dir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5"), QStandardPaths::LocateDirectory));
+            qDebug()<<" = = = =\nWANT dir: "<<dir.absolutePath();
             if (dir.exists()) {
                 dir.cd(QStringLiteral("kdenlive"));
             }
