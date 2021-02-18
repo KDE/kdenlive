@@ -22,8 +22,8 @@
      <property name="handleWidth">
       <number>7</number>
      </property>
-     <widget class="QWidget" name="">
-      <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QWidget" name="left_box_widget">
+      <layout class="QVBoxLayout" name="left_box">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -116,8 +116,8 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+     <widget class="QWidget" name="right_box_widget">
+      <layout class="QVBoxLayout" name="right_box">
        <item>
         <widget class="QFrame" name="details_box">
          <property name="frameShape">
@@ -196,8 +196,14 @@
    </item>
    <item row="1" column="0" colspan="7">
     <widget class="KMessageWidget" name="message_line">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="wordWrap">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="closeButtonVisible">
       <bool>false</bool>
@@ -299,7 +305,10 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="7">
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="service_box_2" native="true">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -307,6 +316,18 @@
       </sizepolicy>
      </property>
      <layout class="QHBoxLayout" name="service_box">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
@@ -328,17 +349,14 @@
     </widget>
    </item>
   </layout>
-  <zorder>widget</zorder>
+  <zorder>splitter</zorder>
+  <zorder>service_box_2</zorder>
   <zorder>message_line</zorder>
-  <zorder>buildin_box</zorder>
   <zorder>button_preview</zorder>
   <zorder>button_import</zorder>
   <zorder>button_zoomin</zorder>
   <zorder>button_zoomout</zorder>
   <zorder>slider_zoom</zorder>
-  <zorder>label_license</zorder>
-  <zorder>info_browser</zorder>
-  <zorder>provider_info</zorder>
   <zorder>horizontalSpacer</zorder>
  </widget>
  <customwidgets>

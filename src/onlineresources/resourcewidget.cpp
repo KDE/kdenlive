@@ -25,7 +25,6 @@
 #include "kdenlivesettings.h"
 
 #include <klocalizedstring.h>
-//#include <QGridLayout>
 #include <KSqueezedTextLabel>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -35,8 +34,6 @@
 #include <QProgressDialog>
 #include <QToolBar>
 #include <QComboBox>
-//#include <QPixmap>
-//#include <QNetworkAccessManager>
 #include <KFileItem>
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -50,7 +47,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    m_tmpThumbFile = new QTemporaryFile;
+    m_tmpThumbFile = new QTemporaryFile(this);
 
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
@@ -62,7 +59,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     connect(button_zoomout, &QToolButton::clicked, this, [&]() { 
         slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
 
-    message_line->close();
+    message_line->hide();
 
     for (QPair<QString, QString> provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
@@ -125,7 +122,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 ResourceWidget::~ResourceWidget()
 {
     saveConfig();
-    delete m_currentProvider;
     delete m_tmpThumbFile;
 }
 
@@ -138,7 +134,11 @@ void ResourceWidget::loadConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "OnlineResources");
     slider_zoom->setValue(resourceConfig.readEntry("zoom", 7));
-    service_list->setCurrentItem(resourceConfig.readEntry("provider", service_list->itemText(0)));
+    if(resourceConfig.readEntry("provider", service_list->itemText(0)).isEmpty()) {
+        service_list->setCurrentIndex(0);
+    } else {
+        service_list->setCurrentItem(resourceConfig.readEntry("provider", service_list->itemText(0)));
+    }
     slotChangeProvider();
 }
 
@@ -178,8 +178,23 @@ void ResourceWidget::slotChangeProvider()
         m_currentProvider->get()->disconnect(this);
     }
 
+    details_box->setEnabled(false);
+    button_import->setEnabled(false);
+    button_preview->setEnabled(false);
+    info_browser->clear();
+    search_results->clear();
+    page_number->blockSignals(true);
+    page_number->setValue(1);
+    page_number->setMaximum(1);
+    page_number->blockSignals(false);
+
     if(service_list->currentData().toString().isEmpty()) {
+        provider_info->clear();
+        buildin_box->setEnabled(false);
         return;
+    } else {
+        buildin_box->setEnabled(true);
+        message_line->hide();
     }
 
     m_currentProvider = &ProvidersRepository::get()->getProvider(service_list->currentData().toString());
@@ -188,8 +203,8 @@ void ResourceWidget::slotChangeProvider()
     provider_info->setUrl(m_currentProvider->get()->homepage());
     connect(m_currentProvider->get(), &ProviderModel::searchDone, this, &ResourceWidget::slotSearchFinished);
     connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg){
-        message_line->setMessageType(KMessageWidget::Error);
         message_line->setText(i18n("Search failed! %1", msg));
+        message_line->setMessageType(KMessageWidget::Error);
         message_line->show();
         page_number->setEnabled(false);
         service_list->setEnabled(true);
@@ -198,14 +213,6 @@ void ResourceWidget::slotChangeProvider()
     });
     connect(m_currentProvider->get(), &ProviderModel::fetchedFiles, this, &ResourceWidget::slotChooseVersion);
     connect(m_currentProvider->get(), &ProviderModel::authenticated, this, &ResourceWidget::slotAccessTokenReceived);
-
-    details_box->setEnabled(false);
-    info_browser->clear();
-    search_results->clear();
-    page_number->blockSignals(true);
-    page_number->setValue(1);
-    page_number->setMaximum(1);
-    page_number->blockSignals(false);
 
     // automatically kick of a search if we have search text and we switch services.
     if (!search_text->text().isEmpty()) {
@@ -229,12 +236,14 @@ void ResourceWidget::slotOpenUrl(const QString &url)
  */
 void ResourceWidget::slotStartSearch()
 {
+    message_line->setText(i18nc("@info:status", "Search pending..."));
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
-    message_line->setText(i18nc("@info:status", "Search pending..."));
 
     blockUI(true);
     details_box->setEnabled(false);
+    button_import->setEnabled(false);
+    button_preview->setEnabled(false);
     info_browser->clear();
     search_results->clear();
     m_currentProvider->get()->slotStartSearch(search_text->text(), page_number->value());
@@ -249,8 +258,8 @@ void ResourceWidget::slotStartSearch()
 void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount) {
 
     if(list.isEmpty()) {
-        message_line->setMessageType(KMessageWidget::Error);
         message_line->setText(i18nc("@info", "No items found."));
+        message_line->setMessageType(KMessageWidget::Error);
         message_line->show();
         blockUI(false);
         return;
@@ -302,7 +311,7 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
         search_results->addItem(listItem);
         count++;
     }
-    message_line->close();
+    message_line->hide();
     page_number->setMaximum(pageCount);
     page_number->setEnabled(true);
     blockUI(false);
@@ -316,6 +325,8 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
 void ResourceWidget::slotUpdateCurrentItem()
 {
     details_box->setEnabled(false);
+    button_import->setEnabled(false);
+    button_preview->setEnabled(false);
 
     // get the item the user selected
     m_currentItem = search_results->currentItem();
@@ -366,6 +377,8 @@ void ResourceWidget::slotUpdateCurrentItem()
     label_license->setUrl(m_currentItem->data(licenseRole).toString());
 
     details_box->setEnabled(true);
+    button_import->setEnabled(true);
+    button_preview->setEnabled(true);
 }
 
 /**
