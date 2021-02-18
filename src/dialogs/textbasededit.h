@@ -50,13 +50,14 @@ public:
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
     QVector<QPoint> getInsertZones(double offset);
+    void rebuildZones(double offset);
     QVector< QPair<double, double> > m_zones;
     QVector <QPoint> cutZones;
     
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
-    //void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
