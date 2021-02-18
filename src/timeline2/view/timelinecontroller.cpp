@@ -288,8 +288,13 @@ int TimelineController::selectedTrack() const
 
 void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
 {
-    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition())
-                                                       : m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
+    int currentClip = -1;
+    if (type == ObjectType::TimelineClip) {
+        currentClip = m_activeTrack == -2 ? m_model->getSubtitleByPosition(pCore->getTimelinePosition()) : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
+    } else {
+        currentClip =  m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
+    }
+
     if (currentClip == -1) {
         pCore->displayMessage(i18n("No item under timeline cursor in active track"), ErrorMessage, 500);
         return;
