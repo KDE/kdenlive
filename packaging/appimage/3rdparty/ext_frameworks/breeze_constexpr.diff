@@ -1,0 +1,16 @@
+--- a/kstyle/breezehelper.h	2020-09-01 10:21:05.000000000 +0000
++++ b/kstyle/breezehelper.h	2021-02-18 14:00:51.609956729 +0000
+@@ -270,11 +270,11 @@
+         virtual qreal devicePixelRatio( const QPixmap& ) const;
+ 
+         //* frame radius
+-        constexpr qreal frameRadius( const int penWidth = PenWidth::NoPen, const qreal bias = 0 ) const
++        const qreal frameRadius( const int penWidth = PenWidth::NoPen, const qreal bias = 0 ) const
+         { return qMax( Metrics::Frame_FrameRadius - (0.5 * penWidth) + bias, 0.0 ); }
+         
+         //* frame radius with new pen width
+-        constexpr qreal frameRadiusForNewPenWidth( const qreal oldRadius, const int penWidth ) const
++        const qreal frameRadiusForNewPenWidth( const qreal oldRadius, const int penWidth ) const
+         { return qMax( oldRadius - (0.5 * penWidth), 0.0 ); }
+         
+         //* return a QRectF with the appropriate size for a rectangle with a pen stroke

@@ -83,16 +83,21 @@ echo "CPU Cores to use : $CPU_CORES"
 # Now start building everything we need, in the appropriate order
 
 cmake --build . --target ext_lzma  -j$CPU_CORES
+cmake --build . --target ext_icu  -j$CPU_CORES
 cmake --build . --target ext_xml  -j$CPU_CORES
 cmake --build . --target ext_gettext  -j$CPU_CORES
 cmake --build . --target ext_xslt  -j$CPU_CORES
 cmake --build . --target ext_png  -j$CPU_CORES
+cmake --build . --target ext_webp  -j$CPU_CORES
 
 
 export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
+cmake --build . --target ext_openssl
+cmake --build . --target ext_cmake
 cmake --build . --target ext_qt
+
 cmake --build . --target ext_boost  -j$CPU_CORES
 cmake --build . --target ext_gpgme  -j$CPU_CORES
 cmake --build . --target ext_libsndfile  -j$CPU_CORES
@@ -126,16 +131,16 @@ cmake --build . --target ext_opus  -j$CPU_CORES
 cmake --build . --target ext_nv-codec-headers -j$CPU_CORES
 cmake --build . --target ext_amf  -j$CPU_CORES
 cmake --build . --target ext_mfx  -j$CPU_CORES
-cmake --build . --target ext_libass  -j$CPU_CORES
-cmake --build . --target ext_ffmpeg  -j$CPU_CORES
-cmake --build . --target ext_sox  -j$CPU_CORES
-cmake --build . --target ext_jack  -j$CPU_CORES
-cmake --build . --target ext_ladspa  -j$CPU_CORES
 cmake --build . --target ext_cairo  -j$CPU_CORES
 cmake --build . --target ext_harfbuzz  -j$CPU_CORES
 cmake --build . --target ext_pango  -j$CPU_CORES
 cmake --build . --target ext_gdkpixbuf  -j$CPU_CORES
 cmake --build . --target ext_gtk+  -j$CPU_CORES
+cmake --build . --target ext_libass  -j$CPU_CORES
+cmake --build . --target ext_ffmpeg  -j$CPU_CORES
+cmake --build . --target ext_sox  -j$CPU_CORES
+cmake --build . --target ext_jack  -j$CPU_CORES
+cmake --build . --target ext_ladspa  -j$CPU_CORES
 cmake --build . --target ext_gavl  -j$CPU_CORES
 cmake --build . --target ext_frei0r  -j$CPU_CORES
 cmake --build . --target ext_vidstab  -j$CPU_CORES
@@ -145,8 +150,7 @@ export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
 
-##cmake --build . --target ext_movit
-
+cmake --build . --target ext_ruby
 cmake --build . --target ext_frameworks
 cmake --build . --config RelWithDebInfo --target ext_extra-cmake-modules -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kconfig             -- -j$CPU_CORES
@@ -157,6 +161,8 @@ cmake --build . --config RelWithDebInfo --target ext_solid               -- -j$C
 cmake --build . --config RelWithDebInfo --target ext_threadweaver        -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_karchive            -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kdbusaddons         -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_kirigami2 -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_qqc2-desktop-style -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_ki18n               -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kcrash              -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kcodecs             -- -j$CPU_CORES
@@ -181,10 +187,14 @@ cmake --build . --config RelWithDebInfo --target ext_kpackage                -- 
 cmake --build . --config RelWithDebInfo --target ext_knewstuff           -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_knotifications -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kdeclarative        -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_kdoctools        -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kservice            -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kimageformats       -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_frameworkintegration -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_kactivities -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_plasma-framework -- -j$CPU_CORES
 
 cmake --build . --target ext_breeze
-#cmake --build . --target ext_kwayland
-#cmake --build . --target ext_ruby
+
+cmake --build . --target ext_rubberband
+cmake --build . --target ext_bigshot

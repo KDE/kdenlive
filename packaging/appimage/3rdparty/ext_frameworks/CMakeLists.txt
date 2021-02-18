@@ -195,11 +195,11 @@ function(InstallKF5Component
 endfunction()
 
 if(MINGW)
-    set(KF5_VERSION 5.74) # we have Qt 5.14.2 available.
+    set(KF5_VERSION 5.76) # we have Qt 5.14.2 available.
 elseif(APPLE)
-    set(KF5_VERSION 5.74) # we have Qt 5.14.1 available.
+    set(KF5_VERSION 5.76) # we have Qt 5.14.1 available.
 else()
-    set(KF5_VERSION 5.74) # we have Qt 5.14.2 available.
+    set(KF5_VERSION 5.76) # we have Qt 5.14.2 available.
 endif()
 
 if(APPLE)
@@ -222,7 +222,7 @@ InstallKF5Component(kpackage            ${KF5_VERSION} ""                       
 InstallKF5Component(kcodecs             ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kauth               ${KF5_VERSION} "${MacosKauthBackend}"                                               "")
 InstallKF5Component(knewstuff           ${KF5_VERSION} ""                                                                   "")
-InstallKF5Component(kguiaddons          ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(kguiaddons          ${KF5_VERSION} "-DWITH_WAYLAND=OFF"                                                                   "")
 InstallKF5Component(kwidgetsaddons      ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kdeclarative        ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kitemviews          ${KF5_VERSION} ""                                                                   "")
@@ -243,6 +243,8 @@ InstallKF5Component(ktextwidgets        ${KF5_VERSION} ""                       
 InstallKF5Component(attica                 ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kio                 ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(frameworkintegration ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(kirigami2           ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(kactivities         ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(qqc2-desktop-style  ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(plasma-framework    ${KF5_VERSION} ""                                                                   "")
 
@@ -259,6 +261,7 @@ ExternalProject_Add(
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL http://download.kde.org/stable/plasma/5.19.5/breeze-5.19.5.tar.xz
   URL_MD5 f664f181d10c4cbbe4b385068c75539a
+  PATCH_COMMAND patch -p1 < ${CMAKE_CURRENT_SOURCE_DIR}/breeze_constexpr.diff
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_kdecoration
 )
