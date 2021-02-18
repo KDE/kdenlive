@@ -49,9 +49,10 @@ public:
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
-    QVector<QPoint> getInsertZones(double offset);
-    void rebuildZones(double offset);
-    QVector< QPair<double, double> > m_zones;
+    QVector<QPoint> getInsertZones();
+    void rebuildZones();
+    QVector< QPair<double, double> > speechZones;
+    double clipOffset;
     QVector <QPoint> cutZones;
     
 protected:
@@ -150,7 +151,6 @@ private:
     QString m_binId;
     QString m_sourceUrl;
     double m_clipDuration;
-    double m_offset;
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
