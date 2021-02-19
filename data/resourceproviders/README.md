@@ -63,9 +63,9 @@ Each provider config files should only specify a certain media type such as `vid
 | homepage | String | yes | Url pointing to the providers webpage |
 | type | String | yes | one of `video`, `image`, `music`, `sound` |
 | integration | String | yes | Must be `buildin` as this is the only supported value at the moment |
-| clientkey | String | If OAuth2 or `%clientkey%` is used | The client key to access the api. </br>*Kdenlive has some keys build in:  `%pixabay_apikey%`, `%freesound_apikey%` and `%pexels_apikey%` will be replaced by a key for the certain provider.* |
+| clientkey | String | If OAuth2 or `%clientkey%` is used | The client key to access the api. </br>_Kdenlive has some keys build in:  `%pixabay_apikey%`, `%freesound_apikey%` and `%pexels_apikey%` will be replaced by a key for the certain provider._ |
 | downloadOAuth2 | bool | no | Whether OAuth2 authentification is need to download files
-| api | Object | yes | see  [Api](#Api) |
+| api | Object | yes | see  [Api](#api) |
 
 ## Api
 The `api` object describs the api endpoints
@@ -73,9 +73,9 @@ The `api` object describs the api endpoints
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
 | root | String | yes | The apis base url (should *not* end with `/`) |
-| oauth2 | Object | If [`downloadOAuth2`](#Base-Structure) is `true` | See [OAuth2](#OAuth2) |
-| search | Object | yes | See [Search](#Search) |
-| downloadUrls | Object | yes | See [Fetch Download Urls](#Fetch-Download-Urls) |
+| oauth2 | Object | If [`downloadOAuth2`](#base-structure) is `true` | See [OAuth2](#oauth2) |
+| search | Object | yes | See [Search](#search) |
+| downloadUrls | Object | yes | See [Fetch Download Urls](#fetch-download-urls) |
 
 ### OAuth2
 
@@ -90,7 +90,7 @@ The `search` object should hold the two objects `req` and `res`.
 #### Request
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
-| path | String | yes | Path to the search endpoint (appended to [`root`](#Api), should start with `/`) |
+| path | String | yes | Path to the search endpoint (appended to [`root`](#api), should start with `/`) |
 | method | String | yes | HTTP method. Only `GET` is supported at the moment |
 | params | Array of Objects | no | List of HTTP params |
 | header | Array of Objects| no | List HTTP headers |
@@ -107,15 +107,15 @@ The objects in the arrays in `params` and `header` should contain two fields: `k
 | filetype | String | no | The items filetype |
 | id | String | yes | Name of the key in a list element holding the items id |
 | url | String | | Url to the item to be opened in a external browser |
-| licenseUrl | String | | Url to the license to be opened in a external browser. If you use a [template](#Templates), always use link to the english license version. Kdenlive can generate License names out of links to Creative Commons, Pexels and Pixabay Licenses for all other links the License name is "Unknown License". |
+| licenseUrl | String | | Url to the license to be opened in a external browser. If you use a [template](#templates), always use link to the english license version. Kdenlive can generate License names out of links to Creative Commons, Pexels and Pixabay Licenses for all other links the License name is "Unknown License". |
 | description | String | no | Description of the item |
 | author | String | no | Name of the items author |
 | authorUrl | String | no | Link to the items authors page to be opened in a external browser |
 | duration | String | no | Duration of the item (for video and audio)|
 | width | String | no | Width of the item (for video and image) |
 | height | String | no | Height of the item (for video and image) |
-| downloadUrl | String | no, if `downloadUrls` or [Fetch Download Urls](#Fetch-Download-Urls) | To be used when there is only one download url (i.e. one file version) for the item |
-| downloadUrls | Object | no, if `downloadUrl` or [Fetch Download Urls](#Fetch-Download-Urls) | To be used when there are multiple download url (i.e. one file version) for the item. See description in [table](#Mutliple-Download-Urls) below |
+| downloadUrl | String | no, if `downloadUrls` or [Fetch Download Urls](#fetch-download-urls) | To be used when there is only one download url (i.e. one file version) for the item |
+| downloadUrls | Object | no, if `downloadUrl` or [Fetch Download Urls](#fetch-download-urls) | To be used when there are multiple download url (i.e. one file version) for the item. See description in [table](#mutliple-download-urls) below |
 | previewUrl | String | no | Url to preview file of the item |
 | imageUrl | String | no | Url to image thumb of the item (for audio e.g. album cover, for video a still)|
 
@@ -137,18 +137,18 @@ The objects in the arrays in `params` and `header` should contain two fields: `k
 ```
 
 ### Fetch Download Urls
-Only necessary in special cases (e.g. https://archive.org) when no download urls are provided with the search response i.e. neither `downloadUrl` nor `downloadUrls` can be set in [Search `res`](#Response)
+Only necessary in special cases (e.g. https://archive.org) when no download urls are provided with the search response i.e. neither `downloadUrl` nor `downloadUrls` can be set in [Search `res`](#response)
 
-For the `req` object see the description of the [`req` obeject for `search`](#Request)
+For the `req` object see the description of the [`req` obeject for `search`](#request)
 
-The `res` object should hold two fileds: `format` (same as in [search response](#Response)) and `downloadUrl` (same as in [search response](#Response)) or `downloadUrls`. The field `downloadUrls` is again similar to the one in [search response](#Response), but has some additional fields:
+The `res` object should hold two fileds: `format` (same as in [search response](#response)) and `downloadUrl` (same as in [search response](#response)) or `downloadUrls`. The field `downloadUrls` is again similar to the one in [search response](#response), but has some additional fields:
 
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
 | isObject | Boolean | no | Whether the list not a normal array but a object and each subobject contains metadata about a file (e.g. `"files": { "file1": { "name": "&" }, "file2": { … }, …}`)|
 | format | String | no | Format of the file |
 
-If `isObject` is `true` there is a special case for `format`, `url` and `name`: if they have the value `&` (or `{&}` within a [template](#Templates)) it is replace by the key of the parent object. In the example in the table above this means `name` will be `file1`
+If `isObject` is `true` there is a special case for `format`, `url` and `name`: if they have the value `&` (or `{&}` within a [template](#templates)) it is replace by the key of the parent object. In the example in the table above this means `name` will be `file1`
 
 #### Example
 ```json
@@ -167,9 +167,9 @@ If `isObject` is `true` there is a special case for `format`, `url` and `name`: 
 }
 ```
 ### Special Keys
-Special keys are avaible for the following fields in [Search `res`](#Response): `author`, `authorUrl`, `name`, `filetype`, `description`, `id`, `url`, `licenseUrl`, `imageUrl`, `previewUrl`, `downloadUrl`, `downloadUrls.url` and `downloadUrls.name`.
+Special keys are avaible for the following fields in [Search `res`](#response): `author`, `authorUrl`, `name`, `filetype`, `description`, `id`, `url`, `licenseUrl`, `imageUrl`, `previewUrl`, `downloadUrl`, `downloadUrls.url` and `downloadUrls.name`.
 
-In [`res` of Fetch Download Urls](#Fetch-Download-Urls) they are avaible for these fields: `downloadUrl`, `downloadUrls.format`,`downloadUrls.url` and `downloadUrls.name`
+In [`res` of Fetch Download Urls](#fetch-download-urls) they are avaible for these fields: `downloadUrl`, `downloadUrls.format`,`downloadUrls.url` and `downloadUrls.name`
 #### Placeholders
 Placeholders are expressions that will be replaced by something.
 
@@ -181,7 +181,7 @@ For `params` and `header` these of placeholders are available.
 | %pagenum% | Th number of the page to request results for | Only for search |
 | %perpage% | Number of results that should be shown per page | |
 | %shortlocale% | Short local like `en-US` (at the moment always `en-US`) | |
-| %clientkey% | The clients apikey defined in [`clientkey`](#Base-Structure) | |
+| %clientkey% | The clients apikey defined in [`clientkey`](#base-structure) | |
 | %id% | Id of the item to fetch urls for | Only for Fetch Download Urls |
 
 #### Templates

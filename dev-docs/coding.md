@@ -55,7 +55,13 @@ bool logScale = KdenliveSettings::logscale();
 KdenliveSettings::setLogscale(true);
 ```
 
+## Effects and Transitions
+Effects and Transitions are stored in subfolders of the  [`data`][data] folder.
+For a detailed description see [here][effect-readme].
+
 [sett]: ../src/kdenlivesettings.kcfg
+[data]: ../data/
+[effect-readme]: ../data/README.md
 [mlt-intro]: https://www.mltframework.org/docs/framework/
 [qt5c]: https://doc.qt.io/qt-5/classes.html
 [qt-sig]: https://doc.qt.io/qt-5/signalsandslots.html
