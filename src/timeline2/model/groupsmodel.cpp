@@ -788,7 +788,7 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
             } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
             } else if (leaf == QLatin1String("subtitle")) {
-                id = ptr->getSubtitleByPosition(pos);
+                id = ptr->getSubtitleByStartPosition(pos);
             } else {
                 qDebug() << " * * *UNKNOWN ITEM: " << leaf;
             }
