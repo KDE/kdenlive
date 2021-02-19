@@ -12,8 +12,7 @@
     <parameter type="bool" name="progressive" default="1" min="0" max="1">
         <name>Force Progressive Rendering</name>
     </parameter>
-    <parameter type="list" name="luma" default="" paramlist="%lumaPaths" optional="1">
-        <paramlistdisplay>%lumaNames</paramlistdisplay>
-        <name>Composite Method</name>
+    <parameter type="urllist" name="luma" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
+      <name>Composite Method</name>
     </parameter>
 </transition>
