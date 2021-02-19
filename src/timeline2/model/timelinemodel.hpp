@@ -639,6 +639,9 @@ public:
     /* @brief Get a timeline composition id by its starting position or -1 if not found
      */
     int getCompositionByPosition(int trackId, int position) const;
+    /* @brief Get a timeline subtitle id by its starting position or -1 if not found
+     */
+    int getSubtitleByStartPosition(int position) const;
     int getSubtitleByPosition(int position) const;
 
     /* @brief Returns a list of all items that are intersect with a given range.

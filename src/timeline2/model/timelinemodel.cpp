@@ -356,7 +356,7 @@ int TimelineModel::getCompositionByPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getCompositionByPosition(position);
 }
 
-int TimelineModel::getSubtitleByPosition(int position) const
+int TimelineModel::getSubtitleByStartPosition(int position) const
 {
     READ_LOCK();
     GenTime startTime(position, pCore->getCurrentFps());
@@ -365,6 +365,19 @@ int TimelineModel::getSubtitleByPosition(int position) const
     });
     if (findResult != std::end(m_allSubtitles)) {
         return findResult->first;
+    }
+    return -1;
+}
+
+int TimelineModel::getSubtitleByPosition(int position) const
+{
+    READ_LOCK();
+    GenTime startTime(position, pCore->getCurrentFps());
+    if (m_subtitleModel) {
+        std::unordered_set<int> sids = m_subtitleModel->getItemsInRange(position, position);
+        if (!sids.empty()) {
+            return *sids.begin();
+        }
     }
     return -1;
 }
