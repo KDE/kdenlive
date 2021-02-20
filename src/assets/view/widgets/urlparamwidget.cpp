@@ -38,6 +38,11 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
     if (!filter.isEmpty()) {
         urlwidget->setFilter(filter);
     }
+    QString mode = m_model->data(m_index, AssetParameterModel::ModeRole).toString();
+    if (mode == "save") {
+        urlwidget->setAcceptMode(QFileDialog::AcceptSave);
+        urlwidget->setMode(KFile::File);
+    }
     slotRefresh();
 
     // setup the name

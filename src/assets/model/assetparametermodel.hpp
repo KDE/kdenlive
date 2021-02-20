@@ -104,6 +104,7 @@ public:
         ListValuesRole,
         ListNamesRole,
         NewStuffRole,
+        ModeRole,
         FactorRole,
         FilterRole,
         FilterJobParamsRole,

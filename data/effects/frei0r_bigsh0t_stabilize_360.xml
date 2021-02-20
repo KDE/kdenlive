@@ -6,8 +6,8 @@
 	<parameter type="bool" name="analyze">
 		<name>Analyze</name>
 	</parameter>
-    <parameter type="url" name="analysisFile" filter="*.bigsh0t360motion">
-		<name>Motion Analysis File</name>  
+    <parameter type="url" name="analysisFile" filter="*.bigsh0t360motion" mode="save">
+		<name>Motion Analysis File</name>
     </parameter>
      <parameter type="constant" name="sampleRadius" default="16" min="1" max="64" factor="1" suffix="px">
 		<name>Analysis Sample Radius</name>
