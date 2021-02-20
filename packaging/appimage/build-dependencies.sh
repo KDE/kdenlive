@@ -136,6 +136,7 @@ cmake --build . --target ext_harfbuzz  -j$CPU_CORES
 cmake --build . --target ext_pango  -j$CPU_CORES
 cmake --build . --target ext_gdkpixbuf  -j$CPU_CORES
 cmake --build . --target ext_gtk+  -j$CPU_CORES
+cmake --build . --target ext_fribidi  -j$CPU_CORES
 cmake --build . --target ext_libass  -j$CPU_CORES
 cmake --build . --target ext_ffmpeg  -j$CPU_CORES
 cmake --build . --target ext_sox  -j$CPU_CORES
