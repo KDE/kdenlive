@@ -143,6 +143,8 @@ void ColorPickerWidget::slotGetAverageColor()
 #ifdef Q_WS_X11
     XDestroyImage(m_image);
     m_image = nullptr;
+#else
+    m_image = QImage();
 #endif
 
     emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
@@ -175,8 +177,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_grabRect = m_grabRect.normalized();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
-            m_grabRectFrame->hide();
-            emit colorPicked(grabColor(event->globalPos()));
+            emit colorPicked(m_mouseColor);
             emit disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
