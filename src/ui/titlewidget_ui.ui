@@ -962,6 +962,13 @@
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="color">
+                      <color>
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </property>
                     </widget>
                    </item>
                    <item row="6" column="0">
