@@ -99,7 +99,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 
     QDomElement prod;
     qDebug()<<"=== GOT DROPPED MIME: "<<type.name();
-    if (type.name().startsWith(QLatin1String("image/"))) {
+    if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
         int duration = pCore->getDurationFromString(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
     } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
