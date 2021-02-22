@@ -155,6 +155,7 @@ export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
 
+cmake --build . --target ext_canberra
 cmake --build . --target ext_ruby
 cmake --build . --target ext_frameworks
 cmake --build . --config RelWithDebInfo --target ext_extra-cmake-modules -- -j$CPU_CORES
