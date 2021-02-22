@@ -1,0 +1,7 @@
+[KNewStuff3]
+Name=Color Lookup Table (LUT)
+Name[de]=Farb Lookup-Tabelle (LUT)
+ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
+Categories=Kdenlive Color Look-Up Tables
+TargetDir=kdenlive/luts
+Uncompress=archive
