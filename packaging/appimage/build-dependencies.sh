@@ -139,6 +139,9 @@ cmake --build . --target ext_gtk+  -j$CPU_CORES
 cmake --build . --target ext_fribidi  -j$CPU_CORES
 cmake --build . --target ext_libass  -j$CPU_CORES
 cmake --build . --target ext_libva  -j$CPU_CORES
+cmake --build . --target ext_lame  -j$CPU_CORES
+cmake --build . --target ext_ogg  -j$CPU_CORES
+cmake --build . --target ext_vorbis  -j$CPU_CORES
 cmake --build . --target ext_ffmpeg  -j$CPU_CORES
 cmake --build . --target ext_sox  -j$CPU_CORES
 cmake --build . --target ext_jack  -j$CPU_CORES
