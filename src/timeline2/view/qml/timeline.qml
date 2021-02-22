@@ -27,6 +27,11 @@ Rectangle {
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
 
+    // Zoombar properties
+    property double zoomStart: scrollView.visibleArea.xPosition * scrollView.width
+    property double zoomBarWidth: scrollView.visibleArea.widthRatio * scrollView.width
+    property bool showZoomBar: true
+
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -1384,7 +1389,7 @@ Rectangle {
                         ScrollBar.horizontal: ScrollBar {
                             id: horScroll
                             parent: scrollView.parent
-                            anchors.top: scrollView.bottom
+                            anchors.top: scrollView.top
                             anchors.left: scrollView.left
                             anchors.right: scrollView.right
                         }
@@ -1637,6 +1642,14 @@ Rectangle {
                             opacity: (width > 2) ? 0.5 : 1
                             height: tracksContainerArea.height + subtitleTrack.height
                             x: root.consumerPosition * timeline.scaleFactor
+                        }
+                    }
+                    ZoomBar {
+                        id: horZoomBar
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            top: scrollView.bottom
                         }
                     }
                 }
