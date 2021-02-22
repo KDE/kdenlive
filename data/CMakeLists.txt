@@ -28,9 +28,9 @@ install(FILES
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 if(KF5NewStuff_VERSION VERSION_GREATER "5.56.0")
-  install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+  install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc kdenlive_luts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
 else()
-  install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
+  install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc kdenlive_luts.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
 endif()
 
 install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)

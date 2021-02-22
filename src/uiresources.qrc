@@ -52,5 +52,6 @@
         <file alias="kdenlive_titles.knsrc">../data/kdenlive_titles.knsrc</file>
         <file alias="kdenlive_wipes.knsrc">../data/kdenlive_wipes.knsrc</file>
         <file alias="kdenlive_keyboardschemes.knsrc">../data/kdenlive_keyboardschemes.knsrc</file>
+        <file alias="kdenlive_luts.knsrc">../data/kdenlive_luts.knsrc</file>
     </qresource>
 </RCC>
