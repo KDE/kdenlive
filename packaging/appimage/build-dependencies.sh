@@ -193,7 +193,6 @@ cmake --build . --config RelWithDebInfo --target ext_kpackage                -- 
 cmake --build . --config RelWithDebInfo --target ext_knewstuff           -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_knotifications -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kdeclarative        -- -j$CPU_CORES
-cmake --build . --config RelWithDebInfo --target ext_kdoctools        -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kservice            -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kimageformats       -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_frameworkintegration -- -j$CPU_CORES
