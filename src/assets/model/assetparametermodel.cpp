@@ -494,6 +494,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
+    case ModeRole:
+        return element.attribute(QStringLiteral("mode"));
     case List1Role:
         return parseAttribute(m_ownerId, QStringLiteral("list1"), element);
     case List2Role:

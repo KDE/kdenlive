@@ -187,6 +187,7 @@ For double values these placeholders are avaible:
 | attribute name | description    |
 | :------------- | :------------- |
 | `filter`       | Filter for file extensions. Example : `"*.cpp *.cc *.C\|C++ Source Files\n*.h *.H\|Header files"` or as using MIME type: `"image/png text html"` |
+| `mode`         | _(optional)_ Default is empty = open. `"save"` means none-exsisting files can be selected and gui label is "save"
 
 <!-- Attention if you see this comment (i.e. your editor does not support markdown), note that the string above is probably not show right. Please consider "*.cpp *.cc *.C|C++ Source Files\n*.h *.H|Header" to be right -->
 

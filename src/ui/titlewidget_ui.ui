@@ -512,7 +512,13 @@
           <enum>QFrame::Plain</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
           <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
            <number>0</number>
           </property>
           <property name="bottomMargin">
@@ -567,7 +573,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
+              <width>110</width>
               <height>20</height>
              </size>
             </property>
@@ -643,7 +649,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>396</width>
+                    <width>373</width>
                     <height>433</height>
                    </rect>
                   </property>
@@ -961,6 +967,13 @@
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="color">
+                      <color>
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
                      </property>
                     </widget>
                    </item>
