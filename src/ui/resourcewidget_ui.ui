@@ -10,9 +10,6 @@
     <height>457</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0" colspan="7">
     <widget class="QSplitter" name="splitter">
