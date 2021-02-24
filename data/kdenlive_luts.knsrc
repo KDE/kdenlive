@@ -1,5 +1,9 @@
 [KNewStuff3]
 Name=Color Lookup Table (LUT)
+Name[ca]=Taula de consulta del color (LUT)
+Name[nl]=Opzoektabel van kleur (LUT)
+Name[uk]=Таблиця пошуку кольорів (LUT)
+Name[x-test]=xxColor Lookup Table (LUT)xx
 ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=Kdenlive Color Look-Up Tables
 TargetDir=kdenlive/luts
