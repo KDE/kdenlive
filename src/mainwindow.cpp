@@ -352,11 +352,18 @@ void MainWindow::init()
     // Online resources widget
     ResourceWidget *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
-    connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path) {
-        m_clipMonitor->slotPreviewOnlineResource(path);
+    connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path, const QString &title) {
+        m_clipMonitor->slotPreviewResource(path, title);
         m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
     });
+
+    connect(pCore->textEditWidget(), &TextBasedEdit::previewClip, [&](const QString &path, const QString title) {
+        m_clipMonitor->slotPreviewResource(path, title);
+        m_clipMonitorDock->show();
+        m_clipMonitorDock->raise();
+    });
+
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
     connect(onlineResources, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
 

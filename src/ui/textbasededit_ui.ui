@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>457</width>
+    <width>504</width>
     <height>422</height>
    </rect>
   </property>
@@ -155,32 +155,12 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="1">
-       <widget class="QToolButton" name="button_insert">
+      <item row="0" column="10">
+       <widget class="QToolButton" name="vosk_config">
         <property name="text">
          <string>...</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QToolButton" name="button_down">
-        <property name="text">
-         <string>...</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="8">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>244</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item row="0" column="6">
        <widget class="QToolButton" name="button_search">
@@ -193,28 +173,41 @@
        </widget>
       </item>
       <item row="0" column="9">
-       <widget class="QToolButton" name="vosk_config">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>244</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QToolButton" name="button_insert">
         <property name="text">
          <string>...</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="7">
+      <item row="0" column="8">
        <widget class="QCheckBox" name="speech_zone">
         <property name="text">
          <string>Selected zone only</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QToolButton" name="button_up">
+      <item row="0" column="5">
+       <widget class="QToolButton" name="button_delete">
         <property name="text">
          <string>...</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QToolButton" name="button_delete">
+      <item row="0" column="3">
+       <widget class="QToolButton" name="button_add">
         <property name="text">
          <string>...</string>
         </property>

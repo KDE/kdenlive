@@ -320,6 +320,8 @@ public:
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
     void selectAll();
+    /** @brief Save an mlt playlist from a bin id and a list of cuts */
+    void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties);
 
 private slots:
     void slotAddClip();

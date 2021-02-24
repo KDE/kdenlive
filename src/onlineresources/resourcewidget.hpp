@@ -91,7 +91,7 @@ private:
 signals:
     void addClip(const QUrl &, const QString &);
     void addLicenseInfo(const QString &);
-    void previewClip(const QString &path);
+    void previewClip(const QString &path, const QString &title);
 };
 
 #endif // REOURCEWIDGET_H

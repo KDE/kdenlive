@@ -480,7 +480,7 @@ void ResourceWidget::slotPreviewItem()
     }
 
     blockUI(true);
-    emit previewClip(m_currentItem->data(previewRole).toString());
+    emit previewClip(m_currentItem->data(previewRole).toString(), i18n("Online Resources Preview"));
     blockUI(false);
 }
 

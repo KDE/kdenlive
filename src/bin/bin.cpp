@@ -1514,6 +1514,8 @@ void Bin::slotDeleteClip()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    // Ensure we don't delete a parent before a child
+    // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth(); });
     for (const auto &item : items) {
         m_itemModel->requestBinClipDeletion(item, undo, redo);
     }
@@ -4415,4 +4417,30 @@ ClipWidget* Bin::getWidget(){
 
 void Bin::dockWidgetInit(QDockWidget* m_DockClipWidget){
     m_clipWidget->init(m_DockClipWidget);
+}
+
+void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
+    if (!clip) {
+        pCore->displayMessage(i18n("Could not find master clip"), MessageType::ErrorMessage, 300);
+        return;
+    }
+    Mlt::Tractor t(pCore->getCurrentProfile()->profile());
+    Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(clip->originalProducer().get()));
+    QMapIterator<QString, QString> i(properties);
+    while (i.hasNext()) {
+        i.next();
+        prod->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    for (auto &zone : zones) {
+        std::shared_ptr<Mlt::Producer> cut(prod->cut(zone.x(), zone.y()));
+        pl.append(*cut.get());
+    }
+    t.set_track(pl, 0);
+    Mlt::Consumer cons(pCore->getCurrentProfile()->profile(), "xml", savePath.toUtf8().constData());
+    cons.set("store", "kdenlive");
+    cons.connect(t);
+    cons.run();
 }

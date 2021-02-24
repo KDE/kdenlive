@@ -29,6 +29,8 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QMouseEvent>
+#include <QTemporaryFile>
+#include <QTimer>
 
 /**
  * @class VideoTextEdit: Video speech text editor
@@ -100,12 +102,17 @@ protected:
     {
         codeEditor->blockClicked(e->modifiers());
         QWidget::mousePressEvent(e);
-        
     }
     void mouseDoubleClickEvent(QMouseEvent *e) override
     {
         codeEditor->blockClicked(e->modifiers(), true);
         QWidget::mouseDoubleClickEvent(e);
+    }
+    void wheelEvent(QWheelEvent *e) override
+    {
+        qDebug()<<"==== WHEEL OVER LINEAREA";
+        e->ignore();
+        //QWidget::wheelEvent(e);
     }
     void leaveEvent(QEvent *e) override
     {
@@ -142,6 +149,10 @@ private slots:
     void updateAvailability();
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
+    /** @brief Preview current edited text in the clip monitor */
+    void previewPlaylist();
+    /** @brief Display info message */
+    void showMessage(const QString &text, KMessageWidget::MessageType type);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -156,6 +167,11 @@ private:
     QAction *m_logAction;
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
+    QTemporaryFile m_playlist;
+    QTimer m_hideTimer;
+
+signals:
+    void previewClip(const QString &path, const QString &title);
 };
 
 #endif
