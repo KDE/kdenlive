@@ -136,7 +136,7 @@ for lib in $APPDIR/usr/lib/libva*.so*; do
 done
 
 for lib in $APPDIR/usr/lib/va/*.so*; do
-  patchelf --set-rpath '$ORIGIN/..' $lib;
+  patchelf --set-rpath '$ORIGIN/..' $lib || true;
 done
 
 
