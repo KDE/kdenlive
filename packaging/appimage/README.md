@@ -31,7 +31,7 @@ If you left the docker container get the containers id using `docker ps -a` and 
 
 ## Update Kdenlive
 
-`cd /home/appimage/kdenlive && git fetch && git pul`
+`cd /home/appimage/kdenlive && git fetch && git pull`
 
 ## Build Appimage
 
