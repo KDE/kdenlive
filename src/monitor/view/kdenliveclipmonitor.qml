@@ -223,7 +223,7 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV)
+                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipType == ProducerType.Playlist)
                 onStateVisibleChanged: {
                     // adjust monitor image size
                     if (stateVisible && root.permanentAudiothumb && audioThumb.visible) {

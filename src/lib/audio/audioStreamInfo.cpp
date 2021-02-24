@@ -28,6 +28,8 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     if (playlist && streams == 0) {
         // Playlist clips do not provide stream info
         m_audioStreams.insert(0, i18n("Audio"));
+        // TODO: compute playlist channels
+        m_audioChannels.insert(0, 2);
     }
     int streamIndex = 1;
     for (int ix = 0; ix < streams; ix++) {
