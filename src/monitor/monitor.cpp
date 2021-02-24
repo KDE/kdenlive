@@ -1646,7 +1646,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-                qDebug()<<"=======\n\nSETTING AUDIO DATA IN MON\n\n=========";
+                qDebug()<<"=======\n\nSETTING AUDIO DATA IN MON";
                 if (m_audioMeterWidget->audioChannels == 0) {
                     m_glMonitor->getControllerProxy()->setAudioThumb();
                 } else {

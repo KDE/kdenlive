@@ -150,6 +150,9 @@ public:
             }
         }
         qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        if (m_outPoint == m_inPoint) {
+            return;
+        }
         QPen pen = painter->pen();
         pen.setColor(m_color);
         painter->setBrush(m_color);
