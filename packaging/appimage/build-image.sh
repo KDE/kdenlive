@@ -82,7 +82,7 @@ cp -r $DEPS_INSTALL_PREFIX/plugins/audio  $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/org.kde.kdecoration2 $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/kstyle_breeze_config.so $APPIMAGEPLUGINS
 
-cp /build/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1
+cp $BUILD_PREFIX/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1
 mkdir -p $APPDIR/usr/libexec
 
 cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
@@ -92,7 +92,7 @@ cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libex
 cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/
 
 #libva accel
-cp -r /usr/lib/x86_64-linux-gnu/libva*  $APPDIR/usr/lib  || true
+cp -r $DEPS_INSTALL_PREFIX/lib/libva*  $APPDIR/usr/lib  || true
 cp -r /usr/lib/x86_64-linux-gnu/dri/*_drv_video.so  $APPDIR/usr/lib/va || true
 
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
