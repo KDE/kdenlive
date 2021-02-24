@@ -583,6 +583,27 @@ int Core::getItemDuration(const ObjectId &id)
     return 0;
 }
 
+QSize Core::getItemFrameSize(const ObjectId &id)
+{
+    if (!m_guiConstructed) return QSize();
+    switch (id.first) {
+    case ObjectType::TimelineClip:
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipFrameSize(id.second);
+        }
+        break;
+    case ObjectType::BinClip:
+        return m_binWidget->getFrameSize(id.second);
+        break;
+    case ObjectType::TimelineTrack:
+    case ObjectType::Master:
+        return pCore->getCurrentFrameSize();
+    default:
+        qWarning() << "unhandled object type";
+    }
+    return pCore->getCurrentFrameSize();
+}
+
 int Core::getItemTrack(const ObjectId &id)
 {
     if (!m_guiConstructed) return 0;

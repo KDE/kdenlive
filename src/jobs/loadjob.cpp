@@ -450,18 +450,28 @@ bool LoadJob::startJob()
         clipOut = m_xml.attribute(QStringLiteral("out")).toInt();
     }
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
+    const QString mltService = m_producer->get("mlt_service");
+    QMimeDatabase db;
+    const QString mime = db.mimeTypeForFile(m_resource).name();
+    const bool isGif = mime.contains(QLatin1String("image/gif"));
     if (duration == 0 && (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
-        type == ClipType::SlideShow)) {
+        type == ClipType::SlideShow) || (isGif && mltService == QLatin1String("qimage"))) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();
             clipOut = qMax(1, length - 1);
         } else {
-            length = Xml::getXmlProperty(m_xml, QStringLiteral("length")).toInt();
-            clipOut -= m_xml.attribute(QStringLiteral("in")).toInt();
-            if (length < clipOut) {
-                length = clipOut == 1 ? 1 : clipOut + 1;
+            if(isGif && mltService == QLatin1String("qimage")) {
+                length = pCore->getDurationFromString(KdenliveSettings::image_duration());
+                clipOut = qMax(1, length - 1);
+            } else {
+                length = Xml::getXmlProperty(m_xml, QStringLiteral("length")).toInt();
+                clipOut -= m_xml.attribute(QStringLiteral("in")).toInt();
+                if (length < clipOut) {
+                    length = clipOut == 1 ? 1 : clipOut + 1;
+                }
             }
+
         }
         // Pass duration if it was forced
         if (m_xml.hasAttribute(QStringLiteral("duration"))) {
@@ -497,7 +507,6 @@ bool LoadJob::startJob()
 
     int vindex = -1;
     double fps = -1;
-    const QString mltService = m_producer->get("mlt_service");
     if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
         // MLT playlist, create producer with blank profile to get real profile info
         QString tmpPath = m_resource;
@@ -548,8 +557,6 @@ bool LoadJob::startJob()
     }
     if (fps <= 0 && type == ClipType::Unknown) {
         // something wrong, maybe audio file with embedded image
-        QMimeDatabase db;
-        QString mime = db.mimeTypeForFile(m_resource).name();
         if (mime.startsWith(QLatin1String("audio"))) {
             m_producer->set("video_index", -1);
             vindex = -1;

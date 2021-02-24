@@ -4187,6 +4187,13 @@ size_t Bin::getClipDuration(int itemId) const
     return clip->frameDuration();
 }
 
+QSize Bin::getFrameSize(int itemId) const
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    return clip->frameSize();
+}
+
 PlaylistState::ClipState Bin::getClipState(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));

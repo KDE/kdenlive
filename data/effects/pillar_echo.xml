@@ -3,7 +3,7 @@
 	<name>Pillar Echo</name>
 	<description>Create an echo effect (blur) outside of an area of interest.</description>
 	<author>Meltytech, LLC</author>
-	<parameter type="animatedrect" name="rect" default="25% 0% 50% 100%" fixed="1" opacity="false">
+        <parameter type="animatedrect" name="rect" default="adjustcenter" fixed="1" opacity="false">
 		<name>Rectangle</name>
 	</parameter>
 	<parameter type="constant" name="blur" max="50" min="0" default="4" suffix="%">

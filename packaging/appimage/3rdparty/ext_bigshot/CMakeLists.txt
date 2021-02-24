@@ -2,6 +2,7 @@ ExternalProject_Add(
   ext_bigshot
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   GIT_REPOSITORY https://bitbucket.org/leo_sutic/bigsh0t.git
+  GIT_TAG main
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
 
   INSTALL_COMMAND ""

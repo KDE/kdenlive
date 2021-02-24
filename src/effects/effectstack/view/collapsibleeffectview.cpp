@@ -175,12 +175,13 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     }
     m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save-all")), i18n("Save Effect Stack"), this, SIGNAL(saveStack()));
-    if (!m_regionEffect) {
-        /*if (m_info.groupIndex == -1) {
-            m_menu->addAction(m_groupAction);
-        }*/
+    //TODO reimplement region
+    /*if (!m_regionEffect) {
+        //if (m_info.groupIndex == -1) {
+        //    m_menu->addAction(m_groupAction);
+        //}
         m_menu->addAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
-    }
+    }*/
 
     // setupWidget(info, metaInfo);
     menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));

@@ -179,6 +179,8 @@ For double values these placeholders are avaible:
 | `showrotation` | _(default = `"0"`)_ use to enable support to 3 axis rotation |
 | `opacity`      | _(default = `"true"`)_ use to disable support of the opacity setting |
 
+You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame size
+
 
 ##### `"url"`
 * url/path

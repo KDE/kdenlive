@@ -630,10 +630,28 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     }
     ParamType type = paramTypeFromStr(element.attribute(QStringLiteral("type")));
     QString content = element.attribute(attribute);
-    if (content.contains(QLatin1Char('%'))) {
-        std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-        int width = profile->width();
-        int height = profile->height();
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
+    int width = profile->width();
+    int height = profile->height();
+    if(type == ParamType::AnimatedRect && content == "adjustcenter") {
+        QSize frameSize = pCore->getItemFrameSize(owner);
+        int contentHeight;
+        int contentWidth;
+        double sourceDar = frameSize.width() / frameSize.height();
+        if (sourceDar > pCore->getCurrentDar()) {
+            // Fit to width
+            double factor = (double)width / frameSize.width() * pCore->getCurrentSar();
+            contentHeight = (int)(height * factor + 0.5);
+            contentWidth = width;
+        } else {
+            // Fit to height
+            double factor = (double)height / frameSize.height();
+            contentHeight = height;
+            contentWidth =(int)(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
+        }
+        // Center
+        content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);
+    } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());

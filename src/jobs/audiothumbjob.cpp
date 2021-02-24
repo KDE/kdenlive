@@ -368,6 +368,10 @@ bool AudioThumbJob::startJob()
         // Generate one thumb per stream
         m_audioStream = stream;
         m_cachePath = m_binClip->getAudioThumbPath(stream);
+        if (QFile::exists(m_cachePath)) {
+            // Audio thumb already exists
+            continue;
+        }
         m_done = false;
         bool ok = false;
         if (type == ClipType::Playlist) {

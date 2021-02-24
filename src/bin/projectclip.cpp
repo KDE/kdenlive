@@ -351,6 +351,11 @@ const QString ProjectClip::url() const
     return clipUrl();
 }
 
+const QSize ProjectClip::frameSize() const
+{
+    return getFrameSize();
+}
+
 GenTime ProjectClip::duration() const
 {
     return getPlaytime();
