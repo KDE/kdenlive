@@ -220,6 +220,8 @@ public:
     const QString getBinClipName(const QString &id) const;
     /** @brief Returns the duration of a given clip. */
     size_t getClipDuration(int itemId) const;
+    /** @brief Returns the frame size of a given clip. */
+    QSize getFrameSize(int itemId) const;
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     PlaylistState::ClipState getClipState(int itemId) const;
 

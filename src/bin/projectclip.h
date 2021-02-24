@@ -122,6 +122,9 @@ public:
     /** @brief Returns the clip's url. */
     const QString url() const;
 
+    /** @brief Returns the clip's frame size. */
+    const QSize frameSize() const;
+
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
     size_t frameDuration() const;

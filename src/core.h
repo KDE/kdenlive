@@ -175,6 +175,7 @@ public:
     int getItemIn(const ObjectId &id);
     int getItemTrack(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
+    QSize getItemFrameSize(const ObjectId &id);
     /** @brief Returns the capabilities of a clip: AudioOnly, VideoOnly or Disabled if both are allowed */
     PlaylistState::ClipState getItemState(const ObjectId &id);
     /** @brief Get a list of video track names with indexes */
