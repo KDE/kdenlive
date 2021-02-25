@@ -39,6 +39,7 @@
 #include <QKeyEvent>
 #include <QToolButton>
 #include <KMessageBox>
+#include <KUrlRequesterDialog>
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)
@@ -543,8 +544,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(vosk_config, &QToolButton::clicked, [this]() {
         pCore->window()->slotPreferences(8);
     });
-    m_playlist.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-speech-XXXXXX.mlt")));
-    qDebug()<<"======= EDITOR TXT COLOR: "<<palette().text().color().name()<<"\n==========";
     
     // Visual text editor
     QVBoxLayout *l = new QVBoxLayout;
@@ -611,10 +610,12 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_delete->setEnabled(false);
     connect(button_delete, &QToolButton::clicked, this, &TextBasedEdit::deleteItem);
     
-    button_add->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-    button_add->setToolTip(i18n("Play edited text"));
+    button_add->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
+    button_add->setToolTip(i18n("Save edited text in a new playlist"));
     button_add->setEnabled(false);
-    connect(button_add, &QToolButton::clicked, this, &TextBasedEdit::previewPlaylist);
+    connect(button_add, &QToolButton::clicked, [this]() {
+        previewPlaylist();
+    });
     
     button_insert->setIcon(QIcon::fromTheme(QStringLiteral("timeline-insert")));
     button_insert->setToolTip(i18n("Insert selected blocks in timeline"));
@@ -715,7 +716,6 @@ bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 
 void TextBasedEdit::startRecognition()
 {
-    button_add->setEnabled(true);
     if (m_speechJob && m_speechJob->state() != QProcess::NotRunning) {
         if (KMessageBox::questionYesNo(this, i18n("Another recognition job is running. Abort it ?")) !=  KMessageBox::Yes) {
             return;
@@ -805,6 +805,7 @@ void TextBasedEdit::startRecognition()
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
     qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_visualEditor->clipOffset<<", DUR: "<<endPos;
+    button_add->setEnabled(false);
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_visualEditor->clipOffset), QString::number(endPos)});
     speech_progress->setValue(0);
     frame_progress->setVisible(true);
@@ -1000,6 +1001,7 @@ void TextBasedEdit::deleteItem()
     }
     // Reset selection and rebuild line numbers
     m_visualEditor->rebuildZones();
+    previewPlaylist(false);
 }
 
 void TextBasedEdit::insertToTimeline()
@@ -1013,15 +1015,10 @@ void TextBasedEdit::insertToTimeline()
     }
 }
 
-void TextBasedEdit::previewPlaylist()
+void TextBasedEdit::previewPlaylist(bool createNew)
 {
+    qDebug()<<"???????\ncreating playlist: "<<createNew<<"\n?????";
     QVector<QPoint> zones = m_visualEditor->getInsertZones();
-    if (!m_playlist.open()) {
-        // Something went wrong
-        showMessage(i18n("Cannot open temporary playlist"), KMessageWidget::Information);
-        return;
-    }
-    m_playlist.close();
     if (zones.isEmpty()) {
         showMessage(i18n("No text to export"), KMessageWidget::Information);
         return;
@@ -1030,16 +1027,23 @@ void TextBasedEdit::previewPlaylist()
     properties.insert("kdenlive:speech", m_visualEditor->toHtml());
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
     std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
-    /*QString sourcePath = clipItem->url();
+    QString sourcePath = clipItem->url();
     int ix = 1;
-    QString playlistPath = QString("%1-cut%2.mlt").arg(sourcePath).arg(ix);
-    while (QFile::exists(playlistPath)) {
-        ix++;
-        playlistPath = QString("%1-cut%2.mlt").arg(sourcePath).arg(ix);
-    }*/
-    pCore->bin()->savePlaylist(m_binId, m_playlist.fileName(), zones, properties);
-    emit previewClip(m_playlist.fileName(), i18n("Speech cut"));
-    //slotItemDropped({QUrl::fromLocalFile(playlistPath)}, m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex()));
+    if (createNew) {
+        m_playlist = QString("%1-cut%2.mlt").arg(sourcePath).arg(ix);
+        while (QFile::exists(m_playlist)) {
+            ix++;
+            m_playlist = QString("%1-cut%2.mlt").arg(sourcePath).arg(ix);
+        }
+        QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(m_playlist), this, i18n("Enter new playlist path"));
+        if (url.isEmpty()) {
+            return;
+        }
+        m_playlist = url.toLocalFile();
+    }
+    if (!m_playlist.isEmpty()) {
+        pCore->bin()->savePlaylist(m_binId, m_playlist, zones, properties, createNew);
+    }
 }
 
 void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType type)

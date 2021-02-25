@@ -358,12 +358,6 @@ void MainWindow::init()
         m_clipMonitorDock->raise();
     });
 
-    connect(pCore->textEditWidget(), &TextBasedEdit::previewClip, [&](const QString &path, const QString title) {
-        m_clipMonitor->slotPreviewResource(path, title);
-        m_clipMonitorDock->show();
-        m_clipMonitorDock->raise();
-    });
-
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
     connect(onlineResources, &ResourceWidget::addLicenseInfo, this, &MainWindow::slotAddTextNote);
 

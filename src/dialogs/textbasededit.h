@@ -29,7 +29,6 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QMouseEvent>
-#include <QTemporaryFile>
 #include <QTimer>
 
 /**
@@ -150,7 +149,7 @@ private slots:
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
     /** @brief Preview current edited text in the clip monitor */
-    void previewPlaylist();
+    void previewPlaylist(bool createNew = true);
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type);
 
@@ -167,11 +166,8 @@ private:
     QAction *m_logAction;
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
-    QTemporaryFile m_playlist;
+    QString m_playlist;
     QTimer m_hideTimer;
-
-signals:
-    void previewClip(const QString &path, const QString &title);
 };
 
 #endif

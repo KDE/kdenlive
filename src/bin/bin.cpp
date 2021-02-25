@@ -936,7 +936,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
             static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
-            static_cast<void (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
+            static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
     connect(m_itemModel.get(), &ProjectItemModel::addTag, this, &Bin::slotTagDropped);
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
@@ -3306,15 +3306,15 @@ void Bin::droppedUrls(const QList<QUrl> &urls, const QString &folderInfo)
     slotItemDropped(urls, current);
 }
 
-void Bin::slotAddClipToProject(const QUrl &url)
+const QString Bin::slotAddClipToProject(const QUrl &url)
 {
     QList<QUrl> urls;
     urls << url;
     QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
-    slotItemDropped(urls, current);
+    return slotItemDropped(urls, current);
 }
 
-void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
+const QString Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
 {
     QString parentFolder = m_itemModel->getRootFolder()->clipId();
     if (parent.isValid()) {
@@ -3333,6 +3333,7 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
             m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
         }
     }
+    return id;
 }
 
 void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
@@ -4426,7 +4427,7 @@ void Bin::dockWidgetInit(QDockWidget* m_DockClipWidget){
     m_clipWidget->init(m_DockClipWidget);
 }
 
-void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties)
+void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
     if (!clip) {
@@ -4450,4 +4451,8 @@ void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> z
     cons.set("store", "kdenlive");
     cons.connect(t);
     cons.run();
+    if (createNew) {
+        const QString id = slotAddClipToProject(QUrl::fromLocalFile(savePath));
+        selectClipById(id);
+    }
 }

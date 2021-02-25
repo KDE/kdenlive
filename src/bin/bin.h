@@ -322,8 +322,13 @@ public:
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
     void selectAll();
-    /** @brief Save an mlt playlist from a bin id and a list of cuts */
-    void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties);
+    /** @brief Save an mlt playlist from a bin id and a list of cuts
+     * @param binId the id of the source clip for zones
+     * @param savePath the path for the resulting playlist
+     * @param zones the source cli pzones that will be put in the result playlist
+     * @param properties some extra properties that will be set on the producer
+     * @param createNew if true, the playlist will be added as a new clip in project binId */
+    void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
 
 private slots:
     void slotAddClip();
@@ -350,7 +355,7 @@ private slots:
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
-    void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
+    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotTagDropped(const QString &tag, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
@@ -422,7 +427,7 @@ public slots:
     void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
-    void slotAddClipToProject(const QUrl &url);
+    const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
