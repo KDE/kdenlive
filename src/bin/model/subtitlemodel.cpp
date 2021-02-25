@@ -1002,7 +1002,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
             QString startTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(millisec,3,10,QChar('0'));
@@ -1024,7 +1024,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(milli_2,2,10,QChar('0'));
 
             QString endTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(millisec,3,10,QChar('0'));
