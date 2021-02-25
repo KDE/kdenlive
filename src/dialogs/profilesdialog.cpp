@@ -91,7 +91,7 @@ void ProfilesDialog::connectDialog()
     m_view.size_h->setSingleStep(2);
     connect(m_view.size_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
-    m_view.size_w->setSingleStep(8);
+    m_view.size_w->setSingleStep(2);
 }
 
 ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent)
@@ -133,16 +133,16 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
 
 void ProfilesDialog::slotAdjustWidth()
 {
-    // A profile's width should always be a multiple of 8
+    // A profile's width should always be a multiple of 2
     QSignalBlocker blk(m_view.size_w);
     int val = m_view.size_w->value();
-    int correctedWidth = (val + 7) / 8 * 8;
+    int correctedWidth = val + (val % 2);
     if (val == correctedWidth) {
-        // Ok, no action required, width is a multiple of 8
+        // Ok, no action required, width is a multiple of 2
         m_infoMessage->animatedHide();
     } else {
         m_view.size_w->setValue(correctedWidth);
-        m_infoMessage->setText(i18n("Profile width must be a multiple of 8. It was adjusted to %1", correctedWidth));
+        m_infoMessage->setText(i18n("Profile width must be a multiple of 2. It was adjusted to %1", correctedWidth));
         m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->animatedShow();
@@ -156,7 +156,7 @@ void ProfilesDialog::slotAdjustHeight()
     int val = m_view.size_h->value();
     int correctedHeight = val + (val % 2);
     if (val == correctedHeight) {
-        // Ok, no action required, width is a multiple of 8
+        // Ok, no action required, height is a multiple of 2
         m_infoMessage->animatedHide();
     } else {
         m_view.size_h->setValue(correctedHeight);
