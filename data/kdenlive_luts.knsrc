@@ -2,6 +2,7 @@
 Name=Color Lookup Table (LUT)
 Name[ca]=Taula de consulta del color (LUT)
 Name[nl]=Opzoektabel van kleur (LUT)
+Name[sv]=Färguppslagningstabell (LUT)
 Name[uk]=Таблиця пошуку кольорів (LUT)
 Name[x-test]=xxColor Lookup Table (LUT)xx
 ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
