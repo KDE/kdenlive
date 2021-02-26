@@ -416,7 +416,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
 
 void Core::checkProfileValidity()
 {
-    int offset = (getCurrentProfile()->profile().width() % 8) + (getCurrentProfile()->profile().height() % 2);
+    int offset = (getCurrentProfile()->profile().width() % 2) + (getCurrentProfile()->profile().height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_binWidget) {
