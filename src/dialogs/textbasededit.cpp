@@ -783,6 +783,14 @@ void TextBasedEdit::startRecognition()
     }
 
     m_speechJob.reset(new QProcess(this));
+#ifdef Q_OS_WIN
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QDir pythonDir(QFileInfo(pyExec).absolutePath());
+    env.insert("PYTHONHOME", pythonDir.absolutePath());
+    pythonDir.cd(QStringLiteral("Lib"));
+    env.insert("PYTHONPATH", pythonDir.absolutePath());
+    m_speechJob->setProcessEnvironment(env);
+#endif
     showMessage(i18n("Starting speech recognition"), KMessageWidget::Information);
     qApp->processEvents();
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
