@@ -66,6 +66,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="size_w">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -86,6 +89,9 @@
       </item>
       <item row="1" column="3">
        <widget class="QSpinBox" name="size_h">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -100,6 +106,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QSpinBox" name="frame_num">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>500000</number>
         </property>
@@ -120,6 +129,9 @@
       </item>
       <item row="2" column="3">
        <widget class="QSpinBox" name="frame_den">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -134,6 +146,9 @@
       </item>
       <item row="4" column="1">
        <widget class="QSpinBox" name="aspect_num">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -154,6 +169,9 @@
       </item>
       <item row="4" column="3">
        <widget class="QSpinBox" name="aspect_den">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -168,6 +186,9 @@
       </item>
       <item row="5" column="1">
        <widget class="QSpinBox" name="display_num">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
@@ -188,6 +209,9 @@
       </item>
       <item row="5" column="3">
        <widget class="QSpinBox" name="display_den">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10000</number>
         </property>
