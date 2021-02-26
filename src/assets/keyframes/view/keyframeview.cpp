@@ -435,7 +435,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             double fps = pCore->getCurrentFps();
             for (const auto &keyframe : *m_model.get()) {
                 int pos = keyframe.first.frames(fps) - offset;
-                if (pos > min && pos < max) {
+                if (pos > min && pos <= max) {
                     m_selectedKeyframes << pos;
                 }
             }
@@ -515,6 +515,12 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         int offset = pCore->getItemIn(m_model->getOwnerId());
         int delta = m_currentKeyframe - m_currentKeyframeOriginal;
         // Move back all keyframes to their initial positions
+        // Sort keyframes so we don't move a keyframe over another one
+        if (delta > 0) {
+            std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end());
+        } else {
+            std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end(), std::greater<>());
+        }
         for (int kf : m_selectedKeyframes) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
@@ -527,6 +533,12 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         // Move all keyframes to their new positions
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        // Sort keyframes so we don't move a keyframe over another one
+        if (delta > 0) {
+            std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end(), std::greater<>());
+        } else {
+            std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end());
+        }
         for (int kf : m_selectedKeyframes) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
