@@ -369,6 +369,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     }
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
+    loadConfig();
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
@@ -406,6 +407,7 @@ QSize RenderWidget::sizeHint() const
 
 RenderWidget::~RenderWidget()
 {
+    saveConfig();
     m_view.running_jobs->blockSignals(true);
     m_view.scripts_list->blockSignals(true);
     m_view.running_jobs->clear();
@@ -414,6 +416,21 @@ RenderWidget::~RenderWidget()
     delete m_scriptsDelegate;
     delete m_infoMessage;
     delete m_jobInfoMessage;
+}
+
+void RenderWidget::saveConfig()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup resourceConfig(config, "RenderWidget");
+    resourceConfig.writeEntry(QStringLiteral("showoptions"), m_view.options->isChecked());
+    config->sync();
+}
+
+void RenderWidget::loadConfig()
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup resourceConfig(config, "RenderWidget");
+    m_view.options->setChecked(resourceConfig.readEntry("showoptions", false));
 }
 
 void RenderWidget::slotEditItem(QTreeWidgetItem *item)

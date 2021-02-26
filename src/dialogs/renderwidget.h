@@ -121,6 +121,8 @@ class RenderWidget : public QDialog
 public:
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     ~RenderWidget() override;
+    void saveConfig();
+    void loadConfig();
     void setGuides(std::weak_ptr<MarkerListModel> guidesModel);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0, int frame = 0);
