@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xml/xml.hpp"
 #include <utils/thumbnailcache.hpp>
 #include <profiles/profilemodel.hpp>
+#include <dialogs/textbasededit.h>
 
 #include <KColorScheme>
 #include <KRatingPainter>
@@ -1713,6 +1714,7 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) {
         m_monitor->slotOpenClip(clip, in, out);
+        pCore->textEditWidget()->openClip(clip);
     });
 }
 
@@ -4337,7 +4339,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
     }
 }
 
-void Bin::addClipMarker(const QString binId, QList<int> positions)
+void Bin::addClipMarker(const QString binId, QList<int> positions, QStringList comments)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (!clip) {
@@ -4345,9 +4347,15 @@ void Bin::addClipMarker(const QString binId, QList<int> positions)
         return;
     }
     QMap <GenTime, QString> markers;
+    int ix = 0;
     for (int pos : positions) {
         GenTime p(pos, pCore->getCurrentFps());
-        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        if (comments.size() == positions.size()) {
+            markers.insert(p, comments.at(ix));
+        } else {
+            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        }
+        ix++;
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
 }
@@ -4435,13 +4443,19 @@ void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> z
         return;
     }
     Mlt::Tractor t(pCore->getCurrentProfile()->profile());
-    Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(clip->originalProducer().get()));
-    QMapIterator<QString, QString> i(properties);
+    Mlt::Playlist main(pCore->getCurrentProfile()->profile());
+    main.set("id", "main_bin");
+    main.set("xml_retain", 1);
+    // Here we could store some kdenlive settings in the main playlist
+    /*QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
         i.next();
-        prod->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
-    }
+        main.set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }*/
+    main.append(*prod.get());
+    t.set("xml_retain main_bin", main.get_service(), 0);
+    Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
     for (auto &zone : zones) {
         std::shared_ptr<Mlt::Producer> cut(prod->cut(zone.x(), zone.y()));
         pl.append(*cut.get());
@@ -4453,6 +4467,13 @@ void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> z
     cons.run();
     if (createNew) {
         const QString id = slotAddClipToProject(QUrl::fromLocalFile(savePath));
+        // Set properties directly on the clip
+        std::shared_ptr<ProjectClip> playlistClip = m_itemModel->getClipByBinID(id);
+        QMapIterator<QString, QString> i(properties);
+        while (i.hasNext()) {
+            i.next();
+            playlistClip->setProducerProperty(i.key(), i.value());
+        }
         selectClipById(id);
     }
 }

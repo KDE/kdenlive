@@ -31,6 +31,8 @@
 #include <QMouseEvent>
 #include <QTimer>
 
+class ProjectClip;
+
 /**
  * @class VideoTextEdit: Video speech text editor
  * @brief A dialog for editing markers and guides.
@@ -47,14 +49,30 @@ public:
     int lineNumberAreaWidth();
     void repaintLines();
     void cleanup();
+    /** @brief returns the link for the first word at position start in the text.
+     *    This will seek forwards until a word is found in case selection starts with a space
+     * @param cursor the current text cursor
+     * @param start the first position of the selection
+     * @param max the last position to check in seek operation*/
+    const QString selectionStartAnchor(QTextCursor &cursor, int start, int max);
+    /** @brief returns the link for the last word at position end in the text.
+     *    This will seek backwards until a word is found in case selection ends with a space
+     * @param cursor the current text cursor
+     * @param end the last position of the selection
+     * @param min the first position to check in seek operation*/
+    const QString selectionEndAnchor(QTextCursor &cursor, int end, int min);
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
     QVector<QPoint> getInsertZones();
+    /** @brief Remove all text outside loadZones
+     */
+    void processCutZones(QList <QPoint> loadZones);
     void rebuildZones();
     QVector< QPair<double, double> > speechZones;
-    double clipOffset;
     QVector <QPoint> cutZones;
+    QAction *bookmarkAction;
+    QAction *deleteAction;
     
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -62,6 +80,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 private slots:
     void updateLineNumberArea(const QRect &rect, int dy);
@@ -135,6 +154,7 @@ class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 
 public:
     explicit TextBasedEdit(QWidget *parent = nullptr);
+    void openClip(std::shared_ptr<ProjectClip>);
 
 public slots:
     void deleteItem();
@@ -152,13 +172,17 @@ private slots:
     void previewPlaylist(bool createNew = true);
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type);
+    void addBookmark();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     std::unique_ptr<QProcess> m_speechJob;
+    /** @brief Id of the master bin clip on which speech processing is done */
     QString m_binId;
+    /** @brief Id of the playlist which is processed from the master clip */
+    QString m_refId;
     QString m_sourceUrl;
     double m_clipDuration;
     int m_lastPosition;
@@ -168,6 +192,7 @@ private:
     QTextDocument m_document;
     QString m_playlist;
     QTimer m_hideTimer;
+    double m_clipOffset;
 };
 
 #endif

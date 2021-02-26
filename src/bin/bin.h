@@ -225,8 +225,8 @@ public:
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     PlaylistState::ClipState getClipState(int itemId) const;
 
-    /** @brief Add markers on clip @param binId at @param positions */ 
-    void addClipMarker(const QString binId, QList<int> positions);
+    /** @brief Add markers on clip @param binId at @param positions with @comments text if given */
+    void addClipMarker(const QString binId, QList<int> positions, QStringList comments = {});
 
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
