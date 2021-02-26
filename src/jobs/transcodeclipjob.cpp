@@ -63,19 +63,18 @@ bool TranscodeJob::startJob()
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
-    QString path = fileName + transcoderExt;
     int fileCount = 1;
+    QString num = QString::number(fileCount).rightJustified(4, '0', false);
+    QString path = fileName + num + transcoderExt;
     bool updatedPath = false;
     while (dir.exists(path)) {
-        QString num = QString::number(fileCount).rightJustified(4, '0', false);
-        path = fileName + num + transcoderExt;
         ++fileCount;
+        num = QString::number(fileCount).rightJustified(4, '0', false);
+        path = fileName + num + transcoderExt;
         updatedPath = true;
     }
     m_destUrl = dir.absoluteFilePath(fileName);
-    if (updatedPath) {
-        m_destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
-    }
+    m_destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
 
     bool result;
     if (type == ClipType::Playlist || type == ClipType::SlideShow) {
