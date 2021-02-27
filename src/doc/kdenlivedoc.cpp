@@ -1289,7 +1289,7 @@ void KdenliveDoc::loadDocumentGuides()
 {
     QString guides = m_documentProperties.value(QStringLiteral("guides"));
     if (!guides.isEmpty()) {
-        m_guideModel->importFromJson(guides, true);
+        m_guideModel->importFromJson(guides, true, false);
     }
 }
 
