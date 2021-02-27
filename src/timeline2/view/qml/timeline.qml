@@ -315,7 +315,7 @@ Rectangle {
     property int minHeaderWidth: 6 * collapsedHeight
     property int headerWidth: Math.max(minHeaderWidth, timeline.headerWidth())
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
-    property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
+    property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property bool autoScrolling: timeline.autoScroll
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
