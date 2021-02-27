@@ -183,6 +183,26 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(shadowX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateShadow);
     connect(shadowY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateShadow);
 
+    connect(typewriterBox, &QGroupBox::toggled, this, &TitleWidget::slotUpdateTW);
+    connect(tw_sb_step, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateTW);
+    connect(tw_sb_sigma, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateTW);
+    connect(tw_sb_seed, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateTW);
+    connect(tw_rd_char, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
+    connect(tw_rd_word, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
+    connect(tw_rd_line, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
+    connect(tw_rd_custom, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
+    tw_rd_custom->setEnabled(false);
+    if (mlt_version_get_int() <= 0x061a00) {
+        typewriterBox->setEnabled(false);
+
+		auto *twinfo = new KMessageWidget(typewriterBox);
+		twinfo->setText(i18n("Typewriter requires MLT-6.26.0 or newer."));
+		twinfo->setMessageType(KMessageWidget::Warning);
+		twinfo->setCloseButtonVisible(false);
+		twinfo->setEnabled(true);
+		gridLayout_12->addWidget(twinfo, 3, 0, 1, 4, 0);
+    }
+
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(gradient_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
@@ -2935,6 +2955,22 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     shadowBox->blockSignals(false);
                 }
 
+                sInfo = i->twInfo();
+                if (sInfo.count() >= 5) {
+                    typewriterBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
+                    typewriterBox->blockSignals(true);
+                    tw_sb_step->setValue(sInfo.at(1).toInt());
+                    switch(sInfo.at(2).toInt()) {
+                        case 1: tw_rd_char->setChecked(true); break;
+                        case 2: tw_rd_word->setChecked(true); break;
+                        case 3: tw_rd_line->setChecked(true); break;
+                        default: tw_rd_custom->setChecked(true); break;
+                    }
+                    tw_sb_sigma->setValue(sInfo.at(3).toInt());
+                    tw_sb_seed->setValue(sInfo.at(4).toInt());
+                    typewriterBox->blockSignals(false);
+                }
+
                 letter_spacing->blockSignals(true);
                 line_spacing->blockSignals(true);
                 QTextCursor cur = i->textCursor();
@@ -3167,6 +3203,27 @@ void TitleWidget::slotUpdateShadow()
             continue;
         }
         item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
+    }
+}
+
+void TitleWidget::slotUpdateTW()
+{
+    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+    for (int i = 0; i < graphicsView->scene()->selectedItems().length(); ++i) {
+        MyTextItem *item = nullptr;
+        if (l.at(i)->type() == TEXTITEM) {
+            item = static_cast<MyTextItem *>(l.at(i));
+        }
+        if (!item) {
+            // No text item, try next one.
+            continue;
+        }
+        int mode = 0;
+        if (tw_rd_char->isChecked()) mode = 1;
+        else if (tw_rd_word->isChecked()) mode = 2;
+        else if (tw_rd_line->isChecked()) mode = 3;
+
+        item->updateTW(typewriterBox->isChecked(), tw_sb_step->value(), mode, tw_sb_sigma->value(), tw_sb_seed->value());
     }
 }
 

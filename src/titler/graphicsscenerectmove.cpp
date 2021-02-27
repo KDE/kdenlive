@@ -76,6 +76,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
     connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
+    updateTW(0, 2, 1, 0, 0);
 }
 
 Qt::Alignment MyTextItem::alignment() const
@@ -240,6 +241,33 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             painter->drawRect(boundingRect());
         }
     }
+}
+
+void MyTextItem::updateTW(bool enabled, int step, int mode, int sigma, int seed)
+{
+    tw_enabled = enabled;
+    tw_step = step;
+    tw_mode = mode;
+    tw_sigma = sigma;
+    tw_seed = seed;
+}
+
+void MyTextItem::loadTW(const QStringList &info)
+{
+    if (info.count() < 5) {
+        return;
+    }
+    updateTW((static_cast<bool>(info.at(0).toInt())), info.at(1).toInt(),
+             info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt());
+}
+
+QStringList MyTextItem::twInfo() const
+{
+    QStringList info;
+    info << QString::number(tw_enabled) << QString::number(tw_step)
+         << QString::number(tw_mode)
+         << QString::number(tw_sigma) << QString::number(tw_seed);
+    return info;
 }
 
 void MyTextItem::updateShadow()

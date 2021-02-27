@@ -384,6 +384,9 @@ private slots:
     void templateIndexChanged(int);
     void slotEditGradient();
     void slotUpdateShadow();
+    /** TW stuff */
+    void slotUpdateTW();
+
     /** @brief Remove missing items from the scene. */
     void deleteMissingItems();
     /** @brief List missing items from the scene. */

@@ -268,6 +268,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width,
             }
 
             content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QLatin1Char(';')));
+            content.setAttribute(QStringLiteral("typewriter"), t->twInfo().join(QLatin1Char(';')));
             break;
         default:
             continue;
@@ -524,9 +525,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
 
                     // Effects
                     if (!txtProperties.namedItem(QStringLiteral("typewriter")).isNull()) {
-                        QStringList effData = QStringList()
-                                              << QStringLiteral("typewriter") << txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
-                        txt->setData(100, effData);
+                        QString info = txtProperties.namedItem(QStringLiteral("typewriter")).nodeValue();
+                        txt->loadTW(info.split(QLatin1Char(';')));
                     }
                     if (txt->toPlainText() == QLatin1String("%s")) {
                         // template text box, adjust size for later remplacement text

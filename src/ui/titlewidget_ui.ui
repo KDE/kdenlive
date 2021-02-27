@@ -1034,6 +1034,115 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="9" column="0" colspan="7">
+                    <widget class="QGroupBox" name="typewriterBox">
+                     <property name="title">
+                      <string>&amp;Typewriter effect</string>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="checked">
+                      <bool>false</bool>
+                     </property>
+                     <layout class="QGridLayout" name="gridLayout_12">
+                      <item row="0" column="1">
+                       <widget class="QSpinBox" name="tw_sb_step">
+                        <property name="minimum">
+                         <number>1</number>
+                        </property>
+                        <property name="maximum">
+                         <number>240</number>
+                        </property>
+                        <property name="value">
+                         <number>2</number>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="0" colspan="4">
+                       <widget class="QGroupBox" name="groupBox_2">
+                        <property name="title">
+                         <string>Expansion mode</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                        </property>
+                        <property name="flat">
+                         <bool>true</bool>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_5">
+                         <item>
+                          <widget class="QRadioButton" name="tw_rd_char">
+                           <property name="text">
+                            <string>by &amp;char</string>
+                           </property>
+                           <property name="checked">
+                            <bool>true</bool>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QRadioButton" name="tw_rd_word">
+                           <property name="text">
+                            <string>by &amp;word</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QRadioButton" name="tw_rd_line">
+                           <property name="text">
+                            <string>by &amp;line</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QRadioButton" name="tw_rd_custom">
+                           <property name="text">
+                            <string>custo&amp;m</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item row="0" column="2">
+                       <widget class="QLabel" name="label_6">
+                        <property name="text">
+                         <string>Variation</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="3">
+                       <widget class="QSpinBox" name="tw_sb_sigma">
+                        <property name="maximum">
+                         <number>240</number>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QLabel" name="label_5">
+                        <property name="text">
+                         <string>Frame step</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="2">
+                       <widget class="QLabel" name="label_8">
+                        <property name="text">
+                         <string>Seed</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="3">
+                       <widget class="QSpinBox" name="tw_sb_seed">
+                        <property name="maximum">
+                         <number>9999</number>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </widget>
