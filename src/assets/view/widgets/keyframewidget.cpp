@@ -242,8 +242,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     });
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
     QMargins mrg = m_lay->contentsMargins();
-    m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();
-    setFixedHeight(m_baseHeight);
+    m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height();
+    m_addedHeight = mrg.top() + mrg.bottom();
+    setFixedHeight(m_baseHeight + m_addedHeight);
     addParameter(index);
 }
 
