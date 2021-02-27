@@ -484,6 +484,9 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
             emit pCore->window()->focusTimeline(false, false);
             break;
         case QEvent::FocusIn:
+            if (rootObject()) {
+                QMetaObject::invokeMethod(rootObject(), "regainFocus");
+            }
             emit pCore->window()->focusTimeline(true, false);
             break;
         default:
