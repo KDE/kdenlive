@@ -460,7 +460,7 @@ QString MarkerListModel::toJson() const
         list.push_back(currentMarker);
     }
     QJsonDocument json(list);
-    return QString(json.toJson());
+    return QString::fromUtf8(json.toJson());
 }
 
 bool MarkerListModel::removeAllMarkers()
