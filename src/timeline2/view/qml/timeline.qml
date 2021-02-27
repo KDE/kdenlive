@@ -1632,7 +1632,7 @@ Rectangle {
                                         tracksArea.focus = true
                                     }
                                     onDoubleClicked: {
-                                        if (dragProxy.masterObject.keyframeModel) {
+                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes) {
                                             var newVal = (dragProxy.height - mouseY) / dragProxy.height
                                             var newPos = Math.round(mouseX / timeScale) + dragProxy.masterObject.inPoint
                                             timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
