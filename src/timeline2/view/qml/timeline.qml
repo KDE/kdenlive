@@ -263,12 +263,17 @@ Rectangle {
         dragProxy.verticalOffset = isComposition ? itemObject.displayHeight : 0
     }
     function endDrag() {
+        console.log('ENDING DRAG!!!!!!!!!!!!!!!!!!!!!!\n')
         dragProxy.draggedItem = -1
-        dragProxy.x = 0
-        dragProxy.y = 0
+        //dragProxy.x = 0
+        //dragProxy.y = 0
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
+    }
+    
+    function regainFocus() {
+        dragProxyArea.doRegainFocus()
     }
 
     function getAudioTracksCount(){
@@ -1431,6 +1436,28 @@ Rectangle {
                                             continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset + ruler.height + subtitleTrack.height)
                                             snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                             moveItem()
+                                        }
+                                    }
+                                    
+                                    function doRegainFocus() {
+                                        var itemPos = mapToItem(tracksContainerArea, mouseX, mouseY)
+                                        var currentMouseTrack = Logic.getTrackIdFromPos(parent.y + mouseY)
+                                        // Try to find correct item
+                                        var tentativeClip = getItemAtPos(currentMouseTrack, itemPos.x, dragProxy.isComposition)
+                                        if (tentativeClip && tentativeClip.clipId) {
+                                            dragProxy.draggedItem = tentativeClip.clipId
+                                            var tk = controller.getItemTrackId(tentativeClip.clipId)
+                                            dragProxy.x = tentativeClip.x
+                                            dragProxy.y = tentativeClip.y + Logic.getTrackYFromId(tk)
+                                            dragProxy.width = tentativeClip.width
+                                            dragProxy.height = tentativeClip.height
+                                            dragProxy.masterObject = tentativeClip
+                                            dragProxy.sourceTrack = tk
+                                            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk)
+                                            dragProxy.sourceFrame = tentativeClip.modelStart
+                                            dragProxy.isComposition = tentativeClip.isComposition
+                                        } else {
+                                            console.log('item not found')
                                         }
                                     }
 
