@@ -291,10 +291,16 @@ Rectangle {
             }
         }
         Keys.onUpPressed: {
-            controller.requestClipMove(clipRoot.clipId, controller.getNextTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
+            var nextTrack = controller.getNextTrackId(clipRoot.trackId);
+            while(!controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== controller.getNextTrackId(nextTrack)) {
+                nextTrack = controller.getNextTrackId(nextTrack);
+            }
         }
         Keys.onDownPressed: {
-            controller.requestClipMove(clipRoot.clipId, controller.getPreviousTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
+            var previousTrack = controller.getPreviousTrackId(clipRoot.trackId);
+            while(!controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== controller.getPreviousTrackId(previousTrack)) {
+                previousTrack = controller.getPreviousTrackId(previousTrack);
+            }
         }
         Keys.onEscapePressed: {
             timeline.grabCurrent()
