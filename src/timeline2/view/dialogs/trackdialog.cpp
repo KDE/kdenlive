@@ -57,7 +57,7 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
     connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int count) {
-        tracks_count->setSuffix(i18np(" track", " tracks", count));
+        tracks_count->setSuffix(i18ncp("Spinbox suffix", " track", " tracks", count));
         track_name->setEnabled(count == 1);
     });
 }

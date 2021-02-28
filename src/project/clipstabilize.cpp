@@ -123,7 +123,7 @@ QString ClipStabilize::destination() const
 
 QString ClipStabilize::desc() const
 {
-    return i18n("Stabilize clip");
+    return i18nc("Description", "Stabilize clip");
 }
 
 bool ClipStabilize::autoAddClip() const

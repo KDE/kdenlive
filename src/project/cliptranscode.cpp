@@ -49,7 +49,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     if (m_automaticMode) {
         auto_add->setHidden(true);
     }
-    auto_add->setText(i18np("Add clip to project", "Add clips to project", m_urls.count()));
+    auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_urls.count()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     if (m_urls.count() == 1) {

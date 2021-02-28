@@ -104,7 +104,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     m_previous = tb->addAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Previous keyframe"), this, SLOT(slotPrevious()));
 
     // Add/remove keyframe
-    m_addKeyframe = new KDualAction(i18n("Add keyframe"), i18n("Remove keyframe"), this);
+    m_addKeyframe = new KDualAction(i18nc("@action", "Add keyframe"), i18nc("@action", "Remove keyframe"), this);
     m_addKeyframe->setInactiveIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_addKeyframe->setActiveIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(m_addKeyframe, SIGNAL(activeChangedByUser(bool)), this, SLOT(slotAddDeleteKeyframe(bool)));

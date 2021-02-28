@@ -163,7 +163,7 @@ bool ClipCreator::createClipFromFile(const QString &path, const QString &parentF
     auto id = ClipCreator::createClipFromFile(path, parentFolder, std::move(model), undo, redo);
     bool ok = (id != QStringLiteral("-1"));
     if (ok) {
-        pCore->pushUndo(undo, redo, i18n("Add clip"));
+        pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
     }
     return ok;
 }

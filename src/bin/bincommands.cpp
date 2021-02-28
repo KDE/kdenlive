@@ -30,7 +30,7 @@ MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QString clipId, QString oldPare
     , m_oldParentId(std::move(oldParentId))
     , m_newParentId(std::move(newParentId))
 {
-    setText(i18n("Move Clip"));
+    setText(i18nc("@action", "Move Clip"));
 }
 // virtual
 void MoveBinClipCommand::undo()

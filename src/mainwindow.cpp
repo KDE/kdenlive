@@ -1694,7 +1694,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space In All Tracks"), this, SLOT(slotRemoveAllSpace()));
 
     KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
-    QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
+    QAction *insertTrack = new QAction(QIcon(), i18nc("@action", "Insert Track"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
 
