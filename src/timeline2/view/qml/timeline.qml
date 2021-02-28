@@ -1542,9 +1542,12 @@ Rectangle {
                                     }
                                     
                                     function doRegainFocus() {
+                                        // This is currently broken, fix pending
+                                        return
                                         var itemPos = mapToItem(tracksContainerArea, mouseX, mouseY)
                                         var currentMouseTrack = Logic.getTrackIdFromPos(parent.y + mouseY)
                                         // Try to find correct item
+                                        console.log('checking item on TK: ', currentMouseTrack, ' AT: ', itemPos.x, 'mouse: ',mouseX, ', PARENT: ', parent.x)
                                         var tentativeClip = getItemAtPos(currentMouseTrack, itemPos.x, dragProxy.isComposition)
                                         if (tentativeClip && tentativeClip.clipId) {
                                             dragProxy.draggedItem = tentativeClip.clipId
