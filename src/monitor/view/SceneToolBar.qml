@@ -50,6 +50,7 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 icon.name: "view-fullscreen"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Switch Full Screen")
