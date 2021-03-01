@@ -833,6 +833,7 @@ void DocumentChecker::slotCheckClips()
         QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
         const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
         if (newpath.isEmpty()) {
+            m_checkRunning = false;
             return;
         }
         slotSearchClips(newpath);
