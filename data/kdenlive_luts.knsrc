@@ -1,9 +1,11 @@
 [KNewStuff3]
 Name=Color Lookup Table (LUT)
 Name[ca]=Taula de consulta del color (LUT)
+Name[ca@valencia]=Taula de consulta del color (LUT)
 Name[fr]=Table de recherche de couleur (LUT « Look Up Table »)
 Name[nl]=Opzoektabel van kleur (LUT)
 Name[pl]=Tablica wyszukiwania barw (LUT)
+Name[pt]=Tabela de Pesquisa de Cores (LUT)
 Name[sv]=Färguppslagningstabell (LUT)
 Name[uk]=Таблиця пошуку кольорів (LUT)
 Name[x-test]=xxColor Lookup Table (LUT)xx

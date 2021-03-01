@@ -1622,8 +1622,8 @@ Rectangle {
                                             dragProxy.sourceFrame = dragFrame
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
+                                            tracksArea.focus = true
                                         }
-                                        tracksArea.focus = true
                                     }
                                     onDoubleClicked: {
                                         if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes) {

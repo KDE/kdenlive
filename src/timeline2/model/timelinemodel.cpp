@@ -3333,7 +3333,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     Fun redo = []() { return true; };
     bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo);
     if (result) {
-        PUSH_UNDO(undo, redo, i18n("Insert Track"));
+        PUSH_UNDO(undo, redo, i18nc("@action", "Insert Track"));
     }
     TRACE_RES(result);
     return result;
