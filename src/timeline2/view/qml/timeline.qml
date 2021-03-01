@@ -286,7 +286,7 @@ Rectangle {
     function regainFocus(mousePos) {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
-        console.log('checking item on TK: ', currentMouseTrack, ' AT: ', mousePos, ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
+        //console.log('checking item on TK: ', currentMouseTrack, ' AT: ', mousePos, ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
         var tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width, dragProxy.isComposition)
         if (tentativeClip && tentativeClip.clipId) {
             dragProxy.draggedItem = tentativeClip.clipId
@@ -297,7 +297,6 @@ Rectangle {
             dragProxy.height = tentativeClip.height
             dragProxy.masterObject = tentativeClip
             dragProxy.sourceTrack = tk
-            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk))
             dragProxy.sourceFrame = tentativeClip.modelStart
             dragProxy.isComposition = tentativeClip.isComposition
         } else {
