@@ -233,7 +233,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
         }
         return param->moveKeyframe(oldPos, pos, value, undo, redo);
     };
-    return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
+    return applyOperation(op, logUndo ? i18n("@action", "Move keyframe") : QString());
 }
 
 bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index, QUndoCommand *parentCommand)

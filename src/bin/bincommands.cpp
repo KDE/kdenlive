@@ -50,7 +50,7 @@ MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, QString clipId, QString old
     , m_oldParentId(std::move(oldParentId))
     , m_newParentId(std::move(newParentId))
 {
-    setText(i18n("Move Clip"));
+    setText(i18nc("@action", "Move Clip"));
 }
 // virtual
 void MoveBinFolderCommand::undo()

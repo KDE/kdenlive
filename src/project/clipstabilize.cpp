@@ -43,7 +43,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Stabilize Clip"));
-    auto_add->setText(i18np("Add clip to project", "Add clips to project", m_binIds.size()));
+    auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_binIds.size()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
 
     // QString stylesheet = EffectStackView2::getStyleSheet();
