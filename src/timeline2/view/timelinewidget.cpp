@@ -483,9 +483,6 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
             emit pCore->window()->focusTimeline(false, false);
             break;
         case QEvent::FocusIn:
-            if (rootObject()) {
-                QMetaObject::invokeMethod(rootObject(), "regainFocus");
-            }
             emit pCore->window()->focusTimeline(true, false);
             break;
         default:
@@ -493,6 +490,14 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     }
 
     return QQuickWidget::eventFilter(object, event);
+}
+
+void TimelineWidget::regainFocus()
+{
+    if (underMouse() && rootObject()) {
+        QPoint mousePos = mapFromGlobal(QCursor::pos());
+        QMetaObject::invokeMethod(rootObject(), "regainFocus", Q_ARG(QVariant, mousePos));
+    }
 }
 
 void TimelineWidget::connectSubtitleModel(bool firstConnect)

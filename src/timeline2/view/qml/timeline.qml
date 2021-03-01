@@ -75,7 +75,8 @@ Rectangle {
     }
     
     function getActiveTrackStreamPos() {
-        return Logic.getTrackYFromId(timeline.activeTrack) + rulercontainer.height
+        // Return the relative y click position, to display the context menu
+        return Logic.getTrackYFromId(timeline.activeTrack) + rulercontainer.height - scrollView.contentY
     }
 
     function updatePalette() {
@@ -146,6 +147,22 @@ Rectangle {
         wheel.accepted = true
     }
 
+    function horizontalScroll(wheel) {
+        var newScroll = Math.min(
+          scrollView.contentX - wheel.angleDelta.y,
+          timeline.fullDuration * root.timeScale - scrollView.width
+        )
+        scrollView.contentX = Math.max(newScroll, 0)
+    }
+
+    function verticalScroll(wheel) {
+        var newScroll = Math.min(
+            scrollView.contentY - wheel.angleDelta.y,
+            trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horScroll.height + ruler.height
+        )
+        scrollView.contentY = Math.max(newScroll, 0)
+    }
+
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
@@ -174,13 +191,6 @@ Rectangle {
                 scrollTimer.stop()
             }
         }
-    }
-    function getTrackYFromId(a_track) {
-        return Logic.getTrackYFromId(a_track)
-    }
-
-    function getTrackYFromMltIndex(a_track) {
-        return Logic.getTrackYFromMltIndex(a_track)
     }
 
     function getMousePos() {
@@ -262,18 +272,37 @@ Rectangle {
         dragProxy.isComposition = isComposition
         dragProxy.verticalOffset = isComposition ? itemObject.displayHeight : 0
     }
+
     function endDrag() {
         console.log('ENDING DRAG!!!!!!!!!!!!!!!!!!!!!!\n')
         dragProxy.draggedItem = -1
-        //dragProxy.x = 0
-        //dragProxy.y = 0
+        dragProxy.x = 0
+        dragProxy.y = 0
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
     }
     
-    function regainFocus() {
-        dragProxyArea.doRegainFocus()
+    function regainFocus(mousePos) {
+        var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
+        // Try to find correct item
+        console.log('checking item on TK: ', currentMouseTrack, ' AT: ', mousePos, ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
+        var tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width, dragProxy.isComposition)
+        if (tentativeClip && tentativeClip.clipId) {
+            dragProxy.draggedItem = tentativeClip.clipId
+            var tk = controller.getItemTrackId(tentativeClip.clipId)
+            dragProxy.x = tentativeClip.x
+            dragProxy.y = tentativeClip.y + Logic.getTrackYFromId(tk)
+            dragProxy.width = tentativeClip.width
+            dragProxy.height = tentativeClip.height
+            dragProxy.masterObject = tentativeClip
+            dragProxy.sourceTrack = tk
+            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk))
+            dragProxy.sourceFrame = tentativeClip.modelStart
+            dragProxy.isComposition = tentativeClip.isComposition
+        } else {
+            console.log('item not found')
+        }
     }
 
     function getAudioTracksCount(){
@@ -755,7 +784,7 @@ Rectangle {
 
                 MouseArea {
                     width: trackHeaders.width
-                    height: trackHeaders.height
+                    height: trackHeaders.height + subtitleTrackHeader.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
                         var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
@@ -1093,7 +1122,7 @@ Rectangle {
                 if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
-                    var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height)
+                    var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height + scrollView.ScrollBar.horizontal.height)
                     scrollView.contentX = Math.max(newScroll, 0)
                     scrollView.contentY = Math.max(vScroll, 0)
                     clickX = mouseX
@@ -1163,7 +1192,9 @@ Rectangle {
                         var bottomRubber = y + rubberSelect.height
                         if (bottomRubber > subtitleTrack.height) {
                             y = Math.max(0, y - subtitleTrack.height)
-                            selectionHeight = bottomRubber - subtitleTrack.height
+                            if (selectSubs) {
+                                selectionHeight = bottomRubber - subtitleTrack.height
+                            }
                         } else {
                             y -= subtitleTrack.height
                             selectOnlySubs = true
@@ -1172,7 +1203,8 @@ Rectangle {
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrack = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
                     // Check if bottom of rubber selection covers the last track compositions
-                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId) - scrollView.contentY) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
+                    console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
+                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
                     if (bottomTrack >= topTrack) {
                         var t = []
                         if (!selectOnlySubs) {
@@ -1325,7 +1357,7 @@ Rectangle {
                         Item {
                             id: tracksContainerArea
                             width: Math.max(scrollView.width - vertScroll.width, timeline.fullDuration * timeScale)
-                            height: trackHeaders.height
+                            height: trackHeaders.height + subtitleTrackHeader.height
                             y: subtitleTrack.height
                             //Math.max(trackHeaders.height, scrollView.contentHeight - scrollView.__horizontalScrollBar.height)
                             //color: root.color
@@ -1342,7 +1374,7 @@ Rectangle {
                                 property bool isComposition
                                 property int verticalOffset
                                 property var masterObject
-                                //opacity: 0.8
+                                // opacity: 0.8
                                 MouseArea {
                                     id: dragProxyArea
                                     anchors.fill: parent
@@ -1436,31 +1468,6 @@ Rectangle {
                                             continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset + ruler.height + subtitleTrack.height)
                                             snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                             moveItem()
-                                        }
-                                    }
-                                    
-                                    function doRegainFocus() {
-                                        // This is currently broken, fix pending
-                                        return
-                                        var itemPos = mapToItem(tracksContainerArea, mouseX, mouseY)
-                                        var currentMouseTrack = Logic.getTrackIdFromPos(parent.y + mouseY)
-                                        // Try to find correct item
-                                        console.log('checking item on TK: ', currentMouseTrack, ' AT: ', itemPos.x, 'mouse: ',mouseX, ', PARENT: ', parent.x)
-                                        var tentativeClip = getItemAtPos(currentMouseTrack, itemPos.x, dragProxy.isComposition)
-                                        if (tentativeClip && tentativeClip.clipId) {
-                                            dragProxy.draggedItem = tentativeClip.clipId
-                                            var tk = controller.getItemTrackId(tentativeClip.clipId)
-                                            dragProxy.x = tentativeClip.x
-                                            dragProxy.y = tentativeClip.y + Logic.getTrackYFromId(tk)
-                                            dragProxy.width = tentativeClip.width
-                                            dragProxy.height = tentativeClip.height
-                                            dragProxy.masterObject = tentativeClip
-                                            dragProxy.sourceTrack = tk
-                                            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk)
-                                            dragProxy.sourceFrame = tentativeClip.modelStart
-                                            dragProxy.isComposition = tentativeClip.isComposition
-                                        } else {
-                                            console.log('item not found')
                                         }
                                     }
 
