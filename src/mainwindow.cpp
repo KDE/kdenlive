@@ -1365,7 +1365,7 @@ void MainWindow::setupActions()
     m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
                            QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::ALT + Qt::Key_Space);
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::SHIFT + Qt::Key_Space);
     m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
