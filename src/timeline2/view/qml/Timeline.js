@@ -49,7 +49,7 @@ function getTrackIdFromPos(pos) {
 }
 
 function getTrackYFromId(id) {
-    var result = - scrollView.contentY
+    var result = 0
     for (var i = 0; i < trackHeaderRepeater.count; i++) {
         if (trackHeaderRepeater.itemAt(i).trackId == id) {
             break;

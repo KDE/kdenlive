@@ -810,6 +810,11 @@ void MainWindow::init()
 #endif
     getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu , timelineSubtitleMenu);
     scmanager->slotCheckActiveScopes();
+    connect(qApp, &QGuiApplication::applicationStateChanged, [&](Qt::ApplicationState state) {
+        if (state == Qt::ApplicationActive) {
+            getMainTimeline()->regainFocus();
+        }
+    });
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 

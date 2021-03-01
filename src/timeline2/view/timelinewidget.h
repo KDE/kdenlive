@@ -57,6 +57,7 @@ public:
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
+    void regainFocus();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
