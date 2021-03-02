@@ -562,13 +562,13 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
     , m_clipDuration(0.)
+    , m_currentMessageAction(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
-    vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    vosk_config->setToolTip(i18n("Configure speech recognition"));
-    connect(vosk_config, &QToolButton::clicked, [this]() {
+    m_voskConfig = new QAction(i18n("Configure"), this);
+    connect(m_voskConfig, &QAction::triggered, [this]() {
         pCore->window()->slotPreferences(8);
     });
 
@@ -600,18 +600,12 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_speechJob->kill();
         }
     });
-    connect(pCore.get(), &Core::updateVoskAvailability, this, &TextBasedEdit::updateAvailability);
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
-        updateAvailability();
         if (models.isEmpty()) {
-            showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information);
-            vosk_config->setVisible(true);
+            showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
         } else {
-            if (KdenliveSettings::vosk_found()) {
-                vosk_config->setVisible(false);
-            }
             if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
                 int ix = language_box->findText(KdenliveSettings::vosk_text_model());
                 if (ix > -1) {
@@ -730,6 +724,14 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     parseVoskDictionaries();
 }
 
+TextBasedEdit::~TextBasedEdit()
+{
+    if (m_speechJob && m_speechJob->state() == QProcess::Running) {
+        m_speechJob->kill();
+        m_speechJob->waitForFinished();
+    }
+}
+
 bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
@@ -758,16 +760,20 @@ void TextBasedEdit::startRecognition()
     m_visualEditor->cleanup();
     //m_visualEditor->insertHtml(QStringLiteral("<body>"));
 
-    info_message->removeAction(m_logAction);
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
         showMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
         return;
     }
+
+    if (!KdenliveSettings::vosk_found()) {
+        showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
+        return;
+    }
     // Start python script
     QString language = language_box->currentText();
     if (language.isEmpty()) {
-        showMessage(i18n("Please install a language model."), KMessageWidget::Warning);
+        showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
         return;
     }
     QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speechtotext.py"));
@@ -852,25 +858,12 @@ void TextBasedEdit::startRecognition()
     frame_progress->setVisible(true);
 }
 
-void TextBasedEdit::updateAvailability()
-{
-    bool enabled = KdenliveSettings::vosk_found() && language_box->count() > 0;
-    button_start->setEnabled(enabled);
-    vosk_config->setVisible(!enabled);
-}
-
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 {
     if (status == QProcess::CrashExit) {
-        if (!m_errorString.isEmpty()) {
-            info_message->addAction(m_logAction);
-        }
-        showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning);
+        showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else if (m_visualEditor->toPlainText().isEmpty()) {
-        if (!m_errorString.isEmpty()) {
-            info_message->addAction(m_logAction);
-        }
-        showMessage(i18n("No speech detected."), KMessageWidget::Information);
+        showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else {
         button_add->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
@@ -1090,15 +1083,26 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     }
 }
 
-void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType type)
+void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action)
 {
+    if (m_currentMessageAction != nullptr && (action == nullptr || action != m_currentMessageAction)) {
+        info_message->removeAction(m_currentMessageAction);
+        m_currentMessageAction = action;
+        if (m_currentMessageAction) {
+            info_message->addAction(m_currentMessageAction);
+        }
+    } else if (action) {
+        m_currentMessageAction = action;
+        info_message->addAction(m_currentMessageAction);
+    }
+
     if (info_message->isVisible()) {
         m_hideTimer.stop();
     }
     info_message->setMessageType(type);
     info_message->setText(text);
     info_message->animatedShow();
-    if (type != KMessageWidget::Error) {
+    if (type != KMessageWidget::Error && m_currentMessageAction == nullptr) {
         m_hideTimer.start();
     }
 }

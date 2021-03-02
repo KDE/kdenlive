@@ -772,6 +772,7 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         break;
     case 8:
         setCurrentPage(m_page11);
+        checkVoskDependencies();
         break;
     default:
         setCurrentPage(m_page1);
@@ -1823,6 +1824,9 @@ void KdenliveSettingsDialog::checkVoskDependencies()
 {
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
     if (pyExec.isEmpty()) {
+        pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+    }
+    if (pyExec.isEmpty()) {
         m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
         m_configSpeech.speech_info->setText(i18n("Cannot find python3, please install it on your system."));
         m_configSpeech.speech_info->animatedShow();
@@ -1859,13 +1863,29 @@ void KdenliveSettingsDialog::checkVoskDependencies()
                 m_configSpeech.speech_info->addAction(m_voskAction);
                 m_configSpeech.speech_info->show();
             } else {
-                m_configSpeech.speech_info->removeAction(m_voskAction);
-                m_configSpeech.speech_info->animatedHide();
+                if (m_configSpeech.listWidget->count() == 0) {
+                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
+                    m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
+                    m_configSpeech.speech_info->animatedShow();
+                } else {
+                    m_configSpeech.speech_info->removeAction(m_voskAction);
+                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
+                    m_configSpeech.speech_info->setText(i18n("Speech to text is properly configured."));
+                    m_configSpeech.speech_info->show();
+                }
             }
             pCore->updateVoskAvailability();
         }
     } else {
-        m_configSpeech.speech_info->animatedHide();
+        if (m_configSpeech.listWidget->count() == 0) {
+            m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
+            m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
+            m_configSpeech.speech_info->animatedShow();
+        } else {
+            m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
+            m_configSpeech.speech_info->setText(i18n("Speech to text is properly configured."));
+            m_configSpeech.speech_info->show();
+        }
     }
 }
 
@@ -2019,6 +2039,10 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     }
     if (!final.isEmpty() && KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
         m_configSpeech.speech_info->animatedHide();
+    } else if (final.isEmpty()) {
+        m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
+        m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
+        m_configSpeech.speech_info->animatedShow();
     }
     pCore->voskModelUpdate(final);
 }

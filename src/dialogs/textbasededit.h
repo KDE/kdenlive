@@ -154,6 +154,7 @@ class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 
 public:
     explicit TextBasedEdit(QWidget *parent = nullptr);
+    ~TextBasedEdit() override;
     void openClip(std::shared_ptr<ProjectClip>);
 
 public slots:
@@ -165,13 +166,12 @@ private slots:
     void slotProcessSpeechError();
     void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
-    void updateAvailability();
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
     /** @brief Preview current edited text in the clip monitor */
     void previewPlaylist(bool createNew = true);
     /** @brief Display info message */
-    void showMessage(const QString &text, KMessageWidget::MessageType type);
+    void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();
 
 protected:
@@ -188,6 +188,8 @@ private:
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
+    QAction *m_voskConfig;
+    QAction *m_currentMessageAction;
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
     QString m_playlist;
