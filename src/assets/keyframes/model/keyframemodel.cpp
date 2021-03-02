@@ -255,7 +255,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Move keyframes"));
+        PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframes"));
     }
     return res;
 }
@@ -276,7 +276,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, b
     Fun redo = []() { return true; };
     bool res = moveKeyframe(oldPos, pos, std::move(newVal), undo, redo);
     if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Move keyframe"));
+        PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframe"));
     }
     return res;
 }

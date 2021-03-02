@@ -665,7 +665,7 @@ void TimelineController::addTrack(int tid)
             }
         }
         if (result) {
-            pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18n("Insert Tracks") : i18n("Insert Track"));
+            pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18nc("@action", "Insert Tracks") : i18nc("@action", "Insert Track"));
         } else {
             pCore->displayMessage(i18n("Could not insert track"), ErrorMessage, 500);
             undo();
