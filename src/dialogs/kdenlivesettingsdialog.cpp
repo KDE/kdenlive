@@ -65,6 +65,7 @@
 #include <QSize>
 #include <QThread>
 #include <QTimer>
+#include <QtConcurrent>
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
@@ -1750,33 +1751,30 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.speech_info->setWordWrap(true);
     m_configSpeech.check_vosk->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_configSpeech.check_vosk->setToolTip(i18n("Check VOSK installation"));
-    connect(m_configSpeech.check_vosk, &QToolButton::clicked, [this]() {
+    connect(m_configSpeech.check_vosk, &QPushButton::clicked, [this]() {
         m_configSpeech.check_vosk->setEnabled(false);
         KdenliveSettings::setVosk_found(false);
         KdenliveSettings::setVosk_srt_found(false);
         checkVoskDependencies();
         m_configSpeech.check_vosk->setEnabled(true);
     });
+    connect(this, &KdenliveSettingsDialog::showSpeechMessage, this, &KdenliveSettingsDialog::doShowSpeechMessage);
     connect(m_voskAction, &QAction::triggered, [this]() {
         QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
         if (pyExec.isEmpty()) {
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-            m_configSpeech.speech_info->setText(i18n("Cannot find python3, please install it on your system."));
-            m_configSpeech.speech_info->animatedShow();
+            doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
             return;
         } else if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
             QProcess checkJob;
             QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
             if (speechScript.isEmpty()) {
-                m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-                m_configSpeech.speech_info->setText(i18n("The speech script was not found, check your install."));
-                m_configSpeech.speech_info->show();
+                doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
                 return;
             } else {
                 m_voskAction->setEnabled(false);
+                doShowSpeechMessage(i18n("Installing modules..."), KMessageWidget::Information);
                 m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-                m_configSpeech.speech_info->setText(i18n("Installing modules..."));
-                m_configSpeech.speech_info->show();
+                qApp->processEvents();
                 checkJob.start(pyExec, {speechScript, QStringLiteral("install")});
                 checkJob.waitForFinished();
             }
@@ -1827,17 +1825,13 @@ void KdenliveSettingsDialog::checkVoskDependencies()
         pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
     }
     if (pyExec.isEmpty()) {
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-        m_configSpeech.speech_info->setText(i18n("Cannot find python3, please install it on your system."));
-        m_configSpeech.speech_info->animatedShow();
+        doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
         return;
     } else if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
         QProcess checkJob;
         QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
         if (speechScript.isEmpty()) {
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-            m_configSpeech.speech_info->setText(i18n("The speech script was not found, check your install."));
-            m_configSpeech.speech_info->show();
+            doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
             return;
         } else {
             checkJob.start(pyExec, {speechScript});
@@ -1857,36 +1851,59 @@ void KdenliveSettingsDialog::checkVoskDependencies()
                 missingModules.append(i18n("The SRT python module is required for automated subtitling."));
             }
             if (!missingModules.isEmpty()) {
-                m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-                m_configSpeech.speech_info->setText(missingModules);
                 m_voskAction->setEnabled(true);
                 m_configSpeech.speech_info->addAction(m_voskAction);
-                m_configSpeech.speech_info->show();
+                doShowSpeechMessage(missingModules, KMessageWidget::Warning);
             } else {
                 if (m_configSpeech.listWidget->count() == 0) {
-                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-                    m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
-                    m_configSpeech.speech_info->animatedShow();
+                    doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
                 } else {
                     m_configSpeech.speech_info->removeAction(m_voskAction);
-                    m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
-                    m_configSpeech.speech_info->setText(i18n("Speech to text is properly configured."));
-                    m_configSpeech.speech_info->show();
+                    QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
                 }
             }
             pCore->updateVoskAvailability();
         }
     } else {
         if (m_configSpeech.listWidget->count() == 0) {
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-            m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
-            m_configSpeech.speech_info->animatedShow();
+            doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
         } else {
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
-            m_configSpeech.speech_info->setText(i18n("Speech to text is properly configured."));
-            m_configSpeech.speech_info->show();
+            m_configSpeech.speech_info->removeAction(m_voskAction);
+            QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
         }
     }
+}
+
+void KdenliveSettingsDialog::checkVoskVersion(const QString pyExec)
+{
+    emit showSpeechMessage(i18n("Checking configuration..."), KMessageWidget::Information);
+    QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
+    QProcess checkJob;
+    checkJob.start(pyExec, {speechScript, QStringLiteral("check")});
+    checkJob.waitForFinished();
+    QString output = checkJob.readAllStandardOutput();
+    QStringList versions = output.split(QStringLiteral("Version: "));
+    versions.takeFirst();
+    QStringList appVersion;
+    for (const QString v : versions) {
+        QString res = v.simplified();
+        res = res.section(QLatin1Char(' '), 0, 0);
+        appVersion << res;
+    }
+    QString message;
+    if (appVersion.count() == 2) {
+        message = i18n("Speech to text is configured. Vosk %1, Srt %2", appVersion.at(0), appVersion.at(1));
+    } else {
+        message = i18n("Speech to text is properly configured.");
+    }
+    emit showSpeechMessage(message, KMessageWidget::Positive);
+}
+
+void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)
+{
+    m_configSpeech.speech_info->setMessageType(static_cast<KMessageWidget::MessageType>(messageType));
+    m_configSpeech.speech_info->setText(message);
+    m_configSpeech.speech_info->animatedShow();
 }
 
 void KdenliveSettingsDialog::getDictionary()
@@ -1898,9 +1915,7 @@ void KdenliveSettingsDialog::getDictionary()
     QString tmpFile;
     if (!url.isLocalFile()) {
         KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-        m_configSpeech.speech_info->setText(i18n("Downloading model..."));
-        m_configSpeech.speech_info->animatedShow();
+        doShowSpeechMessage(i18n("Downloading model..."), KMessageWidget::Information);
         connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::downloadModelFinished);
     } else {
         processArchive(url.toLocalFile());
@@ -1911,17 +1926,13 @@ void KdenliveSettingsDialog::getDictionary()
 void KdenliveSettingsDialog::removeDictionary()
 {
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-        m_configSpeech.speech_info->setText(i18n("We do not allow deleting custom folder models, please do it manually."));
-        m_configSpeech.speech_info->animatedShow();
+        doShowSpeechMessage(i18n("We do not allow deleting custom folder models, please do it manually."), KMessageWidget::Warning);
         return;
     }
     QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir dir(modelDirectory);
     if (!dir.cd(QStringLiteral("speechmodels"))) {
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-        m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
-        m_configSpeech.speech_info->animatedShow();
+        doShowSpeechMessage(i18n("Cannot access dictionary folder."), KMessageWidget::Warning);
         return;
     }
 
@@ -1979,24 +1990,21 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
         dir = QDir(modelDirectory);
         dir.mkdir(QStringLiteral("speechmodels"));
         if (!dir.cd(QStringLiteral("speechmodels"))) {
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-            m_configSpeech.speech_info->setText(i18n("Cannot access dictionary folder"));
-            m_configSpeech.speech_info->animatedShow();
+            doShowSpeechMessage(i18n("Cannot access dictionary folder."), KMessageWidget::Warning);
             return;
         }
     } else {
         dir = QDir(modelDirectory);
     }
     if (archive->open(QIODevice::ReadOnly)) {
-        m_configSpeech.speech_info->setText(i18n("Extracting archive..."));
+        doShowSpeechMessage(i18n("Extracting archive..."), KMessageWidget::Information);
         const KArchiveDirectory *archiveDir = archive->directory();
         if (!archiveDir->copyTo(dir.absolutePath())) {
             qDebug()<<"=== Error extracting archive!!";
         } else {
             QFile::remove(archiveFile);
             emit parseDictionaries();
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Positive);
-            m_configSpeech.speech_info->setText(i18n("New dictionary installed"));
+            doShowSpeechMessage(i18n("New dictionary installed."), KMessageWidget::Positive);
         }
     } else {
         // Test if it is a folder
@@ -2040,9 +2048,7 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     if (!final.isEmpty() && KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
         m_configSpeech.speech_info->animatedHide();
     } else if (final.isEmpty()) {
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-        m_configSpeech.speech_info->setText(i18n("Please add a speech model."));
-        m_configSpeech.speech_info->animatedShow();
+        doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
     }
     pCore->voskModelUpdate(final);
 }

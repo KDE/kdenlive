@@ -27,6 +27,8 @@
 #include <QProcess>
 #include <QTemporaryFile>
 
+class QAction;
+
 /**
  * @class SpeechDialog
  * @brief A dialog for editing markers and guides.
@@ -47,14 +49,13 @@ private:
     int m_duration;
     std::unique_ptr<QTemporaryFile> m_tmpAudio;
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
-    QMetaObject::Connection m_availableConnection;
     QMetaObject::Connection m_modelsConnection;
+    QAction *m_voskConfig;
     void parseVoskDictionaries();
 
 private slots:
     void slotProcessSpeech(QPoint zone);
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone);
-    void updateAvailability();
     void slotProcessProgress();
 };
 

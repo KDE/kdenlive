@@ -97,6 +97,7 @@ private slots:
     void downloadModelFinished(KJob* job);
     void processArchive(const QString path);
     void checkVoskDependencies();
+    void doShowSpeechMessage(const QString &message, int messageType);
     
 private:
     KPageWidgetItem *m_page1;
@@ -139,7 +140,10 @@ private:
     static bool getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force = false);
     /** @brief Init QtMultimedia audio record settings */
     bool initAudioRecDevice();
+    /** @brief Init Speech to text settings */
     void initSpeechPage();
+    /** @brief Check version of installed python modules for speech to text */
+    void checkVoskVersion(const QString pyExec);
 
 signals:
     void customChanged();
@@ -159,6 +163,8 @@ signals:
     void updateMonitorBg();
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
+    /** @brief Show an info message regarding speech to text status */
+    void showSpeechMessage(const QString &message, int messageType);
 };
 
 #endif
