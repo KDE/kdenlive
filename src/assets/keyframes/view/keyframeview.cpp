@@ -268,7 +268,7 @@ void KeyframeView::slotCenterKeyframe()
     local_redo();
     PUSH_LAMBDA(local_redo, redo);
     PUSH_FRONT_LAMBDA(local_undo, undo);
-    pCore->pushUndo(undo, redo, i18n("Move keyframe"));
+    pCore->pushUndo(undo, redo, i18nc("@action", "Move keyframe"));
 }
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
