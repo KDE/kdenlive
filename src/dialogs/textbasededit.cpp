@@ -524,10 +524,17 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
                 // Selection already ends with a space
                 return;
             }
-            cursor.setPosition(start);
-            cursor.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
-            cursor.setPosition(end, QTextCursor::KeepAnchor);
-            cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            QTextBlock 	bk = cursor.block();
+            if (bk.text().simplified() == i18n("No speech")) {
+                // This is a silence block, select all
+                cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+                cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            } else {
+                cursor.setPosition(start);
+                cursor.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
+                cursor.setPosition(end, QTextCursor::KeepAnchor);
+                cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            }
             pos = cursor.position();
             if (!cursor.atBlockEnd() && document()->characterAt(pos - 1) != QLatin1Char(' ')) {
                 // Remove trailing space
@@ -540,7 +547,7 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
             repaintLines();
         }
     } else {
-        qDebug()<<"==== NO LEF TCLICK!";
+        qDebug()<<"==== NO LEFT CLICK!";
     }
 }
 
