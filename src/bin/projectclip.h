@@ -204,7 +204,7 @@ public:
     */
     std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false);
 
-    /* @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
+    /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
        bool returned has the following sementic:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
@@ -261,7 +261,7 @@ protected:
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
     void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister = false);
 
-    /* @brief update the producer to reflect new parent folder */
+    /** @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;
 
     /** @brief This is a call-back called by a ClipModel when it is deleted
@@ -274,7 +274,7 @@ protected:
     void connectEffectStack() override;
 
 public slots:
-    /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
+    /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
     void updateAudioThumbnail();
     /** @brief Delete the proxy file */
@@ -299,13 +299,13 @@ private:
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
 
-    // This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled
+    /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
     void createDisabledMasterProducer();
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
 
-    // the following holds a producer for each audio clip in the timeline
-    // keys are the id of the clips in the timeline, values are their values
+    /** @brief the following holds a producer for each audio clip in the timeline
+     * keys are the id of the clips in the timeline, values are their values */
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;

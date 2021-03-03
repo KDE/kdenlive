@@ -44,28 +44,28 @@ public:
     // Returns the instance of the Singleton
     static std::unique_ptr<ProfileRepository> &get();
 
-    /* @brief Reloads all the profiles from the disk */
+    /** @brief Reloads all the profiles from the disk */
     void refresh(bool fullRefresh = false);
 
-    /* @brief Returns a list of all the pairs (description, path) of all the profiles loaded */
+    /** @brief Returns a list of all the pairs (description, path) of all the profiles loaded */
     QVector<QPair<QString, QString>> getAllProfiles() const;
 
-    /* @brief Returns a profile model given the profile's @param path
+    /** @brief Returns a profile model given the profile's @param path
      */
     std::unique_ptr<ProfileModel> &getProfile(const QString &path);
 
-    /* @brief Returns true if the given profile exists in repository
+    /** @brief Returns true if the given profile exists in repository
      */
     bool profileExists(const QString &path) const;
 
-    /* @brief Find a profile that match the parameters of the given one and return its path. If not found, returns empty string */
+    /** @brief Find a profile that match the parameters of the given one and return its path. If not found, returns empty string */
     QString findMatchingProfile(ProfileInfo *profile) const;
 
     /** @brief Get the descriptive text for given colorspace code (defined by MLT)
      *  @param colorspace An int as defined in mlt_profile.h
      *  @return The string description */
     static QString getColorspaceDescription(int colorspace);
-    /* @brief This is the opposite function */
+    /** @brief This is the opposite function */
     static int getColorspaceFromDescription(const QString &description);
 
     /** @brief Returns all the possible fps of the profiles in the repository*/
@@ -90,9 +90,11 @@ protected:
 
     mutable QReadWriteLock m_mutex;
 
-    std::unordered_map<QString, std::unique_ptr<ProfileModel>> m_profiles; // map from the profile path to the instance of the profile. We use unordered_map
-                                                                           // because QMap and QHash currently don't support move insertion, hence inserting
-                                                                           // unique_ptr is impossible.
+    /** @brief map from the profile path to the instance of the profile.
+     * @details We use unordered_map because QMap and QHash currently don't support
+     * move insertion, hence inserting unique_ptr is impossible.
+    */
+    std::unordered_map<QString, std::unique_ptr<ProfileModel>> m_profiles;
 };
 
 #endif

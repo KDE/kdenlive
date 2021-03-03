@@ -40,7 +40,7 @@ public:
     // Returns the instance of the Singleton
     static std::unique_ptr<ProvidersRepository> &get();
 
-    /* @brief Reloads all the providers from the disk */
+    /** @brief Reloads all the providers from the disk */
     void refresh(bool fullRefresh = true); //TODO: change to false
 
     QVector<QPair<QString,QString>> getAllProviers() const;
@@ -51,7 +51,8 @@ protected:
     ProvidersRepository();
 
     static std::unique_ptr<ProvidersRepository> instance;
-    static std::once_flag m_onceFlag; // flag to create the repository only once;
+    /** @brief flag to create the repository only once */
+    static std::once_flag m_onceFlag;
 
     mutable QReadWriteLock m_mutex;
 

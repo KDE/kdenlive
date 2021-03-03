@@ -23,7 +23,7 @@
 
 #include "abstractclipjob.h"
 
-/* @brief This class represents the job that corresponds to loading a clip from disk
+/** @brief This class represents the job that corresponds to loading a clip from disk
  */
 
 class CreateClipJob : public AbstractClipJob

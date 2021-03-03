@@ -26,11 +26,11 @@
 #include "widgets/dragvalue.h"
 #include <klocalizedstring.h>
 
-/*@brief this label is a pixmap corresponding to a legend of the axis*/
+/** @brief this label is a pixmap corresponding to a legend of the axis*/
 template <typename CurveWidget_t> class ValueLabel : public QLabel
 {
 public:
-    /**@brief Creates the widget
+    /** @brief Creates the widget
        @param isVert This parameter is true if the widget is vertical
        @param mode This is the original mode
        @param parent Parent of the widget

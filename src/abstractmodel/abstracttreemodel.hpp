@@ -27,7 +27,7 @@
 #include <memory>
 #include <unordered_map>
 
-/* @brief This class represents a generic tree hierarchy
+/** @brief This class represents a generic tree hierarchy
  */
 class TreeItem;
 class AbstractTreeModel : public QAbstractItemModel, public std::enable_shared_from_this<AbstractTreeModel>
@@ -35,7 +35,7 @@ class AbstractTreeModel : public QAbstractItemModel, public std::enable_shared_f
     Q_OBJECT
 
 public:
-    /* @brief Construct a TreeModel
+    /** @brief Construct a TreeModel
        @param parent is the parent object of the model
        @return a ptr to the created object
     */
@@ -48,16 +48,16 @@ protected:
 public:
     ~AbstractTreeModel() override;
 
-    /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
+    /** @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
     QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
 
-    /* @brief Given an item id, construct the corresponding ModelIndex */
+    /** @brief Given an item id, construct the corresponding ModelIndex */
     QModelIndex getIndexFromId(int id) const;
 
-    /* @brief Return a ptr to an item given its id */
+    /** @brief Return a ptr to an item given its id */
     std::shared_ptr<TreeItem> getItemById(int id) const;
 
-    /* @brief Return a ptr to the root of the tree */
+    /** @brief Return a ptr to the root of the tree */
     std::shared_ptr<TreeItem> getRoot() const;
 
     QVariant data(const QModelIndex &index, int role) const override;
@@ -69,50 +69,50 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    /* @brief Helper function to generate a lambda that adds an item to the tree */
+    /** @brief Helper function to generate a lambda that adds an item to the tree */
     Fun addItem_lambda(const std::shared_ptr<TreeItem> &new_item, int parentId);
 
-    /* @brief Helper function to generate a lambda that removes an item from the tree */
+    /** @brief Helper function to generate a lambda that removes an item from the tree */
     Fun removeItem_lambda(int id);
 
-    /* @brief Helper function to generate a lambda that changes the row of an item */
+    /** @brief Helper function to generate a lambda that changes the row of an item */
     Fun moveItem_lambda(int id, int destRow, bool force = false);
 
     friend class TreeItem;
     friend class AbstractProjectItem;
 
 protected:
-    /* @brief Register a new item. This is a call-back meant to be called from TreeItem */
+    /** @brief Register a new item. This is a call-back meant to be called from TreeItem */
     virtual void registerItem(const std::shared_ptr<TreeItem> &item);
 
-    /* @brief Deregister an item. This is a call-back meant to be called from TreeItem */
+    /** @brief Deregister an item. This is a call-back meant to be called from TreeItem */
     virtual void deregisterItem(int id, TreeItem *item);
 
-    /* @brief Returns the next valid id to give to a new element */
+    /** @brief Returns the next valid id to give to a new element */
     static int getNextId();
 
-    /* @brief Send the appropriate notification related to a row that we are appending
+    /** @brief Send the appropriate notification related to a row that we are appending
        @param item is the parent item to which row is appended
     */
     void notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item);
 
-    /* @brief Send the appropriate notification related to a row that we have appended
+    /** @brief Send the appropriate notification related to a row that we have appended
        @param row is the new element
     */
     void notifyRowAppended(const std::shared_ptr<TreeItem> &row);
 
-    /* @brief Send the appropriate notification related to a row that we are deleting
+    /** @brief Send the appropriate notification related to a row that we are deleting
        @param item is the parent of the row being deleted
        @param row is the index of the row being deleted
     */
     void notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row);
 
-    /* @brief Send the appropriate notification related to a row that we have appended
+    /** @brief Send the appropriate notification related to a row that we have appended
        @param row is the old element
     */
     void notifyRowDeleted();
 
-    /* @brief This is a convenience function that helps check if the tree is in a valid state */
+    /** @brief This is a convenience function that helps check if the tree is in a valid state */
     virtual bool checkConsistency();
 
 protected:

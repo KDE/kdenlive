@@ -39,27 +39,27 @@ public:
     AbstractAssetsRepository();
     virtual ~AbstractAssetsRepository() = default;
 
-    /* @brief Returns true if a given asset exists
+    /** @brief Returns true if a given asset exists
      */
     bool exists(const QString &assetId) const;
 
-    /* @brief Returns a vector of pair (asset id, asset name)
+    /** @brief Returns a vector of pair (asset id, asset name)
      */
     QVector<QPair<QString, QString>> getNames() const;
 
-    /* @brief Return type of asset */
+    /** @brief Return type of asset */
     AssetType getType(const QString &assetId) const;
     
-    /* @brief Return type of asset */
+    /** @brief Return type of asset */
     bool isUnique(const QString &assetId) const;
 
-    /* @brief Return name of asset */
+    /** @brief Return name of asset */
     Q_INVOKABLE QString getName(const QString &assetId) const;
 
-    /* @brief Return description of asset */
+    /** @brief Return description of asset */
     QString getDescription(const QString &assetId) const;
 
-    /* @brief Returns a DomElement representing the asset's properties */
+    /** @brief Returns a DomElement representing the asset's properties */
     QDomElement getXml(const QString &assetId) const;
 
 protected:
@@ -79,36 +79,36 @@ protected:
     void init();
     virtual Mlt::Properties *retrieveListFromMlt() const = 0;
 
-    /* @brief Parse some info from a mlt structure
+    /** @brief Parse some info from a mlt structure
        @param res Datastructure to fill
        @return true on success
     */
     bool parseInfoFromMlt(const QString &assetId, Info &res);
 
-    /* @brief Returns the metadata associated with the given asset*/
+    /** @brief Returns the metadata associated with the given asset*/
     virtual Mlt::Properties *getMetadata(const QString &assetId) const = 0;
 
-    /* @brief Parse one asset from its XML content
+    /** @brief Parse one asset from its XML content
        @param res data structure to fill
        @return true of success
      */
     bool parseInfoFromXml(const QDomElement &currentAsset, Info &res) const;
 
-    /* @brief Figure what is the type of the asset based on its metadata and store it in res*/
+    /** @brief Figure what is the type of the asset based on its metadata and store it in res*/
     virtual void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) = 0;
 
-    /* @brief Retrieves additional info about asset from a custom XML file
+    /** @brief Retrieves additional info about asset from a custom XML file
        The resulting assets are stored in customAssets
      */
     virtual void parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const = 0;
 
-    /* @brief Returns the path to custom XML description of the assets*/
+    /** @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
 
-    /* @brief Returns the path to the assets' blacklist*/
+    /** @brief Returns the path to the assets' blacklist*/
     virtual QString assetBlackListPath() const = 0;
 
-    /* @brief Returns the path to the assets' preferred list*/
+    /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;
 
     std::unordered_map<QString, Info> m_assets;

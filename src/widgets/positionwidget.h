@@ -25,7 +25,7 @@
 class QSlider;
 class TimecodeDisplay;
 
-/*@brief This class is used to display a parameter with time value */
+/** @brief This class is used to display a parameter with time value */
 class PositionWidget : public QWidget
 {
     Q_OBJECT

@@ -70,7 +70,7 @@ private:
 
     /** @brief Manage a change in the selection */
     void slotChangeSelection(const QModelIndex &current, const QModelIndex &previous);
-    /* @brief Fill the description of the profile.
+    /** @brief Fill the description of the profile.
        @param profile_path is the path to the profile
     */
     void fillDescriptionPanel(const QString &profile_path);

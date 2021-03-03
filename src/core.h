@@ -183,7 +183,7 @@ public:
     /** @brief Returns the composition A track (MLT index / Track id) */
     QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
-    /* @brief Return true if composition's a_track is automatic (no forced track)
+    /** @brief Return true if composition's a_track is automatic (no forced track)
      */
     bool compositionAutoTrack(int cid) const;
     std::shared_ptr<DocUndoStack> undoStack();

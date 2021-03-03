@@ -46,7 +46,7 @@ public:
     explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
     ~KeyframeWidget() override;
 
-    /* @brief Add a new parameter to be managed using the same keyframe viewer */
+    /** @brief Add a new parameter to be managed using the same keyframe viewer */
     void addParameter(const QPersistentModelIndex &index);
     int getPosition() const;
     void addKeyframe(int pos = -1);

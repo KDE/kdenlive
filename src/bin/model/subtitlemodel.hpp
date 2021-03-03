@@ -42,7 +42,7 @@ class SnapInterface;
 class AssetParameterModel;
 class TimelineItemModel;
 
-/* @brief This class is the model for a list of subtitles.
+/** @brief This class is the model for a list of subtitles.
 */
 
 class SubtitleModel:public QAbstractListModel
@@ -50,7 +50,7 @@ class SubtitleModel:public QAbstractListModel
     Q_OBJECT
 
 public:
-    /* @brief Construct a subtitle list bound to the timeline */
+    /** @brief Construct a subtitle list bound to the timeline */
     explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };

@@ -54,22 +54,22 @@ class AssetPanel : public QWidget
 public:
     AssetPanel(QWidget *parent);
 
-    /* @brief Shows the parameters of the given transition model */
+    /** @brief Shows the parameters of the given transition model */
     void showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transition_model);
-    /* @brief Shows the parameters of the given mix model */
+    /** @brief Shows the parameters of the given mix model */
     void showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel);
 
-    /* @brief Shows the parameters of the given effect stack model */
+    /** @brief Shows the parameters of the given effect stack model */
     void showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes);
 
-    /* @brief Clear the panel so that it doesn't display anything */
+    /** @brief Clear the panel so that it doesn't display anything */
     void clear();
 
-    /* @brief This method should be called when the style changes */
+    /** @brief This method should be called when the style changes */
     void updatePalette();
-    /* @brief Returns the object type / id of effectstack owner */
+    /** @brief Returns the object type / id of effectstack owner */
     ObjectId effectStackOwner();
-    /* @brief Add an effect to the current stack owner */
+    /** @brief Add an effect to the current stack owner */
     bool addEffect(const QString &effectId);
 
 public slots:

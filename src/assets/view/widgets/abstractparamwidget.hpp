@@ -28,7 +28,6 @@
 #include <memory>
 
 /** @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
-
  */
 
 class AssetParameterModel;
@@ -56,7 +55,7 @@ signals:
     void valueChanged(QModelIndex, QString, bool);
     void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
 
-    /* @brief Signal sent when the filter needs to be deactivated or reactivated.
+    /** @brief Signal sent when the filter needs to be deactivated or reactivated.
        This happens for example when the user has to pick a color.
      */
     void disableCurrentFilter(bool);

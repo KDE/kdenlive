@@ -39,20 +39,20 @@ public:
     void copyCurrentValue(QModelIndex ix, const QString paramName);
 
 public slots:
-    /* @brief moves the current position*/
+    /** @brief moves the current position*/
     void slotSetPosition(int pos, bool isInRange);
-    /* @brief remove the keyframe at given position
+    /** @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
      */
     void slotRemoveKeyframe(QVector<int> positions);
-    /* @brief Add a keyframe with given parameter value at given pos.
+    /** @brief Add a keyframe with given parameter value at given pos.
        If pos is negative, then keyframe is added at current position
     */
     void slotAddKeyframe(int pos = -1);
-    /* @brief Duplicate selected keyframe at cursor position
+    /** @brief Duplicate selected keyframe at cursor position
     */
     void slotDuplicateKeyframe();
-    /* @brief If there is a keyframe at current position, it is removed.
+    /** @brief If there is a keyframe at current position, it is removed.
        Otherwise, we add a new one with given value.
     */
     void slotAddRemove();
@@ -60,7 +60,7 @@ public slots:
     void slotGoToPrev();
     void slotModelChanged();
     void slotEditType(int type, const QPersistentModelIndex &index);
-    /* @brief Emit initial info for monitor. */
+    /** @brief Emit initial info for monitor. */
     void initKeyframePos();
     /** @brief Move selected keyframe to cursor position. */
     void slotCenterKeyframe();

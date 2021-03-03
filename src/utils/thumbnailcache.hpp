@@ -47,14 +47,14 @@ public:
     // Returns the instance of the Singleton
     static std::unique_ptr<ThumbnailCache> &get();
 
-    /* @brief Check whether a given thumbnail is in the cache
+    /** @brief Check whether a given thumbnail is in the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
      */
     bool hasThumbnail(const QString &binId, int pos, bool volatileOnly = false) const;
 
-    /* @brief Get a given thumbnail from the cache
+    /** @brief Get a given thumbnail from the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
@@ -63,20 +63,20 @@ public:
     QImage getAudioThumbnail(const QString &binId, bool volatileOnly = false) const;
     const QList <QUrl> getAudioThumbPath(const QString &binId) const;
 
-    /* @brief Get a given thumbnail from the cache
+    /** @brief Get a given thumbnail from the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param persistent if true, we store the image in the persistent cache, which generates a disk access
     */
     void storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent = false);
 
-    /* @brief Removes all the thumbnails for a given clip */
+    /** @brief Removes all the thumbnails for a given clip */
     void invalidateThumbsForClip(const QString &binId);
 
-    /* @brief Save all cached thumbs to disk */
+    /** @brief Save all cached thumbs to disk */
     void saveCachedThumbs(QStringList keys);
 
-    /* @brief Reset cache (discarding all thumbs stored in memory) */
+    /** @brief Reset cache (discarding all thumbs stored in memory) */
     void clearCache();
 
 protected:

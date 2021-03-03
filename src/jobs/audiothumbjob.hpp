@@ -26,7 +26,7 @@
 #include <memory>
 #include <QImage>
 
-/* @brief This class represents the job that corresponds to computing the audio thumb of a clip (waveform)
+/** @brief This class represents the job that corresponds to computing the audio thumb of a clip (waveform)
  */
 
 class ProjectClip;
@@ -39,7 +39,7 @@ class AudioThumbJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    /* @brief Extract a thumb for given clip.
+    /** @brief Extract a thumb for given clip.
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */

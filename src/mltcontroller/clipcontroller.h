@@ -168,7 +168,7 @@ public:
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
     void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer);
 
-    /* @brief Returns the marker model associated with this clip */
+    /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
     void setZone(const QPoint &zone);
@@ -200,7 +200,7 @@ public:
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 
-    /* @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
+    /** @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
     static std::shared_ptr<Mlt::Producer> mediaUnavailable;
 
     /** @brief Returns a ptr to the effetstack associated with this element */

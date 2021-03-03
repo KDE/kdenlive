@@ -25,8 +25,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include <QQuickWidget>
 
-/* @brief This class is the view of the properties of a transition
-
+/** @brief This class is the view of the properties of a transition
  */
 
 class TransitionParameterView : public QQuickWidget
@@ -36,7 +35,7 @@ class TransitionParameterView : public QQuickWidget
 public:
     TransitionParameterView(QWidget *parent = nullptr);
 
-    /* @brief Set the current model to be displayed */
+    /** @brief Set the current model to be displayed */
     void setModel(const std::shared_ptr<AssetParameterModel> &model);
 
 protected:

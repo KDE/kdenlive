@@ -28,34 +28,34 @@
 #include <mlt++/MltFilter.h>
 
 class EffectStackModel;
-/* @brief This represents an effect of the effectstack
+/** @brief This represents an effect of the effectstack
  */
 class EffectItemModel : public AbstractEffectItem, public AssetParameterModel
 {
 
 public:
-    /* This construct an effect of the given id
+    /** @brief This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
     static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, bool effectEnabled = true);
-    /* This construct an effect with an already existing filter
+    /** @brief This construct an effect with an already existing filter
        Only used when loading an existing clip
      */
     static std::shared_ptr<EffectItemModel> construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, QString originalDecimalPoint);
 
-    /* @brief This function plants the effect into the given service in last position
+    /** @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
     void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
     void loadClone(const std::weak_ptr<Mlt::Service> &service);
-    /* @brief This function unplants (removes) the effect from the given service
+    /** @brief This function unplants (removes) the effect from the given service
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
     void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;
 
     Mlt::Filter &filter() const;
 
-    /* @brief Return true if the effect applies only to audio */
+    /** @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
     bool isUnique() const override;
 

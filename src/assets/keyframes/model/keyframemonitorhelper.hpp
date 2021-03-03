@@ -41,7 +41,7 @@ class KeyframeMonitorHelper : public QObject
     Q_OBJECT
 
 public:
-    /* @brief Construct a keyframe list bound to the given effect
+    /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model

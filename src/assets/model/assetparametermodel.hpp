@@ -33,7 +33,7 @@
 #include <mlt++/MltProperties.h>
 
 class KeyframeModelList;
-/* @brief This class is the model for a list of parameters.
+/** @brief This class is the model for a list of parameters.
    The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
    using the relevant widgets.
    Note that internally parameters are not sorted in any ways, because some effects like sox need a precise order
@@ -141,27 +141,27 @@ public:
         Enum16Role
     };
 
-    /* @brief Returns the id of the asset represented by this object */
+    /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
     const QString getAssetMltId();
     void setActive(bool active);
     bool isActive() const;
 
-    /* @brief Set the parameter with given name to the given value
+    /** @brief Set the parameter with given name to the given value
      */
     Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
     void setParameter(const QString &name, int value, bool update = true);
 
-    /* @brief Return all the parameters as pairs (parameter name, parameter value) */
+    /** @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;
-    /* @brief Returns a json definition of the effect with all param values */
+    /** @brief Returns a json definition of the effect with all param values */
     QJsonDocument toJson(bool includeFixed = true) const;
     void savePreset(const QString &presetFile, const QString &presetName);
     void deletePreset(const QString &presetFile, const QString &presetName);
     const QStringList getPresetList(const QString &presetFile) const;
     const QVector<QPair<QString, QVariant>> loadPreset(const QString &presetFile, const QString &presetName);
 
-    /* @brief Sets the value of a list of parameters
+    /** @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)
      */
     void setParameters(const QVector<QPair<QString, QVariant>> &params, bool update = true);
@@ -173,22 +173,22 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    /* @brief Returns the id of the actual object associated with this asset */
+    /** @brief Returns the id of the actual object associated with this asset */
     ObjectId getOwnerId() const;
 
-    /* @brief Returns the keyframe model associated with this asset
+    /** @brief Returns the keyframe model associated with this asset
        Return empty ptr if there is no keyframable parameter in the asset or if prepareKeyframes was not called
      */
     Q_INVOKABLE std::shared_ptr<KeyframeModelList> getKeyframeModel();
 
-    /* @brief Must be called before using the keyframes of this model */
+    /** @brief Must be called before using the keyframes of this model */
     void prepareKeyframes();
     void resetAsset(std::unique_ptr<Mlt::Properties> asset);
-    /* @brief Returns true if the effect has more than one keyframe */
+    /** @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
     int time_to_frames(const QString &time);
     void passProperties(Mlt::Properties &target);
-    /* @brief Returns a list of the parameter names that are keyframable */
+    /** @brief Returns a list of the parameter names that are keyframable */
     QStringList getKeyframableParameters() const;
 
     /** @brief Returns the current value of an effect parameter */
@@ -198,12 +198,12 @@ public:
     Mlt::Properties *getAsset();
 
 protected:
-    /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
+    /** @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
     static ParamType paramTypeFromStr(const QString &type);
 
     static QString getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly);
 
-    /* @brief Helper function to get an attribute from a dom element, given its name.
+    /** @brief Helper function to get an attribute from a dom element, given its name.
        The function additionally parses following keywords:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
@@ -211,7 +211,7 @@ protected:
     static QVariant parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
     QVariant parseSubAttributes(const QString &attribute, const QDomElement &element) const;
 
-    /* @brief Helper function to register one more parameter that is keyframable.
+    /** @brief Helper function to register one more parameter that is keyframable.
        @param index is the index corresponding to this parameter
     */
     void addKeyframeParam(const QModelIndex &index);
@@ -227,20 +227,24 @@ protected:
     QString m_assetId;
     ObjectId m_ownerId;
     bool m_active;
-    std::vector<QString> m_paramOrder;                   // Keep track of parameter order, important for sox
-    std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
-    std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside
-    QVector<QString> m_rows;                             // We store the params name in order of parsing. The order is important (cf some effects like sox)
+    /** @brief Keep track of parameter order, important for sox */
+    std::vector<QString> m_paramOrder;
+    /** @brief Store all parameters by name */
+    std::unordered_map<QString, ParamRow> m_params;
+    /** @brief We store values of fixed parameters aside */
+    std::unordered_map<QString, QVariant> m_fixedParams;
+    /** @brief We store the params name in order of parsing. The order is important (cf some effects like sox) */
+    QVector<QString> m_rows;
 
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
-    // if true, keyframe tools will be hidden by default
+    /** @brief if true, keyframe tools will be hidden by default */
     bool m_hideKeyframesByDefault;
-    // true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate
+    /** @brief true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate */
     bool m_isAudio;
 
-    /* @brief Set the parameter with given name to the given value. This should be called when first 
+    /** @brief Set the parameter with given name to the given value. This should be called when first
      *  building an effect in the constructor, so that we don't call shared_from_this
      */
     void internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex = QModelIndex());

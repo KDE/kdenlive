@@ -36,7 +36,7 @@ class TrackModel;
 class KeyframeModel;
 class ClipSnapModel;
 
-/* @brief This class represents a Clip object, as viewed by the backend.
+/** @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
    validity of the modifications
 */
@@ -45,13 +45,13 @@ class ClipModel : public MoveableItem<Mlt::Producer>
     ClipModel() = delete;
 
 protected:
-    /* This constructor is not meant to be called, call the static construct instead */
+    /** @brief This constructor is not meant to be called, call the static construct instead */
     ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
               PlaylistState::ClipState state, double speed = 1.);
 
 public:
     ~ClipModel() override;
-    /* @brief Creates a clip, which references itself to the parent timeline
+    /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
        @param parent is a pointer to the timeline
        @param binClip is the id of the bin clip associated
@@ -59,7 +59,7 @@ public:
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream = -1, double speed = 1., bool warp_pitch = false);
 
-    /* @brief Creates a clip, which references itself to the parent timeline
+    /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
     This variants assumes a producer is already known, which should typically happen only at loading time.
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
@@ -80,12 +80,12 @@ public:
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
 
-    /* @brief Returns true if the clip can be converted to a video clip */
+    /** @brief Returns true if the clip can be converted to a video clip */
     bool canBeVideo() const;
-    /* @brief Returns true if the clip can be converted to an audio clip */
+    /** @brief Returns true if the clip can be converted to an audio clip */
     bool canBeAudio() const;
 
-    /* @brief Returns a comma separated list of effect names */
+    /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
     /** @brief Returns the timeline clip status (video / audio only) */
@@ -109,10 +109,10 @@ public:
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
 
-    /* @brief Returns an XML representation of the clip with its effects */
+    /** @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);
 
-    /* @brief Retrieve a list of all snaps for this clip */
+    /** @brief Retrieve a list of all snaps for this clip */
     void allSnaps(std::vector<int> &snaps, int offset = 0);
 
 protected:
@@ -120,7 +120,7 @@ protected:
     Fun setClipState_lambda(PlaylistState::ClipState state);
 
 public:
-    /* @brief returns the length of the item on the timeline
+    /** @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
 
@@ -132,9 +132,9 @@ public:
 
     bool addEffect(const QString &effectId);
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
-    /* @brief Import effects from a different stackModel */
+    /** @brief Import effects from a different stackModel */
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
-    /* @brief Import effects from a service that contains some (another clip?) */
+    /** @brief Import effects from a service that contains some (another clip?) */
     bool importEffects(std::weak_ptr<Mlt::Service> service);
 
     bool removeFade(bool fromStart);
@@ -147,7 +147,7 @@ public:
     int fadeIn() const;
     int fadeOut() const;
 
-    /**@brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
+    /** @brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;
     void setSubPlaylistIndex(int index, int trackId);
 
@@ -160,7 +160,7 @@ public:
 protected:
     Mlt::Producer *service() const override;
 
-    /* @brief Performs a resize of the given clip.
+    /** @brief Performs a resize of the given clip.
        Returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        If a snap point is within reach, the operation will be coerced to use it.
@@ -175,11 +175,11 @@ protected:
     void setPosition(int pos) override;
     void setInOut(int in, int out) override;
 
-    /* @brief This function change the global (timeline-wise) enabled state of the effects
+    /** @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setTimelineEffectsEnabled(bool enabled);
 
-    /* @brief This functions should be called when the producer of the binClip changes, to allow refresh
+    /** @brief This functions should be called when the producer of the binClip changes, to allow refresh
      * @param state corresponds to the state of the clip we want (audio or video)
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
@@ -187,11 +187,11 @@ protected:
     void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
     void refreshProducerFromBin(int trackId);
 
-    /* @brief This functions replaces the current producer with a slowmotion one
+    /** @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
-    // @brief Lambda that merely changes the speed (in and out are untouched)
+    /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
 
     /** @brief Returns the marker model associated with this clip */
@@ -221,7 +221,7 @@ protected:
     /** @brief Returns the clip status (normal, proxied, missing, etc)  */
     FileStatus::ClipStatus clipStatus() const;
 
-    /*@brief This is a debug function to ensure the clip is in a valid state */
+    /** @brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
 
 protected:
@@ -230,33 +230,35 @@ protected:
 
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<ClipSnapModel> m_clipMarkerModel;
+    /** @brief This is the Id of the bin clip this clip corresponds to. */
+    QString m_binClipId;
 
-    QString m_binClipId; // This is the Id of the bin clip this clip corresponds to.
+    /** @brief Whether this clip can be freely resized */
+    bool m_endlessResize;
 
-    bool m_endlessResize; // Whether this clip can be freely resized
-
-    bool forceThumbReload; // Used to trigger a forced thumb reload, when producer changes
+    /** @brief Used to trigger a forced thumb reload, when producer changes */
+    bool forceThumbReload;
 
     PlaylistState::ClipState m_currentState;
     ClipType::ProducerType m_clipType;
-
-    double m_speed = -1; // Speed of the clip
+    /** @brief Speed of the clip */
+    double m_speed = -1;
 
     bool m_canBeVideo, m_canBeAudio;
-    // Fake track id, used when dragging in insert/overwrite mode
+    /** @brief Fake track id, used when dragging in insert/overwrite mode */
     int m_fakeTrack;
     int m_fakePosition;
-    // Temporary val to store offset between two clips with same bin id.
+    /** @brief Temporary val to store offset between two clips with same bin id. */
     int m_positionOffset;
+    /** @brief Tracks have two sub playlists to enable same track transitions, we store in which one this clip is. */
+    int m_subPlaylistIndex;
 
-    int m_subPlaylistIndex; // Tracks have two sub playlists to enable same track transitions, we store in which one this clip is.
-
-    // Remember last set track, so that we don't unnecessarily refresh the producer when deleting and re-adding a clip on same track
+    /** @brief Remember last set track, so that we don't unnecessarily refresh the producer when deleting and re-adding a clip on same track */
     int m_lastTrackId = -1;
 
-    // Duration of a same track mix.
+    /** @brief Duration of a same track mix. */
     int m_mixDuration;
-    // Position of the original cut, relative to mix right side
+    /** @brief Position of the original cut, relative to mix right side */
     int m_mixCutPos;
 };
 

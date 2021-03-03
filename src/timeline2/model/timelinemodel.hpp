@@ -44,7 +44,7 @@ class SubtitleModel;
 class TimelineItemModel;
 class TrackModel;
 
-/* @brief This class represents a Timeline object, as viewed by the backend.
+/** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
    validity of the modifications.
 
@@ -98,7 +98,7 @@ class TimelineModel : public QAbstractItemModel_shared_from_this<TimelineModel>
     Q_OBJECT
 
 protected:
-    /* @brief this constructor should not be called. Call the static construct instead
+    /** @brief this constructor should not be called. Call the static construct instead
      */
     TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
@@ -172,46 +172,46 @@ public:
 
     ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
-    /* @brief Load tracks from the current tractor, used on project opening
+    /** @brief Load tracks from the current tractor, used on project opening
      */
     void loadTractor();
 
-    /* @brief Returns the current tractor's producer, useful for control seeking, playing, etc
+    /** @brief Returns the current tractor's producer, useful for control seeking, playing, etc
      */
     std::shared_ptr<Mlt::Producer> producer();
     Mlt::Profile *getProfile();
 
-    /* @brief returns the number of tracks */
+    /** @brief returns the number of tracks */
     int getTracksCount() const;
-    /* @brief returns the number of video and audio tracks */
+    /** @brief returns the number of video and audio tracks */
     QPair<int, int> getAVtracksCount() const;
-    /* @brief returns the ids of all audio or video tracks */
+    /** @brief returns the ids of all audio or video tracks */
     QList<int> getTracksIds(bool audio) const;
 
-    /* @brief returns the ids of all the tracks */
+    /** @brief returns the ids of all the tracks */
     std::unordered_set<int> getAllTracksIds() const;
 
-    /* @brief returns the track index (id) from its position */
+    /** @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 
-    /* @brief returns the track index (id) from its position */
+    /** @brief returns the track index (id) from its position */
     Q_INVOKABLE bool isAudioTrack(int trackId) const;
 
-    /* @brief returns the number of clips */
+    /** @brief returns the number of clips */
     int getClipsCount() const;
 
-    /* @brief returns the number of compositions */
+    /** @brief returns the number of compositions */
     int getCompositionsCount() const;
 
-    /* @brief Returns the id of the track containing clip (-1 if it is not inserted)
+    /** @brief Returns the id of the track containing clip (-1 if it is not inserted)
        @param clipId Id of the clip to test */
     Q_INVOKABLE int getClipTrackId(int clipId) const;
 
-    /* @brief Returns the id of the track containing composition (-1 if it is not inserted)
+    /** @brief Returns the id of the track containing composition (-1 if it is not inserted)
        @param clipId Id of the composition to test */
     Q_INVOKABLE int getCompositionTrackId(int compoId) const;
 
-    /* @brief Convenience function that calls either of the previous ones based on item type*/
+    /** @brief Convenience function that calls either of the previous ones based on item type*/
     Q_INVOKABLE int getItemTrackId(int itemId) const;
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
@@ -219,48 +219,48 @@ public:
     int getCompositionPlaytime(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
 
-    /* Returns an item position, item can be clip or composition */
+    /** @brief Returns an item position, item can be clip or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
-    /* Returns an item duration, item can be clip or composition */
+    /** @brief Returns an item duration, item can be clip or composition */
     int getItemPlaytime(int itemId) const;
 
-    /* Returns the current speed of a clip */
+    /** @brief Returns the current speed of a clip */
     double getClipSpeed(int clipId) const;
 
-    /* @brief Helper function to query the amount of free space around a clip
+    /** @brief Helper function to query the amount of free space around a clip
      * @param clipId: the queried clip. If it is not inserted on a track, this functions returns 0
      * @param after: if true, we return the blank after the clip, otherwise, before.
      */
     int getBlankSizeNearClip(int clipId, bool after) const;
 
-    /* @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
+    /** @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
     int getClipSplitPartner(int clipId) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a clip */
+    /** @brief Helper function that returns true if the given ID corresponds to a clip */
     Q_INVOKABLE bool isClip(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a composition */
+    /** @brief Helper function that returns true if the given ID corresponds to a composition */
     Q_INVOKABLE bool isComposition(int id) const;
     
     Q_INVOKABLE bool isSubTitle(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a timeline item (composition or clip) */
+    /** @brief Helper function that returns true if the given ID corresponds to a timeline item (composition or clip) */
     Q_INVOKABLE bool isItem(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a track */
+    /** @brief Helper function that returns true if the given ID corresponds to a track */
     Q_INVOKABLE bool isTrack(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a group */
+    /** @brief Helper function that returns true if the given ID corresponds to a group */
     Q_INVOKABLE bool isGroup(int id) const;
 
-    /* @brief Given a composition Id, returns its underlying parameter model */
+    /** @brief Given a composition Id, returns its underlying parameter model */
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
-    /* @brief Given a clip Id, returns its underlying effect stack model */
+    /** @brief Given a clip Id, returns its underlying effect stack model */
     std::shared_ptr<EffectStackModel> getClipEffectStackModel(int clipId) const;
-    /* @brief Given a clip Id, returns its mix transition stack model */
+    /** @brief Given a clip Id, returns its mix transition stack model */
     std::shared_ptr<EffectStackModel> getClipMixStackModel(int clipId) const;
 
-    /* @brief Returns the position of clip (-1 if it is not inserted)
+    /** @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
     */
     Q_INVOKABLE int getClipPosition(int clipId) const;
@@ -271,7 +271,7 @@ public:
     Q_INVOKABLE bool copyTrackEffect(int trackId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration);
 
-    /* @brief Returns the closest snap point within snapDistance
+    /** @brief Returns the closest snap point within snapDistance
      */
     Q_INVOKABLE int suggestSnapPoint(int pos, int snapDistance);
 
@@ -280,81 +280,81 @@ public:
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getNextTrackId(int trackId);
 
-    /* @brief Returns the in cut position of a clip
+    /** @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */
     int getClipIn(int clipId) const;
 
-    /* @brief Returns the clip state (audio/video only)
+    /** @brief Returns the clip state (audio/video only)
      */
     PlaylistState::ClipState getClipState(int clipId) const;
 
-    /* @brief Returns the bin id of the clip master
+    /** @brief Returns the bin id of the clip master
        @param clipId Id of the clip to test
     */
     const QString getClipBinId(int clipId) const;
 
-    /* @brief Returns the duration of a clip
+    /** @brief Returns the duration of a clip
        @param clipId Id of the clip to test
     */
     int getClipPlaytime(int clipId) const;
 
-    /* @brief Returns the size of the clip's frame (widthxheight)
+    /** @brief Returns the size of the clip's frame (widthxheight)
        @param clipId Id of the clip to test
     */
     QSize getClipFrameSize(int clipId) const;
-    /* @brief Returns the number of clips in a given track
+    /** @brief Returns the number of clips in a given track
        @param trackId Id of the track to test
     */
     int getTrackClipsCount(int trackId) const;
 
-    /* @brief Returns the number of compositions in a given track
+    /** @brief Returns the number of compositions in a given track
        @param trackId Id of the track to test
     */
     int getTrackCompositionsCount(int trackId) const;
 
-    /* @brief Returns the position of the track in the order of the tracks
+    /** @brief Returns the position of the track in the order of the tracks
        @param trackId Id of the track to test
     */
     int getTrackPosition(int trackId) const;
 
-    /* @brief Returns the track's index in terms of mlt's internal representation
+    /** @brief Returns the track's index in terms of mlt's internal representation
      */
     int getTrackMltIndex(int trackId) const;
-    /* @brief Returns a sort position for tracks.
+    /** @brief Returns a sort position for tracks.
      * @param separated: if true, the tracks will be sorted like: V2,V1,A1,A2
      * Otherwise, the tracks will be sorted like V2,A2,V1,A1
      */
     int getTrackSortValue(int trackId, int separated) const;
 
-    /* @brief Returns the ids of the tracks below the given track in the order of the tracks
+    /** @brief Returns the ids of the tracks below the given track in the order of the tracks
        Returns an empty list if no track available
        @param trackId Id of the track to test
     */
     QList<int> getLowerTracksId(int trackId, TrackType type = TrackType::AnyTrack) const;
 
-    /* @brief Returns the MLT track index of the video track just below the given track
+    /** @brief Returns the MLT track index of the video track just below the given track
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackPos(int trackId) const;
-    /* @brief Returns the Track id of the video track just below the given track
+    /** @brief Returns the Track id of the video track just below the given track
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
 
-    /* @brief Returns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
+    /** @brief Returns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
 
-    /* @brief Sets a track in a given lock state
+    /** @brief Sets a track in a given lock state
        Locked tracks can't receive any operations (resize, move, insertion, deletion...)
        @param trackId is of the track to alter
        @param lock if true, the track will be locked, otherwise unlocked.
     */
     Q_INVOKABLE void setTrackLockedState(int trackId, bool lock);
 
-    /* @brief Move a clip to a specific position
+    /** @brief Move a clip to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clip is not in inserted in a track yet, it gets inserted for the first time.
@@ -371,7 +371,7 @@ public:
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
     bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
-    /* @brief Move a composition to a specific position This action is undoable
+    /** @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
        not in inserted in a track yet, it gets inserted for the first time. If
        the clip is in a group, the call is deferred to requestGroupMove @param
@@ -410,7 +410,7 @@ public:
     */
     Q_INVOKABLE int adjustFrame(int frame, int trackId);
 
-    /* @brief Request clip insertion at given position. This action is undoable
+    /** @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param binClipId id of the clip in the bin
        @param track Id of the track where to insert
@@ -438,7 +438,7 @@ public:
     bool removeMix(int cid);
 
 protected:
-    /* @brief Creates a new clip instance without inserting it.
+    /** @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
        @param binClipId: Bin id of the clip to insert
        @param id: return parameter for the id of the newly created clip.
@@ -446,11 +446,11 @@ protected:
      */
     bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch, Fun &undo, Fun &redo);
 
-    /* @brief Switch item selection status */
+    /** @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
 
 public:
-    /* @brief Deletes the given clip or composition from the timeline.
+    /** @brief Deletes the given clip or composition from the timeline.
        This action is undoable.
        Returns true on success. If it fails, nothing is modified.
        If the clip/composition is in a group, the call is deferred to requestGroupDeletion
@@ -460,7 +460,7 @@ public:
     /* Same function, but accumulates undo and redo*/
     bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
-    /* @brief Move a group to a specific position
+    /** @brief Move a group to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        If the clips in the group are not in inserted in a track yet, they get inserted for the first time.
@@ -476,7 +476,7 @@ public:
     bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks = true, 
                           bool allowViewRefresh = true, QVector<int> allowedTracks = QVector<int>());
 
-    /* @brief Deletes all clips inside the group that contains the given clip.
+    /** @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
        Note that if their is a hierarchy of groups, all of them will be deleted.
        Returns true on success. If it fails, nothing is modified.
@@ -485,7 +485,7 @@ public:
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
     bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
 
-    /* @brief Change the duration of an item (clip or composition)
+    /** @brief Change the duration of an item (clip or composition)
        This action is undoable
        Returns the real size reached (can be different, if snapping occurs).
        If it fails, nothing is modified, and -1 is returned
@@ -510,7 +510,7 @@ public:
 
     Q_INVOKABLE int requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed);
 
-    /* @brief Group together a set of ids
+    /** @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
        This action is undoable
        Returns the group id on success, -1 if it fails and nothing is modified.
@@ -520,7 +520,7 @@ public:
     int requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo = true, GroupType type = GroupType::Normal);
     int requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal);
 
-    /* @brief Destruct the topmost group containing clip
+    /** @brief Destruct the topmost group containing clip
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
@@ -531,7 +531,7 @@ public:
     // convenience functions for several ids at the same time
     bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
 
-    /* @brief Create a track at given position
+    /** @brief Create a track at given position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param Requested position (order). If set to -1, the track is inserted last.
@@ -541,38 +541,38 @@ public:
     /* Same function, but accumulates undo and redo*/
     bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool addCompositing = true);
 
-    /* @brief Delete track with given id
+    /** @brief Delete track with given id
        This also deletes all the clips contained in the track.
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param trackId id of the track to delete
     */
     bool requestTrackDeletion(int trackId);
-    /* Same function, but accumulates undo and redo*/
+    /** @brief Same function, but accumulates undo and redo*/
     bool requestTrackDeletion(int trackId, Fun &undo, Fun &redo);
 
-    /* @brief Get project duration
+    /** @brief Get project duration
        Returns the duration in frames
     */
     int duration() const;
     static int seekDuration; // Duration after project end where seeking is allowed
 
-    /* @brief Get all the elements of the same group as the given clip.
+    /** @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.
        @param clipId id of the clip to test
     */
     std::unordered_set<int> getGroupElements(int clipId);
 
-    /* @brief Removes all the elements on the timeline (tracks and clips)
+    /** @brief Removes all the elements on the timeline (tracks and clips)
      */
     bool requestReset(Fun &undo, Fun &redo);
-    /* @brief Updates the current the pointer to the current undo_stack
+    /** @brief Updates the current the pointer to the current undo_stack
        Must be called for example when the doc change
     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 
 protected:
-    /* @brief Requests the best snapped position for a clip
+    /** @brief Requests the best snapped position for a clip
        @param pos is the clip's requested position
        @param length is the clip's duration
        @param pts snap points to ignore (for example currently moved clip)
@@ -581,36 +581,36 @@ protected:
      */
     int getBestSnapPos(int referencePos, int diff, std::vector<int> pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
 
-    /* @brief Returns the best possible size for a clip on resize
+    /** @brief Returns the best possible size for a clip on resize
      */
     int requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance);
 
-    /* @brief Returns a list of in/out of all items in the group of itemId
+    /** @brief Returns a list of in/out of all items in the group of itemId
      */
     const std::vector<int> getBoundaries(int itemId);
 
 public:
-    /* @brief Requests the next snapped point
+    /** @brief Requests the next snapped point
        @param pos is the current position
      */
     int getNextSnapPos(int pos, std::vector<int> &snaps);
 
-    /* @brief Requests the previous snapped point
+    /** @brief Requests the previous snapped point
        @param pos is the current position
      */
     int getPreviousSnapPos(int pos, std::vector<int> &snaps);
 
-    /* @brief Add a new snap point
+    /** @brief Add a new snap point
        @param pos is the current position
      */
     void addSnap(int pos);
 
-    /* @brief Remove snap point
+    /** @brief Remove snap point
        @param pos is the current position
      */
     void removeSnap(int pos);
 
-    /* @brief Request composition insertion at given position.
+    /** @brief Request composition insertion at given position.
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
        @param transitionId Identifier of the Mlt transition to insert (as given by repository)
@@ -626,25 +626,25 @@ public:
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
                                      std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, QString originalDecimalPoint = QString());
 
-    /* @brief This function change the global (timeline-wise) enabled state of the effects
+    /** @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
      */
     void setTimelineEffectsEnabled(bool enabled);
 
-    /* @brief Get a timeline clip id by its position or -1 if not found
+    /** @brief Get a timeline clip id by its position or -1 if not found
      */
     int getClipByPosition(int trackId, int position) const;
     int getClipByStartPosition(int trackId, int position) const;
 
-    /* @brief Get a timeline composition id by its starting position or -1 if not found
+    /** @brief Get a timeline composition id by its starting position or -1 if not found
      */
     int getCompositionByPosition(int trackId, int position) const;
-    /* @brief Get a timeline subtitle id by its starting position or -1 if not found
+    /** @brief Get a timeline subtitle id by its starting position or -1 if not found
      */
     int getSubtitleByStartPosition(int position) const;
     int getSubtitleByPosition(int position) const;
 
-    /* @brief Returns a list of all items that are intersect with a given range.
+    /** @brief Returns a list of all items that are intersect with a given range.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks
      * @param start is the position where we the items should start
      * @param end is the position after which items will not be selected, set to -1 to get all clips on track
@@ -654,10 +654,10 @@ public:
     /** @brief define current project's subtitle model */
     void setSubModel(std::shared_ptr<SubtitleModel> model);
 
-    /* @brief Returns a list of all luma files used in the project
+    /** @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
-    /* @brief Inform asset view of duration change
+    /** @brief Inform asset view of duration change
      */
     virtual void adjustAssetRange(int clipId, int in, int out);
 
@@ -679,7 +679,7 @@ public:
     Returns true on success, false otherwise (and nothing is modified)
     */
     Q_INVOKABLE bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration);
-    /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
+    /** @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
     bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
 
@@ -731,68 +731,68 @@ public:
     std::shared_ptr<SubtitleModel> getSubtitleModel();
 
 protected:
-    /* @brief Register a new track. This is a call-back meant to be called from TrackModel
+    /** @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
     void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true);
 
-    /* @brief Register a new clip. This is a call-back meant to be called from ClipModel
+    /** @brief Register a new clip. This is a call-back meant to be called from ClipModel
      */
     void registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer = false);
 
-    /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
+    /** @brief Register a new composition. This is a call-back meant to be called from CompositionModel
      */
     void registerComposition(const std::shared_ptr<CompositionModel> &composition);
     
     void registerSubtitle(int id, GenTime startTime, bool temporary = false);
     void deregisterSubtitle(int id, bool temporary = false);
-    /* @brief Returns the index for a subtitle's id (it's position in the list
+    /** @brief Returns the index for a subtitle's id (it's position in the list
      */
     int positionForIndex(int id);
 
-    /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
+    /** @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
     void registerGroup(int groupId);
 
-    /* @brief Deregister and destruct the track with given id.
+    /** @brief Deregister and destruct the track with given id.
        @parame updateView Whether to send updates to the model. Must be false when called from a constructor/destructor
      */
     Fun deregisterTrack_lambda(int id);
 
-    /* @brief Return a lambda that deregisters and destructs the clip with given id.
+    /** @brief Return a lambda that deregisters and destructs the clip with given id.
        Note that the clip must already be deleted from its track and groups.
      */
     Fun deregisterClip_lambda(int id);
 
-    /* @brief Return a lambda that deregisters and destructs the composition with given id.
+    /** @brief Return a lambda that deregisters and destructs the composition with given id.
      */
     Fun deregisterComposition_lambda(int compoId);
 
-    /* @brief Deregister a group with given id
+    /** @brief Deregister a group with given id
      */
     void deregisterGroup(int id);
 
-    /* @brief Helper function to get a pointer to the track, given its id
+    /** @brief Helper function to get a pointer to the track, given its id
      */
     std::shared_ptr<TrackModel> getTrackById(int trackId);
     const std::shared_ptr<TrackModel> getTrackById_const(int trackId) const;
 
-    /*@brief Helper function to get a pointer to a clip, given its id*/
+    /** @brief Helper function to get a pointer to a clip, given its id*/
     std::shared_ptr<ClipModel> getClipPtr(int clipId) const;
 
-    /*@brief Helper function to get a pointer to a composition, given its id*/
+    /** @brief Helper function to get a pointer to a composition, given its id*/
     std::shared_ptr<CompositionModel> getCompositionPtr(int compoId) const;
 
-    /* @brief Returns next valid unique id to create an object
+    /** @brief Returns next valid unique id to create an object
      */
     static int getNextId();
 
-    /* @brief unplant and the replant all the compositions in the correct order
+    /** @brief unplant and the replant all the compositions in the correct order
        @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1
      */
     bool replantCompositions(int currentCompo, bool updateView);
 
-    /* @brief Unplant the composition with given Id */
+    /** @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
     /* Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
@@ -812,34 +812,34 @@ protected:
     std::pair<int, GenTime> getSubtitleIdFromIndex(int index) const;
 
 public:
-    /* @brief Debugging function that checks consistency with Mlt objects */
+    /** @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency();
 
 protected:
-    /* @brief Refresh project monitor if cursor was inside range */
+    /** @brief Refresh project monitor if cursor was inside range */
     void checkRefresh(int start, int end);
 
-    /* @brief Send signal to require clearing effet/composition view */
+    /** @brief Send signal to require clearing effet/composition view */
     void clearAssetView(int itemId);
 
     bool m_blockRefresh;
 
 signals:
-    /* @brief signal triggered by clearAssetView */
+    /** @brief signal triggered by clearAssetView */
     void requestClearAssetView(int);
     void requestMonitorRefresh();
-    /* @brief signal triggered by track operations */
+    /** @brief signal triggered by track operations */
     void invalidateZone(int in, int out);
-    /* @brief signal triggered when a track duration changed (insertion/deletion) */
+    /** @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated();
 
-    /* @brief Signal sent whenever the selection changes */
+    /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
-    /* @brief Signal sent whenever the selected mix changes */
+    /** @brief Signal sent whenever the selected mix changes */
     void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
-    /* @brief Signal when a track is deleted so we make sure we don't store its id */
+    /** @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
-    /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
+    /** @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
     void checkItemDeletion(int cid);
 
 protected:

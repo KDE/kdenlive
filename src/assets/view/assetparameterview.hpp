@@ -29,8 +29,7 @@
 #include <QWidget>
 #include <memory>
 
-/* @brief This class is the view for a list of parameters.
-
+/** @brief This class is the view for a list of parameters.
  */
 
 class QVBoxLayout;

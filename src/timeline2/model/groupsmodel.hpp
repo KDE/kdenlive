@@ -31,7 +31,7 @@
 
 class TimelineItemModel;
 
-/* @brief This class represents the group hierarchy. This is basically a tree structure
+/** @brief This class represents the group hierarchy. This is basically a tree structure
    In this class, we consider that a groupItem is either a clip or a group
 */
 
@@ -42,7 +42,7 @@ public:
     GroupsModel() = delete;
     GroupsModel(std::weak_ptr<TimelineItemModel> parent);
 
-    /* @brief Create a group that contains all the given items and returns the id of the created group.
+    /** @brief Create a group that contains all the given items and returns the id of the created group.
        Note that if an item is already part of a group, its topmost group will be considered instead and added in the newly created group.
        If only one id is provided, no group is created, unless force = true.
        @param ids set containing the items to group.
@@ -58,7 +58,7 @@ protected:
     Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type = GroupType::Normal, int parent = -1);
 
 public:
-    /* Deletes the topmost group containing given element
+    /** @brief Deletes the topmost group containing given element
        Note that if the element is not in a group, then it will not be touched.
        Return true on success
        @param id id of the groupitem
@@ -67,18 +67,18 @@ public:
      */
     bool ungroupItem(int id, Fun &undo, Fun &redo);
 
-    /* @brief Create a groupItem in the hierarchy. Initially it is not part of a group
+    /** @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
     */
     void createGroupItem(int id);
 
-    /* @brief Destruct a group item
+    /** @brief Destruct a group item
        Note that this public function expects that the given id is an orphan element.
        @param id id of the groupItem
     */
     bool destructGroupItem(int id);
 
-    /* @brief Merges group with only one child to parent
+    /** @brief Merges group with only one child to parent
        Ex:   .                     .
             / \                   / \
            .   .    becomes      a   b
@@ -88,14 +88,14 @@ public:
      */
     bool mergeSingleGroups(int id, Fun &undo, Fun &redo);
 
-    /* @brief Split the group tree according to a given criterion
+    /** @brief Split the group tree according to a given criterion
        All the leaves satisfying the criterion are moved to the new tree, the other stay
        Both tree are subsequently simplified to avoid weird structure.
        @param id is the root of the tree
      */
     bool split(int id, const std::function<bool(int)> &criterion, Fun &undo, Fun &redo);
 
-    /* @brief Copy a group hierarchy.
+    /** @brief Copy a group hierarchy.
        @param mapping describes the correspondence between the ids of the items in the source group hierarchy,
        and their counterpart in the hierarchy that we create.
        It will also be used as a return parameter, by adding the mapping between the groups of the hierarchy
@@ -103,58 +103,58 @@ public:
     */
     bool copyGroups(std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
-    /* @brief Get the overall father of a given groupItem
+    /** @brief Get the overall father of a given groupItem
        If the element has no father, it is returned as is.
        @param id id of the groupitem
     */
     int getRootId(int id) const;
 
-    /* @brief Returns true if the groupItem has no descendant
+    /** @brief Returns true if the groupItem has no descendant
        @param id of the groupItem
     */
     bool isLeaf(int id) const;
 
-    /* @brief Returns true if the element is in a non-trivial group
+    /** @brief Returns true if the element is in a non-trivial group
        @param id of the groupItem
     */
     bool isInGroup(int id) const;
 
-    /* @brief Move element id in the same group as targetId */
+    /** @brief Move element id in the same group as targetId */
     void setInGroupOf(int id, int targetId, Fun &undo, Fun &redo);
 
-    /* @brief We replace the leaf node given by id with a group that contains the leaf plus all the clips in to_add.
+    /** @brief We replace the leaf node given by id with a group that contains the leaf plus all the clips in to_add.
      * The created group type is given in parameter
      * Returns true on success
      */
     bool createGroupAtSameLevel(int id, std::unordered_set<int> to_add, GroupType type, Fun &undo, Fun &redo);
 
-    /* @brief Returns the id of all the descendant of given item (including item)
+    /** @brief Returns the id of all the descendant of given item (including item)
        @param id of the groupItem
     */
     std::unordered_set<int> getSubtree(int id) const;
 
-    /* @brief Returns the id of all the leaves in the subtree of the given item
+    /** @brief Returns the id of all the leaves in the subtree of the given item
        This should correspond to the ids of the clips, since they should be the only items with no descendants
        @param id of the groupItem
     */
     std::unordered_set<int> getLeaves(int id) const;
 
-    /* @brief Gets direct children of a given group item
+    /** @brief Gets direct children of a given group item
        @param id of the groupItem
      */
     std::unordered_set<int> getDirectChildren(int id) const;
 
-    /* @brief Gets direct ancestor of a given group item. Returns -1 if not in a group
+    /** @brief Gets direct ancestor of a given group item. Returns -1 if not in a group
        @param id of the groupItem
     */
     int getDirectAncestor(int id) const;
 
-    /* @brief Get the type of the group
+    /** @brief Get the type of the group
        @param id of the groupItem. Must be a proper group, not a leaf
     */
     GroupType getType(int id) const;
 
-    /* @brief Convert the group hierarchy to json.
+    /** @brief Convert the group hierarchy to json.
        Note that we cannot expect clipId nor groupId to be the same on project reopening, thus we cannot rely on them for saving.
        To workaround that, we currently identify clips by their position + track
     */
@@ -163,17 +163,17 @@ public:
     bool fromJson(const QString &data);
     bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo);
 
-    /* @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
+    /** @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
     int getSplitPartner(int id) const;
 
-    /* @brief Check the internal consistency of the model. Returns false if something is wrong
+    /** @brief Check the internal consistency of the model. Returns false if something is wrong
        @param failOnSingleGroups: if true, we make sure that a non-leaf node has at least two children
        @param checkTimelineConsistency: if true, we make sure that the group data of the parent timeline are consistent
     */
     bool checkConsistency(bool failOnSingleGroups = true, bool checkTimelineConsistency = false);
 
 protected:
-    /* @brief Destruct a groupItem in the hierarchy.
+    /** @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots
        Return true on success
        @param id id of the groupitem
@@ -185,36 +185,36 @@ protected:
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
 
-    /* @brief change the group of a given item
+    /** @brief change the group of a given item
        @param id of the groupItem
        @param groupId id of the group to assign it to
        @param changeState when false, the grouped role for item won't be updated (for selection)
     */
     void setGroup(int id, int groupId, bool changeState = true);
 
-    /* @brief Remove an item from all the groups it belongs to.
+    /** @brief Remove an item from all the groups it belongs to.
        @param id of the groupItem
     */
     void removeFromGroup(int id);
 
-    /* @brief This is the actual recursive implementation of the copy function. */
+    /** @brief This is the actual recursive implementation of the copy function. */
     bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
 
-    /* @brief This is the actual recursive implementation of the conversion to json */
+    /** @brief This is the actual recursive implementation of the conversion to json */
     QJsonObject toJson(int gid) const;
 
-    /* @brief This is the actual recursive implementation of the parsing from json
+    /** @brief This is the actual recursive implementation of the parsing from json
        Returns the id of the created group
     */
     int fromJson(const QJsonObject &o, Fun &undo, Fun &redo);
 
-    /* @brief Transform a leaf node into a group node of given type. This implies doing the registration to the timeline */
+    /** @brief Transform a leaf node into a group node of given type. This implies doing the registration to the timeline */
     void promoteToGroup(int gid, GroupType type);
 
-    /* @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
+    /** @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
     void downgradeToLeaf(int gid);
 
-    /* @Brief helper function to change the type of a group.
+    /** @Brief helper function to change the type of a group.
        @param id of the groupItem
        @param type: new type of the group
     */
@@ -225,11 +225,14 @@ protected:
 private:
     std::weak_ptr<TimelineItemModel> m_parent;
 
-    std::unordered_map<int, int> m_upLink;                       // edges toward parent
-    std::unordered_map<int, std::unordered_set<int>> m_downLink; // edges toward children
-
-    std::unordered_map<int, GroupType> m_groupIds; // this keeps track of "real" groups (non-leaf elements), and their types
-    mutable QReadWriteLock m_lock;                 // This is a lock that ensures safety in case of concurrent access
+    /** @brief edges toward parent */
+    std::unordered_map<int, int> m_upLink;
+    /** @brief edges toward children */
+    std::unordered_map<int, std::unordered_set<int>> m_downLink;
+    /** @brief this keeps track of "real" groups (non-leaf elements), and their types */
+    std::unordered_map<int, GroupType> m_groupIds;
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
 };
 
 #endif

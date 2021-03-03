@@ -25,7 +25,7 @@
 #include <QSortFilterProxyModel>
 #include <memory>
 
-/* @brief This class is used as a proxy model to filter an asset list based on given criterion (name, ...)
+/** @brief This class is used as a proxy model to filter an asset list based on given criterion (name, ...)
  */
 class TreeItem;
 class AssetFilter : public QSortFilterProxyModel
@@ -35,7 +35,7 @@ class AssetFilter : public QSortFilterProxyModel
 public:
     AssetFilter(QObject *parent = nullptr);
 
-    /* @brief Manage the name filter
+    /** @brief Manage the name filter
        @param enabled whether to enable this filter
        @param pattern to match against effects' names
     */
@@ -61,7 +61,7 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterName(const std::shared_ptr<TreeItem> &item) const;
-    /* @brief Apply all filter and returns true if the object should be kept after filtering */
+    /** @brief Apply all filter and returns true if the object should be kept after filtering */
     virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
 
     bool m_name_enabled{false};

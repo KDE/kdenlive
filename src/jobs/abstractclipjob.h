@@ -76,13 +76,13 @@ public:
     */
     virtual bool commitResult(Fun &undo, Fun &redo) = 0;
 
-    // brief run a given job
+    /** @brief run a given job */
     static bool execute(const std::shared_ptr<AbstractClipJob> &job);
 
-    /* @brief return the type of this job */
+    /** @brief return the type of this job */
     JOBTYPE jobType() const;
 
-    /* @brief return the owner of this job */
+    /** @brief return the owner of this job */
     const ObjectId owner();
 
 protected:
@@ -97,7 +97,7 @@ protected:
     bool m_resultConsumed{false};
 
 signals:
-    // send an int between 0 and 100 to reflect computation progress
+    /** @brief send an int between 0 and 100 to reflect computation progress */
     void jobProgress(int);
     void jobCanceled();
 };

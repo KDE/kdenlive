@@ -27,7 +27,7 @@
 
 class TransitionListWidgetProxy;
 
-/* @brief This class is a widget that display the list of available effects
+/** @brief This class is a widget that display the list of available effects
  */
 
 class TransitionListWidget : public AssetListWidget
@@ -38,7 +38,7 @@ public:
     TransitionListWidget(QWidget *parent = Q_NULLPTR);
     ~TransitionListWidget() override;
     void setFilterType(const QString &type);
-    /*@brief Return mime type used for drag and drop. It will be kdenlive/composition
+    /** @brief Return mime type used for drag and drop. It will be kdenlive/composition
      or kdenlive/transition*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);

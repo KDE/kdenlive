@@ -104,13 +104,13 @@ public:
 
     void loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo);
 
-    /* @brief Convenience method to retrieve a pointer to an element given its index */
+    /** @brief Convenience method to retrieve a pointer to an element given its index */
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
 
-    /* @brief Load the folders given the property containing them */
+    /** @brief Load the folders given the property containing them */
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
-    /* @brief Parse a bin playlist from the document tractor and reconstruct the tree */
+    /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
     void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
@@ -138,13 +138,13 @@ public:
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
     Qt::DropActions supportedDropActions() const override;
 
-    /* @brief Request deletion of a bin clip from the project bin
+    /** @brief Request deletion of a bin clip from the project bin
        @param clip : pointer to the clip to delete
        @param undo,redo: lambdas that are updated to accumulate operation.
      */
     bool requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo);
 
-    /* @brief Request creation of a bin folder
+    /** @brief Request creation of a bin folder
        @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic
        bin id used.
        @param name Name of the folder
@@ -152,7 +152,7 @@ public:
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
     bool requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo);
-    /* @brief Request creation of a bin clip
+    /** @brief Request creation of a bin clip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
        @param description Xml description of the clip
        @param parentId Bin id of the parent folder
@@ -163,10 +163,10 @@ public:
                            const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
 
-    /* @brief This is the addition function when we already have a producer for the clip*/
+    /** @brief This is the addition function when we already have a producer for the clip*/
     bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
 
-    /* @brief Create a subClip
+    /** @brief Create a subClip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
        @param parentId Bin id of the parent clip
        @param in,out : zone that corresponds to the subclip
@@ -175,7 +175,7 @@ public:
     bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
     bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId);
 
-    /* @brief Request that a folder's name is changed
+    /** @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename
        @param name: new name of the folder
        @param undo,redo: lambdas that are updated to accumulate operation.
@@ -184,13 +184,13 @@ public:
     /* Same functions but pushes the undo object directly */
     bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
 
-    /* @brief Request that the unused clips are deleted */
+    /** @brief Request that the unused clips are deleted */
     bool requestCleanupUnused();
 
-    /* @brief Retrieves the next id available for attribution to a folder */
+    /** @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();
 
-    /* @brief Retrieves the next id available for attribution to a clip */
+    /** @brief Retrieves the next id available for attribution to a clip */
     int getFreeClipId();
 
     /** @brief Check whether a given id is currently used or not*/
@@ -215,19 +215,19 @@ public:
     int clipsCount() const;
 
 protected:
-    /* @brief Register the existence of a new element
+    /** @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;
-    /* @brief Deregister the existence of a new element*/
+    /** @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-    /* @brief Helper function to generate a lambda that rename a folder */
+    /** @brief Helper function to generate a lambda that rename a folder */
     Fun requestRenameFolder_lambda(const std::shared_ptr<AbstractProjectItem> &folder, const QString &newName);
 
-    /* @brief Helper function to add a given item to the tree */
+    /** @brief Helper function to add a given item to the tree */
     bool addItem(const std::shared_ptr<AbstractProjectItem> &item, const QString &parentId, Fun &undo, Fun &redo);
 
-    /* @brief Function to be called when the url of a clip changes */
+    /** @brief Function to be called when the url of a clip changes */
     void updateWatcher(const std::shared_ptr<ProjectClip> &item);
 
 public slots:
@@ -255,7 +255,7 @@ private:
     QIcon m_blankThumb;
     PlaylistState::ClipState m_dragType;
 signals:
-    // thumbs of the given clip were modified, request update of the monitor if need be
+    /** @brief thumbs of the given clip were modified, request update of the monitor if need be */
     void refreshAudioThumbs(const QString &id);
     void refreshClip(const QString &id);
     void emitMessage(const QString &, int, MessageType);

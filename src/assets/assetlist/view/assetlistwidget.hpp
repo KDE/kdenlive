@@ -26,7 +26,7 @@
 #include <QQuickWidget>
 #include <memory>
 
-/* @brief This class is a generic widget that display the list of available assets
+/** @brief This class is a generic widget that display the list of available assets
  */
 
 class AssetIconProvider;
@@ -36,33 +36,33 @@ class AssetTreeModel;
 class AssetListWidget : public QQuickWidget
 {
     Q_OBJECT
-    /* @brief Should the descriptive info box be displayed
+    /** @brief Should the descriptive info box be displayed
      */
 
 public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
     ~AssetListWidget() override;
 
-    /* @brief Returns the name of the asset given its model index */
+    /** @brief Returns the name of the asset given its model index */
     QString getName(const QModelIndex &index) const;
 
-    /* @brief Returns true if this effect belongs to favorites */
+    /** @brief Returns true if this effect belongs to favorites */
     bool isFavorite(const QModelIndex &index) const;
 
-    /* @brief Sets whether this effect belongs to favorites */
+    /** @brief Sets whether this effect belongs to favorites */
     void setFavorite(const QModelIndex &index, bool favorite = true, bool isEffect = true);
 
-    /* @brief Delete a custom effect */
+    /** @brief Delete a custom effect */
     void deleteCustomEffect(const QModelIndex &index);
     virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
     virtual void editCustomAsset(const QModelIndex &index) = 0;
-    /* @brief Returns the description of the asset given its model index */
+    /** @brief Returns the description of the asset given its model index */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
 
-    /* @brief Sets the pattern against which the assets' names are filtered */
+    /** @brief Sets the pattern against which the assets' names are filtered */
     void setFilterName(const QString &pattern);
 
-    /*@brief Return mime type used for drag and drop. It can be kdenlive/effect,
+    /** @brief Return mime type used for drag and drop. It can be kdenlive/effect,
       kdenlive/composition or kdenlive/transition*/
     virtual QString getMimeType(const QString &assetId) const = 0;
 
@@ -70,7 +70,7 @@ public:
 
     void activate(const QModelIndex &ix);
 
-    /* @brief Rebuild the view by resetting the source. Is there a better way? */
+    /** @brief Rebuild the view by resetting the source. Is there a better way? */
     void reset();
 
 protected:
