@@ -1761,7 +1761,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     connect(this, &KdenliveSettingsDialog::showSpeechMessage, this, &KdenliveSettingsDialog::doShowSpeechMessage);
     connect(m_voskAction, &QAction::triggered, [this]() {
+#ifdef Q_OS_WIN
+        QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
         QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+#endif
         if (pyExec.isEmpty()) {
             doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
             return;
@@ -1830,10 +1834,11 @@ void KdenliveSettingsDialog::initSpeechPage()
 
 void KdenliveSettingsDialog::checkVoskDependencies()
 {
+#ifdef Q_OS_WIN
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
-    if (pyExec.isEmpty()) {
-        pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
-    }
+#endif
     if (pyExec.isEmpty()) {
         doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
         return;

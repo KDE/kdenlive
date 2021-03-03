@@ -8,7 +8,7 @@ missing = required - installed
 print ("Missing pachages: ", missing)
 if missing and len(sys.argv) > 1 :
     # install missing modules
-    print ("Installing missing pachages: ", missing)
+    print ("Installing missing packages: ", missing)
     python = sys.executable
     subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
 elif len(sys.argv) > 1 :

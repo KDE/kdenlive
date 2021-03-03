@@ -89,7 +89,11 @@ SpeechDialog::~SpeechDialog()
 
 void SpeechDialog::slotProcessSpeech(QPoint zone)
 {
+#ifdef Q_OS_WIN
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+#endif
     if (pyExec.isEmpty()) {
         speech_info->removeAction(m_voskConfig);
         speech_info->setMessageType(KMessageWidget::Warning);
