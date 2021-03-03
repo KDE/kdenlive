@@ -863,7 +863,11 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit) {
         showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else if (m_visualEditor->toPlainText().isEmpty()) {
-        showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
+        if (m_errorString.contains(QStringLiteral("ModuleNotFoundError"))) {
+            showMessage(i18n("Error, please check the speech to text configuration."), KMessageWidget::Warning, m_voskConfig);
+        } else {
+            showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
+        }
     } else {
         button_add->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
