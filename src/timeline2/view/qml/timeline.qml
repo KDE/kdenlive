@@ -1631,6 +1631,8 @@ Rectangle {
                                             var newPos = Math.round(mouseX / timeScale) + dragProxy.masterObject.inPoint
                                             timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
                                         } else {
+                                            clipBeingMovedId = -1
+                                            timeline.ungrabHack()
                                             timeline.editItemDuration(dragProxy.draggedItem)
                                         }
                                     }
