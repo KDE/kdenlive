@@ -83,6 +83,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     , m_modified(false)
     , m_shuttleModified(false)
     , m_mappable_actions(std::move(mappable_actions))
+    , m_voskUpdated(false)
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
@@ -1764,21 +1765,30 @@ void KdenliveSettingsDialog::initSpeechPage()
         if (pyExec.isEmpty()) {
             doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
             return;
-        } else if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
-            QProcess checkJob;
-            QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
-            if (speechScript.isEmpty()) {
-                doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
-                return;
-            } else {
-                m_voskAction->setEnabled(false);
-                doShowSpeechMessage(i18n("Installing modules..."), KMessageWidget::Information);
-                m_configSpeech.speech_info->setMessageType(KMessageWidget::Information);
-                qApp->processEvents();
-                checkJob.start(pyExec, {speechScript, QStringLiteral("install")});
-                checkJob.waitForFinished();
-            }
+        }
+        QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
+        if (speechScript.isEmpty()) {
+            doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
+            return;
+        }
+        QProcess checkJob;
+        if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
+            m_voskAction->setEnabled(false);
+            doShowSpeechMessage(i18n("Installing modules..."), KMessageWidget::Information);
+            qApp->processEvents();
+            checkJob.start(pyExec, {speechScript, QStringLiteral("install")});
+            checkJob.waitForFinished();
             checkVoskDependencies();
+        } else {
+            // upgrade
+            m_voskUpdated = true;
+            m_voskAction->setEnabled(false);
+            doShowSpeechMessage(i18n("Updating modules..."), KMessageWidget::Information);
+            qApp->processEvents();
+            checkJob.start(pyExec, {speechScript, QStringLiteral("upgrade")});
+            checkJob.waitForFinished();
+            m_configSpeech.speech_info->removeAction(m_voskAction);
+            checkVoskVersion(pyExec);
         }
     });
     checkVoskDependencies();
@@ -1834,6 +1844,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
             doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
             return;
         } else {
+            m_configSpeech.speech_info->removeAction(m_voskAction);
             checkJob.start(pyExec, {speechScript});
             checkJob.waitForFinished();
             QString output = checkJob.readAllStandardOutput();
@@ -1852,13 +1863,18 @@ void KdenliveSettingsDialog::checkVoskDependencies()
             }
             if (!missingModules.isEmpty()) {
                 m_voskAction->setEnabled(true);
+                m_voskAction->setText(i18n("Install missing dependencies"));
                 m_configSpeech.speech_info->addAction(m_voskAction);
                 doShowSpeechMessage(missingModules, KMessageWidget::Warning);
             } else {
                 if (m_configSpeech.listWidget->count() == 0) {
                     doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
                 } else {
-                    m_configSpeech.speech_info->removeAction(m_voskAction);
+                    if (!m_voskUpdated) {
+                        // only allow upgrading python modules once
+                        m_voskAction->setText(i18n("Check for update"));
+                        m_configSpeech.speech_info->addAction(m_voskAction);
+                    }
                     QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
                 }
             }
@@ -1868,7 +1884,11 @@ void KdenliveSettingsDialog::checkVoskDependencies()
         if (m_configSpeech.listWidget->count() == 0) {
             doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
         } else {
-            m_configSpeech.speech_info->removeAction(m_voskAction);
+            if (!m_voskUpdated) {
+                // only allow upgrading python modules once
+                m_voskAction->setText(i18n("Check for update"));
+                m_configSpeech.speech_info->addAction(m_voskAction);
+            }
             QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
         }
     }
@@ -1881,18 +1901,24 @@ void KdenliveSettingsDialog::checkVoskVersion(const QString pyExec)
     QProcess checkJob;
     checkJob.start(pyExec, {speechScript, QStringLiteral("check")});
     checkJob.waitForFinished();
+    QString message;
     QString output = checkJob.readAllStandardOutput();
     QStringList versions = output.split(QStringLiteral("Version: "));
-    versions.takeFirst();
-    QStringList appVersion;
-    for (const QString v : versions) {
-        QString res = v.simplified();
-        res = res.section(QLatin1Char(' '), 0, 0);
-        appVersion << res;
-    }
-    QString message;
-    if (appVersion.count() == 2) {
-        message = i18n("Speech to text is configured. Vosk %1, Srt %2", appVersion.at(0), appVersion.at(1));
+    if (versions.count() >= 3) {
+        bool voskFirst = versions.takeFirst().contains(QLatin1String("vosk"));
+        QString voskVersion;
+        QString srtVersion;
+        QString cut = versions.takeFirst();
+        if (voskFirst) {
+            voskVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
+            cut = versions.takeFirst();
+            srtVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
+        } else {
+            srtVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
+            cut = versions.takeFirst();
+            voskVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
+        }
+        message = i18n("Speech to text is configured. Vosk %1, Srt %2", voskVersion, srtVersion);
     } else {
         message = i18n("Speech to text is properly configured.");
     }

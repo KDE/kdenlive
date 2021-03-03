@@ -12,9 +12,9 @@ if missing and len(sys.argv) > 1 :
     python = sys.executable
     subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
 elif len(sys.argv) > 1 :
-    if sys.argv[0] == 'upgrade':
+    if sys.argv[1] == 'upgrade':
         # update modules
-        print ("Updating pachages: ", required)
+        print ("Updating packages: ", required)
         python = sys.executable
         subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', *required], stdout=subprocess.DEVNULL)
     else:

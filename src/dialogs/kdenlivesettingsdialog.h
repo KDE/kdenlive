@@ -126,6 +126,7 @@ private:
     QAction *m_voskAction;
     bool m_modified;
     bool m_shuttleModified;
+    bool m_voskUpdated;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     void initDevices();
