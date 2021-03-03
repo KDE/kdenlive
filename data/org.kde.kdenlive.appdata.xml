@@ -67,7 +67,7 @@
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
   <summary xml:lang="x-test">xxVideo Editorxx</summary>
-  <summary xml:lang="zh-CN">视频编辑器</summary>
+  <summary xml:lang="zh-CN">视频编辑工具</summary>
   <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
@@ -100,7 +100,7 @@
     <p xml:lang="tr">Kdenlive doğrusal olmayan bir video düzenleyicisidir. MLT çalışma çerçevesi tabanlıdır ve birçok ses ile video biçimini destekleyerek; efektler ve geçişler eklemenizi ve istediğiniz biçime dönüştürmenizi sağlar.</p>
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
     <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
-    <p xml:lang="zh-CN">Kdenlive 是一个非线性视频编辑器。它基于 MLT 框架并且支持许多音频和视频格式，允许您添加特效，转场并渲染为您想要的格式。</p>
+    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为您想要的格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
@@ -198,7 +198,7 @@
       <li xml:lang="tr">Birçok efekt ve geçiş.</li>
       <li xml:lang="uk">Багато ефектів та переходів.</li>
       <li xml:lang="x-test">xxMany effects and transitions.xx</li>
-      <li xml:lang="zh-CN">提供许多特效和转场。</li>
+      <li xml:lang="zh-CN">提供多种特效和转场。</li>
       <li xml:lang="zh-TW">許多特效與轉場效果。</li>
       <li>Color scopes</li>
       <li xml:lang="ar">نطاقات الألوان</li>

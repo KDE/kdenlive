@@ -19,7 +19,7 @@
     <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="uk">документ відеопроєкту Kdenlive</comment>
-    <comment xml:lang="zh_CN">Kdenlive 视频项目文档</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频工程文件</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
@@ -62,6 +62,7 @@
     <comment xml:lang="sl">Kdenlive postavitev aplikacije</comment>
     <comment xml:lang="sv">Kdenlive programlayout</comment>
     <comment xml:lang="uk">Компонування вікон програми Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 应用程序布局</comment>
     <sub-class-of type="text/plain"/>
     <glob pattern="*.kdenlivelayout"/>
   </mime-type>
