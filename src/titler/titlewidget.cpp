@@ -192,7 +192,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(tw_rd_line, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     connect(tw_rd_custom, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     tw_rd_custom->setEnabled(false);
-    if (mlt_version_get_int() <= 0x061a00) {
+    if (mlt_version_get_int() < 0x061900) {
         typewriterBox->setEnabled(false);
 
 		auto *twinfo = new KMessageWidget(typewriterBox);
