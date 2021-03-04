@@ -6,9 +6,18 @@ Active Kdenlive authors
     Nicolas Carion <french.ebook.lover@gmail.com>
         Code re-architecture & timeline rewrite
         2016-present
+    Dan Dennedy <dan@dennedy.org>
+        MLT, Bug fixing
+        2009(-2011)-present
     Vincent Pinon <vpinon@kde.org>
         KF5 port, Windows cross-build, bugs fixing
         2012-present
+    Julius Künzel <jk.kdedev@smartlab.uber.space>
+        Bugs fixing
+        2020-present
+    Sashmita Raghav
+        Subtitle feature (GSoC), timeline colours
+        2020-present
 
 Former Kdenlive authors
 
@@ -27,9 +36,6 @@ Former Kdenlive authors
     Marco Gittler <g.marco@freenet.de>
         MLT transitions and effects, timeline, audio thumbs
         2009-2012
-    Dan Dennedy <dan@dennedy.org>
-        Bug fixing
-        2009-2011
     Alberto Villa <avilla@FreeBSD.org>
         Bug fixing, logo, etc.
         2009-2013
