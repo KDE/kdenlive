@@ -3772,6 +3772,8 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
             }
         }
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
+        // when edit is triggered from the timeline, project monitor refresh is neccesary after an edit is made
+        pCore->requestMonitorRefresh();
     } else {
         pCore->temporaryUnplug(clips, false);
     }
