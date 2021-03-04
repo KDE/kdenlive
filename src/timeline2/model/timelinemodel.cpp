@@ -701,11 +701,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         // Clip has a mix
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
-            // We have a mix at clip start
-            sync_mix = [this, old_trackId, finalMove]() {
-                getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
-                return true;
-            };
             if (old_trackId == trackId) {
                 // We are moving a clip on same track
                 if (finalMove && position >= mixData.first.firstClipInOut.second) {
@@ -714,19 +709,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 }
             } else {
                 // Clip moved to another track, delete mix
-                int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
-                update_playlist = [this, clipId, old_trackId, trackId, finalMove]() {
-                    m_allClips[clipId]->setMixDuration(0);
-                    m_allClips[clipId]->setSubPlaylistIndex(0, trackId);
-                    getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
-                    return true;
-                };
-                bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
-                update_playlist_undo = [this, clipId, subPlaylist, mixData, old_trackId, isAudio, finalMove]() {
-                    m_allClips[clipId]->setSubPlaylistIndex(subPlaylist, old_trackId);
-                    bool result = getTrackById_const(old_trackId)->createMix(mixData.first, isAudio);
-                    return result;
-                };
+                removeMixWithUndo(clipId, local_undo, local_redo);
             }
         }
         if (mixData.second.firstClipId > -1) {
@@ -746,11 +729,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 // Clip moved to another track, delete mix
                 // Mix will be deleted by syncronizeMixes operation, only
                 // re-add it on undo
-                bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
-                update_playlist_undo = [this, mixData, old_trackId, isAudio]() {
-                    bool result = getTrackById_const(old_trackId)->createMix(mixData.second, isAudio);
-                    return result;
-                };
+                removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
             }
         }
     } else if (finalMove && groupMove && isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId) && old_trackId == trackId) {
