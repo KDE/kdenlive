@@ -3140,6 +3140,29 @@ void TimelineController::editItemDuration(int id)
     }
 }
 
+void TimelineController::editTitleClip(int id)
+{
+    if (id == -1) {
+        id = m_root->property("mainItemId").toInt();
+        if (id == -1) {
+            std::unordered_set<int> sel = m_model->getCurrentSelection();
+            if (!sel.empty()) {
+                id = *sel.begin();
+            }
+            if (id == -1 || !m_model->isItem(id) || !m_model->isClip(id)) {
+                pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+                return;
+            }
+        }
+    }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(id));
+    if(binClip->clipType() != ClipType::Text && binClip->clipType() != ClipType::TextTemplate) {
+        pCore->displayMessage(i18n("Item is not a title clip"), ErrorMessage, 500);
+        return;
+    }
+    pCore->bin()->showTitleWidget(binClip);
+}
+
 QPoint TimelineController::selectionInOut() const
 {
     std::unordered_set<int> ids = m_model->getCurrentSelection();

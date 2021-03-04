@@ -438,6 +438,7 @@ public slots:
      * @param minimumTracksCount the number of active streams for this clip
      */
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
+    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
@@ -527,7 +528,6 @@ private:
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
-    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);

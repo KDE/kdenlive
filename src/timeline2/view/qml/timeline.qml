@@ -3,6 +3,7 @@ import QtQml.Models 2.11
 import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import 'Timeline.js' as Logic
+import com.enums 1.0
 
 Rectangle {
     id: root
@@ -1633,7 +1634,11 @@ Rectangle {
                                         } else {
                                             clipBeingMovedId = -1
                                             timeline.ungrabHack()
-                                            timeline.editItemDuration(dragProxy.draggedItem)
+                                            if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
+                                                timeline.editTitleClip(dragProxy.draggedItem)
+                                            } else {
+                                                timeline.editItemDuration(dragProxy.draggedItem)
+                                            }
                                         }
                                     }
                                 }

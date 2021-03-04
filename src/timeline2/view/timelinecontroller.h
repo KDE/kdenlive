@@ -99,6 +99,9 @@ public:
     /** @brief Edit an item's in/out points with a dialog
      */
     Q_INVOKABLE void editItemDuration(int itemId = -1);
+    /** @brief Edit a title clip with a title widget
+     */
+    Q_INVOKABLE void editTitleClip(int itemId = -1);
 
     /** @brief Returns the topmost track containing a selected item (-1 if selection is embty) */
     Q_INVOKABLE int selectedTrack() const;
