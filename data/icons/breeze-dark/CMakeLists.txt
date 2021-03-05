@@ -7,6 +7,7 @@ INSTALL(FILES
   16/keyframe-previous.svg
   16/keyframe-record.svg
   16/keyframe-remove.svg
+  16/add-subtitle.svg
   DESTINATION ${ICON_INSTALL_DIR}/breeze-dark/actions/16)
 
 INSTALL(FILES
@@ -18,4 +19,5 @@ INSTALL(FILES
   22/keyframe-previous.svg
   22/keyframe-record.svg
   22/keyframe-remove.svg
+  22/add-subtitle.svg
   DESTINATION ${ICON_INSTALL_DIR}/breeze-dark/actions/22)
