@@ -293,6 +293,8 @@ public slots:
     void buildLumaThumbs(const QStringList &values);
     /** @brief Set current project modified. */
     void setDocumentModified();
+    /** @brief Show currently selected effect zone in timeline ruler. */
+    void showEffectZone(QPair <int, int>inOut, bool checked);
 
 signals:
     void coreIsReady();
@@ -310,6 +312,8 @@ signals:
     void voskModelUpdate(const QStringList models);
     /** @brief This signal means that VOSK and/or SRT module availability changed*/
     void updateVoskAvailability();
+    /** @brief Update current effect zone */
+    void updateEffectZone(const QPoint p);
 };
 
 #endif

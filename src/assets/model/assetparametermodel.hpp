@@ -253,11 +253,12 @@ signals:
     void modelChanged();
     /** @brief inform child effects (in case of bin effect with timeline producers)
      *  that a change occurred and a param update is needed **/
-    void updateChildren(const QString &name);
+    void updateChildren(const QStringList &names);
     void compositionTrackChanged();
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
     void enabledChange(bool);
+    void showEffectZone(QPair <int, int>inOut, bool checked);
 };
 
 #endif

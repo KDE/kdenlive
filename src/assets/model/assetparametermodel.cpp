@@ -381,7 +381,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         emit modelChanged();
     }
     if (updateChildRequired) {
-        emit updateChildren(name);
+        emit updateChildren({name});
     }
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {

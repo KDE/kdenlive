@@ -60,8 +60,11 @@ public:
     bool isUnique() const override;
 
     void setCollapsed(bool collapsed);
-    bool isCollapsed();
+    bool isCollapsed() const;
+    bool hasForcedInOut() const;
     bool isValid() const;
+    QPair <int, int> getInOut() const;
+    void setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled);
 
 protected:
     EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,

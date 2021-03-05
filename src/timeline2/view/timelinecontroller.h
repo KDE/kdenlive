@@ -88,6 +88,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
+    Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -615,6 +616,8 @@ public:
     void exportSubtitle();
     /** @brief Launch speech recognition on timeline zone*/
     void subtitleSpeechRecognition();
+    /** @brief Show active effect zone for current effect*/
+    void showRulerEffectZone(QPair <int, int>inOut, bool checked);
 
 public slots:
     void resetView();
@@ -639,6 +642,7 @@ public slots:
     void setScrollPos(int pos);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
+    Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
 
 private slots:
     void updateClipActions();
@@ -681,6 +685,7 @@ private:
     int m_snapStackIndex;
     QMetaObject::Connection m_connection;
     QMetaObject::Connection m_deleteConnection;
+    QPoint m_effectZone;
 
     void initializePreview();
     bool darkBackground() const;
@@ -738,6 +743,7 @@ signals:
     /** @brief Center timeline view on current position
      */
     void centerView();
+    void effectZoneChanged();
     Q_INVOKABLE void ungrabHack();
 };
 

@@ -57,15 +57,10 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     : AbstractCollapsibleWidget(parent)
     , m_view(nullptr)
     , m_model(effectModel)
-    , m_regionEffect(false)
     , m_blockWheel(false)
 {
     QString effectId = effectModel->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
-    if (effectId == QLatin1String("region")) {
-        m_regionEffect = true;
-        decoframe->setObjectName(QStringLiteral("decoframegroup"));
-    }
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
@@ -118,12 +113,59 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
     connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, &CollapsibleEffectView::showEffectZone);
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
-
-    if (m_regionEffect) {
-        effectName.append(':' + QUrl(Xml::getXmlParameter(m_effect, QStringLiteral("resource"))).fileName());
+    
+    // In /out effect button
+    auto *layZone = new QHBoxLayout(zoneFrame);
+    layZone->setContentsMargins(0, 0, 0, 0);
+    layZone->setSpacing(0);
+    QLabel *in = new QLabel(i18n("In:"), this);
+    in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    layZone->addWidget(in);
+    QToolButton *setIn = new QToolButton(this);
+    setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
+    setIn->setAutoRaise(true);
+    setIn->setToolTip(i18n("Set zone in"));
+    layZone->addWidget(setIn);
+    m_inPos = new TimecodeDisplay(pCore->timecode(), this);
+    layZone->addWidget(m_inPos);
+    layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
+    QLabel *out = new QLabel(i18n("Out:"), this);
+    out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    layZone->addWidget(out);
+    QToolButton *setOut = new QToolButton(this);
+    setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
+    setOut->setAutoRaise(true);
+    setOut->setToolTip(i18n("Set zone out"));
+    layZone->addWidget(setOut);
+    m_outPos = new TimecodeDisplay(pCore->timecode(), this);
+    layZone->addWidget(m_outPos);
+    
+    connect(setIn, &QToolButton::clicked, [this]() {
+        m_inPos->setValue(pCore->getTimelinePosition());
+        updateEffectZone();
+    });
+    connect(setOut, &QToolButton::clicked, [this]() {
+        m_outPos->setValue(pCore->getTimelinePosition());
+        updateEffectZone();
+    });
+    
+    m_inOutButton = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Use effect zone"), this);
+    m_inOutButton->setCheckable(true);
+    inOutButton->setDefaultAction(m_inOutButton);
+    m_inOutButton->setChecked(m_model->hasForcedInOut());
+    if (m_inOutButton->isChecked()) {
+        QPair<int, int> inOut = m_model->getInOut();
+        m_inPos->setValue(inOut.first);
+        m_outPos->setValue(inOut.second);
+    } else {
+        zoneFrame->setFixedHeight(0);
     }
+    connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
+    connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
+    connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
 
     // Color thumb
     m_colorIcon->setScaledContents(true);
@@ -180,15 +222,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     }
     m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
     m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save-all")), i18n("Save Effect Stack"), this, SIGNAL(saveStack()));
-    //TODO reimplement region
-    /*if (!m_regionEffect) {
-        //if (m_info.groupIndex == -1) {
-        //    m_menu->addAction(m_groupAction);
-        //}
-        m_menu->addAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Region"), this, SLOT(slotCreateRegion()));
-    }*/
 
-    // setupWidget(info, metaInfo);
     menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     menuButton->setMenu(m_menu);
 
@@ -355,6 +389,11 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
     emit m_view->initKeyframeView(active);
+    if (m_inOutButton->isChecked()) {
+        emit showEffectZone(m_model->getInOut(), true);
+    } else {
+        emit showEffectZone({0,0}, false);
+    }
 }
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
@@ -547,7 +586,7 @@ void CollapsibleEffectView::updateHeight()
         return;
     }
     widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->height());
-    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     emit switchHeight(m_model, height());
 }
 
@@ -561,7 +600,8 @@ void CollapsibleEffectView::switchCollapsed(int row)
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->height());
-    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 :frame->height());
+    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height()+ 2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);
     emit switchHeight(m_model, height());
 }
@@ -621,7 +661,6 @@ void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement
     m_paramWidget = nullptr;
     */
     m_effect = effect;
-    setupWidget(info);
 }
 
 void CollapsibleEffectView::updateFrameInfo()
@@ -640,65 +679,6 @@ void CollapsibleEffectView::setActiveKeyframe(int kf)
     if (m_paramWidget) {
         m_paramWidget->setActiveKeyframe(kf);
     }
-    */
-}
-
-void CollapsibleEffectView::setupWidget(const ItemInfo &info)
-{
-    Q_UNUSED(info)
-    /*
-    if (m_effect.isNull()) {
-        //         //qCDebug(KDENLIVE_LOG) << "// EMPTY EFFECT STACK";
-        return;
-    }
-    delete m_paramWidget;
-    m_paramWidget = nullptr;
-
-    if (m_effect.attribute(QStringLiteral("tag")) == QLatin1String("region")) {
-        m_regionEffect = true;
-        QDomNodeList effects = m_effect.elementsByTagName(QStringLiteral("effect"));
-        QDomNodeList origin_effects = m_original_effect.elementsByTagName(QStringLiteral("effect"));
-        m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
-        QWidget *container = new QWidget(widgetFrame);
-        QVBoxLayout *vbox = static_cast<QVBoxLayout *>(widgetFrame->layout());
-        vbox->addWidget(container);
-        // m_paramWidget = new ParameterContainer(m_effect.toElement(), info, metaInfo, container);
-        for (int i = 0; i < effects.count(); ++i) {
-            bool canMoveUp = true;
-            if (i == 0 || effects.at(i - 1).toElement().attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-                canMoveUp = false;
-            }
-            CollapsibleEffectView *coll = new CollapsibleEffectView(effects.at(i).toElement(), origin_effects.at(i).toElement(), info, metaInfo, canMoveUp,
-                                                            i == effects.count() - 1, container);
-            m_subParamWidgets.append(coll);
-            connect(coll, &CollapsibleEffectView::parameterChanged, this, &CollapsibleEffectView::slotUpdateRegionEffectParams);
-            // container = new QWidget(widgetFrame);
-            vbox->addWidget(coll);
-            // p = new ParameterContainer(effects.at(i).toElement(), info, isEffect, container);
-        }
-    } else {
-        m_paramWidget = new ParameterContainer(m_effect, info, metaInfo, widgetFrame);
-        connect(m_paramWidget, &ParameterContainer::disableCurrentFilter, this, &CollapsibleEffectView::slotDisable);
-        connect(m_paramWidget, &ParameterContainer::importKeyframes, this, &CollapsibleEffectView::importKeyframes);
-        if (m_effect.firstChildElement(QStringLiteral("parameter")).isNull()) {
-            // Effect has no parameter, don't allow expand
-            collapseButton->setEnabled(false);
-            collapseButton->setVisible(false);
-            widgetFrame->setVisible(false);
-        }
-    }
-    if (collapseButton->isEnabled() && m_info.isCollapsed) {
-        widgetFrame->setVisible(false);
-        collapseButton->setArrowType(Qt::RightArrow);
-    }
-    connect(m_paramWidget, &ParameterContainer::parameterChanged, this, &CollapsibleEffectView::parameterChanged);
-
-    connect(m_paramWidget, &ParameterContainer::startFilterJob, this, &CollapsibleEffectView::startFilterJob);
-
-    connect(this, &CollapsibleEffectView::syncEffectsPos, m_paramWidget, &ParameterContainer::syncEffectsPos);
-    connect(m_paramWidget, &ParameterContainer::checkMonitorPosition, this, &CollapsibleEffectView::checkMonitorPosition);
-    connect(m_paramWidget, &ParameterContainer::seekTimeline, this, &CollapsibleEffectView::seekTimeline);
-    connect(m_paramWidget, &ParameterContainer::importClipKeyframes, this, &CollapsibleEffectView::prepareImportClipKeyframes);
     */
 }
 
@@ -876,5 +856,71 @@ void CollapsibleEffectView::enableView(bool enabled)
 void CollapsibleEffectView::blockWheenEvent(bool block)
 {
     m_blockWheel = block;
+}
+
+void CollapsibleEffectView::switchInOut(bool checked)
+{
+    QString effectId = m_model->getAssetId();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    QPair<int, int> inOut = m_model->getInOut();
+    zoneFrame->setFixedHeight(checked ? frame->height() : 0);
+    slotSwitch(m_collapse->isActive());
+    qDebug()<<"==== INITIAL IN / OUT: "<<inOut.first<<"-"<<inOut.second;
+    if (inOut.first == inOut.second || !checked) {
+        ObjectId owner = m_model->getOwnerId();
+        switch (owner.first) {
+            case ObjectType::TimelineClip:
+            {
+                qDebug()<<"==== SWITCHING TIMELINE CLIP";
+                int in = pCore->getItemIn(owner);
+                inOut = {in, in + pCore->getItemDuration(owner)};
+                break;
+            }
+            case ObjectType::TimelineTrack:
+            case ObjectType::Master:
+            {
+                qDebug()<<"==== SWITCHING MASTER/TRACK";
+                if (!checked) {
+                    inOut = {0,0};
+                } else {
+                    int in = pCore->getTimelinePosition() - 50;
+                    inOut = {in, in + 100};
+                }
+                break;
+            }
+            default:
+                qDebug()<<"== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: "<<(int) owner.first;
+                break;
+        }
+    }
+    qDebug()<<"==== SWITCHING IN / OUT: "<<inOut.first<<"-"<<inOut.second;
+    if (inOut.first > -1) {
+        m_model->setInOut(effectName, inOut, checked);
+        m_inPos->setValue(inOut.first);
+        m_outPos->setValue(inOut.second);
+    }
+}
+
+void CollapsibleEffectView::updateInOut(QPair<int, int> inOut)
+{
+    if (!m_inOutButton->isChecked()) {
+        qDebug()<<"=== CANNOT UPDATE ZONE ON EFFECT!!!";
+        return;
+    }
+    QString effectId = m_model->getAssetId();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    if (inOut.first > -1) {
+        m_model->setInOut(effectName, inOut, true);
+        m_inPos->setValue(inOut.first);
+        m_outPos->setValue(inOut.second);
+    }
+}
+
+void CollapsibleEffectView::updateEffectZone()
+{
+    QString effectId = m_model->getAssetId();
+    QString effectName = EffectsRepository::get()->getName(effectId);
+    QPair<int, int> inOut = {m_inPos->getValue(), m_outPos->getValue()};
+    m_model->setInOut(effectName, inOut, true);
 }
 

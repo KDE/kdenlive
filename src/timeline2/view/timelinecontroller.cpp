@@ -76,6 +76,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_timelinePreview(nullptr)
     , m_ready(false)
     , m_snapStackIndex(-1)
+    , m_effectZone({0,0})
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -1451,6 +1452,11 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
     };
     redo_zone();
     pCore->pushUndo(undo_zone, redo_zone, i18n("Set Zone"));
+}
+
+void TimelineController::updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo)
+{
+    pCore->updateEffectZone(newZone);
 }
 
 void TimelineController::setZoneIn(int inPoint)
@@ -4242,4 +4248,9 @@ void TimelineController::showTimelineToolInfo(bool show) const
     }
 }
 
+void TimelineController::showRulerEffectZone(QPair <int, int>inOut, bool checked)
+{
+    m_effectZone = checked ? QPoint(inOut.first, inOut.second) : QPoint();
+    emit effectZoneChanged();
+}
 

@@ -93,6 +93,29 @@ Item {
         color: 'orange'
         visible: rulerRoot.workingPreview > -1
     }
+    
+    // Effect zone
+    RulerZone {
+        id: effectZone
+        Binding {
+            target: effectZone
+            property: "frameIn"
+            value: timeline.effectZone.x
+        }
+        Binding {
+            target: effectZone
+            property: "frameOut"
+            value: timeline.effectZone.y
+        }
+        color: 'yellow'
+        opacity: 0.4
+        anchors.bottom: parent.bottom
+        height: parent.height
+        function updateZone(start, end, update)
+        {
+            timeline.updateEffectZone(start, end, update)
+        }
+    }
 
     // Ruler marks
     Repeater {
@@ -123,201 +146,26 @@ Item {
     }
 
     // monitor zone
-    Rectangle {
+    RulerZone {
         id: zone
-        visible: timeline.zoneOut > timeline.zoneIn
+        Binding {
+            target: zone
+            property: "frameIn"
+            value: timeline.zoneIn
+        }
+        Binding {
+            target: zone
+            property: "frameOut"
+            value: timeline.zoneOut
+        }
         color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.25)
-        x: timeline.zoneIn * timeline.scaleFactor
-        width: (timeline.zoneOut - timeline.zoneIn) * timeline.scaleFactor
         anchors.bottom: parent.bottom
         height: parent.height / 3
-        Rectangle {
-            id: centerDrag
-            anchors.centerIn: parent
-            height: parent.height
-            width: height
-            color: moveMouseArea.containsMouse || moveMouseArea.drag.active ? 'white' : 'transparent'
-            border.color: 'white'
-            border.width: 1.5
-            opacity: 0.5
-            Drag.active: moveMouseArea.drag.active
-            Drag.proposedAction: Qt.MoveAction
-            MouseArea {
-                id: moveMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                drag.target: zone
-                drag.axis: Drag.XAxis
-                drag.smoothed: false
-                property var startZone
-                onPressed: {
-                    startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
-                }
-                onEntered: {
-                    resizeActive = true
-                }
-                onExited: {
-                    resizeActive = false
-                }
-                onReleased: {
-                    timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
-                    resizeActive = false
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        resizeActive = true
-                        var offset = Math.round(zone.x/ timeline.scaleFactor) - timeline.zoneIn
-                        if (offset != 0) {
-                            var newPos = Math.max(0, controller.suggestSnapPoint(timeline.zoneIn + offset,root.snapping))
-                            timeline.zoneOut += newPos - timeline.zoneIn
-                            timeline.zoneIn = newPos
-                        }
-                    }
-                }
-            }
+        function updateZone(start, end, update)
+        {
+            timeline.updateZone(start, end, update)
         }
-        // Zone frame indicator
-        Rectangle {
-            visible: trimInMouseArea.drag.active || trimInMouseArea.containsMouse
-            width: inLabel.contentWidth
-            height: inLabel.contentHeight
-            anchors.bottom: zone.top
-            color: activePalette.highlight
-            Label {
-                id: inLabel
-                anchors.fill: parent
-                text: timeline.timecode(timeline.zoneIn)
-                font: miniFont
-                color: activePalette.highlightedText
-            }
-        }
-        Rectangle {
-            visible: trimOutMouseArea.drag.active || trimOutMouseArea.containsMouse
-            width: outLabel.contentWidth
-            height: outLabel.contentHeight
-            anchors.bottom: zone.top
-            color: activePalette.highlight
-            x: zone.width - outLabel.contentWidth
-            Label {
-                id: outLabel
-                anchors.fill: parent
-                text: timeline.timecode(timeline.zoneOut)
-                font: miniFont
-                color: activePalette.highlightedText
-            }
-        }
-        Rectangle {
-            id: durationRect
-            anchors.bottom: zone.top
-            visible: (!useTimelineRuler && moveMouseArea.containsMouse) || ((useTimelineRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width) || (useTimelineRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active) || moveMouseArea.drag.active
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: durationLabel.contentWidth + 4
-            height: durationLabel.contentHeight
-            color: activePalette.highlight
-            Label {
-                id: durationLabel
-                anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
-                text: timeline.timecode(timeline.zoneOut - timeline.zoneIn)
-                font: miniFont
-                color: activePalette.highlightedText
-            }
-        }
-        Rectangle {
-                id: trimIn
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                height: parent.height
-                width: 5
-                color: 'lawngreen'
-                opacity: 0
-                Drag.active: trimInMouseArea.drag.active
-                Drag.proposedAction: Qt.MoveAction
-
-                MouseArea {
-                    id: trimInMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    drag.target: parent
-                    drag.axis: Drag.XAxis
-                    drag.smoothed: false
-                    property var startZone
-                    onEntered: {
-                        resizeActive = true
-                        parent.opacity = 1
-                    }
-                    onExited: {
-                        resizeActive = false
-                        parent.opacity = 0
-                    }
-                    onPressed: {
-                        parent.anchors.left = undefined
-                        parent.opacity = 1
-                        startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
-                    }
-                    onReleased: {
-                        resizeActive = false
-                        parent.anchors.left = zone.left
-                        timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
-                    }
-                    onPositionChanged: {
-                        if (mouse.buttons === Qt.LeftButton) {
-                            resizeActive = true
-                            var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / timeline.scaleFactor), root.snapping)
-                            if (newPos < 0) {
-                                newPos = 0
-                            }
-                            timeline.zoneIn = timeline.zoneOut > -1 ? Math.min(newPos, timeline.zoneOut - 1) : newPos
-                        }
-                    }
-                }
-            }
-            Rectangle {
-                id: trimOut
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                height: parent.height
-                width: 5
-                color: 'darkred'
-                opacity: 0
-                Drag.active: trimOutMouseArea.drag.active
-                Drag.proposedAction: Qt.MoveAction
-
-                MouseArea {
-                    id: trimOutMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    drag.target: parent
-                    drag.axis: Drag.XAxis
-                    drag.smoothed: false
-                    property var startZone
-                    onEntered: {
-                        resizeActive = true
-                        parent.opacity = 1
-                    }
-                    onExited: {
-                        resizeActive = false
-                        parent.opacity = 0
-                    }
-                    onPressed: {
-                        parent.anchors.right = undefined
-                        parent.opacity = 1
-                        startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
-                    }
-                    onReleased: {
-                        resizeActive = false
-                        parent.anchors.right = zone.right
-                        timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
-                    }
-                    onPositionChanged: {
-                        if (mouse.buttons === Qt.LeftButton) {
-                            resizeActive = true
-                            timeline.zoneOut = Math.max(controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), root.snapping), timeline.zoneIn + 1)
-                        }
-                    }
-                }
-            }
     }
 }
 

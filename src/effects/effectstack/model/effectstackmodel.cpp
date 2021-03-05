@@ -679,7 +679,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             } else {
                 qDebug() << "// NULL Keyframes---------";
             }
-            if (m_ownerId.first == ObjectType::TimelineTrack) {
+            if (m_ownerId.first == ObjectType::TimelineTrack && effect->filter().get_int("kdenlive:force_in_out") == 0) {
                 int oldEffectOut = effect->filter().get_out();
                 Fun operation = [effect, out, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), out, logUndo);

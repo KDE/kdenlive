@@ -261,6 +261,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::saveStack, this, &EffectStackView::slotSaveStack);
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
+        connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
@@ -268,6 +269,16 @@ void EffectStackView::loadEffects()
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
+        connect(pCore.get(), &Core::updateEffectZone, [this](const QPoint p) {
+            // Update current effect zone
+            int i = m_model->getActiveEffect();
+            auto item = m_model->getEffectStackRow(i);
+            QModelIndex ix = m_model->getIndexFromItem(item);
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+            if (w) {
+                w->updateInOut({p.x(), p.y()});
+            }
+        });
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
@@ -395,6 +406,7 @@ void EffectStackView::unsetModel(bool reset)
     // Release ownership of smart pointer
     Kdenlive::MonitorId id = Kdenlive::NoMonitor;
     if (m_model) {
+        pCore->showEffectZone({0,0}, false);
         ObjectId item = m_model->getOwnerId();
         id = item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
