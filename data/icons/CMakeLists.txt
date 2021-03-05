@@ -49,7 +49,7 @@ ecm_install_icons(ICONS
   16-actions-keyframe-previous.svg
   16-actions-keyframe-record.svg
   16-actions-keyframe-remove.svg
-  16-actions-add-subtitle.svg
+#  16-actions-add-subtitle.svg
   22-actions-keyframe.svg
   22-actions-keyframe-add.svg
   22-actions-keyframe-disable.svg
