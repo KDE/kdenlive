@@ -106,7 +106,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     l->insertWidget(2, title);
 
     m_keyframesButton = new QToolButton(this);
-    m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustcurves")));
+    m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
     m_keyframesButton->setAutoRaise(true);
     m_keyframesButton->setCheckable(true);
     m_keyframesButton->setToolTip(i18n("Enable Keyframes"));
@@ -149,6 +149,11 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     lay->setSpacing(0);
     lay->addWidget(m_view);
     connect(m_keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
+        if(toggle) {
+            m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+        } else {
+            m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
+        }
         m_view->toggleKeyframes(toggle);
     });
     if (!effectParamModel->hasMoreThanOneKeyframe()) {

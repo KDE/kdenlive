@@ -1,3 +1,5 @@
+add_subdirectory(breeze-dark)
+
 ecm_install_icons(ICONS
   128-actions-kdenlive-select-all.png
   128-mimetypes-application-x-kdenlivetitle.png
@@ -39,6 +41,22 @@ ecm_install_icons(ICONS
   16-actions-kdenlive-zindex-up.png
   16-actions-kdenlive-zone-end.png
   16-actions-kdenlive-zone-start.png
+  16-actions-keyframe.svg
+  16-actions-keyframe-add.svg
+  16-actions-keyframe-disable.svg
+  16-actions-keyframe-duplicate.svg
+  16-actions-keyframe-next.svg
+  16-actions-keyframe-previous.svg
+  16-actions-keyframe-record.svg
+  16-actions-keyframe-remove.svg
+  22-actions-keyframe.svg
+  22-actions-keyframe-add.svg
+  22-actions-keyframe-disable.svg
+  22-actions-keyframe-duplicate.svg
+  22-actions-keyframe-next.svg
+  22-actions-keyframe-previous.svg
+  22-actions-keyframe-record.svg
+  22-actions-keyframe-remove.svg
   22-actions-kdenlive-select-all.png
   22-actions-kdenlive-spacer-tool.png
   32-actions-kdenlive-select-all.png

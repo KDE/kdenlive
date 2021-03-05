@@ -67,17 +67,17 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
-    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
     m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
     m_buttonPrevious = new QToolButton(this);
     m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-backward")));
+    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
     m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
 
     m_buttonNext = new QToolButton(this);
     m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
+    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
     
     // Move keyframe to cursor
@@ -89,7 +89,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Duplicate selected keyframe at cursor pos
     m_buttonCopy = new QToolButton(this);
     m_buttonCopy->setAutoRaise(true);
-    m_buttonCopy->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_buttonCopy->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")));
     m_buttonCopy->setToolTip(i18n("Duplicate selected keyframe"));
     
     // Apply current value to selected keyframes
@@ -351,10 +351,10 @@ void KeyframeWidget::updateTimecodeFormat()
 void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     if (atKeyframe) {
-        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
         m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     } else {
-        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
     m_buttonCenter->setEnabled(!atKeyframe);

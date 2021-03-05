@@ -72,7 +72,7 @@ MouseArea {
             }
             ToolButton {
                 objectName: "nextKeyframe"
-                icon.name: "go-next"
+                icon.name: "keyframe-next"
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Next Keyframe")
@@ -81,7 +81,7 @@ MouseArea {
             }
             ToolButton {
                 objectName: "prevKeyframe"
-                icon.name: "go-previous"
+                icon.name: "keyframe-previous"
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Previous Keyframe")
@@ -90,12 +90,23 @@ MouseArea {
             }
             ToolButton {
                 objectName: "addKeyframe"
-                icon.name: "list-add"
+                icon.name: "keyframe-add"
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Add/Remove Keyframe")
                 ToolTip.timeout: 3000
                 onClicked: controller.addRemoveKeyframe()
+            }
+            ToolButton {
+                icon.name: "keyframe-record"
+                ToolTip.visible: hovered
+                ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
+                ToolTip.text: i18n("Automatic Keyframes")
+                ToolTip.timeout: 3000
+                onClicked: controller.switchAutoKeyframe()
+                checkable: true
+                checked: controller.autoKeyframe
+                visible: barZone.showAutoKeyframe
             }
             ToolButton {
                 icon.name: "zoom-in"
@@ -112,17 +123,6 @@ MouseArea {
                 ToolTip.text: i18n("Zoom out")
                 ToolTip.timeout: 3000
                 onClicked: controller.triggerAction('monitor_zoomout')
-            }
-            ToolButton {
-                icon.name: "media-record"
-                ToolTip.visible: hovered
-                ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
-                ToolTip.text: i18n("Automatic Keyframes")
-                ToolTip.timeout: 3000
-                onClicked: controller.switchAutoKeyframe()
-                checkable: true
-                checked: controller.autoKeyframe
-                visible: barZone.showAutoKeyframe
             }
             ToolButton {
                 objectName: "moveBar"
