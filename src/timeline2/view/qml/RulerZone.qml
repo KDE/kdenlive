@@ -76,7 +76,7 @@ Rectangle {
         visible: trimInMouseArea.drag.active || trimInMouseArea.containsMouse
         width: inLabel.contentWidth
         height: inLabel.contentHeight
-        anchors.bottom: rzone.top
+        anchors.top: rzone.bottom
         color: activePalette.highlight
         Label {
             id: inLabel
@@ -90,7 +90,7 @@ Rectangle {
         visible: trimOutMouseArea.drag.active || trimOutMouseArea.containsMouse
         width: outLabel.contentWidth
         height: outLabel.contentHeight
-        anchors.bottom: rzone.top
+        anchors.top: rzone.bottom
         color: activePalette.highlight
         x: rzone.width - outLabel.contentWidth
         Label {
@@ -103,7 +103,7 @@ Rectangle {
     }
     Rectangle {
         id: durationRect
-        anchors.bottom: rzone.top
+        anchors.top: rzone.bottom
         visible: (!useTimelineRuler && moveMouseArea.containsMouse) || ((useTimelineRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width) || (useTimelineRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active) || moveMouseArea.drag.active
         anchors.horizontalCenter: parent.horizontalCenter
         width: durationLabel.contentWidth + 4

@@ -817,8 +817,7 @@ Rectangle {
                     height: trackHeaders.height + subtitleTrackHeader.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
-                        var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
-                        scrollView.contentY = Math.max(newScroll, 0)
+                        zoomByWheel(wheel)
                     }
                 }
                 Rectangle {
@@ -1084,6 +1083,16 @@ Rectangle {
                     } else {
                         timeline.triggerAction('monitor_seek_snap_forward')
                     }
+                } else if (wheel.modifiers & Qt.ControlModifier) {
+                    root.wheelAccumulatedDelta += wheel.angleDelta.y;
+                    // Zoom
+                    if (root.wheelAccumulatedDelta >= defaultDeltasPerStep) {
+                        root.zoomIn(true);
+                        root.wheelAccumulatedDelta = 0;
+                    } else if (root.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
+                        root.zoomOut(true);
+                        root.wheelAccumulatedDelta = 0;
+                    }
                 } else {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
@@ -1330,7 +1339,7 @@ Rectangle {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
                     width: root.width - headerWidth
-                    height: root.baseUnit * 2
+                    height: root.baseUnit * 2.5
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1339,15 +1348,6 @@ Rectangle {
                         id: ruler
                         width: rulercontainer.contentWidth
                         height: parent.height
-                        /*Rectangle {
-                            id: seekCursor
-                            visible: proxy.seekPosition > -1
-                            color: activePalette.highlight
-                            width: 4
-                            height: ruler.height
-                            opacity: 0.5
-                            x: proxy.seekPosition * timeline.scaleFactor
-                        }*/
                         TimelinePlayhead {
                             id: playhead
                             height: root.baseUnit * .8

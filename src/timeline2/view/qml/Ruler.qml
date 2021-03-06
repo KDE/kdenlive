@@ -46,6 +46,7 @@ Item {
         }
         rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
+        tickRepeater.model = Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
     }
 
     function adjustFormat() {
@@ -57,7 +58,7 @@ Item {
     function repaintRuler() {
         // Enforce repaint
         tickRepeater.model = 0
-        tickRepeater.model = scrollView.width / rulerRoot.tickSpacing + 2
+        tickRepeater.model = Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
     }
 
     // Timeline preview stuff
@@ -94,6 +95,70 @@ Item {
         visible: rulerRoot.workingPreview > -1
     }
     
+    // Ruler marks
+    Repeater {
+        id: tickRepeater
+        model: Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
+        property int offset: Math.floor(scrollView.contentX /rulerRoot.tickSpacing)
+        Item {
+            property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
+            x: realPos * timeline.scaleFactor
+            height: parent.height
+            property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: root.baseUnit / 2
+                height: parent.showText ? 8 : 4
+                width: 1
+                color: activePalette.windowText
+                opacity: 0.5
+            }
+            Label {
+                visible: parent.showText
+                anchors.top: parent.top
+                //anchors.topMargin: 2
+                text: timeline.timecode(parent.realPos)
+                font: miniFont
+                color: activePalette.windowText
+            }
+        }
+    }
+
+    // monitor zone
+    Rectangle {
+        width: rulerRoot.width
+        height: 1
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: root.baseUnit / 2
+        color: activePalette.shadow
+        Rectangle {
+            width: rulerRoot.width
+            height: 1
+            anchors.top: parent.bottom
+            color: activePalette.light
+        }
+    }
+    RulerZone {
+        id: zone
+        Binding {
+            target: zone
+            property: "frameIn"
+            value: timeline.zoneIn
+        }
+        Binding {
+            target: zone
+            property: "frameOut"
+            value: timeline.zoneOut
+        }
+        color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
+        Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
+        anchors.bottom: parent.bottom
+        height: root.baseUnit / 2
+        function updateZone(start, end, update)
+        {
+            timeline.updateZone(start, end, update)
+        }
+    }
     // Effect zone
     RulerZone {
         id: effectZone
@@ -108,63 +173,12 @@ Item {
             value: timeline.effectZone.y
         }
         color: 'yellow'
-        opacity: 0.4
+        opacity: 0.9
         anchors.bottom: parent.bottom
-        height: parent.height
+        height: root.baseUnit / 2
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)
-        }
-    }
-
-    // Ruler marks
-    Repeater {
-        id: tickRepeater
-        model: scrollView.width / rulerRoot.tickSpacing + 2
-        property int offset: Math.floor(scrollView.contentX /rulerRoot.tickSpacing)
-        Item {
-            property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
-            x: realPos * timeline.scaleFactor
-            height: parent.height
-            property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
-            Rectangle {
-                anchors.bottom: parent.bottom
-                height: parent.showText ? 8 : 4
-                width: 1
-                color: activePalette.windowText
-                opacity: 0.5
-            }
-            Label {
-                visible: parent.showText
-                anchors.top: parent.top
-                anchors.topMargin: 2
-                text: timeline.timecode(parent.realPos)
-                font: miniFont
-                color: activePalette.windowText
-            }
-        }
-    }
-
-    // monitor zone
-    RulerZone {
-        id: zone
-        Binding {
-            target: zone
-            property: "frameIn"
-            value: timeline.zoneIn
-        }
-        Binding {
-            target: zone
-            property: "frameOut"
-            value: timeline.zoneOut
-        }
-        color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5) :
-        Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.25)
-        anchors.bottom: parent.bottom
-        height: parent.height / 3
-        function updateZone(start, end, update)
-        {
-            timeline.updateZone(start, end, update)
         }
     }
 }

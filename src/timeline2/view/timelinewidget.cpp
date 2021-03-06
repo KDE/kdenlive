@@ -197,6 +197,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     setVisible(true);
     loading = false;
     m_proxy->checkDuration();
+    // Ensure timeline timecode get correctly painted
+    m_proxy->frameFormatChanged();
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
