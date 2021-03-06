@@ -2052,6 +2052,12 @@ void TitleWidget::loadTitle(QUrl url)
                                           i18n("Kdenlive title (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
+        if (anim_start->isChecked()) {
+            anim_start->setChecked(false);
+        }
+        if (anim_end->isChecked()) {
+            anim_end->setChecked(false);
+        }
         // make sure we don't delete the guides
         qDeleteAll(m_guides);
         m_guides.clear();
