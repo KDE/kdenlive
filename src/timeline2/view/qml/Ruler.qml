@@ -116,7 +116,7 @@ Item {
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
-                //anchors.topMargin: 2
+                opacity: 0.7
                 text: timeline.timecode(parent.realPos)
                 font: miniFont
                 color: activePalette.windowText

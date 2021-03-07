@@ -763,6 +763,8 @@ Rectangle {
                 height: ruler.height
                 Button {
                     text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : i18nc("Initial for Master", "M")
+                    font: miniFont
+                    flat: true
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
@@ -1339,7 +1341,7 @@ Rectangle {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
                     width: root.width - headerWidth
-                    height: root.baseUnit * 2.5
+                    height: Math.round(root.baseUnit * 2.5)
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
