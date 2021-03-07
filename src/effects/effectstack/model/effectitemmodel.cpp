@@ -244,8 +244,9 @@ QPair <int, int> EffectItemModel::getInOut() const
 void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled)
 {
     QPair<int, int>currentInOut = {m_asset->get_int("in"), m_asset->get_int("out")};
-    Fun undo = [this, enabled, currentInOut]() {
-        m_asset->set("kdenlive:force_in_out", enabled ? 0 : 1);
+    int currentState = m_asset->get_int("kdenlive:force_in_out");
+    Fun undo = [this, currentState, currentInOut]() {
+        m_asset->set("kdenlive:force_in_out", currentState);
         m_asset->set("in", currentInOut.first);
         m_asset->set("out", currentInOut.second);
         emit AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
@@ -253,7 +254,7 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds,
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        emit showEffectZone(currentInOut, enabled);
+        emit showEffectZone(currentInOut, currentState == 1);
         return true;
     };
     Fun redo = [this, enabled, bounds]() {

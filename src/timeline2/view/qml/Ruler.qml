@@ -190,7 +190,7 @@ Item {
             height: 2
             width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
             color: 'blueviolet'
-            opacity: 0.5
+            opacity: 0.8
             anchors.bottom: parent.bottom
         }
     }
