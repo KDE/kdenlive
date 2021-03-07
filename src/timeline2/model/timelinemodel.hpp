@@ -436,6 +436,9 @@ public:
     void plantMix(int tid, Mlt::Transition *t);
     bool removeMixWithUndo(int cid, Fun &undo, Fun &redo);
     bool removeMix(int cid);
+    /**  @brief Returns a list of the master effects zones
+     */
+    QVariantList getMasterEffectZones() const;
 
 protected:
     /** @brief Creates a new clip instance without inserting it.

@@ -4254,3 +4254,9 @@ void TimelineController::showRulerEffectZone(QPair <int, int>inOut, bool checked
     emit effectZoneChanged();
 }
 
+void TimelineController::updateMasterZones(QVariantList zones)
+{
+    m_masterEffectZones = zones;
+    emit masterZonesChanged();
+}
+

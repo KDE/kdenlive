@@ -60,6 +60,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
+    Q_PROPERTY(QVariantList masterEffectZones MEMBER m_masterEffectZones NOTIFY masterZonesChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
@@ -618,6 +619,8 @@ public:
     void subtitleSpeechRecognition();
     /** @brief Show active effect zone for current effect*/
     void showRulerEffectZone(QPair <int, int>inOut, bool checked);
+    /** @brief Set the list of master effect zones */
+    void updateMasterZones(QVariantList zones);
 
 public slots:
     void resetView();
@@ -686,6 +689,7 @@ private:
     QMetaObject::Connection m_connection;
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
+    QVariantList m_masterEffectZones;
 
     void initializePreview();
     bool darkBackground() const;
@@ -744,6 +748,7 @@ signals:
      */
     void centerView();
     void effectZoneChanged();
+    void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
 };
 

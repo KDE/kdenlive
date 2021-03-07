@@ -1055,6 +1055,7 @@ void Core::showEffectZone(QPair <int, int>inOut, bool checked)
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
+        m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
 }
 

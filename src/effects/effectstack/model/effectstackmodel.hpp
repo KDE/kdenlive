@@ -147,6 +147,9 @@ public:
     
     /** @brief Remove all effects for this stack */
     void removeAllEffects(Fun &undo, Fun & redo);
+    
+    /** @brief Returns a list of zones for all effects */
+    QVariantList getEffectZones() const;
 
 public slots:
     /** @brief Delete an effect from the stack */

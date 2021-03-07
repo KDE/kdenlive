@@ -5248,3 +5248,10 @@ std::pair<int, GenTime> TimelineModel::getSubtitleIdFromIndex(int index) const
     return {it->first, it->second};
 }
 
+QVariantList TimelineModel::getMasterEffectZones() const
+{
+    if (m_masterStack) {
+        return m_masterStack->getEffectZones();
+    }
+    return {};
+}

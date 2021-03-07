@@ -34,7 +34,8 @@ Item {
     property int zoneHeight: Math.ceil(root.baseUnit / 2)
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
-
+    property var effectZones: timeline.masterEffectZones
+    
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
             // Frame size >= 20 pixels
@@ -173,13 +174,24 @@ Item {
             property: "frameOut"
             value: timeline.effectZone.y
         }
-        color: 'yellow'
-        opacity: 0.9
+        color: 'blueviolet'
+        opacity: 0.7
         anchors.bottom: parent.bottom
         height: zoneHeight
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)
+        }
+    }
+    Repeater {
+        model: effectZones
+        Rectangle {
+            x: effectZones[index].x * timeline.scaleFactor
+            height: 2
+            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
+            color: 'blueviolet'
+            opacity: 0.5
+            anchors.bottom: parent.bottom
         }
     }
 }

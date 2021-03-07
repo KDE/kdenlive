@@ -1391,3 +1391,16 @@ bool EffectStackModel::hasEffect(const QString &assetId) const
     }
     return false;
 }
+
+QVariantList EffectStackModel::getEffectZones() const
+{
+    QVariantList effectZones;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (item->hasForcedInOut()) {
+            QPair<int, int> z = item->getInOut();
+            effectZones << QPoint(z.first, z.second);
+        }
+    }
+    return effectZones;
+}
