@@ -343,7 +343,7 @@ Rectangle {
     }
 
     property int activeTool: 0
-    property real baseUnit: fontMetrics.font.pixelSize
+    property real baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     property real fontUnit: fontMetrics.font.pointSize
     property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     property int minHeaderWidth: 6 * collapsedHeight

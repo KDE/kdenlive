@@ -31,6 +31,7 @@ Item {
     property int workingPreview : timeline.workingPreview
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
+    property int zoneHeight: Math.ceil(root.baseUnit / 2)
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
 
@@ -129,7 +130,7 @@ Item {
         width: rulerRoot.width
         height: 1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: root.baseUnit / 2
+        anchors.bottomMargin: zoneHeight
         color: activePalette.shadow
         Rectangle {
             width: rulerRoot.width
@@ -153,7 +154,7 @@ Item {
         color: useTimelineRuler ? Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.9) :
         Qt.rgba(activePalette.highlight.r,activePalette.highlight.g,activePalette.highlight.b,0.5)
         anchors.bottom: parent.bottom
-        height: root.baseUnit / 2
+        height: zoneHeight
         function updateZone(start, end, update)
         {
             timeline.updateZone(start, end, update)
@@ -175,7 +176,7 @@ Item {
         color: 'yellow'
         opacity: 0.9
         anchors.bottom: parent.bottom
-        height: root.baseUnit / 2
+        height: zoneHeight
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)
