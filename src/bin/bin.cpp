@@ -2137,7 +2137,7 @@ void Bin::slotInitView(QAction *action)
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(this);
-    QSize zoom = m_iconSize * (m_slider->value() / 4.0);
+    QSize zoom = m_iconSize * ((m_listType == BinIconView ? qMax(1, m_slider->value()) : m_slider->value()) / 4.0);
     m_itemView->setIconSize(zoom);
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
@@ -2253,7 +2253,7 @@ void Bin::slotSetIconSize(int size)
     }
     KdenliveSettings::setBin_zoom(size);
     QSize zoom = m_iconSize;
-    zoom = zoom * (size / 4.0);
+    zoom = zoom * ((m_listType == BinIconView ? qMax(1,size) : size) / 4.0);
     m_itemView->setIconSize(zoom);
     if (m_listType == BinIconView) {
         auto *view = static_cast<MyListView *>(m_itemView);
