@@ -30,6 +30,7 @@
 #include <QTextEdit>
 #include <QMouseEvent>
 #include <QTimer>
+#include <QTemporaryFile>
 
 class ProjectClip;
 
@@ -179,6 +180,7 @@ protected:
 
 private:
     std::unique_ptr<QProcess> m_speechJob;
+    std::unique_ptr<QProcess> m_tCodeJob;
     /** @brief Id of the master bin clip on which speech processing is done */
     QString m_binId;
     /** @brief Id of the playlist which is processed from the master clip */
@@ -195,6 +197,7 @@ private:
     QString m_playlist;
     QTimer m_hideTimer;
     double m_clipOffset;
+    QTemporaryFile m_playlistWav;
 };
 
 #endif

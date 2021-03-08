@@ -604,6 +604,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(button_abort, &QToolButton::clicked, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
+        } else if (m_tCodeJob && m_tCodeJob->state() == QProcess::Running) {
+            m_tCodeJob->kill();
         }
     });
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
@@ -793,7 +795,7 @@ void TextBasedEdit::startRecognition()
     m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
     if (clip == nullptr) {
-        showMessage(i18n("Select a clip in Project Bin."), KMessageWidget::Information);
+        showMessage(i18n("Select a clip with audio in Project Bin."), KMessageWidget::Information);
         return;
     }
 
@@ -811,11 +813,13 @@ void TextBasedEdit::startRecognition()
     m_clipOffset = 0;
     m_lastPosition = 0;
     double endPos = 0;
+    bool hasAudio = false;
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
         if (clipItem) {
             m_sourceUrl = clipItem->url();
             clipName = clipItem->clipName();
+            hasAudio = clipItem->hasAudio();
             if (speech_zone->isChecked()) {
                 // Analyse clip zone only
                 QPoint zone = clipItem->zone();
@@ -832,6 +836,7 @@ void TextBasedEdit::startRecognition()
         if (clipItem) {
             auto master = clipItem->getMasterClip();
             m_sourceUrl = master->url();
+            hasAudio = master->hasAudio();
             clipName = master->clipName();
             QPoint zone = clipItem->zone();
             m_lastPosition = zone.x();
@@ -840,21 +845,68 @@ void TextBasedEdit::startRecognition()
             endPos = m_clipDuration;
         }
     }
-    if (m_sourceUrl.isEmpty()) {
-        showMessage(i18n("Select a clip for speech recognition."), KMessageWidget::Information);
+    if (m_sourceUrl.isEmpty() || !hasAudio) {
+        showMessage(i18n("Select a clip with audio for speech recognition."), KMessageWidget::Information);
         return;
     }
-    showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
     clipNameLabel->setText(clipName);
-    qApp->processEvents();
-    connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
-    connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
-    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
-    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_clipOffset<<", DUR: "<<endPos;
-    button_add->setEnabled(false);
-    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
-    speech_progress->setValue(0);
-    frame_progress->setVisible(true);
+    if (clip->clipType() == ClipType::Playlist) {
+        // We need to extract audio first
+        m_playlistWav.remove();
+        m_playlistWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
+        if (!m_playlistWav.open()) {
+            showMessage(i18n("Cannot create temporary file."), KMessageWidget::Warning);
+            return;
+        }
+        m_playlistWav.close();
+
+        showMessage(i18n("Extracting audio for %1.", clipName), KMessageWidget::Information);
+        qApp->processEvents();
+        m_tCodeJob.reset(new QProcess(this));
+        m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+            qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";
+            if (status == QProcess::CrashExit) {
+                showMessage(i18n("Audio extract failed."), KMessageWidget::Warning);
+                speech_progress->setValue(0);
+                frame_progress->setVisible(false);
+                m_playlistWav.remove();
+                return;
+            }
+            showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
+            qApp->processEvents();
+            connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
+            connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
+            connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this](int code, QProcess::ExitStatus status) {
+                m_playlistWav.remove();
+                slotProcessSpeechStatus(code, status);
+            });
+            m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_playlistWav.fileName(), QString::number(m_clipOffset), QString::number(endPos)});
+            speech_progress->setValue(0);
+            frame_progress->setVisible(true);
+        });
+        connect(m_tCodeJob.get(), &QProcess::readyReadStandardOutput, [this]() {
+            QString saveData = QString::fromUtf8(m_tCodeJob->readAllStandardOutput());
+            qDebug()<<"+GOT OUTUT: "<<saveData;
+            saveData = saveData.section(QStringLiteral("percentage:"), 1).simplified();
+            int percent = saveData.section(QLatin1Char(' '), 0, 0).toInt();
+            speech_progress->setValue(percent);
+        });
+        m_tCodeJob->start(KdenliveSettings::rendererpath(), {QStringLiteral("-progress"), m_sourceUrl, QStringLiteral("-consumer"), QString("avformat:%1").arg(m_playlistWav.fileName()), QStringLiteral("vn=1"), QStringLiteral("ar=16000")});
+        speech_progress->setValue(0);
+        frame_progress->setVisible(true);
+    } else {
+        showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
+        qApp->processEvents();
+        connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
+        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
+        connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
+        qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_clipOffset<<", DUR: "<<endPos;
+        button_add->setEnabled(false);
+        m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
+        speech_progress->setValue(0);
+        frame_progress->setVisible(true);
+    }
 }
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
