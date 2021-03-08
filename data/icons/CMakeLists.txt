@@ -1,4 +1,4 @@
-#add_subdirectory(breeze-dark)
+add_subdirectory(breeze-dark)
 
 ecm_install_icons(ICONS
   128-actions-kdenlive-select-all.png
