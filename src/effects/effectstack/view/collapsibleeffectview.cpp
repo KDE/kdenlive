@@ -113,7 +113,18 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
     connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
-    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, &CollapsibleEffectView::showEffectZone);
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, [this] (QPair <int, int>inOut, bool checked) {
+        m_inOutButton->setChecked(checked);
+        zoneFrame->setFixedHeight(checked ? frame->height() : 0);
+        slotSwitch(m_collapse->isActive());
+        if (checked) {
+            QSignalBlocker bk(m_inPos);
+            QSignalBlocker bk2(m_outPos);
+            m_inPos->setValue(inOut.first);
+            m_outPos->setValue(inOut.second);
+        }
+        emit showEffectZone(inOut, checked);
+    });
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
     
