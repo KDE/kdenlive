@@ -663,6 +663,7 @@ int CollapsibleEffectView::effectIndex() const
 
 void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement &effect)
 {
+    Q_UNUSED(info)
     // cleanup
     /*
     delete m_paramWidget;

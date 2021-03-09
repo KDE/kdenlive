@@ -28,7 +28,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
     if (mlt_level > mlt_log_get_level())
         return;
     QString message;
-    mlt_properties properties = service? MLT_SERVICE_PROPERTIES((mlt_service) service) : nullptr;
+    mlt_properties properties = service? MLT_SERVICE_PROPERTIES(mlt_service(service)) : nullptr;
     if (properties) {
         char *mlt_type = mlt_properties_get(properties, "mlt_type");
         char *service_name = mlt_properties_get(properties, "mlt_service");
@@ -67,9 +67,9 @@ MltConnection::MltConnection(const QString &mltPath)
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
 
 #ifdef Q_OS_FREEBSD
-    auto locale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
+    setlocale(MLT_LC_CATEGORY, nullptr);
 #else
-    auto locale = strdup(std::setlocale(MLT_LC_CATEGORY, nullptr));
+    std::setlocale(MLT_LC_CATEGORY, nullptr);
 #endif
 
     locateMeltAndProfilesPath(mltPath);

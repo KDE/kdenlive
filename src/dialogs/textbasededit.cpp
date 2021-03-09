@@ -865,7 +865,9 @@ void TextBasedEdit::startRecognition()
         qApp->processEvents();
         m_tCodeJob = std::make_unique<QProcess>(this);
         m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
-        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+            Q_UNUSED(code)
             qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";
             if (status == QProcess::CrashExit) {
                 showMessage(i18n("Audio extract failed."), KMessageWidget::Warning);

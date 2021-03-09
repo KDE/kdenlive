@@ -454,8 +454,10 @@ bool LoadJob::startJob()
     QMimeDatabase db;
     const QString mime = db.mimeTypeForFile(m_resource).name();
     const bool isGif = mime.contains(QLatin1String("image/gif"));
-    if (duration == 0 && (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
-        type == ClipType::SlideShow) || (isGif && mltService == QLatin1String("qimage"))) {
+    if ((duration == 0 && (
+                type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText
+                || type == ClipType::Color || type == ClipType::Image || type == ClipType::SlideShow))
+            || (isGif && mltService == QLatin1String("qimage"))) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();

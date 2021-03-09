@@ -66,12 +66,10 @@ bool TranscodeJob::startJob()
     int fileCount = 1;
     QString num = QString::number(fileCount).rightJustified(4, '0', false);
     QString path = fileName + num + transcoderExt;
-    bool updatedPath = false;
     while (dir.exists(path)) {
         ++fileCount;
         num = QString::number(fileCount).rightJustified(4, '0', false);
         path = fileName + num + transcoderExt;
-        updatedPath = true;
     }
     m_destUrl = dir.absoluteFilePath(fileName);
     m_destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
@@ -142,7 +140,7 @@ bool TranscodeJob::startJob()
             m_done = true;
             return false;
         }
-        m_jobDuration = (int)binClip->duration().seconds();
+        m_jobDuration = int(binClip->duration().seconds());
         parameters << QStringLiteral("-y");
         if (m_inPoint > -1) {
             parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
@@ -208,7 +206,7 @@ void TranscodeJob::processLogInfo()
                     if (numbers.size() < 3) {
                         return;
                     }
-                    m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    m_jobDuration = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
@@ -216,15 +214,15 @@ void TranscodeJob::processLogInfo()
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
-                    progress = (int)time.toDouble();
+                    progress = int(time.toDouble());
                     if (progress == 0) {
                         return;
                     }
                 } else {
-                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                    progress = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
                 }
             }
-            emit jobProgress((int)(100.0 * progress / m_jobDuration));
+            emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output

@@ -83,8 +83,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
     , m_modified(false)
     , m_shuttleModified(false)
-    , m_mappable_actions(std::move(mappable_actions))
     , m_voskUpdated(false)
+    , m_mappable_actions(std::move(mappable_actions))
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
