@@ -58,6 +58,9 @@ Item {
     property var topRight: []
     property var bottomLeft: []
     property bool showToolbar: false
+    property string emptyCanvasKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> to close shape.")
+    property string defaultKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Double click</shortcut> on center to resize, <shortcut>Double click</shortcut> on line segment to add new point, <shortcut>Double click</shortcut> point to delete it, <shortcut>Double click</shortcut> background to create new keyframe, <shortcut>Hover right</shortcut> for toolbar");
+    property string resizeKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged()
     signal seekToKeyframe()
@@ -75,6 +78,13 @@ Item {
             root.displayResize = false
         }
         canvas.requestPaint()
+    }
+    onDisplayResizeChanged: {
+        controller.setWidgetKeyBinding(root.displayResize ? resizeKeyBindInfo : defaultKeyBindInfo);
+    }
+
+    onIsDefinedChanged: {
+        controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
     }
 
     onAutoKeyframeChanged: {
@@ -369,7 +379,13 @@ Item {
         hoverEnabled: true
         cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0 || resizeContainsMouse > 0 ) ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: {
-            controller.setWidgetKeyBinding(i18n("<b>Double click</b> on center to resize, <b>Double click</b> on line segment to add new point, <b>Double click</b> point to delete it, <b>Double click</b> background to create new keyframe, <b>Hover right</b> for toolbar"));
+            if(!root.isDefined) {
+                controller.setWidgetKeyBinding(emptyCanvasKeyBindInfo);
+            } else if(root.displayResize){
+                controller.setWidgetKeyBinding(resizeKeyBindInfo);
+            } else {
+                controller.setWidgetKeyBinding(defaultKeyBindInfo);
+            }
         }
         onExited: {
             controller.setWidgetKeyBinding()
@@ -509,6 +525,10 @@ Item {
                         // left resize
                         movingCorner = Qt.point(bottomLeft.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
                         referenceCorner = Qt.point(topRight.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
+                    }
+                    if(mouse.modifiers && mouse.modifiers === Qt.ShiftModifier) {
+                        console.log("Center Resize")
+                        referenceCorner = Qt.point(centerCross.x, centerCross.y)
                     }
                     var originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
                     var mouseDist = Math.sqrt( Math.pow(mouseX - referenceCorner.x, 2) + Math.pow(mouseY - referenceCorner.y, 2) );
