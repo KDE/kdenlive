@@ -527,7 +527,6 @@ Item {
                         referenceCorner = Qt.point(topRight.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
                     }
                     if(mouse.modifiers && mouse.modifiers === Qt.ShiftModifier) {
-                        console.log("Center Resize")
                         referenceCorner = Qt.point(centerCross.x, centerCross.y)
                     }
                     var originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
