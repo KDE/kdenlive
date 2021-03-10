@@ -515,14 +515,14 @@ Item {
                     var factor = Math.max(0.1, mouseDist / originalDist)
                     for (var j = 0; j < root.centerPoints.length; j++) {
                         if (root.resizeContainsMouse != 5 && root.resizeContainsMouse!= 7) {
-                            root.centerPoints[j].x = (referenceCorner.x + (root.centerPoints[j].x * root.scalex - referenceCorner.x) * factor) / root.scalex
-                            root.centerPointsTypes[j * 2].x = (referenceCorner.x + (root.centerPointsTypes[j * 2].x * root.scalex - referenceCorner.x) * factor) / root.scalex
-                            root.centerPointsTypes[j * 2 + 1].x = (referenceCorner.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - referenceCorner.x) * factor) / root.scalex
+                            root.centerPoints[j].x = (referenceCorner.x - frame.x + (root.centerPoints[j].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2].x = (referenceCorner.x - frame.x + (root.centerPointsTypes[j * 2].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2 + 1].x = (referenceCorner.x - frame.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
                         }
                         if (root.resizeContainsMouse != 6 && root.resizeContainsMouse!= 8) {
-                            root.centerPoints[j].y = (referenceCorner.y + (root.centerPoints[j].y * root.scaley - referenceCorner.y) * factor) / root.scaley
-                            root.centerPointsTypes[j * 2].y = (referenceCorner.y + (root.centerPointsTypes[j * 2].y * root.scaley - referenceCorner.y) * factor) / root.scaley
-                            root.centerPointsTypes[j * 2 + 1].y = (referenceCorner.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - referenceCorner.y) * factor) / root.scaley
+                            root.centerPoints[j].y = (referenceCorner.y - frame.y + (root.centerPoints[j].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2].y = (referenceCorner.y - frame.y + (root.centerPointsTypes[j * 2].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2 + 1].y = (referenceCorner.y - frame.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
                         }
                     }
                     canvas.requestPaint()
