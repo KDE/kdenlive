@@ -167,7 +167,8 @@ public:
         GrabbedRole,        /// clip+composition only
         SelectedRole,       /// clip+composition only
         TrackActiveRole,    /// track only
-        AudioRecordRole     /// track only
+        AudioRecordRole,    /// track only
+        EffectZonesRole     /// track only
     };
 
     ~TimelineModel() override;

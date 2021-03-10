@@ -100,12 +100,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     title = new KSqueezedTextLabel(this);
     l->insertWidget(2, title);
 
-    m_keyframesButton = new QToolButton(this);
-    m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
-    m_keyframesButton->setAutoRaise(true);
-    m_keyframesButton->setCheckable(true);
-    m_keyframesButton->setToolTip(i18n("Enable Keyframes"));
-    l->insertWidget(3, m_keyframesButton);
+    keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+    keyframesButton->setCheckable(true);
+    keyframesButton->setToolTip(i18n("Enable Keyframes"));
 
     // Enable button
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
@@ -113,7 +110,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
     connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
-    connect(m_model.get(), &AssetParameterModel::showEffectZone, [this] (QPair <int, int>inOut, bool checked) {
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=] (ObjectId id, QPair <int, int>inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
         slotSwitch(m_collapse->isActive());
@@ -123,7 +120,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
             m_inPos->setValue(inOut.first);
             m_outPos->setValue(inOut.second);
         }
-        emit showEffectZone(inOut, checked);
+        emit showEffectZone(id, inOut, checked);
     });
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
@@ -154,11 +151,11 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_outPos = new TimecodeDisplay(pCore->timecode(), this);
     layZone->addWidget(m_outPos);
     
-    connect(setIn, &QToolButton::clicked, [this]() {
+    connect(setIn, &QToolButton::clicked, this, [=]() {
         m_inPos->setValue(pCore->getTimelinePosition());
         updateEffectZone();
     });
-    connect(setOut, &QToolButton::clicked, [this]() {
+    connect(setOut, &QToolButton::clicked, this, [=]() {
         m_outPos->setValue(pCore->getTimelinePosition());
         updateEffectZone();
     });
@@ -174,6 +171,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     } else {
         zoneFrame->setFixedHeight(0);
     }
+    inOutButton->setVisible(m_model->getOwnerId().first != ObjectType::TimelineClip);
     connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
@@ -196,16 +194,16 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     });
     connect(m_view, &AssetParameterView::updateHeight, this, &CollapsibleEffectView::updateHeight);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
-    m_keyframesButton->setVisible(m_view->keyframesAllowed());
+    keyframesButton->setVisible(m_view->keyframesAllowed());
     auto *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
     lay->addWidget(m_view);
-    connect(m_keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
+    connect(keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
         if(toggle) {
-            m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+            keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
         } else {
-            m_keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
+            keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
         }
         m_view->toggleKeyframes(toggle);
     });
@@ -215,10 +213,10 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         if (hideByDefault) {
             m_view->toggleKeyframes(false);
         } else {
-            m_keyframesButton->setChecked(true);
+            keyframesButton->setChecked(true);
         }
     } else {
-        m_keyframesButton->setChecked(true);
+        keyframesButton->setChecked(true);
     }
     // Presets
     presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
@@ -401,9 +399,9 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     }
     emit m_view->initKeyframeView(active);
     if (m_inOutButton->isChecked()) {
-        emit showEffectZone(m_model->getInOut(), true);
+        emit showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {
-        emit showEffectZone({0,0}, false);
+        emit showEffectZone(m_model->getOwnerId(), {0,0}, false);
     }
 }
 
@@ -876,13 +874,11 @@ void CollapsibleEffectView::switchInOut(bool checked)
     QPair<int, int> inOut = m_model->getInOut();
     zoneFrame->setFixedHeight(checked ? frame->height() : 0);
     slotSwitch(m_collapse->isActive());
-    qDebug()<<"==== INITIAL IN / OUT: "<<inOut.first<<"-"<<inOut.second;
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
         switch (owner.first) {
             case ObjectType::TimelineClip:
             {
-                qDebug()<<"==== SWITCHING TIMELINE CLIP";
                 int in = pCore->getItemIn(owner);
                 inOut = {in, in + pCore->getItemDuration(owner)};
                 break;
@@ -890,12 +886,11 @@ void CollapsibleEffectView::switchInOut(bool checked)
             case ObjectType::TimelineTrack:
             case ObjectType::Master:
             {
-                qDebug()<<"==== SWITCHING MASTER/TRACK";
                 if (!checked) {
                     inOut = {0,0};
                 } else {
-                    int in = pCore->getTimelinePosition() - 50;
-                    inOut = {in, in + 100};
+                    int in = pCore->getTimelinePosition();
+                    inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
                 }
                 break;
             }
@@ -906,13 +901,13 @@ void CollapsibleEffectView::switchInOut(bool checked)
     }
     qDebug()<<"==== SWITCHING IN / OUT: "<<inOut.first<<"-"<<inOut.second;
     if (inOut.first > -1) {
-        m_model->setInOut(effectName, inOut, checked);
+        m_model->setInOut(effectName, inOut, checked, true);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
     }
 }
 
-void CollapsibleEffectView::updateInOut(QPair<int, int> inOut)
+void CollapsibleEffectView::updateInOut(QPair<int, int> inOut, bool withUndo)
 {
     if (!m_inOutButton->isChecked()) {
         qDebug()<<"=== CANNOT UPDATE ZONE ON EFFECT!!!";
@@ -921,7 +916,7 @@ void CollapsibleEffectView::updateInOut(QPair<int, int> inOut)
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     if (inOut.first > -1) {
-        m_model->setInOut(effectName, inOut, true);
+        m_model->setInOut(effectName, inOut, true, withUndo);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
     }
@@ -932,6 +927,6 @@ void CollapsibleEffectView::updateEffectZone()
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     QPair<int, int> inOut = {m_inPos->getValue(), m_outPos->getValue()};
-    m_model->setInOut(effectName, inOut, true);
+    m_model->setInOut(effectName, inOut, true, true);
 }
 

@@ -247,6 +247,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[TrackActiveRole] = "trackActive";
     roles[EffectNamesRole] = "effectNames";
     roles[EffectsEnabledRole] = "isStackEnabled";
+    roles[EffectZonesRole] = "effectZones";
     roles[GrabbedRole] = "isGrabbed";
     roles[SelectedRole] = "selected";
     return roles;
@@ -409,6 +410,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case EffectsEnabledRole: {
             return getTrackById_const(id)->stackEnabled();
+        }
+        case EffectZonesRole: {
+            return getTrackById_const(id)->stackZones();
         }
         default:
             break;

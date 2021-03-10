@@ -64,7 +64,7 @@ public:
     bool hasForcedInOut() const;
     bool isValid() const;
     QPair <int, int> getInOut() const;
-    void setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled);
+    void setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled, bool withUndo);
 
 protected:
     EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,

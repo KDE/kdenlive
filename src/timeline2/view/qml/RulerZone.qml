@@ -74,13 +74,14 @@ Rectangle {
     // Zone frame indicator
     Rectangle {
         visible: trimInMouseArea.drag.active || trimInMouseArea.containsMouse
-        width: inLabel.contentWidth
+        width: inLabel.contentWidth + 4
         height: inLabel.contentHeight
-        anchors.top: rzone.bottom
+        anchors.bottom: rzone.top
         color: activePalette.highlight
         Label {
             id: inLabel
             anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
             text: timeline.timecode(frameIn)
             font: miniFont
             color: activePalette.highlightedText
@@ -88,14 +89,15 @@ Rectangle {
     }
     Rectangle {
         visible: trimOutMouseArea.drag.active || trimOutMouseArea.containsMouse
-        width: outLabel.contentWidth
+        width: outLabel.contentWidth + 4
         height: outLabel.contentHeight
-        anchors.top: rzone.bottom
+        anchors.bottom: rzone.top
         color: activePalette.highlight
-        x: rzone.width - outLabel.contentWidth
+        x: rzone.width - (outLabel.contentWidth + 4)
         Label {
             id: outLabel
             anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
             text: timeline.timecode(frameOut)
             font: miniFont
             color: activePalette.highlightedText
@@ -103,7 +105,7 @@ Rectangle {
     }
     Rectangle {
         id: durationRect
-        anchors.top: rzone.bottom
+        anchors.bottom: rzone.top
         visible: (!useTimelineRuler && moveMouseArea.containsMouse) || ((useTimelineRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width) || (useTimelineRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active) || moveMouseArea.drag.active
         anchors.horizontalCenter: parent.horizontalCenter
         width: durationLabel.contentWidth + 4

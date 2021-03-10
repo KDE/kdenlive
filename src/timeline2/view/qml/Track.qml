@@ -30,6 +30,7 @@ Item{
     property int trackInternalId : -42
     property int trackThumbsFormat
     property int itemType: 0
+    property var effectZones
     opacity: model.disabled ? 0.4 : 1
 
     function clipAt(index) {
@@ -452,5 +453,16 @@ Item{
         transitions: [ Transition {
             NumberAnimation { property: "opacity"; duration: 300}
         } ]
+    }
+    Repeater {
+        model: effectZones
+        Rectangle {
+            x: effectZones[index].x * timeline.scaleFactor
+            height: 2
+            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
+            color: 'blueviolet'
+            opacity: 1
+            anchors.top: parent.top
+        }
     }
 }

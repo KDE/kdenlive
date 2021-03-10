@@ -258,7 +258,7 @@ signals:
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
     void enabledChange(bool);
-    void showEffectZone(QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
 };
 
 #endif

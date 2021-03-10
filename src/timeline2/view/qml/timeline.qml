@@ -1769,6 +1769,7 @@ Rectangle {
             isAudio: audio
             trackThumbsFormat: thumbsFormat
             trackInternalId: item
+            effectZones: model.effectZones
             z: tracksRepeater.count - index
         }
     }

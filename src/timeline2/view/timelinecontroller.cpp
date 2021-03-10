@@ -1456,7 +1456,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
 
 void TimelineController::updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo)
 {
-    pCore->updateEffectZone(newZone);
+    pCore->updateEffectZone(newZone, withUndo);
 }
 
 void TimelineController::setZoneIn(int inPoint)

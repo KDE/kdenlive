@@ -145,6 +145,8 @@ public:
     void setMixDuration(int cid, int mixDuration, int mixCut);
     /** @brief Get the assetparameter model for a mix */
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
+    /** @brief Get a list of current effect stack zones */
+    QVariantList stackZones() const;
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items

@@ -381,6 +381,9 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         effect->prepareKeyframes();
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+        connect(effect.get(), &AssetParameterModel::showEffectZone, this, [=]() {
+            emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
+        });
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             m_fadeIns.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
@@ -445,6 +448,9 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+    connect(effect.get(), &AssetParameterModel::showEffectZone, this, [=]() {
+        emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
+    });
     QVector<int> roles = {TimelineModel::EffectNamesRole};
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
         m_fadeIns.insert(effect->getId());
@@ -507,6 +513,9 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+    connect(effect.get(), &AssetParameterModel::showEffectZone, this, [=]() {
+        emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
+    });
     int currentActive = getActiveEffect();
     if (makeCurrent) {
         if (auto srvPtr = m_masterService.lock()) {
@@ -1029,6 +1038,12 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             imported++;
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+            connect(effect.get(), &AssetParameterModel::showEffectZone, this, [=]() {
+                emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
+                if (m_ownerId.first == ObjectType::Master) {
+                    emit updateMasterZones();
+                }
+            });
             Fun redo = addItem_lambda(effect, rootItem->getId());
             effect->prepareKeyframes();
             if (redo()) {

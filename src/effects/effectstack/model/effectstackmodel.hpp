@@ -188,6 +188,8 @@ signals:
      */
     void modelChanged();
     void enabledStateChanged();
+    /** @brief: The master effect stack zones changed, update */
+    void updateMasterZones();
 };
 
 #endif

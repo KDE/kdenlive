@@ -4626,6 +4626,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
         m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0}, m_undoStack);
+        connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;
 }

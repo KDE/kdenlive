@@ -241,7 +241,7 @@ QPair <int, int> EffectItemModel::getInOut() const
     return {m_asset->get_int("in"), m_asset->get_int("out")};
 }
 
-void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled)
+void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled, bool withUndo)
 {
     QPair<int, int>currentInOut = {m_asset->get_int("in"), m_asset->get_int("out")};
     int currentState = m_asset->get_int("kdenlive:force_in_out");
@@ -254,7 +254,7 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds,
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        emit showEffectZone(currentInOut, currentState == 1);
+        emit showEffectZone(m_ownerId, currentInOut, currentState == 1);
         return true;
     };
     Fun redo = [this, enabled, bounds]() {
@@ -266,9 +266,11 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds,
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        emit showEffectZone(bounds, enabled);
+        emit showEffectZone(m_ownerId, bounds, enabled);
         return true;
     };
     redo();
-    pCore->pushUndo(undo, redo, i18n("Update zone for %1", effectName));
+    if (withUndo) {
+        pCore->pushUndo(undo, redo, i18n("Update zone for %1", effectName));
+    }
 }

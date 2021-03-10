@@ -265,18 +265,15 @@ void EffectStackView::loadEffects()
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+            qDebug()<<"==== CEFFECTSTACK SEEK TO POS: "<<pos;
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
-        connect(pCore.get(), &Core::updateEffectZone, [this](const QPoint p) {
+        connect(pCore.get(), &Core::updateEffectZone, view, [=](const QPoint p, bool withUndo) {
             // Update current effect zone
-            int i = m_model->getActiveEffect();
-            auto item = m_model->getEffectStackRow(i);
-            QModelIndex ix = m_model->getIndexFromItem(item);
-            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
-            if (w) {
-                w->updateInOut({p.x(), p.y()});
+            if (view->isActive()) {
+                view->updateInOut({p.x(), p.y()}, withUndo);
             }
         });
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
@@ -406,8 +403,8 @@ void EffectStackView::unsetModel(bool reset)
     // Release ownership of smart pointer
     Kdenlive::MonitorId id = Kdenlive::NoMonitor;
     if (m_model) {
-        pCore->showEffectZone({0,0}, false);
         ObjectId item = m_model->getOwnerId();
+        pCore->showEffectZone(item, {0,0}, false);
         id = item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);

@@ -86,7 +86,7 @@ public:
     QDomDocument toXml() const;
     /** @brief Update monitor scene depending on effect enabled state. */
     void updateScene();
-    void updateInOut(QPair<int, int> inOut);
+    void updateInOut(QPair<int, int> inOut, bool withUndo);
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -125,7 +125,6 @@ private:
     AssetParameterView *m_view;
     std::shared_ptr<EffectItemModel> m_model;
     KDualAction *m_collapse;
-    QToolButton *m_keyframesButton;
     QList<CollapsibleEffectView *> m_subParamWidgets;
     QDomElement m_effect;
     ItemInfo m_itemInfo;
@@ -174,7 +173,7 @@ signals:
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
     void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
-    void showEffectZone(QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void refresh();
     /** @brief Requests saving the full effect stack. */
     void saveStack();

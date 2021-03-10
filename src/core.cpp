@@ -1051,10 +1051,16 @@ void Core::setWidgetKeyBinding(const QString &mess)
     window()->setWidgetKeyBinding(mess);
 }
 
-void Core::showEffectZone(QPair <int, int>inOut, bool checked)
+void Core::showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked)
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
+    }
+}
+
+void Core::updateMasterZones()
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
 }

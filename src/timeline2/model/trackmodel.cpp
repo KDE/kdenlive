@@ -71,6 +71,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
+                qDebug()<<"==== TRACK ZONES CHANGED";
                 emit ptr2->dataChanged(ix, ix, roles);
             }
         });
@@ -2307,4 +2308,9 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
         return true;
     };
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+}
+
+QVariantList TrackModel::stackZones() const
+{
+    return m_effectStack->getEffectZones();
 }

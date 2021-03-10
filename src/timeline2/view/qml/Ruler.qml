@@ -31,7 +31,7 @@ Item {
     property int workingPreview : timeline.workingPreview
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
-    property int zoneHeight: Math.ceil(root.baseUnit / 2)
+    property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
     property var effectZones: timeline.masterEffectZones
@@ -174,12 +174,12 @@ Item {
             property: "frameOut"
             value: timeline.effectZone.y
         }
-        color: 'blueviolet'
-        opacity: 0.7
+        color: Qt.rgba(148, 0, 211,0.7)
         anchors.bottom: parent.bottom
         height: zoneHeight
         function updateZone(start, end, update)
         {
+            console.log('EFFECT RULER UPDATE:::::')
             timeline.updateEffectZone(start, end, update)
         }
     }

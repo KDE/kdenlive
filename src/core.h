@@ -294,7 +294,8 @@ public slots:
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
-    void showEffectZone(QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void updateMasterZones();
 
 signals:
     void coreIsReady();
@@ -313,7 +314,7 @@ signals:
     /** @brief This signal means that VOSK and/or SRT module availability changed*/
     void updateVoskAvailability();
     /** @brief Update current effect zone */
-    void updateEffectZone(const QPoint p);
+    void updateEffectZone(const QPoint p, bool withUndo);
 };
 
 #endif
