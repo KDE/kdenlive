@@ -1,9 +1,14 @@
 ![](data/pics/kdenlive-logo.png)
 
-| Jenkins CI Name | Master | Stable |
-| --------------- | ------ | ------ |
+| Jenkins CI Name | Master / Nightly | Stable |
+| --------------- | ---------------- | ------ |
 | OpenSuse Qt 5.15 | [![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20SUSEQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20SUSEQt5.15//) |[![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20SUSEQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20SUSEQt5.15/)|
 | FreeBSD Qt 5.15 | [![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20FreeBSDQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20FreeBSDQt5.15/) |[![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20FreeBSDQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20FreeBSDQt5.15/)|
+| Flatpak | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/) | See [here](https://flathub.org/builds/#/apps/org.kde.kdenlive)|
+| Nightly Appimage | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/) | |
+| Nightly Appimage Dependency | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Dependency_Build/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Dependency_Build/)  | |
+| MinGW64 | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/) |
+| macOS | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/) |
 
 # About Kdenlive
 
@@ -16,6 +21,7 @@
 # Testing Kdenlive via Nightly Builds
 
 - AppImage (Linux) = https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/
+- Flatpak (Linux): add the kde flatpak repository (if not already done) by typing `flatpak remote-add --if-not-exists kdeapps --from https://distribute.kde.org/kdeapps.flatpakrepo` on a command line. Install kdenlive nightly with `flatpak install kdeapps org.kde.kdenlive`
 - Windows = https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/
 
 *Note * - nightly/daily builds are not meant to be used in production.*
