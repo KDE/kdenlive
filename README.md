@@ -20,9 +20,9 @@
 
 # Testing Kdenlive via Nightly Builds
 
-- AppImage (Linux) = https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/
-- Flatpak (Linux): add the kde flatpak repository (if not already done) by typing `flatpak remote-add --if-not-exists kdeapps --from https://distribute.kde.org/kdeapps.flatpakrepo` on a command line. Install kdenlive nightly with `flatpak install kdeapps org.kde.kdenlive`
-- Windows = https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/
+- AppImage (Linux): https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/
+- Flatpak (Linux): Add the kde flatpak repository (if not already done) by typing `flatpak remote-add --if-not-exists kdeapps --from https://distribute.kde.org/kdeapps.flatpakrepo` on a command line. Install kdenlive nightly with `flatpak install kdeapps org.kde.kdenlive`. Use `flatpak update` to update if the nightly is already installed. _Attention! If you use the stable kdenlive flatpak already, the `*.desktop` file (e.g. responsible for start menu entry) is maybe replaced by the nightly (and vice versa). You can still run the stable version with `flatpak run org.kde.kdenlive/x86_64/stable` and the nightly with `flatpak run org.kde.kdenlive/x86_64/master` (replace `x86_64` by `aarch64` or `arm` depending on your system)_
+- Windows: https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/
 
 *Note * - nightly/daily builds are not meant to be used in production.*
 
