@@ -4322,6 +4322,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
             for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
                 if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                     // Raise panel
+                    w->parentWidget()->parentWidget()->show();
                     w->parentWidget()->parentWidget()->raise();
                 }
                 // Show audio tab
