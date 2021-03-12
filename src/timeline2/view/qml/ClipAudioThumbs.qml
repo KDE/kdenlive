@@ -7,7 +7,7 @@ import com.enums 1.0
 Row {
     id: waveform
     opacity: clipState == ClipState.Disabled ? 0.2 : 1
-    property int maxWidth: 500 + 100 * timeline.scaleFactor
+    property int maxWidth: 500 - (500 % timeline.scaleFactor) + 100 * timeline.scaleFactor
     anchors.fill: parent
 
     Timer {
@@ -47,6 +47,7 @@ Row {
             binId: clipRoot.binId
             audioStream: clipRoot.audioStream
             isFirstChunk: index == 0
+            scaleFactor: timeline.scaleFactor
             showItem: waveform.visible && (index * waveform.maxWidth < (clipRoot.scrollStart + scrollView.width)) && ((index * waveform.maxWidth + width) > clipRoot.scrollStart)
             format: timeline.audioThumbFormat
             normalize: timeline.audioThumbNormalize

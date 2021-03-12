@@ -90,6 +90,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
     Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
+    Q_PROPERTY(double scaleFactor MEMBER m_scale)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
@@ -149,7 +150,7 @@ public:
                 return;
             }
         }
-        qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+
         if (m_outPoint == m_inPoint) {
             return;
         }
@@ -157,7 +158,8 @@ public:
         pen.setColor(m_color);
         painter->setBrush(m_color);
         pen.setCapStyle(Qt::FlatCap);
-        double increment = qMax(1., 1. / qAbs(indicesPrPixel));
+        double increment = m_scale / 2; //qMax(1., 1. / qAbs(indicesPrPixel));
+        qreal indicesPrPixel = 2. / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = height();
         double offset = 0;
         bool pathDraw = increment > 1.2;
@@ -187,7 +189,7 @@ public:
             }
             for (; i <= width() && i < m_drawOutPoint; j++) {
                 i = j * increment;
-                int idx = ceil((startPos + i) * indicesPrPixel);
+                int idx = qCeil((startPos + i) * indicesPrPixel);
                 idx += idx % m_channels;
                 i -= offset;
                 if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
@@ -296,6 +298,7 @@ private:
     int m_channels;
     int m_precisionFactor;
     int m_stream;
+    double m_scale;
     double m_audioMax;
     bool m_firstChunk;
 };

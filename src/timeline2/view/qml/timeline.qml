@@ -1078,23 +1078,8 @@ Rectangle {
             acceptedButtons: Qt.AllButtons
             cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
-                if (wheel.modifiers & Qt.AltModifier) {
-                    // Alt + wheel = seek to next snap point
-                    if (wheel.angleDelta.x > 0) {
-                        timeline.triggerAction('monitor_seek_snap_backward')
-                    } else {
-                        timeline.triggerAction('monitor_seek_snap_forward')
-                    }
-                } else if (wheel.modifiers & Qt.ControlModifier) {
-                    root.wheelAccumulatedDelta += wheel.angleDelta.y;
-                    // Zoom
-                    if (root.wheelAccumulatedDelta >= defaultDeltasPerStep) {
-                        root.zoomIn(true);
-                        root.wheelAccumulatedDelta = 0;
-                    } else if (root.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
-                        root.zoomOut(true);
-                        root.wheelAccumulatedDelta = 0;
-                    }
+                if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
+                    zoomByWheel(wheel)
                 } else {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
@@ -1356,7 +1341,7 @@ Rectangle {
                             width: root.baseUnit * 1.2
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
-                            x: root.consumerPosition * timeline.scaleFactor - (width / 2)
+                            x: cursor.x - (width / 2)
                         }
                         MouseArea {
                             anchors.fill: parent
@@ -1665,10 +1650,19 @@ Rectangle {
                             id: cursor
                             visible: root.consumerPosition > -1
                             color: root.textColor
-                            width: Math.max(1, 1 * timeline.scaleFactor)
-                            opacity: (width > 2) ? 0.5 : 1
+                            width: 1
+                            opacity: 1
                             height: tracksContainerArea.height + subtitleTrack.height
                             x: root.consumerPosition * timeline.scaleFactor
+                            Rectangle {
+                                color: root.textColor
+                                width: Math.max(0, 1 * timeline.scaleFactor - 1)
+                                visible: width > 1
+                                opacity: 0.2
+                                anchors.left:parent.right
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                            }
                         }
                     }
                 }
@@ -1677,12 +1671,21 @@ Rectangle {
                 id: cutLine
                 visible: root.activeTool == 1 && tracksArea.mouseY > ruler.height
                 color: 'red'
-                width: Math.max(1, 1 * timeline.scaleFactor)
-                opacity: (width > 2) ? 0.5 : 1
+                width: 1
+                opacity: 1
                 height: tracksContainerArea.height
                 x: 0
                 //x: root.consumerPosition * timeline.scaleFactor - scrollView.contentX
                 y: ruler.height
+                Rectangle {
+                    color: 'red'
+                    width: Math.max(0, 1 * timeline.scaleFactor - 1)
+                    visible: width > 1
+                    opacity: 0.2
+                    anchors.left:parent.right
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                }
             }
         }
     }

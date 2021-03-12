@@ -279,6 +279,7 @@ Item {
                             showItem: audioThumb.visible
                             format: controller.audioThumbFormat
                             normalize: controller.audioThumbNormalize
+                            scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
                             drawInPoint: 0
                             drawOutPoint: audioThumb.width
                             waveInPoint: (root.duration - 1) * root.zoomStart * channels
