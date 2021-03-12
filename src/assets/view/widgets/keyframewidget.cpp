@@ -433,15 +433,12 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         paramWidget = geomWidget;
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
-        connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
     } else {
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
                 m_neededScene = MonitorSceneType::MonitorSceneCorners;
                 m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
-                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor,
-                        Qt::UniqueConnection);
                 connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &CornersHelper::addIndex);
             } else {
                 if (type == ParamType::KeyframeParam) {
@@ -489,8 +486,14 @@ void KeyframeWidget::slotInitMonitor(bool active)
 void KeyframeWidget::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
-        if (m_monitorHelper->connectMonitor(active) && m_model->isActive()) {
-            slotRefreshParams();
+        if (m_model->isActive()) {
+            connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
+            if (m_monitorHelper->connectMonitor(active)) {
+                slotRefreshParams();
+            }
+        } else {
+            m_monitorHelper->connectMonitor(false);
+            disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor);
         }
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);

@@ -189,7 +189,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
         if (!decoframe->property("active").toBool()) {
             // Activate effect if not already active
-            emit activateEffect(m_model);
+            emit activateEffect(m_model->row());
         }
     });
     connect(m_view, &AssetParameterView::updateHeight, this, &CollapsibleEffectView::updateHeight);
@@ -391,7 +391,6 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     // m_colorIcon->setEnabled(active);
     // bool active = ix.row() == m_model->row();
-    m_model->setActive(active);
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
@@ -410,7 +409,7 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
     m_dragStart = e->globalPos();
     if (!decoframe->property("active").toBool()) {
         // Activate effect if not already active
-        emit activateEffect(m_model);
+        emit activateEffect(m_model->row());
     }
     QWidget::mousePressEvent(e);
 }
@@ -450,7 +449,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     emit m_view->initKeyframeView(!disable);
-    emit activateEffect(m_model);
+    emit activateEffect(m_model->row());
 }
 
 void CollapsibleEffectView::updateScene()

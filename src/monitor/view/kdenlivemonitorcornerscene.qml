@@ -141,8 +141,6 @@ Item {
 
     function convertPoint(p)
     {
-        console.log('FRAME: ', frame.x)
-        console.log('P: ', p.x)
         var x = frame.x + p.x * root.scalex
         var y = frame.y + p.y * root.scaley
         return Qt.point(x,y);

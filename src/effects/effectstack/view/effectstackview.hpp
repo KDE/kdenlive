@@ -102,10 +102,8 @@ private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
     void slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel);
-    void slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel);
     void loadEffects();
     void updateTreeHeight();
-    void doActivateEffect(int row, QModelIndex ix, bool force = false);
     void slotFocusEffect();
     /** @brief Save current effect stack
      */

@@ -100,10 +100,7 @@ void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &servic
 
 void EffectStackModel::removeCurrentEffect()
 {
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0) {
         return;
     }
@@ -116,10 +113,7 @@ void EffectStackModel::removeCurrentEffect()
 void EffectStackModel::removeAllEffects(Fun &undo, Fun & redo)
 {
     QWriteLocker locker(&m_lock);
-    int current = -1;
-    if (auto srv = m_masterService.lock()) {
-        current = srv->get_int("kdenlive:activeeffect");
-    }
+    int current = getActiveEffect();
     while (rootItem->childCount() > 0) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(0));
         int parentId = -1;
@@ -177,13 +171,11 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
-    int current = 0;
-    if (auto srv = m_masterService.lock()) {
-        current = srv->get_int("kdenlive:activeeffect");
-        if (current >= rootItem->childCount() - 1) {
-            srv->set("kdenlive:activeeffect", --current);
-        }
+    int current = getActiveEffect();
+    if (current >= rootItem->childCount() - 1) {
+        current--;
     }
+    setActiveEffect(current);
     int currentRow = effect->row();
     Fun undo = addItem_lambda(effect, parentId);
     if (currentRow != rowCount() - 1) {
@@ -213,7 +205,6 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
                 if (outFades < 0) {
                     roles << TimelineModel::FadeOutRole;
                 }
-                qDebug() << "// EMITTING UNDO DATA CHANGE: " << roles;
                 emit dataChanged(QModelIndex(), QModelIndex(), roles);
             }
             // TODO: only update if effect is fade or keyframe
@@ -234,7 +225,6 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             } else if (outFades < 0) {
                 roles << TimelineModel::FadeOutRole;
             }
-            qDebug() << "// EMITTING REDO DATA CHANGE: " << roles;
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
             pCore->updateItemKeyframes(m_ownerId);
             return true;
@@ -518,9 +508,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     });
     int currentActive = getActiveEffect();
     if (makeCurrent) {
-        if (auto srvPtr = m_masterService.lock()) {
-            srvPtr->set("kdenlive:activeeffect", rowCount());
-        }
+        setActiveEffect(rowCount());
     }
     bool res = redo();
     if (res) {
@@ -572,9 +560,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         PUSH_LAMBDA(update_undo, undo);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
     } else if (makeCurrent) {
-        if (auto srvPtr = m_masterService.lock()) {
-            srvPtr->set("kdenlive:activeeffect", currentActive);
-        }
+        setActiveEffect(currentActive);
     }
     return res;
 }
@@ -1088,8 +1074,26 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
 void EffectStackModel::setActiveEffect(int ix)
 {
     QWriteLocker locker(&m_lock);
+    int current = -1;
     if (auto ptr = m_masterService.lock()) {
+        current = ptr->get_int("kdenlive:activeeffect");
         ptr->set("kdenlive:activeeffect", ix);
+    }
+    // Desactivate previous effect
+    if (current > -1 && current != ix) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
+        if (effect) {
+            effect->setActive(false);
+            emit currentChanged(getIndexFromItem(effect), false);
+        }
+    }
+    // Activate new effect
+    if (ix > -1 && ix < rootItem->childCount()) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+        if (effect) {
+            effect->setActive(true);
+            emit currentChanged(getIndexFromItem(effect), true);
+        }
     }
     pCore->updateItemKeyframes(m_ownerId);
 }
@@ -1245,10 +1249,7 @@ double EffectStackModel::getFilterParam(const QString &effectId, const QString &
 KeyframeModel *EffectStackModel::getEffectKeyframeModel()
 {
     if (rootItem->childCount() == 0) return nullptr;
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0 || ix >= rootItem->childCount()) {
         return nullptr;
     }
@@ -1334,10 +1335,7 @@ bool EffectStackModel::isStackEnabled() const
 bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
 {
     if (rootItem->childCount() == 0) return false;
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0) {
         return false;
     }
@@ -1352,10 +1350,7 @@ bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
 bool EffectStackModel::removeKeyFrame(int frame)
 {
     if (rootItem->childCount() == 0) return false;
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0) {
         return false;
     }
@@ -1367,10 +1362,7 @@ bool EffectStackModel::removeKeyFrame(int frame)
 bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant normalisedVal)
 {
     if (rootItem->childCount() == 0) return false;
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0) {
         return false;
     }
@@ -1385,10 +1377,7 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
 bool EffectStackModel::hasKeyFrame(int frame)
 {
     if (rootItem->childCount() == 0) return false;
-    int ix = 0;
-    if (auto ptr = m_masterService.lock()) {
-        ix = ptr->get_int("kdenlive:activeeffect");
-    }
+    int ix = getActiveEffect();
     if (ix < 0) {
         return false;
     }

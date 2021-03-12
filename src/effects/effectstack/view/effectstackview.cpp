@@ -170,10 +170,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
         } else {
             if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
                 added = true;
-                std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(m_model->rowCount() - 1);
-                if (item) {
-                    slotActivateEffect(std::static_pointer_cast<EffectItemModel>(item));
-                }
+                m_model->setActiveEffect(m_model->rowCount() - 1);
             }
         }
         if (!added) {
@@ -205,6 +202,13 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_scrollTimer.start();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
+    connect(m_model.get(), &EffectStackModel::currentChanged, this, [=](QModelIndex ix, bool active) {
+        m_effectsTree->setCurrentIndex(ix);
+        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        if (w) {
+            w->slotActivateEffect(active);
+        }
+    });
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
     // m_builtStack->setModel(model, stackOwner());
 }
@@ -259,13 +263,14 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
         connect(view, &CollapsibleEffectView::saveStack, this, &EffectStackView::slotSaveStack);
+        connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) {
+            m_model->setActiveEffect(row);
+        });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
-        connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-            qDebug()<<"==== CEFFECTSTACK SEEK TO POS: "<<pos;
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
         });
@@ -277,29 +282,31 @@ void EffectStackView::loadEffects()
             }
         });
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
+        if (active == i) {
+            effectModel->setActive(true);
+            activeIndex = ix;
+        }
         m_effectsTree->setIndexWidget(ix, view);
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
-        if (i == active) {
-            activeIndex = ix;
-            m_effectsTree->setCurrentIndex(activeIndex);
-        }
     }
     if (!hasLift) {
         updateTreeHeight();
     }
     if (activeIndex.isValid()) {
-        doActivateEffect(active, activeIndex, true);
-        if (active > 0) {
-            if (hasLift) {
-                // Some effects have a complex timed layout, so we need to wait a bit before getting the correct position for the effect
-                QTimer::singleShot(100, this, &EffectStackView::slotFocusEffect);
-            } else {
-                slotFocusEffect();
-            }
+        m_effectsTree->setCurrentIndex(activeIndex);
+        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIndex));
+        if (w) {
+            w->slotActivateEffect(true);
         }
+    }
+    if (hasLift) {
+        // Some effects have a complex timed layout, so we need to wait a bit before getting the correct position for the effect
+        QTimer::singleShot(100, this, &EffectStackView::slotFocusEffect);
+    } else {
+        slotFocusEffect();
     }
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
@@ -325,15 +332,6 @@ void EffectStackView::updateTreeHeight()
         m_effectsTree->setFixedHeight(totalHeight);
         m_scrollTimer.start();
     }
-}
-
-void EffectStackView::slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel)
-{
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! slotactivateeffect: " << effectModel->row();
-    QMutexLocker lock(&m_mutex);
-    QModelIndex activeIx = m_model->getIndexFromItem(effectModel);
-    doActivateEffect(effectModel->row(), activeIx);
-    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! slotactivateeffect";
 }
 
 void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel)
@@ -463,31 +461,6 @@ void EffectStackView::switchCollapsed()
         int max = m_model->rowCount();
         int active = qBound(0, m_model->getActiveEffect(), max - 1);
         emit switchCollapsedView(active);
-    }
-}
-
-void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force)
-{
-    int currentActive = m_model->getActiveEffect();
-    if (row == currentActive && !force) {
-        // Effect is already active
-        return;
-    }
-    if (row != currentActive && currentActive > -1 && currentActive < m_model->rowCount()) {
-        auto item = m_model->getEffectStackRow(currentActive);
-        if (item) {
-            QModelIndex ix = m_model->getIndexFromItem(item);
-            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
-            if (w) {
-                w->slotActivateEffect(false);
-            }
-        }
-    }
-    m_effectsTree->setCurrentIndex(activeIx);
-    m_model->setActiveEffect(row);
-    CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIx));
-    if (w) {
-        w->slotActivateEffect(true);
     }
 }
 

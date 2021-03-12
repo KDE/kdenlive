@@ -172,7 +172,7 @@ signals:
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
-    void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
+    void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void refresh();
     /** @brief Requests saving the full effect stack. */

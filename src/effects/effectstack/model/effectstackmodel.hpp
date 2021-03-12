@@ -190,6 +190,8 @@ signals:
     void enabledStateChanged();
     /** @brief: The master effect stack zones changed, update */
     void updateMasterZones();
+    /** @brief: Currently active effect changed */
+    void currentChanged(QModelIndex ix, bool active);
 };
 
 #endif
