@@ -109,7 +109,7 @@ Item {
             property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
             Rectangle {
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: root.baseUnit / 2
+                anchors.bottomMargin: zoneHeight
                 height: parent.showText ? 8 : 4
                 width: 1
                 color: activePalette.windowText
@@ -179,7 +179,6 @@ Item {
         height: zoneHeight
         function updateZone(start, end, update)
         {
-            console.log('EFFECT RULER UPDATE:::::')
             timeline.updateEffectZone(start, end, update)
         }
     }
