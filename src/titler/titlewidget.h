@@ -139,6 +139,7 @@ private:
     QString m_clipId;
 
     QAction *m_buttonRect;
+    QAction *m_buttonEllipse;
     QAction *m_buttonText;
     QAction *m_buttonImage;
     QAction *m_buttonCursor;
@@ -251,6 +252,7 @@ private:
 public slots:
     void slotNewText(MyTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
+    void slotNewEllipse(QGraphicsEllipseItem *rect);
     void slotChangeBackground();
 
     /** @brief Sets up the tools (toolbars etc.) according to the selected item. */
@@ -325,6 +327,7 @@ private slots:
     void slotSelectAll();
     void slotSelectText();
     void slotSelectRects();
+    void slotSelectEllipses();
     void slotSelectImages();
     void slotSelectNone();
 
@@ -339,6 +342,7 @@ private slots:
 
     void slotTextTool();
     void slotRectTool();
+    void slotEllipseTool();
     void slotSelectTool();
     void slotImageTool();
 

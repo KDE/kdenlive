@@ -187,6 +187,21 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width,
                 content.setAttribute(QStringLiteral("gradient"), gradient);
             }
             break;
+        case 4:
+            e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsEllipseItem"));
+            content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsEllipseItem *>(item)->rect().normalized()));
+            content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->pen().color()));
+            if (static_cast<QGraphicsEllipseItem *>(item)->pen() == Qt::NoPen) {
+                content.setAttribute(QStringLiteral("penwidth"), 0);
+            } else {
+                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsEllipseItem *>(item)->pen().width());
+            }
+            content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->brush().color()));
+            gradient = item->data(TitleDocument::Gradient).toString();
+            if (!gradient.isEmpty()) {
+                content.setAttribute(QStringLiteral("gradient"), gradient);
+            }
+            break;
         case 8:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
             t = static_cast<MyTextItem *>(item);
@@ -569,6 +584,31 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     gitems.append(rec);
 
                     gitem = rec;
+                } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsEllipseItem")) {
+                    QDomNamedNodeMap ellipseProperties = itemNode.namedItem(QStringLiteral("content")).attributes();
+                    QString rect = ellipseProperties.namedItem(QStringLiteral("rect")).nodeValue();
+                    QString br_str = ellipseProperties.namedItem(QStringLiteral("brushcolor")).nodeValue();
+                    QString pen_str = ellipseProperties.namedItem(QStringLiteral("pencolor")).nodeValue();
+                    double penwidth = ellipseProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
+                    auto *ellipse = new MyEllipseItem();
+                    ellipse->setRect(stringToRect(rect));
+                    if (penwidth > 0) {
+                        ellipse->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
+                    } else {
+                        ellipse->setPen(Qt::NoPen);
+                    }
+                    if (!ellipseProperties.namedItem(QStringLiteral("gradient")).isNull()) {
+                        // Gradient color
+                        QString data = ellipseProperties.namedItem(QStringLiteral("gradient")).nodeValue();
+                        ellipse->setData(TitleDocument::Gradient, data);
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, ellipse->rect().width(), ellipse->rect().height());
+                        ellipse->setBrush(QBrush(gr));
+                    } else {
+                        ellipse->setBrush(QBrush(stringToColor(br_str)));
+                    }
+                    gitems.append(ellipse);
+
+                    gitem = ellipse;
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsPixmapItem")) {
                     QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();

@@ -72,6 +72,7 @@ int settingUp = 0;
 const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
+const int ELLIPSEITEM = 4;
 
 /*
 const int NOEFFECT = 0;
@@ -195,12 +196,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     if (mlt_version_get_int() < 0x061900) {
         typewriterBox->setEnabled(false);
 
-		auto *twinfo = new KMessageWidget(typewriterBox);
-		twinfo->setText(i18n("Typewriter requires MLT-6.26.0 or newer."));
-		twinfo->setMessageType(KMessageWidget::Warning);
-		twinfo->setCloseButtonVisible(false);
-		twinfo->setEnabled(true);
-		gridLayout_12->addWidget(twinfo, 3, 0, 1, 4, 0);
+        auto *twinfo = new KMessageWidget(typewriterBox);
+        twinfo->setText(i18n("Typewriter requires MLT-6.26.0 or newer."));
+        twinfo->setMessageType(KMessageWidget::Warning);
+        twinfo->setCloseButtonVisible(false);
+        twinfo->setEnabled(true);
+        gridLayout_12->addWidget(twinfo, 3, 0, 1, 4, 0);
     }
 
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
@@ -438,6 +439,15 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
+    m_buttonEllipse = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("draw-ellipse")), i18n("Add Ellipse"));
+    m_buttonEllipse->setCheckable(true);
+    m_buttonEllipse->setShortcut(Qt::ALT + Qt::Key_E);
+    m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString());
+    connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
+    if (mlt_version_get_int() < 0x061900) {
+        m_buttonEllipse->setVisible(false);
+    }
+
     m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
@@ -534,6 +544,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
     connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, &TitleWidget::slotSelectTool);
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
+    connect(m_scene, &GraphicsSceneRectMove::newEllipse, this, &TitleWidget::slotNewEllipse);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
     connect(zoom_slider, &QAbstractSlider::valueChanged, this, &TitleWidget::slotUpdateZoom);
     connect(zoom_spin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateZoom);
@@ -605,12 +616,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
 
     connect(btn_add, &QToolButton::clicked, this, &TitleWidget::slotPatternBtnAddClicked);
     connect(btn_remove, &QToolButton::clicked, this, &TitleWidget::slotPatternBtnRemoveClicked);
-    connect(btn_removeAll, &QToolButton::clicked, this, 
+    connect(btn_removeAll, &QToolButton::clicked, this,
             [&] () {
-                m_patternsModel->removeAll();
-                btn_remove->setEnabled(false);
-                btn_removeAll->setEnabled(false);
-            });
+        m_patternsModel->removeAll();
+        btn_remove->setEnabled(false);
+        btn_removeAll->setEnabled(false);
+    });
 
     scaleSlider->setRange(6, 16);
     patternsList->setModel(m_patternsModel);
@@ -643,6 +654,7 @@ TitleWidget::~TitleWidget()
 
     m_scene->blockSignals(true);
     delete m_buttonRect;
+    delete m_buttonEllipse;
     delete m_buttonText;
     delete m_buttonImage;
     delete m_buttonCursor;
@@ -793,6 +805,16 @@ void TitleWidget::slotRectTool()
     graphicsView->setDragMode(QGraphicsView::NoDrag);
 }
 
+void TitleWidget::slotEllipseTool()
+{
+    m_scene->setTool(TITLE_ELLIPSE);
+    showToolbars(TITLE_ELLIPSE);
+    checkButton(TITLE_ELLIPSE);
+
+    // Disable dragging mode, would make dragging a ellipse impossible otherwise ;)
+    graphicsView->setDragMode(QGraphicsView::NoDrag);
+}
+
 void TitleWidget::slotSelectTool()
 {
     m_scene->setTool(TITLE_SELECT);
@@ -810,6 +832,9 @@ void TitleWidget::slotSelectTool()
             break;
         case RECTITEM:
             t = TITLE_RECTANGLE;
+            break;
+        case ELLIPSEITEM:
+            t = TITLE_ELLIPSE;
             break;
         case IMAGEITEM:
             t = TITLE_IMAGE;
@@ -889,6 +914,7 @@ void TitleWidget::showToolbars(TITLETOOL toolType)
     case TITLE_IMAGE:
         toolbar_stack->setCurrentIndex(2);
         break;
+    case TITLE_ELLIPSE:
     case TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
         break;
@@ -903,7 +929,7 @@ void TitleWidget::enableToolbars(TITLETOOL toolType)
 {
     // TITLETOOL is defined in effectstack/graphicsscenerectmove.h
     bool enable = false;
-    if (toolType == TITLE_RECTANGLE || toolType == TITLE_IMAGE) {
+    if (toolType == TITLE_RECTANGLE || toolType == TITLE_ELLIPSE || toolType == TITLE_IMAGE) {
         enable = true;
     }
     value_w->setEnabled(enable);
@@ -915,6 +941,7 @@ void TitleWidget::checkButton(TITLETOOL toolType)
     bool bSelect = false;
     bool bText = false;
     bool bRect = false;
+    bool bEllipse = false;
     bool bImage = false;
 
     switch (toolType) {
@@ -927,6 +954,9 @@ void TitleWidget::checkButton(TITLETOOL toolType)
     case TITLE_RECTANGLE:
         bRect = true;
         break;
+    case TITLE_ELLIPSE:
+        bEllipse = true;
+        break;
     case TITLE_IMAGE:
         bImage = true;
         break;
@@ -937,6 +967,7 @@ void TitleWidget::checkButton(TITLETOOL toolType)
     m_buttonCursor->setChecked(bSelect);
     m_buttonText->setChecked(bText);
     m_buttonRect->setChecked(bRect);
+    m_buttonEllipse->setChecked(bEllipse);
     m_buttonImage->setChecked(bImage);
 }
 
@@ -945,30 +976,30 @@ void TitleWidget::displayBackgroundFrame()
     QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
         switch (KdenliveSettings::titlerbg()) {
-            case 0: {
-                QPixmap pattern(20, 20);
-                pattern.fill(Qt::gray);
-                QColor bgcolor(180, 180, 180);
-                QPainter p(&pattern);
-                p.fillRect(QRect(0, 0, 10, 10), bgcolor);
-                p.fillRect(QRect(10, 10, 20, 20), bgcolor);
-                p.end();
-                QBrush br(pattern);
-                QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
-                QPainter p2(&bg);
-                p2.fillRect(bg.rect(), br);
-                p2.end();
-                m_frameImage->setPixmap(bg);
-                break;
-            }
-            default: {
-                QColor col = KdenliveSettings::titlerbg() == 1 ? Qt::black : Qt::white;
-                QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
-                QPainter p2(&bg);
-                p2.fillRect(bg.rect(), col);
-                p2.end();
-                m_frameImage->setPixmap(bg);
-            }
+        case 0: {
+            QPixmap pattern(20, 20);
+            pattern.fill(Qt::gray);
+            QColor bgcolor(180, 180, 180);
+            QPainter p(&pattern);
+            p.fillRect(QRect(0, 0, 10, 10), bgcolor);
+            p.fillRect(QRect(10, 10, 20, 20), bgcolor);
+            p.end();
+            QBrush br(pattern);
+            QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+            QPainter p2(&bg);
+            p2.fillRect(bg.rect(), br);
+            p2.end();
+            m_frameImage->setPixmap(bg);
+            break;
+        }
+        default: {
+            QColor col = KdenliveSettings::titlerbg() == 1 ? Qt::black : Qt::white;
+            QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+            QPainter p2(&bg);
+            p2.fillRect(bg.rect(), col);
+            p2.end();
+            m_frameImage->setPixmap(bg);
+        }
         }
         emit updatePatternsBackgroundFrame();
     } else {
@@ -1073,6 +1104,35 @@ void TitleWidget::slotNewRect(QGraphicsRectItem *rect)
     rect->setZValue(m_count++);
     rect->setData(TitleDocument::ZoomFactor, 100);
     prepareTools(rect);
+    // setCurrentItem(rect);
+    // graphicsView->setFocus();
+}
+
+void TitleWidget::slotNewEllipse(QGraphicsEllipseItem *ellipse)
+{
+    updateAxisButtons(ellipse); // back to default
+
+    if (rectLineWidth->value() == 0) {
+        ellipse->setPen(Qt::NoPen);
+    } else {
+        QPen penf(rectFColor->color());
+        penf.setWidth(rectLineWidth->value());
+        penf.setJoinStyle(Qt::RoundJoin);
+        ellipse->setPen(penf);
+    }
+    if (plain_rect->isChecked()) {
+        ellipse->setBrush(QBrush(rectBColor->color()));
+        ellipse->setData(TitleDocument::Gradient, QVariant());
+    } else {
+        // gradient
+        QString gradientData = gradients_rect_combo->currentData().toString();
+        ellipse->setData(TitleDocument::Gradient, gradientData);
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, ellipse->boundingRect().width(), ellipse->boundingRect().height());
+        ellipse->setBrush(QBrush(gr));
+    }
+    ellipse->setZValue(m_count++);
+    ellipse->setData(TitleDocument::ZoomFactor, 100);
+    prepareTools(ellipse);
     // setCurrentItem(rect);
     // graphicsView->setFocus();
 }
@@ -1311,6 +1371,23 @@ void TitleWidget::slotValueChanged(int type)
                 break;
             }
 
+        } else if (l.at(k)->type() == ELLIPSEITEM) {
+            auto *ellipse = static_cast<QGraphicsEllipseItem *>(l.at(k));
+            switch (type) {
+            case ValueX:
+                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                break;
+            case ValueY:
+                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                break;
+            case ValueWidth:
+                ellipse->setRect(QRect(0, 0, val, ellipse->rect().height()));
+                break;
+            case ValueHeight:
+                ellipse->setRect(QRect(0, 0, ellipse->rect().width(), val));
+                break;
+            }
+
         } else if (l.at(k)->type() == IMAGEITEM) {
 
             if (type == ValueX) {
@@ -1404,7 +1481,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
 
         value_w->setValue(i->sceneBoundingRect().width());
         value_h->setValue(i->sceneBoundingRect().height());
-    } else if (i->type() == RECTITEM) {
+    } else if (i->type() == RECTITEM || i->type() == ELLIPSEITEM) {
         auto *r = static_cast<QGraphicsRectItem *>(i);
         // qCDebug(KDENLIVE_LOG) << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue((int)r->rect().width());
@@ -1449,6 +1526,24 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
     } else if (i->type() == RECTITEM) {
 
         auto *rec = static_cast<QGraphicsRectItem *>(i);
+
+        if (origin_x_left->isChecked()) {
+            // Origin (0 point) is at m_frameWidth
+            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->rect().width()));
+        } else {
+            // Origin is at 0 (default)
+            value_x->setValue((int)rec->pos().x());
+        }
+
+        if (origin_y_top->isChecked()) {
+            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->rect().height()));
+        } else {
+            value_y->setValue((int)rec->pos().y());
+        }
+
+    } else if (i->type() == ELLIPSEITEM) {
+
+        auto *rec = static_cast<QGraphicsEllipseItem *>(i);
 
         if (origin_x_left->isChecked()) {
             // Origin (0 point) is at m_frameWidth
@@ -1544,6 +1639,26 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
     } else if (i->type() == RECTITEM) {
 
         auto *rec = static_cast<QGraphicsRectItem *>(i);
+
+        int posX;
+        if (origin_x_left->isChecked()) {
+            posX = m_frameWidth - x - rec->rect().width();
+        } else {
+            posX = x;
+        }
+
+        int posY;
+        if (origin_y_top->isChecked()) {
+            posY = m_frameHeight - y - rec->rect().height();
+        } else {
+            posY = y;
+        }
+
+        rec->setPos(posX, posY);
+
+    } else if (i->type() == ELLIPSEITEM) {
+
+        auto *rec = static_cast<QGraphicsEllipseItem *>(i);
 
         int posX;
         if (origin_x_left->isChecked()) {
@@ -1824,6 +1939,27 @@ void TitleWidget::rectChanged()
                 QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rec->boundingRect().width(), rec->boundingRect().height());
                 rec->setBrush(QBrush(gr));
             }
+        } else if (i->type() == ELLIPSEITEM && (settingUp == 0)) {
+            auto *ellipse = static_cast<QGraphicsEllipseItem *>(i);
+            QColor f = rectFColor->color();
+            if (rectLineWidth->value() == 0) {
+                ellipse->setPen(Qt::NoPen);
+            } else {
+                QPen penf(f);
+                penf.setWidth(rectLineWidth->value());
+                penf.setJoinStyle(Qt::RoundJoin);
+                ellipse->setPen(penf);
+            }
+            if (plain_rect->isChecked()) {
+                ellipse->setBrush(QBrush(rectBColor->color()));
+                ellipse->setData(TitleDocument::Gradient, QVariant());
+            } else {
+                // gradient
+                QString gradientData = gradients_rect_combo->currentData().toString();
+                ellipse->setData(TitleDocument::Gradient, gradientData);
+                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, ellipse->boundingRect().width(), ellipse->boundingRect().height());
+                ellipse->setBrush(QBrush(gr));
+            }
         }
     }
 }
@@ -2103,7 +2239,7 @@ QUrl TitleWidget::saveTitle(QUrl url)
         }
     }
     if (embed_image && KMessageBox::questionYesNo(
-                           this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
+                this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
         embed_image = false;
     }
     if (!url.isValid()) {
@@ -2765,6 +2901,11 @@ void TitleWidget::slotSelectRects()
     selectItems(RECTITEM);
 }
 
+void TitleWidget::slotSelectEllipses()
+{
+    selectItems(ELLIPSEITEM);
+}
+
 void TitleWidget::slotSelectImages()
 {
     selectItems(IMAGEITEM);
@@ -2967,10 +3108,10 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     typewriterBox->blockSignals(true);
                     tw_sb_step->setValue(sInfo.at(1).toInt());
                     switch(sInfo.at(2).toInt()) {
-                        case 1: tw_rd_char->setChecked(true); break;
-                        case 2: tw_rd_word->setChecked(true); break;
-                        case 3: tw_rd_line->setChecked(true); break;
-                        default: tw_rd_custom->setChecked(true); break;
+                    case 1: tw_rd_char->setChecked(true); break;
+                    case 2: tw_rd_word->setChecked(true); break;
+                    case 3: tw_rd_line->setChecked(true); break;
+                    default: tw_rd_custom->setChecked(true); break;
                     }
                     tw_sb_sigma->setValue(sInfo.at(3).toInt());
                     tw_sb_seed->setValue(sInfo.at(4).toInt());
@@ -3049,6 +3190,40 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateAxisButtons(referenceItem);
             updateCoordinates(rec);
             updateDimension(rec);
+
+        } else if ((referenceItem)->type() == ELLIPSEITEM) {
+            showToolbars(TITLE_RECTANGLE);
+            settingUp = 1;
+            auto *ellipse = static_cast<QGraphicsEllipseItem *>(referenceItem);
+            QColor fcol = ellipse->pen().color();
+            QColor bcol = ellipse->brush().color();
+            rectFColor->setColor(fcol);
+            QString gradientData = ellipse->data(TitleDocument::Gradient).toString();
+            if (gradientData.isEmpty()) {
+                plain_rect->setChecked(true);
+                rectBColor->setColor(bcol);
+            } else {
+                gradient_rect->setChecked(true);
+                gradients_rect_combo->blockSignals(true);
+                int ix = gradients_rect_combo->findData(gradientData);
+                if (ix == -1) {
+                    storeGradient(gradientData);
+                    ix = gradients_rect_combo->findData(gradientData);
+                }
+                gradients_rect_combo->setCurrentIndex(ix);
+                gradients_rect_combo->blockSignals(false);
+            }
+            settingUp = 0;
+            if (ellipse->pen() == Qt::NoPen) {
+                rectLineWidth->setValue(0);
+            } else {
+                rectLineWidth->setValue(ellipse->pen().width());
+            }
+            enableToolbars(TITLE_ELLIPSE);
+
+            updateAxisButtons(referenceItem);
+            updateCoordinates(ellipse);
+            updateDimension(ellipse);
 
         } else if (referenceItem->type() == IMAGEITEM) {
             showToolbars(TITLE_IMAGE);
