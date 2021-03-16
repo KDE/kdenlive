@@ -289,19 +289,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     buttonAlignCenter->setIconSize(iconSize);
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
-    buttonFitZoom->setIcon(QIcon::fromTheme(QStringLiteral("zoom-fit-best")));
-    buttonRealSize->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
-    buttonItalic->setIcon(QIcon::fromTheme(QStringLiteral("format-text-italic")));
-    buttonUnder->setIcon(QIcon::fromTheme(QStringLiteral("format-text-underline")));
-    buttonAlignCenter->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-center")));
-    buttonAlignLeft->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-left")));
-    buttonAlignRight->setIcon(QIcon::fromTheme(QStringLiteral("format-justify-right")));
-    edit_gradient->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    edit_rect_gradient->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
 
-    buttonAlignRight->setToolTip(i18n("Align right"));
-    buttonAlignLeft->setToolTip(i18n("Align left"));
-    buttonAlignCenter->setToolTip(i18n("Align center"));
     if (qApp->isLeftToRight()) {
         buttonAlignRight->setChecked(true);
     } else {
@@ -370,16 +358,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     buttonUnselectAll->setDefaultAction(m_unselectAll);
     buttonUnselectAll->setEnabled(false);
 
-    zDown->setIconSize(iconSize);
-    zTop->setIconSize(iconSize);
-    zBottom->setIconSize(iconSize);
-    zDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-down")));
-    zTop->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-top")));
-    zBottom->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-bottom")));
-    connect(zDown, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexDown);
-    connect(zTop, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexTop);
-    connect(zBottom, &QAbstractButton::clicked, this, &TitleWidget::slotZIndexBottom);
-
     origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
     origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
     rectBColor->setToolTip(i18n("Select fill color"));
@@ -401,19 +379,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     itembottom->setIconSize(iconSize);
     itemright->setIconSize(iconSize);
     itemleft->setIconSize(iconSize);
-
-    itemhcenter->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")));
-    itemhcenter->setToolTip(i18n("Align item horizontally"));
-    itemvcenter->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")));
-    itemvcenter->setToolTip(i18n("Align item vertically"));
-    itemtop->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")));
-    itemtop->setToolTip(i18n("Align item to top"));
-    itembottom->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")));
-    itembottom->setToolTip(i18n("Align item to bottom"));
-    itemright->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")));
-    itemright->setToolTip(i18n("Align item to right"));
-    itemleft->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")));
-    itemleft->setToolTip(i18n("Align item to left"));
 
     auto *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
@@ -628,17 +593,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(patternsList->selectionModel(), &QItemSelectionModel::currentChanged, this, [&] (const QModelIndex& cur, const QModelIndex& prev) {
         btn_remove->setEnabled(cur != prev && cur.isValid());
     });
-
-    btn_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    btn_remove->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
-    btn_removeAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-
-    btn_add->setToolTip(i18n("Add pattern"));
-    btn_remove->setToolTip(i18n("Delete pattern"));
-    btn_removeAll->setToolTip(i18n("Delete all patterns"));
-
-    btn_add->setEnabled(false);
-    btn_remove->setEnabled(false);
 
     readPatterns();
 
