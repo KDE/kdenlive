@@ -3727,7 +3727,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     QList<int> clips = clip->timelineInstances();
     // Temporarily hide this title clip in timeline so that it does not appear when requesting background frame
     pCore->temporaryUnplug(clips, true);
-    TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
+    TitleWidget dia_ui(QUrl(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {
