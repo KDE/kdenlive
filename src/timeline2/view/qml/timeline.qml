@@ -28,6 +28,10 @@ Rectangle {
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
 
+    // Zoombar properties
+    property double zoomStart: scrollView.visibleArea.xPosition
+    property double zoomBarWidth: scrollView.visibleArea.widthRatio
+
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -163,7 +167,7 @@ Rectangle {
     function verticalScroll(wheel) {
         var newScroll = Math.min(
             scrollView.contentY - wheel.angleDelta.y,
-            trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horScroll.height + ruler.height
+            trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height
         )
         scrollView.contentY = Math.max(newScroll, 0)
     }
@@ -383,6 +387,8 @@ Rectangle {
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
+    // The first visible frame in case of scaling triggered by zoombar
+    property int zoomOnBar: -1
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
@@ -407,10 +413,14 @@ Rectangle {
     }
 
     //onCurrentTrackChanged: timeline.selection = []
+
     onTimeScaleChanged: {
         if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - getMouseX())
             root.zoomOnMouse = -1
+        } else if (root.zoomOnBar >= 0) {
+            scrollView.contentX = Math.max(0, root.zoomOnBar * timeline.scaleFactor )
+            root.zoomOnBar = -1
         } else {
             scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
         }
@@ -427,11 +437,16 @@ Rectangle {
     }
 
     onViewActiveTrackChanged: {
+        if (timeline.activeTrack == -2) {
+            // subtitle track
+            scrollView.contentY = 0
+            return
+        }
         var tk = Logic.getTrackById(timeline.activeTrack)
         if (tk.y + subtitleTrack.height < scrollView.contentY) {
             scrollView.contentY = Math.max(0, tk.y + subtitleTrack.height)
         } else if (tk.y + tk.height + subtitleTrack.height > scrollView.contentY + scrollView.height) {
-            var newY = Math.min(trackHeaders.height + subtitleTrack.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y + tk.height - scrollView.height + subtitleTrack.height)
+            var newY = Math.min(trackHeaders.height + subtitleTrack.height - scrollView.height, tk.y + tk.height - scrollView.height + subtitleTrack.height)
             if (newY >= 0) {
                 scrollView.contentY = newY
             }
@@ -1188,7 +1203,7 @@ Rectangle {
                 if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
-                    var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height + scrollView.ScrollBar.horizontal.height)
+                    var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
                     scrollView.contentX = Math.max(newScroll, 0)
                     scrollView.contentY = Math.max(vScroll, 0)
                     clickX = mouseX
@@ -1385,18 +1400,20 @@ Rectangle {
                         id: scrollView
                         anchors.fill: parent
                         anchors.rightMargin: vertScroll.visible ? vertScroll.width : 0
-                        anchors.bottomMargin: horScroll.visible ? horScroll.height : 0
+                        anchors.bottomMargin: horZoomBar.visible ? horZoomBar.height : 0
                         // Click and drag should seek, not scroll the timeline view
                         //flickableItem.interactive: false
                         clip: true
                         interactive: false
-                        ScrollBar.horizontal: ScrollBar {
+                        /*
+                         // Replaced by our custom ZoomBar
+                         ScrollBar.horizontal: ScrollBar {
                             id: horScroll
                             parent: scrollView.parent
-                            anchors.top: scrollView.bottom
+                            anchors.top: scrollView.top
                             anchors.left: scrollView.left
                             anchors.right: scrollView.right
-                        }
+                        }*/
                         ScrollBar.vertical: ScrollBar {
                             id: vertScroll
                             parent: scrollView.parent
@@ -1665,6 +1682,14 @@ Rectangle {
                             }
                         }
                     }
+                    ZoomBar {
+                        id: horZoomBar
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            top: scrollView.bottom
+                        }
+                    }
                 }
             }
             Rectangle {
@@ -1891,7 +1916,7 @@ Rectangle {
                         vertical = 0
                         stop()
                     } else {
-                        var maxScroll = trackHeaders.height - tracksArea.height + horScroll.height + ruler.height + subtitleTrack.height
+                        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
                         if (scrollView.contentY > maxScroll) {
                             scrollView.contentY = Math.max(0, maxScroll)
                             vertical = 0
