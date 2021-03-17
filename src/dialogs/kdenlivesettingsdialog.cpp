@@ -93,6 +93,25 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
+    QRegExp rx("(\\+|-)?\\d{2}:\\d{2}:\\d{2}:\\d{2}");
+    QValidator *validator = new QRegExpValidator(rx, this);
+    m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_color_duration->setValidator(validator);
+    m_configMisc.kcfg_title_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_title_duration->setValidator(validator);
+    m_configMisc.kcfg_transition_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_transition_duration->setValidator(validator);
+    m_configMisc.kcfg_mix_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_mix_duration->setValidator(validator);
+    m_configMisc.kcfg_image_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_image_duration->setValidator(validator);
+    m_configMisc.kcfg_sequence_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_sequence_duration->setValidator(validator);
+    m_configMisc.kcfg_fade_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_fade_duration->setValidator(validator);
+    m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_subtitle_duration->setValidator(validator);
+
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     m_page8 = addPage(p8, i18n("Project Defaults"));
