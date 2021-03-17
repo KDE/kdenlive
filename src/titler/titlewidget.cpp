@@ -25,6 +25,7 @@
 #include "bin/bin.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
+#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "titler/patternsmodel.h"
@@ -90,7 +91,7 @@ void TitleWidget::refreshTemplateBoxContents()
     }
 }
 
-TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent)
+TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *monitor, QWidget *parent)
     : QDialog(parent)
     , Ui::TitleWidget_UI()
     , m_startViewport(nullptr)
@@ -99,7 +100,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_missingMessage(nullptr)
     , m_projectTitlePath(std::move(projectTitlePath))
-    , m_tc(tc)
     , m_fps(pCore->getCurrentFps())
     , m_guides(QList<QGraphicsLineItem *>())
 {
@@ -171,9 +171,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
 
     splitter->setStretchFactor(0, 20);
 
-    // If project is drop frame, set the input mask as such.
-    title_duration->setInputMask(m_tc.mask());
-    title_duration->setText(m_tc.reformatSeparators(KdenliveSettings::title_duration()));
+    m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_duration->setValue(KdenliveSettings::title_duration());
+    duration_box->addWidget(m_duration);
+    auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    duration_box->addSpacerItem(spacer);
 
     connect(backgroundColor, &KColorButton::changed, this, &TitleWidget::slotChangeBackground);
     connect(backgroundAlpha, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotChangeBackground);
@@ -2212,7 +2214,7 @@ QUrl TitleWidget::saveTitle(QUrl url)
         delete fs;
     }
     if (url.isValid()) {
-        if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image)) {
+        if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_duration->getValue() , embed_image)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         } else {
             return url;
@@ -2248,7 +2250,7 @@ int TitleWidget::getNewStuff(const QString &configFile)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    int duration = m_tc.getFrameCount(title_duration->text());
+    int duration = m_duration->getValue();
     doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
     doc.documentElement().setAttribute(QStringLiteral("out"), duration - 1);
     return doc;
@@ -2256,7 +2258,7 @@ QDomDocument TitleWidget::xml()
 
 int TitleWidget::duration() const
 {
-    return m_tc.getFrameCount(title_duration->text());
+    return m_duration->getValue();
 }
 
 void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
@@ -2284,7 +2286,7 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         messageLayout->addWidget(m_missingMessage);
         m_missingMessage->animatedShow();
     }
-    title_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
+    m_duration->setValue(GenTime(duration, m_fps));
 
     QDomElement e = doc.documentElement();
     m_transformations.clear();
