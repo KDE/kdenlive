@@ -1164,6 +1164,7 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
+    actionCollection()->setShortcutsConfigurable(m_timeFormatButton, false);
 
     m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("add-subtitle")), i18n("Edit Subtitle tool"), this);
     m_buttonSubtitleEditTool->setCheckable(true);
