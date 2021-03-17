@@ -162,8 +162,8 @@ public:
         ItemATrack,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
-        EffectNamesRole,    // track and clip only
-        EffectsEnabledRole, // track and clip only
+        EffectNamesRole,    /// track and clip only
+        EffectsEnabledRole, /// track and clip only
         GrabbedRole,        /// clip+composition only
         SelectedRole,       /// clip+composition only
         TrackActiveRole,    /// track only
@@ -385,7 +385,7 @@ public:
     bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>());
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
-    /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
+    /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
@@ -506,9 +506,9 @@ public:
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
-    /* Returns a proposed size for clip resize, checking for collisions */
+    /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
-    /* Returns a list of {id, position duration} for all elements in the group*/
+    /** @brief Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
     Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);
 
@@ -532,7 +532,7 @@ public:
     bool requestClipUngroup(int itemId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
-    // convenience functions for several ids at the same time
+    /** @brief convenience functions for several ids at the same time */
     bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
 
     /** @brief Create a track at given position
@@ -559,7 +559,7 @@ public:
        Returns the duration in frames
     */
     int duration() const;
-    static int seekDuration; // Duration after project end where seeking is allowed
+    static int seekDuration; /// Duration after project end where seeking is allowed
 
     /** @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.
@@ -799,7 +799,7 @@ protected:
     /** @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
-    /* Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
+    /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
     bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);
@@ -862,13 +862,13 @@ protected:
         
     std::map<int, GenTime> m_allSubtitles;
 
-    static int next_id; // next valid id to assign
+    static int next_id; /// next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;
     std::shared_ptr<SubtitleModel> m_subtitleModel;
 
-    std::unordered_set<int> m_allGroups; // ids of all the groups
+    std::unordered_set<int> m_allGroups; /// ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
 
@@ -883,22 +883,22 @@ protected:
 
     bool m_id; // id of the timeline itself
 
-    // id of the selection. If -1, there is no selection, if positive, then it might either be the id of the selection group, or the id of an individual
-    // item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
-    // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
+    /** @brief id of the selection. If -1, there is no selection, if positive, then it might either be the id of the selection group, or the id of an individual
+     *  item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
+     *  (in that case we cannot further group it because the selection would have only one child, which is prohibited by design) */
     int m_currentSelection = -1;
     int m_selectedMix = -1;
 
-    // The index of the temporary overlay track in tractor, or -1 if not connected
+    /// The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;
 
-    // The preferred audio target for clip insertion in the form {timeline track id, bin clip stream index}
+    /// The preferred audio target for clip insertion in the form {timeline track id, bin clip stream index}
     QMap <int, int> m_audioTarget;
     /** @brief The list of audio streams available from the selected bin clip, in the form: {stream index, stream description} */
     QMap <int, QString> m_binAudioTargets;
-    // The preferred video target for clip insertion or -1 if not defined
+    /// The preferred video target for clip insertion or -1 if not defined
     int m_videoTarget;
-    // Timeline editing mode
+    /// Timeline editing mode
     TimelineMode::EditMode m_editMode;
     bool m_closing;
 
