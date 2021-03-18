@@ -87,7 +87,6 @@ private:
     QVBoxLayout *m_lay;
     QToolBar *m_toolbar;
     std::shared_ptr<KeyframeModelList> m_keyframes;
-    QMetaObject::Connection m_focusConnection;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
     QToolButton *m_buttonAddDelete;
@@ -104,7 +103,6 @@ private:
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
     int m_baseHeight;
     int m_addedHeight;
-    QString m_lastFocusedParam;
 
 signals:
     void addIndex(QPersistentModelIndex ix);
