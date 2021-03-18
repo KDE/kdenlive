@@ -15,4 +15,7 @@
     <parameter type="urllist" name="luma" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
       <name>Composite Method</name>
     </parameter>
+    <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
+            <name>Softness</name>
+    </parameter>
 </transition>
