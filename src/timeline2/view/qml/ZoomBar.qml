@@ -53,7 +53,6 @@ Rectangle {
             property bool placeHolderBar: !zoomStart.pressed && !zoomEnd.pressed && root.zoomBarWidth * zoomHandleContainer.width < root.baseUnit
             width: placeHolderBar ? root.baseUnit : root.zoomBarWidth * zoomHandleContainer.width
             x: root.zoomStart * zoomHandleContainer.width
-            radius: hoveredBar ? 0 : height / 2
             MouseArea {
                 id: zoomArea
                 anchors.fill: parent
@@ -122,8 +121,7 @@ Rectangle {
                 id: startHandleRect
                 anchors.fill: parent
                 radius: height / 2
-                color: zoomStart.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.light
-                visible: hoveredBar
+                color: zoomStart.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: height / 2
@@ -165,8 +163,7 @@ Rectangle {
                 id: endHandleRect
                 anchors.fill: parent
                 radius: height / 2
-                color: zoomEnd.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.light
-                visible: hoveredBar
+                color: zoomEnd.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors.fill: parent
                     anchors.rightMargin: height / 2
