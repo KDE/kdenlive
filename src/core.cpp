@@ -71,7 +71,7 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-bool Core::build(bool isAppImage, const QString &MltPath)
+bool Core::build()
 {
     if (m_self) {
         return true;
@@ -105,43 +105,16 @@ bool Core::build(bool isAppImage, const QString &MltPath)
         lockFile.close();
     }
 
-    if (isAppImage) {
-        QString appPath = qApp->applicationDirPath();
-        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
-        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
-        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
-        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
-        MltConnection::construct(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
-    } else {
-        // Open connection with Mlt
-        MltConnection::construct(MltPath);
-    }
-
-    // load the profile from disk
-    ProfileRepository::get()->refresh();
-    // load default profile
-    m_self->m_profile = KdenliveSettings::default_profile();
-    if (m_self->m_profile.isEmpty()) {
-        m_self->m_profile = ProjectManager::getDefaultProjectFormat();
-        KdenliveSettings::setDefault_profile(m_self->m_profile);
-    }
-
-    // Init producer shown for unavailable media
-    // TODO make it a more proper image, it currently causes a crash on exit
-    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
-    ClipController::mediaUnavailable->set("length", 99999999);
-
     m_self->m_projectItemModel = ProjectItemModel::construct();
     // Job manager must be created before bin to correctly connect
     m_self->m_jobManager.reset(new JobManager(m_self.get()));
     return true;
 }
 
-void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
-    profileChanged();
     m_mainWindow = new MainWindow();
     m_guiConstructed = true;
     QStringList styles = QQuickStyle::availableStyles();
@@ -152,13 +125,54 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     }
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
+    
+    m_projectManager = new ProjectManager(this);
+    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
+    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
+    m_mixerWidget = new MixerManager(m_mainWindow);
+    m_textEditWidget = new TextBasedEdit(m_mainWindow);
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
+    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
+    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
+    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
+    m_monitorManager = new MonitorManager(this);
+    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
+    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, [this]() {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
+        }
+    });
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+        }
+    });
 
+
+    // The MLT Factory will be initiated there, all MLT classes will be usable only after this
+    if (isAppImage) {
+        QString appPath = qApp->applicationDirPath();
+        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
+        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
+        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
+        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        m_mainWindow->init(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
+    } else {
+        // Open connection with Mlt
+        m_mainWindow->init(MltPath);
+    }
+    m_projectItemModel->buildPlaylist();
+    // load the profiles from disk
+    ProfileRepository::get()->refresh();
+    // load default profile
+    m_profile = KdenliveSettings::default_profile();
     // load default profile and ask user to select one if not found.
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();
-        profileChanged();
         KdenliveSettings::setDefault_profile(m_profile);
     }
+    profileChanged();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
@@ -192,45 +206,11 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
         KdenliveSettings::setDefault_profile(m_profile);
         profileChanged();
     }
+        // Init producer shown for unavailable media
+    // TODO make it a more proper image, it currently causes a crash on exit
+    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
+    ClipController::mediaUnavailable->set("length", 99999999);
 
-    m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
-    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
-    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
-    m_mixerWidget = new MixerManager(m_mainWindow);
-    m_textEditWidget = new TextBasedEdit(m_mainWindow);
-    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
-    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
-    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
-    m_monitorManager = new MonitorManager(this);
-    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
-    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, [this]() {
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
-        }
-    });
-    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
-        }
-    });
-    
-    // Producer queue, creating MLT::Producers on request
-    /*
-    m_producerQueue = new ProducerQueue(m_binController);
-    connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady);
-    connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
-    connect(m_producerQueue, &ProducerQueue::requestProxy,
-            [this](const QString &id){ m_binWidget->startJob(id, AbstractClipJob::PROXYJOB);});
-    connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
-    connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
-    connect(m_binController.get(), SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
-    connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
-    // TODO
-    connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-
-    m_mainWindow->init();
     if (!Url.isEmpty()) {
         emit loadingMessageUpdated(i18n("Loading project..."));
     }

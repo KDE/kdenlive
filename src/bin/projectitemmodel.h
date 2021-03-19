@@ -64,6 +64,9 @@ public:
     ~ProjectItemModel() override;
 
     friend class ProjectClip;
+    
+    /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
+    void buildPlaylist();
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
