@@ -54,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
-    , m_binPlaylist(new BinPlaylist())
+    , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
     , m_nextId(1)
     , m_blankThumb()
@@ -76,6 +76,11 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
 }
 
 ProjectItemModel::~ProjectItemModel() = default;
+
+void ProjectItemModel::buildPlaylist()
+{
+    m_binPlaylist.reset(new BinPlaylist());
+}
 
 int ProjectItemModel::mapToColumn(int column) const
 {

@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 }
 
-void MainWindow::init()
+void MainWindow::init(const QString &mltPath)
 {
     QString desktopStyle = QApplication::style()->objectName();
     // Load themes
@@ -204,6 +204,10 @@ void MainWindow::init()
 
     new RenderingAdaptor(this);
     QString defaultProfile = KdenliveSettings::default_profile();
+    
+    // Initialise MLT connection
+    MltConnection::construct(mltPath);
+
     pCore->setCurrentProfile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
     m_commandStack = new QUndoGroup();
 
@@ -214,7 +218,6 @@ void MainWindow::init()
         pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
-
     m_gpuAllowed = EffectsRepository::get()->hasInternalEffect(QStringLiteral("glsl.manager"));
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);

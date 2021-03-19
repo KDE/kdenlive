@@ -90,7 +90,7 @@ public:
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void init();
+    void init(const QString &mltPath);
     ~MainWindow() override;
 
     /** @brief Cache for luma files thumbnails. */

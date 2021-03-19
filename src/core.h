@@ -80,7 +80,7 @@ public:
      * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(bool isAppImage, const QString &MltPath = QString());
+    static bool build();
 
     /**
      * @brief Init the GUI part of the app and show the main window
@@ -88,7 +88,7 @@ public:
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void initGUI(const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();

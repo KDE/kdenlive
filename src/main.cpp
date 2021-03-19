@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     int result = 0;
-    if (!Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")))) {
+    if (!Core::build()) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
@@ -271,7 +271,7 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(url, clipsToLoad);
+        pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();
