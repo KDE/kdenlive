@@ -1787,7 +1787,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
 #endif
         if (pyExec.isEmpty()) {
-            doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
+            doShowSpeechMessage(i18n("Please install python3 and pip on your system."), KMessageWidget::Warning);
             return;
         }
         QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
