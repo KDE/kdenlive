@@ -35,7 +35,7 @@
 MonitorProxy::MonitorProxy(GLWidget *parent)
     : QObject(parent)
     , q(parent)
-    , m_position(0)
+    , m_position(-1)
     , m_zoneIn(0)
     , m_zoneOut(-1)
     , m_hasAV(false)
@@ -49,6 +49,11 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
 int MonitorProxy::getPosition() const
 {
     return m_position;
+}
+
+void MonitorProxy::resetPosition()
+{
+    m_position = -1;
 }
 
 int MonitorProxy::rulerHeight() const

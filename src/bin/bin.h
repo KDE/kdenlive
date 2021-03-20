@@ -281,7 +281,7 @@ public:
 
     /** @brief This function change the global enabled state of the bin effects
      */
-    void setBinEffectsEnabled(bool enabled);
+    void setBinEffectsEnabled(bool enabled, bool refreshMonitor = true);
 
     void requestAudioThumbs(const QString &id, long duration);
     /** @brief Proxy status for the project changed, update. */
@@ -426,7 +426,7 @@ public slots:
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */
-    void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
+    void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
     const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Returns the effectstack of a given clip. */

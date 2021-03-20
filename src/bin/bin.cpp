@@ -1756,7 +1756,7 @@ void Bin::setDocument(KdenliveDoc *project)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    setBinEffectsEnabled(!binEffectsDisabled);
+    setBinEffectsEnabled(!binEffectsDisabled, false);
     QMap <QString, QString> projectTags = m_doc->getProjectTags();
     m_tagsWidget->rebuildTags(projectTags);
     rebuildFilters(projectTags);
@@ -1950,7 +1950,7 @@ void Bin::selectAll()
     m_proxyModel->selectAll();
 }
 
-void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
+void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, bool activateMonitor)
 {
     if (m_monitor->activeClipId() == clipId) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
@@ -1972,13 +1972,15 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
         }
         selectClip(clip);
     }
-    if (frame > -1) {
-        m_monitor->slotSeek(frame);
-    } else {
-        m_monitor->slotActivateMonitor();
-    }
     if (!zone.isNull()) {
         m_monitor->slotLoadClipZone(zone);
+    }
+    if (activateMonitor) {
+        if (frame > -1) {
+            m_monitor->slotSeek(frame);
+        } else {
+            m_monitor->slotActivateMonitor();
+        }
     }
 }
 
@@ -3923,7 +3925,7 @@ void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)
     delete dia;
 }
 
-void Bin::setBinEffectsEnabled(bool enabled)
+void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 {
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
@@ -3935,7 +3937,7 @@ void Bin::setBinEffectsEnabled(bool enabled)
         disableEffects->blockSignals(false);
     }
     m_itemModel->setBinEffectsEnabled(enabled);
-    pCore->projectManager()->disableBinEffects(!enabled);
+    pCore->projectManager()->disableBinEffects(!enabled, refreshMonitor);
 }
 
 void Bin::slotRenameItem()

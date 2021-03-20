@@ -3234,7 +3234,7 @@ void MainWindow::slotClipInProjectTree()
         } else {
             pos = -1;
         }
-        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), pos, zone);
+        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), true, pos, zone);
     }
 }
 

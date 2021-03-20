@@ -160,8 +160,10 @@ public slots:
     void releaseAnalyse();
     void switchPlay(bool play, double speed = 1.0);
     void reloadProfile();
-    /** @brief Update MLT's consumer scaling */
-    void updateScaling();
+    /** @brief Update MLT's consumer scaling 
+     *  @returns true is scaling was changed
+     */
+    bool updateScaling();
 
 signals:
     void frameDisplayed(const SharedFrame &frame);

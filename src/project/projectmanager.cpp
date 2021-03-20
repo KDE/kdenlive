@@ -773,7 +773,7 @@ void ProjectManager::slotResetConsumers(bool fullReset)
     pCore->monitorManager()->resetConsumers(fullReset);
 }
 
-void ProjectManager::disableBinEffects(bool disable)
+void ProjectManager::disableBinEffects(bool disable, bool refreshMonitor)
 {
     if (m_project) {
         if (disable) {
@@ -782,8 +782,10 @@ void ProjectManager::disableBinEffects(bool disable)
             m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }
     }
-    pCore->monitorManager()->refreshProjectMonitor();
-    pCore->monitorManager()->refreshClipMonitor();
+    if (refreshMonitor) {
+        pCore->monitorManager()->refreshProjectMonitor();
+        pCore->monitorManager()->refreshClipMonitor();
+    }
 }
 
 void ProjectManager::slotDisableTimelineEffects(bool disable)
