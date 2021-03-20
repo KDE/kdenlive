@@ -175,7 +175,7 @@ signals:
 class ClipWidget : public QWidget
 {
 public:
-    explicit ClipWidget(){}
+    explicit ClipWidget()= default;
     ~ClipWidget() override;
     void init(QDockWidget* m_DockClipWidget);
 };

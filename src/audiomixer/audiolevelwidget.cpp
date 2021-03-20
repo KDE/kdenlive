@@ -48,8 +48,7 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
 }
 
 AudioLevelWidget::~AudioLevelWidget()
-{
-}
+= default;
 
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {

@@ -61,8 +61,7 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
 }
 
 MonitorAudioLevel::~MonitorAudioLevel()
-{
-}
+= default;
 
 void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
 {

@@ -30,8 +30,7 @@
 #include <KMessageBox>
 
 OtioConvertions::OtioConvertions()
-{
-}
+= default;
 
 bool OtioConvertions::getOtioConverters()
 {
