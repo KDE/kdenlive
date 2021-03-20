@@ -41,8 +41,8 @@ class ThumbJob : public AbstractClipJob
 
 public:
     /** @brief Extract a thumb for given clip.
-       @param frameNumber is the frame to extract. Leave to -1 for default
-       @param persistent: if true, we will use the persistent cache (for query and saving)
+     * @param frameNumber is the frame to extract. Leave to -1 for default
+     * @param persistent: if true, we will use the persistent cache (for query and saving)
     */
     ThumbJob(const QString &binId, int frameNumber = -1, bool persistent = false, bool reloadAllThumbs = false);
 
@@ -51,7 +51,7 @@ public:
     bool startJob() override;
 
     /** @brief This is to be called after the job finished.
-        By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
+     *  By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
     bool commitResult(Fun &undo, Fun &redo) override;
 
 private:

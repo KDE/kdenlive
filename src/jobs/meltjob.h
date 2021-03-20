@@ -46,9 +46,9 @@ class MeltJob : public AbstractClipJob
 
 public:
     /** @brief Creates a melt job for the given bin clip
-        consumerName is the melt name of the consumer that we use
-        if useProducerProfile == true, the profile used will be the one of the producer
-        in and out represent the portion of the clip we deal with. Leave to -1 for default (whole clip)
+     *  consumerName is the melt name of the consumer that we use
+     *  if useProducerProfile == true, the profile used will be the one of the producer
+     *  in and out represent the portion of the clip we deal with. Leave to -1 for default (whole clip)
      */
     MeltJob(const QString &binId, const ObjectId &owner, JOBTYPE type, bool useProducerProfile = false, int in = -1, int out = -1);
     bool startJob() override;
@@ -56,16 +56,16 @@ public:
     int length;
 
 protected:
-    // @brief extra configuration of the profile (eg: resize the profile)
+    /** @brief extra configuration of the profile (eg: resize the profile) */
     virtual void configureProfile() {}
 
-    // @brief extra configuration of the producer
+    /** @brief extra configuration of the producer */
     virtual void configureProducer() {}
 
-    // @brief create and configure consumer
+    /** @brief create and configure consumer */
     virtual void configureConsumer() = 0;
 
-    // @brief create and configure filter
+    /** @brief create and configure filter */
     virtual void configureFilter() = 0;
 
 protected:

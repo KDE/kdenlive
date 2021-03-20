@@ -28,11 +28,11 @@
 class AudioSpectrum_UI;
 
 /**
-   \brief Displays a spectral power distribution of audio samples.
-   The frequency distribution is calculated by means of a Fast Fourier Transformation.
-   For more information see Wikipedia:FFT and the code comments.
-
-   \todo Currently only supports one channel. Add support for multiple channels.
+ *  @brief Displays a spectral power distribution of audio samples.
+ *  The frequency distribution is calculated by means of a Fast Fourier Transformation.
+ *  For more information see Wikipedia:FFT and the code comments.
+ *
+ *  @todo Currently only supports one channel. Add support for multiple channels.
 */
 class AudioSpectrum : public AbstractAudioScopeWidget
 {

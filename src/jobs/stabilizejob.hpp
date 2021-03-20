@@ -40,9 +40,9 @@ class StabilizeJob : public MeltJob
 
 public:
     /** @brief Creates a stabilize job job for the given bin clip
-        @brief filterName is the name of the actual melt filter to use
-        @brief destUrl is the path to the file we are going to produce
-        @brief filterParams is a map containing the xml parameters of the filter
+     *  @brief filterName is the name of the actual melt filter to use
+     *  @brief destUrl is the path to the file we are going to produce
+     *  @brief filterParams is a map containing the xml parameters of the filter
      */
     StabilizeJob(const QString &binId, const QString &filterName, QString destUrl, std::unordered_map<QString, QString> filterparams);
 
@@ -59,10 +59,10 @@ public:
     const QString getDescription() const override;
 
 protected:
-    // @brief create and configure consumer
+    /** @brief create and configure consumer */
     void configureConsumer() override;
 
-    // @brief create and configure filter
+    /** @brief create and configure filter */
     void configureFilter() override;
 
 protected:

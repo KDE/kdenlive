@@ -40,8 +40,8 @@ class SceneSplitJob : public MeltJob
 
 public:
     /** @brief Creates a scenesplit job for the given bin clip
-        @param subClips if true, we create a subclip per found scene
-        @param markersType The type of markers that will be created to denote scene. Leave -1 for no markers
+     *  @param subClips if true, we create a subclip per found scene
+     *  @param markersType The type of markers that will be created to denote scene. Leave -1 for no markers
      */
     SceneSplitJob(const QString &binId, bool subClips, int markersType = -1, int minInterval = 0);
 
@@ -54,17 +54,17 @@ public:
     const QString getDescription() const override;
 
 protected:
-    // @brief create and configure consumer
+    /** @brief create and configure consumer */
     void configureConsumer() override;
 
-    // @brief create and configure filter
+    /** @brief create and configure filter */
     void configureFilter() override;
 
-    // @brief extra configuration of the profile (eg: resize the profile)
+    /** @brief extra configuration of the profile (eg: resize the profile) */
     void configureProfile() override;
 
     bool m_subClips;
     int m_markersType;
-    // @brief minimum scene duration.
+    /** @brief minimum scene duration. */
     int m_minInterval;
 };

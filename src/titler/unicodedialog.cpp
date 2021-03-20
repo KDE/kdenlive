@@ -325,7 +325,7 @@ void UnicodeWidget::writeChoices()
 /// SLOTS
 
 /**
- * \brief Validates the entered Unicode number and displays its Unicode character.
+ * @brief Validates the entered Unicode number and displays its Unicode character.
  */
 void UnicodeWidget::slotTextChanged(const QString &text)
 {

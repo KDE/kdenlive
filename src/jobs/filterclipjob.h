@@ -40,13 +40,13 @@ public:
     bool commitResult(Fun &undo, Fun &redo) override;
 
 protected:
-    // @brief create and configure consumer
+    /** @brief create and configure consumer */
     void configureConsumer() override;
 
-    // @brief create and configure producer
+    /** @brief create and configure producer */
     void configureProducer() override;
 
-    // @brief create and configure filter
+    /** @brief create and configure filter */
     void configureFilter() override;
 
 protected:

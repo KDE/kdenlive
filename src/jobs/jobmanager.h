@@ -70,12 +70,12 @@ public:
     ~JobManager() override;
 
     /** @brief Start a job
-        This function calls the prepareJob function of the job if it provides one.
-        @param T is the type of job (must inherit from AbstractClipJob)
-        @param binIds is the list of clips to which we apply the job
-        @param parents is the list of the ids of the job that must terminate before this one can start
-        @param args are the arguments to construct the job
-        @param return the id of the created job
+     *  This function calls the prepareJob function of the job if it provides one.
+     *  @param T is the type of job (must inherit from AbstractClipJob)
+     *  @param binIds is the list of clips to which we apply the job
+     *  @param parents is the list of the ids of the job that must terminate before this one can start
+     *  @param args are the arguments to construct the job
+     *  @param return the id of the created job
     */
     template <typename T, typename... Args> int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
     // Same function, but we specify the function used to create a new job

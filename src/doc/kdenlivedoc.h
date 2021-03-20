@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-/*! \class KdenliveDoc
-    \brief Represents a kdenlive project file
-
-   Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
+/** @class KdenliveDoc
+ *  @brief Represents a kdenlive project file
+ *
+ *  Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
 */
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H

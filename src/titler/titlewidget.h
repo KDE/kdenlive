@@ -61,9 +61,9 @@ public:
     int rotatex, rotatey, rotatez;
 };
 
-/*! \class TitleWidget
-    \brief Title creation dialog
-    Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
+/** @class TitleWidget
+ *  @brief Title creation dialog
+ *  Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
 */
 class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 {

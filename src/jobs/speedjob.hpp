@@ -40,7 +40,7 @@ class SpeedJob : public MeltJob
 
 public:
     /** @brief Creates a timewarp producer
-        @param speed The speed value
+     *  @param speed The speed value
      */
     SpeedJob(const QString &binId, double speed, bool warp_pitch, QString destUrl);
 
@@ -53,13 +53,13 @@ public:
     const QString getDescription() const override;
 
 protected:
-    // @brief create and configure consumer
+    /** @brief create and configure consumer */
     void configureConsumer() override;
 
-    // @brief create and configure producer
+    /** @brief create and configure producer */
     void configureProducer() override;
 
-    // @brief create and configure filter
+    /** @brief create and configure filter */
     void configureFilter() override;
 
     double m_speed;

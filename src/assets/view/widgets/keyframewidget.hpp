@@ -72,7 +72,7 @@ public slots:
     void slotSetPosition(int pos = -1, bool update = true);
 
 private slots:
-    /* brief Update the value of the widgets to reflect keyframe change */
+    /** @brief Update the value of the widgets to reflect keyframe change */
     void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void monitorSeek(int pos);

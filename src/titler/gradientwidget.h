@@ -26,9 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 
-/*! \class GradientWidget
-    \brief Title creation dialog
-    Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
+/** @class GradientWidget
+ *  @brief Title creation dialog
+ *  Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
 */
 class GradientWidget : public QDialog, public Ui::GradientEdit_UI
 {
