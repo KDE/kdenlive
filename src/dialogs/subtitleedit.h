@@ -36,7 +36,7 @@ class ShiftEnterFilter : public QObject
 public:
     ShiftEnterFilter(QObject *parent = 0);
 protected:
-    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 signals:
     void triggerUpdate();
 };  

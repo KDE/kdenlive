@@ -53,7 +53,7 @@ class MixerWidget : public QWidget
 public:
     MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName, MixerManager *parent = nullptr);
     MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName, MixerManager *parent = nullptr);
-    virtual ~MixerWidget();
+    ~MixerWidget() override;
     void buildUI(Mlt::Tractor *service, const QString &trackName);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
     void reset();

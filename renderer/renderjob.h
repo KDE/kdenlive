@@ -34,7 +34,7 @@ class RenderJob : public QObject
 
 public:
     RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1, QObject *parent = nullptr);
-    ~RenderJob();
+    ~RenderJob() override;
 
 public slots:
     void start();
