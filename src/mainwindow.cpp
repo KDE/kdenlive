@@ -1071,6 +1071,7 @@ void MainWindow::setupActions()
     sceneMode->setCurrentItem(0);
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
     addAction(QStringLiteral("timeline_mode"), sceneMode);
+    actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
     m_useTimelineZone = new KDualAction(i18n("Do not Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
     m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
@@ -1110,6 +1111,7 @@ void MainWindow::setupActions()
     }
     connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
+    actionCollection()->setShortcutsConfigurable(m_compositeAction, false);
 
     QAction *splitView = new QAction(QIcon::fromTheme(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks"), this);
     addAction(QStringLiteral("timeline_view_split"), splitView);
@@ -1445,27 +1447,28 @@ void MainWindow::setupActions()
 
 #if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     // Monitor resolution scaling
+    KActionCategory *resolutionActionCategory = new KActionCategory(i18n("Preview Resolution"), actionCollection());
     m_scaleGroup = new QActionGroup(this);
     m_scaleGroup->setExclusive(true);
     m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
     QAction *scale_no = new QAction(i18n("Full Resolution (1:1)"), m_scaleGroup);
-    addAction(QStringLiteral("scale_no_preview"), scale_no);
+    addAction(QStringLiteral("scale_no_preview"), scale_no, QKeySequence(), resolutionActionCategory);
     scale_no->setCheckable(true);
     scale_no->setData(1);
     QAction *scale_2 = new QAction(i18n("720p"), m_scaleGroup);
-    addAction(QStringLiteral("scale_2_preview"), scale_2);
+    addAction(QStringLiteral("scale_2_preview"), scale_2, QKeySequence(), resolutionActionCategory);
     scale_2->setCheckable(true);
     scale_2->setData(2);
     QAction *scale_4 = new QAction(i18n("540p"), m_scaleGroup);
-    addAction(QStringLiteral("scale_4_preview"), scale_4);
+    addAction(QStringLiteral("scale_4_preview"), scale_4, QKeySequence(), resolutionActionCategory);
     scale_4->setCheckable(true);
     scale_4->setData(4);
     QAction *scale_8 = new QAction(i18n("360p"), m_scaleGroup);
-    addAction(QStringLiteral("scale_8_preview"), scale_8);
+    addAction(QStringLiteral("scale_8_preview"), scale_8, QKeySequence(), resolutionActionCategory);
     scale_8->setCheckable(true);
     scale_8->setData(8);
     QAction *scale_16 = new QAction(i18n("270p"), m_scaleGroup);
-    addAction(QStringLiteral("scale_16_preview"), scale_16);
+    addAction(QStringLiteral("scale_16_preview"), scale_16, QKeySequence(), resolutionActionCategory);
     scale_16->setCheckable(true);
     scale_16->setData(16);
     connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_2, scale_4, scale_8, scale_16, scale_no]() {
@@ -1508,6 +1511,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("mlt_gamma"), monitorGamma);
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
     connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
+    actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
