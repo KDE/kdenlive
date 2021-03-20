@@ -39,6 +39,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), pCore->window()->actionCollection());
+    pCore->window()->actionCollection()->setShortcutsConfigurable(m_loadLayout, false);
 
     // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);

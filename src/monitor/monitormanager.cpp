@@ -463,6 +463,7 @@ void MonitorManager::setupActions()
     }
     connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
     pCore->window()->addAction(QStringLiteral("mlt_interlace"), interlace);
+    pCore->window()->actionCollection()->setShortcutsConfigurable(interlace, false);
 
     KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
     interpol->addAction(i18n("Nearest Neighbor (fast)"));
@@ -480,6 +481,7 @@ void MonitorManager::setupActions()
     }
     connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
+    pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
 
     QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);

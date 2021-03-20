@@ -969,6 +969,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // View type
     KSelectAction *listType = new KSelectAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode"), listType);
+    pCore->window()->actionCollection()->setShortcutsConfigurable(listType, false);
     QAction *treeViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("Tree View"));
     listType->addAction(treeViewAction);
     treeViewAction->setData(BinTreeView);
