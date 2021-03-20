@@ -71,7 +71,7 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-bool Core::build()
+bool Core::build(bool testMode)
 {
     if (m_self) {
         return true;
@@ -91,18 +91,21 @@ bool Core::build()
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     
-    // Check if we had a crash
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    if (lockFile.exists()) {
-        // a previous instance crashed, propose to delete config files
-        if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes) {
-            return false;
+    if (!testMode) {
+        // Check if we had a crash
+        QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+        if (lockFile.exists()) {
+            // a previous instance crashed, propose to delete config files
+            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes)
+            {
+                return false;
+            }
+        } else {
+            // Create lock file
+            lockFile.open(QFile::WriteOnly);
+            lockFile.write(QByteArray());
+            lockFile.close();
         }
-    } else {
-        // Create lock file
-        lockFile.open(QFile::WriteOnly);
-        lockFile.write(QByteArray());
-        lockFile.close();
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
