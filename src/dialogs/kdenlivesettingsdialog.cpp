@@ -76,6 +76,7 @@
 #include "jogshuttle/jogshuttleconfig.h"
 #include <QStandardPaths>
 #include <linux/input.h>
+#include <memory>
 #endif
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent)
@@ -2029,9 +2030,9 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
     QMimeType type = db.mimeTypeForFile(archiveFile);
     std::unique_ptr<KArchive> archive;
     if (type.inherits(QStringLiteral("application/zip"))) {
-        archive.reset(new KZip(archiveFile));
+        archive = std::make_unique<KZip>(archiveFile);
     } else {
-        archive.reset(new KTar(archiveFile));
+        archive = std::make_unique<KTar>(archiveFile);
     }
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
     QDir dir;

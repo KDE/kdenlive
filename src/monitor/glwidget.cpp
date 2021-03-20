@@ -21,16 +21,17 @@
  */
 
 #include <KDeclarative/KDeclarative>
+#include <KLocalizedContext>
 #include <KMessageBox>
 #include <QApplication>
+#include <QFontDatabase>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QFontDatabase>
 #include <kdeclarative_version.h>
-#include <KLocalizedContext>
 #include <klocalizedstring.h>
+#include <memory>
 
 #include "core.h"
 #include "glwidget.h"
@@ -1358,7 +1359,7 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath, 
     Mlt::Service s(m_producer->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter.reset(new Mlt::Filter (pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData()));
+        filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());

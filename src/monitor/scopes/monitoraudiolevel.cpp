@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFont>
 #include <QPaintEvent>
 #include <QPainter>
+#include <memory>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
@@ -50,7 +51,7 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_filter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "audiolevel"));
+    m_filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), "audiolevel");
     if (!m_filter->is_valid()) {
         isValid = false;
         return;

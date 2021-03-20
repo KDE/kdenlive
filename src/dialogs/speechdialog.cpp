@@ -30,11 +30,12 @@
 #include "mlt++/MltTractor.h"
 #include "mlt++/MltConsumer.h"
 
-#include <QFontDatabase>
-#include <QDir>
-#include <QProcess>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <QDir>
+#include <QFontDatabase>
+#include <QProcess>
+#include <memory>
 
 SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
     : QDialog(parent)
@@ -117,8 +118,8 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     QString speech;
     QString audio;
     QTemporaryFile tmpPlaylist(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-    m_tmpSrt.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt"))));
-    m_tmpAudio.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav"))));
+    m_tmpSrt = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt")));
+    m_tmpAudio = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav")));
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
@@ -177,7 +178,7 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
         modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
-    m_speechJob.reset(new QProcess(this));
+    m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, speech, zone](int, QProcess::ExitStatus status) {
        slotProcessSpeechStatus(status, speech, zone);

@@ -20,17 +20,18 @@
  ***************************************************************************/
 
 #include "textbasededit.h"
-#include "monitor/monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
-#include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+#include "bin/projectsubclip.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "timecodedisplay.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
+#include <memory>
 #include <profiles/profilemodel.hpp>
 
 #include "klocalizedstring.h"
@@ -799,7 +800,7 @@ void TextBasedEdit::startRecognition()
         return;
     }
 
-    m_speechJob.reset(new QProcess(this));
+    m_speechJob = std::make_unique<QProcess>(this);
     showMessage(i18n("Starting speech recognition"), KMessageWidget::Information);
     qApp->processEvents();
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
@@ -862,7 +863,7 @@ void TextBasedEdit::startRecognition()
 
         showMessage(i18n("Extracting audio for %1.", clipName), KMessageWidget::Information);
         qApp->processEvents();
-        m_tCodeJob.reset(new QProcess(this));
+        m_tCodeJob = std::make_unique<QProcess>(this);
         m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
             qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";

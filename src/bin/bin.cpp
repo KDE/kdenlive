@@ -54,9 +54,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
-#include <utils/thumbnailcache.hpp>
-#include <profiles/profilemodel.hpp>
 #include <dialogs/textbasededit.h>
+#include <memory>
+#include <profiles/profilemodel.hpp>
+#include <utils/thumbnailcache.hpp>
 
 #include <KColorScheme>
 #include <KRatingPainter>
@@ -2142,7 +2143,7 @@ void Bin::slotInitView(QAction *action)
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
-    m_proxyModel.reset(new ProjectSortProxyModel(this));
+    m_proxyModel = std::make_unique<ProjectSortProxyModel>(this);
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotDataChanged);

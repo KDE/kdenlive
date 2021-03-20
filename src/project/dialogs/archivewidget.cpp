@@ -40,6 +40,7 @@
 
 #include <QTreeWidget>
 #include <QtConcurrent>
+#include <memory>
 #include <utility>
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, QWidget *parent)
     : QDialog(parent)
@@ -961,9 +962,9 @@ void ArchiveWidget::createArchive()
     QString group = dirInfo.group();
     std::unique_ptr<KArchive> archive;
     if (compression_type->currentIndex() == 1) {
-        archive.reset(new KZip(m_archiveName));
+        archive = std::make_unique<KZip>(m_archiveName);
     } else {
-        archive.reset(new KTar(m_archiveName, QStringLiteral("application/x-gzip")));
+        archive = std::make_unique<KTar>(m_archiveName, QStringLiteral("application/x-gzip"));
     }
     archive->open(QIODevice::WriteOnly);
 
