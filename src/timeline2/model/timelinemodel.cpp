@@ -3561,7 +3561,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     m_iteratorTable[id] = it;
     endInsertRows();
     int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
-    mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
+    mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
 }
 
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer)
@@ -3624,7 +3624,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         // Finish operation
         endRemoveRows();
         int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
-        mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
+        mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
         return true;
     };
 }

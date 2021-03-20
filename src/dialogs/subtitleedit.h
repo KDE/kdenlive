@@ -34,7 +34,7 @@ class ShiftEnterFilter : public QObject
 {
     Q_OBJECT
 public:
-    ShiftEnterFilter(QObject *parent = 0);
+    ShiftEnterFilter(QObject *parent = nullptr);
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 signals:

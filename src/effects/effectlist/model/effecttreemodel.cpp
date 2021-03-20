@@ -241,7 +241,7 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
         if (dir.exists(newName + QStringLiteral(".xml"))){
             QMessageBox message;
-            message.critical(0, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
+            message.critical(nullptr, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
             message.setFixedSize(400, 200);
             return;
         }
