@@ -80,7 +80,7 @@ public:
      * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build();
+    static bool build(bool testMode = false);
 
     /**
      * @brief Init the GUI part of the app and show the main window

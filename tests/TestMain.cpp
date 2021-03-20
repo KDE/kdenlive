@@ -7,8 +7,10 @@
 #define private public
 #define protected public
 #include "core.h"
+#include "mltconnection.h"
 #include "src/effects/effectsrepository.hpp"
 #include "src/mltcontroller/clipcontroller.h"
+#include "bin/projectitemmodel.h"
 /* This file is intended to remain empty.
 Write your tests in a file with a name corresponding to what you're testing */
 
@@ -18,8 +20,9 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     qputenv("MLT_TESTS", QByteArray("1"));
-    Mlt::Factory::init();
-    Core::build();
+    Core::build(true);
+    MltConnection::construct(QString());
+    pCore->projectItemModel()->buildPlaylist();
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
 
