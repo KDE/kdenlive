@@ -178,7 +178,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     int count = m_playlists[target_playlist].count();
 
     // we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [clipId, this, position, updateView, finalMove, target_playlist](int subPlaylist) {
+    auto end_function = [clipId, this, position, updateView, finalMove](int subPlaylist) {
         if (auto ptr = m_parent.lock()) {
             std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
             m_allClips[clip->getId()] = clip; // store clip
@@ -602,7 +602,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (!isHidden() && !isAudioTrack()) {
         checkRefresh = true;
     }
-    auto update_snaps = [old_in, old_out, checkRefresh, right, clipId, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, right, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             if (right) {
                 ptr->m_snaps->removePoint(old_out);

@@ -571,7 +571,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, [this]() {
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
 
@@ -630,7 +630,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
-    connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
+    connect(speech_zone, &QCheckBox::stateChanged, [](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
     });
     button_delete->setDefaultAction(m_visualEditor->deleteAction);

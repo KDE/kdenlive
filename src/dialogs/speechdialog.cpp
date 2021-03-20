@@ -48,7 +48,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, [this]() {
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
     m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
