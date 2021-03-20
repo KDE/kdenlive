@@ -2766,7 +2766,7 @@ void TimelineController::switchTrackLock(bool applyToAll)
                 toBeLockedCount++;
             }
         }
-        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? 1 : 0;
+        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? true : false;
         for (const int id : ids) {
             // leave active track unlocked
             if (leaveOneUnlocked && id == m_activeTrack) {
