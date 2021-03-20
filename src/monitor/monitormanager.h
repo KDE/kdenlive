@@ -128,6 +128,8 @@ private slots:
     void slotZoomOut();
     /** @brief Trigger refresh of both monitors */
     void forceProjectMonitorRefresh();
+    /** @brief Enables / disables effect scene*/
+    void slotToggleEffectScene(bool enable);
 
 private:
     /** @brief Make sure 2 monitors cannot be activated simultaneously*/

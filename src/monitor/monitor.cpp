@@ -129,7 +129,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_dragStarted(false)
     , m_recManager(nullptr)
     , m_loopClipAction(nullptr)
-    , m_sceneVisibilityAction(nullptr)
     , m_contextMenu(nullptr)
     , m_markerMenu(nullptr)
     , m_audioChannels(nullptr)
@@ -439,11 +438,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::slotSeekToKeyFrame);
 
-    m_sceneVisibilityAction = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
-    m_sceneVisibilityAction->setCheckable(true);
-    m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-    connect(m_sceneVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableEffectScene);
-    m_toolbar->addAction(m_sceneVisibilityAction);
+    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_editmode")));
 
     m_toolbar->addSeparator();
     m_toolbar->addWidget(m_timePos);
@@ -1849,7 +1844,7 @@ QPoint Monitor::getZoneInfo() const
     return m_glMonitor->getControllerProxy()->zone();
 }
 
-void Monitor::slotEnableEffectScene(bool enable)
+void Monitor::enableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
@@ -2213,7 +2208,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
         return;
     }
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
-    if ((m_sceneVisibilityAction != nullptr) && !m_sceneVisibilityAction->isChecked() && sceneWithEdit) {
+    if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;

@@ -154,6 +154,8 @@ public:
     void normalizeAudioThumbs();
     /** @brief Returns true if monitor is playing */
     bool isPlaying() const;
+    /** @brief Enables / disables effect scene*/
+    void enableEffectScene(bool enable);
     
 
 protected:
@@ -200,7 +202,6 @@ private:
     KSelectAction *m_forceSize;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
-    QAction *m_sceneVisibilityAction;
     QAction *m_zoomVisibilityAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
@@ -247,7 +248,6 @@ private slots:
     void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
     void setZoom();
-    void slotEnableEffectScene(bool enable);
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);

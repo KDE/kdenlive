@@ -331,6 +331,13 @@ void MonitorManager::resetConsumers(bool fullReset)
     }
 }
 
+void MonitorManager::slotToggleEffectScene(bool enable)
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->enableEffectScene(enable);
+    }
+}
+
 void MonitorManager::slotUpdateAudioMonitoring()
 {
     if (m_clipMonitor) {
@@ -421,6 +428,12 @@ void MonitorManager::setupActions()
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
+
+    QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
+    enableEditmode->setCheckable(true);
+    enableEditmode->setChecked(KdenliveSettings::showOnMonitorScene());
+    connect(enableEditmode, &QAction::triggered, this, &MonitorManager::slotToggleEffectScene);
+    pCore->window()->addAction(QStringLiteral("monitor_editmode"), enableEditmode);
 
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
