@@ -580,7 +580,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     // Visual text editor
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     m_visualEditor = new VideoTextEdit(this);
     m_visualEditor->installEventFilter(this);

@@ -60,7 +60,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     }
 
     // Info widget
-    KMessageWidget *infoMessage = new KMessageWidget(this);
+    auto *infoMessage = new KMessageWidget(this);
     ui->infoLayout->addWidget(infoMessage);
     infoMessage->hide();
     ui->speedSpin->setFocus();

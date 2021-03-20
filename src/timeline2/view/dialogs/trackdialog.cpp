@@ -79,7 +79,7 @@ void TrackDialog::buildCombo()
         }
         const QString trackName = m_model->getTrackFullName(tid);
         if (m_deleteMode) {
-            QListWidgetItem *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
+            auto *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
             m_idByTrackname.insert(trackName,tid);
             track->setFlags(track->flags() | Qt::ItemIsUserCheckable);
             track->setCheckState(Qt::Unchecked);

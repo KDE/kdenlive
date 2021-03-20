@@ -2682,7 +2682,7 @@ void TimelineController::alignAudio(int clipId)
         }
         processed ++;
         // Perform audio calculation
-        AudioEnvelope *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
+        auto *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
                                                 (size_t)m_model->getClipPosition(cid));
         m_audioCorrelator->addChild(envelope);
     }

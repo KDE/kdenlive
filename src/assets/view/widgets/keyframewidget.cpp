@@ -250,7 +250,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         QMapIterator<QPersistentModelIndex, QString> i(paramList);
         while (i.hasNext()) {
             i.next();
-            QCheckBox *cb = new QCheckBox(i.value(), this);
+            auto *cb = new QCheckBox(i.value(), this);
             cb->setProperty("index", i.key());
             l->addWidget(cb);
         }

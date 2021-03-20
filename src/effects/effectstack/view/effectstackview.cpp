@@ -204,7 +204,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
     connect(m_model.get(), &EffectStackModel::currentChanged, this, [=](QModelIndex ix, bool active) {
         m_effectsTree->setCurrentIndex(ix);
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
         if (w) {
             w->slotActivateEffect(active);
         }
@@ -220,7 +220,7 @@ void EffectStackView::changeEnabledState()
     if (currentActive < max && currentActive > -1) {
         auto item = m_model->getEffectStackRow(currentActive);
         QModelIndex ix = m_model->getIndexFromItem(item);
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
         w->updateScene();
     }
     emit updateEnabledState();
@@ -297,7 +297,7 @@ void EffectStackView::loadEffects()
     }
     if (activeIndex.isValid()) {
         m_effectsTree->setCurrentIndex(activeIndex);
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIndex));
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIndex));
         if (w) {
             w->slotActivateEffect(true);
         }

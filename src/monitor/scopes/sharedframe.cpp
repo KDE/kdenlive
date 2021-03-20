@@ -190,11 +190,11 @@ mlt_image_format native_format = get_image_format();
         const char* formatName = mlt_image_format_name( format );
         // Convert to non-const so that the cache can be accessed/modified while
         // under lock.
-        FrameData* nonConstData = const_cast<FrameData*>(d.data());
+        auto* nonConstData = const_cast<FrameData*>(d.data());
 
         nonConstData->m.lock();
 
-        Mlt::Frame* cacheFrame = static_cast<Mlt::Frame*>(nonConstData->f.get_data(formatName));
+        auto* cacheFrame = static_cast<Mlt::Frame*>(nonConstData->f.get_data(formatName));
         if (cacheFrame == nullptr) {
             // A cached image does not exist, create one.
             // Make a non-deep clone of the frame (including convert function)

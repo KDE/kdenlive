@@ -280,7 +280,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         updateLabel();
     });
 
-    QToolButton *mute = new QToolButton(this);
+    auto *mute = new QToolButton(this);
     mute->setDefaultAction(m_muteAction);
     mute->setAutoRaise(true);
 
@@ -320,7 +320,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         });
     }
 
-    QToolButton *showEffects = new QToolButton(this);
+    auto *showEffects = new QToolButton(this);
     showEffects->setIcon(QIcon::fromTheme("autocorrection"));
     showEffects->setToolTip(i18n("Open Effect Stack"));
     showEffects->setAutoRaise(true);
@@ -364,11 +364,11 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             }
         });
     }
-    QVBoxLayout *lay = new QVBoxLayout;
+    auto *lay = new QVBoxLayout;
     setContentsMargins(0, 0, 0, 0);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_trackLabel);
-    QHBoxLayout *buttonslay = new QHBoxLayout;
+    auto *buttonslay = new QHBoxLayout;
     buttonslay->setSpacing(0);
     buttonslay->setContentsMargins(0, 0, 0, 0);
     if (m_collapse) {
@@ -384,14 +384,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     buttonslay->addWidget(showEffects);
     lay->addLayout(buttonslay);
     if (m_balanceSlider) {
-        QGridLayout *balancelay = new QGridLayout;
+        auto *balancelay = new QGridLayout;
         balancelay->addWidget(m_balanceSlider, 0, 0, 1, 3);
         balancelay->addWidget(labelLeft, 1, 0, 1, 1);
         balancelay->addWidget(m_balanceSpin, 1, 1, 1, 1);
         balancelay->addWidget(labelRight, 1, 2, 1, 1);
         lay->addLayout(balancelay);
     }
-    QHBoxLayout *hlay = new QHBoxLayout;
+    auto *hlay = new QHBoxLayout;
     hlay->addWidget(m_audioMeterWidget.get());
     hlay->addWidget(m_volumeSlider);
     lay->addLayout(hlay);

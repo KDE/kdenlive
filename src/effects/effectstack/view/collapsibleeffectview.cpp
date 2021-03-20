@@ -132,7 +132,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     QLabel *in = new QLabel(i18n("In:"), this);
     in->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(in);
-    QToolButton *setIn = new QToolButton(this);
+    auto *setIn = new QToolButton(this);
     setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
     setIn->setAutoRaise(true);
     setIn->setToolTip(i18n("Set zone in"));
@@ -143,7 +143,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     QLabel *out = new QLabel(i18n("Out:"), this);
     out->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     layZone->addWidget(out);
-    QToolButton *setOut = new QToolButton(this);
+    auto *setOut = new QToolButton(this);
     setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
     setOut->setAutoRaise(true);
     setOut->setToolTip(i18n("Set zone out"));
@@ -477,8 +477,8 @@ void CollapsibleEffectView::slotSaveEffect()
 {
     QDialog dialog(this);
     QFormLayout form(&dialog);
-    QLineEdit *effectName = new QLineEdit(&dialog);
-    QTextEdit *descriptionBox = new QTextEdit(&dialog);
+    auto *effectName = new QLineEdit(&dialog);
+    auto *descriptionBox = new QTextEdit(&dialog);
     QString label_Name = QString("Name : ");
     form.addRow(label_Name, effectName);
     QString label = QString("Comments : ");

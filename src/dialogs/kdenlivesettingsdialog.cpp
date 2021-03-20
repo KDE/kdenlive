@@ -2007,7 +2007,7 @@ void KdenliveSettingsDialog::downloadModelFinished(KJob* job)
     qDebug()<<"=== DOWNLOAD FINISHED!!";
     if (job->error() == 0 || job->error() == 112) {
         qDebug()<<"=== NO ERROR ON DWNLD!!";
-        KIO::FileCopyJob *jb = static_cast<KIO::FileCopyJob*>(job);
+        auto *jb = static_cast<KIO::FileCopyJob*>(job);
         if (jb) {
             qDebug()<<"=== JOB FOUND!!";
             QString archiveFile = jb->destUrl().toLocalFile();

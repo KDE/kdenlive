@@ -648,7 +648,7 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     lay->addWidget(sep);
 
     // Proxy data
-    QHBoxLayout *hLay = new QHBoxLayout;
+    auto *hLay = new QHBoxLayout;
     lab = new QLabel(i18n("Total Proxy Data"), this);
     hLay->addWidget(lab);
     m_totalProxySize = new QLabel(i18n("Calculating..."), this);
@@ -714,7 +714,7 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     // Config cleanup age
     hLay = new QHBoxLayout;
     hLay->addWidget(new QLabel(i18n("Cleanup will delete data older than"), this));
-    QSpinBox *age = new QSpinBox(this);
+    auto *age = new QSpinBox(this);
     age->setRange(1, 48);
     age->setSuffix(i18np(" month", " months", KdenliveSettings::cleanCacheMonths()));
     age->setValue(KdenliveSettings::cleanCacheMonths());

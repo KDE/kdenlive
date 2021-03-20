@@ -782,7 +782,7 @@ void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
     const QStringList vals = val.split(QLatin1Char(' '));
     int offset = pCore->getItemIn(m_model->getOwnerId());
     qDebug()<<"=== COPYING VALS: "<<val<<", PARAM NAME_ "<<paramName;
-    QUndoCommand *parentCommand = new QUndoCommand();
+    auto *parentCommand = new QUndoCommand();
     for (int kf : m_selectedKeyframes) {
         QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));

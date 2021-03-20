@@ -103,7 +103,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setupEngine(engine());
-    KLocalizedContext *localizedContextObject = new KLocalizedContext(engine());
+    auto *localizedContextObject = new KLocalizedContext(engine());
     engine()->rootContext()->setContextObject(localizedContextObject);
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;

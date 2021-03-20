@@ -2191,7 +2191,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Move subtitles
     if (!sorted_subtitles.empty()) {
         std::vector<std::pair<int, GenTime>>::iterator ptr;
-        std::vector<std::pair<int, GenTime>>::iterator last = std::prev(sorted_subtitles.end());
+        auto last = std::prev(sorted_subtitles.end());
         for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
             requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateView, ptr == sorted_subtitles.begin(), ptr == last, finalMove, local_undo, local_redo);
         }
@@ -3217,7 +3217,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     }
     if (ids.size() == 2 && clipsCount == 2 && type == GroupType::Normal) {
         // Check if we are grouping an AVSplit
-        std::unordered_set<int>::const_iterator it = ids.begin();
+        auto it = ids.begin();
         int firstId = *it;
         std::advance(it, 1);
         int secondId = *it;
