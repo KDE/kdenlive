@@ -18,8 +18,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <klocalizedstring.h>
 #include <QtConcurrent>
 
+#include <clocale>
 #include <lib/localeHandling.h>
-#include <locale.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
 
