@@ -54,7 +54,6 @@ const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 
 
 TimelineWidget::TimelineWidget(QWidget *parent)
     : QQuickWidget(parent)
-    , m_targetsGroup(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

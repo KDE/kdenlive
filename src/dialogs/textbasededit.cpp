@@ -44,8 +44,6 @@
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)
-    , m_hoveredBlock(-1)
-    , m_lastClickedBlock(-1)
 {
     setMouseTracking(true);
     setReadOnly(true);
@@ -568,8 +566,6 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
-    , m_clipDuration(0.)
-    , m_currentMessageAction(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

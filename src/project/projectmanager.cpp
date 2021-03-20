@@ -65,8 +65,6 @@ static QString getProjectNameFilters(bool ark=true) {
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_mainTimelineModel(nullptr)
-    , m_loading(false)
-
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));

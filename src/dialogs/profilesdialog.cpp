@@ -34,9 +34,7 @@
 
 ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent)
     : QDialog(parent)
-
 {
-
     // ask profile repository for a refresh
     ProfileRepository::get()->refresh();
 
@@ -96,10 +94,8 @@ void ProfilesDialog::connectDialog()
 
 ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent)
     : QDialog(parent)
-    , m_profileIsModified(false)
     , m_isCustomProfile(true)
     , m_customProfilePath(profilePath)
-    , m_profilesChanged(false)
 {
     m_view.setupUi(this);
 

@@ -41,8 +41,8 @@ CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPo
     : AbstractClipJob(CACHEJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : pCore->thumbProfile()->height() * pCore->getCurrentDar() + 0.5)
     , m_semaphore(1)
-    , m_done(false)
-    , m_thumbsCount(thumbsCount)
+    , 
+     m_thumbsCount(thumbsCount)
     , m_inPoint(inPoint)
     , m_outPoint(outPoint)
 

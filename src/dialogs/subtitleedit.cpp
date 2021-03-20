@@ -55,7 +55,6 @@ bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
 SubtitleEdit::SubtitleEdit(QWidget *parent)
     : QWidget(parent)
     , m_model(nullptr)
-    , m_activeSub(-1)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

@@ -66,7 +66,7 @@ private slots:
 
 private:
     std::shared_ptr<SubtitleModel> m_model;
-    int m_activeSub;
+    int m_activeSub{-1};
     TimecodeDisplay *m_position;
     TimecodeDisplay *m_endPosition;
     TimecodeDisplay *m_duration;

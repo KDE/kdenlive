@@ -46,7 +46,7 @@ signals:
     void seekToTransPos(int pos);
 
 private:
-    QComboBox *m_trackBox;
+    QComboBox *m_trackBox{nullptr};
 };
 
 #endif
