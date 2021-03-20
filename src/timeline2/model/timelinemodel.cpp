@@ -2128,7 +2128,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
         if (isClip(affectedItemId)) {
-            sorted_clips.push_back({affectedItemId, m_allClips[affectedItemId]->getPosition()});
+            sorted_clips.emplace_back(affectedItemId, m_allClips[affectedItemId]->getPosition());
             sorted_clips_ids.push_back(affectedItemId);
             int current_track_id = getClipTrackId(affectedItemId);
             // Check if we have a mix in the group
@@ -2151,7 +2151,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         } else if (isComposition(affectedItemId)) {
             sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(m_allCompositions[affectedItemId]->getCurrentTrackId())}});
         } else if (isSubTitle(affectedItemId)) {
-            sorted_subtitles.push_back({affectedItemId, m_allSubtitles.at(affectedItemId)});
+            sorted_subtitles.emplace_back(affectedItemId, m_allSubtitles.at(affectedItemId));
         }
     }
     

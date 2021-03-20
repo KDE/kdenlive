@@ -280,7 +280,7 @@ int TimelineController::selectedTrack() const
     std::vector<std::pair<int, int>> selected_tracks; // contains pairs of (track position, track id) for each selected item
     for (int s : sel) {
         int tid = m_model->getItemTrackId(s);
-        selected_tracks.push_back({m_model->getTrackPosition(tid), tid});
+        selected_tracks.emplace_back(m_model->getTrackPosition(tid), tid);
     }
     // sort by track position
     std::sort(selected_tracks.begin(), selected_tracks.begin(), [](const auto &a, const auto &b) { return a.first < b.first; });
