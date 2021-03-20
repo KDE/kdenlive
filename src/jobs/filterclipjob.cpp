@@ -28,14 +28,15 @@
 #include "macros.hpp"
 
 #include <QThread>
+#include <utility>
 
 #include <klocalizedstring.h>
 
-FilterClipJob::FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs)
+FilterClipJob::FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, QString assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs)
     : MeltJob(binId, owner, FILTERCLIPJOB, false, in, out)
-    , m_model(model)
-    , m_filterName(filterName)
-    , m_assetId(assetId)
+    , m_model(std::move(model))
+    , m_filterName(std::move(filterName))
+    , m_assetId(std::move(assetId))
     , m_filterParams(std::move(filterParams))
     , m_filterData(std::move(filterData))
     , m_consumerArgs(consumerArgs)

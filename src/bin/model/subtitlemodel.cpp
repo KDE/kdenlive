@@ -35,15 +35,16 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTextCodec>
-#include <QApplication>
+#include <utility>
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
-    , m_timeline(timeline)
+    , m_timeline(std::move(timeline))
     , m_lock(QReadWriteLock::Recursive)
     , m_subtitleFilter(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"))
     , m_tractor(tractor)

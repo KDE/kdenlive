@@ -21,6 +21,7 @@
 #include <klocalizedstring.h>
 
 #include <QColor>
+#include <utility>
 
 #ifdef CRASH_AUTO_TEST
 #pragma GCC diagnostic push
@@ -214,7 +215,7 @@ SubtitledTime::SubtitledTime()
 
 SubtitledTime::SubtitledTime(const GenTime &start, QString sub, const GenTime &end)
     : m_starttime(start)
-    , m_subtitle(sub)
+    , m_subtitle(std::move(sub))
     , m_endtime(end)
 {
 }

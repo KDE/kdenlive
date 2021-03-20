@@ -41,11 +41,12 @@
 #include <QWidget>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <utility>
 
-LoadJob::LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack)
+LoadJob::LoadJob(const QString &binId, const QDomElement &xml, std::function<void()> readyCallBack)
     : AbstractClipJob(LOADJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_xml(xml)
-    , m_readyCallBack(readyCallBack)
+    , m_readyCallBack(std::move(readyCallBack))
 {
 }
 

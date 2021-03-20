@@ -36,10 +36,11 @@
 #include <QFontDatabase>
 #include <QProcess>
 #include <memory>
+#include <utility>
 
-SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
+SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
     : QDialog(parent)
-    , m_timeline(timeline)
+    , m_timeline(std::move(timeline))
     
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));

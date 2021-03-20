@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QDialog>
 #include <QPointer>
+#include <utility>
 
 CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime inTime, GenTime outTime, const QString destPath, QStringList encodingParams)
     : AbstractClipJob(CUTJOB, binId, {ObjectType::BinClip, binId.toInt()})
@@ -48,7 +49,7 @@ CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime i
     , m_jobProcess(nullptr)
     , m_in(inTime)
     , m_out(outTime)
-    , m_encodingParams(encodingParams)
+    , m_encodingParams(std::move(encodingParams))
     , m_jobDuration((int)(outTime - inTime).seconds())
 {
 }

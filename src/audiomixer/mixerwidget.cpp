@@ -31,20 +31,21 @@
 #include "audiolevelwidget.hpp"
 #include "capture/mediacapture.h"
 
-#include <klocalizedstring.h>
 #include <KDualAction>
-#include <QGridLayout>
-#include <QToolButton>
+#include <KSqueezedTextLabel>
 #include <QCheckBox>
-#include <QSlider>
 #include <QDial>
-#include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QFontDatabase>
+#include <QGridLayout>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QSlider>
+#include <QSpinBox>
 #include <QStyle>
-#include <QFontDatabase>
-#include <KSqueezedTextLabel>
+#include <QToolButton>
+#include <klocalizedstring.h>
+#include <utility>
 
 static inline double IEC_Scale(double dB)
 {
@@ -100,7 +101,7 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
     }
 }
 
-MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, QString trackTag, const QString &trackName, MixerManager *parent)
 : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -116,12 +117,12 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
-    , m_trackTag(trackTag)
+    , m_trackTag(std::move(trackTag))
 {
     buildUI(service.get(), trackName);
 }
 
-MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const QString &trackName, MixerManager *parent)
     : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -137,7 +138,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
-    , m_trackTag(trackTag)
+    , m_trackTag(std::move(trackTag))
 {
     buildUI(service, trackName);
 }

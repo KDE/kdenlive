@@ -31,6 +31,7 @@
 
 #include <QProcess>
 #include <QThread>
+#include <utility>
 
 #include <klocalizedstring.h>
 
@@ -40,7 +41,7 @@ TranscodeJob::TranscodeJob(const QString &binId, QString params)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)
     , m_done(false)
-    , m_transcodeParams(params)
+    , m_transcodeParams(std::move(params))
 {
 }
 
