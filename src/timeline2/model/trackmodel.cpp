@@ -1051,10 +1051,10 @@ bool TrackModel::checkConsistency()
             // Check that the mix has correct in/out
             int mainId = -1;
             int mixIn = t.get_in();
-            for ( auto it = m_sameCompositions.begin(); it != m_sameCompositions.end(); ++it ) {
-                if (static_cast<Mlt::Transition *>(it->second->getAsset())->get_in() == mixIn) {
+            for (auto & m_sameComposition : m_sameCompositions) {
+                if (static_cast<Mlt::Transition *>(m_sameComposition.second->getAsset())->get_in() == mixIn) {
                     // Found mix in list
-                    mainId = it->first;
+                    mainId = m_sameComposition.first;
                     break;
                 }
             }
@@ -1106,9 +1106,9 @@ std::pair<int, int> TrackModel::getClipIndexAt(int position, int playlist)
 bool TrackModel::isLastClip(int position)
 {
     READ_LOCK();
-    for (int j = 0; j < 2; j++) {
-        if (!m_playlists[j].is_blank_at(position)) {
-            return m_playlists[j].get_clip_index_at(position) == m_playlists[j].count() - 1;
+    for (auto & m_playlist : m_playlists) {
+        if (!m_playlist.is_blank_at(position)) {
+            return m_playlist.get_clip_index_at(position) == m_playlist.count() - 1;
         }
     }
     return false;
