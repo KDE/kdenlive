@@ -97,7 +97,7 @@ private:
     QMenu *m_guideMenu;
     QMenu *m_headerMenu;
     QMenu *m_targetsMenu;
-    QActionGroup *m_targetsGroup;
+    QActionGroup *m_targetsGroup{nullptr};
     QMenu *m_thumbsMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;

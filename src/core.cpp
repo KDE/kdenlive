@@ -280,9 +280,9 @@ Bin *Core::bin()
     return m_binWidget;
 }
 
-void Core::selectBinClip(const QString &clipId, int frame, const QPoint &zone)
+void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame, const QPoint &zone)
 {
-    m_binWidget->selectClipById(clipId, frame, zone);
+    m_binWidget->selectClipById(clipId, frame, zone, activateMonitor);
 }
 
 void Core::selectTimelineItem(int id)

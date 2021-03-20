@@ -263,7 +263,7 @@ void MainWindow::init(const QString &mltPath)
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
     setupActions();
-    LayoutManagement *layoutManager = new LayoutManagement(this);
+    auto *layoutManager = new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
@@ -311,15 +311,15 @@ void MainWindow::init(const QString &mltPath)
 
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
-    QVBoxLayout *grabLayout = new QVBoxLayout;
+    auto *grabLayout = new QVBoxLayout;
     grabWidget->setLayout(grabLayout);
-    QToolBar *recToolbar = new QToolBar(grabWidget);
+    auto *recToolbar = new QToolBar(grabWidget);
     grabLayout->addWidget(recToolbar);
     grabLayout->addStretch(10);
     // Check number of monitors for FFmpeg screen capture
     int screens = QApplication::screens().count();
     if (screens > 1) {
-        QComboBox *screenCombo = new QComboBox(recToolbar);
+        auto *screenCombo = new QComboBox(recToolbar);
         for (int ix = 0; ix < screens; ix++) {
             screenCombo->addItem(i18n("Monitor %1", ix));
         }
@@ -353,7 +353,7 @@ void MainWindow::init(const QString &mltPath)
     pCore->bin()->dockWidgetInit(clipDockWidget);
 
     // Online resources widget
-    ResourceWidget *onlineResources = new ResourceWidget(this);
+    auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
     connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path, const QString &title) {
         m_clipMonitor->slotPreviewResource(path, title);
@@ -492,7 +492,7 @@ void MainWindow::init(const QString &mltPath)
 
     auto *scmanager = new ScopeManager(this);
 
-    HideTitleBars *titleBars = new HideTitleBars(this);
+    auto *titleBars = new HideTitleBars(this);
     connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
     new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
@@ -578,7 +578,7 @@ void MainWindow::init(const QString &mltPath)
     loadClipActions();
 
     // Timeline clip menu
-    QMenu *timelineClipMenu = new QMenu(this);
+    auto *timelineClipMenu = new QMenu(this);
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("paste_effects")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_effects")));
@@ -601,13 +601,13 @@ void MainWindow::init(const QString &mltPath)
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
 
     // Timeline composition menu
-    QMenu *compositionMenu = new QMenu(this);
+    auto *compositionMenu = new QMenu(this);
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
 
     // Timeline main menu
-    QMenu *timelineMenu = new QMenu(this);
+    auto *timelineMenu = new QMenu(this);
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
@@ -618,7 +618,7 @@ void MainWindow::init(const QString &mltPath)
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
-    QMenu *timelineRulerMenu = new QMenu(this);
+    auto *timelineRulerMenu = new QMenu(this);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addMenu(guideMenu);
@@ -626,12 +626,12 @@ void MainWindow::init(const QString &mltPath)
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
     //Timeline subtitle menu
-    QMenu *timelineSubtitleMenu = new QMenu(this);
+    auto *timelineSubtitleMenu = new QMenu(this);
     timelineSubtitleMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     timelineSubtitleMenu->addAction(actionCollection()->action(QStringLiteral("delete_subtitle_clip")));
 
     // Timeline headers menu
-    QMenu *timelineHeadersMenu = new QMenu(this);
+    auto *timelineHeadersMenu = new QMenu(this);
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
@@ -651,7 +651,7 @@ void MainWindow::init(const QString &mltPath)
     timelineHeadersMenu->addAction(normalize_channels);
 
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
-    QActionGroup *thumbGroup = new QActionGroup(this);
+    auto *thumbGroup = new QActionGroup(this);
     QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
     inFrame->setData(QStringLiteral("2"));
     inFrame->setCheckable(true);
@@ -1145,7 +1145,7 @@ void MainWindow::setupActions()
     tlsettings->addAction(splitView);
     tlsettings->addAction(splitView2);
 
-    QToolButton *timelineSett = new QToolButton(this);
+    auto *timelineSett = new QToolButton(this);
     timelineSett->setPopupMode(QToolButton::InstantPopup);
     timelineSett->setMenu(tlsettings);
     timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
@@ -3237,7 +3237,7 @@ void MainWindow::slotClipInProjectTree()
         } else {
             pos = -1;
         }
-        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), pos, zone);
+        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), true, pos, zone);
     }
 }
 

@@ -62,8 +62,11 @@ public:
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
-    /** @brief Disable all bin effects in current project */
-    void disableBinEffects(bool disable);
+    /** @brief Disable all bin effects in current project 
+     *  @param disable if true, all project bin effects will be disabled
+     *  @param refreshMonitor if false, monitors will not be refreshed
+     */
+    void disableBinEffects(bool disable, bool refreshMonitor = true);
     /** @brief Returns current project's xml scene */
     QString projectSceneList(const QString &outputFolder, const QString overlayData = QString());
     /** @brief returns a default hd profile depending on timezone*/
@@ -206,7 +209,7 @@ private:
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
-    bool m_loading;
+    bool m_loading{false};
     void saveRecentFiles();
 };
 

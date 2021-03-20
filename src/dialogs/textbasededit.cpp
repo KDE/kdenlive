@@ -20,17 +20,18 @@
  ***************************************************************************/
 
 #include "textbasededit.h"
-#include "monitor/monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
-#include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+#include "bin/projectsubclip.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "timecodedisplay.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
+#include <memory>
 #include <profiles/profilemodel.hpp>
 
 #include "klocalizedstring.h"
@@ -43,8 +44,6 @@
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)
-    , m_hoveredBlock(-1)
-    , m_lastClickedBlock(-1)
 {
     setMouseTracking(true);
     setReadOnly(true);
@@ -567,8 +566,6 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
-    , m_clipDuration(0.)
-    , m_currentMessageAction(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -579,7 +576,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     // Visual text editor
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     m_visualEditor = new VideoTextEdit(this);
     m_visualEditor->installEventFilter(this);
@@ -799,7 +796,7 @@ void TextBasedEdit::startRecognition()
         return;
     }
 
-    m_speechJob.reset(new QProcess(this));
+    m_speechJob = std::make_unique<QProcess>(this);
     showMessage(i18n("Starting speech recognition"), KMessageWidget::Information);
     qApp->processEvents();
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
@@ -862,9 +859,11 @@ void TextBasedEdit::startRecognition()
 
         showMessage(i18n("Extracting audio for %1.", clipName), KMessageWidget::Information);
         qApp->processEvents();
-        m_tCodeJob.reset(new QProcess(this));
+        m_tCodeJob = std::make_unique<QProcess>(this);
         m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
-        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+            Q_UNUSED(code)
             qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";
             if (status == QProcess::CrashExit) {
                 showMessage(i18n("Audio extract failed."), KMessageWidget::Warning);

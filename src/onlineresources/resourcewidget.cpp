@@ -42,8 +42,6 @@
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
-    , m_currentProvider(nullptr)
-    , m_currentItem(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

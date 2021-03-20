@@ -21,16 +21,17 @@
  */
 
 #include <KDeclarative/KDeclarative>
+#include <KLocalizedContext>
 #include <KMessageBox>
 #include <QApplication>
+#include <QFontDatabase>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QFontDatabase>
 #include <kdeclarative_version.h>
-#include <KLocalizedContext>
 #include <klocalizedstring.h>
+#include <memory>
 
 #include "core.h"
 #include "glwidget.h"
@@ -102,7 +103,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setupEngine(engine());
-    KLocalizedContext *localizedContextObject = new KLocalizedContext(engine());
+    auto *localizedContextObject = new KLocalizedContext(engine());
     engine()->rootContext()->setContextObject(localizedContextObject);
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -130,7 +131,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = m_blackClip;
-    rootContext()->setContextProperty("markersModel", 0);
+    rootContext()->setContextProperty("markersModel", nullptr);
     if (!initGPUAccel()) {
         disableGPUAccel();
     }
@@ -906,7 +907,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         }
         m_producer = m_blackClip;
         // Reset markersModel
-        rootContext()->setContextProperty("markersModel", 0);
+        rootContext()->setContextProperty("markersModel", nullptr);
     }
     // redundant check. postcondition of above is m_producer != null
     m_producer->set_speed(0);
@@ -925,6 +926,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     }
     if (isActive) {
         startConsumer();
+        m_proxy->resetPosition();
     }
     m_consumer->set("scrub_audio", 0);
     m_proxy->setPosition(position > 0 ? position : m_producer->position());
@@ -1358,7 +1360,7 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath, 
     Mlt::Service s(m_producer->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter.reset(new Mlt::Filter (pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData()));
+        filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());
@@ -1819,7 +1821,7 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
     }
 }
 
-void GLWidget::updateScaling()
+bool GLWidget::updateScaling()
 {
 #if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
@@ -1843,7 +1845,11 @@ void GLWidget::updateScaling()
     if (pWidth% 2 > 0) {
         pWidth ++;
     }
-    m_profileSize = QSize(pWidth, previewHeight);
+    QSize profileSize(pWidth, previewHeight);
+    if (profileSize == m_profileSize) {
+        return false;
+    }
+    m_profileSize = profileSize;
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());
@@ -1855,11 +1861,16 @@ void GLWidget::updateScaling()
     if (pWidth% 2 > 0) {
         pWidth ++;
     }
-    m_profileSize = QSize(pWidth, previewHeight);
+    QSize profileSize(pWidth, previewHeight);
+    if (profileSize == m_profileSize) {
+        return false;
+    }
+    m_profileSize = profileSize;
     if (m_consumer) {
         resizeGL(width(), height());
     }
 #endif
+    return true;
 }
 
 void GLWidget::switchRuler(bool show)

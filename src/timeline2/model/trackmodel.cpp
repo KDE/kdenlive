@@ -31,11 +31,12 @@
 #else
 #define TRACE_CONSTR(...)
 #endif
-#include "snapmodel.hpp"
 #include "jobs/jobmanager.h"
+#include "snapmodel.hpp"
 #include "timelinemodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
+#include <memory>
 #include <mlt++/MltTransition.h>
 
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const QString &trackName, bool audioTrack)
@@ -1051,10 +1052,10 @@ bool TrackModel::checkConsistency()
             // Check that the mix has correct in/out
             int mainId = -1;
             int mixIn = t.get_in();
-            for ( auto it = m_sameCompositions.begin(); it != m_sameCompositions.end(); ++it ) {
-                if (static_cast<Mlt::Transition *>(it->second->getAsset())->get_in() == mixIn) {
+            for (auto & m_sameComposition : m_sameCompositions) {
+                if (static_cast<Mlt::Transition *>(m_sameComposition.second->getAsset())->get_in() == mixIn) {
                     // Found mix in list
-                    mainId = it->first;
+                    mainId = m_sameComposition.first;
                     break;
                 }
             }
@@ -1106,9 +1107,9 @@ std::pair<int, int> TrackModel::getClipIndexAt(int position, int playlist)
 bool TrackModel::isLastClip(int position)
 {
     READ_LOCK();
-    for (int j = 0; j < 2; j++) {
-        if (!m_playlists[j].is_blank_at(position)) {
-            return m_playlists[j].get_clip_index_at(position) == m_playlists[j].count() - 1;
+    for (auto & m_playlist : m_playlists) {
+        if (!m_playlist.is_blank_at(position)) {
+            return m_playlist.get_clip_index_at(position) == m_playlist.count() - 1;
         }
     }
     return false;
@@ -1846,7 +1847,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             QString assetName;
             std::unique_ptr<Mlt::Transition>t;
             if (isAudioTrack()) {
-                t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
+                t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("start", -1);
@@ -1857,7 +1858,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("mix");
             } else {
-                t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
+                t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
@@ -2043,7 +2044,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         QString assetName;
         std::unique_ptr<Mlt::Transition> t;
         if (isAudio) {
-            t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
+            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
             t->set_in_and_out(in, out);
             t->set("start", -1);
             t->set("accepts_blanks", 1);
@@ -2053,7 +2054,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
             m_track->plant_transition(*t.get(), 0, 1);
             assetName = QStringLiteral("mix");
         } else {
-            t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
+            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
             t->set_in_and_out(in, out);
             t->set("kdenlive_id", "luma");
             if (reverse) {
@@ -2086,7 +2087,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         QString assetName;
         std::unique_ptr<Mlt::Transition> t;
         if (isAudioTrack()) {
-            t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
+            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             t->set("start", -1);
             t->set("accepts_blanks", 1);
@@ -2096,7 +2097,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
             m_track->plant_transition(*t.get(), 0, 1);
             assetName = QStringLiteral("mix");
         } else {
-            t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
+            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
             t->set("kdenlive_id", "luma");
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             if (reverse) {

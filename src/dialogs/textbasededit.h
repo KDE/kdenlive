@@ -88,8 +88,8 @@ private slots:
     
 private:
     QWidget *lineNumberArea;
-    int m_hoveredBlock;
-    int m_lastClickedBlock;
+    int m_hoveredBlock{-1};
+    int m_lastClickedBlock{-1};
     QVector <int> m_selectedBlocks;
     int getFirstVisibleBlockId();
 };
@@ -186,12 +186,12 @@ private:
     /** @brief Id of the playlist which is processed from the master clip */
     QString m_refId;
     QString m_sourceUrl;
-    double m_clipDuration;
+    double m_clipDuration{0.};
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
     QAction *m_voskConfig;
-    QAction *m_currentMessageAction;
+    QAction *m_currentMessageAction{nullptr};
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
     QString m_playlist;

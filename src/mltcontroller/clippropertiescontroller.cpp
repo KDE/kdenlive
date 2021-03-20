@@ -431,7 +431,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Proxy
         QString proxy = m_properties->get("kdenlive:proxy");
         m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         auto *bg = new QGroupBox(this);
         bg->setCheckable(false);
         bg->setFlat(true);
@@ -697,7 +697,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
-                QListWidgetItem *item = new QListWidgetItem(i.value(), m_audioStreamsView);
+                auto *item = new QListWidgetItem(i.value(), m_audioStreamsView);
                 // Store stream index
                 item->setData(Qt::UserRole, i.key());
                 // Store oringinal name
@@ -815,7 +815,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             // Audio effects
             m_audioEffectGroup = new QGroupBox(this);
             m_audioEffectGroup->setEnabled(false);
-            QVBoxLayout *vbox = new QVBoxLayout;
+            auto *vbox = new QVBoxLayout;
             // Normalize
             m_normalize = new QCheckBox(i18n("Normalize"), this);
             connect(m_normalize, &QCheckBox::stateChanged, this, [this] (int state) {
@@ -852,7 +852,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             vbox->addWidget(m_swapChannels);
             // Copy channel
-            QHBoxLayout *copyLay = new QHBoxLayout;
+            auto *copyLay = new QHBoxLayout;
             copyLay->addWidget(new QLabel(i18n("Copy Channel"), this));
             m_copyChannel1 = new QCheckBox(i18n("1"), this);
             m_copyChannel2 = new QCheckBox(i18n("2"), this);
@@ -883,7 +883,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
             // Gain
-            QHBoxLayout *gainLay = new QHBoxLayout;
+            auto *gainLay = new QHBoxLayout;
             gainLay->addWidget(new QLabel(i18n("Gain"), this));
             m_gain = new QSpinBox(this);
             m_gain->setRange(-100, 60);

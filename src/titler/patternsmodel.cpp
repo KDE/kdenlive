@@ -72,7 +72,7 @@ QPixmap PatternsModel::paintScene(const QString & pattern)
     QGraphicsScene scene(0, 0, width, height);
 
     if (bkg) {
-        QGraphicsPixmapItem * bkg_frame = new QGraphicsPixmapItem();
+        auto * bkg_frame = new QGraphicsPixmapItem();
         bkg_frame->setTransform(bkg->transform());
         bkg_frame->setZValue(bkg->zValue());
         bkg_frame->setPixmap(bkg->pixmap());

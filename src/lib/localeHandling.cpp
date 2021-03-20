@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtGlobal>
-#include <locale.h>
+#include <clocale>
 
 auto LocaleHandling::setLocale(const QString &lcName) -> QString
 {

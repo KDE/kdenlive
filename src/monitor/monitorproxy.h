@@ -113,6 +113,8 @@ public:
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
+    /** @brief When the producer changes, ensure we reset the stored position*/
+    void resetPosition();
 
 signals:
     void positionChanged(int);

@@ -76,8 +76,8 @@ private slots:
     void slotAccessTokenReceived(const QString &accessToken);
 
 private:
-    std::unique_ptr<ProviderModel> *m_currentProvider;
-    QListWidgetItem *m_currentItem;
+    std::unique_ptr<ProviderModel> *m_currentProvider{nullptr};
+    QListWidgetItem *m_currentItem{nullptr};
     QTemporaryFile *m_tmpThumbFile;
     /** @brief Default icon size for the views. */
     QSize m_iconSize;

@@ -120,7 +120,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             QLabel *lab = new QLabel(this);
             lab->setText(i18n("Converting old custom effects successful:"));
             m_startLayout->addWidget(lab);
-            QListWidget *list = new QListWidget(this);
+            auto *list = new QListWidget(this);
             m_startLayout->addWidget(list);
             list->addItems(conversion.first);
         }
@@ -128,7 +128,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             QLabel *lab = new QLabel(this);
             lab->setText(i18n("Converting old custom effects failed:"));
             m_startLayout->addWidget(lab);
-            QListWidget *list = new QListWidget(this);
+            auto *list = new QListWidget(this);
             m_startLayout->addWidget(list);
             list->addItems(conversion.second);
         }

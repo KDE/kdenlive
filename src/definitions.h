@@ -227,7 +227,7 @@ public:
     /** the track on which the transition is applied (a_track)*/
     int a_track{0};
     /** Does the user request for a special a_track */
-    bool forceTrack{0};
+    bool forceTrack{false};
     TransitionInfo() = default;
 };
 

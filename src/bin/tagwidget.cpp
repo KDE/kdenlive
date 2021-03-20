@@ -89,8 +89,8 @@ void DragButton::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+    auto *drag = new QDrag(this);
+    auto *mimeData = new QMimeData;
     mimeData->setData(QStringLiteral("kdenlive/tag"), m_tag.toUtf8());
     drag->setPixmap(defaultAction()->icon().pixmap(22, 22));
     drag->setMimeData(mimeData);
@@ -124,10 +124,10 @@ TagWidget::TagWidget(QWidget *parent)
     : QWidget(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QHBoxLayout *lay = new QHBoxLayout;
+    auto *lay = new QHBoxLayout;
     lay->setContentsMargins(2, 0, 2, 0);
     lay->addStretch(10);
-    QToolButton *config = new QToolButton(this);
+    auto *config = new QToolButton(this);
     QAction *ca = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure"), this);
     config->setAutoRaise(true);
     config->setDefaultAction(ca);
@@ -149,7 +149,7 @@ void TagWidget::setTagData(const QString tagData)
 
 void TagWidget::rebuildTags(QMap <QString, QString> newTags)
 {
-    QHBoxLayout *lay = static_cast<QHBoxLayout *>(layout());
+    auto *lay = static_cast<QHBoxLayout *>(layout());
     qDeleteAll(tags);
     tags.clear();
     int ix = 1;
@@ -180,7 +180,7 @@ void TagWidget::showTagsConfig()
         const QString color = tb->tag();
         const QString desc = tb->description();
         QIcon ic = tb->icon();
-        QListWidgetItem *item = new QListWidgetItem(ic, desc, &list);
+        auto *item = new QListWidgetItem(ic, desc, &list);
         item->setData(Qt::UserRole, color);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     }

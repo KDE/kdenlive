@@ -41,11 +41,12 @@
 #include <QWidget>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <utility>
 
-LoadJob::LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack)
+LoadJob::LoadJob(const QString &binId, const QDomElement &xml, std::function<void()> readyCallBack)
     : AbstractClipJob(LOADJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_xml(xml)
-    , m_readyCallBack(readyCallBack)
+    , m_readyCallBack(std::move(readyCallBack))
 {
 }
 
@@ -454,8 +455,10 @@ bool LoadJob::startJob()
     QMimeDatabase db;
     const QString mime = db.mimeTypeForFile(m_resource).name();
     const bool isGif = mime.contains(QLatin1String("image/gif"));
-    if (duration == 0 && (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
-        type == ClipType::SlideShow) || (isGif && mltService == QLatin1String("qimage"))) {
+    if ((duration == 0 && (
+                type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText
+                || type == ClipType::Color || type == ClipType::Image || type == ClipType::SlideShow))
+            || (isGif && mltService == QLatin1String("qimage"))) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();
@@ -735,7 +738,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         m_readyCallBack();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
-            pCore->selectBinClip(m_clipId);
+            pCore->selectBinClip(m_clipId, false);
         }
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }

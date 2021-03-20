@@ -280,7 +280,7 @@ int TimelineController::selectedTrack() const
     std::vector<std::pair<int, int>> selected_tracks; // contains pairs of (track position, track id) for each selected item
     for (int s : sel) {
         int tid = m_model->getItemTrackId(s);
-        selected_tracks.push_back({m_model->getTrackPosition(tid), tid});
+        selected_tracks.emplace_back(m_model->getTrackPosition(tid), tid);
     }
     // sort by track position
     std::sort(selected_tracks.begin(), selected_tracks.begin(), [](const auto &a, const auto &b) { return a.first < b.first; });
@@ -2682,7 +2682,7 @@ void TimelineController::alignAudio(int clipId)
         }
         processed ++;
         // Perform audio calculation
-        AudioEnvelope *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
+        auto *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
                                                 (size_t)m_model->getClipPosition(cid));
         m_audioCorrelator->addChild(envelope);
     }
@@ -2766,7 +2766,7 @@ void TimelineController::switchTrackLock(bool applyToAll)
                 toBeLockedCount++;
             }
         }
-        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? 1 : 0;
+        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? true : false;
         for (const int id : ids) {
             // leave active track unlocked
             if (leaveOneUnlocked && id == m_activeTrack) {

@@ -394,7 +394,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 
     if(m_search["req"].toObject()["method"].toString() == "GET") {
 
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 
@@ -529,7 +529,7 @@ void ProviderModel::slotFetchFiles(const QString &id) {
 
     if(m_download["req"].toObject()["method"].toString() == "GET") {
 
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 

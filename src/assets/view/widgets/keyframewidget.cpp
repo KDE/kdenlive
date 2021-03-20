@@ -43,6 +43,8 @@
 #include <QToolButton>
 #include <QStyle>
 #include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QCheckBox>
 #include <klocalizedstring.h>
 #include <utility>
 
@@ -98,14 +100,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
     m_buttonApply->setToolTip(i18n("Apply value to selected keyframes"));
     m_buttonApply->setFocusPolicy(Qt::StrongFocus);
-    m_focusConnection = connect(qApp, &QApplication::focusChanged, [this](QWidget *old, QWidget *now) {
-        if (now == m_buttonApply) {
-            if (old && old->parentWidget() && isAncestorOf(old->parentWidget())) {
-                m_lastFocusedParam = old->parentWidget()->objectName();
-                qDebug()<<"======= FROM PARENT: "<<old->parentWidget()->objectName();
-            }
-        }
-    });
     
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
@@ -224,21 +218,80 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
     connect(m_buttonApply, &QAbstractButton::pressed, [this]() {
-        if (!m_lastFocusedParam.isEmpty()) {
-            qDebug()<<"=== ADJUSTING KF PARAM: "<<m_lastFocusedParam;
-            if (m_lastFocusedParam.startsWith(QLatin1String("spin"))) {
-                for (const auto &w : m_parameters) {
-                    auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-                    if (type != ParamType::AnimatedRect) {
-                        continue;
-                    }
-                    QModelIndex ix = w.first;
-                    m_keyframeview->copyCurrentValue(ix, m_lastFocusedParam);
+        QMultiMap<QPersistentModelIndex, QString> paramList;
+        QList<QPersistentModelIndex> rectParams;
+        for (const auto &w : m_parameters) {
+            auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+            if (type == ParamType::AnimatedRect) {
+                if (m_model->data(w.first, AssetParameterModel::OpacityRole).toBool()) {
+                    paramList.insert(w.first, i18n("Opacity"));
                 }
+                paramList.insert(w.first, i18n("Height"));
+                paramList.insert(w.first, i18n("Width"));
+                paramList.insert(w.first, i18n("Y position"));
+                paramList.insert(w.first, i18n("X position"));
+                rectParams << w.first;
             } else {
-                m_keyframeview->copyCurrentValue(m_keyframes->getIndexAtRow(m_lastFocusedParam.toInt()), QString());
+                paramList.insert(w.first, m_model->data(w.first, Qt::DisplayRole).toString());
             }
         }
+        if (paramList.count() == 0) {
+            qDebug()<<"=== No parameter to copy, aborting";
+            return;
+        }
+        if (paramList.count() == 1) {
+            m_keyframeview->copyCurrentValue(m_keyframes->getIndexAtRow(0), QString());
+            return;
+        }
+        // More than one param
+        QDialog d(this);
+        QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+        auto *l = new QVBoxLayout;
+        d.setLayout(l);
+        l->addWidget(new QLabel(i18n("Select parameters to copy"), &d));
+        QMapIterator<QPersistentModelIndex, QString> i(paramList);
+        while (i.hasNext()) {
+            i.next();
+            auto *cb = new QCheckBox(i.value(), this);
+            cb->setProperty("index", i.key());
+            l->addWidget(cb);
+        }
+        l->addWidget(buttonBox);
+        d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+        d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+        if (d.exec() != QDialog::Accepted) {
+            return;
+        }
+        paramList.clear();
+        QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
+        for (auto c : cbs) {
+            //qDebug()<<"=== FOUND CBS: "<<KLocalizedString::removeAcceleratorMarker(c->text());
+            if (c->isChecked()) {
+                QPersistentModelIndex ix = c->property("index").toModelIndex();
+                if (rectParams.contains(ix)) {
+                    // Check param name
+                    QString cbName = KLocalizedString::removeAcceleratorMarker(c->text());
+                    QString paramName;
+                    if (cbName == i18n("Opacity")) {
+                        paramName = QStringLiteral("spinO");
+                    } else if (cbName == i18n("Height")) {
+                        paramName = QStringLiteral("spinH");
+                    } else if (cbName == i18n("Width")) {
+                        paramName = QStringLiteral("spinW");
+                    } else if (cbName == i18n("X position")) {
+                        paramName = QStringLiteral("spinX");
+                    } else if (cbName == i18n("Y position")) {
+                        paramName = QStringLiteral("spinY");
+                    }
+                    if (!paramName.isEmpty()) {
+                        m_keyframeview->copyCurrentValue(ix, paramName);
+                    }
+                } else {
+                    m_keyframeview->copyCurrentValue(ix, QString());
+                }
+            }
+        }
+        return;
     });
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
     QMargins mrg = m_lay->contentsMargins();
@@ -250,7 +303,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
 KeyframeWidget::~KeyframeWidget()
 {
-    QObject::disconnect( m_focusConnection );
     delete m_keyframeview;
     delete m_buttonAddDelete;
     delete m_buttonPrevious;

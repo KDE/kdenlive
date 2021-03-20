@@ -491,12 +491,12 @@ ColorWheel::ColorWheel(QString id, QString name, NegQColor color, QWidget *paren
 {
     QFontInfo info(font());
     int unitSize = info.pixelSize();
-    QVBoxLayout *lay = new QVBoxLayout(this);
+    auto *lay = new QVBoxLayout(this);
     m_wheelName = new QLabel(name, this);
     m_wheelName->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     lay->addWidget(m_wheelName);
     m_container = new WheelContainer(id, name, color, unitSize, this);
-    QHBoxLayout *hb = new QHBoxLayout;
+    auto *hb = new QHBoxLayout;
     m_redEdit = new QDoubleSpinBox(this);
     m_redEdit->setPrefix(i18n("R: "));
     m_redEdit->setFrame(QFrame::NoFrame);

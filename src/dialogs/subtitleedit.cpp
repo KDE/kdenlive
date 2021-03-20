@@ -42,7 +42,7 @@ bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::KeyPress)
     {
-        QKeyEvent *keyEvent = static_cast <QKeyEvent*> (event);
+        auto *keyEvent = static_cast <QKeyEvent*> (event);
         if((keyEvent->modifiers() & Qt::ShiftModifier) && ((keyEvent->key() == Qt::Key_Enter) || (keyEvent->key() == Qt::Key_Return))) {
             emit triggerUpdate();
             return true;
@@ -55,7 +55,6 @@ bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
 SubtitleEdit::SubtitleEdit(QWidget *parent)
     : QWidget(parent)
     , m_model(nullptr)
-    , m_activeSub(-1)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

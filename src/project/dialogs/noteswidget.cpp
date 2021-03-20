@@ -99,7 +99,7 @@ void NotesWidget::createMarker(QStringList anchors)
     }
     if (!clipMarkers.isEmpty()) {
         const QString &binId = clipMarkers.firstKey();
-        pCore->selectBinClip(binId, clipMarkers.value(binId).constFirst(), QPoint());
+        pCore->selectBinClip(binId, true, clipMarkers.value(binId).constFirst(), QPoint());
     }
     if (!guides.isEmpty()) {
         pCore->addGuides(guides);
@@ -126,7 +126,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     }
     if (anchor.contains(QLatin1Char('#'))) {
         // That's a Bin Clip reference.
-        pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+        pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
     } else {
         emit seekProject(anchor.toInt());
     }

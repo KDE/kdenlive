@@ -121,7 +121,6 @@ public:
     explicit KisCubicSpline(const QList<T_point> &a)
         : m_begin(0)
         , m_end(0)
-        , m_intervals(0)
     {
         createSpline(a);
     }

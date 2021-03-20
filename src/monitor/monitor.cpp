@@ -196,7 +196,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
 
-    QComboBox *scalingAction = new QComboBox(this);
+    auto *scalingAction = new QComboBox(this);
     scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
     // Combobox padding is bad, so manually add a space before text
     scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"),QStringLiteral(" ") + i18n("720p"),QStringLiteral(" ") + i18n("540p"),QStringLiteral(" ") + i18n("360p"),QStringLiteral(" ") + i18n("270p")});
@@ -222,7 +222,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
-        m_glMonitor->updateScaling();
+        bool scalingChanged = m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
                 scalingAction->setCurrentIndex(1);
@@ -240,7 +240,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 scalingAction->setCurrentIndex(0);
                 break;
         }
-        refreshMonitorIfActive();
+        if (scalingChanged) {
+            refreshMonitorIfActive();
+        }
     });
     scalingAction->setFrame(false);
     scalingAction->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -1442,6 +1444,16 @@ void Monitor::refreshMonitorIfActive(bool directUpdate)
         } else {
             m_glMonitor->requestRefresh();
         }
+    } else if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+        slotActivateMonitor();
+        if (isActive()) {
+            m_glMonitor->refresh();
+            // Monitor was not active, so we activate it, refresh and activate the other monitor once done
+            m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
+                m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
+                QObject::disconnect( m_switchConnection );
+            });
+        }
     }
 }
 
@@ -1659,6 +1671,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
+            if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+                slotActivateMonitor();
+            }
             m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
@@ -1672,8 +1687,11 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
         //m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
+        if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+            slotActivateMonitor();
+        }
     }
-    if (slotActivateMonitor()) {
+    if (isActive()) {
         start();
     }
     checkOverlay();

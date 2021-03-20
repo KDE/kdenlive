@@ -2128,7 +2128,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
         if (isClip(affectedItemId)) {
-            sorted_clips.push_back({affectedItemId, m_allClips[affectedItemId]->getPosition()});
+            sorted_clips.emplace_back(affectedItemId, m_allClips[affectedItemId]->getPosition());
             sorted_clips_ids.push_back(affectedItemId);
             int current_track_id = getClipTrackId(affectedItemId);
             // Check if we have a mix in the group
@@ -2151,7 +2151,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         } else if (isComposition(affectedItemId)) {
             sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(m_allCompositions[affectedItemId]->getCurrentTrackId())}});
         } else if (isSubTitle(affectedItemId)) {
-            sorted_subtitles.push_back({affectedItemId, m_allSubtitles.at(affectedItemId)});
+            sorted_subtitles.emplace_back(affectedItemId, m_allSubtitles.at(affectedItemId));
         }
     }
     
@@ -2191,7 +2191,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Move subtitles
     if (!sorted_subtitles.empty()) {
         std::vector<std::pair<int, GenTime>>::iterator ptr;
-        std::vector<std::pair<int, GenTime>>::iterator last = std::prev(sorted_subtitles.end());
+        auto last = std::prev(sorted_subtitles.end());
         for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
             requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateView, ptr == sorted_subtitles.begin(), ptr == last, finalMove, local_undo, local_redo);
         }
@@ -3217,7 +3217,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     }
     if (ids.size() == 2 && clipsCount == 2 && type == GroupType::Normal) {
         // Check if we are grouping an AVSplit
-        std::unordered_set<int>::const_iterator it = ids.begin();
+        auto it = ids.begin();
         int firstId = *it;
         std::advance(it, 1);
         int secondId = *it;
@@ -3561,7 +3561,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     m_iteratorTable[id] = it;
     endInsertRows();
     int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
-    mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
+    mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
 }
 
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer)
@@ -3624,7 +3624,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         // Finish operation
         endRemoveRows();
         int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
-        mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
+        mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
         return true;
     };
 }

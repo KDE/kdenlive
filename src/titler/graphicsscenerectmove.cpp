@@ -76,7 +76,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
     connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
-    updateTW(0, 2, 1, 0, 0);
+    updateTW(false, 2, 1, 0, 0);
 }
 
 Qt::Alignment MyTextItem::alignment() const

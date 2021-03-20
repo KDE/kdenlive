@@ -32,7 +32,7 @@ class MltPreview : public ThumbCreator
 {
 public:
     MltPreview();
-    virtual ~MltPreview();
+    ~MltPreview() override;
     bool create(const QString &path, int width, int height, QImage &img) override;
     Flags flags() const override;
 

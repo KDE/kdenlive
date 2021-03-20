@@ -1751,7 +1751,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
         auto fixTimecode = [decimalPoint] (QString &value) {
-            QRegExp reTimecode("(\\d+:\\d+:\\d+)" + QString(decimalPoint) + "(\\d+)");
+            QRegExp reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
             QRegExp reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
             value.replace(reTimecode, "\\1.\\2")
                     .replace(reValue, "\\1.\\2");

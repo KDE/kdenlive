@@ -60,7 +60,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container = new QWidget(main);
     m_containerGrp = new QButtonGroup(m_container);
     connect(m_containerGrp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &LayoutManagement::activateLayout);
-    QVBoxLayout *l1 = new QVBoxLayout;
+    auto *l1 = new QVBoxLayout;
     l1->addStretch();
     m_containerLayout = new QHBoxLayout;
     m_containerLayout->setSpacing(0);
@@ -156,7 +156,7 @@ void LayoutManagement::initializeLayouts()
             QString translatedName = translatedLayoutNames.contains(layoutName) ? translatedLayoutNames.value(layoutName) : layoutName;
             load->setText(i18n("Layout %1: %2", i, translatedName));
             if (i < 6) {
-                QPushButton *lab = new QPushButton(translatedName, m_container);
+                auto *lab = new QPushButton(translatedName, m_container);
                 lab->setProperty("layoutid", layoutName);
                 lab->setFocusPolicy(Qt::NoFocus);
                 lab->setCheckable(true);
@@ -447,7 +447,7 @@ void LayoutManagement::slotManageLayouts()
         std::pair<QString, QString> names = saveLayout(state, suggestedName);
 
         if(names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
-                QListWidgetItem *item = new QListWidgetItem(names.first, &list);
+                auto *item = new QListWidgetItem(names.first, &list);
                 item->setData(Qt::UserRole, names.second);
                 item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             }
@@ -520,7 +520,7 @@ void LayoutManagement::slotManageLayouts()
         } else {
             visibleName = name;
         }
-        QListWidgetItem *item = new QListWidgetItem(visibleName, &list);
+        auto *item = new QListWidgetItem(visibleName, &list);
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     }

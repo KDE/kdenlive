@@ -44,9 +44,6 @@ RecManager::RecManager(Monitor *parent)
     : QObject(parent)
     , m_monitor(parent)
     , m_recToolbar(new QToolBar(parent))
-    , m_checkAudio(false)
-    , m_checkVideo(false)
-    , m_screenIndex(0)
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);

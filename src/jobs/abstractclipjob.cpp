@@ -19,16 +19,18 @@
  ***************************************************************************/
 
 #include "abstractclipjob.h"
+
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include <utility>
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, QString id, const ObjectId &owner, QObject *parent)
+AbstractClipJob::AbstractClipJob(JOBTYPE type, QString id, ObjectId owner, QObject *parent)
     : QObject(parent)
     , m_clipId(std::move(id))
     , m_jobType(type)
     , m_inPoint(-1)
     , m_outPoint(-1)
-    , m_owner(owner)
+    , m_owner(std::move(owner))
 {
     if (m_clipId.count(QStringLiteral("/")) == 2) {
         m_inPoint = m_clipId.section(QLatin1Char('/'), 1, 1).toInt();

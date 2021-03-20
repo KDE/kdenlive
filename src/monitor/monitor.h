@@ -226,6 +226,7 @@ private:
     double m_displayedFps;
     QLabel *m_speedLabel;
     int m_speedIndex;
+    QMetaObject::Connection m_switchConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());

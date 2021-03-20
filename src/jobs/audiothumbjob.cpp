@@ -203,7 +203,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                  << QStringLiteral("-f") << QStringLiteral("data") << channelFiles[size_t(i)]->fileName();
             }
         }
-        m_ffmpegProcess.reset(new QProcess);
+        m_ffmpegProcess = std::make_unique<QProcess>();
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&]() {
             if (m_ffmpegProcess) {

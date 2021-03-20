@@ -40,7 +40,7 @@ class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
     Q_OBJECT
 
 public:
-    explicit SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
+    explicit SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
     ~SpeechDialog() override;
 
 private:

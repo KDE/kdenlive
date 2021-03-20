@@ -49,7 +49,7 @@ class TimelineTabs : public QTabWidget
 public:
     /** @brief Construct the tabs as well as the widget for the main timeline */
     TimelineTabs(QWidget *parent);
-    virtual ~TimelineTabs();
+    ~TimelineTabs() override;
     /** @brief Returns a pointer to the main timeline */
     TimelineWidget *getMainTimeline() const;
 

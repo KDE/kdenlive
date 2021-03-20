@@ -640,14 +640,14 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
-            double factor = (double)width / frameSize.width() * pCore->getCurrentSar();
-            contentHeight = (int)(height * factor + 0.5);
+            double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
+            contentHeight = int(height * factor + 0.5);
             contentWidth = width;
         } else {
             // Fit to height
-            double factor = (double)height / frameSize.height();
+            double factor = double(height) / frameSize.height();
             contentHeight = height;
-            contentWidth =(int)(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
+            contentWidth =int(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
         }
         // Center
         content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);
@@ -757,7 +757,7 @@ bool AssetParameterModel::isActive() const
 QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 {
     QVector<QPair<QString, QVariant>> res;
-    res.reserve((int)m_fixedParams.size() + (int)m_params.size());
+    res.reserve(int(m_fixedParams.size() + m_params.size()));
     for (const auto &fixed : m_fixedParams) {
         res.push_back(QPair<QString, QVariant>(fixed.first, fixed.second));
     }

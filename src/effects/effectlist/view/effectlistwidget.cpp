@@ -118,8 +118,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     if (desc.contains(QLatin1Char('('))) {
         desc = desc.section(QLatin1Char('('), 0, -2).simplified();
     }
-    QLineEdit *effectName = new QLineEdit(currentName, &dialog);
-    QTextEdit *descriptionBox = new QTextEdit(desc, &dialog);
+    auto *effectName = new QLineEdit(currentName, &dialog);
+    auto *descriptionBox = new QTextEdit(desc, &dialog);
     form.addRow(i18n("Name : "), effectName);
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);

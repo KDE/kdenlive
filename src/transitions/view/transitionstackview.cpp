@@ -34,7 +34,6 @@
 
 TransitionStackView::TransitionStackView(QWidget *parent)
     : AssetParameterView(parent)
-    , m_trackBox(nullptr)
 {
 }
 

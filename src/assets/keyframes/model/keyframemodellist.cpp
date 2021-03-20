@@ -524,7 +524,7 @@ void KeyframeModelList::checkConsistency()
         }
     }
     Fun local_update = []() { return true; };
-    KeyframeType type = (KeyframeType)KdenliveSettings::defaultkeyframeinterp();
+    auto type = (KeyframeType)KdenliveSettings::defaultkeyframeinterp();
     for (const auto &param : m_parameters) {
         QList<GenTime> list = param.second->getKeyframePos();
         for (auto &time : fullList) {

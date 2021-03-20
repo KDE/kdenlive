@@ -83,10 +83,10 @@ private:
     QCheckBox *m_recVideo;
     QCheckBox *m_recAudio;
     QSlider *m_audioCaptureSlider;
-    bool m_checkAudio;
-    bool m_checkVideo;
+    bool m_checkAudio{false};
+    bool m_checkVideo{false};
     Mlt::Producer *createV4lProducer();
-    int m_screenIndex;
+    int m_screenIndex{0};
 
 private slots:
     void slotSetScreen(int ScreenIndex);

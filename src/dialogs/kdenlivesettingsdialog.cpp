@@ -76,14 +76,15 @@
 #include "jogshuttle/jogshuttleconfig.h"
 #include <QStandardPaths>
 #include <linux/input.h>
+#include <memory>
 #endif
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent)
     : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
     , m_modified(false)
     , m_shuttleModified(false)
-    , m_mappable_actions(std::move(mappable_actions))
     , m_voskUpdated(false)
+    , m_mappable_actions(std::move(mappable_actions))
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
@@ -1786,7 +1787,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
 #endif
         if (pyExec.isEmpty()) {
-            doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
+            doShowSpeechMessage(i18n("Please install python3 and pip on your system."), KMessageWidget::Warning);
             return;
         }
         QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
@@ -2006,7 +2007,7 @@ void KdenliveSettingsDialog::downloadModelFinished(KJob* job)
     qDebug()<<"=== DOWNLOAD FINISHED!!";
     if (job->error() == 0 || job->error() == 112) {
         qDebug()<<"=== NO ERROR ON DWNLD!!";
-        KIO::FileCopyJob *jb = static_cast<KIO::FileCopyJob*>(job);
+        auto *jb = static_cast<KIO::FileCopyJob*>(job);
         if (jb) {
             qDebug()<<"=== JOB FOUND!!";
             QString archiveFile = jb->destUrl().toLocalFile();
@@ -2029,9 +2030,9 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
     QMimeType type = db.mimeTypeForFile(archiveFile);
     std::unique_ptr<KArchive> archive;
     if (type.inherits(QStringLiteral("application/zip"))) {
-        archive.reset(new KZip(archiveFile));
+        archive = std::make_unique<KZip>(archiveFile);
     } else {
-        archive.reset(new KTar(archiveFile));
+        archive = std::make_unique<KTar>(archiveFile);
     }
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
     QDir dir;

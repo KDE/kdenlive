@@ -43,7 +43,7 @@ public:
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack = []() {});
+    LoadJob(const QString &binId, const QDomElement &xml, std::function<void()> readyCallBack = []() {});
 
     const QString getDescription() const override;
 
