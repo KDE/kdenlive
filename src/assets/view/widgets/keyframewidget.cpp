@@ -223,7 +223,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         for (const auto &w : m_parameters) {
             auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
             if (type == ParamType::AnimatedRect) {
-                paramList.insert(w.first, i18n("Opacity"));
+                if (m_model->data(w.first, AssetParameterModel::OpacityRole).toBool()) {
+                    paramList.insert(w.first, i18n("Opacity"));
+                }
                 paramList.insert(w.first, i18n("Height"));
                 paramList.insert(w.first, i18n("Width"));
                 paramList.insert(w.first, i18n("Y position"));
