@@ -152,11 +152,19 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     layZone->addWidget(m_outPos);
     
     connect(setIn, &QToolButton::clicked, this, [=]() {
-        m_inPos->setValue(pCore->getTimelinePosition());
+        if (m_model->getOwnerId().first == ObjectType::BinClip) {
+            m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
+        } else {
+            m_inPos->setValue(pCore->getTimelinePosition());
+        }
         updateEffectZone();
     });
     connect(setOut, &QToolButton::clicked, this, [=]() {
-        m_outPos->setValue(pCore->getTimelinePosition());
+        if (m_model->getOwnerId().first == ObjectType::BinClip) {
+            m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
+        } else {
+            m_outPos->setValue(pCore->getTimelinePosition());
+        }
         updateEffectZone();
     });
     
