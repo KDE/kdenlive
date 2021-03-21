@@ -34,7 +34,7 @@
 #include <mlt++/Mlt.h>
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
-    emit self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
+    emit self->jobProgress(int(100 * mlt_frame_get_position(frame_ptr) / self->length));
 }
 
 MeltJob::MeltJob(const QString &binId, const ObjectId &owner, JOBTYPE type, bool useProducerProfile, int in, int out)
@@ -209,7 +209,7 @@ bool MeltJob::startJob()
         m_producer->attach(*m_filter.get());
     }
     qDebug()<<"=== FILTER READY TO PROCESS; LENGTH: "<<length;
-    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, (mlt_listener)consumer_frame_render));
+    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, mlt_listener(consumer_frame_render)));
     connect(this, &MeltJob::jobCanceled, [&] () {
         m_showFrameEvent.reset();
         m_consumer->stop();

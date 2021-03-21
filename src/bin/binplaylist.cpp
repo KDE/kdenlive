@@ -75,7 +75,7 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
         // When a folder is removed, we clear the path info
         if (!binElem->lastParentId().isEmpty()) {
             QString propertyName = "kdenlive:folder." + binElem->lastParentId() + QLatin1Char('.') + binElem->clipId();
-            m_binPlaylist->set(propertyName.toUtf8().constData(), (char *)nullptr);
+            m_binPlaylist->set(propertyName.toUtf8().constData(), nullptr);
         }
         break;
     }
@@ -84,6 +84,7 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
         m_allClips.erase(id);
         removeBinClip(id);
         disconnect(static_cast<ProjectClip *>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
+        break;
     }
     default:
         break;
@@ -129,7 +130,7 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
     docProperties.pass_values(playlistProps, "kdenlive:docproperties.");
     for (int i = 0; i < docProperties.count(); i++) {
         QString propName = QStringLiteral("kdenlive:docproperties.%1").arg(docProperties.get_name(i));
-        playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
+        playlistProps.set(propName.toUtf8().constData(), nullptr);
     }
 
     // Clear previous metadata
@@ -137,7 +138,7 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
     docMetadata.pass_values(playlistProps, "kdenlive:docmetadata.");
     for (int i = 0; i < docMetadata.count(); i++) {
         QString propName = QStringLiteral("kdenlive:docmetadata.%1").arg(docMetadata.get_name(i));
-        playlistProps.set(propName.toUtf8().constData(), (char *)nullptr);
+        playlistProps.set(propName.toUtf8().constData(), nullptr);
     }
 
     QMapIterator<QString, QString> i(props);

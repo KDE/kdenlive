@@ -106,13 +106,13 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * wHeight);
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
 
-    double x = (event->pos().x() - offsetX) / (double)(wWidth);
-    double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
+    double x = (event->pos().x() - offsetX) / double(wWidth);
+    double y = 1.0 - (event->pos().y() - offsetY) / double(wHeight);
 
     BPoint::PointType selectedPoint;
     int closestPointIndex = nearestPointInRange(QPointF(x, y), wWidth, wHeight, &selectedPoint);
@@ -145,10 +145,10 @@ void BezierSplineEditor::mousePressEvent(QMouseEvent *event)
     if (m_currentPointIndex < m_curve.count() - 1) {
         m_grabPNext = m_curve.getPoint(m_currentPointIndex + 1);
     }
-    m_grabOffsetX = point[(int)m_currentPointType].x() - x;
-    m_grabOffsetY = point[(int)m_currentPointType].y() - y;
+    m_grabOffsetX = point[int(m_currentPointType)].x() - x;
+    m_grabOffsetY = point[int(m_currentPointType)].y() - y;
 
-    point[(int)m_currentPointType] = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
+    point[int(m_currentPointType)] = QPointF(x + m_grabOffsetX, y + m_grabOffsetY);
 
     m_curve.setPoint(m_currentPointIndex, point);
 
@@ -163,13 +163,13 @@ void BezierSplineEditor::mouseMoveEvent(QMouseEvent *event)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * wHeight);
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
 
-    double x = (event->pos().x() - offsetX) / (double)(wWidth);
-    double y = 1.0 - (event->pos().y() - offsetY) / (double)(wHeight);
+    double x = (event->pos().x() - offsetX) / double(wWidth);
+    double y = 1.0 - (event->pos().y() - offsetY) / double(wHeight);
 
     if (m_state == State_t::NORMAL) {
         // If no point is selected set the cursor shape if on top
@@ -296,8 +296,8 @@ int BezierSplineEditor::nearestPointInRange(const QPointF &p, int wWidth, int wH
     if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || pointType == BPoint::PointType::P || m_showAllHandles)) {
         // a point was found and it is not a hidden handle
         BPoint point = m_curve.getPoint(nearestIndex);
-        double dx = (p.x() - point[(int)pointType].x()) * wWidth;
-        double dy = (p.y() - point[(int)pointType].y()) * wHeight;
+        double dx = (p.x() - point[int(pointType)].x()) * wWidth;
+        double dy = (p.y() - point[int(pointType)].y()) * wHeight;
         if (dx * dx + dy * dy <= m_grabRadius * m_grabRadius) {
             *sel = pointType;
             return nearestIndex;

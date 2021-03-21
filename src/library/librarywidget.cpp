@@ -592,13 +592,13 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         treeItem->setData(0, Qt::UserRole, fileUrl.toLocalFile());
         treeItem->setData(0, Qt::UserRole + 1, fitem.timeString());
         if (fitem.isDir()) {
-            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::Folder);
+            treeItem->setData(0, Qt::UserRole + 2, int(LibraryItem::Folder));
             m_folders << treeItem;
             m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
         } else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
-            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::PlayList);
+            treeItem->setData(0, Qt::UserRole + 2, int(LibraryItem::PlayList));
         } else {
-            treeItem->setData(0, Qt::UserRole + 2, (int)LibraryItem::Clip);
+            treeItem->setData(0, Qt::UserRole + 2, int(LibraryItem::Clip));
         }
         treeItem->setData(0, Qt::DecorationRole, QIcon::fromTheme(fitem.iconName()));
         treeItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);

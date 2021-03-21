@@ -682,7 +682,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (mixGroupMove) {
             // We are moving a group on another track, delete and re-add
             bool isAudio = getTrackById_const(previous_track)->isAudioTrack();
-            simple_move_mix = [this, previous_track, trackId, clipId, finalMove, mixData, isAudio]() {
+            simple_move_mix = [this, previous_track, trackId, finalMove, mixData, isAudio]() {
                 getTrackById_const(previous_track)->syncronizeMixes(finalMove);
                 bool result = getTrackById_const(trackId)->createMix(mixData.first, isAudio);
                 return result;
@@ -961,7 +961,7 @@ bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int
         QModelIndex modelIndex = makeClipIndexFromID(clipIds.second);
         notifyChange(modelIndex, modelIndex, {StartRole,DurationRole});
         QModelIndex modelIndex2 = makeClipIndexFromID(clipIds.first);
-        notifyChange(modelIndex2, modelIndex2, {DurationRole});
+        notifyChange(modelIndex2, modelIndex2, DurationRole);
         if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
             emit invalidateZone(position - mixDuration / 2, position + mixDuration);
         }
@@ -2951,7 +2951,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                     };
                     bool switchPlaylist = getTrackById_const(tid)->hasEndMix(itemId) == false && m_allClips[itemId]->getSubPlaylistIndex() == 1;
                     if (switchPlaylist) {
-                        sync_end_mix = [this, tid, itemId, mixData]() {
+                        sync_end_mix = [this, tid, mixData]() {
                             return getTrackById_const(tid)->switchPlaylist(mixData.first.secondClipId, m_allClips[mixData.first.secondClipId]->getPosition(), 1, 0);
                         };
                         sync_end_mix_undo = [this, tid, mixData]() {

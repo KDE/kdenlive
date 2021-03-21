@@ -45,7 +45,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_inPoint = in;
     m_outPoint = out;
     m_duration = timecode;
-    m_parentDuration = (int)m_masterClip->frameDuration();
+    m_parentDuration = int(m_masterClip->frameDuration());
     m_parentClipId = m_masterClip->clipId();
     m_date = parent->date.addSecs(in);
     QPixmap pix(64, 36);
@@ -150,13 +150,13 @@ void ProjectSubClip::setThumbnail(const QImage &img)
     }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     int duration = m_parentDuration;
-    double factor = ((double) thumb.width()) / duration;
+    double factor = double(thumb.width()) / duration;
     int zoneOut = m_outPoint - duration;
     QRect zoneRect(0, 0, thumb.width(), thumb.height());
-    zoneRect.adjust(0, zoneRect.height() * 0.9, 0, -zoneRect.height() * 0.05);
+    zoneRect.adjust(0, int(zoneRect.height() * 0.9), 0, int(-zoneRect.height() * 0.05));
     QPainter painter(&thumb);
     painter.fillRect(zoneRect, Qt::darkGreen);
-    zoneRect.adjust(m_inPoint * factor, 0, zoneOut * factor, 0);
+    zoneRect.adjust(int(m_inPoint * factor), 0, int(zoneOut * factor), 0);
     painter.fillRect(zoneRect, Qt::green);
     painter.end();
     m_thumbnail = QIcon(thumb);
@@ -202,7 +202,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
     int duration = m_outPoint - m_inPoint;
-    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / 30));
+    int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_parentClipId, m_inPoint + framePos)) {

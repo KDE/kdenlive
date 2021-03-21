@@ -118,7 +118,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
                                   Q_ARG(bool, false));
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
-    AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
+    AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
 }
 
@@ -146,7 +146,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_thumbnail = thumb;
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
-        m_clipType = (ClipType::ProducerType)description.attribute(QStringLiteral("type")).toInt();
+        m_clipType = ClipType::ProducerType(description.attribute(QStringLiteral("type")).toInt());
         if (m_clipType == ClipType::Audio) {
             m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
         }
@@ -217,8 +217,8 @@ void ProjectClip::updateAudioThumbnail()
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
         if (thumb.isNull()) {
-            int iconHeight = QFontInfo(qApp->font()).pixelSize() * 3.5;
-            QImage img(QSize(iconHeight * pCore->getCurrentDar(), iconHeight), QImage::Format_ARGB32);
+            int iconHeight = int(QFontInfo(qApp->font()).pixelSize() * 3.5);
+            QImage img(QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight), QImage::Format_ARGB32);
             img.fill(Qt::darkGray);
             QMap <int, QString> streams = audioInfo()->streams();
             QMap <int, int> channelsList = audioInfo()->streamChannels();
@@ -233,21 +233,21 @@ void ProjectClip::updateAudioThumbnail()
                 while (st.hasNext()) {
                     st.next();
                     int channels = channelsList.value(st.key());
-                    double channelHeight = (double) streamHeight / channels;
+                    double channelHeight = double(streamHeight) / channels;
                     const QVector <uint8_t> audioLevels = audioFrameCache(st.key());
                     qreal indicesPrPixel = qreal(audioLevels.length()) / img.width();
                     int idx;
                     for (int channel = 0; channel < channels; channel++) {
                         double y = (streamHeight * streamCount) + (channel * channelHeight) + channelHeight / 2;
                         for (int i = 0; i <= img.width(); i++) {
-                            idx = ceil(i * indicesPrPixel);
+                            idx = int(ceil(i * indicesPrPixel));
                             idx += idx % channels;
                             idx += channel;
                             if (idx >= audioLevels.length() || idx < 0) {
                                 break;
                             }
                             double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
-                            painter.drawLine(i, y - level, i, y + level);
+                            painter.drawLine(i, int(y - level), i, int(y + level));
                         }
                     }
                     streamCount++;
@@ -363,7 +363,7 @@ GenTime ProjectClip::duration() const
 
 size_t ProjectClip::frameDuration() const
 {
-    return (size_t)getFramePlaytime();
+    return size_t(getFramePlaytime());
 }
 
 void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
@@ -430,7 +430,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
         prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
     }
     if (m_clipType != ClipType::Unknown) {
-        prod.setAttribute(QStringLiteral("type"), (int)m_clipType);
+        prod.setAttribute(QStringLiteral("type"), int(m_clipType));
     }
     return prod;
 }
@@ -445,7 +445,7 @@ void ProjectClip::setThumbnail(const QImage &img)
         // Overlay proxy icon
         QPainter p(&thumb);
         QColor c(220, 220, 10, 200);
-        QRect r(0, 0, thumb.height() / 2.5, thumb.height() / 2.5);
+        QRect r(0, 0, int(thumb.height() / 2.5), int(thumb.height() / 2.5));
         p.fillRect(r, c);
         QFont font = p.font();
         font.setPixelSize(r.height());
@@ -515,7 +515,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         updateTimelineClips({TimelineModel::StatusRole});
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
-    AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
+    AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::DataDuration);
@@ -701,7 +701,7 @@ int ProjectClip::getRecordTime()
                             recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
                         }
                     }
-                    recTime = 1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps();
+                    recTime = int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
                 }
                 m_masterProducer->set("kdenlive:record_date", recTime);
                 return recTime;
@@ -828,7 +828,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("length", (int) (original_length / std::abs(speed) + 0.5));
+        warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
         warpProducer->set("audio_index", audioStream);
     }
 
@@ -991,7 +991,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
             filter = prod->filter(ct);
         }
     }
-    prod->set("id", (char *)nullptr);
+    prod->set("id", nullptr);
     return prod;
 }
 
@@ -1520,7 +1520,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     audioPath.append(QLatin1Char('_') + QString::number(stream));
-    int roundedFps = (int)pCore->getCurrentFps();
+    int roundedFps = int(pCore->getCurrentFps());
     audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
     return audioPath;
 }
@@ -1622,7 +1622,7 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
     m_registeredClips[clipId] = std::move(timeline);
-    setRefCount((uint)m_registeredClips.size());
+    setRefCount(uint(m_registeredClips.size()));
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId)
@@ -1638,7 +1638,7 @@ void ProjectClip::deregisterTimelineClip(int clipId)
         m_effectStack->removeService(m_audioProducers[clipId]);
         m_audioProducers.erase(clipId);
     }
-    setRefCount((uint)m_registeredClips.size());
+    setRefCount(uint(m_registeredClips.size()));
 }
 
 QList<int> ProjectClip::timelineInstances() const
@@ -1719,7 +1719,7 @@ void ProjectClip::updateZones()
             currentZone.insert(QLatin1String("in"), QJsonValue(zone.x()));
             currentZone.insert(QLatin1String("out"), QJsonValue(zone.y()));
             if (clip->rating() > 0) {
-                currentZone.insert(QLatin1String("rating"), QJsonValue((int)clip->rating()));
+                currentZone.insert(QLatin1String("rating"), QJsonValue(int(clip->rating())));
             }
             if (!clip->tags().isEmpty()) {
                 currentZone.insert(QLatin1String("tags"), QJsonValue(clip->tags()));
@@ -1736,7 +1736,7 @@ void ProjectClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
     int duration = getFramePlaytime();
-    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / 30));
+    int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration / 30)));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
@@ -1753,7 +1753,7 @@ void ProjectClip::getThumbFromPercent(int percent)
 void ProjectClip::setRating(uint rating)
 {
     AbstractProjectItem::setRating(rating);
-    setProducerProperty(QStringLiteral("kdenlive:rating"), (int) rating);
+    setProducerProperty(QStringLiteral("kdenlive:rating"), int(rating));
     pCore->currentDoc()->setModified(true);
 }
 
@@ -1785,10 +1785,10 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / channels, i % channels);
-            audioLevels << (uint8_t)qRed(p);
-            audioLevels << (uint8_t)qGreen(p);
-            audioLevels << (uint8_t)qBlue(p);
-            audioLevels << (uint8_t)qAlpha(p);
+            audioLevels << uint8_t(qRed(p));
+            audioLevels << uint8_t(qGreen(p));
+            audioLevels << uint8_t(qBlue(p));
+            audioLevels << uint8_t(qAlpha(p));
         }
         // populate vector
         QDataStream st(&audioData, QIODevice::WriteOnly);

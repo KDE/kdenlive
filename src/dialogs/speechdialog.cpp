@@ -38,7 +38,7 @@
 #include <memory>
 #include <utility>
 
-SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
+SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool, bool, QWidget *parent)
     : QDialog(parent)
     , m_timeline(std::move(timeline))
     
@@ -48,7 +48,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, [this]() {
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
     m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {

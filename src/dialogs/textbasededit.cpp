@@ -432,16 +432,16 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
     int additional_margin;
     if (blockNumber == 0)
         // Simply adjust to document's margin
-        additional_margin = (int) this->document()->documentMargin() -1 - this->verticalScrollBar()->sliderPosition();
+        additional_margin = int(this->document()->documentMargin()) -1 - this->verticalScrollBar()->sliderPosition();
     else
         // Getting the height of the visible part of the previous "non entirely visible" block
-        additional_margin = (int) this->document()->documentLayout()->blockBoundingRect(prev_block)
-                .translated(0, translate_y).intersected(this->viewport()->geometry()).height();
+        additional_margin = int(this->document()->documentLayout()->blockBoundingRect(prev_block)
+                .translated(0, translate_y).intersected(this->viewport()->geometry()).height());
 
     // Shift the starting point
     top += additional_margin;
 
-    int bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+    int bottom = top + int(this->document()->documentLayout()->blockBoundingRect(block).height());
 
     QColor col_2 = palette().link().color();
     QColor col_1 = palette().highlightedText().color();
@@ -466,7 +466,7 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
 
         block = block.next();
         top = bottom;
-        bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+        bottom = top + int(this->document()->documentLayout()->blockBoundingRect(block).height());
         ++blockNumber;
     }
 
@@ -571,7 +571,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, [this]() {
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
 
@@ -630,7 +630,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
-    connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
+    connect(speech_zone, &QCheckBox::stateChanged, [](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
     });
     button_delete->setDefaultAction(m_visualEditor->deleteAction);

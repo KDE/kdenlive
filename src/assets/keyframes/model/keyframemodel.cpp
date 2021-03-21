@@ -370,7 +370,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
-    KeyframeType newType = convertFromMltType((mlt_keyframe_type)type);
+    KeyframeType newType = convertFromMltType(mlt_keyframe_type(type));
     QVariant value = m_keyframeList[pos].second;
     // Check if keyframe is different
     if (m_paramType == ParamType::KeyframeParam) {
@@ -601,7 +601,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    int kfrCount = (int)m_keyframeList.size() - 1;
+    int kfrCount = int(m_keyframeList.size()) - 1;
     if (kfrCount <= 0) {
         // Nothing to do
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -732,7 +732,7 @@ QString KeyframeModel::getRotoProperty() const
         int out = in + ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QVariantMap map;
         for (const auto &keyframe : m_keyframeList) {
-            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(log10((double)out) + 1, '0'), keyframe.second.second);
+            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(int(log10(double(out + 1))), '0'), keyframe.second.second);
         }
         doc = QJsonDocument::fromVariant(map);
     }
@@ -867,7 +867,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         effectName = i18n("effect");
     }
     Fun update_local = [this]() {
-        emit dataChanged(index(0), index((int)m_keyframeList.size()), {});
+        emit dataChanged(index(0), index(int(m_keyframeList.size())), {});
         return true;
     };
     update_local();
@@ -971,7 +971,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             // This is a fake query to force the animation to be parsed
             (void)mlt_prop.anim_get_double("key", 0, out);
             mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-            QString res = QStringLiteral("%1 %2 %3 %4").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h);
+            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
             if (useOpacity) {
                 res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
             }
@@ -999,7 +999,8 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         // - equal to 1 on next keyframe
         qreal relPos = 0;
         if (next->first != prev->first) {
-            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) / (qreal)(((next->first - prev->first).frames(pCore->getCurrentFps())));
+            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) / qreal
+                    (((next->first - prev->first).frames(pCore->getCurrentFps())));
         }
         int count = qMin(p1.count(), p2.count());
         QList<QVariant> vlist;
@@ -1119,11 +1120,11 @@ QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::share
     mlt_keyframe_type type;
     anim.key_get(0, frame, type);
     mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-    QPoint pX(rect.x, rect.x);
-    QPoint pY(rect.y, rect.y);
-    QPoint pW(rect.w, rect.w);
-    QPoint pH(rect.h, rect.h);
-    QPoint pO(rect.o, rect.o);
+    QPoint pX(int(rect.x), int(rect.x));
+    QPoint pY(int(rect.y), int(rect.y));
+    QPoint pW(int(rect.w), int(rect.w));
+    QPoint pH(int(rect.h), int(rect.h));
+    QPoint pO(int(rect.o), int(rect.o));
     for (int i = 1; i < anim.key_count(); ++i) {
         anim.key_get(i, frame, type);
         if (!animData.contains(QLatin1Char('='))) {
@@ -1131,16 +1132,16 @@ QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::share
             type = mlt_keyframe_linear;
         }
         rect = mlt_prop.anim_get_rect("key", frame);
-        pX.setX(qMin((int)rect.x, pX.x()));
-        pX.setY(qMax((int)rect.x, pX.y()));
-        pY.setX(qMin((int)rect.y, pY.x()));
-        pY.setY(qMax((int)rect.y, pY.y()));
-        pW.setX(qMin((int)rect.w, pW.x()));
-        pW.setY(qMax((int)rect.w, pW.y()));
-        pH.setX(qMin((int)rect.h, pH.x()));
-        pH.setY(qMax((int)rect.h, pH.y()));
-        pO.setX(qMin((int)rect.o, pO.x()));
-        pO.setY(qMax((int)rect.o, pO.y()));
+        pX.setX(qMin(int(rect.x), pX.x()));
+        pX.setY(qMax(int(rect.x), pX.y()));
+        pY.setX(qMin(int(rect.y), pY.x()));
+        pY.setY(qMax(int(rect.y), pY.y()));
+        pW.setX(qMin(int(rect.w), pW.x()));
+        pW.setY(qMax(int(rect.w), pW.y()));
+        pH.setX(qMin(int(rect.h), pH.x()));
+        pH.setY(qMax(int(rect.h), pH.y()));
+        pO.setX(qMin(int(rect.o), pO.x()));
+        pO.setY(qMax(int(rect.o), pO.y()));
         // value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
     }
     QList<QPoint> result{pX, pY, pW, pH, pO};
@@ -1204,7 +1205,7 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
         }
         all_pos.push_back(m.first);
     }
-    int kfrCount = (int)all_pos.size();
+    int kfrCount = int(all_pos.size());
     // we trigger only one global remove/insertrow event
     Fun update_redo_start = [this, firstPos, kfrCount]() {
         beginRemoveRows(QModelIndex(), firstPos, kfrCount);

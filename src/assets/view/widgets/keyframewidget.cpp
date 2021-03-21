@@ -104,15 +104,15 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
-    linear->setData((int)mlt_keyframe_linear);
+    linear->setData(int(mlt_keyframe_linear));
     linear->setCheckable(true);
     m_selectType->addAction(linear);
     QAction *discrete = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete->setData((int)mlt_keyframe_discrete);
+    discrete->setData(int(mlt_keyframe_discrete));
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
     QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve->setData((int)mlt_keyframe_smooth);
+    curve->setData(int(mlt_keyframe_smooth));
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
@@ -154,15 +154,15 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default keyframe type"), this);
     QAction *discrete2 = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete2->setData((int)mlt_keyframe_discrete);
+    discrete2->setData(int(mlt_keyframe_discrete));
     discrete2->setCheckable(true);
     kfType->addAction(discrete2);
     QAction *linear2 = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
-    linear2->setData((int)mlt_keyframe_linear);
+    linear2->setData(int(mlt_keyframe_linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
     QAction *curve2 = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve2->setData((int)mlt_keyframe_smooth);
+    curve2->setData(int(mlt_keyframe_smooth));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
     switch (KdenliveSettings::defaultkeyframeinterp()) {
@@ -336,7 +336,7 @@ void KeyframeWidget::slotRefreshParams()
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
     while (auto ac = m_selectType->action(i)) {
-        if (ac->data().toInt() == (int)keyType) {
+        if (ac->data().toInt() == int(keyType)) {
             m_selectType->setCurrentItem(i);
             break;
         }
@@ -345,7 +345,7 @@ void KeyframeWidget::slotRefreshParams()
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
-            ((DoubleWidget *)w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
+            (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
@@ -357,7 +357,7 @@ void KeyframeWidget::slotRefreshParams()
                     opacity = vals.at(4).toDouble();
                 }
             }
-            ((GeometryWidget *)w.second)->setValue(rect, opacity);
+            (static_cast<GeometryWidget *>(w.second))->setValue(rect, opacity);
         }
     }
     if (m_monitorHelper && m_model->isActive()) {
@@ -565,7 +565,7 @@ void KeyframeWidget::connectMonitor(bool active)
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedRect) {
-            ((GeometryWidget *)w.second)->connectMonitor(active);
+            (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
             break;
         }
     }

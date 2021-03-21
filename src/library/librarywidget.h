@@ -70,7 +70,7 @@ public:
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
         int decoWidth = 2 * textMargin + r1.height() * 1.8;
-        int mid = (int)((r1.height() / 2));
+        int mid = r1.height() / 2;
         r1.adjust(decoWidth, 0, 0, -mid);
         QFont ft = option.font;
         ft.setBold(true);
@@ -116,11 +116,11 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int decoWidth = 2 * textMargin + r1.height() * 1.8;
-            r.setWidth(r1.height() * 1.8);
+            int decoWidth = int(2 * textMargin + r1.height() * 1.8);
+            r.setWidth(int(r1.height() * 1.8));
             // Draw thumbnail
             opt.icon.paint(painter, r);
-            int mid = (int)((r1.height() / 2));
+            int mid = r1.height() / 2;
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
@@ -129,7 +129,7 @@ public:
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole + 1).toString();
-            r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+            r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
             QColor subTextColor = painter->pen().color();
             subTextColor.setAlphaF(.5);
             painter->setPen(subTextColor);

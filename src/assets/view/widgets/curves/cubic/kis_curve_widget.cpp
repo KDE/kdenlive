@@ -123,12 +123,12 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * wHeight);
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
-    double x = (e->pos().x() - offsetX) / (double)(wWidth);
-    double y = 1.0 - (e->pos().y() - offsetY) / (double)(wHeight);
+    double x = (e->pos().x() - offsetX) / double(wWidth);
+    double y = 1.0 - (e->pos().y() - offsetY) / double(wHeight);
 
     int closest_point_index = nearestPointInRange(QPointF(x, y), width(), height());
 
@@ -171,12 +171,12 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
 {
     int wWidth = width() - 1;
     int wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * wHeight);
     wWidth -= 2 * offsetX;
     wHeight -= 2 * offsetY;
-    double x = (e->pos().x() - offsetX) / (double)(wWidth);
-    double y = 1.0 - (e->pos().y() - offsetY) / (double)(wHeight);
+    double x = (e->pos().x() - offsetX) / double(wWidth);
+    double y = 1.0 - (e->pos().y() - offsetY) / double(wHeight);
 
     if (m_state == State_t::NORMAL) { // If no point is selected set the cursor shape if on top
         int nearestPointIndex = nearestPointInRange(QPointF(x, y), width(), height());

@@ -88,11 +88,11 @@ int AudioCorrelation::getShift(int childIndex) const
     Q_ASSERT(childIndex >= 0);
     Q_ASSERT(childIndex < m_correlations.size());
 
-    int indexOffset = (int)m_correlations.at(childIndex)->maxIndex();
-    indexOffset -= (int)m_children.at(childIndex)->envelope().size();
-    indexOffset += (int)m_children.at(childIndex)->offset();
+    size_t indexOffset = m_correlations.at(childIndex)->maxIndex();
+    indexOffset -= m_children.at(childIndex)->envelope().size();
+    indexOffset += m_children.at(childIndex)->offset();
 
-    return indexOffset;
+    return int(indexOffset);
 }
 
 AudioCorrelationInfo const *AudioCorrelation::info(int childIndex) const
@@ -109,7 +109,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
 
     qint64 const *left;
     qint64 const *right;
-    int size;
+    size_t size;
     qint64 sum;
     qint64 max = 0;
 
@@ -130,25 +130,25 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
 
     QElapsedTimer t;
     t.start();
-    for (int shift = -(int)sizeSub; shift <= (int)sizeMain; ++shift) {
+    for (size_t shift = -sizeSub; shift <= sizeMain; ++shift) {
 
         if (shift <= 0) {
             left = envSub - shift;
             right = envMain;
-            size = std::min((int)sizeSub + shift, (int)sizeMain);
+            size = std::min(sizeSub + shift, sizeMain);
         } else {
             left = envSub;
             right = envMain + shift;
-            size = std::min((int)sizeSub, (int)sizeMain - shift);
+            size = std::min(sizeSub, sizeMain - shift);
         }
 
         sum = 0;
-        for (int i = 0; i < size; ++i) {
+        for (size_t i = 0; i < size; ++i) {
             sum += (*left) * (*right);
             left++;
             right++;
         }
-        correlation[sizeSub + (size_t)shift] = (qint64)qAbs(sum);
+        correlation[sizeSub + shift] = qAbs(sum);
 
         if (sum > max) {
             max = sum;

@@ -27,7 +27,7 @@ class FrameData : public QSharedData
 {
 public:
     FrameData()
-        : f((mlt_frame) nullptr)
+        : f(nullptr)
     {
     }
     explicit FrameData(Mlt::Frame &frame)
@@ -88,7 +88,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = mlt_audio_format_size(get_audio_format(), get_audio_samples(), get_audio_channels());
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, (unsigned)size);
+        memcpy(copy, data, size_t(size));
         cloneFrame.set("audio", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("audio", 0);
@@ -104,7 +104,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = mlt_image_format_size(get_image_format(), get_image_width(), get_image_height(), nullptr);
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, (unsigned)size);
+        memcpy(copy, data, size_t(size));
         cloneFrame.set("image", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("image", 0);
@@ -119,7 +119,7 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
             size = get_image_width() * get_image_height();
         }
         copy = mlt_pool_alloc(size);
-        memcpy(copy, data, (unsigned)size);
+        memcpy(copy, data, size_t(size));
         cloneFrame.set("alpha", copy, size, mlt_pool_release);
     } else {
         cloneFrame.set("alpha", 0);
@@ -158,7 +158,7 @@ int SharedFrame::get_position() const
 
 mlt_image_format SharedFrame::get_image_format() const
 {
-    return (mlt_image_format)d->f.get_int("format");
+    return mlt_image_format(d->f.get_int("format"));
 }
 
 int SharedFrame::get_image_width() const
@@ -184,7 +184,7 @@ mlt_image_format native_format = get_image_format();
 
     if (format == native_format) {
         // Native format is requested. Return frame image.
-        image = (uint8_t*)d->f.get_image(format, width, height, 0);
+        image = static_cast<uint8_t*>(d->f.get_image(format, width, height, 0));
     } else {
         // Non-native format is requested. Return a cached converted image.
         const char* formatName = mlt_image_format_name( format );
@@ -214,7 +214,7 @@ mlt_image_format native_format = get_image_format();
 
         // Get the image from the cache frame.
         // This will cause a conversion if it was just created.
-        image = (uint8_t*)cacheFrame->get_image(format, width, height, 0);
+        image = static_cast<uint8_t*>(cacheFrame->get_image(format, width, height, 0));
 
         nonConstData->m.unlock();
     }
@@ -223,7 +223,7 @@ mlt_image_format native_format = get_image_format();
 
 mlt_audio_format SharedFrame::get_audio_format() const
 {
-    return (mlt_audio_format)d->f.get_int("audio_format");
+    return mlt_audio_format(d->f.get_int("audio_format"));
 }
 
 int SharedFrame::get_audio_channels() const
@@ -247,6 +247,6 @@ const int16_t *SharedFrame::get_audio() const
     int frequency = get_audio_frequency();
     int channels = get_audio_channels();
     int samples = get_audio_samples();
-    return (int16_t *)d->f.get_audio(format, frequency, channels, samples);
+    return static_cast<int16_t *>(d->f.get_audio(format, frequency, channels, samples));
 }
 

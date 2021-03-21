@@ -135,10 +135,10 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
         newPos.setX(qMax(newPos.x(), 0));
         newPos.setY(qMax(newPos.y(), 0));
         if (newPos.x() + sceneShape.width() > sc->width()) {
-            newPos.setX(sc->width() - sceneShape.width());
+            newPos.setX(int(sc->width() - sceneShape.width()));
         }
         if (newPos.y() + sceneShape.height() > sc->height()) {
-            newPos.setY(sc->height() - sceneShape.height());
+            newPos.setY(int(sc->height() - sceneShape.height()));
         }
 
         sceneShape.translate(newPos - pos());
@@ -562,11 +562,11 @@ void DvdWizardMenu::prepareUnderLines()
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             QRectF r = list.at(i)->sceneBoundingRect();
-            int bottom = r.bottom() - 1;
+            int bottom = int(r.bottom()) - 1;
             if (bottom % 2 == 1) {
                 bottom = bottom - 1;
             }
-            int underlineHeight = r.height() / 10;
+            int underlineHeight = int(r.height() / 10);
             if (underlineHeight % 2 == 1) {
                 underlineHeight = underlineHeight - 1;
             }
@@ -635,8 +635,8 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
             target = QRectF(0, 0, m_finalSize.width(), m_finalSize.height());
         } else {
             // Scale the button images to fit a letterbox image
-            double factor = (double)m_width / m_finalSize.width();
-            int letterboxHeight = m_height / factor;
+            double factor = double(m_width) / m_finalSize.width();
+            int letterboxHeight = int(m_height / factor);
             target = QRectF(0, (m_finalSize.height() - letterboxHeight) / 2, m_finalSize.width(), letterboxHeight);
         }
         if (m_safeRect->scene() != nullptr) {
@@ -764,19 +764,19 @@ QMap<QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
 {
     QMap<QString, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
-    double ratiox = (double)m_finalSize.width() / m_width;
+    double ratiox = double(m_finalSize.width()) / m_width;
     double ratioy = 1;
     int offset = 0;
     if (letterbox) {
-        int letterboxHeight = m_height * ratiox;
-        ratioy = (double)letterboxHeight / m_finalSize.height();
+        int letterboxHeight = int(m_height * ratiox);
+        ratioy = double(letterboxHeight) / m_finalSize.height();
         offset = (m_finalSize.height() - letterboxHeight) / 2;
     }
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             auto *button = static_cast<DvdButton *>(list.at(i));
             QRectF r = button->sceneBoundingRect();
-            QRect adjustedRect(r.x() * ratiox, offset + r.y() * ratioy, r.width() * ratiox, r.height() * ratioy);
+            QRect adjustedRect(int(r.x() * ratiox), int(offset + r.y() * ratioy), int(r.width() * ratiox), int(r.height() * ratioy));
             // Make sure y1 is not odd (requested by spumux)
             if (adjustedRect.height() % 2 == 1) {
                 adjustedRect.setHeight(adjustedRect.height() + 1);
@@ -813,7 +813,7 @@ QDomElement DvdWizardMenu::toXml() const
     xml.setAttribute(QStringLiteral("text_color"), m_view.text_color->color().name());
     xml.setAttribute(QStringLiteral("selected_color"), m_view.selected_color->color().name());
     xml.setAttribute(QStringLiteral("highlighted_color"), m_view.highlighted_color->color().name());
-    xml.setAttribute(QStringLiteral("text_shadow"), (int)m_view.use_shadow->isChecked());
+    xml.setAttribute(QStringLiteral("text_shadow"), int(m_view.use_shadow->isChecked()));
 
     QList<QGraphicsItem *> list = m_scene->items();
     int buttonCount = 0;
@@ -826,8 +826,8 @@ QDomElement DvdWizardMenu::toXml() const
             xmlbutton.setAttribute(QStringLiteral("target"), button->target());
             xmlbutton.setAttribute(QStringLiteral("command"), button->command());
             xmlbutton.setAttribute(QStringLiteral("backtomenu"), static_cast<int>(button->backMenu()));
-            xmlbutton.setAttribute(QStringLiteral("posx"), (int)button->pos().x());
-            xmlbutton.setAttribute(QStringLiteral("posy"), (int)button->pos().y());
+            xmlbutton.setAttribute(QStringLiteral("posx"), int(button->pos().x()));
+            xmlbutton.setAttribute(QStringLiteral("posy"), int(button->pos().y()));
             xmlbutton.setAttribute(QStringLiteral("text"), button->toPlainText());
             QFont font = button->font();
             xmlbutton.setAttribute(QStringLiteral("font_size"), font.pixelSize());

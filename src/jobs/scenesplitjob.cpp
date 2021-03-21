@@ -77,7 +77,7 @@ void SceneSplitJob::configureFilter()
 void SceneSplitJob::configureProfile()
 {
     m_profile->set_height(160);
-    m_profile->set_width(m_profile->height() * m_profile->sar());
+    m_profile->set_width(int(m_profile->height() * m_profile->sar()));
 }
 
 // static
@@ -89,8 +89,8 @@ int SceneSplitJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std:
     ui.setupUi(d.data());
     // Set  up categories
     for (size_t i = 0; i < MarkerListModel::markerTypes.size(); ++i) {
-        ui.marker_type->insertItem((int)i, i18n("Category %1", i));
-        ui.marker_type->setItemData((int)i, MarkerListModel::markerTypes[i], Qt::DecorationRole);
+        ui.marker_type->insertItem(int(i), i18n("Category %1", i));
+        ui.marker_type->setItemData(int(i), MarkerListModel::markerTypes[i], Qt::DecorationRole);
     }
     ui.marker_type->setCurrentIndex(KdenliveSettings::default_marker_type());
     ui.zone_only->setEnabled(false);  // not implemented

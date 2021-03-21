@@ -42,7 +42,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
     QScopedPointer<Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
     if (height == -1) {
-        height = width * (double)profile->height() / profile->width();
+        height = int(width * double(profile->height()) / profile->width());
     }
     QPixmap pix(width, height);
     if (!url.isValid()) {
@@ -113,7 +113,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidt
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
         QImage temp(ow, oh, QImage::Format_ARGB32);
-        memcpy(temp.scanLine(0), imagedata, (unsigned)(ow * oh * 4));
+        memcpy(temp.scanLine(0), imagedata, unsigned(ow * oh * 4));
         if (scaledWidth == 0 || scaledWidth == width) {
             return temp.rgbSwapped();
         }
@@ -127,7 +127,7 @@ int KThumb::imageVariance(const QImage &image)
 {
     int delta = 0;
     int avg = 0;
-    int bytes = (int)image.sizeInBytes();
+    int bytes = int(image.sizeInBytes());
     int STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits = image.bits();

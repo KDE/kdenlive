@@ -244,7 +244,7 @@ void LoadJob::processSlideShow()
                 QString softness = Xml::getXmlProperty(m_xml, QStringLiteral("softness"));
                 if (!softness.isEmpty()) {
                     int soft = softness.toInt();
-                    filter->set("luma.softness", (double)soft / 100.0);
+                    filter->set("luma.softness", double(soft) / 100.0);
                 }
             }
             m_producer->attach(*filter);
@@ -284,7 +284,7 @@ bool LoadJob::startJob()
         break;
     case ClipType::Text:
     case ClipType::TextTemplate: {
-            bool ok;
+            bool ok = false;
             int producerLength = 0;
             QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
             if (pLength.isEmpty()) {
@@ -358,7 +358,7 @@ bool LoadJob::startJob()
         m_producer = loadPlaylist(m_resource);
         if (!m_errorMessage.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString,m_errorMessage),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         }
         if (m_producer && m_resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(m_resource);
@@ -413,7 +413,7 @@ bool LoadJob::startJob()
             m_producer.reset();
         }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", m_resource)),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
@@ -523,7 +523,7 @@ bool LoadJob::startJob()
         fps = originalFps;
         if (originalFps > 0 && !qFuzzyCompare(originalFps, pCore->getCurrentFps())) {
             int originalLength = tmpProd->get_length();
-            int fixedLength = (int)(originalLength * pCore->getCurrentFps() / originalFps);
+            int fixedLength = int(originalLength * pCore->getCurrentFps() / originalFps);
             m_producer->set("length", fixedLength);
             m_producer->set("out", fixedLength - 1);
         }
@@ -604,7 +604,7 @@ void LoadJob::processMultiStream()
         return;
     }
 
-    int width = 60.0 * pCore->getCurrentDar();
+    int width = int(60.0 * pCore->getCurrentDar());
     if (width % 2 == 1) {
         width++;
     }

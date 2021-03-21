@@ -65,7 +65,7 @@ QImage AssetIconProvider::makeIcon(const QString &effectName, const QSize &size)
     bool isAudio = false;
     bool isCustom = false;
     bool isGroup = false;
-    AssetListType::AssetType type = (AssetListType::AssetType)effectName.section(QLatin1Char('/'), -1).toInt();
+    AssetListType::AssetType type = AssetListType::AssetType(effectName.section(QLatin1Char('/'), -1).toInt());
     if (m_effect) {
         isAudio = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
         isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom;

@@ -679,7 +679,7 @@ void KdenliveSettingsDialog::initDevices()
         for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); ++i) {
             if (m_configSdl.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodrivername()) {
                 m_configSdl.kcfg_audio_driver->setCurrentIndex(i);
-                KdenliveSettings::setAudio_driver((uint)i);
+                KdenliveSettings::setAudio_driver(uint(i));
             }
         }
 
@@ -931,13 +931,13 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configTimeline.kcfg_trackheight->value() == 0) {
         QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
         // Default unit for timeline.qml objects size
-        int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
-        int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
+        int baseUnit = qMax(28, int(QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+        int trackHeight = qMax(50, int(2.2 * baseUnit + 6));
         m_configTimeline.kcfg_trackheight->setValue(trackHeight);
     } else if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
         QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
         // Default unit for timeline.qml objects size
-        int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+        int baseUnit = qMax(28, int(QFontInfo(ft).pixelSize() * 1.8 + 0.5));
         if (m_configTimeline.kcfg_trackheight->value() < baseUnit) {
             m_configTimeline.kcfg_trackheight->setValue(baseUnit);
         }
@@ -981,7 +981,7 @@ void KdenliveSettingsDialog::updateSettings()
         }
     }
 
-    if (m_configCapture.kcfg_v4l_format->currentIndex() != (int)KdenliveSettings::v4l_format()) {
+    if (m_configCapture.kcfg_v4l_format->currentIndex() != int(KdenliveSettings::v4l_format())) {
         saveCurrentV4lProfile();
         KdenliveSettings::setV4l_format(0);
     }

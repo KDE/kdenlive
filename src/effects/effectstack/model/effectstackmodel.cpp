@@ -621,7 +621,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 if (logUndo) {
                     Fun reverse = [effect, referenceEffectOut]() {
                         effect->setParameter(QStringLiteral("out"), referenceEffectOut, true);
-                        effect->filter().set("_refout", (char *)nullptr);
+                        effect->filter().set("_refout", nullptr);
                         return true;
                     };
                     PUSH_LAMBDA(operation, redo);
@@ -651,7 +651,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 Fun reverse = [effect, referenceEffectIn, oldOut]() {
                     effect->setParameter(QStringLiteral("in"), referenceEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldOut, true);
-                    effect->filter().set("_refin", (char *)nullptr);
+                    effect->filter().set("_refin", nullptr);
                     return true;
                 };
                 PUSH_LAMBDA(operation, redo);
@@ -1163,7 +1163,7 @@ bool EffectStackModel::checkConsistency()
             }
             // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
         }
-        if (kdenliveFilterCount != (int)allFilters.size()) {
+        if (kdenliveFilterCount != int(allFilters.size())) {
             qDebug() << "ERROR: Wrong filter count: " << kdenliveFilterCount << " = " << allFilters.size();
             return false;
         }

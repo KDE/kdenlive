@@ -168,7 +168,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, (float)0.8))));
+    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, 0.8))));
     m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QStringLiteral("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
@@ -412,11 +412,11 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefr
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
-        int inRef = (int)AssetParameterModel::Enum6Role + 2 * (start - 1);
-        int outRef = (int)AssetParameterModel::Enum7Role + 2 * (start - 1);
+        int inRef = int(AssetParameterModel::Enum6Role) + 2 * (start - 1);
+        int outRef = int(AssetParameterModel::Enum7Role) + 2 * (start - 1);
         for (int j = start; j <= number; ++j) {
-            double inVal = m_model->data(m_index, (AssetParameterModel::DataRoles)inRef).toDouble();
-            double outVal = m_model->data(m_index, (AssetParameterModel::DataRoles)outRef).toDouble();
+            double inVal = m_model->data(m_index, AssetParameterModel::DataRoles(inRef)).toDouble();
+            double outVal = m_model->data(m_index, AssetParameterModel::DataRoles(outRef)).toDouble();
             points << QPointF(inVal, outVal);
             inRef += 2;
             outRef += 2;

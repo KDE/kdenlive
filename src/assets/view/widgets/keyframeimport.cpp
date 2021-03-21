@@ -86,10 +86,10 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             int spaces = first.count(QLatin1Char(' '));
             switch (spaces) {
                 case 0:
-                    currentParam.insert(QLatin1String("type"), QJsonValue((int)ParamType::Animated));
+                    currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::Animated)));
                     break;
                 default:
-                    currentParam.insert(QLatin1String("type"), QJsonValue((int)ParamType::AnimatedRect));
+                    currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
                     break;
             }
             //currentParam.insert(QLatin1String("min"), QJsonValue(min));
@@ -502,7 +502,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     qDebug()<<"============= DRAWING KFR CHANNS: "<<m_dataCombo->currentData().toString();
     std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
     QRect br(0, 0, pix.width(), pix.height());
-    double frameFactor = (double)(out - in) / br.width();
+    double frameFactor = double(out - in) / br.width();
     int offset = 1;
     if (limitKeyframes > 0) {
         offset = (out - in) / limitKeyframes / frameFactor;
@@ -571,27 +571,27 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
 
     // Draw curves
     for (int i = 0; i < br.width(); i++) {
-        mlt_rect rect = animData->anim_get_rect("key", (int)(i * frameFactor) + in);
+        mlt_rect rect = animData->anim_get_rect("key", int(i * frameFactor) + in);
         if (xDist > 0) {
             painter.setPen(cX);
-            int val = (rect.x - xOffset) * maxHeight / xDist;
-            qDebug() << "// DRAWINC CURVE : " << rect.x <<", POS: "<<((int)(i * frameFactor) + in)<< ", RESULT: " << val;
+            int val = int((rect.x - xOffset) * maxHeight / xDist);
+            qDebug() << "// DRAWINC CURVE : " << rect.x <<", POS: "<<(int(i * frameFactor) + in)<< ", RESULT: " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (yDist > 0) {
             painter.setPen(cY);
-            int val = (rect.y - yOffset) * maxHeight / yDist;
+            int val = int((rect.y - yOffset) * maxHeight / yDist);
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (wDist > 0) {
             painter.setPen(cW);
-            int val = (rect.w - wOffset) * maxHeight / wDist;
+            int val = int((rect.w - wOffset) * maxHeight / wDist);
             qDebug() << "// OFFSET: " << wOffset << ", maxH: " << maxHeight << ", wDIst:" << wDist << " = " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (hDist > 0) {
             painter.setPen(cH);
-            int val = (rect.h - hOffset) * maxHeight / hDist;
+            int val = int((rect.h - hOffset) * maxHeight / hDist);
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
     }
@@ -604,7 +604,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         mlt_rect rect1 = animData->anim_get_rect("key", in);
         int prevPos = 0;
         for (int i = offset; i < br.width(); i += offset) {
-            mlt_rect rect2 = animData->anim_get_rect("key", (int)(i * frameFactor) + in);
+            mlt_rect rect2 = animData->anim_get_rect("key", int(i * frameFactor) + in);
             if (xDist > 0) {
                 painter.setPen(cX);
                 int val1 = (rect1.x - xOffset) * maxHeight / xDist;
@@ -664,7 +664,7 @@ void KeyframeImport::importSelectedData()
                 QVariant current = km->getInterpolatedValue(frame);
                 if (convertMode == ImportRoles::SimpleValue) {
                     double dval = animData->anim_get_double("key", frame);
-                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, dval, true, undo, redo);
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType(type), dval, true, undo, redo);
                     continue;
                 }
                 QStringList kfrData = current.toString().split(QLatin1Char(' '));
@@ -709,33 +709,31 @@ void KeyframeImport::importSelectedData()
                 }
                 switch (convertMode) {
                     case ImportRoles::FullGeometry:
-                        kfrData[0] = locale.toString((int)rect.x);
-                        kfrData[1] = locale.toString((int)rect.y);
-                        kfrData[2] = locale.toString((int)rect.w);
-                        kfrData[3] = locale.toString((int)rect.h);
+                        kfrData[0] = locale.toString(int(rect.x));
+                        kfrData[1] = locale.toString(int(rect.y));
+                        kfrData[2] = locale.toString(int(rect.w));
+                        kfrData[3] = locale.toString(int(rect.h));
                         break;
                     case ImportRoles::Position:
-                        kfrData[0] = locale.toString((int)rect.x);
-                        kfrData[1] = locale.toString((int)rect.y);
+                        kfrData[0] = locale.toString(int(rect.x));
+                        kfrData[1] = locale.toString(int(rect.y));
                         break;
                     case ImportRoles::SimpleValue:
                     case ImportRoles::XOnly:
-                        kfrData[0] = locale.toString((int)rect.x);
+                        kfrData[0] = locale.toString(int(rect.x));
                         break;
                     case ImportRoles::YOnly:
-                        kfrData[1] = locale.toString((int)rect.y);
+                        kfrData[1] = locale.toString(int(rect.y));
                         break;
                     case ImportRoles::WidthOnly:
-                        kfrData[2] = locale.toString((int)rect.w);
+                        kfrData[2] = locale.toString(int(rect.w));
                         break;
                     case ImportRoles::HeightOnly:
-                        kfrData[3] = locale.toString((int)rect.h);
-                        break;
-                    default:
+                        kfrData[3] = locale.toString(int(rect.h));
                         break;
                 }
                 current = kfrData.join(QLatin1Char(' '));
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType(type), current, true, undo, redo);
             }
         } else {
             int frame = 0;
@@ -747,7 +745,7 @@ void KeyframeImport::importSelectedData()
                 }
                 //frame += (m_inPoint->getPosition() - m_offsetPoint->getPosition());
                 QVariant current = km->getInterpolatedValue(frame);
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType(type), current, true, undo, redo);
             }
         }
     }

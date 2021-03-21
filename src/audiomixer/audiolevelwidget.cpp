@@ -117,12 +117,12 @@ void AudioLevelWidget::drawBackground(int channels)
         int value = dbscale.at(i);
         QString label = QString::number(value);
         //int labelWidth = fontMetrics().width(label);
-        double xf = m_pixmap.height() - pow(10.0, (double)dbscale.at(i) / 50.0) * m_pixmap.height() * 40.0 / 42;
+        double xf = m_pixmap.height() - pow(10.0, double(dbscale.at(i)) / 50.0) * m_pixmap.height() * 40.0 / 42;
         /*if (xf + labelWidth / 2 > m_pixmap.height()) {
             xf = height() - labelWidth / 2;
         }*/
         p.setPen(palette().dark().color());
-        p.drawLine(m_offset, xf, m_offset + totalWidth - 1, xf);
+        p.drawLine(m_offset, int(xf), m_offset + totalWidth - 1, int(xf));
         xf -= labelHeight * 2 / 3;
         p.setPen(palette().text().color().rgb());
         p.drawText(QRectF(0, xf, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));

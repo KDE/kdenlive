@@ -54,7 +54,7 @@ JogShuttleAction::~JogShuttleAction() = default;
 
 void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 {
-    size_t magnitude = (unsigned)abs(shuttle_pos);
+    size_t magnitude = size_t(abs(shuttle_pos));
     if (magnitude < SPEEDS_SIZE) {
         if (shuttle_pos < 0) {
             emit rewind(-SPEEDS[magnitude]);

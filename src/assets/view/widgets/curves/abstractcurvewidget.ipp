@@ -88,8 +88,8 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(Q
      * Grid
      */
     if (m_gridLines != 0) {
-        double stepH = m_wWidth / (double)(m_gridLines + 1);
-        double stepV = m_wHeight / (double)(m_gridLines + 1);
+        double stepH = m_wWidth / double(m_gridLines + 1);
+        double stepV = m_wHeight / double(m_gridLines + 1);
         for (int i = 1; i <= m_gridLines; ++i) {
             p->drawLine(QLineF(i * stepH, 0, i * stepH, m_wHeight));
             p->drawLine(QLineF(0, i * stepV, m_wWidth, i * stepV));

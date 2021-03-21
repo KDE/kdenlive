@@ -169,7 +169,7 @@ bool TreeItem::changeParent(std::shared_ptr<TreeItem> newParent)
 
 std::shared_ptr<TreeItem> TreeItem::child(int row) const
 {
-    Q_ASSERT(row >= 0 && row < (int)m_childItems.size());
+    Q_ASSERT(row >= 0 && row < int(m_childItems.size()));
     auto it = m_childItems.cbegin();
     std::advance(it, row);
     return (*it);
@@ -177,7 +177,7 @@ std::shared_ptr<TreeItem> TreeItem::child(int row) const
 
 int TreeItem::childCount() const
 {
-    return (int)m_childItems.size();
+    return int(m_childItems.size());
 }
 
 int TreeItem::columnCount() const
@@ -205,7 +205,7 @@ int TreeItem::row() const
     if (auto ptr = m_parentItem.lock()) {
         // we compute the distance in the parent's children list
         auto it = ptr->m_childItems.begin();
-        return (int)std::distance(it, (decltype(it))ptr->m_iteratorTable.at(m_id));
+        return int(std::distance(it, static_cast<decltype(it)>(ptr->m_iteratorTable.at(m_id))));
     }
     return -1;
 }

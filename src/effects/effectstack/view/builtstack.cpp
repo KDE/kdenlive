@@ -56,7 +56,7 @@ void BuiltStack::setModel(const std::shared_ptr<EffectStackModel> &model, Object
 {
     m_model = model;
     if (ownerId.first == ObjectType::TimelineClip) {
-        QVariant current_speed((int)(100.0 * pCore->getClipSpeed(ownerId.second)));
+        QVariant current_speed(int(100.0 * pCore->getClipSpeed(ownerId.second)));
         qDebug() << " CLIP SPEED OFR: " << ownerId.second << " = " << current_speed;
         QMetaObject::invokeMethod(rootObject(), "setSpeed", Qt::QueuedConnection, Q_ARG(QVariant, current_speed));
     }

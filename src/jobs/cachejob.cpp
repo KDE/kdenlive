@@ -39,7 +39,7 @@
 
 CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId, {ObjectType::BinClip, binId.toInt()})
-    , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : pCore->thumbProfile()->height() * pCore->getCurrentDar() + 0.5)
+    , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : int(pCore->thumbProfile()->height() * pCore->getCurrentDar() + 0.5))
     , m_semaphore(1)
     , 
      m_thumbsCount(thumbsCount)
@@ -87,15 +87,15 @@ bool CacheJob::startJob()
         qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
-    int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : (int)m_binClip->frameDuration();
+    int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : int(m_binClip->frameDuration());
     std::set<int> frames;
-    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / m_thumbsCount));
+    int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / m_thumbsCount));
     int pos = m_inPoint;
     for (int i = 1; i <= m_thumbsCount && pos <= m_inPoint + duration; ++i) {
         frames.insert(pos);
         pos = m_inPoint + (steps * i);
     }
-    int size = (int)frames.size();
+    int size = int(frames.size());
     int count = 0;
     for (int i : frames) {
         emit jobProgress(100 * count / size);

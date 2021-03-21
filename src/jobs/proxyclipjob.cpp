@@ -237,7 +237,7 @@ bool ProxyJob::startJob()
         }
         // Only output error data, make sure we don't block when proxy file already exists
         QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
-        m_jobDuration = (int)binClip->duration().seconds();
+        m_jobDuration = int(binClip->duration().seconds());
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -339,7 +339,7 @@ void ProxyJob::processLogInfo()
                     if (numbers.size() < 3) {
                         return;
                     }
-                    m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    m_jobDuration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
@@ -347,15 +347,15 @@ void ProxyJob::processLogInfo()
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
-                    progress = (int)time.toDouble();
+                    progress = time.toInt();
                     if (progress == 0) {
                         return;
                     }
                 } else {
-                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
                 }
             }
-            emit jobProgress((int)(100.0 * progress / m_jobDuration));
+            emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
@@ -396,5 +396,4 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }
     return ok;
-    return true;
 }

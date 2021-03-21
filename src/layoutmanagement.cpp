@@ -331,7 +331,7 @@ void LayoutManagement::slotManageLayouts()
     QToolButton tb(&d);
     tb.setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     tb.setAutoRaise(true);
-    connect(&tb, &QToolButton::clicked, this, [this, &layouts, &list]() {
+    connect(&tb, &QToolButton::clicked, this, [ &layouts, &list]() {
         if (list.currentItem()) {
             layouts.deleteEntry(list.currentItem()->data(Qt::UserRole).toString());
             delete list.currentItem();
@@ -460,7 +460,7 @@ void LayoutManagement::slotManageLayouts()
     tb6.setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     tb6.setAutoRaise(true);
     tb6.setToolTip(i18n("Export selected"));
-    connect(&tb6, &QToolButton::clicked, [this, &d, &list](){
+    connect(&tb6, &QToolButton::clicked, [ &d, &list](){
 
         if (!list.currentItem()) {
             // Error, no layout selected

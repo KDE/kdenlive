@@ -63,7 +63,7 @@ public:
             painter->setFont(font);
             QRect r1 = option.rect;
             r1.adjust(0, textMargin, 0, -textMargin);
-            int mid = (int)((r1.height() / 2));
+            int mid = int((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
             QRect bounding;
             painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data().toString(), &bounding);

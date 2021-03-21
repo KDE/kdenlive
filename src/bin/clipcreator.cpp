@@ -44,7 +44,7 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
 {
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);
-    prod.setAttribute(QStringLiteral("type"), (int)type);
+    prod.setAttribute(QStringLiteral("type"), int(type));
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
