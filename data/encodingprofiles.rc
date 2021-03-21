@@ -18,7 +18,8 @@ VAAPI AMD=hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vc
 
 [screengrab]
 X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
-X264 with audio=-f alsa -i default -crf 25 -ab 192k -vcodec libx264 -acodec libvorbis -preset veryfast -threads 0;mov
+X264 with audio (alsa)=-f alsa -i default -crf 25 -ab 192k -vcodec libx264 -acodec libvorbis -preset veryfast -threads 0;mov
+X264 with audio (pulse)=-f pulse -i default -crf 25 -ab 192k -vcodec libx264 -preset veryfast -threads 0;mov
 
 [video4linux]
 x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
