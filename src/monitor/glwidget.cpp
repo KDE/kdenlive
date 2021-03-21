@@ -125,7 +125,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
-    m_refreshTimer.setInterval(50);
+    m_refreshTimer.setInterval(10);
     m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
