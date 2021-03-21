@@ -100,7 +100,7 @@ public:
 
 
     /** @brief This describes the available markers type and their corresponding colors */
-    static std::array<QColor, 5> markerTypes;
+    static std::array<QColor, 9> markerTypes;
 
     /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;

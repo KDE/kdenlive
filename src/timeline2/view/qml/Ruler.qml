@@ -35,6 +35,7 @@ Item {
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
     property var effectZones: timeline.masterEffectZones
+    property int guideLabelHeight: timeline.showMarkers ? Math.round(fontMetrics.height) : 0
     
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -97,7 +98,83 @@ Item {
         visible: rulerRoot.workingPreview > -1
     }
     
+    // Guides
+    Repeater {
+        model: guidesModel
+        delegate:
+        Item {
+            id: guideRoot
+            Rectangle {
+                id: markerBase
+                width: 1
+                height: rulerRoot.height
+                x: model.frame * timeline.scaleFactor
+                color: model.color
+                opacity: 0.8
+                Rectangle {
+                    visible: timeline.showMarkers
+                    width: mlabel.contentWidth + 4
+                    height: guideLabelHeight
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                    color: model.color
+                    Text {
+                        id: mlabel
+                        text: model.comment
+                        topPadding: -2
+                        leftPadding: 2
+                        rightPadding: 2
+                        font: miniFont
+                        color: activePalette.text
+                    }
+                    MouseArea {
+                        z: 10
+                        id: guideArea
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        property int startX
+                        drag.axis: Drag.XAxis
+                        drag.target: guideRoot
+                        onPressed: {
+                            drag.target = guideRoot
+                            startX = guideRoot.x
+                        }
+                        onReleased: {
+                            if (startX != guideRoot.x) {
+                                timeline.moveGuide(model.frame,  model.frame + guideRoot.x / timeline.scaleFactor)
+                            }
+                            drag.target = undefined
+                        }
+                        onPositionChanged: {
+                            if (pressed) {
+                                var frame = Math.round(model.frame + guideRoot.x / timeline.scaleFactor)
+                                frame = controller.suggestSnapPoint(frame, root.snapping)
+                                guideRoot.x = (frame - model.frame) * timeline.scaleFactor
+                            }
+                        }
+                        drag.smoothed: false
+                        onDoubleClicked: timeline.editGuide(model.frame)
+                        onClicked: {
+                            proxy.position = model.frame
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // Ruler marks
+    Item {
+        anchors.top: parent.top
+        anchors.topMargin: guideLabelHeight
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: zoneHeight
+        anchors.left: parent.left
+        anchors.right: parent.right
     Repeater {
         id: tickRepeater
         model: Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
@@ -109,7 +186,6 @@ Item {
             property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
             Rectangle {
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: zoneHeight
                 height: parent.showText ? 8 : 4
                 width: 1
                 color: activePalette.windowText
@@ -124,6 +200,16 @@ Item {
                 color: activePalette.windowText
             }
         }
+    }
+    }
+    
+    // Guide zone delimiter
+    Rectangle {
+        width: rulerRoot.width
+        height: 1
+        anchors.top: parent.top
+        anchors.topMargin: guideLabelHeight
+        color: activePalette.shadow
     }
 
     // monitor zone
