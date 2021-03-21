@@ -113,27 +113,6 @@ int CommentedTime::markerType() const
     return m_type;
 }
 
-QColor CommentedTime::markerColor(int type)
-{
-    switch (type) {
-    case 0:
-        return Qt::red;
-        break;
-    case 1:
-        return Qt::blue;
-        break;
-    case 2:
-        return Qt::green;
-        break;
-    case 3:
-        return Qt::yellow;
-        break;
-    default:
-        return Qt::cyan;
-        break;
-    }
-}
-
 bool CommentedTime::operator>(const CommentedTime &op) const
 {
     return m_time > op.time();

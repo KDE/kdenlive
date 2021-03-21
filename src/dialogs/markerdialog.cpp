@@ -23,6 +23,8 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
+#include "project/projectmanager.h"
+#include "bin/model/markerlistmodel.hpp"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
@@ -40,9 +42,10 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     setWindowTitle(caption);
 
     // Set  up categories
-    for (int i = 0; i < 5; ++i) {
+    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
+    for (int i = 0; i < 9; ++i) {
         marker_type->insertItem(i, i18n("Category %1", i));
-        marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+        marker_type->setItemData(i, markerTypes[size_t(i)], Qt::DecorationRole);
     }
     marker_type->setCurrentIndex(t.markerType());
 

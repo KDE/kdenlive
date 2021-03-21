@@ -1197,6 +1197,8 @@ Rectangle {
             onDoubleClicked: {
                 if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
                     timeline.addSubtitle((scrollView.contentX + mouseX) / timeline.scaleFactor)
+                } else if (mouse.y < ruler.height) {
+                    timeline.switchGuide((scrollView.contentX + mouseX) / timeline.scaleFactor, false)
                 }
             }
             onPositionChanged: {
@@ -1341,7 +1343,7 @@ Rectangle {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
                     width: root.width - headerWidth
-                    height: Math.round(root.baseUnit * 2.5)
+                    height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1815,58 +1817,6 @@ Rectangle {
                     height: tracksContainer.height
                     x: model.frame * timeScale;
                     color: model.color
-                }
-                Rectangle {
-                    visible: mlabel.visible
-                    opacity: 0.7
-                    x: guideBase.x
-                    y: mlabel.y
-                    radius: 2
-                    width: mlabel.width + 4
-                    height: mlabel.height
-                    color: model.color
-                    MouseArea {
-                        z: 10
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton
-                        cursorShape: Qt.PointingHandCursor
-                        hoverEnabled: true
-                        property int startX
-                        drag.axis: Drag.XAxis
-                        drag.target: guideRoot
-                        onPressed: {
-                            drag.target = guideRoot
-                            startX = guideRoot.x
-                        }
-                        onReleased: {
-                            if (startX != guideRoot.x) {
-                                timeline.moveGuide(model.frame,  model.frame + guideRoot.x / timeline.scaleFactor)
-                            }
-                            drag.target = undefined
-                        }
-                        onPositionChanged: {
-                            if (pressed) {
-                                var frame = Math.round(model.frame + guideRoot.x / timeline.scaleFactor)
-                                frame = controller.suggestSnapPoint(frame, root.snapping)
-                                guideRoot.x = (frame - model.frame) * timeline.scaleFactor
-                            }
-                        }
-                        drag.smoothed: false
-                        onDoubleClicked: {
-                            timeline.editGuide(model.frame)
-                            drag.target = undefined
-                        }
-                        onClicked: proxy.position = model.frame
-                    }
-                }
-                Text {
-                    id: mlabel
-                    visible: timeline.showMarkers
-                    text: model.comment
-                    font: miniFont
-                    x: guideBase.x + 2
-                    y: scrollView.contentY
-                    color: 'white'
                 }
             }
         }

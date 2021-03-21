@@ -36,7 +36,7 @@
 #include <QJsonObject>
 #include <utility>
 
-std::array<QColor, 5> MarkerListModel::markerTypes{{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
+std::array<QColor, 9> MarkerListModel::markerTypes{{QColor(QLatin1String("#9b59b6")), QColor(QLatin1String("#3daee9")),QColor(QLatin1String("#1abc9c")),QColor(QLatin1String("#1cdc9a")),QColor(QLatin1String("#c9ce3b")),QColor(QLatin1String("#fdbc4b")),QColor(QLatin1String("#f39c1f")),QColor(QLatin1String("#f47750")),QColor(QLatin1String("#da4453"))}};
 
 MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)

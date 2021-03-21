@@ -245,7 +245,6 @@ public:
     void setComment(const QString &comm);
     void setMarkerType(int t);
     int markerType() const;
-    static QColor markerColor(int type);
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(const CommentedTime &op) const;
