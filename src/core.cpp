@@ -1036,7 +1036,7 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
