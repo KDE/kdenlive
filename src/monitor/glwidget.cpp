@@ -672,8 +672,10 @@ void GLWidget::refresh()
 {
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mltMutex);
-    restartConsumer();
-    m_consumer->set("refresh", 1);
+    if (m_consumer) {
+        restartConsumer();
+        m_consumer->set("refresh", 1);
+    }
 }
 
 bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
