@@ -27,6 +27,22 @@ Rectangle {
     width: (frameOut - frameIn) * timeline.scaleFactor
     visible: frameOut > frameIn
     Rectangle {
+        anchors.left: parent.left
+        height: parent.height
+        width: 2
+        color: 'white'
+        opacity: 0.5
+    }
+    Rectangle {
+        anchors.right: parent.right
+        height: parent.height
+        width: 2
+        color: 'white'
+        opacity: 0.5
+    }
+    
+    
+    Rectangle {
         id: centerDrag
         anchors.centerIn: parent
         height: parent.height

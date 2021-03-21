@@ -36,6 +36,7 @@ Item {
     property bool resizeActive: false // Used to decide which mouse cursor we should display
     property var effectZones: timeline.masterEffectZones
     property int guideLabelHeight: timeline.showMarkers ? Math.round(fontMetrics.height) : 0
+    property int previewHeight: Math.ceil(timecodeContainer.height / 5)
     
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -70,9 +71,10 @@ Item {
         anchors.fill: parent
         delegate: Rectangle {
             x: modelData * timeline.scaleFactor
-            y: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: zoneHeight
             width: 25 * timeline.scaleFactor
-            height: parent.height / 4
+            height: previewHeight
             color: 'darkred'
         }
     }
@@ -82,18 +84,20 @@ Item {
         anchors.fill: parent
         delegate: Rectangle {
             x: modelData * timeline.scaleFactor
-            y: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: zoneHeight
             width: 25 * timeline.scaleFactor
-            height: parent.height / 4
+            height: previewHeight
             color: 'darkgreen'
         }
     }
     Rectangle {
         id: working
         x: rulerRoot.workingPreview * timeline.scaleFactor
-        y: 0
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: zoneHeight
         width: 25 * timeline.scaleFactor
-        height: parent.height / 4
+        height: previewHeight
         color: 'orange'
         visible: rulerRoot.workingPreview > -1
     }
@@ -169,6 +173,7 @@ Item {
     
     // Ruler marks
     Item {
+        id: timecodeContainer
         anchors.top: parent.top
         anchors.topMargin: guideLabelHeight
         anchors.bottom: parent.bottom
