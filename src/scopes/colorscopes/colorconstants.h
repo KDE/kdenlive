@@ -10,13 +10,13 @@ enum class ITURec {
 };
 
 // CIE 601 luminance factors
-constexpr float REC_601_R = .299;
-constexpr float REC_601_G = .587;
-constexpr float REC_601_B = .114;
+constexpr float REC_601_R = .299f;
+constexpr float REC_601_G = .587f;
+constexpr float REC_601_B = .114f;
 
 // CIE 709 luminance factors
-constexpr float REC_709_R = .2125;
-constexpr float REC_709_G = .7154;
-constexpr float REC_709_B = .0721;
+constexpr float REC_709_R = .2125f;
+constexpr float REC_709_G = .7154f;
+constexpr float REC_709_B = .0721f;
 
 #endif //KDENLIVE_COLORCONSTANTS_H

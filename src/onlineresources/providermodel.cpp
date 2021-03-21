@@ -581,7 +581,7 @@ std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByt
         if(keys["downloadUrls"].isObject()) {
             if(keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
                 QJsonObject list = objectGetValue(res, "downloadUrls.key").toObject();
-                for (const auto key : list.keys()) {
+                for (const auto &key : list.keys()) {
                     QJsonObject urlItem = list[key].toObject();
                     QString format = objectGetString(urlItem, "downloadUrls.format", id, key);
                     //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and metafiles
