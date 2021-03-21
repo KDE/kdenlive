@@ -196,7 +196,7 @@ std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF 
             if (distanceSquared < nearestDistanceSquared) {
                 nearestIndex = i;
                 nearestDistanceSquared = distanceSquared;
-                selectedPoint = (BPoint::PointType)j;
+                selectedPoint = BPoint::PointType(j);
             }
         }
         ++i;

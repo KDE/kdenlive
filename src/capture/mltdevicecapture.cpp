@@ -95,7 +95,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, KdenliveSettings::audiobackend().toUtf8().constData());
     m_mltConsumer->set("preview_off", 1);
     m_mltConsumer->set("preview_format", mlt_image_rgb24);
-    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener)consumer_gl_frame_show);
+    m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, mlt_listener(consumer_gl_frame_show));
     // m_mltConsumer->set("resize", 1);
     // m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
@@ -211,7 +211,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
     const uchar *image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
     // QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
-    memcpy(qimage.bits(), image, (size_t)(width * height * 3));
+    memcpy(qimage.bits(), image, size_t(width * height * 3));
     emit frameUpdated(qimage);
 }
 
@@ -239,7 +239,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame &frame)
     int freq = 0;
     int num_channels = 0;
     int samples = 0;
-    auto *data = (qint16 *)frame.get_audio(audio_format, freq, num_channels, samples);
+    auto *data = static_cast<qint16 *>(frame.get_audio(audio_format, freq, num_channels, samples));
 
     if (!data) {
         return;
@@ -248,7 +248,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame &frame)
     // Data format: [ c00 c10 c01 c11 c02 c12 c03 c13 ... c0{samples-1} c1{samples-1} for 2 channels.
     // So the vector is of size samples*channels.
     audioShortVector sampleVector(samples * num_channels);
-    memcpy(sampleVector.data(), data, (size_t)(samples * num_channels) * sizeof(qint16));
+    memcpy(sampleVector.data(), data, size_t(samples * num_channels) * sizeof(qint16));
     if (samples > 0) {
         emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
     }
@@ -382,7 +382,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         delete[] tmp2;
     }
     mlt_properties consumerProperties = m_mltConsumer->get_properties();
-    mlt_properties_set_data(consumerProperties, "0", renderProps->get_properties(), 0, (mlt_destructor)mlt_properties_close, nullptr);
+    mlt_properties_set_data(consumerProperties, "0", renderProps->get_properties(), 0, mlt_destructor(mlt_properties_close), nullptr);
 
     if (m_livePreview) {
         // user wants live preview
@@ -403,7 +403,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         previewProps->set("preview_off", 1);
         previewProps->set("preview_format", mlt_image_rgb24);
         previewProps->set("terminate_on_pause", 0);
-        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener)consumer_gl_frame_show);
+        m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, mlt_listener(consumer_gl_frame_show));
         // m_mltConsumer->set("resize", 1);
         previewProps->set("window_background", KdenliveSettings::window_background().name().toUtf8().constData());
         QString audioDevice = KdenliveSettings::audiodevicename();
@@ -423,7 +423,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
 
         previewProps->set("real_time", "0");
         previewProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
-        mlt_properties_set_data(consumerProperties, "1", previewProps->get_properties(), 0, (mlt_destructor)mlt_properties_close, nullptr);
+        mlt_properties_set_data(consumerProperties, "1", previewProps->get_properties(), 0, mlt_destructor(mlt_properties_close), nullptr);
         // m_showFrameEvent = m_mltConsumer->listen("consumer-frame-render", this, (mlt_listener) rec_consumer_frame_show);
     } else {
     }
@@ -480,7 +480,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     }
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(0));
-    Mlt::Playlist trackPlaylist((mlt_playlist)trackProducer.get_service());
+    Mlt::Playlist trackPlaylist(mlt_playlist(trackProducer.get_service()));
 
     trackPlaylist.remove(0);
     if (path.isEmpty()) {
@@ -524,7 +524,7 @@ void MltDeviceCapture::setOverlayEffect(const QString &tag, const QStringList &p
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(0));
-    Mlt::Playlist trackPlaylist((mlt_playlist)trackProducer.get_service());
+    Mlt::Playlist trackPlaylist(mlt_playlist(trackProducer.get_service()));
     Mlt::Service trackService(trackProducer.get_service());
 
     mlt_service_lock(service.get_service());
@@ -572,7 +572,7 @@ void MltDeviceCapture::mirror(bool activate)
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(1));
-    Mlt::Playlist trackPlaylist((mlt_playlist)trackProducer.get_service());
+    Mlt::Playlist trackPlaylist(mlt_playlist(trackProducer.get_service()));
     Mlt::Service trackService(trackProducer.get_service());
 
     mlt_service_lock(service.get_service());

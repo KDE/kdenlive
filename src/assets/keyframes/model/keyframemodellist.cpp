@@ -138,7 +138,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         } else {
             value = param->getInterpolatedValue(pos);
         }
-        return param->addKeyframe(pos, (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), value, true, undo, redo);
+        return param->addKeyframe(pos, KeyframeType(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
     };
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
 }
@@ -524,7 +524,7 @@ void KeyframeModelList::checkConsistency()
         }
     }
     Fun local_update = []() { return true; };
-    auto type = (KeyframeType)KdenliveSettings::defaultkeyframeinterp();
+    auto type = KeyframeType(KdenliveSettings::defaultkeyframeinterp());
     for (const auto &param : m_parameters) {
         QList<GenTime> list = param.second->getKeyframePos();
         for (auto &time : fullList) {

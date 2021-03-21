@@ -552,7 +552,7 @@ bool DocumentChecker::hasErrorInClips()
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
-        item->setData(0, clipTypeRole, (int)type);
+        item->setData(0, clipTypeRole, int(type));
         item->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         item->setToolTip(0, i18n("Missing item"));
 
@@ -870,7 +870,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
             }
         } else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             bool perfectMatch = true;
-            ClipType::ProducerType type = (ClipType::ProducerType)child->data(0, clipTypeRole).toInt();
+            ClipType::ProducerType type = ClipType::ProducerType(child->data(0, clipTypeRole).toInt());
             QString clipPath;
             if (type != ClipType::SlideShow) {
                 // Slideshows cannot be found with hash / size
@@ -1115,7 +1115,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     //|| t == TITLE_IMAGE_ELEMENT) {
-    ClipType::ProducerType type = (ClipType::ProducerType)item->data(0, clipTypeRole).toInt();
+    ClipType::ProducerType type = ClipType::ProducerType(item->data(0, clipTypeRole).toInt());
     QUrl url;
     if (type == ClipType::SlideShow) {
         QString path = QFileInfo(item->text(1)).dir().absolutePath();

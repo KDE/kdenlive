@@ -35,9 +35,9 @@
 #include <unistd.h>
 
 // init media event type constants
-const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType();
-const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
-const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
+const QEvent::Type MediaCtrlEvent::Key = QEvent::Type(QEvent::registerEventType());
+const QEvent::Type MediaCtrlEvent::Jog = QEvent::Type(QEvent::registerEventType());
+const QEvent::Type MediaCtrlEvent::Shuttle = QEvent::Type(QEvent::registerEventType());
 
 ShuttleThread::ShuttleThread(QString device, QObject *parent)
     : m_device(std::move(device))
@@ -212,7 +212,7 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
         // qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
-        media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
+        media_ctrl_open_dev(&mc, fileLink.toUtf8().data());
         if (mc.fd > 0 && (mc.device != nullptr)) {
             devs.insert(QString(mc.device->name), devFullPath);
             qCDebug(KDENLIVE_LOG) << QStringLiteral(" [keys-count=%1] ").arg(media_ctrl_get_keys_count(&mc));
@@ -229,7 +229,7 @@ int JogShuttle::keysCount(const QString &devPath)
     int keysCount = 0;
 
     QString fileLink = canonicalDevice(devPath);
-    media_ctrl_open_dev(&mc, (char *)fileLink.toUtf8().data());
+    media_ctrl_open_dev(&mc, fileLink.toUtf8().data());
     if (mc.fd > 0 && (mc.device != nullptr)) {
         keysCount = media_ctrl_get_keys_count(&mc);
     }

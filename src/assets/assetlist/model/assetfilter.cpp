@@ -72,7 +72,7 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
 {
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
-    std::shared_ptr<TreeItem> item = model->getItemById((int)row.internalId());
+    std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
 
     if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.

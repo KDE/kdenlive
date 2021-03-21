@@ -895,7 +895,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
                 break;
             }
             default:
-                qDebug()<<"== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: "<<(int) owner.first;
+                qDebug()<<"== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: "<<int(owner.first);
                 break;
         }
     }

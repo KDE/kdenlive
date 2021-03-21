@@ -51,7 +51,7 @@ int AbstractTreeModel::columnCount(const QModelIndex &parent) const
 {
     if (!parent.isValid()) return rootItem->columnCount();
 
-    const auto id = (int)parent.internalId();
+    const auto id = int(parent.internalId());
     auto item = getItemById(id);
     return item->columnCount();
 }
@@ -65,7 +65,7 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole) {
         return QVariant();
     }
-    auto item = getItemById((int)index.internalId());
+    auto item = getItemById(int(index.internalId()));
     return item->dataColumn(index.column());
 }
 
@@ -74,7 +74,7 @@ Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
     const auto flags = QAbstractItemModel::flags(index);
 
     if (index.isValid()) {
-        auto item = getItemById((int)index.internalId());
+        auto item = getItemById(int(index.internalId()));
         if (item->depth() == 1) {
             return flags & ~Qt::ItemIsSelectable;
         }
@@ -96,7 +96,7 @@ QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &par
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = getItemById((int)parent.internalId());
+        parentItem = getItemById(int(parent.internalId()));
 
     if (row >= parentItem->childCount()) return QModelIndex();
 
@@ -110,7 +110,7 @@ QModelIndex AbstractTreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid()) return {};
 
-    std::shared_ptr<TreeItem> childItem = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> childItem = getItemById(int(index.internalId()));
     std::shared_ptr<TreeItem> parentItem = childItem->parentItem().lock();
 
     Q_ASSERT(parentItem);
@@ -128,7 +128,7 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
     if (!parent.isValid())
         parentItem = rootItem;
     else
-        parentItem = getItemById((int)parent.internalId());
+        parentItem = getItemById(int(parent.internalId()));
 
     return parentItem->childCount();
 }

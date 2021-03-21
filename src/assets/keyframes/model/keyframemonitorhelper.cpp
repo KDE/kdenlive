@@ -117,7 +117,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
                     // Center rect to new pos
                     QPointF offset = expected - pt;
                     r.translate(offset);
-                    QString res = QString("%1 %2 %3 %4").arg((int)r.x()).arg((int)r.y()).arg((int)r.width()).arg((int)r.height());
+                    QString res = QString("%1 %2 %3 %4").arg(int(r.x())).arg(int(r.y())).arg(int(r.width())).arg(int(r.height()));
                     if (data.size() > 4) {
                         res.append(QString(" %1").arg(data.at(4)));
                     }

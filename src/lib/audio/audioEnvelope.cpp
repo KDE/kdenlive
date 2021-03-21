@@ -32,9 +32,9 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     if (length > 2000) {
         // Analyse on timeline clip zone only
         m_offset = 0;
-        m_producer->set_in_and_out((int) offset, (int) (offset + length));
+        m_producer->set_in_and_out(int(offset), int(offset + length));
     }
-    m_envelopeSize = (size_t)m_producer->get_playtime();
+    m_envelopeSize = size_t(m_producer->get_playtime());
 
     m_producer->set("set.test_image", 1);
     connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { emit envelopeReady(this); });
@@ -111,21 +111,21 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
     m_producer->seek(0);
     size_t max = summary.audioAmplitudes.size();
     for (size_t i = 0; i < max; ++i) {
-        std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame((int)i));
+        std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame(int(i)));
         qint64 position = mlt_frame_get_position(frame->get_frame());
-        int samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
+        int samples = mlt_sample_calculator(float(m_producer->get_fps()), samplingRate, position);
         auto *data = static_cast<qint16 *>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
         summary.audioAmplitudes[i] = 0;
         for (int k = 0; k < samples; ++k) {
             summary.audioAmplitudes[i] += abs(data[k]);
         }
-        pCore->displayMessage(i18n("Processing data analysis"), ProcessingJobMessage, (int) (100 * i / max));
+        pCore->displayMessage(i18n("Processing data analysis"), ProcessingJobMessage, int(100 * i / max));
     }
     qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
     qCDebug(KDENLIVE_LOG) << "Normalizing envelope ...";
     const qint64 meanBeforeNormalization =
-        std::accumulate(summary.audioAmplitudes.begin(), summary.audioAmplitudes.end(), 0LL) / (qint64)summary.audioAmplitudes.size();
+        std::accumulate(summary.audioAmplitudes.begin(), summary.audioAmplitudes.end(), 0LL) / qint64(summary.audioAmplitudes.size());
 
     // Normalize the envelope.
     summary.amplitudeMax = 0;
@@ -151,7 +151,7 @@ QImage AudioEnvelope::drawEnvelope()
 {
     const AudioSummary &summary = audioSummary();
 
-    QImage img((int)m_envelopeSize, 400, QImage::Format_ARGB32);
+    QImage img(int(m_envelopeSize), 400, QImage::Format_ARGB32);
     img.fill(qRgb(255, 255, 255));
 
     if (summary.amplitudeMax == 0) {
@@ -159,7 +159,7 @@ QImage AudioEnvelope::drawEnvelope()
     }
 
     for (int x = 0; x < img.width(); ++x) {
-        double fy = (double)summary.audioAmplitudes[(size_t)x] / double(summary.amplitudeMax) * (double)img.height();
+        double fy = double(summary.audioAmplitudes[size_t(x)]) / summary.amplitudeMax * img.height();
         for (int y = img.height() - 1; y > img.height() - 1 - fy; --y) {
             img.setPixel(x, y, qRgb(50, 50, 50));
         }

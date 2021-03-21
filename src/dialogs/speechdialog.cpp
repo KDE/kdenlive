@@ -38,7 +38,7 @@
 #include <memory>
 #include <utility>
 
-SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
+SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool, bool, QWidget *parent)
     : QDialog(parent)
     , m_timeline(std::move(timeline))
     

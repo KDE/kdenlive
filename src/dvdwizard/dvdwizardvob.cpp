@@ -182,7 +182,7 @@ void DvdWizardVob::slotShowTranscodeInfo()
             if (numbers.size() < 3) {
                 return;
             }
-            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
             // log_text->setHidden(true);
             // job_progress->setHidden(false);
         } else {
@@ -197,11 +197,11 @@ void DvdWizardVob::slotShowTranscodeInfo()
             if (numbers.size() < 3) {
                 return;
             }
-            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
         } else {
-            progress = (int)time.toDouble();
+            progress = int(time.toDouble());
         }
-        m_view.convert_progress->setValue((int)(100.0 * progress / m_duration));
+        m_view.convert_progress->setValue(int(100.0 * progress / m_duration));
     }
     // log_text->setPlainText(log);
 }
@@ -310,7 +310,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         }
     }
     if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
-        int width = 45.0 * profile.dar();
+        int width = int(45.0 * profile.dar());
         if (width % 2 == 1) {
             width++;
         }
@@ -319,7 +319,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
         item->setData(1, Qt::UserRole, playTime);
         int standard = -1;
-        int aspect = profile.dar() * 100;
+        int aspect = int(profile.dar() * 100);
         if (profile.height() == 576 && qFuzzyCompare(profile.fps(), 25.0)) {
             if (aspect > 150) {
                 standard = 1;
@@ -353,7 +353,7 @@ void DvdWizardVob::slotAddVobFile(const QUrl &url, const QString &chapters, bool
         standardName.append(QStringLiteral(" | %1x%2, %3fps").arg(profile.width()).arg(profile.height()).arg(profile.fps()));
         item->setData(0, Qt::UserRole, standardName);
         item->setData(0, Qt::UserRole + 1, standard);
-        item->setData(0, Qt::UserRole + 2, QSize(profile.dar() * profile.height(), profile.height()));
+        item->setData(0, Qt::UserRole + 2, QSize(int(profile.dar() * profile.height()), profile.height()));
         if (m_vobList->topLevelItemCount() == 1) {
             // This is the first added movie, auto select DVD format
             if (standard >= 0) {
@@ -533,11 +533,11 @@ void DvdWizardVob::slotCheckVobList()
     for (int i = 0; i < max; ++i) {
         item = m_vobList->topLevelItem(i);
         if (item) {
-            totalSize += (qint64)item->data(2, Qt::UserRole).toInt();
+            totalSize += qint64(item->data(2, Qt::UserRole).toInt());
         }
     }
 
-    qint64 maxSize = (qint64)47000 * 100000;
+    qint64 maxSize = qint64(47000) * 100000;
     m_capacityBar->setValue(static_cast<int>(100 * totalSize / maxSize));
     m_capacityBar->setText(KIO::convertSize(static_cast<KIO::filesize_t>(totalSize)));
 }
@@ -571,7 +571,7 @@ void DvdWizardVob::slotItemDown()
 
 DVDFORMAT DvdWizardVob::dvdFormat() const
 {
-    return (DVDFORMAT)m_view.dvd_profile->currentIndex();
+    return DVDFORMAT(m_view.dvd_profile->currentIndex());
 }
 
 const QString DvdWizardVob::dvdProfile() const
@@ -677,12 +677,12 @@ void DvdWizardVob::slotTranscodeFiles()
             // File needs to be transcoded
             m_transcodeAction->setEnabled(false);
             QSize original = item->data(0, Qt::UserRole + 2).toSize();
-            double input_aspect = (double)original.width() / original.height();
+            double input_aspect = double(original.width()) / original.height();
             QStringList postParams;
-            if (input_aspect > (double)destSize.width() / destSize.height()) {
+            if (input_aspect > double(destSize.width()) / destSize.height()) {
                 // letterboxing
-                int conv_height = (int)(destSize.width() / input_aspect);
-                int conv_pad = (int)(((double)(destSize.height() - conv_height)) / 2.0);
+                int conv_height = int(destSize.width() / input_aspect);
+                int conv_pad = int((double(destSize.height() - conv_height)) / 2.0);
                 if (conv_pad % 2 == 1) {
                     conv_pad--;
                 }
@@ -696,8 +696,8 @@ void DvdWizardVob::slotTranscodeFiles()
                                   .arg(input_aspect);
             } else {
                 // pillarboxing
-                int conv_width = (int)(destSize.height() * input_aspect);
-                int conv_pad = (int)(((double)(destSize.width() - conv_width)) / destSize.width() * finalSize.width() / 2.0);
+                int conv_width = int(destSize.height() * input_aspect);
+                int conv_pad = int((double(destSize.width() - conv_width)) / destSize.width() * finalSize.width() / 2.0);
                 if (conv_pad % 2 == 1) {
                     conv_pad--;
                 }
@@ -799,7 +799,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 }
             }
             if ((producer != nullptr) && producer->is_valid() && !producer->is_blank()) {
-                int width = 45.0 * profile.dar();
+                int width = int(45.0 * profile.dar());
                 if (width % 2 == 1) {
                     width++;
                 }
@@ -808,7 +808,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
                 item->setData(1, Qt::UserRole, playTime);
                 int standard = -1;
-                int aspect = profile.dar() * 100;
+                int aspect = int(profile.dar() * 100);
                 if (profile.height() == 576) {
                     if (aspect > 150) {
                         standard = 1;
@@ -841,7 +841,7 @@ void DvdWizardVob::slotTranscodedClip(const QString &src, const QString &transco
                 }
                 item->setData(0, Qt::UserRole, standardName);
                 item->setData(0, Qt::UserRole + 1, standard);
-                item->setData(0, Qt::UserRole + 2, QSize(profile.dar() * profile.height(), profile.height()));
+                item->setData(0, Qt::UserRole + 2, QSize(int(profile.dar() * profile.height()), profile.height()));
             } else {
                 // Cannot load movie, reject
                 showError(i18n("The clip %1 is invalid.", transcoded));

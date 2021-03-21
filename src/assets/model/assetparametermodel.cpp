@@ -165,6 +165,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::Animated: // Fine because unsupported
                 case ParamType::Addedgeometry: // Fine because unsupported
                 case ParamType::Url:
+                case ParamType::UrlList:
                     // All fine
                     converted = false;
                     break;

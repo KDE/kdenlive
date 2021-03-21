@@ -501,11 +501,11 @@ void Wizard::checkMltComponents()
             consumer->set("acodec", "list");
             consumer->set("f", "list");
             consumer->start();
-            Mlt::Properties vcodecs((mlt_properties)consumer->get_data("vcodec"));
+            Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
             for (int i = 0; i < vcodecs.count(); ++i) {
                 vcodecsList << QString(vcodecs.get(i));
             }
-            Mlt::Properties acodecs((mlt_properties)consumer->get_data("acodec"));
+            Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
             for (int i = 0; i < acodecs.count(); ++i) {
                 acodecsList << QString(acodecs.get(i));
             }

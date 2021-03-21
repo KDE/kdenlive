@@ -288,7 +288,7 @@ qreal KisCubicCurve::Data::value(qreal x)
      */
     x = qBound(spline.begin(), x, spline.end());
     qreal y = spline.getValue(x);
-    return qBound((qreal)0.0, y, (qreal)1.0);
+    return qBound(qreal(0.0), y, qreal(1.0));
 }
 
 template <typename _T_, typename _T2_> void KisCubicCurve::Data::updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size)

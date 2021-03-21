@@ -76,7 +76,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
-    Q_ASSERT(type >= 0 && type < (int)markerTypes.size());
+    Q_ASSERT(type >= 0 && type < int(markerTypes.size()));
     if (m_markerList.count(pos) > 0) {
         // In this case we simply change the comment and type
         QString oldComment = m_markerList[pos].first;
@@ -345,7 +345,7 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->first.frames(pCore->getCurrentFps());
     case ColorRole:
     case Qt::DecorationRole:
-        return markerTypes[(size_t)it->second.second];
+        return markerTypes[size_t(it->second.second)];
     case TypeRole:
         return it->second.second;
     }
@@ -465,7 +465,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         int pos = entryObj[QLatin1String("pos")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
-        if (type < 0 || type >= (int)markerTypes.size()) {
+        if (type < 0 || type >= int(markerTypes.size())) {
             qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
             type = 0;
         }

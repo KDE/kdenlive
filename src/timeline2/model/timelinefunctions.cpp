@@ -948,7 +948,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
 {
     QStringList trackNames;
     std::vector<int> videoTracks;
-    for (int i = 0; i < (int)timeline->m_allTracks.size(); i++) {
+    for (int i = 0; i < int(timeline->m_allTracks.size()); i++) {
         int tid = timeline->getTrackIndexFromPosition(i);
         if (timeline->getTrackById_const(tid)->isAudioTrack() || timeline->getTrackById_const(tid)->isHidden()) {
             continue;
@@ -964,7 +964,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition)service->get_service());
+            Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
             int added = t.get_int("internal_added");
@@ -1277,8 +1277,8 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
             masterTrackMltIndex = 0;
             break;
         }
-        if (masterTrackMltIndex > (int)timeline->m_allTracks.size()) {
-            masterTrackMltIndex = (int)timeline->m_allTracks.size();
+        if (masterTrackMltIndex > int(timeline->m_allTracks.size())) {
+            masterTrackMltIndex = int(timeline->m_allTracks.size());
             break;
         }
         int trackId = timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);

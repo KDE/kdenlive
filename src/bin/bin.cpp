@@ -102,7 +102,7 @@ public:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override
     {
         if (event->type() == QEvent::MouseButtonPress) {
-            auto *me = (QMouseEvent *)event;
+            auto *me = static_cast<QMouseEvent *>(event);
             if (index.column() == 0) {
                 if (m_audioDragRect.contains(me->pos())) {
                     dragType = PlaylistState::AudioOnly;
@@ -126,7 +126,7 @@ public:
                         if (rate %2 == 1) {
                             rate++;
                         }
-                        emit static_cast<ProjectSortProxyModel *>(model)->updateRating(index, (uint) rate);
+                        emit static_cast<ProjectSortProxyModel *>(model)->updateRating(index, uint(rate));
                     }
                 }
             }
@@ -150,7 +150,7 @@ public:
         }
         int mid = 0;
         if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
-            mid = (int)((r1.height() / 2));
+            mid = int((r1.height() / 2));
         }
         r1.adjust(decoWidth, 0, 0, -mid);
         QFont ft = option.font;
@@ -170,7 +170,7 @@ public:
         QFontMetricsF fm(ft);
         QStyle *style = option.widget ? option.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
+        int width = int(fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width()) + 2 * textMargin;
         hint.setWidth(width);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if (type == AbstractProjectItem::FolderItem) {
@@ -180,7 +180,7 @@ public:
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
         }
         if (type == AbstractProjectItem::SubClipItem) {
-            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), (int)(option.decorationSize.height() / 1.5))));
+            return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), int(option.decorationSize.height() / 1.5))));
         }
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QString line1 = index.data(Qt::DisplayRole).toString();
@@ -216,9 +216,9 @@ public:
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
-                FileStatus::ClipStatus clipStatus = (FileStatus::ClipStatus)index.data(AbstractProjectItem::ClipStatus).toInt();
+                FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(r.height() * pCore->getCurrentDar());
+                    r.setWidth(int(r.height() * pCore->getCurrentDar()));
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     if (!pix.isNull()) {
                         // Draw icon
@@ -247,7 +247,7 @@ public:
                     painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, -1), 4, 4);
                     painter->restore();
                 }
-                int mid = (int)((r1.height() / 2));
+                int mid = int((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
                 QRect r2 = option.rect;
                 r2.adjust(decoWidth, mid, 0, 0);
@@ -269,7 +269,7 @@ public:
                     }
                 }
                 if (!subText.isEmpty()) {
-                    r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+                    r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
                     QColor subTextColor = painter->pen().color();
                     subTextColor.setAlphaF(.5);
                     painter->setPen(subTextColor);
@@ -302,8 +302,8 @@ public:
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
                     if (!v.isNull()) {
                         QIcon reload = QIcon::fromTheme(v.toString());
-                        r.setTop(r.bottom() - bounding.height());
-                        r.setWidth(bounding.height());
+                        r.setTop(int(r.bottom() - bounding.height()));
+                        r.setWidth(int(bounding.height()));
                         reload.paint(painter, r);
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
@@ -339,7 +339,7 @@ public:
                 // Folder
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(r.height() * pCore->getCurrentDar());
+                    r.setWidth(int(r.height() * pCore->getCurrentDar()));
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth += r.width() + textMargin;
@@ -408,7 +408,7 @@ public:
         Q_UNUSED(option);
         Q_UNUSED(index);
         if (event->type() == QEvent::MouseButtonPress) {
-            auto *me = (QMouseEvent *)event;
+            auto *me = static_cast<QMouseEvent *>(event);
             if (m_audioDragRect.contains(me->pos())) {
                 dragType = PlaylistState::AudioOnly;
             } else if (m_videoDragRect.contains(me->pos())) {
@@ -469,7 +469,7 @@ public:
                 //m_videoDragRect = QRect();
             }
             // Draw frame in case of missing source
-            FileStatus::ClipStatus clipStatus = (FileStatus::ClipStatus)index.data(AbstractProjectItem::ClipStatus).toInt();
+            FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
             if (clipStatus == FileStatus::StatusMissing || clipStatus == FileStatus::StatusProxyOnly) {
                 painter->save();
                 painter->setPen(QPen(clipStatus == FileStatus::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
@@ -777,7 +777,7 @@ void SmallJobLabel::setAction(QAction *action)
 
 void SmallJobLabel::slotTimeLineChanged(qreal value)
 {
-    setFixedWidth(qMin(value * 2, qreal(1.0)) * sizeHint().width());
+    setFixedWidth(int(qMin(value * 2, qreal(1.0)) * sizeHint().width()));
     update();
 }
 
@@ -844,13 +844,13 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     switch (event->type()) {
     case QEvent::ShortcutOverride:
-        if (((QKeyEvent *)event)->key() == Qt::Key_Escape) {
+        if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
             emit clearSearchLine();
         }
         break;
     case QEvent::Resize:
         // Workaround Qt BUG 54676
-        emit showClearButton(((QResizeEvent *)event)->size().width() > QFontMetrics(QApplication::font()).averageCharWidth() * 8);
+        emit showClearButton(static_cast<QResizeEvent *>(event)->size().width() > QFontMetrics(QApplication::font()).averageCharWidth() * 8);
         break;
     default:
         break;
@@ -875,7 +875,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_transcodeAction(nullptr)
     , m_clipsActionsMenu(nullptr)
     , m_inTimelineAction(nullptr)
-    , m_listType((BinViewType)KdenliveSettings::binMode())
+    , m_listType(BinViewType(KdenliveSettings::binMode()))
     , m_iconSize(160, 90)
     , m_propertiesPanel(nullptr)
     , m_blankThumb()
@@ -1612,7 +1612,7 @@ void Bin::slotReplaceClip()
                 if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
                     // Clip is used in timeline, make sure length is similar
                     std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData()));
-                    int currentDuration = (int)currentItem->frameDuration();
+                    int currentDuration = int(currentItem->frameDuration());
                     if (replacementProd->is_valid()) {
                         int replacementDuration = replacementProd->get_length();
                         if (replacementDuration < currentDuration) {
@@ -1740,8 +1740,8 @@ void Bin::setDocument(KdenliveDoc *project)
 {
     m_doc = project;
     m_infoLabel->slotSetJobCount(0);
-    int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
-    m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
+    int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
+    m_iconSize = QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight);
     setEnabled(true);
     blockSignals(false);
     if (m_proxyModel) {
@@ -2238,7 +2238,7 @@ void Bin::slotInitView(QAction *action)
         m_itemView->setItemDelegate(m_binListViewDelegate);
         auto *view = static_cast<MyListView *>(m_itemView);
         connect(view, &MyListView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
-        view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
+        view->setGridSize(QSize(int(zoom.width() * 1.2), zoom.width()));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
         connect(view, &MyListView::processDragEnd, this, &Bin::processDragEnd);
@@ -2261,7 +2261,7 @@ void Bin::slotSetIconSize(int size)
     m_itemView->setIconSize(zoom);
     if (m_listType == BinIconView) {
         auto *view = static_cast<MyListView *>(m_itemView);
-        view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
+        view->setGridSize(QSize(int(zoom.width() * 1.2), zoom.width()));
     }
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
@@ -2412,7 +2412,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
     } else {
         if (ix.column() == 0 && item->childCount() > 0) {
             QRect IconRect = m_itemView->visualRect(ix);
-            IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
+            IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
             if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
                 auto *view = static_cast<QTreeView *>(m_itemView);
                 bool expand = !view->isExpanded(ix);
@@ -2432,7 +2432,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
     }
     if (ix.isValid()) {
         QRect IconRect = m_itemView->visualRect(ix);
-        IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
+        IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
         if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) ||
                               (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
             // User clicked outside icon, trigger rename
@@ -3012,7 +3012,7 @@ void Bin::slotCreateProjectClip()
         qCDebug(KDENLIVE_LOG) << "// Error in clip creation action";
         return;
     }
-    ClipType::ProducerType type = (ClipType::ProducerType)act->data().toInt();
+    ClipType::ProducerType type = ClipType::ProducerType(act->data().toInt());
     QString parentFolder = getCurrentFolder();
     switch (type) {
     case ClipType::Color:
@@ -4171,8 +4171,6 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
     }
     case AbstractProjectItem::FolderItem:
         openProducer(nullptr);
-    default:
-        break;
     }
 }
 
