@@ -464,7 +464,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
             onlineItem.previewUrl = objectGetString(item.toObject(), "previewUrl");
             onlineItem.width = objectGetValue(item.toObject(), "width").toInt();
             onlineItem.height = objectGetValue(item.toObject(), "height").toInt();
-            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? (int) objectGetValue(item.toObject(), "duration").toDouble() : objectGetValue(item.toObject(), "duration").toInt();
+            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble()) : objectGetValue(item.toObject(), "duration").toInt();
 
             if(keys["downloadUrls"].isObject()) {
                 for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {

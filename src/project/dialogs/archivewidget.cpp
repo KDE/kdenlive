@@ -981,7 +981,7 @@ void ArchiveWidget::createArchive()
         i.next();
         m_infoMessage->setText(i18n("Archiving %1", i.key()));
         success = archive->addLocalFile(i.key(), i.value());
-        emit archiveProgress((int)100 * ix / m_filesList.count());
+        emit archiveProgress(100 * ix / m_filesList.count());
         ix++;
         if (!success) {
             break;

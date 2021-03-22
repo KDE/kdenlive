@@ -247,9 +247,9 @@ void TemporaryData::updateDataInfo()
         } else {
             preview.setNameFilters(m_proxies);
             const QFileInfoList fList = preview.entryInfoList();
-            KIO::filesize_t size = 0;
+            size_t size = 0;
             for (const QFileInfo &info : fList) {
-                size += (uint)info.size();
+                size += size_t(info.size());
             }
             gotProxySize(size);
         }
@@ -419,14 +419,14 @@ void TemporaryData::cleanCache()
         return;
     }
     // Find old backup data ( older than 6 months )
-    KIO::filesize_t total = 0;
+    size_t total = 0;
     QDateTime current = QDateTime::currentDateTime();
     int max = root->childCount();
     for (int i = 0; i< max; i++) {
         QTreeWidgetItem *child = root->child(i);
         if (child->data(2, Qt::UserRole).toDateTime().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             emptyDirs << child;
-            total += child->data(1, Qt::UserRole).toLongLong();
+            total += size_t(child->data(1, Qt::UserRole).toLongLong());
         }
     }
     QStringList folders;
@@ -823,7 +823,7 @@ void TemporaryData::refreshGlobalPie()
         }
     }
     m_selectedSize->setText(KIO::convertSize(currentSize));
-    int percent = m_totalGlobal <= 0 ? 0 : (int)(currentSize * 360 / m_totalGlobal);
+    int percent = m_totalGlobal <= 0 ? 0 : int(currentSize * 360 / m_totalGlobal);
     m_globalPie->setSegments(QList<int>() << 360 << percent);
     if (list.size() == 1 && list.at(0)->text(0) == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
         m_globalDelete->setToolTip(i18n("Clear current cache"));
@@ -882,11 +882,11 @@ void TemporaryData::cleanProxy()
     QFileInfoList files = proxies.entryInfoList(QDir::Files, QDir::Time);
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
-    KIO::filesize_t size = 0;
+    size_t size = 0;
     for (const QFileInfo &f : qAsConst(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
-            size += f.size();
+            size += size_t(f.size());
         }
     }
     if (oldFiles.isEmpty()) {

@@ -1127,7 +1127,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             auto *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
             timePos->setValue(m_properties->get_int("kdenlive:original_length"));
             int original = m_properties->get_int("kdenlive:original_length");
-            m_properties->set("kdenlive:original_length", (char *)nullptr);
+            m_properties->set("kdenlive:original_length", nullptr);
             slotDurationChanged(original);
             return;
         }
@@ -1180,7 +1180,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             }
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
             properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-            properties.insert(QStringLiteral("force_aspect_ratio"), QString::number((double)spin->value() / spin2->value(), 'f'));
+            properties.insert(QStringLiteral("force_aspect_ratio"), QString::number(double(spin->value()) / spin2->value(), 'f'));
         } else if (param == QLatin1String("disable_exif")) {
             properties.insert(QStringLiteral("disable_exif"), QString::number(1));
         }
@@ -1228,7 +1228,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
     properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-    properties.insert(QStringLiteral("force_aspect_ratio"), QString::number((double)spin->value() / spin2->value(), 'f'));
+    properties.insert(QStringLiteral("force_aspect_ratio"), QString::number(double(spin->value()) / spin2->value(), 'f'));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
@@ -1310,7 +1310,7 @@ void ClipPropertiesController::fillProperties()
             } else {
                 int rate_den = m_sourceProperties.get_int("meta.media.frame_rate_den");
                 if (rate_den > 0) {
-                    double fps = ((double)m_sourceProperties.get_int("meta.media.frame_rate_num")) / rate_den;
+                    double fps = double(m_sourceProperties.get_int("meta.media.frame_rate_num")) / rate_den;
                     propertyMap.append({i18n("Frame rate"), QString::number(fps, 'f', 2)});
                 }
             }
@@ -1364,7 +1364,7 @@ void ClipPropertiesController::fillProperties()
     qint64 filesize = m_sourceProperties.get_int64("kdenlive:file_size");
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append({i18n("File size"), KIO::convertSize((size_t)filesize) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
+        propertyMap.append({i18n("File size"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {

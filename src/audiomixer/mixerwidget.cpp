@@ -131,7 +131,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
     , m_balanceSlider(nullptr)
-    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
+    , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
     , m_collapse(nullptr)

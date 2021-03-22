@@ -43,7 +43,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     Mlt::GeometryItem item;
     QRect rect;
     if (geometry.fetch(&item, 0) == 0) {
-        rect = QRect(item.x(), item.y(), item.w(), item.h());
+        rect = QRect(int(item.x()), int(item.y()), int(item.w()), int(item.h()));
     } else {
         // Cannot read value, use random default
         rect = QRect(50, 50, 200, 200);

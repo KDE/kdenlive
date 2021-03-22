@@ -110,7 +110,7 @@ void EffectSettings::setLabel(const QString &label, const QString &tooltip)
 void EffectSettings::updateCheckState(int state)
 {
     checkAll->blockSignals(true);
-    checkAll->setCheckState((Qt::CheckState)state);
+    checkAll->setCheckState(Qt::CheckState(state));
     checkAll->blockSignals(false);
 }
 

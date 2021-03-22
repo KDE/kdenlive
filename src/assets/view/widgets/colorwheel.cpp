@@ -124,7 +124,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_name(std::move(name))
 {
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
-    m_sliderWidth = m_unitSize * 1.5;
+    m_sliderWidth = int(m_unitSize * 1.5);
     resize(m_initialSize);
     setMinimumSize(m_initialSize * .4);
     setMaximumSize(m_initialSize * 1.5);
@@ -405,9 +405,9 @@ void WheelContainer::drawSlider()
 {
     QPainter painter(&m_image);
     painter.setRenderHint(QPainter::Antialiasing);
-    int ws = wheelSize() + m_unitSize * .2;
+    int ws = int(wheelSize() + m_unitSize * .2);
     qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
-    int w = m_sliderWidth * scale - m_unitSize * .4;
+    int w = int(m_sliderWidth * scale - m_unitSize * .4);
     int h = ws - m_margin * 2;
     QLinearGradient gradient(0, 0, w, h);
     gradient.setColorAt(0.0, Qt::white);
@@ -465,7 +465,7 @@ void WheelContainer::drawSliderBar(QPainter &painter)
     }
     int ws = wheelSize();
     qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
-    int w = m_sliderWidth * scale;
+    int w = int(m_sliderWidth * scale);
     int h = ws - m_margin * 2;
     QPen pen(Qt::white);
     pen.setWidth(2);

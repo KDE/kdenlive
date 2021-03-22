@@ -146,7 +146,7 @@ public:
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         int decoWidth = 0;
         if (opt.decorationSize.height() > 0) {
-            decoWidth += r1.height() * pCore->getCurrentDar();
+            decoWidth += int(r1.height() * pCore->getCurrentDar());
         }
         int mid = 0;
         if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {

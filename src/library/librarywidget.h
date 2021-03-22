@@ -69,7 +69,7 @@ public:
         QRect r1 = option.rect;
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int decoWidth = 2 * textMargin + r1.height() * 1.8;
+        int decoWidth = int(2 * textMargin + r1.height() * 1.8);
         int mid = r1.height() / 2;
         r1.adjust(decoWidth, 0, 0, -mid);
         QFont ft = option.font;
@@ -89,7 +89,7 @@ public:
         QFontMetricsF fm(ft);
         QStyle *style = option.widget ? option.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
+        int width = int(fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin);
         hint.setWidth(width);
         return {hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height()))};
     }

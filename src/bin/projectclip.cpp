@@ -696,7 +696,7 @@ int ProjectClip::getRecordTime()
                         bool ok;
                         int frames = recInfo.section(QLatin1Char(':'), -1).toInt(&ok);
                         if (ok) {
-                            frames *= pCore->getCurrentFps() / producerFps;
+                            frames *= int(pCore->getCurrentFps() / producerFps);
                             recInfo.chop(2);
                             recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
                         }

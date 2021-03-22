@@ -123,7 +123,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.description = metadata->get("description") ? i18n(metadata->get("description")) + QString(" (%1)").arg(id) : id;
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
-            res.version = ceil(100 * metadata->get_double("version"));
+            res.version = int(100 * metadata->get_double("version"));
             res.id = res.mltId = assetId;
             parseType(metadata, res);
             // Create params

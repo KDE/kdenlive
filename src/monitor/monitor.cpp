@@ -148,7 +148,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget((int)id);
+    m_glMonitor = new GLWidget(id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
@@ -661,7 +661,7 @@ void Monitor::slotForceSize(QAction *a)
         // calculate size
         QRect r = QApplication::primaryScreen()->geometry();
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
-        profileWidth = pCore->getCurrentProfile()->dar() * profileHeight;
+        profileWidth = int(pCore->getCurrentProfile()->dar() * profileHeight);
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
             const QList<QAction *> list = m_forceSize->actions();
@@ -705,7 +705,7 @@ void Monitor::updateMarkers()
         QList<CommentedTime> markers = m_controller->getMarkerModel()->getAllMarkers();
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
-                int pos = (int)markers.at(i).time().frames(pCore->getCurrentFps());
+                int pos = markers.at(i).time().frames(pCore->getCurrentFps());
                 QString position = pCore->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
@@ -725,7 +725,7 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         i.next();
         CommentedTime timeGuide(GenTime(i.key()), i.value());
         guidesList << timeGuide;
-        int pos = (int)timeGuide.time().frames(pCore->getCurrentFps());
+        int pos = timeGuide.time().frames(pCore->getCurrentFps());
         QString position = pCore->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
@@ -884,23 +884,23 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 {
     if (m_glMonitor->zoom() > 1.0f) {
         m_horizontalScroll->setPageStep(m_glWidget->width());
-        m_horizontalScroll->setMaximum(m_glWidget->width() * m_glMonitor->zoom());
+        m_horizontalScroll->setMaximum(int(m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->setValue(qRound(horizontal * float(m_horizontalScroll->maximum())));
         emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {
-        emit m_horizontalScroll->valueChanged(qRound(0.5 * m_glWidget->width() * m_glMonitor->zoom()));
+        emit m_horizontalScroll->valueChanged(int(0.5f * m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->hide();
     }
 
     if (m_glMonitor->zoom() > 1.0f) {
         m_verticalScroll->setPageStep(m_glWidget->height());
-        m_verticalScroll->setMaximum(m_glWidget->height() * m_glMonitor->zoom());
-        m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum() * vertical));
+        m_verticalScroll->setMaximum(int(m_glWidget->height() * m_glMonitor->zoom()));
+        m_verticalScroll->setValue(int(m_verticalScroll->maximum() * vertical));
         emit m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
-        emit m_verticalScroll->valueChanged(qRound(0.5 * m_glWidget->height() * m_glMonitor->zoom()));
+        emit m_verticalScroll->valueChanged(int(0.5f * m_glWidget->height() * m_glMonitor->zoom()));
         m_verticalScroll->hide();
     }
 }
@@ -944,7 +944,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         m_videoWidget->setFocus();
     } else {
         m_glWidget->showNormal();
-        auto *lay = (QVBoxLayout *)layout();
+        auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
         setFocus();
     }
@@ -1402,7 +1402,7 @@ void Monitor::mute(bool mute, bool updateIconOnly)
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
     }
     if (!updateIconOnly) {
-        m_glMonitor->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0);
+        m_glMonitor->setVolume(mute ? 0 : KdenliveSettings::volume() / 100.0);
     }
 }
 
@@ -1634,8 +1634,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setOffset(m_controller->getRecordTime());
         }
         if (m_controller->statusReady()) {
-            m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
-            m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
+            m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
+            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getMarkerModel());
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
@@ -1645,7 +1645,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             } else {
                 m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
             }
-            m_snaps->addPoint((int)m_controller->frameDuration() - 1);
+            m_snaps->addPoint(int(m_controller->frameDuration() - 1));
             // Loading new clip / zone, stop if playing
             if (m_playAction->isActive()) {
                 updatePlayAction(false);
@@ -1961,7 +1961,7 @@ void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
     double renderVolume = m_glMonitor->volume();
-    m_glMonitor->setVolume((double)volume / 100.0);
+    m_glMonitor->setVolume(volume / 100.0);
     if (renderVolume > 0 && volume > 0) {
         return;
     }
@@ -2000,7 +2000,7 @@ void Monitor::checkDrops()
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
     } else {
         m_glMonitor->resetDrops();
-        dropped = pCore->getCurrentFps() - dropped;
+        dropped = int(pCore->getCurrentFps() - dropped);
         m_qmlManager->setProperty(QStringLiteral("dropped"), true);
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(dropped, 'f', 2));
     }
@@ -2026,7 +2026,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
         QDir dir = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
         if (ok) {
             QString url = dir.absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') +
-                                            QString::number((int)pos.frames(pCore->getCurrentFps())) + QStringLiteral(".png"));
+                                            QString::number(pos.frames(pCore->getCurrentFps())) + QStringLiteral(".png"));
             if (QFile::exists(url)) {
                 return url;
             }
@@ -2188,7 +2188,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
-    m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), m_controller->getMarkerModel());
+    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getMarkerModel());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -2200,7 +2200,7 @@ QSize Monitor::profileSize() const
 void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
     if (m_id == Kdenlive::DvdMonitor) {
-        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()), m_timePos->maximum());
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
         return;
     }
@@ -2213,7 +2213,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:
