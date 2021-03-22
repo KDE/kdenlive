@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QElapsedTimer>
 #include <cmath>
-const float P75 = .75;
+const double P75 = .75;
 
 const QPointF YUV_R(-.147, .615);
 const QPointF YUV_G(-.289, -.515);
@@ -278,7 +278,7 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
 
         VectorscopeGenerator::ColorSpace colorSpace =
             m_aColorSpace_YPbPr->isChecked() ? VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
-        VectorscopeGenerator::PaintMode paintMode = (VectorscopeGenerator::PaintMode)m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
+        VectorscopeGenerator::PaintMode paintMode = VectorscopeGenerator::PaintMode(m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt());
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
     }

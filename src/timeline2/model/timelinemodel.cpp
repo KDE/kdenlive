@@ -3917,9 +3917,9 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
             filterOutSubtitles = true;
         }
     }
-    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
+    if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getNextPoint((int)pos);
+        return m_snaps->getNextPoint(pos);
     }
     // Build snap points for selected tracks
     for (const auto &cp : m_allClips) {
@@ -4303,7 +4303,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
     while (mlt_type == transition_type) {
-        Mlt::Transition transition((mlt_transition)nextservice);
+        Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
         nextservice = mlt_service_producer(nextservice);
         int internal = transition.get_int("internal_added");
         if (internal > 0 && resource != QLatin1String("mix")) {

@@ -89,7 +89,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     // img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
-        variance = imageVariance(img);
+        variance = uint(imageVariance(img));
         frame += 100 * ct;
         ct++;
     }

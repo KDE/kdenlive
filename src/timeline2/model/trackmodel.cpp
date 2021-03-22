@@ -131,7 +131,7 @@ int TrackModel::getClipsCount()
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
 #else
-    int count = (int)m_allClips.size();
+    int count = int(m_allClips.size());
 #endif
     return count;
 }
@@ -834,7 +834,7 @@ int TrackModel::getRowfromClip(int clipId) const
 {
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    return (int)std::distance(m_allClips.begin(), m_allClips.find(clipId));
+    return int(std::distance(m_allClips.begin(), m_allClips.find(clipId)));
 }
 
 std::unordered_set<int> TrackModel::getCompositionsInRange(int position, int end)
@@ -860,7 +860,7 @@ int TrackModel::getRowfromComposition(int tid) const
 {
     READ_LOCK();
     Q_ASSERT(m_allCompositions.count(tid) > 0);
-    return (int)m_allClips.size() + (int)std::distance(m_allCompositions.begin(), m_allCompositions.find(tid));
+    return int(m_allClips.size()) + int(std::distance(m_allCompositions.begin(), m_allCompositions.find(tid)));
 }
 
 QVariant TrackModel::getProperty(const QString &name) const
@@ -958,41 +958,41 @@ bool TrackModel::checkConsistency()
 
         // the previous clip on the same playlist must not intersect
         int prev_clip_id_same_playlist = -1;
-        for (int j = (int)i - 1; j >= 0; --j) {
-            if (cur_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
+        for (int j = int(i) - 1; j >= 0; --j) {
+            if (cur_playlist == m_allClips[clips[size_t(j)].second]->getSubPlaylistIndex()) {
                 prev_clip_id_same_playlist = j;
                 break;
             }
         }
         if (prev_clip_id_same_playlist >= 0 &&
-            clips[(size_t)prev_clip_id_same_playlist].first + m_allClips[clips[(size_t)prev_clip_id_same_playlist].second]->getPlaytime() > clips[i].first) {
+            clips[size_t(prev_clip_id_same_playlist)].first + m_allClips[clips[size_t(prev_clip_id_same_playlist)].second]->getPlaytime() > clips[i].first) {
             qDebug() << "ERROR: found overlapping clips at position " << clips[i].first;
             return false;
         }
 
         // the previous clip on the other playlist might restrict the blank in/out
         int prev_clip_id_other_playlist = -1;
-        for (int j = (int)i - 1; j >= 0; --j) {
-            if (other_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
+        for (int j = int(i) - 1; j >= 0; --j) {
+            if (other_playlist == m_allClips[clips[size_t(j)].second]->getSubPlaylistIndex()) {
                 prev_clip_id_other_playlist = j;
                 break;
             }
         }
         if (prev_clip_id_other_playlist >= 0) {
-            in_blank = std::max(in_blank, clips[(size_t)prev_clip_id_other_playlist].first +
-                                              m_allClips[clips[(size_t)prev_clip_id_other_playlist].second]->getPlaytime());
+            in_blank = std::max(in_blank, clips[size_t(prev_clip_id_other_playlist)].first +
+                                              m_allClips[clips[size_t(prev_clip_id_other_playlist)].second]->getPlaytime());
         }
 
         // the next clip on the other playlist might restrict the blank in/out
         int next_clip_id_other_playlist = -1;
-        for (int j = (int)i + 1; j < (int)clips.size(); ++j) {
-            if (other_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
-                next_clip_id_other_playlist = j;
+        for (size_t j = i + 1; j < clips.size(); ++j) {
+            if (other_playlist == m_allClips[clips[j].second]->getSubPlaylistIndex()) {
+                next_clip_id_other_playlist = int(j);
                 break;
             }
         }
         if (next_clip_id_other_playlist >= 0) {
-            out_blank = std::min(out_blank, clips[(size_t)next_clip_id_other_playlist].first - 1);
+            out_blank = std::min(out_blank, clips[size_t(next_clip_id_other_playlist)].first - 1);
         }
         if (in_blank <= out_blank && !check_blank_zone(other_playlist, in_blank, out_blank)) {
             qDebug() << "ERROR: we expected blank on playlist " << other_playlist << " between " << in_blank << " and " << out_blank;
@@ -1047,7 +1047,7 @@ bool TrackModel::checkConsistency()
     qDebug()<<"=== STARTING MIX CHECK ======";
     while (service != nullptr && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition)service->get_service());
+            Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             // Check that the mix has correct in/out
             int mainId = -1;
@@ -1328,19 +1328,19 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
 int TrackModel::getCompositionByRow(int row) const
 {
     READ_LOCK();
-    if (row < (int)m_allClips.size()) {
+    if (row < int(m_allClips.size())) {
         return -1;
     }
-    Q_ASSERT(row <= (int)m_allClips.size() + (int)m_allCompositions.size());
+    Q_ASSERT(row <= int(m_allClips.size() + m_allCompositions.size()));
     auto it = m_allCompositions.cbegin();
-    std::advance(it, row - (int)m_allClips.size());
+    std::advance(it, row - int(m_allClips.size()));
     return (*it).first;
 }
 
 int TrackModel::getCompositionsCount() const
 {
     READ_LOCK();
-    return (int)m_allCompositions.size();
+    return int(m_allCompositions.size());
 }
 
 Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bool updateView, bool finalMove)
@@ -1498,7 +1498,7 @@ void TrackModel::lock()
 }
 void TrackModel::unlock()
 {
-    setProperty(QStringLiteral("kdenlive:locked_track"), (char *)nullptr);
+    setProperty(QStringLiteral("kdenlive:locked_track"), nullptr);
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
         emit ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
@@ -2176,7 +2176,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
 
 int TrackModel::mixCount() const
 {
-    Q_ASSERT(m_mixList.size() == (int) m_sameCompositions.size());
+    Q_ASSERT(m_mixList.size() == int(m_sameCompositions.size()));
     return m_mixList.size();
 }
 

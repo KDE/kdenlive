@@ -98,7 +98,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
             // Invalid index requested
             Q_ASSERT(false);
         }
-    } else if (row < (int)m_allTracks.size() && row >= 0) {
+    } else if (row < int(m_allTracks.size()) && row >= 0) {
         // Get sort order
         // row = getTracksCount() - 1 - row;
         auto it = m_allTracks.cbegin();
@@ -146,7 +146,7 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
     // we retrieve iterator
     Q_ASSERT(m_iteratorTable.count(trackId) > 0);
     auto it = m_iteratorTable.at(trackId);
-    int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
+    int ind = int(std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it));
     // Get sort order
     // ind = getTracksCount() - 1 - ind;
     return index(ind);
@@ -178,7 +178,7 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
 {
     READ_LOCK();
     if (parent.isValid()) {
-        const int id = (int)parent.internalId();
+        const int id = int(parent.internalId());
         if (!isTrack(id)) {
             // clips don't have children
             // if it is not a track, it is something invalid
@@ -186,7 +186,7 @@ int TimelineItemModel::rowCount(const QModelIndex &parent) const
         }
         return getTrackClipsCount(id) + getTrackCompositionsCount(id);
     }
-    return (int)m_allTracks.size();
+    return int(m_allTracks.size());
 }
 
 int TimelineItemModel::columnCount(const QModelIndex &parent) const
@@ -260,7 +260,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         // qDebug() << "DATA abort. Index validity="<<index.isValid();
         return QVariant();
     }
-    const int id = (int)index.internalId();
+    const int id = int(index.internalId());
     if (role == ItemIdRole) {
         return id;
     }
@@ -647,7 +647,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     if (rebuild) {
         while (service != nullptr && service->is_valid()) {
             if (service->type() == transition_type) {
-                Mlt::Transition t((mlt_transition)service->get_service());
+                Mlt::Transition t(mlt_transition(service->get_service()));
                 service.reset(service->producer());
                 if (t.get_int("internal_added") == 237) {
                     // remove all compositing transitions
