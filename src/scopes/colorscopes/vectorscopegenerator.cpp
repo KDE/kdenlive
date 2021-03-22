@@ -251,10 +251,10 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
             case PaintMode_Green2:
                 px = scope.pixel(pt);
                 scope.setPixel(pt,
-                               qRgba(qRed(px) + int((255 - qRed(px)) / (4 * avgPxPerPx)),
+                               qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))),
                                      255,
-                                     qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)),
-                                     qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
+                                     qBlue(px) + int(ceil((255 - qBlue(px)) / (avgPxPerPx))),
+                                     qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
                 break;
             case PaintMode_Black:
                 px = scope.pixel(pt);

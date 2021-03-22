@@ -47,7 +47,7 @@ public:
         path.lineTo(0, height());
         painter->fillPath(path, m_color);
         painter->setPen(Qt::white);
-        painter->drawLine(width(), 0, 0, height());
+        painter->drawLine(int(width()), 0, 0, int(height()));
     }
 
 private:
@@ -130,7 +130,7 @@ public:
     {
         m_showItem = show;
         if (show) {
-            setTextureSize(QSize(width(), height()));
+            setTextureSize(QSize(int(width()), int(height())));
             update();
         } else {
             // Free memory
@@ -160,11 +160,11 @@ public:
         pen.setCapStyle(Qt::FlatCap);
         double increment = m_scale / 2; //qMax(1., 1. / qAbs(indicesPrPixel));
         qreal indicesPrPixel = 2. / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
-        int h = height();
+        int h = int(height());
         double offset = 0;
         bool pathDraw = increment > 1.2;
         if (increment > 1. && !pathDraw) {
-            pen.setWidth(ceil(increment));
+            pen.setWidth(int(ceil(increment)));
             offset = pen.width() / 2.;
         } else if (pathDraw) {
             pen.setWidthF(0);
@@ -174,7 +174,7 @@ public:
         if (m_audioMax > 1) {
             scaleFactor *= m_audioMax;
         }
-        int startPos = m_inPoint / indicesPrPixel;
+        int startPos = int(m_inPoint / indicesPrPixel);
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
@@ -182,7 +182,7 @@ public:
             int j = 0;
             QPainterPath path;
             if (m_drawInPoint > 0) {
-                j = m_drawInPoint / increment;
+                j = int(m_drawInPoint / increment);
             }
             if (pathDraw) {
                 path.moveTo(j - 1, height());
@@ -202,7 +202,7 @@ public:
                 if (pathDraw) {
                     path.lineTo(i, height() - level * height());
                 } else {
-                    painter->drawLine(i, h, i, h - (h * level));
+                    painter->drawLine(int(i), h, int(i), int(h - (h * level)));
                 }
             }
             if (pathDraw) {
@@ -210,7 +210,7 @@ public:
                 painter->drawPath(path);
             }
         } else {
-            double channelHeight = (double)height() / m_channels;
+            double channelHeight = height() / m_channels;
             // Draw separate channels
             scaleFactor = channelHeight / (2 * scaleFactor);
             double i = 0;
@@ -236,7 +236,7 @@ public:
                 pen.setWidthF(0);
                 painter->setPen(pen);
                 painter->drawLine(QLineF(0., y, width(), y));
-                pen.setWidth(ceil(increment));
+                pen.setWidth(int(ceil(increment)));
                 painter->setPen(pathDraw ? Qt::NoPen : pen);
                 painter->setOpacity(1);
                 i = 0;

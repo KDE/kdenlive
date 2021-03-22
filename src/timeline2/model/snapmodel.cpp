@@ -62,10 +62,10 @@ int SnapModel::getClosestPoint(int position)
         --it;
         prev = (*it).first;
     }
-    if (std::llabs((long long)position - prev) < std::llabs((long long)position - next)) {
-        return (int)prev;
+    if (std::llabs(position - prev) < std::llabs(position - next)) {
+        return int(prev);
     }
-    return (int)next;
+    return int(next);
 }
 
 int SnapModel::getNextPoint(int position)
@@ -78,7 +78,7 @@ int SnapModel::getNextPoint(int position)
     if (it != m_snaps.end()) {
         next = (*it).first;
     }
-    return (int)next;
+    return int(next);
 }
 
 int SnapModel::getPreviousPoint(int position)
@@ -92,7 +92,7 @@ int SnapModel::getPreviousPoint(int position)
         --it;
         prev = (*it).first;
     }
-    return (int)prev;
+    return int(prev);
 }
 
 void SnapModel::ignore(const std::vector<int> &pts)

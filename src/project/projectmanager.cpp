@@ -192,13 +192,13 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         projectFolder = w->storageFolder();
         projectTracks = w->tracks();
         audioChannels = w->audioChannels();
-        documentProperties.insert(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));
-        documentProperties.insert(QStringLiteral("generateproxy"), QString::number((int)w->generateProxy()));
+        documentProperties.insert(QStringLiteral("enableproxy"), QString::number(int(w->useProxy())));
+        documentProperties.insert(QStringLiteral("generateproxy"), QString::number(int(w->generateProxy())));
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
-        documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number((int)w->generateImageProxy()));
+        documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         QString preview = w->selectedPreview();
         if (!preview.isEmpty()) {
             documentProperties.insert(QStringLiteral("previewparameters"), preview.section(QLatin1Char(';'), 0, 0));
@@ -777,7 +777,7 @@ void ProjectManager::disableBinEffects(bool disable, bool refreshMonitor)
 {
     if (m_project) {
         if (disable) {
-            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number((int)true));
+            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number(true));
         } else {
             m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }
@@ -791,7 +791,7 @@ void ProjectManager::disableBinEffects(bool disable, bool refreshMonitor)
 void ProjectManager::slotDisableTimelineEffects(bool disable)
 {
     if (disable) {
-        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString::number((int)true));
+        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString::number(true));
     } else {
         m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString());
     }
@@ -1016,7 +1016,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
-    convertedFile.append(QString("-%1.kdenlive").arg((int)(newProfile->fps() * 100)));
+    convertedFile.append(QString("-%1.kdenlive").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename |   QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
     if (saveInTempFile) {
