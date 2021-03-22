@@ -92,7 +92,7 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     if (!index.isValid()) {
         return;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (isEffect && item->depth() == 1) {
         return;
     }

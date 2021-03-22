@@ -120,7 +120,7 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
     return mltImage;
 }
 
-uint MltPreview::imageVariance(const QImage &image)
+int MltPreview::imageVariance(const QImage &image)
 {
     if (image.isNull()) {
         return 0;

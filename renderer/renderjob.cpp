@@ -124,9 +124,9 @@ void RenderJob::receivedStderr()
         }
         m_progress = progress;
         if (m_args.contains(QStringLiteral("pass=1"))) {
-            m_progress /= 2.0;
+            m_progress /= 2;
         } else if (m_args.contains(QStringLiteral("pass=2"))) {
-            m_progress = int(50 + m_progress / 2.0);
+            m_progress = 50 + m_progress / 2;
         }
         if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, m_progress, frame});

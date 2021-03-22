@@ -223,7 +223,7 @@ void MainWindow::init()
     /// Add Widgets
     setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
-    setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition)KdenliveSettings::tabposition());
+    setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
@@ -1837,7 +1837,7 @@ void MainWindow::setupActions()
         QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
         ac->setData(i - 1);
         connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
-        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i-1]), timelineActions);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(int(Qt::ALT) + keysequence[i-1]), timelineActions);
         QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
         ac2->setData(i - 1);
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
@@ -1886,9 +1886,9 @@ bool MainWindow::readOptions()
     }
     QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
     // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+    int baseUnit = qMax(28, int(QFontInfo(ft).pixelSize() * 1.8 + 0.5));
     if (KdenliveSettings::trackheight() == 0) {
-        int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
+        int trackHeight = qMax(50, int(2.2 * baseUnit + 6));
         KdenliveSettings::setTrackheight(trackHeight);
     }
     bool firstRun = false;

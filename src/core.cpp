@@ -443,7 +443,7 @@ double Core::getCurrentFps() const
 
 QSize Core::getCurrentFrameDisplaySize() const
 {
-    return {(int)(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height()};
+    return {int(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height()};
 }
 
 QSize Core::getCurrentFrameSize() const
@@ -488,7 +488,6 @@ int Core::getItemPosition(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return 0;
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -515,7 +514,6 @@ int Core::getItemIn(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return 0;
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -533,15 +531,12 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         break;
     case ObjectType::TimelineComposition:
         return PlaylistState::VideoOnly;
-        break;
     case ObjectType::BinClip:
         return m_binWidget->getClipState(id.second);
-        break;
     case ObjectType::TimelineTrack:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     case ObjectType::Master:
         return PlaylistState::Disabled;
-        break;
     default:
         qWarning() << "unhandled object type";
         break;
@@ -564,8 +559,7 @@ int Core::getItemDuration(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        return (int)m_binWidget->getClipDuration(id.second);
-        break;
+        return int(m_binWidget->getClipDuration(id.second));
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
@@ -594,7 +588,6 @@ QSize Core::getItemFrameSize(const ObjectId &id)
         break;
     case ObjectType::BinClip:
         return m_binWidget->getFrameSize(id.second);
-        break;
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return pCore->getCurrentFrameSize();
@@ -612,7 +605,6 @@ int Core::getItemTrack(const ObjectId &id)
     case ObjectType::TimelineComposition:
     case ObjectType::TimelineMix:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -720,12 +712,12 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions, showClose, messageCategory);
+    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, logInfo);
+    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
 }
 
 void Core::clearAssetPanel(int itemId)
@@ -737,14 +729,13 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-    case (int)ObjectType::TimelineClip:
+    case int(ObjectType::TimelineClip):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
-    case (int)ObjectType::TimelineTrack:
+    case int(ObjectType::TimelineTrack):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackEffectStackModel(itemId);
-        break;
-    case (int)ObjectType::BinClip:
+    case int(ObjectType::BinClip):
         return m_binWidget->getClipEffectStack(itemId);
-    case (int)ObjectType::Master:
+    case int(ObjectType::Master):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectStackModel();
     default:
         return nullptr;
@@ -849,7 +840,7 @@ Mlt::Profile *Core::thumbProfile()
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         double factor = 144. / m_thumbProfile->height();
         m_thumbProfile->set_height(144);
-        int width = m_thumbProfile->width() * factor + 0.5;
+        int width = int(m_thumbProfile->width() * factor + 0.5);
         if (width % 2 > 0) {
             width ++;
         }
