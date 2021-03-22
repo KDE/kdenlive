@@ -88,7 +88,7 @@ Item {
                 snappedFrame = oldStartFrame
                 x = subtitleBase.x
                 startMove = mouse.button & Qt.LeftButton
-                if (timeline.selection.indexOf(subtitleRoot.subId) == -1) {
+                if (timeline.selection.indexOf(subtitleRoot.subId) === -1) {
                     controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
                     timeline.showAsset(subtitleRoot.subId);
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
