@@ -610,7 +610,7 @@ void ClipController::setProducerProperty(const QString &name, const QString &val
 
     QWriteLocker lock(&m_producerLock);
     if (value.isEmpty()) {
-        m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
+        m_masterProducer->parent().set(name.toUtf8().constData(), nullptr);
     } else {
         m_masterProducer->parent().set(name.toUtf8().constData(), value.toUtf8().constData());
     }
@@ -624,7 +624,7 @@ void ClipController::resetProducerProperty(const QString &name)
     }
 
     QWriteLocker lock(&m_producerLock);
-    m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
+    m_masterProducer->parent().set(name.toUtf8().constData(), nullptr);
 }
 
 ClipType::ProducerType ClipController::clipType() const
@@ -788,9 +788,9 @@ void ClipController::clearBackupProperties()
         }
     }
     for (const QString &p : qAsConst(passProps)) {
-        m_properties->set(p.toUtf8().constData(), (char *)nullptr);
+        m_properties->set(p.toUtf8().constData(), nullptr);
     }
-    m_properties->set("kdenlive:original.backup", (char *)nullptr);
+    m_properties->set("kdenlive:original.backup", nullptr);
 }
 
 void ClipController::mirrorOriginalProperties(Mlt::Properties &props)

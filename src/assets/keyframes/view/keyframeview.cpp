@@ -59,7 +59,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     m_colSelected = palette().highlight().color();
     m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
     m_size = QFontInfo(font()).pixelSize() * 3;
-    m_lineHeight = m_size / 2.1;
+    m_lineHeight = int(m_size / 2.1);
     m_zoomHeight = m_size * 3 / 4;
     m_offset = m_size / 4;
     setFixedHeight(m_size);
@@ -278,7 +278,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
-    int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
+    int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     m_moveKeyframeMode = false;
     if (event->button() == Qt::LeftButton) {
@@ -561,7 +561,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
         double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
         double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
-        int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
+        int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
         pos = qBound(0, pos, m_duration - 1);
         GenTime position(pos + offset, pCore->getCurrentFps());
         bool ok;
@@ -677,12 +677,12 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     // Position of left border in frames
     double tickOffset = m_zoomStart * m_zoomFactor;
     double frameSize = factor * m_scale * m_zoomFactor;
-    int base = tickOffset / frameSize;
+    int base = int(tickOffset / frameSize);
     tickOffset = frameSize - (tickOffset - (base * frameSize));
     // Draw frame ticks
     int scaledTick = 0;
     for (int i = 0; i < maxWidth / frameSize; i++) {
-        scaledTick = m_offset + (i * frameSize) + tickOffset;
+        scaledTick = int(m_offset + (i * frameSize) + tickOffset);
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }
@@ -750,7 +750,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             scaledPos *= m_zoomFactor;
             scaledPos += m_offset;
             QPolygon pa(3);
-            int cursorwidth = (m_zoomHeight - m_lineHeight) / 1.8;
+            int cursorwidth = int((m_zoomHeight - m_lineHeight) / 1.8);
             QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_zoomHeight - 3) << QPointF(cursorwidth, m_zoomHeight - 3) << QPointF(0, m_lineHeight + 1);
             position.translate(scaledPos, 0);
             p.setBrush(m_colKeyframe);
@@ -759,8 +759,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     }
     // Rubberband
     if (m_clickEnd >= 0) {
-        int min = (qMin(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
-        int max = (qMax(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
+        int min = int((qMin(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset);
+        int max = int((qMax(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset);
         p.setOpacity(0.5);
         p.fillRect(QRect(min, 0, max - min, m_lineHeight), palette().highlight());
         p.setOpacity(1);
@@ -771,7 +771,11 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     p.setBrush(palette().mid());
     p.drawRoundedRect(m_offset, m_zoomHeight + 3, width() - 2 * m_offset, m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
     p.setBrush(palette().highlight());
-    p.drawRoundedRect(m_offset + (width() - m_offset) * m_zoomHandle.x(), m_zoomHeight + 3, (width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x()), m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
+    p.drawRoundedRect(int(m_offset + (width() - m_offset) * m_zoomHandle.x()),
+                      m_zoomHeight + 3,
+                      int((width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x())),
+                      m_size - m_zoomHeight - 3,
+                      m_lineHeight / 5, m_lineHeight / 5);
 }
 
 

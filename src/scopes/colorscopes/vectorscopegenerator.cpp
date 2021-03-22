@@ -69,9 +69,9 @@ mRgb2YPbPr =                        r =
 
 // The maximum distance from the center for any RGB color is 0.63, so
 // no need to make the circle bigger than required.
-const float SCALING = 1 / .7;
+const double SCALING = 1 / .7;
 
-const float VectorscopeGenerator::scaling = 1 / .7;
+const double VectorscopeGenerator::scaling = 1 / .7;
 
 /**
   Input point is on [-1,1]², 0 being at the center,
@@ -134,10 +134,10 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     // Just an average for the number of image pixels per scope pixel.
     // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see:
     // https://doc.qt.io/qt-5/qimage.html#bytesPerLine
-    double avgPxPerPx = (double)image.depth() / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
+    double avgPxPerPx = double(image.depth()) / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
 
     for (int i = 0; i < (image.bytesPerLine() * image.height()); i += stepsize) {
-        auto *col = (const QRgb *)(bits);
+        auto *col = reinterpret_cast<const QRgb *>(bits);
 
         int r = qRed(*col);
         int g = qGreen(*col);
@@ -146,18 +146,17 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
         switch (colorSpace) {
         case VectorscopeGenerator::ColorSpace_YUV:
             //             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-            u = (double)-0.0005781 * r - 0.001135 * g + 0.001713 * b;
-            v = (double)0.002411 * r - 0.002019 * g - 0.0003921 * b;
+            u = -0.0005781 * r - 0.001135 * g + 0.001713 * b;
+            v = 0.002411 * r - 0.002019 * g - 0.0003921 * b;
             break;
         case VectorscopeGenerator::ColorSpace_YPbPr:
-        default:
             //             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
-            u = (double)-0.0006671 * r - 0.001299 * g + 0.0019608 * b;
-            v = (double)0.001961 * r - 0.001642 * g - 0.0003189 * b;
+            u = -0.0006671 * r - 0.001299 * g + 0.0019608 * b;
+            v = 0.001961 * r - 0.001642 * g - 0.0003189 * b;
             break;
         }
 
-        pt = mapToCircle(vectorscopeSize, QPointF(SCALING * gain * u, SCALING * gain * v));
+        pt = mapToCircle(vectorscopeSize, QPointF(SCALING * double(gain) * u, SCALING * double(gain) * v));
 
         if (pt.x() >= scope.width() || pt.x() < 0 || pt.y() >= scope.height() || pt.y() < 0) {
             // Point lies outside (because of scaling), don't plot it
@@ -178,7 +177,6 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2 * u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
-                default:
                     dr = dy + 357.5 * v;
                     dg = dy - 87.75 * u - 182 * v;
                     db = dy + 451.9 * u;
@@ -204,7 +202,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = 255;
                 }
 
-                scope.setPixel(pt, qRgba(dr, dg, db, 255));
+                scope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
                 break;
 
             case PaintMode_Chroma:
@@ -218,7 +216,6 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2 * u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
-                default:
                     dr = dy + 357.5 * v;
                     dg = dy - 87.75 * u - 182 * v;
                     db = dy + 451.9 * u;
@@ -239,21 +236,25 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 dg *= dmax;
                 db *= dmax;
 
-                scope.setPixel(pt, qRgba(dr, dg, db, 255));
+                scope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
                 break;
             case PaintMode_Original:
                 scope.setPixel(pt, *col);
                 break;
             case PaintMode_Green:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px) + (255 - qRed(px)) / (3 * avgPxPerPx), qGreen(px) + 20 * (255 - qGreen(px)) / (avgPxPerPx),
-                                         qBlue(px) + (255 - qBlue(px)) / (avgPxPerPx), qAlpha(px) + (255 - qAlpha(px)) / (avgPxPerPx)));
+                scope.setPixel(pt, qRgba(qRed(px) + int((255 - qRed(px)) / (3 * avgPxPerPx)),
+                                         qGreen(px) + int(20 * (255 - qGreen(px)) / (avgPxPerPx)),
+                                         qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)),
+                                         qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
                 break;
             case PaintMode_Green2:
                 px = scope.pixel(pt);
                 scope.setPixel(pt,
-                               qRgba(qRed(px) + ceil((255 - (float)qRed(px)) / (4 * avgPxPerPx)), 255,
-                                     qBlue(px) + ceil((255 - (float)qBlue(px)) / (avgPxPerPx)), qAlpha(px) + ceil((255 - (float)qAlpha(px)) / (avgPxPerPx))));
+                               qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))),
+                                     255,
+                                     qBlue(px) + int(ceil((255 - qBlue(px)) / (avgPxPerPx))),
+                                     qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
                 break;
             case PaintMode_Black:
                 px = scope.pixel(pt);

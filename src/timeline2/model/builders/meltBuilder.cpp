@@ -144,7 +144,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     QList<Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition)service->get_service());
+            Mlt::Transition t(mlt_transition(service->get_service()));
             if (t.get_b_track() >= timeline->tractor()->count()) {
                 // Composition outside of available track, maybe because of a preview track
                 service.reset(service->producer());
@@ -226,7 +226,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     QList<Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition)service->get_service());
+            Mlt::Transition t(mlt_transition(service->get_service()));
             QString id(t.get("kdenlive_id"));
             compositions << new Mlt::Transition(t);
             if (id.isEmpty()) {

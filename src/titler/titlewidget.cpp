@@ -165,7 +165,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = pCore->getCurrentFrameSize();
-    m_frameWidth = (int)(profileSize.height() * pCore->getCurrentDar() + 0.5);
+    m_frameWidth = int(profileSize.height() * pCore->getCurrentDar() + 0.5);
     m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
 
@@ -941,7 +941,7 @@ void TitleWidget::displayBackgroundFrame()
             p.fillRect(QRect(10, 10, 20, 20), bgcolor);
             p.end();
             QBrush br(pattern);
-            QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+            QPixmap bg(int(r.width() / 2), int(r.height() / 2));
             QPainter p2(&bg);
             p2.fillRect(bg.rect(), br);
             p2.end();
@@ -950,7 +950,7 @@ void TitleWidget::displayBackgroundFrame()
         }
         default: {
             QColor col = KdenliveSettings::titlerbg() == 1 ? Qt::black : Qt::white;
-            QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+            QPixmap bg(int(r.width() / 2), int(r.height() / 2));
             QPainter p2(&bg);
             p2.fillRect(bg.rect(), col);
             p2.end();
@@ -966,7 +966,7 @@ void TitleWidget::displayBackgroundFrame()
 void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
-    m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
+    m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(int(r.width() / 2), int(r.height() / 2))));
     emit requestBackgroundFrame(false);
     emit updatePatternsBackgroundFrame();
 }
@@ -1003,7 +1003,7 @@ void TitleWidget::slotUpdateZoom(int pos)
 {
     zoom_spin->setValue(pos);
     zoom_slider->setValue(pos);
-    m_scene->setZoom((double)pos / 100);
+    m_scene->setZoom(pos / 100);
 }
 
 void TitleWidget::slotZoom(bool up)
@@ -1024,7 +1024,7 @@ void TitleWidget::slotAdjustZoom()
     if (scalex > scaley) scalex = scaley;
     int zoompos = (int)(scalex * 7 + 0.5);*/
     graphicsView->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-    int zoompos = graphicsView->transform().m11() * 100 ;
+    int zoompos = int(graphicsView->transform().m11() * 100);
     zoom_slider->setValue(zoompos);
     graphicsView->centerOn(m_frameBorder);
 }
@@ -1054,7 +1054,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem *rect)
         // gradient
         QString gradientData = gradients_rect_combo->currentData().toString();
         rect->setData(TitleDocument::Gradient, gradientData);
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect->boundingRect().width(), rect->boundingRect().height());
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect->boundingRect().width()), int(rect->boundingRect().height()));
         rect->setBrush(QBrush(gr));
     }
     rect->setZValue(m_count++);
@@ -1083,7 +1083,7 @@ void TitleWidget::slotNewEllipse(QGraphicsEllipseItem *ellipse)
         // gradient
         QString gradientData = gradients_rect_combo->currentData().toString();
         ellipse->setData(TitleDocument::Gradient, gradientData);
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, ellipse->boundingRect().width(), ellipse->boundingRect().height());
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(ellipse->boundingRect().width()), int(ellipse->boundingRect().height()));
         ellipse->setBrush(QBrush(gr));
     }
     ellipse->setZValue(m_count++);
@@ -1133,7 +1133,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     if (gradient_color->isChecked()) {
         QString gradientData = gradients_combo->currentData().toString();
         tt->setData(TitleDocument::Gradient, gradientData);
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, tt->boundingRect().width(), tt->boundingRect().height());
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(tt->boundingRect().width()), int(tt->boundingRect().height()));
         cformat.setForeground(QBrush(gr));
     } else {
         cformat.setForeground(QBrush(color));
@@ -1255,10 +1255,10 @@ void TitleWidget::selectionChanged()
         }
 
         // Disable z index buttons if they don't make sense for the current selection
-        int firstZindex = l.at(0)->zValue();
+        int firstZindex = int(l.at(0)->zValue());
         allEqual = true;
         for (auto &i : l) {
-            if ((int)i->zValue() != firstZindex) {
+            if (int(i->zValue()) != firstZindex) {
                 allEqual = false;
                 break;
             }
@@ -1303,10 +1303,10 @@ void TitleWidget::slotValueChanged(int type)
             // Just update the position. We don't allow setting width/height for text items yet.
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             }
 
@@ -1314,16 +1314,16 @@ void TitleWidget::slotValueChanged(int type)
             auto *rec = static_cast<QGraphicsRectItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
-                rec->setRect(QRect(0, 0, val, rec->rect().height()));
+                rec->setRect(QRect(0, 0, val, int(rec->rect().height())));
                 break;
             case ValueHeight:
-                rec->setRect(QRect(0, 0, rec->rect().width(), val));
+                rec->setRect(QRect(0, 0, int(rec->rect().width()), val));
                 break;
             }
 
@@ -1331,26 +1331,26 @@ void TitleWidget::slotValueChanged(int type)
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
-                ellipse->setRect(QRect(0, 0, val, ellipse->rect().height()));
+                ellipse->setRect(QRect(0, 0, val, int(ellipse->rect().height())));
                 break;
             case ValueHeight:
-                ellipse->setRect(QRect(0, 0, ellipse->rect().width(), val));
+                ellipse->setRect(QRect(0, 0, int(ellipse->rect().width()), val));
                 break;
             }
 
         } else if (l.at(k)->type() == IMAGEITEM) {
 
             if (type == ValueX) {
-                updatePosition(l.at(k), val, l.at(k)->pos().y());
+                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
 
             } else if (type == ValueY) {
-                updatePosition(l.at(k), l.at(k)->pos().x(), val);
+                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
 
             } else {
                 // Width/height has changed. This is more complex.
@@ -1359,9 +1359,9 @@ void TitleWidget::slotValueChanged(int type)
                 Transform t = m_transformations.value(i);
 
                 // Ratio width:height
-                double phi = (double)i->boundingRect().width() / i->boundingRect().height();
+                double phi = i->boundingRect().width() / i->boundingRect().height();
                 // TODO: proper calculation for rotation around 3 axes
-                double alpha = (double)t.rotatez / 180.0 * M_PI;
+                double alpha = t.rotatez / 180.0 * M_PI;
 
                 // New length
                 double length;
@@ -1424,7 +1424,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
     value_h->blockSignals(true);
     zValue->blockSignals(true);
 
-    zValue->setValue((int)i->zValue());
+    zValue->setValue(int(i->zValue()));
     if (i->type() == IMAGEITEM) {
         // Get multipliers for rotation/scaling
 
@@ -1435,17 +1435,17 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         int height = (int) ( abs(r.height()*t.scaley * cos(t.rotate/180*M_PI))
                     + abs(r.width()*t.scalex * sin(t.rotate/180*M_PI)) );*/
 
-        value_w->setValue(i->sceneBoundingRect().width());
-        value_h->setValue(i->sceneBoundingRect().height());
+        value_w->setValue(int(i->sceneBoundingRect().width()));
+        value_h->setValue(int(i->sceneBoundingRect().height()));
     } else if (i->type() == RECTITEM || i->type() == ELLIPSEITEM) {
         auto *r = static_cast<QGraphicsRectItem *>(i);
         // qCDebug(KDENLIVE_LOG) << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
-        value_w->setValue((int)r->rect().width());
-        value_h->setValue((int)r->rect().height());
+        value_w->setValue(int(r->rect().width()));
+        value_h->setValue(int(r->rect().height()));
     } else if (i->type() == TEXTITEM) {
         auto *t = static_cast<MyTextItem *>(i);
-        value_w->setValue((int)t->boundingRect().width());
-        value_h->setValue((int)t->boundingRect().height());
+        value_w->setValue(int(t->boundingRect().width()));
+        value_h->setValue(int(t->boundingRect().height()));
     }
 
     zValue->blockSignals(zBlocked);
@@ -1466,17 +1466,17 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
         // Set the correct x coordinate value
         if (origin_x_left->isChecked()) {
             // Origin (0 point) is at m_frameWidth, coordinate axis is inverted
-            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->boundingRect().width()));
+            value_x->setValue(int(m_frameWidth - rec->pos().x() - rec->boundingRect().width()));
         } else {
             // Origin is at 0 (default)
-            value_x->setValue((int)rec->pos().x());
+            value_x->setValue(int(rec->pos().x()));
         }
 
         // Same for y
         if (origin_y_top->isChecked()) {
-            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
+            value_y->setValue(int(m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
         } else {
-            value_y->setValue((int)rec->pos().y());
+            value_y->setValue(int(rec->pos().y()));
         }
 
     } else if (i->type() == RECTITEM) {
@@ -1485,16 +1485,16 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
         if (origin_x_left->isChecked()) {
             // Origin (0 point) is at m_frameWidth
-            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->rect().width()));
+            value_x->setValue(int(m_frameWidth - rec->pos().x() - rec->rect().width()));
         } else {
             // Origin is at 0 (default)
-            value_x->setValue((int)rec->pos().x());
+            value_x->setValue(int(rec->pos().x()));
         }
 
         if (origin_y_top->isChecked()) {
-            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->rect().height()));
+            value_y->setValue(int(m_frameHeight - rec->pos().y() - rec->rect().height()));
         } else {
-            value_y->setValue((int)rec->pos().y());
+            value_y->setValue(int(rec->pos().y()));
         }
 
     } else if (i->type() == ELLIPSEITEM) {
@@ -1503,30 +1503,30 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
         if (origin_x_left->isChecked()) {
             // Origin (0 point) is at m_frameWidth
-            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->rect().width()));
+            value_x->setValue(int(m_frameWidth - rec->pos().x() - rec->rect().width()));
         } else {
             // Origin is at 0 (default)
-            value_x->setValue((int)rec->pos().x());
+            value_x->setValue(int(rec->pos().x()));
         }
 
         if (origin_y_top->isChecked()) {
-            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->rect().height()));
+            value_y->setValue(int(m_frameHeight - rec->pos().y() - rec->rect().height()));
         } else {
-            value_y->setValue((int)rec->pos().y());
+            value_y->setValue(int(rec->pos().y()));
         }
 
     } else if (i->type() == IMAGEITEM) {
 
         if (origin_x_left->isChecked()) {
-            value_x->setValue((int)(m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
+            value_x->setValue(int(m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
         } else {
-            value_x->setValue((int)i->pos().x());
+            value_x->setValue(int(i->pos().x()));
         }
 
         if (origin_y_top->isChecked()) {
-            value_y->setValue((int)(m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
+            value_y->setValue(int(m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
         } else {
-            value_y->setValue((int)i->pos().y());
+            value_y->setValue(int(i->pos().y()));
         }
     }
 
@@ -1547,12 +1547,12 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     if (!i->data(TitleDocument::ZoomFactor).isNull()) {
         itemzoom->setValue(i->data(TitleDocument::ZoomFactor).toInt());
     } else {
-        itemzoom->setValue((int)(t.scalex * 100.0 + 0.5));
+        itemzoom->setValue(int(t.scalex * 100.0 + 0.5));
     }
 
-    itemrotatex->setValue((int)(t.rotatex));
-    itemrotatey->setValue((int)(t.rotatey));
-    itemrotatez->setValue((int)(t.rotatez));
+    itemrotatex->setValue(int(t.rotatex));
+    itemrotatey->setValue(int(t.rotatey));
+    itemrotatez->setValue(int(t.rotatez));
 
     itemzoom->blockSignals(false);
     itemrotatex->blockSignals(false);
@@ -1577,7 +1577,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
              * border of the item to the right border of the frame is taken. See
              * comment to slotOriginXClicked().
              */
-            posX = m_frameWidth - x - rec->boundingRect().width();
+            posX = m_frameWidth - x - int(rec->boundingRect().width());
         } else {
             posX = x;
         }
@@ -1585,7 +1585,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
         int posY;
         if (origin_y_top->isChecked()) {
             /* Same for y axis */
-            posY = m_frameHeight - y - rec->boundingRect().height();
+            posY = m_frameHeight - y - int(rec->boundingRect().height());
         } else {
             posY = y;
         }
@@ -1598,14 +1598,14 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 
         int posX;
         if (origin_x_left->isChecked()) {
-            posX = m_frameWidth - x - rec->rect().width();
+            posX = m_frameWidth - x - int(rec->rect().width());
         } else {
             posX = x;
         }
 
         int posY;
         if (origin_y_top->isChecked()) {
-            posY = m_frameHeight - y - rec->rect().height();
+            posY = m_frameHeight - y - int(rec->rect().height());
         } else {
             posY = y;
         }
@@ -1618,14 +1618,14 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 
         int posX;
         if (origin_x_left->isChecked()) {
-            posX = m_frameWidth - x - rec->rect().width();
+            posX = m_frameWidth - x - int(rec->rect().width());
         } else {
             posX = x;
         }
 
         int posY;
         if (origin_y_top->isChecked()) {
-            posY = m_frameHeight - y - rec->rect().height();
+            posY = m_frameHeight - y - int(rec->rect().height());
         } else {
             posY = y;
         }
@@ -1636,14 +1636,14 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
         int posX;
         if (origin_x_left->isChecked()) {
             // Use the sceneBoundingRect because this also regards transformations like zoom
-            posX = m_frameWidth - x - i->sceneBoundingRect().width();
+            posX = m_frameWidth - x - int(i->sceneBoundingRect().width());
         } else {
             posX = x;
         }
 
         int posY;
         if (origin_y_top->isChecked()) {
-            posY = m_frameHeight - y - i->sceneBoundingRect().height();
+            posY = m_frameHeight - y - int(i->sceneBoundingRect().height());
         } else {
             posY = y;
         }
@@ -1856,7 +1856,7 @@ void TitleWidget::slotUpdateText()
         if (gradientData.isEmpty()) {
             cformat.setForeground(QBrush(color));
         } else {
-            QLinearGradient gr = GradientWidget::gradientFromString(gradientData, item->boundingRect().width(), item->boundingRect().height());
+            QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(item->boundingRect().width()), int(item->boundingRect().height()));
             cformat.setForeground(QBrush(gr));
         }
         // Store gradient in item properties
@@ -1892,7 +1892,7 @@ void TitleWidget::rectChanged()
                 // gradient
                 QString gradientData = gradients_rect_combo->currentData().toString();
                 rec->setData(TitleDocument::Gradient, gradientData);
-                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rec->boundingRect().width(), rec->boundingRect().height());
+                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rec->boundingRect().width()), int(rec->boundingRect().height()));
                 rec->setBrush(QBrush(gr));
             }
         } else if (i->type() == ELLIPSEITEM && (settingUp == 0)) {
@@ -1913,7 +1913,7 @@ void TitleWidget::rectChanged()
                 // gradient
                 QString gradientData = gradients_rect_combo->currentData().toString();
                 ellipse->setData(TitleDocument::Gradient, gradientData);
-                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, ellipse->boundingRect().width(), ellipse->boundingRect().height());
+                QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(ellipse->boundingRect().width()), int(ellipse->boundingRect().height()));
                 ellipse->setBrush(QBrush(gr));
             }
         }
@@ -1925,8 +1925,8 @@ void TitleWidget::itemScaled(int val)
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         Transform x = m_transformations.value(l.at(0));
-        x.scalex = (double)val / 100.0;
-        x.scaley = (double)val / 100.0;
+        x.scalex = val / 100.0;
+        x.scaley = val / 100.0;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotatex, Qt::XAxis);
@@ -1993,9 +1993,9 @@ void TitleWidget::itemHCenter()
     if (l.size() == 1) {
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
-        int width = (int)br.width();
-        int newPos = (int)((m_frameWidth - width) / 2);
-        newPos += item->pos().x() - br.left(); // Check item transformation
+        int width = int(br.width());
+        int newPos = (m_frameWidth - width) / 2;
+        newPos += int(item->pos().x() - br.left()); // Check item transformation
         item->setPos(newPos, item->pos().y());
         updateCoordinates(item);
         slotAdjustZoom();
@@ -2012,9 +2012,9 @@ void TitleWidget::itemVCenter()
     if (l.size() == 1) {
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
-        int height = (int)br.height();
-        int newPos = (int)((m_frameHeight - height) / 2);
-        newPos += item->pos().y() - br.top(); // Check item transformation
+        int height = int(br.height());
+        int newPos = (m_frameHeight - height) / 2;
+        newPos += int(item->pos().y() - br.top()); // Check item transformation
         item->setPos(item->pos().x(), newPos);
         updateCoordinates(item);
     }
@@ -2300,9 +2300,9 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         if (!items.at(i)->data(TitleDocument::RotateFactor).isNull()) {
             QList<QVariant> rotlist = items.at(i)->data(TitleDocument::RotateFactor).toList();
             if (rotlist.count() >= 3) {
-                x.rotatex = rotlist[0].toDouble();
-                x.rotatey = rotlist[1].toDouble();
-                x.rotatez = rotlist[2].toDouble();
+                x.rotatex = rotlist[0].toInt();
+                x.rotatey = rotlist[1].toInt();
+                x.rotatez = rotlist[2].toInt();
 
                 // Try to adjust zoom
                 t.rotate(x.rotatex * (-1), Qt::XAxis);
@@ -2318,7 +2318,7 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         } else {
             x.rotatex = 0;
             x.rotatey = 0;
-            x.rotatez = 180. / PI * atan2(-t.m21(), t.m11());
+            x.rotatez = int(180. / PI * atan2(-t.m21(), t.m11()));
         }
         m_transformations[items.at(i)] = x;
     }
@@ -2440,7 +2440,7 @@ void TitleWidget::readChoices()
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
-    font_size->setValue(titleConfig.readEntry("font_pixel_size", m_frameHeight > 0 ? (int)(m_frameHeight / 20): font_size->value()));
+    font_size->setValue(titleConfig.readEntry("font_pixel_size", m_frameHeight > 0 ? m_frameHeight / 20 : font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
@@ -2587,12 +2587,12 @@ void TitleWidget::addAnimInfoText()
     QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
     QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
     QFont font = t->font();
-    font.setPixelSize(m_startViewport->rect().width() / 10);
+    font.setPixelSize(int(m_startViewport->rect().width() / 10));
     QColor col = m_startViewport->pen().color();
     col.setAlpha(255);
     t->setDefaultTextColor(col);
     t->setFont(font);
-    font.setPixelSize(m_endViewport->rect().width() / 10);
+    font.setPixelSize(int(m_endViewport->rect().width() / 10));
     col = m_endViewport->pen().color();
     col.setAlpha(255);
     t2->setDefaultTextColor(col);
@@ -2606,7 +2606,7 @@ void TitleWidget::updateInfoText()
         MyTextItem *item = static_cast<MyTextItem *>(m_startViewport->childItems().at(0));
         if (item) {
             QFont font = item->font();
-            font.setPixelSize(m_startViewport->rect().width() / 10);
+            font.setPixelSize(int(m_startViewport->rect().width() / 10));
             item->setFont(font);
         }
     }
@@ -2614,7 +2614,7 @@ void TitleWidget::updateInfoText()
         MyTextItem *item = static_cast<MyTextItem *>(m_endViewport->childItems().at(0));
         if (item) {
             QFont font = item->font();
-            font.setPixelSize(m_endViewport->rect().width() / 10);
+            font.setPixelSize(int(m_endViewport->rect().width() / 10));
             item->setFont(font);
         }
     }
@@ -2639,7 +2639,7 @@ void TitleWidget::deleteAnimInfoText()
 
 void TitleWidget::slotKeepAspect(bool keep)
 {
-    if ((int)m_endViewport->zValue() == 1100) {
+    if (int(m_endViewport->zValue()) == 1100) {
         m_endViewport->setData(0, keep ? m_frameWidth : QVariant());
         m_endViewport->setData(1, keep ? m_frameHeight : QVariant());
     } else {
@@ -2650,7 +2650,7 @@ void TitleWidget::slotKeepAspect(bool keep)
 
 void TitleWidget::slotResize50()
 {
-    if ((int)m_endViewport->zValue() == 1100) {
+    if (int(m_endViewport->zValue()) == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
@@ -2659,7 +2659,7 @@ void TitleWidget::slotResize50()
 
 void TitleWidget::slotResize100()
 {
-    if ((int)m_endViewport->zValue() == 1100) {
+    if (int(m_endViewport->zValue()) == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
@@ -2668,7 +2668,7 @@ void TitleWidget::slotResize100()
 
 void TitleWidget::slotResize200()
 {
-    if ((int)m_endViewport->zValue() == 1100) {
+    if (int(m_endViewport->zValue()) == 1100) {
         m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
     } else {
         m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
@@ -3010,7 +3010,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 if (!i->data(TitleDocument::OutlineWidth).isNull()) {
                     textOutline->blockSignals(true);
-                    textOutline->setValue(i->data(TitleDocument::OutlineWidth).toDouble() * 10);
+                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble() * 10));
                     textOutline->blockSignals(false);
                 } else {
                     textOutline->blockSignals(true);
@@ -3078,8 +3078,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 line_spacing->blockSignals(true);
                 QTextCursor cur = i->textCursor();
                 QTextBlockFormat format = cur.blockFormat();
-                letter_spacing->setValue(font.letterSpacing());
-                line_spacing->setValue(format.lineHeight());
+                letter_spacing->setValue(int(font.letterSpacing()));
+                line_spacing->setValue(int(format.lineHeight()));
                 letter_spacing->blockSignals(false);
                 line_spacing->blockSignals(false);
 
@@ -3196,15 +3196,15 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             enableToolbars(TITLE_SELECT);
             frame_properties->setEnabled(false);
         }
-        zValue->setValue((int)referenceItem->zValue());
+        zValue->setValue(int(referenceItem->zValue()));
         if (!referenceItem->data(TitleDocument::ZoomFactor).isNull()) {
             itemzoom->setValue(referenceItem->data(TitleDocument::ZoomFactor).toInt());
         } else {
-            itemzoom->setValue((int)(m_transformations.value(referenceItem).scalex * 100.0 + 0.5));
+            itemzoom->setValue(int(m_transformations.value(referenceItem).scalex * 100.0 + 0.5));
         }
-        itemrotatex->setValue((int)(m_transformations.value(referenceItem).rotatex));
-        itemrotatey->setValue((int)(m_transformations.value(referenceItem).rotatey));
-        itemrotatez->setValue((int)(m_transformations.value(referenceItem).rotatez));
+        itemrotatex->setValue(int(m_transformations.value(referenceItem).rotatex));
+        itemrotatey->setValue(int(m_transformations.value(referenceItem).rotatey));
+        itemrotatez->setValue(int(m_transformations.value(referenceItem).rotatez));
     }
 
     itemrotatex->blockSignals(blockRX);
@@ -3376,7 +3376,7 @@ const QString TitleWidget::titleSuggest()
             QString currentTitle = i->toPlainText().simplified();
             if (currentTitle.length() > 2) {
                 title = currentTitle.length() > 12 ? currentTitle.left(12) + QStringLiteral("...") : currentTitle;
-                y = qgItem->pos().y();
+                y = int(qgItem->pos().y());
             }
         }
     }

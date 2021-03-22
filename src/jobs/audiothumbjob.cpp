@@ -105,7 +105,7 @@ bool AudioThumbJob::computeWithMlt()
     }
     // Normalize
     for (double &v : mltLevels) {
-        m_audioLevels << 255 * v / maxLevel;
+        m_audioLevels << uchar(255 * v / maxLevel);
     }
 
     m_done = true;

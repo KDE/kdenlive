@@ -38,7 +38,7 @@ Item{
     }
 
     function isClip(type) {
-        return type != ProducerType.Composition && type != ProducerType.Track;
+        return type !== ProducerType.Composition && type !== ProducerType.Track;
     }
 
     width: clipRow.width
@@ -48,7 +48,7 @@ Item{
         delegate: Item {
             property var itemModel : model
             property bool clipItem: isClip(model.clipType)
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
+            z: model.clipType === ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
             Loader {
                 id: loader
                 Binding {
@@ -91,7 +91,7 @@ Item{
                     target: loader.item
                     property: "selected"
                     value: model.selected
-                    when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
+                    when: loader.status == Loader.Ready && model.clipType !== ProducerType.Track
                 }
                 Binding {
                     target: loader.item
@@ -163,13 +163,13 @@ Item{
                     target: loader.item
                     property: "aTrack"
                     value: model.a_track
-                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType === ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
                     property: "trackHeight"
                     value: root.trackHeight
-                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType === ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
@@ -234,7 +234,7 @@ Item{
                 sourceComponent: {
                     if (clipItem) {
                         return clipDelegate
-                    } else if (model.clipType == ProducerType.Composition) {
+                    } else if (model.clipType === ProducerType.Composition) {
                         return compositionDelegate
                     } else {
                         // Track
@@ -259,7 +259,7 @@ Item{
                         console.log('loaded clip with Astream: ', model.audioStream)
                         // Speed change triggers a new clip insert so no binding necessary
                         item.speed = model.speed
-                    } else if (model.clipType == ProducerType.Composition) {
+                    } else if (model.clipType === ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
                     } else {
@@ -321,7 +321,7 @@ Item{
             onTrimmedIn: {
                 //bubbleHelp.hide()
                 timeline.showToolTip();
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || root.groupTrimData === undefined || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     if (controlTrim) {
@@ -370,7 +370,7 @@ Item{
             onTrimmedOut: {
                 timeline.showToolTip();
                 //bubbleHelp.hide()
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || root.groupTrimData === undefined || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     if (controlTrim) {
                         speedController.visible = false

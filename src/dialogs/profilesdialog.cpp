@@ -41,7 +41,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_view.setupUi(this);
 
     // Add message widget
-    auto *lay = (QGridLayout *)layout();
+    auto *lay = static_cast<QGridLayout *>(layout());
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);
@@ -100,7 +100,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     m_view.setupUi(this);
 
     // Add message widget
-    auto *lay = (QGridLayout *)layout();
+    auto *lay = static_cast<QGridLayout *>(layout());
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);
@@ -350,9 +350,9 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
     m_view.frame_den->setValue(curProfile->frame_rate_den());
     m_view.progressive->setChecked(curProfile->progressive() != 0);
     if (curProfile->progressive() != 0) {
-        m_view.fields->setText(locale.toString((double)curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString(double(curProfile->frame_rate_num() / curProfile->frame_rate_den()), 'f', 2));
     } else {
-        m_view.fields->setText(locale.toString((double)2 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString(2.0 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     }
 
     int colorix = m_view.colorspace->findData(curProfile->colorspace());

@@ -8,10 +8,10 @@ Row {
     id: thumbRow
     anchors.fill: parent
     visible: !isAudio
-    opacity: clipState == ClipState.Disabled ? 0.2 : 1
-    property bool fixedThumbs: clipRoot.itemType == ProducerType.Image || clipRoot.itemType == ProducerType.Text || clipRoot.itemType == ProducerType.TextTemplate
+    opacity: clipState === ClipState.Disabled ? 0.2 : 1
+    property bool fixedThumbs: clipRoot.itemType === ProducerType.Image || clipRoot.itemType === ProducerType.Text || clipRoot.itemType === ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
-    property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
+    property bool enableCache: clipRoot.itemType === ProducerType.Video || clipRoot.itemType === ProducerType.AV
     function reload(reset) {
         //console.log('+++++\n\ntriggered ML thumb reload\n\n++++++++++++++')
         clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + Math.random() + '/#'
@@ -24,7 +24,7 @@ Row {
         // container.width / thumbRow.thumbWidth will display all frames showThumbnails
         // 1: only show first thumbnail
         // 0: will disable thumbnails
-        model: parentTrack.trackThumbsFormat == 0 ? 2 : parentTrack.trackThumbsFormat == 1 ? Math.ceil(container.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat == 2 ? 1 : 0
+        model: parentTrack.trackThumbsFormat === 0 ? 2 : parentTrack.trackThumbsFormat === 1 ? Math.ceil(container.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat === 2 ? 1 : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)

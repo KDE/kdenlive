@@ -279,7 +279,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width,
                 content.setAttribute(QStringLiteral("kdenlive-axis-y-inverted"), t->data(OriginYTop).toInt());
             }
             if (t->textWidth() > 0) {
-                content.setAttribute(QStringLiteral("alignment"), (int)t->alignment());
+                content.setAttribute(QStringLiteral("alignment"), int(t->alignment()));
             }
 
             content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QLatin1Char(';')));
@@ -357,7 +357,7 @@ QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> & items)
 {
     QColor color(0, 0, 0, 0);
     for (auto item : qAsConst(items)) {
-        if ((int)item->zValue() == -1100) {
+        if (int(item->zValue()) == -1100) {
             color = static_cast<QGraphicsRectItem *>(item)->brush().color();
             return color;
         }
@@ -517,13 +517,13 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // Gradient color
                         QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         txt->setData(TitleDocument::Gradient, data);
-                        QLinearGradient gr = GradientWidget::gradientFromString(data, txt->boundingRect().width(), txt->boundingRect().height());
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(txt->boundingRect().width()), int(txt->boundingRect().height()));
                         cformat.setForeground(QBrush(gr));
                         cursor.setCharFormat(cformat);
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {
-                        txt->setAlignment((Qt::Alignment)txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
+                        txt->setAlignment(Qt::Alignment(txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt()));
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("kdenlive-axis-x-inverted")).isNull()) {
@@ -576,7 +576,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // Gradient color
                         QString data = rectProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         rec->setData(TitleDocument::Gradient, data);
-                        QLinearGradient gr = GradientWidget::gradientFromString(data, rec->rect().width(), rec->rect().height());
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(rec->rect().width()), int(rec->rect().height()));
                         rec->setBrush(QBrush(gr));
                     } else {
                         rec->setBrush(QBrush(stringToColor(br_str)));
@@ -601,7 +601,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // Gradient color
                         QString data = ellipseProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         ellipse->setData(TitleDocument::Gradient, data);
-                        QLinearGradient gr = GradientWidget::gradientFromString(data, ellipse->rect().width(), ellipse->rect().height());
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(ellipse->rect().width()), int(ellipse->rect().height()));
                         ellipse->setBrush(QBrush(gr));
                     } else {
                         ellipse->setBrush(QBrush(stringToColor(br_str)));
@@ -711,7 +711,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 for (auto sceneItem : qAsConst(gitems)) {
-                    if ((int)sceneItem->zValue() == -1100) {
+                    if (int(sceneItem->zValue()) == -1100) {
                         static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
                         break;
                     }

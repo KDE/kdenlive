@@ -148,7 +148,7 @@ void MyTextItem::refreshFormat()
 
     if (!gradientData.isEmpty()) {
         QRectF rect = boundingRect();
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect.width(), rect.height());
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height()));
         cformat.setForeground(QBrush(gr));
     }
 
@@ -223,7 +223,7 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             paintBrush = QBrush(cursor.charFormat().foreground().color());
         } else {
             QRectF rect = boundingRect();
-            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, rect.width(), rect.height()));
+            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
         }
         painter->fillPath(m_path, paintBrush);
         if (outline > 0) {
@@ -282,7 +282,7 @@ void MyTextItem::updateShadow()
     // Calculate position of text in parent item
     path.translate(QPointF(2 * m_shadowBlur, 2 * m_shadowBlur));
     QRectF fullSize = bounding.united(path.boundingRect());
-    QImage shadow(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
+    QImage shadow(int(fullSize.width()) + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, int(fullSize.height()) + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
                   QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
     QPainter painter(&shadow);
@@ -320,7 +320,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += bpl;
         for (int j = r1; j < r2; j++, p += bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -333,7 +333,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += 4;
         for (int j = c1; j < c2; j++, p += 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -346,7 +346,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= bpl;
         for (int j = r1; j < r2; j++, p -= bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -359,7 +359,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= 4;
         for (int j = c1; j < c2; j++, p -= 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 }
@@ -383,7 +383,7 @@ QRectF MyTextItem::baseBoundingRect() const
     QTextCursor cur(document());
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
-    int lineHeight = format.lineHeight();
+    int lineHeight = int(format.lineHeight());
     int lineHeight2 = QFontMetrics(font()).lineSpacing();
     int lines = document()->lineCount();
     if (lines > 1) {
@@ -463,7 +463,7 @@ void MyRectItem::setRect(const QRectF &rectangle)
     QGraphicsRectItem::setRect(rectangle);
     if (m_rect != rectangle && !data(TitleDocument::Gradient).isNull()) {
         m_rect = rectangle;
-        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), m_rect.width(), m_rect.height());
+        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), int(m_rect.width()), int(m_rect.height()));
         setBrush(QBrush(gr));
     }
 }
@@ -497,7 +497,7 @@ void MyEllipseItem::setRect(const QRectF &rectangle)
     QGraphicsEllipseItem::setRect(rectangle);
     if (m_ellipse != rectangle && !data(TitleDocument::Gradient).isNull()) {
         m_ellipse = rectangle;
-        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), m_ellipse.width(), m_ellipse.height());
+        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), int(m_ellipse.width()), int(m_ellipse.height()));
         setBrush(QBrush(gr));
     }
 }
@@ -735,8 +735,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             return;
         }
     }
-    int xPos = ((int)e->scenePos().x() / m_gridSize) * m_gridSize;
-    int yPos = ((int)e->scenePos().y() / m_gridSize) * m_gridSize;
+    int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
+    int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
     m_moveStarted = false;
     m_clickPoint = e->scenePos();
     m_resizeMode = m_possibleAction;
@@ -794,7 +794,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsEllipseItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
                 if (m_selectedItem->type() == QGraphicsRectItem::Type) {
-                    r1 = ((QGraphicsRectItem *)m_selectedItem)->rect().normalized();
+                    r1 = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect().normalized();
                 } else {
                     r1 = m_selectedItem->boundingRect().normalized();
                 }
@@ -836,7 +836,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         if (e->button() == Qt::LeftButton) {
             clearTextSelection();
             MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
-            yPos = (((int)e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
+            yPos = ((int(e->scenePos().y()) - (m_fontSize / 2)) / m_gridSize) * m_gridSize;
             textItem->setPos(xPos, yPos);
             addItem(textItem);
             textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -898,12 +898,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
             if (m_selectedItem->type() == QGraphicsRectItem::Type) {
-                newrect = ((QGraphicsRectItem *)m_selectedItem)->rect();
+                newrect = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect();
             } else {
                 newrect = m_selectedItem->boundingRect();
             }
-            int xPos = ((int)e->scenePos().x() / m_gridSize) * m_gridSize;
-            int yPos = ((int)e->scenePos().y() / m_gridSize) * m_gridSize;
+            int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
+            int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
             switch (m_resizeMode) {
             case BottomRight:
@@ -933,8 +933,8 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
-                    double hRatio = (double)newrect.width() / m_selectedItem->data(0).toInt();
-                    double vRatio = (double)newrect.height() / m_selectedItem->data(1).toInt();
+                    double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
+                    double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
                     if (hRatio < vRatio) {
                         newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
                     } else {
@@ -950,8 +950,8 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
-                    double hRatio = (double)newrect.width() / m_selectedItem->data(0).toInt();
-                    double vRatio = (double)newrect.height() / m_selectedItem->data(1).toInt();
+                    double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
+                    double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
                     if (hRatio < vRatio) {
                         newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
                     } else {
@@ -994,9 +994,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 }
                 QRectF r1;
                 if(g->type() == QGraphicsRectItem::Type) {
-                    r1 = ((const QGraphicsRectItem *)g)->rect().normalized();
+                    r1 = static_cast<const QGraphicsRectItem *>(g)->rect().normalized();
                 } else {
-                    r1 = ((const QGraphicsEllipseItem *)g)->rect().normalized();
+                    r1 = static_cast<const QGraphicsEllipseItem *>(g)->rect().normalized();
                 }
                 itemFound = true;
 

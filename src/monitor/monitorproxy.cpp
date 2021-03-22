@@ -73,12 +73,12 @@ void MonitorProxy::seek(int delta, uint modifiers)
 
 int MonitorProxy::overlayType() const
 {
-    return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
+    return (q->m_id == int(Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides()));
 }
 
 void MonitorProxy::setOverlayType(int ix)
 {
-    if (q->m_id == (int)Kdenlive::ClipMonitor) {
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
         KdenliveSettings::setClipMonitorOverlayGuides(ix);
     } else {
         KdenliveSettings::setProjectMonitorOverlayGuides(ix);
@@ -238,7 +238,7 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
             double projectFps = pCore->getCurrentFps();
             double currentFps = tmpProfile->fps();
             if (!qFuzzyCompare(projectFps, currentFps)) {
-                frame_position = frame_position * currentFps / projectFps;
+                frame_position = int(frame_position * currentFps / projectFps);
             }
             QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
             return img;
@@ -272,7 +272,7 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
             if (qFuzzyCompare(projectFps, currentFps)) {
                 tmpProd->seek(q->m_producer->position());
             } else {
-                tmpProd->seek(q->m_producer->position() * currentFps / projectFps);
+                tmpProd->seek(int(q->m_producer->position() * currentFps / projectFps));
             }
             frame = tmpProd->get_frame();
             img = KThumb::getFrame(frame, width, height);

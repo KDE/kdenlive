@@ -226,7 +226,7 @@ void MainWindow::init(const QString &mltPath)
     /// Add Widgets
     setDockOptions(dockOptions() | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks);
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
-    setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition)KdenliveSettings::tabposition());
+    setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
@@ -1840,7 +1840,7 @@ void MainWindow::setupActions()
         QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
         ac->setData(i - 1);
         connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
-        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i-1]), timelineActions);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(int(Qt::ALT) + keysequence[i-1]), timelineActions);
         QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
         ac2->setData(i - 1);
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
@@ -1889,9 +1889,9 @@ bool MainWindow::readOptions()
     }
     QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
     // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+    int baseUnit = qMax(28, int(QFontInfo(ft).pixelSize() * 1.8 + 0.5));
     if (KdenliveSettings::trackheight() == 0) {
-        int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
+        int trackHeight = qMax(50, int(2.2 * baseUnit + 6));
         KdenliveSettings::setTrackheight(trackHeight);
     }
     bool firstRun = false;
@@ -1993,17 +1993,17 @@ void MainWindow::slotEditProjectSettings()
             }
         }
 
-        if (project->getDocumentProperty(QStringLiteral("generateproxy")) != QString::number((int)w->generateProxy())) {
+        if (project->getDocumentProperty(QStringLiteral("generateproxy")) != QString::number(int(w->generateProxy()))) {
             modified = true;
-            project->setDocumentProperty(QStringLiteral("generateproxy"), QString::number((int)w->generateProxy()));
+            project->setDocumentProperty(QStringLiteral("generateproxy"), QString::number(int(w->generateProxy())));
         }
         if (project->getDocumentProperty(QStringLiteral("proxyminsize")) != QString::number(w->proxyMinSize())) {
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         }
-        if (project->getDocumentProperty(QStringLiteral("generateimageproxy")) != QString::number((int)w->generateImageProxy())) {
+        if (project->getDocumentProperty(QStringLiteral("generateimageproxy")) != QString::number(int(w->generateImageProxy()))) {
             modified = true;
-            project->setDocumentProperty(QStringLiteral("generateimageproxy"), QString::number((int)w->generateImageProxy()));
+            project->setDocumentProperty(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         }
         if (project->getDocumentProperty(QStringLiteral("proxyimageminsize")) != QString::number(w->proxyImageMinSize())) {
             modified = true;
@@ -2013,13 +2013,13 @@ void MainWindow::slotEditProjectSettings()
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyimagesize"), QString::number(w->proxyImageSize()));
         }
-        if (QString::number((int)w->useProxy()) != project->getDocumentProperty(QStringLiteral("enableproxy"))) {
-            project->setDocumentProperty(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));
+        if (QString::number(int(w->useProxy())) != project->getDocumentProperty(QStringLiteral("enableproxy"))) {
+            project->setDocumentProperty(QStringLiteral("enableproxy"), QString::number(int(w->useProxy())));
             modified = true;
             slotUpdateProxySettings();
         }
-        if (QString::number((int)w->useExternalProxy()) != project->getDocumentProperty(QStringLiteral("enableexternalproxy"))) {
-            project->setDocumentProperty(QStringLiteral("enableexternalproxy"), QString::number((int)w->useExternalProxy()));
+        if (QString::number(int(w->useExternalProxy())) != project->getDocumentProperty(QStringLiteral("enableexternalproxy"))) {
+            project->setDocumentProperty(QStringLiteral("enableexternalproxy"), QString::number(int(w->useExternalProxy())));
             modified = true;
         }
         if (w->metadata() != project->metadata()) {
@@ -2089,7 +2089,7 @@ void MainWindow::slotEditProjectSettings()
 
 void MainWindow::slotDisableProxies()
 {
-    pCore->currentDoc()->setDocumentProperty(QStringLiteral("enableproxy"), QString::number((int)false));
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("enableproxy"), QString::number(false));
     pCore->currentDoc()->setModified();
     slotUpdateProxySettings();
 }
@@ -2478,7 +2478,7 @@ void MainWindow::slotCheckTabPosition()
 {
     int pos = tabPosition(Qt::LeftDockWidgetArea);
     if (KdenliveSettings::tabposition() != pos) {
-        setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition)KdenliveSettings::tabposition());
+        setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition(KdenliveSettings::tabposition()));
     }
 }
 
@@ -3963,7 +3963,7 @@ void MainWindow::configureToolbars()
     // Since our timeline toolbar is a non-standard toolbar (as it is docked in a custom widget, not
     // in a QToolBarDockArea, we have to hack KXmlGuiWindow to avoid a crash when saving toolbar config.
     // This is why we hijack the configureToolbars() and temporarily move the toolbar to a standard location
-    auto *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
+    auto *ctnLay = static_cast<QVBoxLayout *>(m_timelineToolBarContainer->layout());
     ctnLay->removeWidget(m_timelineToolBar);
     addToolBar(Qt::BottomToolBarArea, m_timelineToolBar);
     auto *toolBarEditor = new KEditToolBar(guiFactory(), this);
@@ -3979,7 +3979,7 @@ void MainWindow::rebuildTimlineToolBar()
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     removeToolBar(m_timelineToolBar);
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    auto *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
+    auto *ctnLay = static_cast<QVBoxLayout *>(m_timelineToolBarContainer->layout());
     if (ctnLay) {
         ctnLay->insertWidget(0, m_timelineToolBar);
     }

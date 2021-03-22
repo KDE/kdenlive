@@ -1012,7 +1012,7 @@ void TimelineController::editMarker(int cid, int position)
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
         position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
-        position = position * speed;
+        position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
@@ -1041,7 +1041,7 @@ void TimelineController::addMarker(int cid, int position)
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
         position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
-        position = position * speed;
+        position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
@@ -1081,7 +1081,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
         position = pCore->getTimelinePosition() - m_model->getClipPosition(cid);
-        position = position * speed;
+        position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > ((m_model->getClipIn(cid) + m_model->getClipPlaytime(cid) * speed))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
@@ -1107,7 +1107,7 @@ void TimelineController::deleteMarker(int cid, int position)
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
         position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
-        position = position * speed;
+        position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), ErrorMessage, 500);
@@ -1456,6 +1456,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
 
 void TimelineController::updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo)
 {
+    Q_UNUSED(oldZone)
     pCore->updateEffectZone(newZone, withUndo);
 }
 
@@ -2059,7 +2060,7 @@ QMap<QString, QString> TimelineController::documentProperties()
         props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
         props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
     }
-    props.insert(QStringLiteral("disablepreview"), QString::number((int)m_disablePreview->isChecked()));
+    props.insert(QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
     return props;
 }
 
@@ -2193,7 +2194,7 @@ void TimelineController::switchCompositing(int mode)
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
-            Mlt::Transition t((mlt_transition)service->get_service());
+            Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
             if (t.get_int("internal_added") == 237 && serviceName != QLatin1String("mix")) {
@@ -2336,7 +2337,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     int vTrack = -1;
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(bid);
     if (out <= in) {
-        out = (int)clip->frameDuration() - 1;
+        out = int(clip->frameDuration() - 1);
     }
     QList <int> audioStreams = m_model->m_binAudioTargets.keys();
     if (dropType == PlaylistState::VideoOnly) {
@@ -2682,8 +2683,10 @@ void TimelineController::alignAudio(int clipId)
         }
         processed ++;
         // Perform audio calculation
-        auto *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
-                                                (size_t)m_model->getClipPosition(cid));
+        auto *envelope = new AudioEnvelope(otherBinId, cid,
+                                           size_t(m_model->getClipIn(cid)),
+                                           size_t(m_model->getClipPlaytime(cid)),
+                                           size_t(m_model->getClipPosition(cid)));
         m_audioCorrelator->addChild(envelope);
     }
     if (processed == 0) {
@@ -3675,7 +3678,10 @@ QColor TimelineController::targetColor() const
     QColor base = scheme.foreground(KColorScheme::PositiveText).color();
     QColor high = QApplication::palette().highlightedText().color();
     double factor = 0.3;
-    QColor res = QColor(qBound(0, base.red() + (int)(factor*(high.red() - 128)), 255), qBound(0, base.green() + (int)(factor*(high.green() - 128)), 255), qBound(0, base.blue() + (int)(factor*(high.blue() - 128)), 255), 255);
+    QColor res = QColor(qBound(0, base.red() + int(factor*(high.red() - 128)), 255),
+                        qBound(0, base.green() + int(factor*(high.green() - 128)), 255),
+                        qBound(0, base.blue() + int(factor*(high.blue() - 128)), 255),
+                        255);
     return res;
 }
 
@@ -3696,7 +3702,10 @@ QColor TimelineController::titleColor() const
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NegativeText).color();
-    QColor title = QColor(qBound(0, base.red() + (int)(high.red() - 128), 255), qBound(0, base.green() + (int)(high.green() - 128), 255), qBound(0, base.blue() + (int)(high.blue() - 128), 255), 255);
+    QColor title = QColor(qBound(0, base.red() + int(high.red() - 128), 255),
+                          qBound(0, base.green() + int(high.green() - 128), 255),
+                          qBound(0, base.blue() + int(high.blue() - 128), 255),
+                          255);
     return title;
 }
 
@@ -3721,7 +3730,10 @@ QColor TimelineController::slideshowColor() const
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     QColor base = scheme.foreground(KColorScheme::LinkText).color();
     QColor high = scheme.foreground(KColorScheme::NeutralText).color();
-    QColor slide = QColor(qBound(0, base.red() + (int)(high.red() - 128), 255), qBound(0, base.green() + (int)(high.green() - 128), 255), qBound(0, base.blue() + (int)(high.blue() - 128), 255), 255);
+    QColor slide = QColor(qBound(0, base.red() + int(high.red() - 128), 255),
+                          qBound(0, base.green() + int(high.green() - 128), 255),
+                          qBound(0, base.blue() + int(high.blue() - 128), 255),
+                          255);
     return slide;
 }
 
@@ -3815,7 +3827,7 @@ void TimelineController::finishRecording(const QString &recordedFile)
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track
-            int out = qMin((int)clip->frameDuration() - 1, m_recordStart.second - 1);
+            int out = qMin(int(clip->frameDuration() - 1), m_recordStart.second - 1);
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(out);
             m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
         } else {
@@ -3903,7 +3915,7 @@ void TimelineController::collapseActiveTrack()
     }
     int collapsed = m_model->getTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed")).toInt();
     // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, (int) (QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.8 + 0.5));
+    int baseUnit = qMax(28, int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.8 + 0.5));
     m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QString::number(baseUnit));
 }
 

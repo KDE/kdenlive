@@ -464,7 +464,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
             onlineItem.previewUrl = objectGetString(item.toObject(), "previewUrl");
             onlineItem.width = objectGetValue(item.toObject(), "width").toInt();
             onlineItem.height = objectGetValue(item.toObject(), "height").toInt();
-            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? (int) objectGetValue(item.toObject(), "duration").toDouble() : objectGetValue(item.toObject(), "duration").toInt();
+            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble()) : objectGetValue(item.toObject(), "duration").toInt();
 
             if(keys["downloadUrls"].isObject()) {
                 for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
@@ -581,7 +581,7 @@ std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByt
         if(keys["downloadUrls"].isObject()) {
             if(keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
                 QJsonObject list = objectGetValue(res, "downloadUrls.key").toObject();
-                for (const auto key : list.keys()) {
+                for (const auto &key : list.keys()) {
                     QJsonObject urlItem = list[key].toObject();
                     QString format = objectGetString(urlItem, "downloadUrls.format", id, key);
                     //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and metafiles

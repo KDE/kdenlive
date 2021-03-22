@@ -52,10 +52,10 @@ public:
      * @param logScale Use logarithmic scale instead of linear
      * @param max Number of bins, usually 256
      */
-    static QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, bool logScale, uint max) ;
+    static QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, bool logScale, int max) ;
 
     static void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace,
-            bool unscaled, bool logScale, uint max) ;
+            bool unscaled, bool logScale, int max) ;
 
     enum Components { ComponentY = 1 << 0, ComponentR = 1 << 1, ComponentG = 1 << 2, ComponentB = 1 << 3, ComponentSum = 1 << 4 };
 };

@@ -116,7 +116,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    auto item = getItemById((int)index.internalId());
+    auto item = getItemById(int(index.internalId()));
     if (role == Qt::DecorationRole) {
         if (item->depth() == 1) {
             return QIcon::fromTheme(QStringLiteral("folder"));
@@ -133,7 +133,7 @@ QVariant ProfileTreeModel::data(const QModelIndex &index, int role) const
 QString ProfileTreeModel::getProfile(const QModelIndex &index)
 {
     if (index.isValid()) {
-        auto item = getItemById((int)index.internalId());
+        auto item = getItemById(int(index.internalId()));
         if (item->depth() == 2) {
             return item->dataColumn(1).toString();
         }

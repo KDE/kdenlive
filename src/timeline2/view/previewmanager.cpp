@@ -295,7 +295,7 @@ bool PreviewManager::loadParams()
     }*/
     if (doc->getDocumentProperty(QStringLiteral("resizepreview")).toInt() != 0) {
         int resizeWidth = doc->getDocumentProperty(QStringLiteral("previewheight")).toInt();
-        m_consumerParams << QStringLiteral("s=%1x%2").arg((int)(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
+        m_consumerParams << QStringLiteral("s=%1x%2").arg(int(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
     }
     m_consumerParams << QStringLiteral("an=1");
     if (KdenliveSettings::gpu_accel()) {
@@ -447,7 +447,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
 {
     int chunkSize = KdenliveSettings::timelinechunks();
     int startChunk = zone.x() / chunkSize;
-    int endChunk = rintl(zone.y() / chunkSize);
+    int endChunk = int(rintl(zone.y() / chunkSize));
     QList<int> toRemove;
     qDebug() << " // / RESUQEST CHUNKS; " << startChunk << " = " << endChunk;
     for (int i = startChunk; i <= endChunk; i++) {

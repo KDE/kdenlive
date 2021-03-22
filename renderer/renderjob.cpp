@@ -124,9 +124,9 @@ void RenderJob::receivedStderr()
         }
         m_progress = progress;
         if (m_args.contains(QStringLiteral("pass=1"))) {
-            m_progress /= 2.0;
+            m_progress /= 2;
         } else if (m_args.contains(QStringLiteral("pass=2"))) {
-            m_progress = 50 + m_progress / 2.0;
+            m_progress = 50 + m_progress / 2;
         }
         if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, m_progress, frame});
@@ -152,7 +152,7 @@ void RenderJob::receivedStderr()
             m_jobUiserver->call(QStringLiteral("setProcessedAmount"), qulonglong(frame - m_framein), tr("frames"));
             m_jobUiserver->call(QStringLiteral("setSpeed"), qulonglong(speed));
         }
-        m_seconds = elapsedTime;
+        m_seconds = int(elapsedTime);
         m_frame = frame;
         m_logstream << QStringLiteral("%1\t%2\t%3\t%4\n").arg(m_seconds).arg(m_frame).arg(m_progress).arg(speed);
     }
@@ -180,7 +180,7 @@ void RenderJob::start()
             QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
             QDBusReply<QDBusObjectPath> objectPath =
                 kuiserver.asyncCall(QStringLiteral("requestView"), QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
-            QString reply = ((QDBusObjectPath)objectPath).path();
+            QString reply = QDBusObjectPath(objectPath).path();
 
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
             QString dbusView = QStringLiteral("org.kde.JobViewV2");
@@ -188,7 +188,7 @@ void RenderJob::start()
             if ((m_jobUiserver != nullptr) && m_jobUiserver->isValid()) {
                 m_startTime = QDateTime::currentDateTime();
                 if (!m_args.contains(QStringLiteral("pass=2"))) {
-                    m_jobUiserver->call(QStringLiteral("setPercent"), (uint)0);
+                    m_jobUiserver->call(QStringLiteral("setPercent"), 0);
                 }
 
                 m_jobUiserver->call(QStringLiteral("setInfoMessage"), tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
@@ -256,7 +256,7 @@ void RenderJob::slotCheckProcess(QProcess::ProcessState state)
 void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
 {
     if (m_jobUiserver) {
-        m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint)1, tr("Rendered file"), m_dest);
+        m_jobUiserver->call(QStringLiteral("setDescriptionField"), 1, tr("Rendered file"), m_dest);
         m_jobUiserver->call(QStringLiteral("terminate"), QString());
     }
     if (!isWritable) {
@@ -280,7 +280,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QStringList args;
         QString error = tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
         if (m_frame > 0) {
-            error += QLatin1Char('\n') + tr("Frame: ") + m_frame;
+            error += QLatin1Char('\n') + tr("Frame: %1").arg(m_frame);
         }
         args << QStringLiteral("--error") << error;
         m_logstream << error << "\n";

@@ -989,7 +989,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             }
             double startPos = entryObj[QLatin1String("startPos")].toDouble();
             //convert seconds to FORMAT= hh:mm:ss.SS (in .ass) and hh:mm:ss,SSS (in .srt)
-            int millisec = startPos * 1000;
+            int millisec = int(startPos * 1000);
             int seconds = millisec / 1000;
             millisec %=1000;
             int minutes = seconds / 60;
@@ -1009,7 +1009,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(millisec,3,10,QChar('0'));
             QString dialogue = entryObj[QLatin1String("dialogue")].toString();
             double endPos = entryObj[QLatin1String("endPos")].toDouble();
-            millisec = endPos * 1000;
+            millisec = int(endPos * 1000);
             seconds = millisec / 1000;
             millisec %=1000;
             minutes = seconds / 60;

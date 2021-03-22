@@ -158,7 +158,7 @@ Item {
                 compositionRoot.forceActiveFocus();
                 root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
-                    if (timeline.selection.indexOf(compositionRoot.clipId) == -1) {
+                    if (timeline.selection.indexOf(compositionRoot.clipId) === -1) {
                         controller.requestAddToSelection(compositionRoot.clipId, true)
                     }
                     root.showCompositionMenu()

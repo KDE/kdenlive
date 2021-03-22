@@ -71,10 +71,10 @@ void SpeedJob::configureProducer()
         QString resource = m_producer->get("resource");
         m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed)), resource).toUtf8().constData());
         if (m_in > 0) {
-            m_in /= m_speed;
+            m_in = int(m_in / m_speed);
         }
         if (m_out > 0) {
-            m_out /= m_speed;
+            m_out = int(m_out / m_speed);
         }
         if (m_warp_pitch) {
             m_producer->set("warp_pitch", 1);

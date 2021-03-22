@@ -58,7 +58,7 @@ ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
 void ClipSpeed::slotUpdateSlider(double speed)
 {
     m_view.speedSlider->blockSignals(true);
-    m_view.speedSlider->setValue((int)speed);
+    m_view.speedSlider->setValue(int(speed));
     m_view.speedSlider->blockSignals(false);
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!qFuzzyIsNull(speed));
 }
@@ -66,7 +66,7 @@ void ClipSpeed::slotUpdateSlider(double speed)
 void ClipSpeed::slotUpdateSpeed(int speed)
 {
     m_view.speedSpin->blockSignals(true);
-    m_view.speedSpin->setValue((double)speed);
+    m_view.speedSpin->setValue(speed);
     m_view.speedSpin->blockSignals(false);
 }
 
@@ -83,7 +83,7 @@ void ClipSpeed::adjustSpeed(QAction *a)
     int speed = a->data().toInt();
     m_view.speedSlider->blockSignals(true);
     m_view.speedSpin->blockSignals(true);
-    m_view.speedSpin->setValue((double)speed);
+    m_view.speedSpin->setValue(speed);
     m_view.speedSlider->setValue(speed);
     m_view.speedSlider->blockSignals(false);
     m_view.speedSpin->blockSignals(false);

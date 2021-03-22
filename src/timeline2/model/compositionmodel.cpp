@@ -247,7 +247,7 @@ bool CompositionModel::showKeyframes() const
 void CompositionModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:hide_keyframes", (int)!show);
+    service()->set("kdenlive:hide_keyframes", !show);
 }
 
 const QString &CompositionModel::displayName() const

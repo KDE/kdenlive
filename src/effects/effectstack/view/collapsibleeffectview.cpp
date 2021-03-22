@@ -289,7 +289,7 @@ CollapsibleEffectView::~CollapsibleEffectView()
 
 void CollapsibleEffectView::setWidgetHeight(qreal value)
 {
-    widgetFrame->setFixedHeight(m_view->contentHeight() * value);
+    widgetFrame->setFixedHeight(int(m_view->contentHeight() * value));
 }
 
 void CollapsibleEffectView::slotCreateGroup()

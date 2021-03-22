@@ -59,7 +59,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         m_in->setRange(0, m_clip->getFramePlaytime());
         m_previewTimer->setInterval(100);
         connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
-        int width = 200 * pCore->getCurrentDar();
+        int width = int(200 * pCore->getCurrentDar());
         QPixmap p(width, 200);
         p.fill(Qt::transparent);
         switch (m_clip->clipType()) {

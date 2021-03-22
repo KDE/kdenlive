@@ -6,7 +6,7 @@ import com.enums 1.0
 
 Row {
     id: waveform
-    opacity: clipState == ClipState.Disabled ? 0.2 : 1
+    opacity: clipState === ClipState.Disabled ? 0.2 : 1
     property int maxWidth: 500 - (500 % timeline.scaleFactor) + 100 * timeline.scaleFactor
     anchors.fill: parent
 
@@ -17,7 +17,7 @@ Row {
     }
 
     function reload(reset) {
-        if (reset == 0) {
+        if (reset === 0) {
             waveformRepeater.model = 0
         }
         waveTimer.start()
@@ -33,7 +33,7 @@ Row {
             return;
         }
         var chunks = Math.ceil(waveform.width / waveform.maxWidth)
-        if (waveformRepeater.model == undefined || chunks != waveformRepeater.model) {
+        if (waveformRepeater.model === undefined || chunks !== waveformRepeater.model) {
             waveformRepeater.model = chunks
         }
     }

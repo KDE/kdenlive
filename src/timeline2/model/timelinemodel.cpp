@@ -218,7 +218,7 @@ QList<int> TimelineModel::getTracksIds(bool audio) const
 
 int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
-    Q_ASSERT(pos >= 0 && pos < (int)m_allTracks.size());
+    Q_ASSERT(pos >= 0 && pos < m_allTracks.size());
     READ_LOCK();
     auto it = m_allTracks.cbegin();
     while (pos > 0) {
@@ -395,7 +395,7 @@ int TimelineModel::getTrackPosition(int trackId) const
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_allTracks.cbegin();
-    int pos = (int)std::distance(it, (decltype(it))m_iteratorTable.at(trackId));
+    int pos = int(std::distance(it, static_cast<decltype(it)>(m_iteratorTable.at(trackId))));
     return pos;
 }
 
@@ -1076,6 +1076,7 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
 
 bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
+    Q_UNUSED(invalidateTimeline)
     QWriteLocker locker(&m_lock);
     GenTime oldPos = m_allSubtitles.at(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
@@ -1784,6 +1785,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
 bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo)
 {
+    Q_UNUSED(logUndo)
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
         return requestGroupDeletion(itemId, undo, redo);
@@ -2283,7 +2285,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         while (i.hasNext()) {
             i.next();
             // Delete mix
-            bool res = getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
+            getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
         }
     }
     
@@ -2695,6 +2697,7 @@ const std::vector<int> TimelineModel::getBoundaries(int itemId)
 
 int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed)
 {
+    Q_UNUSED(snapDistance)
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, true, snapDistance, allowSingleResize);
     Q_ASSERT(isClip(itemId));
@@ -2998,7 +3001,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                             std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
                             if (end - offset <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
                                 // Resized outside mix
-                                bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+                                removeMixWithUndo(mixData.second.secondClipId, undo, redo);
                                 Fun sync_mix_undo = [this, tid, mixData]() {
                                     getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
                                     getTrackById_const(tid)->syncronizeMixes(true);
@@ -3322,13 +3325,13 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
 {
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
-        position = (int)(m_allTracks.size());
+        position = int(m_allTracks.size());
     }
-    if (position < 0 || position > (int)m_allTracks.size()) {
+    if (position < 0 || position > int(m_allTracks.size())) {
         return false;
     }
     int previousId = -1;
-    if (position < (int)m_allTracks.size()) {
+    if (position < int(m_allTracks.size())) {
         previousId = getTrackIndexFromPosition(position);
     }
     int trackId = TimelineModel::getNextId();
@@ -3367,7 +3370,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
                     emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
                 }
             } else {
-                for (int i = position; i < (int)m_allTracks.size(); i++) {
+                for (int i = position; i < int(m_allTracks.size()); i++) {
                     QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
                     emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
                 }
@@ -3560,7 +3563,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
     endInsertRows();
-    int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
+    int cache = int(QThread::idealThreadCount()) + int(m_allTracks.size() + 1) * 2;
     mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
 }
 
@@ -3585,7 +3588,7 @@ void TimelineModel::registerSubtitle(int id, GenTime startTime, bool temporary)
 
 int TimelineModel::positionForIndex(int id)
 {
-    return std::distance(m_allSubtitles.begin(),m_allSubtitles.find(id));
+    return int(std::distance(m_allSubtitles.begin(),m_allSubtitles.find(id)));
 }
 
 void TimelineModel::deregisterSubtitle(int id, bool temporary)
@@ -3623,7 +3626,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         m_iteratorTable.erase(id);
         // Finish operation
         endRemoveRows();
-        int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
+        int cache = int(QThread::idealThreadCount()) + int(m_allTracks.size() + 1) * 2;
         mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
         return true;
     };
@@ -3914,9 +3917,9 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
             filterOutSubtitles = true;
         }
     }
-    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
+    if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getNextPoint((int)pos);
+        return m_snaps->getNextPoint(pos);
     }
     // Build snap points for selected tracks
     for (const auto &cp : m_allClips) {
@@ -3934,8 +3937,8 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
     // sort snaps
     std::sort(snaps.begin(), snaps.end());
     for (auto i : snaps) {
-        if ((int)i > pos) {
-            return (int) i;
+        if (int(i) > pos) {
+            return int(i);
         }
     }
     return pos;
@@ -3960,9 +3963,9 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
             filterOutSubtitles = true;
         }
     }
-    if ((tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) && !filterOutSubtitles) {
+    if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getPreviousPoint((int)pos);
+        return m_snaps->getPreviousPoint(int(pos));
     }
     // Build snap points for selected tracks
     for (const auto &cp : m_allClips) {
@@ -3982,8 +3985,8 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
     // sort descending
     std::reverse(snaps.begin(),snaps.end());
     for (auto i : snaps) {
-        if ((int)i < pos) {
-            return (int)i;
+        if (int(i) < pos) {
+            return int(i);
         }
     }
     return 0;
@@ -4300,7 +4303,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
     while (mlt_type == transition_type) {
-        Mlt::Transition transition((mlt_transition)nextservice);
+        Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
         nextservice = mlt_service_producer(nextservice);
         int internal = transition.get_int("internal_added");
         if (internal > 0 && resource != QLatin1String("mix")) {
@@ -4496,7 +4499,7 @@ bool TimelineModel::checkConsistency()
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (nextservice != nullptr) {
         if (mlt_type == transition_type) {
-            auto tr = (mlt_transition)nextservice;
+            auto tr = mlt_transition(nextservice);
             if (mlt_properties_get_int( MLT_TRANSITION_PROPERTIES(tr), "internal_added") > 0) {
                 // Skip track compositing
                 nextservice = mlt_service_producer(nextservice);
@@ -4510,8 +4513,8 @@ bool TimelineModel::checkConsistency()
                 continue;
             }
 
-            int currentIn = (int)mlt_transition_get_in(tr);
-            int currentOut = (int)mlt_transition_get_out(tr);
+            int currentIn = mlt_transition_get_in(tr);
+            int currentOut = mlt_transition_get_out(tr);
 
             int foundId = -1;
             // we iterate to try to find a matching compo
@@ -4682,7 +4685,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
     int audioStream = m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool refreshView = oldOut > (int)binClip->frameDuration() || forceDuration > -1;
+    bool refreshView = oldOut > int(binClip->frameDuration()) || forceDuration > -1;
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
     }
@@ -5165,7 +5168,7 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     }
 
     bool res = requestCompositionDeletion(cid, undo, redo);
-    int newId;
+    int newId = -1;
     res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
     if (res) {
         if (forcedTrack > -1 && isComposition(newId)) {
@@ -5236,7 +5239,7 @@ int TimelineModel::getSubtitleIndex(int subId) const
         return -1;
     }
     auto it = m_allSubtitles.find(subId);
-    return std::distance( m_allSubtitles.begin(), it);
+    return int(std::distance( m_allSubtitles.begin(), it));
 }
 
 std::pair<int, GenTime> TimelineModel::getSubtitleIdFromIndex(int index) const

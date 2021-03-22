@@ -510,7 +510,7 @@ void ProjectItemModel::clean()
 {
     QWriteLocker locker(&m_lock);
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
-    toDelete.reserve((size_t)rootItem->childCount());
+    toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
@@ -587,7 +587,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const
 {
     READ_LOCK();
-    return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
+    return std::static_pointer_cast<AbstractProjectItem>(getItemById(int(index.internalId())));
 }
 
 bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo)

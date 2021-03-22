@@ -89,7 +89,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     , m_brokenModule(false)
 {
     setWindowTitle(i18n("Welcome to Kdenlive"));
-    int logoHeight = fontMetrics().height() * 2.5;
+    int logoHeight = int(fontMetrics().height() * 2.5);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
     // setOption(QWizard::ExtendedWatermarkPixmap, false);

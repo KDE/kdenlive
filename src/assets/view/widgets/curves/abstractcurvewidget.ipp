@@ -44,8 +44,8 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(Q
      */
     m_wWidth = width() - 1;
     m_wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * m_wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * m_wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * m_wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * m_wHeight);
     m_wWidth -= 2 * offsetX;
     m_wHeight -= 2 * offsetY;
 

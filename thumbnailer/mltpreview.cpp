@@ -58,14 +58,14 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     uint variance = 10;
     int ct = 1;
     double ar = profile->dar();
-    if (ar == 0) {
+    if (ar < 1e-6) {
         ar = 1.0;
     }
     int wanted_width = width;
-    int wanted_height = width / profile->dar();
+    int wanted_height = int(width / profile->dar());
     if (wanted_height > height) {
         wanted_height = height;
-        wanted_width = height * ar;
+        wanted_width = int(height * ar);
     }
     // We don't need audio
     producer->set("audio_index", -1);
@@ -89,7 +89,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     // img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
-        variance = imageVariance(img);
+        variance = uint(imageVariance(img));
         frame += 100 * ct;
         ct++;
     }
@@ -112,7 +112,7 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
     mlt_image_format format = mlt_image_rgb24a;
     const uchar *imagedata = frame->get_image(format, width, height);
     if (imagedata != nullptr) {
-        memcpy(mltImage.bits(), imagedata, width * height * 4);
+        memcpy(mltImage.bits(), imagedata, size_t(width * height * 4));
         mltImage = mltImage.rgbSwapped();
     }
 
@@ -120,15 +120,15 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
     return mltImage;
 }
 
-uint MltPreview::imageVariance(const QImage &image)
+int MltPreview::imageVariance(const QImage &image)
 {
     if (image.isNull()) {
         return 0;
     }
-    uint delta = 0;
-    uint avg = 0;
-    uint bytes = image.sizeInBytes();
-    uint STEPS = bytes / 2;
+    int delta = 0;
+    int avg = 0;
+    int bytes = int(image.sizeInBytes());
+    int STEPS = bytes / 2;
     if (STEPS < 1) {
         return 0;
     }
@@ -136,14 +136,14 @@ uint MltPreview::imageVariance(const QImage &image)
     qDebug() << "Using " << STEPS << " steps\n";
     const uchar *bits = image.bits();
     // First pass: get pivots and taking average
-    for (uint i = 0; i < STEPS; i++) {
+    for (int i = 0; i < STEPS; i++) {
         pivot[i] = bits[2 * i];
         avg += pivot.at(i);
     }
     avg = avg / STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i = 0; i < STEPS; ++i) {
-        int curdelta = abs(int(avg - pivot.at(i)));
+    for (int i = 0; i < STEPS; ++i) {
+        int curdelta = abs(avg - pivot.at(i));
         delta += curdelta;
     }
     return delta / STEPS;

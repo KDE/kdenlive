@@ -419,7 +419,7 @@ void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &ne
 
 void TimelineWidget::setTool(ProjectTool tool)
 {
-    rootObject()->setProperty("activeTool", (int)tool);
+    rootObject()->setProperty("activeTool", int(tool));
 }
 
 QPair<int, int> TimelineWidget::getTracksCount() const
@@ -442,7 +442,7 @@ void TimelineWidget::slotUngrabHack()
 
 int TimelineWidget::zoomForScale(double value) const
 {
-    int scale = 100.0 / value;
+    int scale = int(100 / value);
     int ix = 13;
     while (comboScale[ix] > scale && ix > 0) {
         ix--;

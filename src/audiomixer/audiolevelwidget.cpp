@@ -202,7 +202,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
             continue;
         }
         //int val = (50 + m_values.at(i)) / 150.0 * rect.height();
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - (m_values.at(i) * rect.height()), palette().dark());
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - (m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - int(m_values.at(i) * rect.height()), palette().dark());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - int(m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
     }
 }

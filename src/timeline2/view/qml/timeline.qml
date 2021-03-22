@@ -13,7 +13,7 @@ Rectangle {
     property bool validMenu: false
     property color textColor: activePalette.text
     property var groupTrimData
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData != undefined
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -71,10 +71,10 @@ Rectangle {
     }
     
     function checkDeletion(itemId) {
-        if (dragProxy.draggedItem == itemId) {
+        if (dragProxy.draggedItem === itemId) {
             endDrag()
         }
-        if (itemId == mainItemId) {
+        if (itemId === mainItemId) {
             mainItemId = -1
         }
     }
@@ -107,7 +107,7 @@ Rectangle {
         }
         var max = tracksRepeater.count;
         if (newTrack < 0) {
-            if (showSubtitles && newTrack == -1) {
+            if (showSubtitles && newTrack === -1) {
                 timeline.activeTrack = -2
                 return
             }
@@ -332,11 +332,11 @@ Rectangle {
         var container = track.children[0]
         var tentativeClip = undefined
         for (var i = 0 ; i < container.children.length; i++) {
-            if (container.children[i].children.length == 0 || container.children[i].children[0].children.length == 0) {
+            if (container.children[i].children.length === 0 || container.children[i].children[0].children.length === 0) {
                 continue
             }
             tentativeClip = container.children[i].children[0].childAt(posx, 1)
-            if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition == isComposition)) {
+            if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition === isComposition)) {
                 break
             }
         }
@@ -440,7 +440,7 @@ Rectangle {
     }
 
     onViewActiveTrackChanged: {
-        if (timeline.activeTrack == -2) {
+        if (timeline.activeTrack === -2) {
             // subtitle track
             scrollView.contentY = 0
             return
@@ -505,7 +505,7 @@ Rectangle {
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
-                if (track !=-1) {
+                if (track !== -1) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0){
                         if (controller.isAudioTrack(track)) {
@@ -547,12 +547,12 @@ Rectangle {
         /** @brief local helper function to handle the insertion of multiple dragged items */
         function insertAndMaybeGroup(track, frame, droppedData) {
             var binIds = droppedData.split(";")
-            if (binIds.length == 0) {
+            if (binIds.length === 0) {
                 return -1
             }
 
             var id = -1
-            if (binIds.length == 1) {
+            if (binIds.length === 1) {
                 id = timeline.insertClip(timeline.activeTrack, frame, clipBeingDroppedData, false, true, false)
             } else {
                 var ids = timeline.insertClips(timeline.activeTrack, frame, binIds, false, true, false)
@@ -846,7 +846,7 @@ Rectangle {
                     height: subtitleTrack.height
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     visible: height > 0
-                    color: (timeline.activeTrack == -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    color: (timeline.activeTrack === -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
@@ -1312,7 +1312,7 @@ Rectangle {
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
                         // Select item
-                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                        if (timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
                             controller.requestAddToSelection(dragProxy.draggedItem)
                         } else {
                             controller.requestRemoveFromSelection(dragProxy.draggedItem)
@@ -1414,7 +1414,7 @@ Rectangle {
                         border.width: 1
                         border.color: root.frameColor
                         height: subtitleTrack.height
-                        color: (timeline.activeTrack == -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                        color: (timeline.activeTrack === -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
                     }
                     Column {
                         y: subtitleTrack.height
@@ -1427,7 +1427,7 @@ Rectangle {
                                 border.width: 1
                                 border.color: root.frameColor
                                 height: model.trackHeight
-                                color: (model.item == timeline.activeTrack) ? Qt.tint(getTrackColor(model.audio, false), selectedTrackColor) : getTrackColor(model.audio, false)
+                                color: (model.item === timeline.activeTrack) ? Qt.tint(getTrackColor(model.audio, false), selectedTrackColor) : getTrackColor(model.audio, false)
                             }
                         }
                     }
@@ -1523,7 +1523,7 @@ Rectangle {
                                         dragFrame = -1
                                         moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && (Qt.platform.os != "windows" || !(mouse.modifiers & Qt.AltModifier))
                                         timeline.activeTrack = dragProxy.sourceTrack
-                                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                                        if (timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                         }
                                         timeline.showAsset(dragProxy.draggedItem)
@@ -1535,7 +1535,7 @@ Rectangle {
                                             var posx = Math.round((parent.x)/ root.timeScale)
                                             var clickAccepted = true
                                             var currentMouseTrack = Logic.getTrackIdFromPos(parent.y)
-                                            if (controller.normalEdit() && (tk != currentMouseTrack || x != posx)) {
+                                            if (controller.normalEdit() && (tk !== currentMouseTrack || x !== posx)) {
                                                 console.log('incorrect drag, Trying to recover item', parent.y,'xpos',x,'=',posx,'track',tk)
                                                 // Try to find correct item
                                                 var tentativeClip = getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
@@ -1601,7 +1601,7 @@ Rectangle {
                                             var posx = Math.round((parent.x)/ root.timeScale)
                                             var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
-                                            if (dragProxy.masterObject && tId == dragProxy.masterObject.trackId) {
+                                            if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
                                                 if (posx == dragFrame && controller.normalEdit()) {
                                                     return
                                                 }
@@ -1611,7 +1611,7 @@ Rectangle {
                                                 dragFrame = moveData[0]
                                                 timeline.activeTrack = moveData[1]
                                             } else {
-                                                if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
+                                                if (!controller.normalEdit() && dragProxy.masterObject.parent !== dragContainer) {
                                                     var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
                                                     dragProxy.masterObject.parent = dragContainer
                                                     pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)

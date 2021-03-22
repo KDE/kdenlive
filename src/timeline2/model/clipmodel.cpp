@@ -471,7 +471,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     int in = getIn();
     int out = getOut();
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyIsNull(speed)) {
-        in = in * std::abs(m_speed / speed);
+        in = int(in * std::abs(m_speed / speed));
         out = in + getPlaytime() - 1;
         // prevent going out of the clip's range
         out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
@@ -658,7 +658,7 @@ bool ClipModel::showKeyframes() const
 void ClipModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:hide_keyframes", (int)!show);
+    service()->set("kdenlive:hide_keyframes", !show);
 }
 
 void ClipModel::setPosition(int pos)
@@ -835,7 +835,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("in"), getIn());
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
-    container.setAttribute(QStringLiteral("state"), (int)m_currentState);
+    container.setAttribute(QStringLiteral("state"), m_currentState);
     if (auto ptr = m_parent.lock()) {
         int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);

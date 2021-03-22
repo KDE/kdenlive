@@ -47,8 +47,8 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     setupUi(this);
     m_tmpThumbFile = new QTemporaryFile(this);
 
-    int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
-    m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
+    int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
+    m_iconSize = QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight);
 
     slider_zoom->setRange(0, 15);
     connect(slider_zoom, &QAbstractSlider::valueChanged, this, &ResourceWidget::slotSetIconSize);

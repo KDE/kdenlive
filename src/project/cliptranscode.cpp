@@ -253,7 +253,7 @@ void ClipTranscode::slotShowTranscodeInfo()
             if (numbers.size() < 3) {
                 return;
             }
-            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            m_duration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
             log_text->setHidden(true);
             job_progress->setHidden(false);
         } else {
@@ -268,11 +268,11 @@ void ClipTranscode::slotShowTranscodeInfo()
             if (numbers.size() < 3) {
                 return;
             }
-            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+            progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
         } else {
-            progress = (int)time.toDouble();
+            progress = time.toInt();
         }
-        job_progress->setValue((int)(100.0 * progress / m_duration));
+        job_progress->setValue(int(100.0 * progress / m_duration));
     }
     log_text->setPlainText(log);
 }

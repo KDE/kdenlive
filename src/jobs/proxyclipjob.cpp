@@ -131,7 +131,7 @@ bool ProxyJob::startJob()
                 if (!ok) {
                     width = 640;
                 }
-                int height = width / display_ratio;
+                int height = int(width / display_ratio);
                 // Make sure we get an even height
                 height += height % 2;
                 mltParameters << QStringLiteral("s=%1x%2").arg(width).arg(height);

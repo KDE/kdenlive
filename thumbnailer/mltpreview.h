@@ -37,7 +37,7 @@ public:
     Flags flags() const override;
 
 protected:
-    static uint imageVariance(const QImage &image);
+    static int imageVariance(const QImage &image);
     QImage getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height);
 };
 

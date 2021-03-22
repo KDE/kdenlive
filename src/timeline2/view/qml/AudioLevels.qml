@@ -54,7 +54,7 @@ Item {
             height: recbutton.height
             color: Qt.lighter(activePalette.base)
             Repeater {
-                model: audiorec.levels.length == 0 ? 2 : audiorec.levels.length
+                model: audiorec.levels.length === 0 ? 2 : audiorec.levels.length
                 id: bgRepeater
                 Rectangle {
                     color: 'transparent'
@@ -77,7 +77,7 @@ Item {
                 }
             }
             Repeater {
-                model: audiorec.levels.length == 0 ? 2 : audiorec.levels.length
+                model: audiorec.levels.length === 0 ? 2 : audiorec.levels.length
                 id: levelRepeater
                 Item {
                     anchors.fill: parent

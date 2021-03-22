@@ -70,7 +70,7 @@ Rectangle {
                 }
                 onDoubleClicked: {
                     // Switch between current zoom and fit all project
-                    if (zoomBar.x == 0 && timeline.scaleFactor == root.fitZoom()) {
+                    if (zoomBar.x == 0 && timeline.scaleFactor === root.fitZoom()) {
                         // Restore previous pos
                         if (zoomHandleContainer.previousScale > -1) {
                             root.zoomOnBar = zoomHandleContainer.previousX

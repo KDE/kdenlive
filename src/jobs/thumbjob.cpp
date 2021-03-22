@@ -37,7 +37,7 @@ ThumbJob::ThumbJob(const QString &binId, int frameNumber, bool persistent, bool 
     , m_frameNumber(frameNumber)
     , m_imageHeight(pCore->thumbProfile()->height())
     , m_imageWidth(pCore->thumbProfile()->width())
-    , m_fullWidth(m_imageHeight * pCore->getCurrentDar() + 0.5)
+    , m_fullWidth(int(m_imageHeight * pCore->getCurrentDar() + 0.5))
     , m_persistent(persistent)
     , m_reloadAll(reloadAllThumbs)
 

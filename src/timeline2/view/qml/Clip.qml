@@ -69,7 +69,7 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
-    property bool isLocked: parentTrack && parentTrack.isLocked == true
+    property bool isLocked: parentTrack && parentTrack.isLocked === true
     property bool hasAudio
     property bool canBeAudio
     property bool canBeVideo
@@ -114,7 +114,7 @@ Rectangle {
     }
 
     onClipResourceChanged: {
-        if (itemType == ProducerType.Color) {
+        if (itemType === ProducerType.Color) {
             color: Qt.darker(getColor(), 1.5)
         }
     }
@@ -176,7 +176,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+    border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 2
 
     function updateDrag() {
@@ -194,24 +194,24 @@ Rectangle {
     }
 
     function getColor() {
-        if (clipRoot.clipState == ClipState.Disabled) {
+        if (clipRoot.clipState === ClipState.Disabled) {
             return '#888'
         }
         if (clipRoot.tagColor) {
             return clipRoot.tagColor
         }
-        if (itemType == ProducerType.Text) {
+        if (itemType === ProducerType.Text) {
             return titleColor
         }
-        if (itemType == ProducerType.Image) {
+        if (itemType === ProducerType.Image) {
             return imageColor
         }
-        if (itemType == ProducerType.SlideShow) {
+        if (itemType === ProducerType.SlideShow) {
             return slideshowColor
         }
-        if (itemType == ProducerType.Color) {
+        if (itemType === ProducerType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
-            if (color[0] == '#') {
+            if (color[0] === '#') {
                 return color
             }
             return '#' + color.substring(color.length - 8, color.length - 2)
@@ -229,7 +229,7 @@ Rectangle {
         //generateWaveform()
     }
 */
-    property bool noThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
+    property bool noThumbs: (isAudio || itemType === ProducerType.Color || mltService === '')
     property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/#'
 
     DropArea { //Drop area for clips
@@ -266,7 +266,7 @@ Rectangle {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
-                if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
+                if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
                 root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
@@ -884,7 +884,7 @@ Rectangle {
                     x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
-                    visible: !clipRoot.isAudio && clipRoot.clipStatus == ClipStatus.StatusProxy || clipRoot.clipStatus == ClipStatus.StatusProxyOnly
+                    visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
                         id: proxyLabel

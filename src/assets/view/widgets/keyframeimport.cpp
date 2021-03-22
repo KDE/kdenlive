@@ -505,7 +505,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     double frameFactor = double(out - in) / br.width();
     int offset = 1;
     if (limitKeyframes > 0) {
-        offset = (out - in) / limitKeyframes / frameFactor;
+        offset = int((out - in) / limitKeyframes / frameFactor);
     }
     double min = m_dataCombo->currentData(Qt::UserRole + 2).toDouble();
     double max = m_dataCombo->currentData(Qt::UserRole + 3).toDouble();
@@ -534,11 +534,11 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     txtRect.setWidth(br.width() - 4);
     txtRect.moveTop(br.height() - txtRect.height());
     QRectF drawnText;
-    int maxHeight = br.height() - txtRect.height() - 2;
+    int maxHeight = int(br.height() - txtRect.height() - 2);
     painter.setPen(textColor);
-    int rectSize = txtRect.height() / 2;
+    int rectSize = int(txtRect.height() / 2);
     if (xDist > 0) {
-        painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
+        painter.fillRect(int(txtRect.x()), int(txtRect.top() + rectSize / 2), rectSize, rectSize, cX);
         txtRect.setX(txtRect.x() + rectSize * 2);
         painter.drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(0).x()).arg(m_maximas.at(0).y()),
                          &drawnText);
@@ -547,7 +547,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (drawnText.isValid()) {
             txtRect.setX(drawnText.right() + rectSize);
         }
-        painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
+        painter.fillRect(int(txtRect.x()), int(txtRect.top() + rectSize / 2), rectSize, rectSize, cY);
         txtRect.setX(txtRect.x() + rectSize * 2);
         painter.drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(1).x()).arg(m_maximas.at(1).y()),
                          &drawnText);
@@ -556,7 +556,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (drawnText.isValid()) {
             txtRect.setX(drawnText.right() + rectSize);
         }
-        painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cW);
+        painter.fillRect(int(txtRect.x()), int(txtRect.top() + rectSize / 2), rectSize, rectSize, cW);
         txtRect.setX(txtRect.x() + rectSize * 2);
         painter.drawText(txtRect, 0, i18n("Width") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(2).x()).arg(m_maximas.at(2).y()), &drawnText);
     }
@@ -564,7 +564,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (drawnText.isValid()) {
             txtRect.setX(drawnText.right() + rectSize);
         }
-        painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cH);
+        painter.fillRect(int(txtRect.x()), int(txtRect.top() + rectSize / 2), rectSize, rectSize, cH);
         txtRect.setX(txtRect.x() + rectSize * 2);
         painter.drawText(txtRect, 0, i18n("Height") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(3).x()).arg(m_maximas.at(3).y()), &drawnText);
     }
@@ -607,26 +607,26 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
             mlt_rect rect2 = animData->anim_get_rect("key", int(i * frameFactor) + in);
             if (xDist > 0) {
                 painter.setPen(cX);
-                int val1 = (rect1.x - xOffset) * maxHeight / xDist;
-                int val2 = (rect2.x - xOffset) * maxHeight / xDist;
+                int val1 = int((rect1.x - xOffset) * maxHeight / xDist);
+                int val2 = int((rect2.x - xOffset) * maxHeight / xDist);
                 painter.drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
             }
             if (yDist > 0) {
                 painter.setPen(cY);
-                int val1 = (rect1.y - yOffset) * maxHeight / yDist;
-                int val2 = (rect2.y - yOffset) * maxHeight / yDist;
+                int val1 = int((rect1.y - yOffset) * maxHeight / yDist);
+                int val2 = int((rect2.y - yOffset) * maxHeight / yDist);
                 painter.drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
             }
             if (wDist > 0) {
                 painter.setPen(cW);
-                int val1 = (rect1.w - wOffset) * maxHeight / wDist;
-                int val2 = (rect2.w - wOffset) * maxHeight / wDist;
+                int val1 = int((rect1.w - wOffset) * maxHeight / wDist);
+                int val2 = int((rect2.w - wOffset) * maxHeight / wDist);
                 painter.drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
             }
             if (hDist > 0) {
                 painter.setPen(cH);
-                int val1 = (rect1.h - hOffset) * maxHeight / hDist;
-                int val2 = (rect2.h - hOffset) * maxHeight / hDist;
+                int val1 = int((rect1.h - hOffset) * maxHeight / hDist);
+                int val2 = int((rect2.h - hOffset) * maxHeight / hDist);
                 painter.drawLine(prevPos, maxHeight - val1, i, maxHeight - val2);
             }
             rect1 = rect2;
