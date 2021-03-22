@@ -326,6 +326,9 @@ Rectangle {
 
     function getItemAtPos(tk, posx, isComposition) {
         var track = Logic.getTrackById(tk)
+        if (track == undefined || track.children == undefined) {
+            return undefined
+        }
         var container = track.children[0]
         var tentativeClip = undefined
         for (var i = 0 ; i < container.children.length; i++) {
@@ -1197,7 +1200,7 @@ Rectangle {
             onDoubleClicked: {
                 if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
                     timeline.addSubtitle((scrollView.contentX + mouseX) / timeline.scaleFactor)
-                } else if (mouse.y < ruler.height) {
+                } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / timeline.scaleFactor, false)
                 }
             }
@@ -1339,6 +1342,30 @@ Rectangle {
             }
 
             Item {
+                // Guide zone delimiter
+                Rectangle {
+                    width: rulercontainer.width
+                    height: 1
+                    anchors.top: parent.top
+                    anchors.topMargin: ruler.guideLabelHeight
+                    color: activePalette.dark
+                    visible: ruler.guideLabelHeight > 0
+                }
+
+                // monitor zone
+                Rectangle {
+                    width: rulercontainer.width
+                    height: 1
+                    anchors.top: parent.top
+                    anchors.topMargin: ruler.height - ruler.zoneHeight
+                    color: activePalette.dark
+                    Rectangle {
+                        width: rulercontainer.width
+                        height: 1
+                        anchors.top: parent.bottom
+                        color: activePalette.light
+                    }
+                }
                 Flickable {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
@@ -1348,6 +1375,9 @@ Rectangle {
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
                     clip: true
+                    onWidthChanged: {
+                        ruler.adjustStepSize()
+                    }
                     Ruler {
                         id: ruler
                         width: rulercontainer.contentWidth
@@ -1360,13 +1390,16 @@ Rectangle {
                             anchors.bottom: parent.bottom
                             x: cursor.x - (width / 2)
                         }
-                        MouseArea {
-                            anchors.fill: parent
-                            acceptedButtons: Qt.NoButton
-                            cursorShape: ruler.resizeActive ? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
-                        }
                     }
                 }
+                MouseArea {
+                    anchors.top: parent.top
+                    height: rulercontainer.height
+                    width: rulercontainer.width
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: ruler.resizeActive ? Qt.SizeHorCursor : tracksArea.cursorShape
+                }
+
                 Item {
                     id: baseContainer
                     width: root.width - headerWidth
@@ -1423,9 +1456,6 @@ Rectangle {
                             anchors.left: scrollView.right
                             anchors.bottom: scrollView.bottom
                         }
-                        //ScrollBar.horizontal.interactive: false
-                        //ScrollBar.vertical.interactive: false
-                        //Component.onCompleted: contentItem.interactive = false
                         contentWidth: tracksContainerArea.width
                         contentHeight: tracksContainerArea.height
                         Item {
@@ -1808,18 +1838,18 @@ Rectangle {
     DelegateModel {
         id: guidesDelegateModel
         model: guidesModel
-            Item {
-                id: guideRoot
-                z: 20
-                Rectangle {
-                    id: guideBase
-                    width: 1
-                    height: tracksContainer.height
-                    x: model.frame * timeScale;
-                    color: model.color
-                }
+        Item {
+            id: guideRoot
+            z: 20
+            Rectangle {
+                id: guideBase
+                width: 1
+                height: tracksContainer.height
+                x: model.frame * timeScale;
+                color: model.color
             }
         }
+    }
 
 
     DelegateModel {
@@ -1837,8 +1867,10 @@ Rectangle {
 
     Connections {
         target: timeline
-        function onFrameFormatChanged() { ruler.adjustFormat() }
-        function onSelectionChanged() {
+        onFrameFormatChanged: {
+            ruler.adjustFormat()
+        }
+        onSelectionChanged: {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }

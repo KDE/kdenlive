@@ -45,12 +45,12 @@ Item {
             // labelSpacing cannot be smaller than 1 frame
             rulerRoot.labelSpacing = timeline.scaleFactor > rulerRoot.labelSize * 1.3 ? timeline.scaleFactor : Math.floor(rulerRoot.labelSize/timeline.scaleFactor) * timeline.scaleFactor
         } else {
-            rulerRoot.tickSpacing = Math.floor(3 * root.fontUnit / timeline.scaleFactor) * timeline.scaleFactor
+            rulerRoot.tickSpacing = Math.floor(3 * root.baseUnit / timeline.scaleFactor) * timeline.scaleFactor
             rulerRoot.labelSpacing = (Math.floor(rulerRoot.labelSize/rulerRoot.tickSpacing) + 1) * rulerRoot.tickSpacing
         }
-        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing))
+        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + root.baseUnit) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
-        tickRepeater.model = Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
+        tickRepeater.model = Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
     }
 
     function adjustFormat() {
@@ -62,7 +62,7 @@ Item {
     function repaintRuler() {
         // Enforce repaint
         tickRepeater.model = 0
-        tickRepeater.model = Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
+        tickRepeater.model = Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
     }
 
     // Timeline preview stuff
@@ -131,7 +131,7 @@ Item {
                         leftPadding: 2
                         rightPadding: 2
                         font: miniFont
-                        color: activePalette.text
+                        color: '#FFF'
                     }
                     MouseArea {
                         z: 10
@@ -182,7 +182,7 @@ Item {
         anchors.right: parent.right
     Repeater {
         id: tickRepeater
-        model: Math.ceil(scrollView.width / rulerRoot.tickSpacing) + 2
+        model: Math.ceil(rulercontainer.width / rulerRoot.tickSpacing) + 2
         property int offset: Math.floor(scrollView.contentX /rulerRoot.tickSpacing)
         Item {
             property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
@@ -208,29 +208,6 @@ Item {
     }
     }
     
-    // Guide zone delimiter
-    Rectangle {
-        width: rulerRoot.width
-        height: 1
-        anchors.top: parent.top
-        anchors.topMargin: guideLabelHeight
-        color: activePalette.shadow
-    }
-
-    // monitor zone
-    Rectangle {
-        width: rulerRoot.width
-        height: 1
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: zoneHeight
-        color: activePalette.shadow
-        Rectangle {
-            width: rulerRoot.width
-            height: 1
-            anchors.top: parent.bottom
-            color: activePalette.light
-        }
-    }
     RulerZone {
         id: zone
         Binding {
