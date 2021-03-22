@@ -275,7 +275,7 @@ QImage Spectrogram::renderHUD(uint)
             davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
             davinci.drawText(
                 x - 10, y,
-                i18n("%1 kHz", QString("%1").arg((double)(m_mousePos.x() - m_innerScopeRect.left()) / m_innerScopeRect.width() * m_freqMax / 1000, 0, 'f', 2)));
+                i18n("%1 kHz", QString("%1").arg(double(m_mousePos.x() - m_innerScopeRect.left()) / m_innerScopeRect.width() * m_freqMax / 1000, 0, 'f', 2)));
         }
 
         // Draw the dB brightness scale

@@ -155,12 +155,12 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int itemCount = 0;
     QWidget *wid = m_itemList.at(0)->widget();
     QSize min = wid->minimumSize();
-    int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
+    int columns = qMin(qFloor(double(rect.width()) / min.width()), m_itemList.size());
     columns = qMax(1, columns);
     int realWidth = qMin(wid->maximumWidth(), rect.width() / columns - horizontalSpacing());
     realWidth -= realWidth % 40;
     realWidth = qMax(realWidth, wid->minimumWidth());
-    int totalHeight = y - rect.y() + mrg.bottom() + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
+    int totalHeight = y - rect.y() + mrg.bottom() + qCeil(double(m_itemList.size()) / columns) * (realWidth + verticalSpacing());
     m_minimumSize = QSize(columns * realWidth, totalHeight);
     QSize hint = QSize(realWidth, realWidth);
     if (testOnly) {
@@ -172,7 +172,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
         itemCount++;
         //qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
         x = effectiveRect.x() + (itemCount % columns) * (realWidth + horizontalSpacing());
-        y = effectiveRect.y() + qFloor((double) itemCount / columns) * (realWidth + verticalSpacing());
+        y = effectiveRect.y() + qFloor(double(itemCount) / columns) * (realWidth + verticalSpacing());
     }
     return totalHeight;
 }

@@ -286,7 +286,7 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
             break;
         }
         // Wrapping
-        if (value == (uint)-1) {
+        if (value == uint(-1)) {
             value = MAX_UNICODE_V1;
         }
         if (value > MAX_UNICODE_V1) {

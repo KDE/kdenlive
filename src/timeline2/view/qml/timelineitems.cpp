@@ -242,14 +242,14 @@ public:
                 i = 0;
                 int j = 0;
                 if (m_drawInPoint > 0) {
-                    j = m_drawInPoint / increment;
+                    j = int(m_drawInPoint / increment);
                 }
                 if (pathDraw) {
                     path.moveTo(m_drawInPoint - 1, y);
                 }
                 for (; i <= width() && i < m_drawOutPoint; j++) {
                     i = j * increment;
-                    int idx = ceil((startPos + i) * indicesPrPixel);
+                    int idx = int(ceil((startPos + i) * indicesPrPixel));
                     idx += idx % m_channels;
                     i -= offset;
                     idx += channel;
@@ -259,7 +259,7 @@ public:
                         path.lineTo(i, y - level);
                     } else {
                         level = m_audioLevels.at(idx) * scaleFactor; // divide height by 510 (2*255) to get height
-                        painter->drawLine(i, y - level, i, y + level);
+                        painter->drawLine(int(i), int(y - level), int(i), int(y + level));
                     }
                 }
                 if (pathDraw) {
@@ -269,7 +269,7 @@ public:
                     painter->drawPath(tr.map(path));
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
-                    painter->drawText(2, y + channelHeight / 2, chanelNames[channel]);
+                    painter->drawText(2, int(y + channelHeight / 2), chanelNames[channel]);
                 }
             }
         }
