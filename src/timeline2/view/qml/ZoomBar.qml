@@ -89,7 +89,8 @@ Rectangle {
         MouseArea {
             id: zoomStart
             property bool isActive: zoomStart.containsMouse || zoomStart.pressed
-            anchors.right: zoomBar.left
+            anchors.right: pressed ? undefined : zoomBar.left
+            anchors.rightMargin: zoomBar.x < width ? -width : 0
             anchors.bottom: zoomBar.bottom
             width: zoomBar.height
             height: zoomBar.height
@@ -99,11 +100,9 @@ Rectangle {
             drag.maximumX: zoomEnd.x - width
             cursorShape: Qt.SizeHorCursor
             onPressed: {
-                anchors.right = undefined
                 startHandleRect.anchors.fill = undefined
             }
             onReleased: {
-                anchors.right = zoomBar.left
                 startHandleRect.anchors.fill = zoomStart
             }
             onPositionChanged: {
