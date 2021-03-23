@@ -60,17 +60,18 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
     }
 
+#if false
+    // Debut test  stuff. Warning, assets can also come from TransitionsRepository depending on owner type
     if (EffectsRepository::get()->exists(assetId)) {
         qDebug() << "Asset " << assetId << " found in the repository. Description: " << EffectsRepository::get()->getDescription(assetId);
-#if false
         QString str;
         QTextStream stream(&str);
         EffectsRepository::get()->getXml(assetId).save(stream, 4);
         qDebug() << "Asset XML: " << str;
-#endif
     } else {
         qDebug() << "Asset not found in repo: " << assetId;
     }
+#endif
 
     qDebug() << "XML parsing of " << assetId << ". found" << parameterNodes.count() << "parameters";
 
