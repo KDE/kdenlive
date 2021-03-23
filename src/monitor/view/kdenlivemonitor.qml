@@ -215,7 +215,7 @@ Item {
                 width: fontMetrics.boundingRect(displayText).width + 10
                 horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
-                        color: "#990000ff"
+                    color: controller.markerColor
                 }
                 color: "#ffffff"
                 padding: 0

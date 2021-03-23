@@ -110,6 +110,7 @@ Item {
         delegate:
         Item {
             id: guideRoot
+            z: proxy.position == model.frame ? 20 : 10
             Rectangle {
                 id: markerBase
                 width: 1
@@ -117,7 +118,6 @@ Item {
                 x: model.frame * timeline.scaleFactor
                 color: model.color
                 property int markerId: model.id
-                opacity: 0.8
                 Rectangle {
                     visible: timeline.showMarkers
                     width: mlabel.contentWidth + 4
