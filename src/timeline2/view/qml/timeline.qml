@@ -1867,6 +1867,8 @@ Rectangle {
 
     Connections {
         target: timeline
+        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once 
+        // we require Qt >= 5.15
         onFrameFormatChanged: {
             ruler.adjustFormat()
         }
