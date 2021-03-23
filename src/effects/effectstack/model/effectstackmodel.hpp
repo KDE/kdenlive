@@ -182,6 +182,9 @@ private slots:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
      */
     void replugEffect(const std::shared_ptr<AssetParameterModel> &asset);
+    /** @brief: Some effect zones changed, ensure to update master effect zones
+     */
+    void updateEffectZones();
 
 signals:
     /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers
