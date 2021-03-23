@@ -70,6 +70,31 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
+bool MarkerListModel::hasMarker(GenTime pos) const
+{
+    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
+    while (it != m_markerList.end()) {
+        if (it->second.time() == pos) {
+            return true;
+        }
+        it++;
+    }
+    return false;
+}
+
+
+CommentedTime MarkerListModel::marker(GenTime pos) const
+{
+    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
+    while (it != m_markerList.end()) {
+        if (it->second.time() == pos) {
+            return it->second;
+        }
+        it++;
+    }
+    return CommentedTime();
+}
+
 bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
@@ -77,11 +102,11 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(type >= 0 && type < int(markerTypes.size()));
-    if (m_markerList.count(pos) > 0) {
+    
+    if (hasMarker(pos)) {
         // In this case we simply change the comment and type
-        QString oldComment = m_markerList[pos].first;
-        int oldType = m_markerList[pos].second;
-        local_undo = changeComment_lambda(pos, oldComment, oldType);
+        CommentedTime current = marker(pos);
+        local_undo = changeComment_lambda(pos, current.comment(), current.markerType());
         local_redo = changeComment_lambda(pos, comment, type);
     } else {
         // In this case we create one
@@ -106,7 +131,7 @@ bool MarkerListModel::addMarkers(QMap <GenTime, QString> markers, int type)
     bool res = true;
     while (i.hasNext() && res) {
         i.next();
-        if (m_markerList.count(i.key()) > 0) {
+        if (hasMarker(i.key())) {
             rename = true;
         }
         res = addMarker(i.key(), i.value(), type, undo, redo);
@@ -127,7 +152,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
 
-    bool rename = (m_markerList.count(pos) > 0);
+    bool rename = hasMarker(pos);
     bool res = addMarker(pos, comment, type, undo, redo);
     if (res) {
         if (rename) {
@@ -142,12 +167,11 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    if (m_markerList.count(pos) == 0) {
+    if (hasMarker(pos) == false) {
         return false;
     }
-    QString oldComment = m_markerList[pos].first;
-    int oldType = m_markerList[pos].second;
-    Fun local_undo = addMarker_lambda(pos, oldComment, oldType);
+    CommentedTime current = marker(pos);
+    Fun local_undo = addMarker_lambda(pos, current.comment(), current.markerType());
     Fun local_redo = deleteMarker_lambda(pos);
     if (local_redo()) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -172,16 +196,15 @@ bool MarkerListModel::removeMarker(GenTime pos)
 bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, int type)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_markerList.count(oldPos) > 0);
-    QString oldComment = m_markerList[oldPos].first;
-    int oldType = m_markerList[oldPos].second;
+    Q_ASSERT(hasMarker(oldPos));
+    CommentedTime current = marker(oldPos);
     if (comment.isEmpty()) {
-        comment = oldComment;
+        comment = current.comment();
     }
     if (type == -1) {
-        type = oldType;
+        type = current.markerType();
     }
-    if (oldPos == pos && oldComment == comment && oldType == type) return true;
+    if (oldPos == pos && current.comment() == comment && current.markerType() == type) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = removeMarker(oldPos, undo, redo);
@@ -195,6 +218,40 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
         Q_ASSERT(undone);
     }
     return res;
+}
+
+int MarkerListModel::getRowfromId(int mid) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_markerList.count(mid) > 0);
+    return (int)std::distance(m_markerList.begin(), m_markerList.find(mid));
+}
+
+int MarkerListModel::getIdFromPos(const GenTime &pos) const
+{
+    READ_LOCK();
+    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
+    while (it != m_markerList.end()) {
+        if (it->second.time() == pos) {
+            return it->first;
+        }
+        it++;
+    }
+    return -1;
+}
+
+bool MarkerListModel::moveMarker(int mid, GenTime pos)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_markerList.count(mid) > 0);
+    if (hasMarker(pos)) {
+        // A marker / guide already exists at new position, abort
+        return false;
+    }
+    int row = getRowfromId(mid);
+    m_markerList[mid].setTime(pos);
+    emit dataChanged(index(row), index(row), {FrameRole});
+    return true;
 }
 
 bool MarkerListModel::moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
@@ -230,11 +287,12 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
     auto clipId = m_clipId;
     return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
-        Q_ASSERT(model->m_markerList.count(pos) > 0);
-        int row = static_cast<int>(std::distance(model->m_markerList.begin(), model->m_markerList.find(pos)));
-        model->m_markerList[pos].first = comment;
-        model->m_markerList[pos].second = type;
-        emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << CommentRole << ColorRole);
+        Q_ASSERT(model->hasMarker(pos) == false);
+        int mid = model->getIdFromPos(pos);
+        int row = model->getRowfromId(mid);
+        model->m_markerList[mid].setComment(comment);
+        model->m_markerList[mid].setMarkerType(type);
+        emit model->dataChanged(model->index(row), model->index(row), {CommentRole,ColorRole});
         return true;
     };
 }
@@ -246,15 +304,12 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
     auto clipId = m_clipId;
     return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
-        Q_ASSERT(model->m_markerList.count(pos) == 0);
+        Q_ASSERT(model->hasMarker(pos) == false);
         // We determine the row of the newly added marker
-        auto insertionIt = model->m_markerList.lower_bound(pos);
+        int mid = TimelineModel::getNextId();
         int insertionRow = static_cast<int>(model->m_markerList.size());
-        if (insertionIt != model->m_markerList.end()) {
-            insertionRow = static_cast<int>(std::distance(model->m_markerList.begin(), insertionIt));
-        }
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
-        model->m_markerList[pos] = {comment, type};
+        model->m_markerList[mid] = CommentedTime(pos, comment, type);
         model->endInsertRows();
         model->addSnapPoint(pos);
         return true;
@@ -268,10 +323,11 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
     auto clipId = m_clipId;
     return [guide, clipId, pos]() {
         auto model = getModel(guide, clipId);
-        Q_ASSERT(model->m_markerList.count(pos) > 0);
-        int row = static_cast<int>(std::distance(model->m_markerList.begin(), model->m_markerList.find(pos)));
+        Q_ASSERT(model->hasMarker(pos));
+        int mid = model->getIdFromPos(pos);
+        int row = model->getRowfromId(mid);
         model->beginRemoveRows(QModelIndex(), row, row);
-        model->m_markerList.erase(pos);
+        model->m_markerList.erase(mid);
         model->endRemoveRows();
         model->removeSnapPoint(pos);
         return true;
@@ -294,6 +350,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
     roles[FrameRole] = "frame";
     roles[ColorRole] = "color";
     roles[TypeRole] = "type";
+    roles[IdRole] = "id";
     return roles;
 }
 
@@ -337,17 +394,19 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     case CommentRole:
-        return it->second.first;
+        return it->second.comment();
     case PosRole:
-        return it->first.seconds();
+        return it->second.time().seconds();
     case FrameRole:
     case Qt::UserRole:
-        return it->first.frames(pCore->getCurrentFps());
+        return it->second.time().frames(pCore->getCurrentFps());
     case ColorRole:
     case Qt::DecorationRole:
-        return markerTypes[size_t(it->second.second)];
+        return markerTypes[size_t(it->second.markerType())];
     case TypeRole:
-        return it->second.second;
+        return it->second.markerType();
+    case IdRole:
+        return it->first;
     }
     return QVariant();
 }
@@ -362,14 +421,13 @@ int MarkerListModel::rowCount(const QModelIndex &parent) const
 CommentedTime MarkerListModel::getMarker(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
-    if (m_markerList.count(pos) <= 0) {
+    if (hasMarker(pos) == false) {
         // return empty marker
         *ok = false;
         return CommentedTime();
     }
     *ok = true;
-    CommentedTime t(pos, m_markerList.at(pos).first, m_markerList.at(pos).second);
-    return t;
+    return marker(pos);
 }
 
 QList<CommentedTime> MarkerListModel::getAllMarkers() const
@@ -377,9 +435,9 @@ QList<CommentedTime> MarkerListModel::getAllMarkers() const
     READ_LOCK();
     QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
-        CommentedTime t(marker.first, marker.second.first, marker.second.second);
-        markers << t;
+        markers << marker.second;
     }
+    std::sort(markers.begin(), markers.end());
     return markers;
 }
 
@@ -388,12 +446,12 @@ QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) cons
     READ_LOCK();
     QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
-        int pos = marker.first.frames(pCore->getCurrentFps());
+        int pos = marker.second.time().frames(pCore->getCurrentFps());
         if(pos > start && (end == -1 || pos < end)) {
-            CommentedTime t(marker.first, marker.second.first, marker.second.second);
-            markers << t;
+            markers << marker.second;
         }
     }
+    std::sort(markers.begin(), markers.end());
     return markers;
 }
 
@@ -402,7 +460,7 @@ std::vector<int> MarkerListModel::getSnapPoints() const
     READ_LOCK();
     std::vector<int> markers;
     for (const auto &marker : m_markerList) {
-        markers.push_back(marker.first.frames(pCore->getCurrentFps()));
+        markers.push_back(marker.second.time().frames(pCore->getCurrentFps()));
     }
     return markers;
 }
@@ -410,7 +468,7 @@ std::vector<int> MarkerListModel::getSnapPoints() const
 bool MarkerListModel::hasMarker(int frame) const
 {
     READ_LOCK();
-    return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
+    return hasMarker(GenTime(frame, pCore->getCurrentFps()));
 }
 
 void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel)
@@ -423,8 +481,8 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
 
         // we now add the already existing markers to the snap
         for (const auto &marker : m_markerList) {
-            qDebug() << " *- *-* REGISTERING MARKER: " << marker.first.frames(pCore->getCurrentFps());
-            ptr->addPoint(marker.first.frames(pCore->getCurrentFps()));
+            qDebug() << " *- *-* REGISTERING MARKER: " << marker.second.time().frames(pCore->getCurrentFps());
+            ptr->addPoint(marker.second.time().frames(pCore->getCurrentFps()));
         }
     } else {
         qDebug() << "Error: added snapmodel is null";
@@ -470,11 +528,10 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
             type = 0;
         }
         bool res = true;
-        if (!ignoreConflicts && m_markerList.count(GenTime(pos, pCore->getCurrentFps())) > 0) {
+        if (!ignoreConflicts && hasMarker(GenTime(pos, pCore->getCurrentFps()))) {
             // potential conflict found, checking
-            QString oldComment = m_markerList[GenTime(pos, pCore->getCurrentFps())].first;
-            int oldType = m_markerList[GenTime(pos, pCore->getCurrentFps())].second;
-            res = (oldComment == comment) && (type == oldType);
+            CommentedTime oldMarker = marker(GenTime(pos, pCore->getCurrentFps()));
+            res = (oldMarker.comment() == comment) && (type == oldMarker.markerType());
         }
         qDebug() << "// ADDING MARKER AT POS: " << pos << ", FPS: " << pCore->getCurrentFps();
         res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
@@ -494,9 +551,9 @@ QString MarkerListModel::toJson() const
     QJsonArray list;
     for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;
-        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.first.frames(pCore->getCurrentFps())));
-        currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.first));
-        currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.second));
+        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.second.time().frames(pCore->getCurrentFps())));
+        currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.comment()));
+        currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.markerType()));
         list.push_back(currentMarker);
     }
     QJsonDocument json(list);
@@ -510,7 +567,7 @@ bool MarkerListModel::removeAllMarkers()
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (const auto &m : m_markerList) {
-        all_pos.push_back(m.first);
+        all_pos.push_back(m.second.time());
     }
     bool res = true;
     for (const auto &p : all_pos) {

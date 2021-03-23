@@ -1150,6 +1150,13 @@ void TimelineController::moveGuide(int frame, int newFrame)
     guideModel->editMarker(pos, newPos);
 }
 
+void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
+{
+    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    GenTime newPos(newFrame, pCore->getCurrentFps());
+    guideModel->moveMarker(mid, newPos);
+}
+
 bool TimelineController::moveGuidesInRange(int start, int end, int offset)
 {
     std::function<bool(void)> undo = []() { return true; };

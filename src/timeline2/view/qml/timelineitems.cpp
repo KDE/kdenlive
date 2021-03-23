@@ -158,8 +158,8 @@ public:
         pen.setColor(m_color);
         painter->setBrush(m_color);
         pen.setCapStyle(Qt::FlatCap);
-        double increment = m_scale / 2; //qMax(1., 1. / qAbs(indicesPrPixel));
-        qreal indicesPrPixel = 2. / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        double increment = m_scale / m_channels; //qMax(1., 1. / qAbs(indicesPrPixel));
+        qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = int(height());
         double offset = 0;
         bool pathDraw = increment > 1.2;

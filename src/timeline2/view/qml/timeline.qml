@@ -1397,7 +1397,7 @@ Rectangle {
                     height: rulercontainer.height
                     width: rulercontainer.width
                     acceptedButtons: Qt.NoButton
-                    cursorShape: ruler.resizeActive ? Qt.SizeHorCursor : tracksArea.cursorShape
+                    cursorShape: ruler.cursorShape
                 }
 
                 Item {
