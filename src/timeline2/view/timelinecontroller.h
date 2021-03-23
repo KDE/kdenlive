@@ -306,6 +306,7 @@ public:
      */
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuide(int frame, int newFrame);
+    Q_INVOKABLE void moveGuideWithoutUndo(int frame, int newFrame);
     /** @brief Move all guides in the given range
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames

@@ -38,7 +38,7 @@ Item{
     }
 
     function isClip(type) {
-        return type !== ProducerType.Composition && type !== ProducerType.Track;
+        return type != ProducerType.Composition && type != ProducerType.Track;
     }
 
     width: clipRow.width
@@ -67,7 +67,7 @@ Item{
                     target: loader.item
                     property: "tagColor"
                     value: model.tag
-                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -91,7 +91,7 @@ Item{
                     target: loader.item
                     property: "selected"
                     value: model.selected
-                    when: loader.status == Loader.Ready && model.clipType !== ProducerType.Track
+                    when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
                 }
                 Binding {
                     target: loader.item
@@ -211,7 +211,7 @@ Item{
                     target: loader.item
                     property: "clipState"
                     value: model.clipState
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -266,7 +266,7 @@ Item{
                         console.log('loaded unwanted element: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                     }
                     item.trackId = model.trackId
-                    //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
+                    //item.selected= trackRoot.selection.indexOf(item.clipId) != -1
                     //console.log(width, height);
                 }
             }
@@ -393,7 +393,7 @@ Item{
         Composition {
             displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (root.baseUnit * 2))
             opacity: 0.8
-            selected: root.timelineSelection.indexOf(clipId) !== -1
+            selected: root.timelineSelection.indexOf(clipId) != -1
             onTrimmingIn: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
                 if (new_duration > 0) {

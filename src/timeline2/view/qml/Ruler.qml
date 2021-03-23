@@ -34,6 +34,8 @@ Item {
     property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
     property bool showZoneLabels: false
     property bool resizeActive: false // Used to decide which mouse cursor we should display
+    property bool hoverGuide: false
+    property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
     property var effectZones: timeline.masterEffectZones
     property int guideLabelHeight: timeline.showMarkers ? Math.round(fontMetrics.height) : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
@@ -114,6 +116,7 @@ Item {
                 height: rulerRoot.height
                 x: model.frame * timeline.scaleFactor
                 color: model.color
+                property int markerId: model.id
                 opacity: 0.8
                 Rectangle {
                     visible: timeline.showMarkers
@@ -136,34 +139,46 @@ Item {
                     MouseArea {
                         z: 10
                         id: guideArea
-                        anchors.fill: parent
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: parent.width
+                        height: parent.height
                         acceptedButtons: Qt.LeftButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        property int startX
+                        property int prevFrame
+                        property int xOffset: 0
                         drag.axis: Drag.XAxis
-                        drag.target: guideRoot
                         onPressed: {
-                            drag.target = guideRoot
-                            startX = guideRoot.x
+                            prevFrame = model.frame
+                            xOffset = mouseX
+                            anchors.left = undefined
                         }
                         onReleased: {
-                            if (startX != guideRoot.x) {
-                                timeline.moveGuide(model.frame,  model.frame + guideRoot.x / timeline.scaleFactor)
+                            if (prevFrame != model.frame) {
+                                var newFrame = model.frame
+                                timeline.moveGuideWithoutUndo(markerBase.markerId,  prevFrame)
+                                timeline.moveGuide(prevFrame, newFrame)
                             }
-                            drag.target = undefined
+                            anchors.left = parent.left
                         }
                         onPositionChanged: {
                             if (pressed) {
-                                var frame = Math.round(model.frame + guideRoot.x / timeline.scaleFactor)
-                                frame = controller.suggestSnapPoint(frame, root.snapping)
-                                guideRoot.x = (frame - model.frame) * timeline.scaleFactor
+                                var newFrame = Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor)
+                                newFrame = controller.suggestSnapPoint(newFrame, root.snapping)
+                                timeline.moveGuideWithoutUndo(markerBase.markerId,  newFrame)
                             }
                         }
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: {
                             proxy.position = model.frame
+                        }
+                        onEntered: {
+                            rulerRoot.hoverGuide = true
+                        }
+                        onExited: {
+                            rulerRoot.hoverGuide = false
                         }
                     }
                 }

@@ -110,6 +110,7 @@ public:
     friend class GroupsModel;
     friend class TimelineController;
     friend class SubtitleModel;
+    friend class MarkerListModel;
     friend struct TimelineFunctions;
 
     /// Two level model: tracks and clips on track

@@ -243,6 +243,7 @@ public:
     /** @brief Returns a string containing infos needed to store marker info. string equals marker type + QLatin1Char(':') + marker comment */
     QString hash() const;
     void setComment(const QString &comm);
+    void setTime(const GenTime &t);
     void setMarkerType(int t);
     int markerType() const;
 

@@ -98,6 +98,11 @@ void CommentedTime::setComment(const QString &comm)
     m_comment = comm;
 }
 
+void CommentedTime::setTime(const GenTime &t)
+{
+    m_time = t;
+}
+
 void CommentedTime::setMarkerType(int newtype)
 {
     m_type = newtype;

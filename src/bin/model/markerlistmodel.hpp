@@ -55,7 +55,7 @@ public:
     /** @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole };
 
     /** @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip
@@ -97,7 +97,7 @@ public:
        @param redo
     */
     bool moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
-
+    bool moveMarker(int mid, GenTime pos);
 
     /** @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 9> markerTypes;
@@ -121,6 +121,8 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasMarker(int frame) const;
+    bool hasMarker(GenTime pos) const;
+    CommentedTime marker(GenTime pos) const;
 
     /** @brief Registers a snapModel to the marker model.
        This is intended to be used for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves. This is also used
@@ -193,16 +195,14 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 
-    std::map<GenTime, std::pair<QString, int>> m_markerList;
+    std::map<int, CommentedTime> m_markerList;
     std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
+    int getRowfromId(int mid) const;
+    int getIdFromPos(const GenTime &pos) const;
 
 signals:
     void modelChanged();
 
-public:
-    // this is to enable for range loops
-    auto begin() -> decltype(m_markerList.begin()) { return m_markerList.begin(); }
-    auto end() -> decltype(m_markerList.end()) { return m_markerList.end(); }
 };
 Q_DECLARE_METATYPE(MarkerListModel *)
 
