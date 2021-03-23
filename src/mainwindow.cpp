@@ -140,7 +140,6 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
-
 {
 }
 
@@ -207,7 +206,6 @@ void MainWindow::init(const QString &mltPath)
     
     // Initialise MLT connection
     MltConnection::construct(mltPath);
-
     pCore->setCurrentProfile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
     m_commandStack = new QUndoGroup();
 
@@ -4178,6 +4176,11 @@ TimelineWidget *MainWindow::getMainTimeline() const
 TimelineWidget *MainWindow::getCurrentTimeline() const
 {
     return m_timelineTabs->getCurrentTimeline();
+}
+
+bool MainWindow::hasTimeline() const
+{
+    return m_timelineTabs != nullptr;
 }
 
 void MainWindow::resetTimelineTracks()

@@ -315,8 +315,12 @@ void MonitorManager::slotEnd()
 
 void MonitorManager::resetProfiles()
 {
-    m_clipMonitor->resetProfile();
-    m_projectMonitor->resetProfile();
+    if (m_clipMonitor) {
+        m_clipMonitor->resetProfile();
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->resetProfile();
+    }
 }
 
 void MonitorManager::resetConsumers(bool fullReset)
