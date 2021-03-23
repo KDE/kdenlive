@@ -244,6 +244,20 @@ Item {
             timeline.updateZone(start, end, update)
         }
     }
+
+    // Master effect zones
+    Repeater {
+        model: effectZones
+        Rectangle {
+            x: effectZones[index].x * timeline.scaleFactor
+            height: Math.ceil(zoneHeight/4)
+            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
+            color: "blueviolet"
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: zoneHeight - height - 1
+        }
+    }
+
     // Effect zone
     RulerZone {
         id: effectZone
@@ -257,23 +271,12 @@ Item {
             property: "frameOut"
             value: timeline.effectZone.y
         }
-        color: Qt.rgba(148, 0, 211,0.7)
+        color: "orchid"
         anchors.bottom: parent.bottom
-        height: zoneHeight
+        height: zoneHeight - 1
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)
-        }
-    }
-    Repeater {
-        model: effectZones
-        Rectangle {
-            x: effectZones[index].x * timeline.scaleFactor
-            height: 2
-            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
-            color: 'blueviolet'
-            opacity: 0.8
-            anchors.bottom: parent.bottom
         }
     }
 }
