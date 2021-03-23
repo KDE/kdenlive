@@ -1003,7 +1003,7 @@ void TitleWidget::slotUpdateZoom(int pos)
 {
     zoom_spin->setValue(pos);
     zoom_slider->setValue(pos);
-    m_scene->setZoom(pos / 100);
+    m_scene->setZoom(pos / 100.);
 }
 
 void TitleWidget::slotZoom(bool up)
