@@ -1247,6 +1247,7 @@ void Monitor::checkOverlay(int pos)
         return;
     }
     QString overlayText;
+    QColor color;
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
@@ -1264,9 +1265,10 @@ void Monitor::checkOverlay(int pos)
         CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
         if (found) {
             overlayText = marker.comment();
+            color = model->markerTypes.at(marker.markerType());
         }
     }
-    m_glMonitor->getControllerProxy()->setMarkerComment(overlayText);
+    m_glMonitor->getControllerProxy()->setMarker(overlayText, color);
 }
 
 int Monitor::getZoneStart()

@@ -44,7 +44,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
-    Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
+    Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
+    Q_PROPERTY(QColor markerColor MEMBER m_markerColor NOTIFY markerChanged)
     Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
@@ -73,7 +74,6 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
-    QString markerComment() const;
     const QString timecode() const;
     /** brief: update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
@@ -86,7 +86,7 @@ public:
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
     void positionFromConsumer(int pos, bool playing);
-    void setMarkerComment(const QString &comment);
+    void setMarker(const QString &comment, const QColor &color);
     int zoneIn() const;
     int zoneOut() const;
     void setZoneIn(int pos);
@@ -123,7 +123,7 @@ signals:
     void zoneChanged();
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
-    void markerCommentChanged();
+    void markerChanged();
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
@@ -155,6 +155,7 @@ private:
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;
+    QColor m_markerColor;
     QString m_clipName;
     QString m_clipStream;
     int m_clipType;

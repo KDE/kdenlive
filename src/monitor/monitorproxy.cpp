@@ -85,11 +85,6 @@ void MonitorProxy::setOverlayType(int ix)
     }
 }
 
-QString MonitorProxy::markerComment() const
-{
-    return m_markerComment;
-}
-
 bool MonitorProxy::setPosition(int pos)
 {
     if (m_position == pos) {
@@ -122,13 +117,14 @@ void MonitorProxy::positionFromConsumer(int pos, bool playing)
     }
 }
 
-void MonitorProxy::setMarkerComment(const QString &comment)
+void MonitorProxy::setMarker(const QString &comment, const QColor &color)
 {
     if (m_markerComment == comment) {
         return;
     }
     m_markerComment = comment;
-    emit markerCommentChanged();
+    m_markerColor = color;
+    emit markerChanged();
 }
 
 int MonitorProxy::zoneIn() const
