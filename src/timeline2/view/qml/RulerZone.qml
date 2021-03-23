@@ -55,14 +55,17 @@ Rectangle {
         Drag.proposedAction: Qt.MoveAction
         MouseArea {
             id: moveMouseArea
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.top: parent.top
+            width: parent.width
+            height: parent.height
             hoverEnabled: true
-            drag.target: rzone
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property var startZone
             onPressed: {
                 startZone = Qt.point(frameIn, frameOut)
+                anchors.left= undefined
             }
             onEntered: {
                 resizeActive = true
@@ -73,11 +76,12 @@ Rectangle {
             onReleased: {
                 updateZone(startZone, Qt.point(frameIn, frameOut), true)
                 resizeActive = false
+                anchors.left= parent.left
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     resizeActive = true
-                    var offset = Math.round(rzone.x/ timeline.scaleFactor) - frameIn
+                    var offset = Math.round(mouseX/ timeline.scaleFactor)
                     if (offset != 0) {
                         var newPos = Math.max(0, controller.suggestSnapPoint(frameIn + offset,root.snapping))
                         frameOut += newPos - frameIn
