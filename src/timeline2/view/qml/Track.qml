@@ -38,7 +38,7 @@ Item{
     }
 
     function isClip(type) {
-        return type != ProducerType.Composition && type != ProducerType.Track;
+        return type !== ProducerType.Composition && type !== ProducerType.Track;
     }
 
     width: clipRow.width
@@ -91,7 +91,7 @@ Item{
                     target: loader.item
                     property: "selected"
                     value: model.selected
-                    when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
+                    when: loader.status == Loader.Ready && model.clipType !== ProducerType.Track
                 }
                 Binding {
                     target: loader.item
@@ -393,7 +393,7 @@ Item{
         Composition {
             displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (root.baseUnit * 2))
             opacity: 0.8
-            selected: root.timelineSelection.indexOf(clipId) != -1
+            selected: root.timelineSelection.indexOf(clipId) !== -1
             onTrimmingIn: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
                 if (new_duration > 0) {
