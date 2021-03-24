@@ -3861,7 +3861,10 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 
 int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
 {
+    int cursorPosition = pCore->getTimelinePosition();
+    m_snaps->addPoint(cursorPosition);
     int snapped = m_snaps->getClosestPoint(pos);
+    m_snaps->removePoint(cursorPosition);
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 

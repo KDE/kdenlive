@@ -727,23 +727,14 @@ Rectangle {
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
-                    var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
-                    if (clipBeingDroppedId >= 0) {
-                        //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
-                        //fakeTrack = timeline.activeTrack
-                        //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    } else {
-                        frame = controller.suggestSnapPoint(frame, root.snapping)
-                        if (controller.normalEdit()) {
-                            //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
-                        } else {
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    if (clipBeingDroppedId == -1) {
+                        if (controller.normalEdit() == false) {
                             // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                             //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
                             //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     }
                 }
             }
@@ -837,7 +828,8 @@ Rectangle {
                     height: trackHeaders.height + subtitleTrackHeader.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
-                        zoomByWheel(wheel)
+                        verticalScroll(wheel)
+                        wheel.accepted = true
                     }
                 }
                 Rectangle {
@@ -1171,8 +1163,11 @@ Rectangle {
                     } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
+                            proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        } else if (mouse.y > ruler.guideLabelHeight) {
+                            proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                         }
-                        proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     if (mouse.y > ruler.height) {

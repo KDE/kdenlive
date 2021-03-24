@@ -477,12 +477,11 @@ Rectangle {
                 model: markers
                 delegate:
                 Item {
-                    anchors.fill: parent
                     visible: markerBase.x >= 0 && markerBase.x < clipRoot.width
                     Rectangle {
                         id: markerBase
                         width: 1
-                        height: parent.height
+                        height: container.height
                         x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
@@ -493,9 +492,7 @@ Rectangle {
                         radius: 2
                         width: mlabel.width + 4
                         height: mlabel.height
-                        anchors {
-                            bottom: parent.verticalCenter
-                        }
+                        y: mlabel.y
                         color: model.color
                         MouseArea {
                             z: 10
@@ -516,15 +513,11 @@ Rectangle {
                     }
                     Text {
                         id: mlabel
-                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit
+                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
                         text: textMetrics.elidedText
                         font: miniFont
-                        x: markerBase.x
-                        anchors {
-                            bottom: parent.verticalCenter
-                            topMargin: 2
-                            leftMargin: 2
-                        }
+                        x: markerBase.x + 1
+                        y: Math.min(label.height, container.height - height)
                         color: 'white'
                     }
                 }
@@ -798,7 +791,6 @@ Rectangle {
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
                         anchors {
-                            top: labelRect.top
                             left: labelRect.left
                             leftMargin: clipRoot.border.width
                         }

@@ -103,7 +103,7 @@ Item {
         color: 'orange'
         visible: rulerRoot.workingPreview > -1
     }
-    
+
     // Guides
     Repeater {
         model: guidesModel
@@ -165,7 +165,7 @@ Item {
                         onPositionChanged: {
                             if (pressed) {
                                 var newFrame = Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor)
-                                newFrame = controller.suggestSnapPoint(newFrame, root.snapping)
+                                newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 timeline.moveGuideWithoutUndo(markerBase.markerId,  newFrame)
                             }
                         }
