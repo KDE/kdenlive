@@ -84,6 +84,18 @@ Rectangle {
                     var offset = Math.round(mouseX/ timeline.scaleFactor)
                     if (offset != 0) {
                         var newPos = Math.max(0, controller.suggestSnapPoint(frameIn + offset,root.snapping))
+                        if (newPos == frameIn + offset) {
+                            // No snap at start, check end
+                            var newPos = Math.max(0, controller.suggestSnapPoint(frameOut + offset,root.snapping))
+                            if (newPos == frameOut + offset) {
+                                newPos = frameIn + offset
+                            } else {
+                                newPos = frameIn + (newPos - frameOut)
+                            }
+                        }
+                        if (newPos < 0) {
+                            newPos = frameIn + offset;
+                        }
                         frameOut += newPos - frameIn
                         frameIn = newPos
                     }
