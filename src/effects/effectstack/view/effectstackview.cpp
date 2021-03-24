@@ -173,9 +173,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
                 m_model->setActiveEffect(m_model->rowCount() - 1);
             }
         }
-        if (!added) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
-        } else {
+        if (added) {
             m_scrollTimer.start();
         }
     }

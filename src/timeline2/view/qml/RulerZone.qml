@@ -126,7 +126,7 @@ Rectangle {
     Rectangle {
         id: durationRect
         anchors.bottom: rzone.top
-        visible: (!useTimelineRuler && moveMouseArea.containsMouse) || ((useTimelineRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width) || (useTimelineRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active) || moveMouseArea.drag.active
+        visible: (!useTimelineRuler && moveMouseArea.containsMouse && !moveMouseArea.pressed) || ((useTimelineRuler || trimInMouseArea.drag.active || trimOutMouseArea.drag.active) && showZoneLabels && parent.width > 3 * width) || (useTimelineRuler && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active)
         anchors.horizontalCenter: parent.horizontalCenter
         width: durationLabel.contentWidth + 4
         height: durationLabel.contentHeight

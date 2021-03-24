@@ -498,7 +498,7 @@ void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 
 void RenderWidget::reloadGuides()
 {
-    double projectDuration = GenTime(pCore->projectDuration() - TimelineModel::seekDuration - 2, pCore->getCurrentFps()).ms() / 1000;
+    double projectDuration = GenTime(pCore->projectDuration() - 1, pCore->getCurrentFps()).ms() / 1000;
     QVariant startData = m_view.guide_start->currentData();
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
@@ -508,7 +508,7 @@ void RenderWidget::reloadGuides()
         double fps = pCore->getCurrentProfile()->fps();
         m_view.render_guide->setEnabled(!markers.isEmpty());
         if (!markers.isEmpty()) {
-            m_view.guide_start->addItem(i18n("Beginning"), "0");
+            m_view.guide_start->addItem(i18n("Beginning"), 0);
             m_view.create_chapter->setEnabled(true);
             for (const auto &marker : qAsConst(markers)) {
                 GenTime pos = marker.time();
@@ -516,7 +516,7 @@ void RenderWidget::reloadGuides()
                 m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
                 m_view.guide_end->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
             }
-            m_view.guide_end->addItem(i18n("End"), QString::number(projectDuration));
+            m_view.guide_end->addItem(i18n("End"), projectDuration);
             if (!startData.isNull()) {
                 int ix = qMax(0, m_view.guide_start->findData(startData));
                 m_view.guide_start->setCurrentIndex(ix);
@@ -1234,7 +1234,8 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;
     } else {
-        out = pCore->projectDuration() - 1;
+        // Remove last black frame
+        out = pCore->projectDuration() - 2;
     }
     QString overlayData;
     if (m_view.tc_overlay->checkState() == Qt::Checked) {
@@ -1429,12 +1430,14 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         double fps = profile->fps();
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        consumer.setAttribute(QStringLiteral("in"), int(GenTime(guideStart).frames(fps)));
-        consumer.setAttribute(QStringLiteral("out"), int(GenTime(guideEnd).frames(fps)));
-    } else {
-        consumer.setAttribute(QStringLiteral("in"), in);
-        consumer.setAttribute(QStringLiteral("out"), out);
+        in = int(GenTime(guideStart).frames(fps));
+        // End rendering at frame before last guide
+        out = int(GenTime(guideEnd).frames(fps)) - 1;
     }
+    
+    consumer.setAttribute(QStringLiteral("in"), in);
+    consumer.setAttribute(QStringLiteral("out"), out);
+
     // Audio Channels
     consumer.setAttribute(QStringLiteral("channels"), pCore->audioChannels());
 
@@ -1656,7 +1659,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
             renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
             QStringList argsJob = {KdenliveSettings::rendererpath(), playlistPath, renderedFile,
-                                   QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+                                   QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
             renderItem->setData(1, ParametersRole, argsJob);
             QDateTime t = QDateTime::currentDateTime();
             renderItem->setData(1, StartTimeRole, t);
@@ -1684,7 +1687,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
         renderItem->setData(1, LastFrameRole, in);
-        QStringList argsJob = {KdenliveSettings::rendererpath(), pl, renderedFile, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+        QStringList argsJob = {KdenliveSettings::rendererpath(), pl, renderedFile, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
         renderItem->setData(1, ParametersRole, argsJob);
         qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
         if (!exportAudio) {
@@ -2721,6 +2724,7 @@ void RenderWidget::parseScriptFiles()
             continue;
         }
         QString target = consumer.attribute(QStringLiteral("target"));
+        int out = consumer.attribute(QStringLiteral("out"), QStringLiteral("0")).toInt();
         if (target.isEmpty()) {
             continue;
         }
@@ -2730,6 +2734,7 @@ void RenderWidget::parseScriptFiles()
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
         item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
+        item->setData(1, Qt::UserRole + 2, out);
     }
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
     if (script) {
@@ -2761,6 +2766,7 @@ void RenderWidget::slotStartScript()
     auto *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
     if (item) {
         QString destination = item->data(1, Qt::UserRole).toString();
+        int out = item->data(1, Qt::UserRole + 2).toInt();
         if (QFile::exists(destination)) {
             if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
                 return;
@@ -2791,7 +2797,7 @@ void RenderWidget::slotStartScript()
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
-        QStringList argsJob = {KdenliveSettings::rendererpath(), path, destination, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
+        QStringList argsJob = {KdenliveSettings::rendererpath(), path, destination, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(1);

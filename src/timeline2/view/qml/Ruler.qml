@@ -250,11 +250,11 @@ Item {
         model: effectZones
         Rectangle {
             x: effectZones[index].x * timeline.scaleFactor
-            height: Math.ceil(zoneHeight/4)
+            height: zoneHeight - 1
             width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
             color: "blueviolet"
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: zoneHeight - height - 1
+            opacity: 0.4
         }
     }
 

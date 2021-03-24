@@ -332,7 +332,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         } else if (state != PlaylistState::VideoOnly) {
             continue;
         }
-        if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
             pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
             return false;
         }
@@ -418,7 +418,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
-    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
@@ -472,7 +472,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
-    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
@@ -487,10 +487,12 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     if (effect->isAudio()) {
         if (state == PlaylistState::VideoOnly) {
             // Cannot add effect to this clip
+            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
             return false;
         }
     } else if (state == PlaylistState::AudioOnly) {
         // Cannot add effect to this clip
+        pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         return false;
     }
     Fun undo = removeItem_lambda(effect->getId());
@@ -988,7 +990,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
-            if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+            if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
                 pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
                 continue;
             }

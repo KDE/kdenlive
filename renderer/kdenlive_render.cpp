@@ -47,6 +47,15 @@ int main(int argc, char **argv)
             pid = args.at(0).section(QLatin1Char(':'), 1).toInt();
             args.removeFirst();
         }
+        int in = -1;
+        int out = -1;
+        
+        if (args.count() > 1 && args.at(0) == QLatin1String("-out")) {
+            args.removeFirst();
+            out = args.at(0).toInt();
+            args.removeFirst();
+        }
+
         // Do we want a split render
         if (args.count() > 0 && args.at(0) == QLatin1String("-split")) {
             args.removeFirst();
@@ -121,8 +130,7 @@ int main(int argc, char **argv)
             fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
         }
-        int in = -1;
-        int out = -1;
+        
 
         // older MLT version, does not support embedded consumer in/out in xml, and current 
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
