@@ -83,10 +83,10 @@ Rectangle {
                     resizeActive = true
                     var offset = Math.round(mouseX/ timeline.scaleFactor)
                     if (offset != 0) {
-                        var newPos = Math.max(0, controller.suggestSnapPoint(frameIn + offset,root.snapping))
+                        var newPos = Math.max(0, controller.suggestSnapPoint(frameIn + offset,mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping))
                         if (newPos == frameIn + offset) {
                             // No snap at start, check end
-                            var newPos = Math.max(0, controller.suggestSnapPoint(frameOut + offset,root.snapping))
+                            var newPos = Math.max(0, controller.suggestSnapPoint(frameOut + offset,mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping))
                             if (newPos == frameOut + offset) {
                                 newPos = frameIn + offset
                             } else {
@@ -192,7 +192,7 @@ Rectangle {
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         resizeActive = true
-                        var newPos = controller.suggestSnapPoint(frameIn + Math.round(trimIn.x / timeline.scaleFactor), root.snapping)
+                        var newPos = controller.suggestSnapPoint(frameIn + Math.round(trimIn.x / timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                         if (newPos < 0) {
                             newPos = 0
                         }
@@ -241,7 +241,7 @@ Rectangle {
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         resizeActive = true
-                        frameOut = Math.max(controller.suggestSnapPoint(frameIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), root.snapping), frameIn + 1)
+                        frameOut = Math.max(controller.suggestSnapPoint(frameIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping), frameIn + 1)
                     }
                 }
             }
