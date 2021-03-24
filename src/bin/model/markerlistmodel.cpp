@@ -287,7 +287,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
     auto clipId = m_clipId;
     return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
-        Q_ASSERT(model->hasMarker(pos) == false);
+        Q_ASSERT(model->hasMarker(pos));
         int mid = model->getIdFromPos(pos);
         int row = model->getRowfromId(mid);
         model->m_markerList[mid].setComment(comment);
