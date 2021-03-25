@@ -203,7 +203,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
         twinfo->setMessageType(KMessageWidget::Warning);
         twinfo->setCloseButtonVisible(false);
         twinfo->setEnabled(true);
-        gridLayout_12->addWidget(twinfo, 3, 0, 1, 4, 0);
+        gridLayout_12->addWidget(twinfo, 3, 0, 1, 4);
     }
 
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
@@ -2525,7 +2525,6 @@ void TitleWidget::slotAnimStart(bool anim)
     } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
-        m_startViewport->setFlags(nullptr);
         if (!anim_end->isChecked()) {
             deleteAnimInfoText();
         }

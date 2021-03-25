@@ -55,7 +55,7 @@ bool OtioConvertions::getOtioConverters()
         return false;
     }
     QProcess listAdapters;
-    listAdapters.start(pyExec);
+    listAdapters.start(pyExec,QStringList());
     listAdapters.write(QStringLiteral(
                            "from opentimelineio import *\n"
                            "for a in plugins.ActiveManifest().adapters:\n"
