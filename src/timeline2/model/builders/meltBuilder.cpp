@@ -267,7 +267,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
         }
     }
-    for (auto compo : compositions) {
+    for (auto compo : qAsConst(compositions)) {
         timeline->plantMix(tid, compo);
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());

@@ -3502,7 +3502,7 @@ void TitleWidget::slotPatternBtnRemoveClicked()
     QModelIndexList items =  patternsList->selectionModel()->selectedIndexes();
     std::sort(items.begin(), items.end());
     std::reverse(items.begin(), items.end());
-    for (auto idx : items) {
+    for (auto idx : qAsConst(items)) {
         m_patternsModel->removeScene(idx);
     }
     btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);

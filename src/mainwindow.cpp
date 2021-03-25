@@ -3901,7 +3901,7 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 void MainWindow::updateDockTitleBars(bool isTopLevel)
 {
     QList<QTabBar *> tabbars = findChildren<QTabBar *>();
-    for (QTabBar *tab : tabbars) {
+    for (QTabBar *tab : qAsConst(tabbars)) {
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
     }

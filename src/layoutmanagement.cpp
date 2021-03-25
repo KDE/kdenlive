@@ -224,7 +224,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         // Activate layout button
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
         bool buttonFound = false;
-        for (auto *button : buttons) {
+        for (auto *button : qAsConst(buttons)) {
             if (button->property("layoutid").toString() == layoutId) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -299,7 +299,7 @@ void LayoutManagement::slotSaveLayout()
     // Activate layout button
     if(names.first != nullptr) {
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
-        for (auto *button : buttons) {
+        for (auto *button : qAsConst(buttons)) {
             if (button->text() == names.first) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -399,7 +399,7 @@ void LayoutManagement::slotManageLayouts()
         }
 
         // Re-add missing default layouts
-        for (const QString &name : defaultLayoutNames) {
+        for (const QString &name : qAsConst(defaultLayoutNames)) {
             if (!currentNames.contains(name) && translatedLayoutNames.contains(name)) {
                 // Insert default layout
                 QListWidgetItem *item = new QListWidgetItem(translatedLayoutNames.value(name));

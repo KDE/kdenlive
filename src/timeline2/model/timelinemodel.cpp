@@ -1584,7 +1584,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             // Find first possible audio target
             QList <int> audioTargetTracks = m_audioTarget.keys();
             trackId = -1;
-            for (int tid : audioTargetTracks) {
+            for (int tid : qAsConst(audioTargetTracks)) {
                 if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
                     trackId = tid;
                     break;

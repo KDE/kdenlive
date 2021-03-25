@@ -114,7 +114,7 @@ void KeyframeView::slotDuplicateKeyframe()
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         int delta = m_position - m_currentKeyframe;
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             m_model->duplicateKeyframeWithUndo(GenTime(kf + offset, pCore->getCurrentFps()), GenTime(kf + delta + offset, pCore->getCurrentFps()), undo, redo);
         }
         pCore->pushUndo(undo, redo, i18n("Duplicate keyframe"));
@@ -243,7 +243,7 @@ void KeyframeView::slotCenterKeyframe()
     QVector<int>currentSelection = m_selectedKeyframes;
     int sourcePosition = m_currentKeyframeOriginal;
     QVector<int>updatedSelection;
-    for (int kf : m_selectedKeyframes) {
+    for (int kf : qAsConst(m_selectedKeyframes)) {
         if (kf == 0) {
             // Don't allow moving first keyframe
             continue;
@@ -395,14 +395,14 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             if (!m_model->hasKeyframe(pos + offset)) {
                 int delta = pos - m_currentKeyframe;
                 // Check that the move is possible
-                for (int kf : m_selectedKeyframes) {
+                for (int kf : qAsConst(m_selectedKeyframes)) {
                     int updatedPos = kf + offset + delta;
                     if (!m_selectedKeyframes.contains(updatedPos) && m_model->hasKeyframe(updatedPos)) {
                         // Don't allow moving over another keyframe
                         return;
                     }
                 }
-                for (int kf : m_selectedKeyframes) {
+                for (int kf : qAsConst(m_selectedKeyframes)) {
                     if (kf == 0) {
                         // Don't allow moving first keyframe
                         continue;
@@ -521,7 +521,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         } else {
             std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end(), std::greater<>());
         }
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
                 continue;
@@ -539,7 +539,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         } else {
             std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end());
         }
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
                 continue;
@@ -787,7 +787,7 @@ void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
     int offset = pCore->getItemIn(m_model->getOwnerId());
     qDebug()<<"=== COPYING VALS: "<<val<<", PARAM NAME_ "<<paramName;
     auto *parentCommand = new QUndoCommand();
-    for (int kf : m_selectedKeyframes) {
+    for (int kf : qAsConst(m_selectedKeyframes)) {
         QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));
         if (paramName == QLatin1String("spinX")) {

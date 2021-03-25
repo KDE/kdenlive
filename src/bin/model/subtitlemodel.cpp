@@ -977,7 +977,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         	out<<styleSection<<endl;
         	out<<eventSection;
         }
-        for (const auto &entry : list) {
+        for (const auto &entry : qAsConst(list)) {
             if (!entry.isObject()) {
                 qDebug() << "Warning : Skipping invalid subtitle data";
                 continue;

@@ -411,7 +411,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
         m_height = height;
     }
 
-    for (auto i : items) {
+    for (auto i : qAsConst(items)) {
         m_scene->addItem(i);
     }
     return res;
