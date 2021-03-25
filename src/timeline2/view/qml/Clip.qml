@@ -675,6 +675,8 @@ Rectangle {
                         } else {
                             endDrag()
                         }
+                    } else {
+                        root.groupTrimData = undefined
                     }
                 }
                 onDoubleClicked: {
