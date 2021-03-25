@@ -247,9 +247,9 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const
         auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
         if (parentCommand == nullptr) {
             pCore->pushUndo(command);
-        }
+        } // clang-tidy: else "command" is leaked? no because is was pushed to parentCommand
     }
-    return true;
+    return true; // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
 }
 
 bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index)

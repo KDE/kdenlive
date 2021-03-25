@@ -52,7 +52,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, 100, frameSize, false,
                                 m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), true, this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
-    connect(m_geom, &GeometryWidget::updateMonitorGeometry, [this](const QRect r) {
+    connect(m_geom, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
             pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
         }

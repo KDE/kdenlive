@@ -217,7 +217,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
-    connect(m_buttonApply, &QAbstractButton::pressed, [this]() {
+    connect(m_buttonApply, &QAbstractButton::pressed, this, [this]() {
         QMultiMap<QPersistentModelIndex, QString> paramList;
         QList<QPersistentModelIndex> rectParams;
         for (const auto &w : m_parameters) {
@@ -477,7 +477,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 this, [this, index](const QString v) {
                     emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
-        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, [this](const QRect r) {
+        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
                     if (m_model->isActive()) {
                         pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
                     }

@@ -218,7 +218,7 @@ QList<int> TimelineModel::getTracksIds(bool audio) const
 
 int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
-    Q_ASSERT(pos >= 0 && pos < m_allTracks.size());
+    Q_ASSERT(pos >= 0 && pos < int(m_allTracks.size()));
     READ_LOCK();
     auto it = m_allTracks.cbegin();
     while (pos > 0) {

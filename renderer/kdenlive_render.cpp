@@ -149,10 +149,10 @@ int main(int argc, char **argv)
         LocaleHandling::resetAllLocale();
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
         rJob->start();
-        QObject::connect(rJob, &RenderJob::renderingFinished, [&, rJob]() {
+        QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&, rJob]() {
             rJob->deleteLater();
             app.quit();
-        }); 
+        });
         return app.exec();
     } else {
         fprintf(stderr,
