@@ -685,7 +685,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     }
     if (d->exec() == QDialog::Accepted) {
         QList<int> allIds = d->toDeleteTrackIds();
-        for (int selectedTrackIx : allIds) {
+        for (int selectedTrackIx : qAsConst(allIds)) {
             result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
             if (!result) {
                 break;
@@ -2436,7 +2436,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     int vTrack = -1;
     if (clip->hasAudio() && !m_model->m_audioTarget.isEmpty()) {
         QList<int> audioTracks = m_model->m_audioTarget.keys();
-        for (int tid : audioTracks) {
+        for (int tid : qAsConst(audioTracks)) {
             if (m_model->getTrackById_const(tid)->shouldReceiveTimelineOp()) {
                 aTrack = tid;
                 break;

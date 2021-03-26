@@ -187,7 +187,7 @@ QString Timecode::getTimecode(const GenTime &time) const
         return getTimecodeSeconds(time);
         break;
     default:
-        qCWarning(KDENLIVE_LOG) << "Unknown timecode format specified, defaulting to HH_MM_SS_FF" << endl;
+        qCWarning(KDENLIVE_LOG) << "Unknown timecode format specified, defaulting to HH_MM_SS_FF" << '\n';
         return getTimecodeHH_MM_SS_FF(time);
     }
 }

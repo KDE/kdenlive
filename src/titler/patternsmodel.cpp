@@ -128,7 +128,7 @@ QByteArray PatternsModel::serialize()
     QByteArray encodedData;
     QDataStream stream(&encodedData, QIODevice::WriteOnly);
 
-    for (auto p : patterns) {
+    for (const auto &p : qAsConst(patterns)) {
         stream << p;
     }
     modified_counter = 0;

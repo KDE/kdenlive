@@ -218,7 +218,7 @@ QList<int> TimelineModel::getTracksIds(bool audio) const
 
 int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
-    Q_ASSERT(pos >= 0 && pos < m_allTracks.size());
+    Q_ASSERT(pos >= 0 && pos < int(m_allTracks.size()));
     READ_LOCK();
     auto it = m_allTracks.cbegin();
     while (pos > 0) {
@@ -1584,7 +1584,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             // Find first possible audio target
             QList <int> audioTargetTracks = m_audioTarget.keys();
             trackId = -1;
-            for (int tid : audioTargetTracks) {
+            for (int tid : qAsConst(audioTargetTracks)) {
                 if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
                     trackId = tid;
                     break;

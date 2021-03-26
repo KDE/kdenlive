@@ -973,11 +973,11 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         QTextStream out(&outF);
         out.setCodec("UTF-8");
         if (assFormat) {
-        	out<<scriptInfoSection<<endl;
-        	out<<styleSection<<endl;
-        	out<<eventSection;
+            out<<scriptInfoSection<<'\n';
+            out<<styleSection<<'\n';
+            out<<eventSection;
         }
-        for (const auto &entry : list) {
+        for (const auto &entry : qAsConst(list)) {
             if (!entry.isObject()) {
                 qDebug() << "Warning : Skipping invalid subtitle data";
                 continue;
@@ -1031,10 +1031,10 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(millisec,3,10,QChar('0'));
             line++;
             if (assFormat) {
-            	//Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
-            	out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
+                //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+                out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<'\n';
             } else {
-                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<endl;
+                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<'\n';
             }
             
             //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();

@@ -4424,7 +4424,7 @@ QList<int> Bin::getUsedClipIds()
 {
     QList<int> timelineClipIds;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for(auto clip : allClipIds) {
+    for(auto clip : qAsConst(allClipIds)) {
         if(clip->isIncludedInTimeline()) {
             timelineClipIds.push_back(clip->binId().toInt());
         }

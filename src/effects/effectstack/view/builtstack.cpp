@@ -19,6 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include <KLocalizedContext>
+
 #include "builtstack.hpp"
 #include "assets/assetpanel.hpp"
 #include "core.h"
@@ -35,10 +37,10 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     , m_model(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
-    QQmlEngine *eng = engine();
-    kdeclarative.setDeclarativeEngine(eng);
-    kdeclarative.setupEngine(eng);
-    kdeclarative.setupContext();
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setupEngine(engine());
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+
     // qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);

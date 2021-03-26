@@ -1590,7 +1590,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         audioOffsetCalculated = true;
     }
 
-    for (int oldPos : singleAudioTracks) {
+    for (int oldPos : qAsConst(singleAudioTracks)) {
         if (tracksMap.contains(oldPos)) {
             continue;
         }

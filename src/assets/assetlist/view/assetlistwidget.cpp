@@ -19,6 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include <KLocalizedContext>
+
 #include "assetlistwidget.hpp"
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
@@ -37,7 +39,7 @@ AssetListWidget::AssetListWidget(QWidget *parent)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-    kdeclarative.setupContext();
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 }
 
 AssetListWidget::~AssetListWidget()

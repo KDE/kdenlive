@@ -2169,7 +2169,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
             emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
         }
     }
-    for (int i : toDelete) {
+    for (int i : qAsConst(toDelete)) {
         m_sameCompositions.erase(i);
     }
 }

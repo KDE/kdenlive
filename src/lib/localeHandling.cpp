@@ -64,7 +64,7 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
 
     // Parse installed locales to find one matching. Check matching language first
     QList<QLocale> list = QLocale::matchingLocales(QLocale().language(), QLocale().script(), QLocale::AnyCountry);
-    for (const QLocale &loc : list) {
+    for (const QLocale &loc : qAsConst(list)) {
         if (loc.decimalPoint() == decimalPoint) {
             locale = loc;
             matchType = MatchType::Exact;
@@ -75,7 +75,7 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
     if (matchType == MatchType::NoMatch) {
         // Parse installed locales to find one matching. Check in all languages
         list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-        for (const QLocale &loc : list) {
+        for (const QLocale &loc : qAsConst(list)) {
             if (loc.decimalPoint() == decimalPoint) {
                 locale = loc;
                 matchType = MatchType::DecimalOnly;

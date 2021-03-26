@@ -59,7 +59,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 
     message_line->hide();
 
-    for (QPair<QString, QString> provider : ProvidersRepository::get()->getAllProviers()) {
+    for (const QPair<QString, QString> &provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
         switch(ProvidersRepository::get()->getProvider(provider.second)->type()){
         case ProviderModel::AUDIO:

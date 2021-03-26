@@ -1114,7 +1114,7 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("kdenlive:baseid"), m_binId);
     QStringList playZones;
-    for (const auto&p : zones) {
+    for (const auto&p : qAsConst(zones)) {
         playZones << QString("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
@@ -1186,7 +1186,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
                 clipNameLabel->setText(refClip->clipName());
             }
             QStringList zones = clip->getProducerProperty("kdenlive:cutzones").split(QLatin1Char(';'));
-            for (const QString &z : zones) {
+            for (const QString &z : qAsConst(zones)) {
                 cutZones << QPoint(z.section(QLatin1Char(':'), 0, 0).toInt(), z.section(QLatin1Char(':'), 1, 1).toInt());
             }
         } else {
