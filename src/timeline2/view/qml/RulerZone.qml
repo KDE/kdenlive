@@ -71,17 +71,22 @@ Rectangle {
                 resizeActive = true
             }
             onExited: {
-                resizeActive = false
+                if (!pressed) {
+                    resizeActive = false
+                }
             }
             onReleased: {
+                console.log("========\n\nZONE MOVE MOUSE RELEASED!!!!!!!!\n\n===============")
                 updateZone(startZone, Qt.point(frameIn, frameOut), true)
                 resizeActive = false
                 anchors.left= parent.left
             }
             onPositionChanged: {
+                console.log("MOUSE MOVE EVENT...")
                 if (mouse.buttons === Qt.LeftButton) {
                     resizeActive = true
                     var offset = Math.round(mouseX/ timeline.scaleFactor)
+                    console.log("MOUSE MOVE OFFSET: ", offset)
                     if (offset != 0) {
                         var newPos = Math.max(0, controller.suggestSnapPoint(frameIn + offset,mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping))
                         if (newPos == frameIn + offset) {

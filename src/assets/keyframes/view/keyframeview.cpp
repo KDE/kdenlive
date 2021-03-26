@@ -31,10 +31,11 @@
 #include <QFontDatabase>
 #include <utility>
 
-KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent)
+KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, int inPoint, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_duration(duration)
+    , m_inPoint(inPoint)
     , m_position(0)
     , m_currentKeyframe(-1)
     , m_currentKeyframeOriginal(-1)
@@ -182,9 +183,10 @@ void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
     pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
-void KeyframeView::setDuration(int dur)
+void KeyframeView::setDuration(int dur, int inPoint)
 {
     m_duration = dur;
+    m_inPoint = inPoint;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
@@ -202,10 +204,10 @@ void KeyframeView::slotGoToNext()
     auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1));
+        emit seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1) + m_inPoint);
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        emit seekToPos(m_duration - 1 + m_inPoint);
     }
 }
 
@@ -221,10 +223,10 @@ void KeyframeView::slotGoToPrev()
     auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
+        emit seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset) + m_inPoint);
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        emit seekToPos(m_duration - 1 + m_inPoint);
     }
 }
 
@@ -308,7 +310,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 if (m_currentKeyframeOriginal > -1) {
                     m_moveKeyframeMode = true;
                     if (KdenliveSettings::keyframeseek()) {
-                        emit seekToPos(m_currentKeyframeOriginal);
+                        emit seekToPos(m_currentKeyframeOriginal + m_inPoint);
                     } else {
                         update();
                     }
@@ -342,7 +344,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             return;
         }
     }
-    emit seekToPos(pos);
+    emit seekToPos(pos + m_inPoint);
     update();
 }
 
@@ -447,7 +449,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         }
         
         if (!m_moveKeyframeMode || KdenliveSettings::keyframeseek()) {
-            emit seekToPos(pos);
+            emit seekToPos(pos + m_inPoint);
         }
         return;
     }
@@ -627,7 +629,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
-    emit seekToPos(pos);
+    emit seekToPos(pos + m_inPoint);
 }
 
 void KeyframeView::paintEvent(QPaintEvent *event)

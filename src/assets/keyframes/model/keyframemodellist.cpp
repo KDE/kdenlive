@@ -390,6 +390,25 @@ KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index
     return nullptr;
 }
 
+void KeyframeModelList::moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo)
+{
+    // Get list of keyframes positions
+    QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
+    GenTime offset(in - oldIn, pCore->getCurrentFps());
+    if (in > oldIn) {
+        // Moving to the right, process in reverse order to prevent collisions
+        std::sort(positions.begin(), positions.end(), std::greater<>());
+    } else {
+        std::sort(positions.begin(), positions.end());
+    }
+    for (const auto &param : m_parameters) {
+        for (auto frame : qAsConst(positions)) {
+            param.second->moveKeyframe(frame, frame + offset, QVariant(), undo, redo);
+        }
+    }
+}
+
+
 void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
     bool ok;

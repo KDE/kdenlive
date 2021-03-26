@@ -576,6 +576,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
         }
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(leaf);
         if (fadeInDuration > 0 && m_fadeIns.count(leaf->getId()) > 0) {
+            // Adjust fade in
             int oldEffectIn = qMax(0, effect->filter().get_in());
             int oldEffectOut = effect->filter().get_out();
             qDebug() << "--previous effect: " << oldEffectIn << "-" << oldEffectOut;
@@ -625,6 +626,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 }
             }
         } else if (fadeOutDuration > 0 && m_fadeOuts.count(leaf->getId()) > 0) {
+            // Adjust fade out
             int effectDuration = qMin(fadeOutDuration, duration);
             int newFadeIn = out - effectDuration;
             int oldFadeIn = effect->filter().get_int("in");
@@ -655,6 +657,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             }
         } else {
             // Not a fade effect, check for keyframes
+            bool hasZone = effect->filter().get_int("kdenlive:force_in_out") == 1;
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
@@ -670,7 +673,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             } else {
                 qDebug() << "// NULL Keyframes---------";
             }
-            if (m_ownerId.first == ObjectType::TimelineTrack && effect->filter().get_int("kdenlive:force_in_out") == 0) {
+            if (m_ownerId.first == ObjectType::TimelineTrack && !hasZone) {
                 int oldEffectOut = effect->filter().get_out();
                 Fun operation = [effect, out, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), out, logUndo);
