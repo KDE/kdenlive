@@ -32,8 +32,8 @@ class KeyframeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
-    void setDuration(int dur);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, int inPoint, QWidget *parent = nullptr);
+    void setDuration(int dur, int inPoint);
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
     void copyCurrentValue(QModelIndex ix, const QString paramName);
@@ -76,6 +76,7 @@ protected:
 private:
     std::shared_ptr<KeyframeModelList> m_model;
     int m_duration;
+    int m_inPoint;
     int m_position;
     int m_currentKeyframe;
     int m_currentKeyframeOriginal;

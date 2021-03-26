@@ -49,7 +49,6 @@ public:
     /** @brief Add a new parameter to be managed using the same keyframe viewer */
     void addParameter(const QPersistentModelIndex &index);
     int getPosition() const;
-    void addKeyframe(int pos = -1);
     /** @brief Returns the monitor scene required for this asset
      */
     MonitorSceneType requiredScene() const;

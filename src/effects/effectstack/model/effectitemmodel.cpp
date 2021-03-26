@@ -269,6 +269,19 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds,
         emit showEffectZone(m_ownerId, bounds, enabled);
         return true;
     };
+    std::shared_ptr<KeyframeModelList> keyframes = getKeyframeModel();
+    if (keyframes != nullptr) {
+        // Effect has keyframes, update these
+        const QModelIndex start = AssetParameterModel::index(0, 0);
+        const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
+        Fun refresh = [this, start, end]() {
+            emit dataChanged(start, end, QVector<int>());
+            return true;
+        };
+        refresh();
+        PUSH_LAMBDA(refresh, redo);
+        PUSH_LAMBDA(refresh, undo);
+    }
     redo();
     if (withUndo) {
         pCore->pushUndo(undo, redo, i18n("Update zone for %1", effectName));
