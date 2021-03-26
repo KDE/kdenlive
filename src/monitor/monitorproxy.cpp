@@ -39,6 +39,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_zoneIn(0)
     , m_zoneOut(-1)
     , m_hasAV(false)
+    , m_speed(0)
     , m_clipType(0)
     , m_clipId(-1)
     , m_seekFinished(true)
@@ -394,4 +395,13 @@ void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const
 {
     pCore->setWidgetKeyBinding(text);
+}
+
+void MonitorProxy::setSpeed(double speed)
+{
+    if (qAbs(m_speed) > 1. || qAbs(speed) > 1.) {
+        // check if we have or had a speed > 1 or < -1
+        m_speed = speed;
+        emit speedChanged();
+    }
 }

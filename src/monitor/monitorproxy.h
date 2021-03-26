@@ -50,6 +50,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
@@ -115,6 +116,8 @@ public:
     void setTimeCode(TimecodeDisplay *td);
     /** @brief When the producer changes, ensure we reset the stored position*/
     void resetPosition();
+    /** @brief Used to display qml info about speed*/
+    void setSpeed(double speed);
 
 signals:
     void positionChanged(int);
@@ -145,6 +148,7 @@ signals:
     void profileChanged();
     void autoKeyframeChanged();
     void timecodeChanged();
+    void speedChanged();
 
 private:
     GLWidget *q;
@@ -152,6 +156,7 @@ private:
     int m_zoneIn;
     int m_zoneOut;
     bool m_hasAV;
+    double m_speed;
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;

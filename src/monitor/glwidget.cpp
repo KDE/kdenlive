@@ -691,6 +691,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             }
             m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
             m_producer->set_speed(1.0);
+            m_proxy->setSpeed(1.);
             m_consumer->set("refresh", 1);
             return true;
         }
@@ -700,6 +701,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         if (pos >= (maxPos - 1) && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
+            m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_proxy->setPosition(qMax(0, maxPos));
@@ -708,6 +710,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         } else if (pos <= 0 && speed < 0.) {
             // rewinding reached 0, pause
             m_producer->set_speed(0);
+            m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_proxy->setPosition(0);
@@ -913,6 +916,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     }
     // redundant check. postcondition of above is m_producer != null
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     error = reconfigure();
     if (error == 0) {
         // The profile display aspect ratio may have changed.
@@ -1616,6 +1620,7 @@ void GLWidget::switchPlay(bool play, double speed)
         }
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
+        m_proxy->setSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
         } else {
@@ -1632,6 +1637,7 @@ void GLWidget::switchPlay(bool play, double speed)
     } else {
         emit paused();
         m_producer->set_speed(0);
+        m_proxy->setSpeed(0);
         m_producer->seek(m_consumer->position() + 1);
         m_consumer->purge();
         m_consumer->start();
@@ -1646,6 +1652,7 @@ bool GLWidget::playZone(bool loop)
     }
     m_producer->seek(m_proxy->zoneIn());
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     m_consumer->purge();
     m_producer->set("out", m_proxy->zoneOut());
     m_producer->set_speed(1.0);
@@ -1683,6 +1690,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_loopIn = inOut.x();
     m_producer->seek(inOut.x());
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     m_consumer->purge();
     m_producer->set("out", inOut.y());
     m_producer->set_speed(1.0);
@@ -1754,6 +1762,7 @@ void GLWidget::stop()
             resetZoneMode();
         }
         m_producer->set_speed(0.0);
+        m_proxy->setSpeed(0);
     }
     if (m_consumer) {
         m_consumer->purge();

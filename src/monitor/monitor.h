@@ -225,7 +225,6 @@ private:
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;
-    QLabel *m_speedLabel;
     int m_speedIndex;
     QMetaObject::Connection m_switchConnection;
 
@@ -234,8 +233,6 @@ private:
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
-    /** @brief Reset and hide speed info label */
-    void resetSpeedInfo();
 
 private slots:
     void slotSetThumbFrame();
