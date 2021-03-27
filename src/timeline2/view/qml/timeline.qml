@@ -1687,8 +1687,10 @@ Rectangle {
                                     id: dragContainer
                                     z: 100
                                 }
-                                Repeater { id: guidesRepeater; model: guidesDelegateModel }
                             }
+                        }
+                        Repeater { id: guidesRepeater;
+                            model: guidesDelegateModel
                         }
                         Rectangle {
                             id: cursor
@@ -1696,7 +1698,7 @@ Rectangle {
                             color: root.textColor
                             width: 1
                             opacity: 1
-                            height: tracksContainerArea.height + subtitleTrack.height
+                            height: tracksContainerArea.height
                             x: root.consumerPosition * timeline.scaleFactor
                             Rectangle {
                                 color: root.textColor
@@ -1839,7 +1841,7 @@ Rectangle {
             Rectangle {
                 id: guideBase
                 width: 1
-                height: tracksContainer.height
+                height: tracksContainerArea.height
                 x: model.frame * timeScale;
                 color: model.color
             }
