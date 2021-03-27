@@ -20,6 +20,8 @@
 #include "slideshowclip.h"
 #include "bin/projectclip.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "core.h"
 
 #include <KFileItem>
 #include <KRecentDirs>
@@ -115,29 +117,41 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     connect(m_view.folder_url, &KUrlRequester::textChanged, this, &SlideshowClip::parseFolder);
     connect(m_view.pattern_url, &KUrlRequester::textChanged, this, &SlideshowClip::parseFolder);
 
-    // Check for Kdenlive installed luma files
-    QStringList filters;
-    filters << QStringLiteral("*.pgm") << QStringLiteral("*.png");
-
-    const QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    for (const QString &folder : customLumas) {
-        QDir directory(folder);
-        const QStringList filesnames = directory.entryList(filters, QDir::Files);
-        for (const QString &fname : filesnames) {
-            QString filePath = directory.absoluteFilePath(fname);
-            m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
-        }
+    // Fill luma list
+    m_view.luma_file->setIconSize(QSize(50, 30));
+    QStringList values;
+    if (pCore->getCurrentFrameSize().width() > 1000) {
+        // HD project
+        values = MainWindow::m_lumaFiles.value(QStringLiteral("16_9"));
+    } else if (pCore->getCurrentFrameSize().height() > 1000) {
+        values = MainWindow::m_lumaFiles.value(QStringLiteral("9_16"));
+    } else if (pCore->getCurrentFrameSize().height() == pCore->getCurrentFrameSize().width()) {
+        values = MainWindow::m_lumaFiles.value(QStringLiteral("square"));
+    } else if (pCore->getCurrentFrameSize().height() == 480) {
+        values = MainWindow::m_lumaFiles.value(QStringLiteral("NTSC"));
+    } else {
+        values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
     }
+    values.removeDuplicates();
 
-    // Check for MLT lumas
-    QString profilePath = KdenliveSettings::mltpath();
-    QString folder = profilePath.section(QLatin1Char('/'), 0, -3);
-    folder.append(QStringLiteral("/lumas/PAL")); // TODO: cleanup the PAL / NTSC mess in luma files
-    QDir lumafolder(folder);
-    QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    for (const QString &fname : qAsConst(filesnames)) {
-        QString filePath = lumafolder.absoluteFilePath(fname);
-        m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
+    QStringList names;
+    for (const QString &value : qAsConst(values)) {
+        names.append(QUrl(value).fileName());
+    }
+    for (int i = 0; i < values.count(); i++) {
+        const QString &entry = values.at(i);
+        // Create thumbnails
+        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
+            if (MainWindow::m_lumacache.contains(entry)) {
+                m_view.luma_file->addItem(QPixmap::fromImage(MainWindow::m_lumacache.value(entry)), names.at(i), entry);
+            } else {
+                QImage pix(entry);
+                if (!pix.isNull()) {
+                    MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                    m_view.luma_file->addItem(QPixmap::fromImage(MainWindow::m_lumacache.value(entry)), names.at(i), entry);
+                }
+            }
+        }
     }
 
     if (clip) {
