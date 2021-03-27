@@ -114,7 +114,8 @@ int main(int argc, char *argv[])
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
-
+#endif
+#if defined(Q_OS_WIN) || defined (Q_OS_MACOS)
     const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
     for(const QString theme : themes ) {
         const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
