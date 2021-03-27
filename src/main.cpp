@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Init DBus services
-    KDBusService programDBusService;
+    KDBusService programDBusService(KDBusService::NoExitOnFailure);
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
