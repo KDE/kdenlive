@@ -74,7 +74,7 @@ void MonitorProxy::seek(int delta, uint modifiers)
 
 int MonitorProxy::overlayType() const
 {
-    return (q->m_id == int(Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides()));
+    return (q->m_id == int(Kdenlive::ClipMonitor) ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());
 }
 
 void MonitorProxy::setOverlayType(int ix)

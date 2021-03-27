@@ -37,7 +37,7 @@ Item {
     property bool hoverGuide: false
     property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
     property var effectZones: timeline.masterEffectZones
-    property int guideLabelHeight: timeline.showMarkers ? Math.round(fontMetrics.height) : 0
+    property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height + 2 : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
     
     function adjustStepSize() {
@@ -130,11 +130,11 @@ Item {
                     Text {
                         id: mlabel
                         text: model.comment
-                        topPadding: -2
+                        bottomPadding: 2
                         leftPadding: 2
                         rightPadding: 2
                         font: miniFont
-                        color: '#FFF'
+                        color: '#000'
                     }
                     MouseArea {
                         z: 10
