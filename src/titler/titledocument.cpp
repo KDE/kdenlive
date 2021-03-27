@@ -396,13 +396,14 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     return result;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
+int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
 
     QList<QGraphicsItem *> items;
+
     int width, height;
-    int res = loadFromXml(doc, items, width, height, startv, endv, duration, m_missingElements);
+    int res = loadFromXml(doc, items, width, height, scene, startv, endv, duration, m_missingElements);
 
     if (m_width != width || m_height != height) {
         KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
@@ -417,7 +418,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
     return res;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
+int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
 {
     for (auto * i : gitems) {
         delete i;
@@ -710,11 +711,15 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                 // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
-                for (auto sceneItem : qAsConst(gitems)) {
-                    if (int(sceneItem->zValue()) == -1100) {
-                        static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
-                        break;
+                if (scene) {
+                    QList<QGraphicsItem *> sceneItems = scene->items();
+                    for (auto sceneItem : qAsConst(sceneItems)) {
+                        if (int(sceneItem->zValue()) == -1100) {
+                            static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
+                            break;
+                        }
                     }
+                    scene->setBackgroundBrush(QBrush(color));
                 }
             } else if (itemNode.nodeName() == QLatin1String("startviewport") && (startv != nullptr)) {
                 QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();
