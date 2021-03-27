@@ -5,6 +5,7 @@
     <comment xml:lang="az">Kdenlive video layihəsi sənədi</comment>
     <comment xml:lang="ca">Document de projecte de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Document de projecte de vídeo del Kdenlive</comment>
+    <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
     <comment xml:lang="es">Proyecto de video de Kdenlive</comment>
@@ -30,6 +31,7 @@
     <comment xml:lang="az">Kdenlive video başlığı</comment>
     <comment xml:lang="ca">Títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
+    <comment xml:lang="cs">Název videa Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videotitel</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
     <comment xml:lang="es">Título de video de Kdenlive</comment>
@@ -54,6 +56,7 @@
     <comment xml:lang="az">Kdenlive tətbiq qatı</comment>
     <comment xml:lang="ca">Disposició de l'aplicació Kdenlive</comment>
     <comment xml:lang="ca@valencia">Disposició de l'aplicació Kdenlive</comment>
+    <comment xml:lang="cs">Rozvržení aplikace Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive application layout</comment>
     <comment xml:lang="es">Organización de paneles de Kdenlive</comment>
     <comment xml:lang="eu">Kdenlive aplikazioaren antolaera</comment>
