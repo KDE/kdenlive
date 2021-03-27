@@ -43,9 +43,11 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
 
     // Set  up categories
     static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
-    for (int i = 0; i < 9; ++i) {
-        marker_type->insertItem(i, i18n("Category %1", i));
-        marker_type->setItemData(i, markerTypes[size_t(i)], Qt::DecorationRole);
+    QPixmap pixmap(32,32);
+    for (uint i = 0; i < markerTypes.size(); ++i) {
+        pixmap.fill(markerTypes[size_t(i)]);
+        QIcon colorIcon(pixmap);
+        marker_type->addItem(colorIcon, i18n("Category %1", i));
     }
     marker_type->setCurrentIndex(t.markerType());
 
