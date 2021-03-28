@@ -233,7 +233,7 @@ Item {
                 background: Rectangle {
                     color: controller.markerColor
                 }
-                color: "#ffffff"
+                color: "#000"
                 padding: 0
                 maximumLength: 25
             }
