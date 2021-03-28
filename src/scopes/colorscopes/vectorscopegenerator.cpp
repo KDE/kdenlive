@@ -150,6 +150,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
             v = 0.002411 * r - 0.002019 * g - 0.0003921 * b;
             break;
         case VectorscopeGenerator::ColorSpace_YPbPr:
+        default:
             //             y = (double)  0.001173 * r +0.002302 * g +0.0004471* b;
             u = -0.0006671 * r - 0.001299 * g + 0.0019608 * b;
             v = 0.001961 * r - 0.001642 * g - 0.0003189 * b;
@@ -177,6 +178,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2 * u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
+                default:
                     dr = dy + 357.5 * v;
                     dg = dy - 87.75 * u - 182 * v;
                     db = dy + 451.9 * u;
@@ -216,6 +218,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = dy + 517.2 * u;
                     break;
                 case VectorscopeGenerator::ColorSpace_YPbPr:
+                default:
                     dr = dy + 357.5 * v;
                     dg = dy - 87.75 * u - 182 * v;
                     db = dy + 451.9 * u;
@@ -257,6 +260,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                                      qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
                 break;
             case PaintMode_Black:
+            default:
                 px = scope.pixel(pt);
                 scope.setPixel(pt, qRgba(0, 0, 0, qAlpha(px) + (255 - qAlpha(px)) / 20));
                 break;
