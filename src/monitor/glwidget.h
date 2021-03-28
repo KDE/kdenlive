@@ -158,7 +158,7 @@ public slots:
     void slotZoom(bool zoomIn);
     void initializeGL();
     void releaseAnalyse();
-    void switchPlay(bool play, double speed = 1.0);
+    void switchPlay(bool play, int offset = 0, double speed = 1.0);
     void reloadProfile();
     /** @brief Update MLT's consumer scaling 
      *  @returns true is scaling was changed

@@ -1606,7 +1606,7 @@ void GLWidget::refreshSceneLayout()
     rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
 
-void GLWidget::switchPlay(bool play, double speed)
+void GLWidget::switchPlay(bool play, int offset, double speed)
 {
     if (!m_producer || !m_consumer) {
         return;
@@ -1615,9 +1615,10 @@ void GLWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() && speed > 0) {
+        if ((m_id == Kdenlive::ClipMonitor || m_id == Kdenlive::ProjectMonitor) && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
             m_producer->seek(0);
         }
+        qDebug() << "pos: " << m_consumer->position() << "out-offset: " << m_producer->get_out() - offset;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         m_proxy->setSpeed(speed);
