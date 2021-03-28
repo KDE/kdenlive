@@ -2327,6 +2327,7 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
     backgroundAlpha->blockSignals(true);
     backgroundColor->blockSignals(true);
     backgroundAlpha->setValue(background_color.alpha());
+    bgAlphaSlider->setValue(background_color.alpha());
     background_color.setAlpha(255);
     backgroundColor->setColor(background_color);
     backgroundAlpha->blockSignals(false);
