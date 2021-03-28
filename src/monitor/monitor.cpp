@@ -1308,7 +1308,7 @@ void Monitor::slotRewind(double speed)
         }
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, m_offset, speed);
 }
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
@@ -1322,7 +1322,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
                 updatePlayAction(true);
-                m_glMonitor->switchPlay(true, 1);
+                m_glMonitor->switchPlay(true, m_offset);
                 return;
             } else {
                 m_speedIndex = 0;
@@ -1336,7 +1336,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
         speed = MonitorManager::speedArray[m_speedIndex];
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, m_offset, speed);
 }
 
 void Monitor::slotRewindOneFrame(int diff)
@@ -1454,7 +1454,7 @@ void Monitor::switchPlay(bool play)
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
-    m_glMonitor->switchPlay(play);
+    m_glMonitor->switchPlay(play, m_offset);
 }
 
 void Monitor::updatePlayAction(bool play)
@@ -1473,7 +1473,7 @@ void Monitor::slotSwitchPlay()
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
-    m_glMonitor->switchPlay(m_playAction->isActive());
+    m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;
@@ -1551,7 +1551,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     // TODO
     // Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
-    m_glMonitor->switchPlay(true);
+    m_glMonitor->switchPlay(true, m_offset);
 }
 
 void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
