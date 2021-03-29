@@ -1614,7 +1614,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
+        if ((m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
             m_producer->seek(0);
         }
         qDebug() << "pos: " << m_consumer->position() << "out-offset: " << m_producer->get_out() - offset;

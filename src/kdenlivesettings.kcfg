@@ -322,6 +322,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="jumptostart" type="Bool">
+      <label>Jump to timeline start if playback is started on last frame in timeline.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="pauseonseek" type="Bool">
       <label>Pause playback when seeking.</label>
       <default>true</default>

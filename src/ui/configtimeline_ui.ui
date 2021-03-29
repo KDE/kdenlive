@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>575</width>
+    <width>589</width>
     <height>532</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="0" colspan="4">
+   <item row="11" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Raise properties pane when selecting in timeline</string>
@@ -54,7 +54,7 @@
      </layout>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="12" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -66,6 +66,34 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="6" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_verticalzoom">
+     <property name="text">
+      <string>Zoom using vertical drag in ruler</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_scrollvertically">
+     <property name="text">
+      <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_autoscroll">
+     <property name="text">
+      <string>Autoscroll while playing</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
@@ -113,7 +141,14 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0" colspan="4">
+   <item row="1" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+     <property name="text">
+      <string>Use FFmpeg for audio thumbnails (faster)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Multi stream audio clips</string>
@@ -161,14 +196,14 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
+   <item row="4" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_pauseonseek">
      <property name="text">
-      <string>Use FFmpeg for audio thumbnails (faster)</string>
+      <string>Pause playback when seeking</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="4">
+   <item row="9" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
@@ -205,38 +240,10 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_autoscroll">
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="kcfg_jumptostart">
      <property name="text">
-      <string>Autoscroll while playing</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_pauseonseek">
-     <property name="text">
-      <string>Pause playback when seeking</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_verticalzoom">
-     <property name="text">
-      <string>Zoom using vertical drag in ruler</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_scrollvertically">
-     <property name="text">
-      <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
-     <property name="text">
-      <string>Display clip markers comments</string>
+      <string>Jump to timeline start if playback is started on last frame in timeline</string>
      </property>
     </widget>
    </item>
