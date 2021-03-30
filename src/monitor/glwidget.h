@@ -86,7 +86,6 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure();
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
     const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
@@ -253,6 +252,7 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void onFrameDisplayed(const SharedFrame &frame);
+    int reconfigure();
     void refresh();
 
 protected:
