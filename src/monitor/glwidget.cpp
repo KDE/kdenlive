@@ -216,6 +216,7 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
+    QMetaObject::invokeMethod(this, "reconfigure", Qt::QueuedConnection);
 }
 
 void GLWidget::resizeGL(int width, int height)
