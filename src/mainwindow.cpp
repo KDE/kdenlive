@@ -3545,7 +3545,7 @@ void MainWindow::buildDynamicActions()
     ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
     KActionCategory *ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
     KSharedConfigPtr config =
-        KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
+        KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QMap<QString, QString> profiles = transConfig.entryMap();
