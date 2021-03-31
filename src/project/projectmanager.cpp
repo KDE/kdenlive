@@ -276,11 +276,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     pCore->window()->getMainTimeline()->unsetModel();
-    pCore->bin()->cleanDocument();
     pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }
+    pCore->bin()->cleanDocument();
+
     if (!quit && !qApp->isSavingSession()) {
         if (m_project) {
             emit pCore->window()->clearAssetPanel();
