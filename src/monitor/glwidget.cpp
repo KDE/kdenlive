@@ -216,6 +216,7 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
+    QMetaObject::invokeMethod(this, "reconfigure", Qt::QueuedConnection);
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -1614,7 +1615,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         resetZoneMode();
     }
     if (play) {
-        if ((m_id == Kdenlive::ClipMonitor || m_id == Kdenlive::ProjectMonitor) && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
+        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
             m_producer->seek(0);
         }
         qDebug() << "pos: " << m_consumer->position() << "out-offset: " << m_producer->get_out() - offset;
