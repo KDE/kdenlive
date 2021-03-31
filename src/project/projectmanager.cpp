@@ -283,8 +283,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     if (!quit && !qApp->isSavingSession()) {
         if (m_project) {
-            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             emit pCore->window()->clearAssetPanel();
+            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             delete m_project;
             m_project = nullptr;
         }
@@ -777,7 +777,7 @@ void ProjectManager::disableBinEffects(bool disable, bool refreshMonitor)
 {
     if (m_project) {
         if (disable) {
-            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number(true));
+            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number(1));
         } else {
             m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }

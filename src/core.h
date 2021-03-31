@@ -315,6 +315,8 @@ signals:
     void updateVoskAvailability();
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
+    /** @brief The effect stask is about to be deleted, disconnect everything */
+    void disconnectEffectStack();
 };
 
 #endif

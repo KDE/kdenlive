@@ -1,22 +1,22 @@
 [Transcoding]
-DNxHD 1080i 25 fps 185 Mb/s=-s 1920x1080 -r pal -top -1 -flags +ilme+ildct -vb 185000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 25 fps 185 Mb/s=-s 1920x1080 -r 25 -vb 185000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 24 fps 175 Mb/s=-s 1920x1080 -r 24 -vb 175000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 23.976 fps 175 Mb/s=-s 1920x1080 -r 23.976 -vb 175000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080i 25 fps 120 Mb/s=-s 1920x1080 -r pal -top -1 -flags +ilme+ildct -vb 120000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 25 fps 120 Mb/s=-s 1920x1080 -r 25 -vb 120000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 24 fps 115 Mb/s=-s 1920x1080 -r 24 -vb 115000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 23.976 fps 115 Mb/s=-s 1920x1080 -r 23.976 -vb 115000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080i 30 fps 220 Mb/s=-s 1920x1080 -r ntsc -top -1 -flags +ilme+ildct -vb 220000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 30 fps 220 Mb/s=-s 1920x1080 -r 30 -vb 220000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080i 30 fps 145 Mb/s=-s 1920x1080 -r ntsc -top -1 -flags +ilme+ildct -vb 145000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 1080p 30 fps 145 Mb/s=-s 1920x1080 -r 30 -vb 145000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 23.976 fps 90 Mb/s=-s 1280x720 -r 24000/1001 -vb 90000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 23.976 fps 60 Mb/s=-s 1280x720 -r 24000/1001 -vb 60000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 50 fps 175 Mb/s=-s 1280x720 -r 50 -vb 175000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 50 fps 115 Mb/s=-s 1280x720 -r 50 -vb 115000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 59.94 fps 220 Mb/s=-s 1280x720 -r 60000/1001 -vb 220000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
-DNxHD 720p 59.94 fps 145 Mb/s=-s 1280x720 -r 60000/1001 -vb 145000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
+DNxHD 1080i 25 fps 185 Mb/s=-s 1920x1080 -r pal -top -1 -flags +ilme+ildct -vb 185000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 25 fps 185 Mb/s=-s 1920x1080 -r 25 -vb 185000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 24 fps 175 Mb/s=-s 1920x1080 -r 24 -vb 175000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 23.976 fps 175 Mb/s=-s 1920x1080 -r 23.976 -vb 175000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080i 25 fps 120 Mb/s=-s 1920x1080 -r pal -top -1 -flags +ilme+ildct -vb 120000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 25 fps 120 Mb/s=-s 1920x1080 -r 25 -vb 120000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 24 fps 115 Mb/s=-s 1920x1080 -r 24 -vb 115000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 23.976 fps 115 Mb/s=-s 1920x1080 -r 23.976 -vb 115000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080i 30 fps 220 Mb/s=-s 1920x1080 -r ntsc -top -1 -flags +ilme+ildct -vb 220000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 30 fps 220 Mb/s=-s 1920x1080 -r 30 -vb 220000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080i 30 fps 145 Mb/s=-s 1920x1080 -r ntsc -top -1 -flags +ilme+ildct -vb 145000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 1080p 30 fps 145 Mb/s=-s 1920x1080 -r 30 -vb 145000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 23.976 fps 90 Mb/s=-s 1280x720 -r 24000/1001 -vb 90000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 23.976 fps 60 Mb/s=-s 1280x720 -r 24000/1001 -vb 60000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 50 fps 175 Mb/s=-s 1280x720 -r 50 -vb 175000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 50 fps 115 Mb/s=-s 1280x720 -r 50 -vb 115000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 59.94 fps 220 Mb/s=-s 1280x720 -r 60000/1001 -vb 220000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
+DNxHD 720p 59.94 fps 145 Mb/s=-s 1280x720 -r 60000/1001 -vb 145000k -threads 0 -vcodec dnxhd -acodec pcm_s16le -ar 48000 %1.mov;High quality encoding
 Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 files;;vcodec=mpeg1video
 Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files;;vcodec=theora
 ProRes 422 Proxy=-vcodec prores_ks -profile:v 0 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding

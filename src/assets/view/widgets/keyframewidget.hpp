@@ -74,13 +74,14 @@ private slots:
     /** @brief Update the value of the widgets to reflect keyframe change */
     void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
-    void monitorSeek(int pos);
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     void slotCopyKeyframes();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
     void slotSeekToKeyframe(int ix);
+    void monitorSeek(int pos);
+    void disconnectEffectStack();
 
 private:
     QVBoxLayout *m_lay;

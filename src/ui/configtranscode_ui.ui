@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>319</width>
-    <height>306</height>
+    <width>444</width>
+    <height>388</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -64,65 +64,48 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="profile_extension"/>
+      </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="QLineEdit" name="profile_name"/>
-      </item>
-      <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Description</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
+      <item row="3" column="0" colspan="3">
+       <widget class="QPlainTextEdit" name="profile_parameters"/>
+      </item>
+      <item row="0" column="1" colspan="2">
        <widget class="QLineEdit" name="profile_description"/>
       </item>
-      <item row="2" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>Extension</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="profile_extension"/>
-      </item>
-      <item row="2" column="2">
+      <item row="1" column="2">
        <widget class="QCheckBox" name="profile_audioonly">
         <property name="text">
          <string>Audio only</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
+      <item row="2" column="0" colspan="3">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Parameters</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QPlainTextEdit" name="profile_parameters"/>
-      </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -89,7 +89,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     } else {
         // load Profiles
         KSharedConfigPtr config =
-            KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
+            KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap<QString, QString> profiles = transConfig.entryMap();

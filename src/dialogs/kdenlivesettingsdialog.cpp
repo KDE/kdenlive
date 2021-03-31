@@ -298,8 +298,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
     connect(m_configTranscode.profiles_list, &QListWidget::itemChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     connect(m_configTranscode.profiles_list, &QListWidget::currentRowChanged, this, &KdenliveSettingsDialog::slotSetTranscodeProfile);
-
-    connect(m_configTranscode.profile_name, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
@@ -1201,7 +1199,7 @@ void KdenliveSettingsDialog::slotCheckAudioBackend()
 void KdenliveSettingsDialog::loadTranscodeProfiles()
 {
     KSharedConfigPtr config =
-        KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
+        KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     m_configTranscode.profiles_list->blockSignals(true);
@@ -1240,11 +1238,15 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
 
 void KdenliveSettingsDialog::slotAddTranscode()
 {
-    if (!m_configTranscode.profiles_list->findItems(m_configTranscode.profile_name->text(), Qt::MatchExactly).isEmpty()) {
+    
+    bool ok;
+    QString presetName = QInputDialog::getText(this, i18n("Enter preset name"), i18n("Enter the name of this preset"), QLineEdit::Normal, QString(), &ok);
+    if (!ok) return;
+    if (!m_configTranscode.profiles_list->findItems(presetName, Qt::MatchExactly).isEmpty()) {
         KMessageBox::sorry(this, i18n("A profile with that name already exists"));
         return;
     }
-    QListWidgetItem *item = new QListWidgetItem(m_configTranscode.profile_name->text());
+    QListWidgetItem *item = new QListWidgetItem(presetName);
     QString profilestr = m_configTranscode.profile_parameters->toPlainText();
     profilestr.append(" %1." + m_configTranscode.profile_extension->text());
     profilestr.append(';');
@@ -1267,7 +1269,6 @@ void KdenliveSettingsDialog::slotUpdateTranscodingProfile()
         return;
     }
     m_configTranscode.button_update->setEnabled(false);
-    item->setText(m_configTranscode.profile_name->text());
     QString profilestr = m_configTranscode.profile_parameters->toPlainText();
     profilestr.append(" %1." + m_configTranscode.profile_extension->text());
     profilestr.append(';');
@@ -1297,7 +1298,7 @@ void KdenliveSettingsDialog::slotEnableTranscodeUpdate()
         return;
     }
     bool allow = true;
-    if (m_configTranscode.profile_name->text().isEmpty() || m_configTranscode.profile_extension->text().isEmpty()) {
+    if (m_configTranscode.profile_extension->text().isEmpty()) {
         allow = false;
     }
     m_configTranscode.button_update->setEnabled(allow);
@@ -1307,7 +1308,6 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
 {
     m_configTranscode.profile_box->setEnabled(false);
     m_configTranscode.button_update->setEnabled(false);
-    m_configTranscode.profile_name->clear();
     m_configTranscode.profile_description->clear();
     m_configTranscode.profile_extension->clear();
     m_configTranscode.profile_parameters->clear();
@@ -1316,7 +1316,6 @@ void KdenliveSettingsDialog::slotSetTranscodeProfile()
     if (!item) {
         return;
     }
-    m_configTranscode.profile_name->setText(item->text());
     QString profilestr = item->data(Qt::UserRole).toString();
     if (profilestr.contains(QLatin1Char(';'))) {
         m_configTranscode.profile_description->setText(profilestr.section(QLatin1Char(';'), 1, 1));

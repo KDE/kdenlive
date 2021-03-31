@@ -406,11 +406,12 @@ void EffectStackView::unsetModel(bool reset)
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
         disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
+        emit pCore->disconnectEffectStack();
     }
     if (reset) {
         QMutexLocker lock(&m_mutex);
-        m_effectsTree->setModel(nullptr);
         m_model.reset();
+        m_effectsTree->setModel(nullptr);
     }
     if (id != Kdenlive::NoMonitor) {
         pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
