@@ -126,6 +126,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
+    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeWidget::disconnectEffectStack);
+
     m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
@@ -310,6 +312,12 @@ KeyframeWidget::~KeyframeWidget()
     delete m_buttonPrevious;
     delete m_buttonNext;
     delete m_time;
+}
+
+void KeyframeWidget::disconnectEffectStack()
+{
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    disconnect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek);
 }
 
 void KeyframeWidget::monitorSeek(int pos)

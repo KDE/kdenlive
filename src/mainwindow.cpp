@@ -404,7 +404,7 @@ void MainWindow::init(const QString &mltPath)
         // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
         // m_effectStackDock->raise();
     });
-    connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
+    connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel, Qt::DirectConnection);
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();

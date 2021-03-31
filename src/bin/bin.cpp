@@ -1054,11 +1054,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     });
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
+    connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
     
     QAction *hoverPreview = new QAction(i18n("Show video preview in thumbnails"), this);
@@ -1067,8 +1067,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(hoverPreview, &QAction::triggered, [] (bool checked) {
         KdenliveSettings::setHoverPreview(checked);
     });
-    connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
-    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
@@ -1757,7 +1755,16 @@ void Bin::setDocument(KdenliveDoc *project)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    setBinEffectsEnabled(!binEffectsDisabled, false);
+    QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
+    if (disableEffects) {
+        if (binEffectsDisabled != disableEffects->isChecked()) {
+            QSignalBlocker bk(disableEffects);
+            disableEffects->setChecked(binEffectsDisabled);
+        }
+    }
+    m_itemModel->setBinEffectsEnabled(!binEffectsDisabled);
+
+    //setBinEffectsEnabled(!binEffectsDisabled, false);
     QMap <QString, QString> projectTags = m_doc->getProjectTags();
     m_tagsWidget->rebuildTags(projectTags);
     rebuildFilters(projectTags);
@@ -3928,15 +3935,6 @@ void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)
 
 void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 {
-    QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
-    if (disableEffects) {
-        if (enabled == disableEffects->isChecked()) {
-            return;
-        }
-        disableEffects->blockSignals(true);
-        disableEffects->setChecked(!enabled);
-        disableEffects->blockSignals(false);
-    }
     m_itemModel->setBinEffectsEnabled(enabled);
     pCore->projectManager()->disableBinEffects(!enabled, refreshMonitor);
 }
