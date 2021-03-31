@@ -140,7 +140,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
-void AudioGraphWidget::showAudio(const QVector<double> &bands)
+void AudioGraphWidget::showAudio(const QVector<float> &bands)
 {
     m_levels = bands;
     update();
@@ -373,5 +373,5 @@ void AudioGraphSpectrum::processSpectrum(const SharedFrame &frame)
     }
 
     // Update the audio signal widget
-    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(const QVector<double> &, bands));
+    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(const QVector<float> &, bands));
 }
