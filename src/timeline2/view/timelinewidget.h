@@ -58,6 +58,7 @@ public:
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void regainFocus();
+    void unsetModel();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

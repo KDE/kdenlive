@@ -275,7 +275,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
     }
-    pCore->window()->getMainTimeline()->controller()->prepareClose();
+    pCore->window()->getMainTimeline()->unsetModel();
     pCore->bin()->cleanDocument();
     pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
@@ -289,6 +289,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project = nullptr;
         }
     }
+    pCore->mixer()->unsetModel();
+    // Release model shared pointers
     m_mainTimelineModel.reset();
     return true;
 }
