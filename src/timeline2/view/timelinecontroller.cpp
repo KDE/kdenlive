@@ -100,6 +100,7 @@ void TimelineController::prepareClose()
     QObject::disconnect( m_deleteConnection );
     m_ready = false;
     m_root = nullptr;
+    m_model.reset();
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;

@@ -3612,10 +3612,11 @@ void TimelineModel::registerGroup(int groupId)
 Fun TimelineModel::deregisterTrack_lambda(int id)
 {
     return [this, id]() {
-        emit checkTrackDeletion(id);
+        if (!m_closing) {
+            emit checkTrackDeletion(id);
+        }
         auto it = m_iteratorTable[id];                        // iterator to the element
         int index = getTrackPosition(id);                     // compute index in list
-
         // send update to the model
         beginRemoveRows(QModelIndex(), index, index);
         // melt operation, add 1 to account for black background track
@@ -3626,8 +3627,10 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         m_iteratorTable.erase(id);
         // Finish operation
         endRemoveRows();
-        int cache = int(QThread::idealThreadCount()) + int(m_allTracks.size() + 1) * 2;
-        mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
+        if (!m_closing) {
+            int cache = int(QThread::idealThreadCount()) + int(m_allTracks.size() + 1) * 2;
+            mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
+        }
         return true;
     };
 }
@@ -3637,7 +3640,9 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
     return [this, clipId]() {
         // Clear effect stack
         clearAssetView(clipId);
-        emit checkItemDeletion(clipId);
+        if (!m_closing) {
+            emit checkItemDeletion(clipId);
+        }
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point

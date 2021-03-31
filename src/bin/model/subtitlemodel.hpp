@@ -148,6 +148,8 @@ public:
     void switchGrab(int sid);
     /** @brief Ungrab all items */
     void clearGrab();
+    /** @brief Release timeline model pointer */
+    void unsetModel();
 
 public slots:
     /** @brief Function that parses through a subtitle file */
