@@ -141,6 +141,11 @@ void MixerManager::cleanup()
     }
 }
 
+void MixerManager::unsetModel()
+{
+    m_model.reset();
+}
+
 void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     // Insert master mixer

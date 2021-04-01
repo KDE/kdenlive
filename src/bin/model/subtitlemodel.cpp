@@ -44,7 +44,7 @@
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
-    , m_timeline(std::move(timeline))
+    , m_timeline(timeline)
     , m_lock(QReadWriteLock::Recursive)
     , m_subtitleFilter(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"))
     , m_tractor(tractor)
@@ -77,6 +77,11 @@ void SubtitleModel::setup()
     connect(this, &SubtitleModel::columnsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::rowsMoved, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
+}
+
+void SubtitleModel::unsetModel()
+{
+    m_timeline.reset();
 }
 
 void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
