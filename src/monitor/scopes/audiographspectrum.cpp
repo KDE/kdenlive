@@ -144,7 +144,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
-void AudioGraphWidget::showAudio(const QVector<double> &bands)
+void AudioGraphWidget::showAudio(const QVector<float> &bands)
 {
     m_levels = bands;
     update();
@@ -262,7 +262,7 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     p.setOpacity(0.6);
     QRectF rect(m_rect.left(), 0, barWidth, height);
     for (int i = 0; i < chanCount; i++) {
-        double level = (0.5 + m_levels.at(i)) / 1.5 * height;
+        float level = (0.5 + m_levels.at(i)) / 1.5 * height;
         if (level < 0) {
             continue;
         }

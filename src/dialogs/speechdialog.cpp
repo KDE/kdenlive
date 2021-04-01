@@ -40,7 +40,7 @@
 
 SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool, bool, QWidget *parent)
     : QDialog(parent)
-    , m_timeline(std::move(timeline))
+    , m_timeline(timeline)
     
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));

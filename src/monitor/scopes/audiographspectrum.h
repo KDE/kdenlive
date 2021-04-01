@@ -57,14 +57,14 @@ public:
     void drawBackground();
 
 public slots:
-    void showAudio(const QVector<double> &bands);
+    void showAudio(const QVector<float> &bands);
 
 protected:
     void paintEvent(QPaintEvent *pe) override;
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    QVector<double> m_levels;
+    QVector<float> m_levels;
     QVector<int> m_dbLabels;
     QStringList m_freqLabels;
     QPixmap m_pixmap;

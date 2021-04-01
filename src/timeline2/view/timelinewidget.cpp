@@ -156,6 +156,12 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_timelineMenu->addMenu(m_favCompositions);
 }
 
+void TimelineWidget::unsetModel()
+{
+    m_sortModel->setSourceModel(nullptr);
+    m_proxy->prepareClose();
+}
+
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
     m_sortModel->setSourceModel(model.get());

@@ -55,7 +55,7 @@ public:
     void drawBackground();
 
 public slots:
-    void showAudio(const QVector<double> &bands);
+    void showAudio(const QVector<float> &bands);
 
 protected:
     void paintEvent(QPaintEvent *pe);

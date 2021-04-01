@@ -275,12 +275,13 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
     }
-    pCore->window()->getMainTimeline()->controller()->prepareClose();
-    pCore->bin()->cleanDocument();
+    pCore->window()->getMainTimeline()->unsetModel();
     pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }
+    pCore->bin()->cleanDocument();
+
     if (!quit && !qApp->isSavingSession()) {
         if (m_project) {
             emit pCore->window()->clearAssetPanel();
@@ -289,6 +290,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project = nullptr;
         }
     }
+    pCore->mixer()->unsetModel();
+    // Release model shared pointers
     m_mainTimelineModel.reset();
     return true;
 }

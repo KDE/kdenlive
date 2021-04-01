@@ -344,8 +344,10 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             return;
         }
     }
-    emit seekToPos(pos + m_inPoint);
-    update();
+    if (pos != m_position) {
+        emit seekToPos(pos + m_inPoint);
+        update();
+    }
 }
 
 void KeyframeView::mouseMoveEvent(QMouseEvent *event)
@@ -449,7 +451,9 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         }
         
         if (!m_moveKeyframeMode || KdenliveSettings::keyframeseek()) {
-            emit seekToPos(pos + m_inPoint);
+            if (pos != m_position) {
+                emit seekToPos(pos + m_inPoint);
+            }
         }
         return;
     }

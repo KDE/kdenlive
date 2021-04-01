@@ -211,7 +211,20 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_lay->addWidget(m_toolbar);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
-    connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int p) { slotSetPosition(p, true); });
+    connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int pos) {
+        if (pos < 0) {
+            m_time->setValue(0);
+            m_keyframeview->slotSetPosition(0, true);
+        } else {
+            int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+            int p = qMax(0, pos - in);
+            m_time->setValue(p);
+            m_keyframeview->slotSetPosition(p, true);
+        }
+        m_buttonAddDelete->setEnabled(pos > 0);
+        slotRefreshParams();
+        emit seekToPos(pos);
+    });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
@@ -390,16 +403,16 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 {
     if (pos < 0) {
         pos = m_time->getValue();
-        m_keyframeview->slotSetPosition(pos, true);
     } else {
         m_time->setValue(pos);
-        m_keyframeview->slotSetPosition(pos, true);
     }
+    m_keyframeview->slotSetPosition(pos, true);
     m_buttonAddDelete->setEnabled(pos > 0);
     slotRefreshParams();
 
     if (update) {
-        emit seekToPos(pos);
+        int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+        emit seekToPos(pos + in);
     }
 }
 

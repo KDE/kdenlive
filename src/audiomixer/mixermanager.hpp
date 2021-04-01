@@ -53,6 +53,8 @@ public:
     void collapseMixers();
     /** @brief Pause/unpause audio monitoring */
     void pauseMonitoring(bool pause);
+    /** @brief Release the timeline model ownership */
+    void unsetModel();
 
 public slots:
     void recordStateChanged(int tid, bool recording);
