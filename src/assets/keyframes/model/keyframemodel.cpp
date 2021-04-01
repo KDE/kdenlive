@@ -468,6 +468,11 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             if (!ok) {
                 qDebug() << "QLocale: Could not convert animated rect opacity" << data;
             }
+            if (auto ptr = m_model.lock()) {
+                if (ptr->getAssetId() != QLatin1String("qtblend")) {
+                    converted /= 100.;
+                }
+            }
             return converted;
         }
         double val = it->second.second.toDouble();
