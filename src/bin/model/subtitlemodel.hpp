@@ -140,7 +140,7 @@ public:
     void loadProperties(QMap<QString, QString> subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
-    /** @brief Returns an xml representation of the subtitle with id @sid */
+    /** @brief Returns an xml representation of the subtitle with id \@sid */
     QDomElement toXml(int sid, QDomDocument &document);
     /** @brief Returns the size of the space between subtitles */
     int getBlankSizeAtPos(int pos) const;

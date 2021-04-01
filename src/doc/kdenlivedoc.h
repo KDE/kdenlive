@@ -231,14 +231,17 @@ public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
-     * @description  If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
+     *  
+     * If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
      * Emits docModified connected to MainWindow::slotUpdateDocumentState \n
+     * 
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
-     * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
+     * 
+     * The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);

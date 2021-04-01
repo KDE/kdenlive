@@ -214,7 +214,7 @@ protected:
     /** @brief Transform a group node with no children into a leaf. This implies doing the deregistration to the timeline */
     void downgradeToLeaf(int gid);
 
-    /** @Brief helper function to change the type of a group.
+    /** @brief helper function to change the type of a group.
        @param id of the groupItem
        @param type: new type of the group
     */

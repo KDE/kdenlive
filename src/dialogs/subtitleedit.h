@@ -47,7 +47,6 @@ signals:
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class SubtitleEdit : public QWidget, public Ui::SubEdit_UI
 {
     Q_OBJECT

@@ -160,7 +160,7 @@ public:
        @param description Xml description of the clip
        @param parentId Bin id of the parent folder
        @param undo,redo: lambdas that are updated to accumulate operation.
-       @parame readyCallBack: lambda that will be executed when the clip becomes ready. It is given the binId as parameter
+       @param readyCallBack: lambda that will be executed when the clip becomes ready. It is given the binId as parameter
     */
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
                            const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
@@ -209,9 +209,9 @@ public:
     void setClipWaiting(const QString &binId);
     void setClipInvalid(const QString &binId);
 
-    /** @brief Returns true if current project has a clip with id @clipId and a hash of @clipHash */
+    /** @brief Returns true if current project has a clip with id \@clipId and a hash of \@clipHash */
     bool validateClip(const QString &binId, const QString &clipHash);
-    /** @brief Returns clip id if folder @folderId has a clip with hash of @clipHash or empty if not found */
+    /** @brief Returns clip id if folder "folderId" has a clip with hash of "clipHash" or empty if not found */
     QString validateClipInFolder(const QString &folderId, const QString &clipHash);
 
     /** @brief Number of clips in the bin playlist */

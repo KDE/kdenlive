@@ -87,7 +87,7 @@ public:
     ClipType::ProducerType clipType() const override;
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
-    /** @brief Returns a clip id if folder contains clip with matching @hash, empty if not found. */
+    /** @brief Returns a clip id if folder contains clip with matching at \@hash, empty if not found. */
     QString childByHash(const QString &hash);
 };
 

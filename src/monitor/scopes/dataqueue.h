@@ -29,7 +29,7 @@
   \brief The DataQueue provides a thread safe container for passing data between
   objects.
 
-  \threadsafe
+  threadsafe
 
   DataQueue provides a limited size container for passing data between objects.
   One object can add data to the queue by calling push() while another object

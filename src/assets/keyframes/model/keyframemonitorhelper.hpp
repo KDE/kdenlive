@@ -72,7 +72,7 @@ public slots:
     void addIndex(const QPersistentModelIndex &index);
 
 signals:
-    /** @brief Send updated keyframe data to the parameter @index
+    /** @brief Send updated keyframe data to the parameter \@index
      */
     void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);
 };

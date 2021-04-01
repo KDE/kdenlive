@@ -39,7 +39,6 @@ class ProjectClip;
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class VideoTextEdit : public QTextEdit
 {
     Q_OBJECT
@@ -148,7 +147,6 @@ private:
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 {
     Q_OBJECT

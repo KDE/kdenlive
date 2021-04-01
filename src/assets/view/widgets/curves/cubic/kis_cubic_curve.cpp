@@ -180,7 +180,7 @@ public:
     }
 
     /**
-     * Get value of precalculated spline in the point @x
+     * @brief Get value of precalculated spline in the point at \@x
      */
     T getValue(T x) const
     {
@@ -196,8 +196,8 @@ public:
 
 protected:
     /**
-     * findRegion - Searches for the region containing @x
-     * @x0 - out parameter, containing beginning of the region
+     * @brief findRegion - Searches for the region containing \@x
+     * @param x - out parameter, containing beginning of the region
      * @return - index of the region
      */
     int findRegion(T x, T &x0) const

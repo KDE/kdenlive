@@ -25,11 +25,11 @@
 
 class FrameData;
 
-/*!
-  \class SharedFrame
-  \brief The SharedFrame provides thread safe access to Mlt::Frame data.
+/**
+  @class SharedFrame
+  @brief The SharedFrame provides thread safe access to Mlt::Frame data.
 
-  \threadsafe
+  threadsafe
 
   SharedFrame is a wrapper around Mlt::Frame that provides read-only access to
   the frame data. SharedFrame is a reference counted object having only const
@@ -43,7 +43,6 @@ class FrameData;
 
   TODO: Consider providing a similar class in Mlt++.
 */
-
 class SharedFrame
 {
 public:
