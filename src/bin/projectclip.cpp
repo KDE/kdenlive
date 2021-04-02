@@ -832,6 +832,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         warpProducer->set("audio_index", audioStream);
     }
 
+    //if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
+    int ttl = originalProducer()->get_int("ttl");
+    if(ttl > 0) {
+        int new_ttl = ttl / std::abs(speed) + 0.5;
+        warpProducer->set("ttl", std::max(new_ttl, 1));
+    }
+
     qDebug() << "warp LENGTH" << warpProducer->get_length();
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);

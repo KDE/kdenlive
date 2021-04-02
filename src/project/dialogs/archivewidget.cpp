@@ -997,6 +997,13 @@ void ArchiveWidget::createArchive()
         delete m_temp;
         m_temp = nullptr;
     }
+    if(success) {
+        // Add subtitle files if any
+        QString sub = pCore->currentDoc()->subTitlePath(false);
+        if (QFileInfo::exists(sub)) {
+            success = archive->addLocalFile(sub, m_name + QStringLiteral(".kdenlive.") + QFileInfo(sub).completeSuffix());
+        }
+    }
     if (success) {
         success = archive->close();
     } else {
