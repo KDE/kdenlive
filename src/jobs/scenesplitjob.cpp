@@ -93,8 +93,8 @@ int SceneSplitJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std:
         ui.marker_type->setItemData(int(i), MarkerListModel::markerTypes[i], Qt::DecorationRole);
     }
     ui.marker_type->setCurrentIndex(KdenliveSettings::default_marker_type());
-    ui.zone_only->setEnabled(false);  // not implemented
-    ui.store_data->setEnabled(false); // not implemented
+    ui.zone_only->setEnabled(false);  // TODO not implemented
+    ui.store_data->setEnabled(false); // TODO not implemented
     if (d->exec() != QDialog::Accepted) {
         return -1;
     }
@@ -170,6 +170,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QString dataMap(json.toJson());
         if (!json.isEmpty()) {
             pCore->projectItemModel()->loadSubClips(m_clipId, dataMap, undo, redo);
+            binClip->updateZones();
         }
     }
     qDebug() << "RESULT of the SCENESPLIT filter:" << result;
