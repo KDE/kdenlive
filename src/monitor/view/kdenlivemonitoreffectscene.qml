@@ -244,7 +244,7 @@ Item {
             isMoving = false;
         }
         onEntered: {
-            controller.setWidgetKeyBinding(i18n("<b>Double click</b> to add a keyframe, <b>Shift drag</b> for proportional rescale, <b>Hover right</b> for toolbar, <b>Click</b> on a center to seek to its keyframe"));
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for center-based rescale, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Click</shortcut> on a center to seek to its keyframe"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
