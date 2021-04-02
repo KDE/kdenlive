@@ -4658,6 +4658,9 @@ QStringList TimelineModel::extractCompositionLumas() const
     QStringList urls;
     for (const auto &compo : m_allCompositions) {
         QString luma = compo.second->getProperty(QStringLiteral("resource"));
+        if(luma.isEmpty()) {
+            luma = compo.second->getProperty(QStringLiteral("luma"));
+        }
         if (!luma.isEmpty()) {
             urls << QUrl::fromLocalFile(luma).toLocalFile();
         }
