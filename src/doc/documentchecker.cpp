@@ -219,7 +219,7 @@ bool DocumentChecker::hasErrorInClips()
             QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
             QStringList images = TitleWidget::extractImageList(xml);
             QStringList fonts = TitleWidget::extractFontList(xml);
-            checkMissingImagesAndFonts(images, fonts, e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));
+            checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
             continue;
         }
         QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
@@ -1536,6 +1536,9 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             e.setAttribute(QStringLiteral("resource"), img);
             e.setAttribute(QStringLiteral("id"), id);
             e.setAttribute(QStringLiteral("name"), baseClip);
+            QMap<QString, QString> properties;
+            properties.insert("kdenlive:id", id);
+            Xml::addXmlProperties(e, properties);
             m_missingClips.append(e);
         } else {
             m_safeImages.append(img);
