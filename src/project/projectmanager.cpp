@@ -56,7 +56,7 @@ the Free Software Foundation, either version 3 of the License, or
 static QString getProjectNameFilters(bool ark=true) {
     auto filter = i18n("Kdenlive project (*.kdenlive)");
     if (ark) {
-        filter.append(";;" + i18n("Archived project (*.tar.gz)"));
+        filter.append(";;" + i18n("Archived project (*.tar.gz *.zip)"));
     }
     return filter;
 }
@@ -484,7 +484,7 @@ void ProjectManager::openFile(const QUrl &url)
     QMimeDatabase db;
     // Make sure the url is a Kdenlive project file
     QMimeType mime = db.mimeTypeForUrl(url);
-    if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
+    if (mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"))) {
         // Opening a compressed project file, we need to process it
         // qCDebug(KDENLIVE_LOG)<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -655,6 +655,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         if (m_project) {
             if (!m_project->url().isEmpty()) {
                 // Only update if restore succeeded
+                pCore->window()->slotEditSubtitle();
                 m_project->setUrl(projectFile);
                 m_project->setModified(true);
             }
