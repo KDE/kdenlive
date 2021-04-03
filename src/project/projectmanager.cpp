@@ -655,6 +655,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         if (m_project) {
             if (!m_project->url().isEmpty()) {
                 // Only update if restore succeeded
+                pCore->window()->slotEditSubtitle();
                 m_project->setUrl(projectFile);
                 m_project->setModified(true);
             }
