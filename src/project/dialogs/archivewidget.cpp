@@ -250,6 +250,8 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     proxy_only->setHidden(true);
     project_files->setHidden(true);
     files_list->setHidden(true);
+    timeline_archive->setHidden(true);
+    compression_type->setHidden(true);
     label->setText(i18n("Extract to"));
     setWindowTitle(i18n("Open Archived Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
@@ -282,7 +284,14 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
 void ArchiveWidget::openArchiveForExtraction()
 {
     emit showMessage(QStringLiteral("system-run"), i18n("Opening archive..."));
-    m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+    QMimeDatabase db;
+    QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
+    if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
+        m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+    } else {
+        m_extractArchive = new KZip(m_extractUrl.toLocalFile());
+    }
+
     if (!m_extractArchive->isOpen() && !m_extractArchive->open(QIODevice::ReadOnly)) {
         emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
