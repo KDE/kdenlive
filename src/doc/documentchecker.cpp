@@ -566,6 +566,7 @@ bool DocumentChecker::hasErrorInClips()
                 if (imageResource.startsWith(m_rootReplacement.first)) {
                     imageResource.replace(m_rootReplacement.first, m_rootReplacement.second);
                     if (QFile::exists(imageResource)) {
+                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                         item->setData(0, statusRole, CLIPOK);
                         item->setToolTip(0, i18n("Relocated item"));
                     }
@@ -583,6 +584,7 @@ bool DocumentChecker::hasErrorInClips()
                 if (resource.startsWith(m_rootReplacement.first)) {
                     resource.replace(m_rootReplacement.first, m_rootReplacement.second);
                     if (QFile::exists(resource)) {
+                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                         item->setData(0, statusRole, CLIPOK);
                         item->setToolTip(0, i18n("Relocated item"));
                     }
@@ -1157,6 +1159,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     }
     if (fixed || QFile::exists(url.toLocalFile())) {
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+        item->setToolTip(0, i18n("Relocated item"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) {
             item->setData(0, statusRole, CLIPOK);
@@ -1411,11 +1414,11 @@ void DocumentChecker::slotPlaceholders()
     while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
         }
+        child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
