@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="199" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="200" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -269,6 +269,7 @@
     </Menu>
     <Menu name="help" >
       <Action name="reset_config" />
+      <Action name="copy_debuginfo"/>
     </Menu>
   </MenuBar>
   <ToolBar name="timelineToolBar" fullWidth="true" newline="true" noMerge="1" position="bottom">

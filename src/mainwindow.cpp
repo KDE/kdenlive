@@ -80,6 +80,8 @@
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include <KAboutData>
+#include <KCoreAddons>
 #include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -1817,6 +1819,9 @@ void MainWindow::setupActions()
         }
         redo->setEnabled(enable);
     });
+
+    addAction(QStringLiteral("copy_debuginfo"), i18n("Copy Debug Information"), this, SLOT(slotCopyDebugInfo()),
+              QIcon::fromTheme(QStringLiteral("edit-copy")));
 
     QAction *disableEffects = addAction(QStringLiteral("disable_timeline_effects"), i18n("Disable Timeline Effects"), pCore->projectManager(),
                                         SLOT(slotDisableTimelineEffects(bool)), QIcon::fromTheme(QStringLiteral("favorite")));
@@ -4369,6 +4374,20 @@ void MainWindow::slotSpeechRecognition()
         slotEditSubtitle();
     }
     getCurrentTimeline()->controller()->subtitleSpeechRecognition();
+}
+
+void MainWindow::slotCopyDebugInfo() {
+    QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
+    debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
+    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion())).arg(QT_VERSION_STR).arg(QSysInfo::buildAbi()));
+    debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
+    debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));
+    debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion()));
+    debuginfo.append(QStringLiteral("CPU: %1\n").arg(QSysInfo::currentCpuArchitecture()));
+    debuginfo.append(QStringLiteral("Windowing System: %1\n").arg(QGuiApplication::platformName()));
+    debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(debuginfo);
 }
 
 #ifdef DEBUG_MAINW

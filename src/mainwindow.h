@@ -539,6 +539,8 @@ private slots:
     void slotExportSubtitle();
     /** @brief Start a speech recognition on timeline zone */
     void slotSpeechRecognition();
+    /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */
+    void slotCopyDebugInfo();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
