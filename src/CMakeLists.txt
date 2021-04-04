@@ -204,3 +204,19 @@ if(HAVE_LINUX_INPUT_H)
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_JOGSHUTTLE)
     target_link_libraries(kdenliveLib media_ctrl)
 endif()
+
+if (BUILD_QCH)
+    ecm_add_qch(
+        Kdenlive_QCH
+        NAME kdenlive
+        VERSION ${KDENLIVE_VERSION}
+        ORG_DOMAIN org.kde
+        SOURCE_DIRS
+            .
+        MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
+        TAGFILE_INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/docs/tags
+        QCH_INSTALL_DESTINATION ${CMAKE_INSTALL_PREFIX}/share/docs/qch
+        COMPONENT Devel
+    )
+endif()
+

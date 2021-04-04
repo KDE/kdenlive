@@ -45,6 +45,7 @@ include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
+include(ECMAddQch)
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
                             DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
@@ -122,6 +123,9 @@ endif()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
+option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -132,6 +136,15 @@ add_subdirectory(renderer)
 add_subdirectory(thumbnailer)
 add_subdirectory(data)
 ki18n_install(po)
+
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS Kdenlive_QCH
+        FILE KdenliveQCHTargets.cmake
+        DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/kdenlive"
+        COMPONENT Devel
+    )
+endif()
 
 include(GNUInstallDirs)
 install(FILES AUTHORS COPYING README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
