@@ -22,11 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEMPORARYDATA_H
 #define TEMPORARYDATA_H
 
+#include "ui_managecache_ui.h"
 #include "definitions.h"
 #include <KIO/DirectorySizeJob>
 #include <QDir>
 #include <QTreeWidgetItem>
-#include <QWidget>
+#include <QDialog>
 
 class KdenliveDoc;
 class QPaintEvent;
@@ -88,11 +89,11 @@ private:
 
 /**
  * @class TemporaryData
- * @brief Dialog allowing management of project's temporary data.
+ * @brief Dialog allowing management of cache data.
  *
  */
 
-class TemporaryData : public QWidget
+class TemporaryData : public QDialog, public Ui::ManageCache_UI
 {
     Q_OBJECT
 
@@ -103,19 +104,7 @@ private:
     KdenliveDoc *m_doc;
     ChartWidget *m_currentPie;
     ChartWidget *m_globalPie;
-    QLabel *m_previewSize;
-    QLabel *m_proxySize;
-    QLabel *m_totalProxySize;
-    QLabel *m_audioSize;
-    QLabel *m_thumbSize;
-    QLabel *m_currentSize;
-    QLabel *m_globalSize;
-    QLabel *m_selectedSize;
-    QLabel *m_backupSize;
-    QWidget *m_currentPage;
-    QWidget *m_globalPage;
-    QTreeWidget *m_listWidget;
-    QGridLayout *m_grid;
+    bool m_currentProjectOnly;
     KIO::filesize_t m_totalCurrent;
     KIO::filesize_t m_totalGlobal;
     QList<KIO::filesize_t> m_currentSizes;
@@ -123,14 +112,13 @@ private:
     QString m_processingDirectory;
     QDir m_globalDir;
     QStringList m_proxies;
-    QToolButton *m_globalDelete;
     void updateDataInfo();
     void updateGlobalInfo();
     void updateTotal();
-    void buildGlobalCacheDialog(int minHeight);
     void processglobalDirectories();
     void processBackupDirectories();
     void processProxyDirectory();
+    void deleteCache(QStringList &folders);
 
 private slots:
     void gotPreviewSize(KJob *job);
@@ -153,7 +141,6 @@ private slots:
     void deleteSelected();
     void cleanCache();
     void cleanProxy();
-    void deleteCache(QStringList &folders);
 
 signals:
     void disableProxies();

@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManageCache_UI</class>
+ <widget class="QDialog" name="ManageCache_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Manage Cache Data</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="tabBarAutoHide">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="projectPage">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="accessibleName">
+       <string>Current Project</string>
+      </property>
+      <attribute name="title">
+       <string>Current Project</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,10,0,0,0">
+         <item row="3" column="3">
+          <widget class="QLabel" name="thumbSize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="proxySize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QToolButton" name="delAudio">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="proxyColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="proxyLabel">
+           <property name="text">
+            <string>Proxy Clips</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="audioColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="thumbColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="4">
+          <widget class="QToolButton" name="delThumb">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="5">
+          <widget class="QFrame" name="seperator1">
+           <property name="frameShape">
+            <enum>QFrame::HLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="previewSize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QToolButton" name="delProxy">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="audioLabel">
+           <property name="text">
+            <string>Audio Thumbnails</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="previewColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLabel" name="audioSize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="previewLabel">
+           <property name="text">
+            <string>Timeline Preview</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" rowspan="5">
+          <layout class="QHBoxLayout" name="currentChartBox"/>
+         </item>
+         <item row="6" column="0" colspan="3">
+          <widget class="QLabel" name="currentLabel">
+           <property name="text">
+            <string>Project total cache data</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QToolButton" name="delPreview">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="thumbLabel">
+           <property name="text">
+            <string>Video Thumbnails</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="5">
+          <widget class="QLabel" name="currentPath">
+           <property name="toolTip">
+            <string>Click to open cache folder</string>
+           </property>
+           <property name="text">
+            <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/1617522274308&lt;/a&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="4">
+          <widget class="QToolButton" name="delCurrent">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="3">
+          <widget class="QLabel" name="currentSize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="globalPage">
+      <property name="accessibleName">
+       <string>Current Project</string>
+      </property>
+      <property name="accessibleDescription">
+       <string>Current Project</string>
+      </property>
+      <attribute name="title">
+       <string>All Projects</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,10,0,0">
+       <item row="4" column="3">
+        <widget class="QToolButton" name="gProxyClean">
+         <property name="toolTip">
+          <string>Cleanup old proxy file</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-clear-history">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="5">
+        <layout class="QHBoxLayout" name="gChartLayout">
+         <item>
+          <widget class="QTreeWidget" name="listWidget">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>Folder</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string extracomment="Filesize">Size</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Date</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="gTotalColor">
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="5">
+        <widget class="QFrame" name="seperator3">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="gTotalLabel">
+         <property name="text">
+          <string>Total Cached Data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="5">
+        <widget class="QFrame" name="seperator4">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="gBackupLabel">
+         <property name="text">
+          <string>Total Backup Data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="gProxySize">
+         <property name="text">
+          <string>Calculating...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QToolButton" name="gDelete">
+         <property name="toolTip">
+          <string>Delete selected cache</string>
+         </property>
+         <property name="icon">
+          <iconset theme="trash-empty">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
+        <widget class="QToolButton" name="gBackupDelete">
+         <property name="toolTip">
+          <string>Delete all backup data</string>
+         </property>
+         <property name="icon">
+          <iconset theme="trash-empty">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="5">
+        <layout class="QHBoxLayout" name="cleanupLayout" stretch="0,0">
+         <item>
+          <widget class="QLabel" name="gCleanupLabel">
+           <property name="text">
+            <string>Cleanup will delete data older than</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="gCleanupSpin">
+           <property name="suffix">
+            <string> months</string>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>48</number>
+           </property>
+           <property name="value">
+            <number>6</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="4">
+        <widget class="QToolButton" name="gProxyDelete">
+         <property name="toolTip">
+          <string>Delete all proxy clips</string>
+         </property>
+         <property name="icon">
+          <iconset theme="trash-empty">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QToolButton" name="gClean">
+         <property name="toolTip">
+          <string>Cleanup unused cache</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-clear-history">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QToolButton" name="gBackupClean">
+         <property name="toolTip">
+          <string>Cleanup old backups</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-clear-history">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="gSelectedColor">
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="5">
+        <widget class="QFrame" name="seperator2">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="gBackupSize">
+         <property name="text">
+          <string>Calculating...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="5">
+        <widget class="QLabel" name="gProxyPath">
+         <property name="toolTip">
+          <string>Click to open proxy folder</string>
+         </property>
+         <property name="text">
+          <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/proxy&lt;/a&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="gProxyLabel">
+         <property name="text">
+          <string>Total Proxy Data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="5">
+        <widget class="QLabel" name="gBackupPath">
+         <property name="toolTip">
+          <string>Click to open backup folder</string>
+         </property>
+         <property name="text">
+          <string>&lt;a href='#'&gt;/home/user/.local/share/kdenlive/.backup&lt;/a&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="gTotalSize">
+         <property name="text">
+          <string>Calculating...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="qSelectedLabel">
+         <property name="text">
+          <string>Selected Cached Data</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="gSelectedSize">
+         <property name="text">
+          <string>Calculating...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ManageCache_UI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ManageCache_UI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

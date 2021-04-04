@@ -4100,17 +4100,9 @@ void MainWindow::setTimelineToolbarIconSize(QAction *a)
 
 void MainWindow::slotManageCache()
 {
-    QDialog d(this);
-    d.setWindowTitle(i18n("Manage Cache Data"));
-    auto *lay = new QVBoxLayout;
-    TemporaryData tmp(pCore->currentDoc(), false, this);
-    connect(&tmp, &TemporaryData::disableProxies, this, &MainWindow::slotDisableProxies);
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
-    lay->addWidget(&tmp);
-    lay->addWidget(buttonBox);
-    d.setLayout(lay);
-    d.exec();
+    QPointer<TemporaryData> d(new TemporaryData(pCore->currentDoc(), false, this));
+    connect(d, &TemporaryData::disableProxies, this, &MainWindow::slotDisableProxies);
+    d->exec();
 }
 
 void MainWindow::slotUpdateCompositing(QAction *compose)
