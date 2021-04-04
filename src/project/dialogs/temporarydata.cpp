@@ -442,19 +442,7 @@ void TemporaryData::cleanCache()
         KMessageBox::Continue) {
         return;
     }
-    const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    for (const QString &folder : qAsConst(folders)) {
-        if (folder == currentId) {
-            // Trying to delete current project's tmp folder. Do not delete, but clear it
-            deleteCurrentCacheData();
-            continue;
-        }
-        if (!m_globalDir.exists(folder)) {
-            continue;
-        }
-        m_globalDir.remove(folder);
-    }
-    updateGlobalInfo();
+    deleteCache(folders);
 }
 
 
@@ -845,6 +833,11 @@ void TemporaryData::deleteSelected()
         KMessageBox::Continue) {
         return;
     }
+    deleteCache(folders);
+}
+
+void TemporaryData::deleteCache(QStringList &folders)
+{
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
     for (const QString &folder : qAsConst(folders)) {
         if (folder == currentId) {
@@ -852,7 +845,8 @@ void TemporaryData::deleteSelected()
             deleteCurrentCacheData();
             continue;
         }
-        m_globalDir.remove(folder);
+        QDir toRemove(m_globalDir.filePath(folder));
+        toRemove.removeRecursively();
     }
     updateGlobalInfo();
 }
@@ -867,9 +861,10 @@ void TemporaryData::deleteProxy()
         KMessageBox::Continue) {
         return;
     }
-    m_globalDir.remove(QStringLiteral("proxy"));
+    QDir toRemove(m_globalDir.filePath(QStringLiteral("proxy")));
+    toRemove.removeRecursively();
     // We deleted proxy folder, recreate it
-    m_globalDir.mkpath(QStringLiteral("."));
+    m_globalDir.mkdir(QStringLiteral("proxy"));
     processProxyDirectory();
 }
 

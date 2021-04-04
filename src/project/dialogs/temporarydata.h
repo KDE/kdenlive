@@ -153,6 +153,7 @@ private slots:
     void deleteSelected();
     void cleanCache();
     void cleanProxy();
+    void deleteCache(QStringList &folders);
 
 signals:
     void disableProxies();
