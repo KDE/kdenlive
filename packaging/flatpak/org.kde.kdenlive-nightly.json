@@ -658,13 +658,13 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv/archive/4.3.0.tar.gz",
-          "sha256": "68bc40cbf47fdb8ee73dfaf0d9c6494cd095cf6294d99de445ab64cf853d278a"
+          "url": "https://github.com/opencv/opencv/archive/4.5.2.tar.gz",
+          "sha256": "ae258ed50aa039279c3d36afdea5c6ecf762515836b27871a8957c610d0424f8"
         },
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv_contrib/archive/4.3.0.tar.gz",
-          "sha256": "acb8e89c9e7d1174e63e40532125b60d248b00e517255a98a419d415228c6a55"
+          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.2.tar.gz",
+          "sha256": "9f52fd3114ac464cb4c9a2a6a485c729a223afb57b9c24848484e55cef0b5c2a"
         }
       ]
     },
