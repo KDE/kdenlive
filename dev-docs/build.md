@@ -90,6 +90,15 @@ Kdenlive test coverage is focused mostly on timeline model code (extending tests
 Kdenlive embeds a fuzzing engine that can detect crashes and auto-generate tests. This can be activated in `cmake` line with:
 `-DBUILD_FUZZING=ON`
 
+### Help file for QtCreator, KDevelop, etc.
+
+You can automatically build and install a `*.qch` file with the doxygen docs about the source code to use it with your IDE like Qt Assistant, Qt Creator or KDevelop. This can be activated in `cmake` line with:
+`-DBUILD_QCH=ON`
+
+You can find the `kdenlive.qch` at `build/src` and after `make install` at `${CMAKE_INSTALL_PREFIX}/lib/cmake/kdenlive`
+
+To add the `kdenlive.qch` file to Qt Creator, select **Tools** > **Options** > **Help** > **Documentation** > **Add**.
+
 ### Speeding up compilations
 
 Ninja build systems, compared to make, seems faster and better detecting which files are necessary to rebuild. You can enable it appending `-GNinja` to `cmake` line
