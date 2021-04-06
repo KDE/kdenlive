@@ -96,14 +96,17 @@ TimelineController::~TimelineController()
 
 void TimelineController::prepareClose()
 {
-    // Clear roor so we don't call its methods anymore
+    // Clear root so we don't call its methods anymore
     QObject::disconnect( m_deleteConnection );
+    disconnect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    disconnect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
+    disconnect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     m_ready = false;
     m_root = nullptr;
-    m_model.reset();
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
+    m_model.reset();
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)

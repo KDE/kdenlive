@@ -94,7 +94,9 @@ int main(int argc, char *argv[])
     } else {
         // Default to OpenGLES (QtAngle) on first start
         QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
+        grp1.writeEntry("opengl_backend", int(Qt::AA_UseOpenGLES));
     }
+    configWin->sync();
 #endif
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
