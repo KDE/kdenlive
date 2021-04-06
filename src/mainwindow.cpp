@@ -4329,8 +4329,8 @@ void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
 void MainWindow::slotAddSubtitle()
 {
     if (pCore->getSubtitleModel() == nullptr || !KdenliveSettings::showSubtitles()) {
-        slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
+        slotEditSubtitle();
     }
     getCurrentTimeline()->controller()->addSubtitle();
 }
