@@ -141,12 +141,12 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
     m_monitorManager = new MonitorManager(this);
     connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
-    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, [this]() {
+    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, this, [this](const QString &text) {
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
+            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle(-1, text);
         }
     });
-    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
             m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
         }
