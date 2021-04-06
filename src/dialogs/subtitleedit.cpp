@@ -120,8 +120,10 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         }
         m_model->requestResize(m_activeSub, value, true);
     });
-    connect(buttonAdd, &QToolButton::clicked, this, &SubtitleEdit::addSubtitle);
-    connect(buttonCut, &QToolButton::clicked, [this]() {
+    connect(buttonAdd, &QToolButton::clicked, this, [this]() {
+        emit addSubtitle(subText->toPlainText());
+    });
+    connect(buttonCut, &QToolButton::clicked, this, [this]() {
         if (m_activeSub > -1 && subText->hasFocus()) {
             int pos = subText->textCursor().position();
             if (buttonApply->isEnabled()) {
@@ -154,7 +156,6 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
 {
     m_model = model;
     m_activeSub = -1;
-    subText->setEnabled(false);
     buttonApply->setEnabled(false);
     buttonCut->setEnabled(false);
     if (m_model == nullptr) {
@@ -207,7 +208,6 @@ void SubtitleEdit::setActiveSubtitle(int id)
         m_position->setEnabled(false);
         m_endPosition->setEnabled(false);
         m_duration->setEnabled(false);
-        subText->setEnabled(false);
         frame_position->setEnabled(false);
         buttonDelete->setEnabled(false);
         QSignalBlocker bk(subText);

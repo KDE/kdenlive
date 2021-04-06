@@ -80,9 +80,6 @@ TimelineController::TimelineController(QObject *parent)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
-    connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
-    connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
-    connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
@@ -129,6 +126,9 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
             showMasterEffects();
         }
     });
+    connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
+    connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
@@ -4100,7 +4100,7 @@ void TimelineController::resizeSubtitle(int startFrame, int endFrame, int oldEnd
 }
 
 
-void TimelineController::addSubtitle(int startframe)
+void TimelineController::addSubtitle(int startframe, QString text)
 {
     if (startframe == -1) {
         startframe = pCore->getTimelinePosition();
@@ -4108,13 +4108,16 @@ void TimelineController::addSubtitle(int startframe)
     int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
     auto subtitleModel = pCore->getSubtitleModel(true);
     int id = TimelineModel::getNextId();
+    if (text.isEmpty()) {
+        text = i18n("Add text");
+    }
     Fun local_undo = [subtitleModel, id, startframe, endframe]() {
         subtitleModel->removeSubtitle(id);
         pCore->refreshProjectRange({startframe, endframe});
         return true;
     };
-    Fun local_redo = [subtitleModel, id, startframe, endframe]() {
-        if (subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"))) {
+    Fun local_redo = [subtitleModel, id, startframe, endframe, text]() {
+        if (subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text)) {
             pCore->refreshProjectRange({startframe, endframe});
             return true;
         }

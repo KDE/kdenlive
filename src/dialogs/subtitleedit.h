@@ -73,7 +73,7 @@ private:
     GenTime m_endPos;
 
 signals:
-    void addSubtitle();
+    void addSubtitle(const QString &);
     void cutSubtitle(int id, int cursorPos);
 };
 
