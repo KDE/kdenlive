@@ -597,7 +597,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
             } else if (type == QLatin1String("framebuffer")) {
                 url = url.section(QLatin1Char('?'), 0, 0);
             }
-            if (!url.isEmpty()) {
+            if (!url.isEmpty() && url != QLatin1String("<producer>")) {
                 if (QFileInfo(url).isRelative()) {
                     url.prepend(root);
                 }
