@@ -22,4 +22,10 @@
 		<name>Background Color</name>
 	</parameter>
     <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
+    <parameter type="bool" name="transition.repeat_off" default="1">
+		<name>Disable repeat</name>
+	</parameter>
+    <parameter type="bool" name="transition.mirror_off" default="1">
+		<name>Disable mirror</name>
+	</parameter>
 </effect>
