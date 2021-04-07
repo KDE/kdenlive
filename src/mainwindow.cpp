@@ -3239,14 +3239,36 @@ void MainWindow::slotClipInProjectTree()
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
-        QPoint zone(start, start + duration);
-        qDebug() << " - - selecting clip on monitor, zone: " << zone;
         int pos = m_projectMonitor->position();
         int itemPos = pCore->getItemPosition(id);
-        if (pos >= itemPos && pos < itemPos + duration) {
-            pos -= (itemPos - start);
-        } else {
-            pos = -1;
+        bool containsPos = (pos >= itemPos && pos < itemPos + duration);
+        double speed = pCore->getClipSpeed(id.second);
+        if (containsPos) {
+            pos -= itemPos - start;
+        }
+        if (!qFuzzyCompare(speed, 1.)) {
+            if (speed > 0.) {
+                // clip has a speed effect, adjust zone
+                start = qRound(start * speed);
+                duration = qRound(duration * speed);
+                if (containsPos) {
+                    pos = qRound(pos * speed);
+                }
+            } else if (speed < 0.) {
+                int max = getMainTimeline()->controller()->clipMaxDuration(id.second);
+                if (max > 0) {
+                    int invertedPos = itemPos + duration - m_projectMonitor->position();
+                    start = qRound((max - (start + duration)) * -speed);
+                    duration = qRound(duration * -speed);
+                    if (containsPos) {
+                        pos = start + qRound(invertedPos * -speed);
+                    }
+                }
+            }
+        }
+        QPoint zone(start, start + duration);
+        if (!containsPos) {
+            pos = start;
         }
         pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), true, pos, zone);
     }
