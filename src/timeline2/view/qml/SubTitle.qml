@@ -44,6 +44,10 @@ Item {
         if (!selected && isGrabbed) {
             //timeline.grabCurrent()
         }
+        if (subtitleBase.textEditBegin) {
+            // End editing on focus change
+            subtitleBase.textEditBegin = false
+        }
     }
 
     function grabItem() {
