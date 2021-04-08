@@ -117,9 +117,9 @@ void MonitorManager::refreshProjectMonitor()
     m_projectMonitor->refreshMonitorIfActive();
 }
 
-void MonitorManager::refreshClipMonitor()
+void MonitorManager::refreshClipMonitor(bool directUpdate)
 {
-    m_clipMonitor->refreshMonitorIfActive();
+    m_clipMonitor->refreshMonitorIfActive(directUpdate);
 }
 
 void MonitorManager::forceProjectMonitorRefresh()
@@ -130,6 +130,11 @@ void MonitorManager::forceProjectMonitorRefresh()
 bool MonitorManager::projectMonitorVisible() const
 {
     return (m_projectMonitor->monitorIsFullScreen() || (m_projectMonitor->isVisible() && !m_projectMonitor->visibleRegion().isEmpty()));
+}
+
+bool MonitorManager::clipMonitorVisible() const
+{
+    return (m_clipMonitor->monitorIsFullScreen() || (m_clipMonitor->isVisible() && !m_clipMonitor->visibleRegion().isEmpty()));
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
