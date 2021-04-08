@@ -622,6 +622,8 @@ public:
     void showRulerEffectZone(QPair <int, int>inOut, bool checked);
     /** @brief Set the list of master effect zones */
     void updateMasterZones(QVariantList zones);
+    /** @brief get Maximum duration of a clip */
+    int clipMaxDuration(int cid);
 
 public slots:
     void resetView();

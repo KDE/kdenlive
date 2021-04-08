@@ -4286,3 +4286,10 @@ void TimelineController::updateMasterZones(QVariantList zones)
     emit masterZonesChanged();
 }
 
+int TimelineController::clipMaxDuration(int cid)
+{
+    if (!m_model->isClip(cid)) {
+        return -1;
+    }
+    return m_model->m_allClips[cid]->getMaxDuration();
+}

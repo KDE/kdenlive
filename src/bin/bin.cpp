@@ -1986,6 +1986,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
     if (activateMonitor) {
         if (frame > -1) {
             m_monitor->slotSeek(frame);
+            m_monitor->refreshMonitorIfActive();
         } else {
             m_monitor->slotActivateMonitor();
         }
