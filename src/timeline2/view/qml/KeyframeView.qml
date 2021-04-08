@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 import QtQuick 2.11
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.4
 import QtQml.Models 2.11
 
 Rectangle
@@ -98,6 +98,7 @@ Rectangle
                 id: keyframe
                 property int frame : model.frame
                 property int frameType : model.type
+                property string realValue: model.value
                 x: (model.frame - inPoint) * timeScale
                 height: parent.height
                 property int value: parent.height * model.normalizedValue
@@ -110,6 +111,9 @@ Rectangle
                 }
                 onValueChanged: {
                     keyframecanvas.requestPaint()
+                }
+                onRealValueChanged: {
+                    kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
                 }
                 width: Math.max(1, timeScale)
                 color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
@@ -174,6 +178,9 @@ Rectangle
                         cursorShape: Qt.PointingHandCursor
                         drag.target: parent
                         drag.smoothed: false
+                        drag.threshold: 1
+                        property string movingVal: kfrModel.realValue(model.normalizedValue)
+                        property double newVal: NaN
                         onPressed: {
                             drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
@@ -183,6 +190,9 @@ Rectangle
                             keyframeContainer.focus = true
                         }
                         onReleased: {
+                            if (isNaN(newVal)) {
+                                return
+                            }
                             root.autoScrolling = timeline.autoScroll
                             var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
                             if (newPos === frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
@@ -192,7 +202,6 @@ Rectangle
                                 }
                                 return
                             }
-                            var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
                             if (newVal > 1.5 || newVal < -0.5) {
                                 if (frame != inPoint) {
                                     timeline.removeEffectKeyframe(masterObject.clipId, frame);
@@ -231,11 +240,15 @@ Rectangle
                                     }
                                 }
                                 keyframecanvas.requestPaint()
+                                newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
+                                movingVal = kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
                             }
                         }
                         onDoubleClicked: {
                             timeline.removeEffectKeyframe(masterObject.clipId, frame);
                         }
+                        ToolTip.visible: (containsMouse || pressed) && movingVal != ""
+                        ToolTip.text: movingVal
                     }
                 }
             }

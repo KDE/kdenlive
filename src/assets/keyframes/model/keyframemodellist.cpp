@@ -379,6 +379,14 @@ KeyframeModel *KeyframeModelList::getKeyModel()
     }
     if (auto ptr = m_model.lock()) {
         for (const auto &param : m_parameters) {
+            auto tp = ptr->data(param.first, AssetParameterModel::TypeRole).value<ParamType>();
+            if (tp == ParamType::AnimatedRect) {
+                // Check if we have an opacity
+                if (ptr->data(param.first, AssetParameterModel::OpacityRole).toBool() == false) {
+                    // Rect with no opacity, don't show timeline keyframes
+                    continue;
+                }
+            }
             if (ptr->data(param.first, AssetParameterModel::ShowInTimelineRole) == true) {
                 m_inTimelineIndex = param.first;
                 return param.second.get();

@@ -924,6 +924,10 @@ QVariant KeyframeModel::getNormalizedValue(double newVal) const
             min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
             max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
         }
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = 0.;
+            max = 1.;
+        }
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
@@ -1039,6 +1043,33 @@ void KeyframeModel::sendModification()
             Q_ASSERT(false); // Not implemented, TODO
         }
     }
+}
+
+QString KeyframeModel::realValue(double normalizedValue) const
+{
+    double value = getNormalizedValue(normalizedValue).toDouble();
+    if (auto ptr = m_model.lock()) {
+        int decimals = ptr->data(m_index, AssetParameterModel::DecimalsRole).toInt();
+        value *= ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        QString result;
+        if (decimals == 0) {
+            if (ptr->getAssetId() == QLatin1String("qtblend")) {
+                value = qRound(value * 100.);
+            }
+            // Fix rounding erros in double > int conversion
+            if (value > 0.) {
+                value += 0.001;
+            } else {
+                value -= 0.001;
+            }
+            result = QString::number(int(value));
+        } else {
+            result = QString::number(value, 'f', decimals);
+        }
+        result.append(ptr->data(m_index, AssetParameterModel::SuffixRole).toString());
+        return result;
+    }
+    return QString::number(value);
 }
 
 void KeyframeModel::refresh()
