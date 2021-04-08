@@ -3008,7 +3008,10 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
 void Bin::refreshClip(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
-        m_monitor->refreshMonitorIfActive();
+        if (pCore->monitorManager()->clipMonitorVisible()) {
+            m_monitor->slotActivateMonitor();
+        }
+        m_monitor->refreshMonitorIfActive(true);
     }
 }
 
