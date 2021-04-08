@@ -149,6 +149,7 @@ public:
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
     Q_INVOKABLE bool hasKeyframe(const GenTime &pos) const;
+    Q_INVOKABLE QString realValue(double normalizedValue) const;
 
     /** @brief Read the value from the model and update itself accordingly */
     void refresh();
