@@ -316,6 +316,8 @@ public slots:
     void slotTranscode(const QStringList &urls = QStringList());
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle(const QString &text = QString());
+    /** @brief Ensure subtitle track is displayed */
+    void showSubtitleTrack();
 
 private slots:
     /** @brief Shows the shortcut dialog. */

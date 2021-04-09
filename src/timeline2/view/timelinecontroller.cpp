@@ -3811,6 +3811,7 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
     qDebug()<<"=== GOT DROPPED FILED: "<<droppedFile<<"\n======";
     if (droppedFile.first().endsWith(QLatin1String(".ass")) || droppedFile.first().endsWith(QLatin1String(".srt"))) {
         // Subtitle dropped, import
+        pCore->window()->showSubtitleTrack();
         importSubtitle(droppedFile.first());
     } else {
         finishRecording(QUrl(droppedFile.first()).toLocalFile());
