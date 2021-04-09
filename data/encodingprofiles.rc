@@ -11,6 +11,8 @@ MPEG2=-vf scale=640:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -vcodec mpeg2video -a
 MJPEG=-vf yadif,scale=640:-2 -qscale 3 -vcodec mjpeg -acodec pcm_s16le;mkv
 MJPEG-vaapi=-init_hw_device vaapi=vaapi0:,connection_type=x11 -filter_hw_device vaapi0 -vf format=nv12,hwupload -codec:v mjpeg_vaapi -codec:a copy;mkv
 ProRes=-vcodec prores_ks -vb 0 -g 1 -bf 0 -vprofile 1 -vendor ap10 -qscale 1;mov
+NVENC H264=-vcodec h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
+NVENC H265=-vcodec hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
 
 [screengrab]
 X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
@@ -34,7 +36,7 @@ ProRes=vcodec=prores_ks vb=0 g=1 bf=0 vprofile=0 vendor=ap10 qscale=4 s=800x450;
 MJPEG=f=avi vcodec=mjpeg progressive=1 qscale=1;avi
 x264-nvenc=vcodec=h264_nvenc g=1 bf=0 profile=0 preset=fast qmin=10 qmax=30;mkv
 x264-vaapi=vcodec=h264_vaapi g=1 bf=0 profile=578;mkv
-NVENC H264=vcodec=nvenc_h264 vb=30000k rc=cbr acodec=aac ab=192k;mp4
-NVENC H265=vcodec=hevc_nvenc vb=30000k acodec=aac ab=192k;mp4
+NVENC H264=-vcodec h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
+NVENC H265=-vcodec hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
 VAAPI Intel=vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
 VAAPI AMD=hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
