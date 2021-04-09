@@ -644,6 +644,11 @@ void GLWidget::updateRulerHeight(int addedHeight)
     resizeGL(width(), height());
 }
 
+bool GLWidget::isReady() const
+{
+    return m_consumer != nullptr;
+}
+
 void GLWidget::requestSeek(int position)
 {
     m_consumer->set("scrub_audio", 1);

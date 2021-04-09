@@ -140,6 +140,8 @@ public:
     void purgeCache();
     /** @brief Show / hide monitor ruler */
     void switchRuler(bool show);
+    /** @brief Returns true if consumer is initialized */
+    bool isReady() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
