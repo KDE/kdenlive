@@ -1421,6 +1421,9 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitorIfActive(bool directUpdate)
 {
+    if (!m_glMonitor->isReady()) {
+        return;
+    }
     if (isActive()) {
         if (directUpdate) {
             m_glMonitor->refresh();
