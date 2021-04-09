@@ -1816,7 +1816,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
             actionLabel = i18n("Delete Clip");
         } else if (isComposition(itemId)) {
             actionLabel = i18n("Delete Composition");
-        } else if (isComposition(itemId)) {
+        } else if (isSubTitle(itemId)) {
             actionLabel = i18n("Delete Subtitle");
         }
     }

@@ -357,10 +357,10 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return false;
     }
-    int row = m_timeline->m_allSubtitles.size();
+    m_timeline->registerSubtitle(id, start, temporary);
+    int row = m_timeline->getSubtitleIndex(id);
     beginInsertRows(QModelIndex(), row, row);
     m_subtitleList[start] = {str, end};
-    m_timeline->registerSubtitle(id, start, temporary);
     endInsertRows();
     addSnapPoint(start);
     addSnapPoint(end);
@@ -1003,7 +1003,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             minutes %= 60;
             int milli_2 = millisec / 10;
             QString startTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
@@ -1024,7 +1024,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
 
             milli_2 = millisec / 10; // to limit ms to 2 digits (for .ass)
             QString endTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
