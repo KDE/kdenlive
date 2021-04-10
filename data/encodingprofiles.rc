@@ -1,9 +1,11 @@
 [decklink]
+# timeline preview settings should be MLT type parameters, like: vcodec=libx264
 x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast threads=%threads;mov
 DNxHD=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads;mov
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [proxy]
+# proxy settings should be FFmpeg type parameters, like: -vcodec libx264
 x264=-vf scale=640:-2 -vcodec libx264 -g 1 -bf 0 -vb 0 -crf 20 -preset veryfast -acodec aac -ab 128k;mov
 x264-vaapi=-init_hw_device vaapi=vaapi0:,connection_type=x11 -filter_hw_device vaapi0 -vf format=nv12,hwupload -codec:v h264_vaapi -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mov
 x264-nvenc=-hwaccel cuvid -c:v %nvcodec -i -vf scale_npp=640:-2 -vcodec h264_nvenc -g 1 -bf 0 -vb 0 -preset fast -acodec copy;mov
@@ -15,6 +17,7 @@ NVENC H264=-vcodec h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
 NVENC H265=-vcodec hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
 
 [screengrab]
+# proxy settings should be FFmpeg type parameters, like: -vcodec libx264
 X264 mute=-crf 25 -vcodec libx264 -preset veryfast -threads 0;mov
 X264 with audio (alsa)=-f alsa -i default -crf 25 -ab 192k -vcodec libx264 -acodec libvorbis -preset veryfast -threads 0;mov
 X264 with audio (pulse)=-f pulse -i default -crf 25 -ab 192k -vcodec libx264 -preset veryfast -threads 0;mov
@@ -24,6 +27,7 @@ x264=crf=25 ab=192k vcodec=libx264 acodec=libvorbis ab=192k preset=veryfast thre
 MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [timelinepreview]
+# timeline preview settings should be MLT type parameters, like: vcodec=libx264
 DNxHD 1080p 23.976fps=r=23.976 s=1920x1080 vb=36M threads=0 vcodec=dnxhd progressive=1;mov
 DNxHD 1080p 24fps=r=24 s=1920x1080 vb=36M threads=0 vcodec=dnxhd progressive=1;mov
 DNxHD 1080p 25fps=r=25 s=1920x1080 vb=36M threads=0 vcodec=dnxhd progressive=1;mov
@@ -36,7 +40,7 @@ ProRes=vcodec=prores_ks vb=0 g=1 bf=0 vprofile=0 vendor=ap10 qscale=4 s=800x450;
 MJPEG=f=avi vcodec=mjpeg progressive=1 qscale=1;avi
 x264-nvenc=vcodec=h264_nvenc g=1 bf=0 profile=0 preset=fast qmin=10 qmax=30;mkv
 x264-vaapi=vcodec=h264_vaapi g=1 bf=0 profile=578;mkv
-NVENC H264=-vcodec h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
-NVENC H265=-vcodec hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
+NVENC H264=vcodec=h264_nvenc vb=0 rc=cbr acodec=aac ab=192k;mp4
+NVENC H265=vcodec=hevc_nvenc vb=0 acodec=aac ab=192k;mp4
 VAAPI Intel=vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
 VAAPI AMD=hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
