@@ -23,6 +23,7 @@
 #include <KConfigDialog>
 #include <KProcess>
 #include <QMap>
+#include <QListWidget>
 
 #include "ui_configcapture_ui.h"
 #include "ui_configenv_ui.h"
@@ -38,6 +39,21 @@
 
 class ProfileWidget;
 class KJob;
+
+class SpeechList : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    SpeechList(QWidget *parent = nullptr);
+
+protected:
+    QStringList mimeTypes() const override;
+    void dropEvent(QDropEvent *event) override;
+
+signals:
+    void getDictionary(const QUrl url);
+};
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -92,7 +108,7 @@ private slots:
     void slotUpdateAudioCaptureChannels(int index);
     void slotUpdateAudioCaptureSampleRate(int index);
     void slotParseVoskDictionaries();
-    void getDictionary();
+    void getDictionary(const QUrl sourceUrl = QUrl());
     void removeDictionary();
     void downloadModelFinished(KJob* job);
     void processArchive(const QString path);
@@ -121,6 +137,7 @@ private:
     Ui::ConfigProject_UI m_configProject;
     Ui::ConfigProxy_UI m_configProxy;
     Ui::ConfigSpeech_UI m_configSpeech;
+    SpeechList *m_speechListWidget;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     QAction *m_voskAction;

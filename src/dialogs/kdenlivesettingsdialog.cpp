@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -78,6 +78,31 @@
 #include <linux/input.h>
 #include <memory>
 #endif
+
+SpeechList::SpeechList(QWidget *parent)
+    : QListWidget(parent)
+{
+    setAlternatingRowColors(true);
+    setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    viewport()->setAcceptDrops(true);
+}
+
+QStringList SpeechList::mimeTypes() const
+{
+    return QStringList() << QStringLiteral("text/uri-list");
+}
+
+void SpeechList::dropEvent(QDropEvent *event)
+{
+    const QMimeData *qMimeData = event->mimeData();
+    if (qMimeData->hasUrls()) {
+        QList<QUrl> urls = qMimeData->urls();
+        if (!urls.isEmpty()) {
+            emit getDictionary(urls.takeFirst());
+        }
+    }
+}
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent)
     : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
@@ -1768,6 +1793,11 @@ void KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate(int index)
 void KdenliveSettingsDialog::initSpeechPage()
 {
     m_voskAction = new QAction(i18n("Install missing dependencies"), this);
+    m_speechListWidget = new SpeechList(this);
+    connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
+    QVBoxLayout *l = new QVBoxLayout(m_configSpeech.list_frame);
+    l->setContentsMargins(0, 0, 0, 0);
+    l->addWidget(m_speechListWidget);
     m_configSpeech.speech_info->setWordWrap(true);
     m_configSpeech.check_vosk->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_configSpeech.check_vosk->setToolTip(i18n("Check VOSK installation"));
@@ -1845,7 +1875,9 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.button_delete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     m_configSpeech.button_add->setToolTip(i18n("Add a new speech model from an archive file"));
     m_configSpeech.button_delete->setToolTip(i18n("Delete the selected speech model"));
-    connect(m_configSpeech.button_add, &QToolButton::clicked, this, &KdenliveSettingsDialog::getDictionary);
+    connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this] () {
+        this->getDictionary();
+    });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
@@ -1891,7 +1923,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
                 m_configSpeech.speech_info->addAction(m_voskAction);
                 doShowSpeechMessage(missingModules, KMessageWidget::Warning);
             } else {
-                if (m_configSpeech.listWidget->count() == 0) {
+                if (m_speechListWidget->count() == 0) {
                     doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
                 } else {
                     if (!m_voskUpdated) {
@@ -1905,7 +1937,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
             pCore->updateVoskAvailability();
         }
     } else {
-        if (m_configSpeech.listWidget->count() == 0) {
+        if (m_speechListWidget->count() == 0) {
             doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
         } else {
             if (!m_voskUpdated) {
@@ -1956,9 +1988,9 @@ void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int mes
     m_configSpeech.speech_info->animatedShow();
 }
 
-void KdenliveSettingsDialog::getDictionary()
+void KdenliveSettingsDialog::getDictionary(const QUrl sourceUrl)
 {
-    QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter url for the new dictionary"));
+    QUrl url = KUrlRequesterDialog::getUrl(sourceUrl, this, i18n("Enter url for the new dictionary"));
     if (url.isEmpty()) {
         return;
     }
@@ -1986,10 +2018,10 @@ void KdenliveSettingsDialog::removeDictionary()
         return;
     }
 
-    if (!m_configSpeech.listWidget->currentItem()) {
+    if (!m_speechListWidget->currentItem()) {
         return;
     }
-    QString currentModel = m_configSpeech.listWidget->currentItem()->text();
+    QString currentModel = m_speechListWidget->currentItem()->text();
     if (!currentModel.isEmpty() && dir.cd(currentModel)) {
         if (KMessageBox::questionYesNo(this, i18n("Delete folder:\n%1", dir.absolutePath())) == KMessageBox::Yes) {
             // Make sure we don't accidentally delete a folder that is not ours
@@ -2068,7 +2100,7 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
 
 void KdenliveSettingsDialog::slotParseVoskDictionaries()
 {
-    m_configSpeech.listWidget->clear();
+    m_speechListWidget->clear();
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
     QDir dir;
     if (modelDirectory.isEmpty()) {
@@ -2090,7 +2122,7 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
             final << d;
         }
     }
-    m_configSpeech.listWidget->addItems(final);
+    m_speechListWidget->addItems(final);
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
         m_configSpeech.custom_vosk_folder->setChecked(true);
         m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));

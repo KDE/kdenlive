@@ -6,11 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>356</width>
-    <height>379</height>
+    <width>331</width>
+    <height>252</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0" colspan="5">
+    <widget class="QFrame" name="list_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
    <item row="6" column="1">
     <widget class="QToolButton" name="button_delete">
      <property name="text">
@@ -18,40 +34,10 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="5">
-    <widget class="QListWidget" name="listWidget">
-     <property name="acceptDrops">
-      <bool>true</bool>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>280</width>
-       <height>31</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="1" column="0" colspan="5">
     <widget class="QCheckBox" name="custom_vosk_folder">
      <property name="text">
       <string>Custom models folder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="5">
-    <widget class="QLabel" name="models_url">
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -69,6 +55,16 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="0" colspan="5">
+    <widget class="QLabel" name="models_url">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="5">
+    <widget class="KMessageWidget" name="speech_info"/>
+   </item>
    <item row="2" column="0" colspan="5">
     <widget class="KUrlRequester" name="vosk_folder">
      <property name="enabled">
@@ -79,10 +75,20 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="5">
-    <widget class="KMessageWidget" name="speech_info"/>
+   <item row="6" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>280</width>
+       <height>31</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="6" column="3">
+   <item row="6" column="3" colspan="2">
     <widget class="QPushButton" name="check_vosk">
      <property name="text">
       <string>Check configuration</string>
