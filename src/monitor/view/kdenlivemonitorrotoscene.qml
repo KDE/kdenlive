@@ -719,7 +719,7 @@ Item {
         anchors {
             right: parent.right
             top: parent.top
-            topMargin: 4
+            bottom: parent.bottom
             rightMargin: 4
             leftMargin: 4
         }
