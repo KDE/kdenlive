@@ -141,9 +141,9 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     layout->setSpacing(0);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     layout->addWidget(m_edit);
-    m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
+    /*m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
     m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -156,7 +156,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     horiz_layout->addWidget(m_leftParam);
     horiz_layout->addWidget(m_bottomParam);
 
-    layout->addLayout(horiz_layout);
+    layout->addLayout(horiz_layout);*/
     auto *widget = new QWidget(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
@@ -198,8 +198,6 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
 template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
 {
-    m_ui.gridLayout->removeItem(m_ui.horizontalSpacer_3);
-    delete m_ui.horizontalSpacer_3;
     delete m_ui.layoutH1;
     delete m_ui.layoutH2;
     delete m_ui.buttonLinkHandles;
@@ -265,8 +263,8 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMode(
         if (m_showPixmap) {
             slotShowPixmap(true);
         }
-        m_leftParam->setMode(mode);
-        m_bottomParam->setMode(mode);
+        //m_leftParam->setMode(mode);
+        //m_bottomParam->setMode(mode);
     }
 }
 
