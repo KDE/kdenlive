@@ -22,6 +22,7 @@ MouseArea {
         objectName: "effecttoolbar"
         width: fullscreenButton.width
         anchors.right: barZone.right
+        anchors.verticalCenter: parent.verticalCenter
         height: childrenRect.height
         color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
         opacity: 0
