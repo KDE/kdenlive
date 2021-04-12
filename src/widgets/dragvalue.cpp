@@ -453,7 +453,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *e)
 
 void CustomLabel::mouseMoveEvent(QMouseEvent *e)
 {
-    if (m_dragStartPosition != QPoint(-1, -1)) {
+    if ((e->buttons() & Qt::LeftButton) && m_dragStartPosition != QPoint(-1, -1)) {
         if (!m_dragMode && (e->pos() - m_dragStartPosition).manhattanLength() >= QApplication::startDragDistance()) {
             m_dragMode = true;
             m_dragLastPosition = e->pos();
@@ -492,7 +492,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
             e->accept();
         }
     } else {
-        QWidget::mouseMoveEvent(e);
+        QProgressBar::mouseMoveEvent(e);
     }
 }
 
