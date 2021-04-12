@@ -53,6 +53,7 @@ private:
     bool m_dragMode;
     bool m_showSlider;
     double m_step;
+    double m_value;
     void slotValueInc(double factor = 1);
     void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
