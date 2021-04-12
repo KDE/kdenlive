@@ -20,6 +20,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QResizeEvent>
+#include <QFontInfo>
 
 template <typename Curve_t>
 AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
@@ -30,7 +31,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     setMouseTracking(true);
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
-    setMinimumSize(150, 150);
+    setMinimumSize(150, QFontInfo(font()).pixelSize() * 12);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
