@@ -753,6 +753,7 @@ signals:
     void effectZoneChanged();
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
+    void regainFocus();
 };
 
 #endif
