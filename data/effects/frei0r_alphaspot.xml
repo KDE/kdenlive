@@ -10,11 +10,11 @@
                 <name>Shape</name>
         </parameter>
 
-        <parameter type="animated" name="Position X" default="0.5" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Position X" default="0.5" min="-500" max="1500" factor="1000">
                 <name>Position X</name>
         </parameter>
 
-        <parameter type="animated" name="Position Y" default="0.5" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Position Y" default="0.5" min="-500" max="1500" factor="1000">
                 <name>Position Y</name>
         </parameter>
 
