@@ -548,9 +548,8 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
         };
     }
     if (revertSpeed) {
-        int in = getIn();
-        int out = getOut();
-        in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed) + 0.5));
+        int out = getOut() + 1;
+        int in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed)));
         out = in + newDuration;
         operation = [operation, in, out, this]() {
             bool res = operation();
