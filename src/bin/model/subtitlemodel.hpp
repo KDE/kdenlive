@@ -42,9 +42,9 @@ class SnapInterface;
 class AssetParameterModel;
 class TimelineItemModel;
 
-/** @brief This class is the model for a list of subtitles.
+/** @class SubtitleModel
+    @brief This class is the model for a list of subtitles.
 */
-
 class SubtitleModel:public QAbstractListModel
 {
     Q_OBJECT

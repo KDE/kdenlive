@@ -25,13 +25,11 @@
 
 class KColorButton;
 
-/**
- * @class ColorEditWidget
- * @brief Provides options to choose a color.
- Two mechanisms are provided: color-picking directly on the screen and choosing from a list
- * @author Till Theato
+/** @class ColorEditWidget
+    @brief Provides options to choose a color.
+    Two mechanisms are provided: color-picking directly on the screen and choosing from a list
+    @author Till Theato
  */
-
 class ColorEditWidget : public AbstractParamWidget
 {
     Q_OBJECT

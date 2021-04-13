@@ -27,7 +27,8 @@
 #include <memory>
 #include <unordered_map>
 
-/** @brief This class represents a generic tree hierarchy
+/** @class AbstractTreeModel
+    @brief This class represents a generic tree hierarchy
  */
 class TreeItem;
 class AbstractTreeModel : public QAbstractItemModel, public std::enable_shared_from_this<AbstractTreeModel>

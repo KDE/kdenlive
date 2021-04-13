@@ -24,12 +24,10 @@
 
 #include <QUrl>
 
-/**
- * @class BackupWidget
- * @brief A widget allowing to parse backup project files
- * @author Jean-Baptiste Mardelle
+/** @class BackupWidget
+    @brief A widget allowing to parse backup project files
+    @author Jean-Baptiste Mardelle
  */
-
 class BackupWidget : public QDialog, public Ui::BackupDialog_UI
 {
     Q_OBJECT

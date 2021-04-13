@@ -34,12 +34,10 @@ class ProfileFilter;
 class TreeView;
 class QTreeView;
 
-/**
- * @class ProfileWidget
- * @brief Provides interface to choose and filter profiles
- * @author Jean-Baptiste Mardelle, Nicolas Carion
+/** @class ProfileWidget
+    @brief Provides interface to choose and filter profiles
+    @author Jean-Baptiste Mardelle, Nicolas Carion
  */
-
 class ProfileWidget : public QWidget
 {
     Q_OBJECT

@@ -68,11 +68,9 @@ protected:
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
 };
 
-/**
- * @class ClipPropertiesController
- * @brief This class creates the widgets allowing to edit clip properties
+/** @class ClipPropertiesController
+    @brief This class creates the widgets allowing to edit clip properties
  */
-
 class ClipPropertiesController : public QWidget
 {
     Q_OBJECT

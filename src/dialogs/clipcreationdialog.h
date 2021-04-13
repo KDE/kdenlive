@@ -35,7 +35,6 @@ class ProjectItemModel;
  * @brief This namespace contains a list of static methods displaying widgets
  *  allowing creation of all clip types.
  */
-
 namespace ClipCreationDialog {
 
 QStringList getExtensions();

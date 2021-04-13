@@ -19,13 +19,14 @@
 class QDockWidget;
 class AbstractMonitor;
 class QSignalMapper;
-/**
- * @brief Manages communication between Scopes and Renderer
- *
- * The scope manager handles the data transfer between the active Renderer and
- * all scopes that have been registered via ScopeManager::addScope(AbstractAudioScopeWidget, QDockWidget)
- * or ScopeManager::addScope(AbstractGfxScopeWidget, QDockWidget). It checks whether the renderer really
- * needs to send data (it does not, for example, if no scopes are visible).
+
+/** @class ScopeManager
+    @brief Manages communication between Scopes and Renderer.
+  
+    The scope manager handles the data transfer between the active Renderer and
+    all scopes that have been registered via ScopeManager::addScope(AbstractAudioScopeWidget, QDockWidget)
+    or ScopeManager::addScope(AbstractGfxScopeWidget, QDockWidget). It checks whether the renderer really
+    needs to send data (it does not, for example, if no scopes are visible).
   */
 class ScopeManager : public QObject
 {

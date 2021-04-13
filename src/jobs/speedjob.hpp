@@ -27,13 +27,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
-/**
- * @class SpeedJob
- * @brief Create a timewarp producer to change speed of a producer
- *
- */
-
 class JobManager;
+
+/** @class SpeedJob
+    @brief Create a timewarp producer to change speed of a producer
+ */
 class SpeedJob : public MeltJob
 {
     Q_OBJECT

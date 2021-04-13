@@ -28,10 +28,10 @@
 #include <memory>
 #include <unordered_map>
 
+class ProjectItemModel;
+
 /** @brief This namespace provides convenience functions to create clips based on various parameters
  */
-
-class ProjectItemModel;
 namespace ClipCreator {
 /** @brief Create and inserts a color clip
    @param color : a string of the form "0xff0000ff" (solid red in RGBA)
@@ -50,7 +50,6 @@ QString createColorClip(const QString &color, int duration, const QString &name,
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
 */
-
 QString createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
                         const std::shared_ptr<ProjectItemModel> &model);
 

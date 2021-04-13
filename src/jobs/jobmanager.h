@@ -37,12 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class AbstractClipJob;
 
-/**
- * @class JobManager
- * @brief This class is responsible for clip jobs management.
- *
- */
-
 enum class JobManagerStatus { NoJob, Pending, Running, Finished, Canceled };
 Q_DECLARE_METATYPE(JobManagerStatus)
 struct Job_t
@@ -60,7 +54,9 @@ struct Job_t
     bool m_failed = false;    // flag that we set to true when a problem occurred
 };
 
-
+/** @class JobManager
+    @brief This class is responsible for clip jobs management.
+ */
 class JobManager : public QAbstractListModel, public enable_shared_from_this_virtual<JobManager>
 {
     Q_OBJECT

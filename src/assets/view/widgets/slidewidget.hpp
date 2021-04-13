@@ -30,7 +30,6 @@
  * @brief Provides options to choose slide.
  * @author Jean-Baptiste Mardelle
  */
-
 class SlideWidget : public AbstractParamWidget, public Ui::Wipeval_UI
 {
     Q_OBJECT

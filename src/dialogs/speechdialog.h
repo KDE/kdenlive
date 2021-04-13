@@ -34,7 +34,6 @@ class QAction;
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
 {
     Q_OBJECT

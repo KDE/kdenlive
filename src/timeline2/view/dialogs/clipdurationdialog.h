@@ -23,12 +23,10 @@
 #include "timecodedisplay.h"
 #include "ui_clipdurationdialog_ui.h"
 
-/**
- * @class ClipDurationDialog
- * @brief A dialog for modifying an item's (clip or transition) duration.
- * @author Jean-Baptiste Mardelle
+/** @class ClipDurationDialog
+    @brief A dialog for modifying an item's (clip or transition) duration.
+    @author Jean-Baptiste Mardelle
  */
-
 class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
 {
     Q_OBJECT

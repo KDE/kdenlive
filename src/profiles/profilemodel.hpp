@@ -29,11 +29,10 @@
 
 #include <mlt++/MltProfile.h>
 
-/** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
- *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
- *
- */
-
+/** @class ProfileModel
+    @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
+    It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
+  */
 class ProfileModel : public ProfileInfo
 {
 
@@ -78,7 +77,8 @@ protected:
     std::unique_ptr<Mlt::Profile> m_profile;
 };
 
-/** @brief This class serves to describe the parameters of a profile
+/** @class ProfileParam
+    @brief This class serves to describe the parameters of a profile
  */
 class ProfileParam : public ProfileInfo
 {

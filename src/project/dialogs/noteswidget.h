@@ -22,12 +22,10 @@
 
 #include <QTextEdit>
 
-/**
- * @class NotesWidget
- * @brief A small text editor to create project notes.
- * @author Jean-Baptiste Mardelle
+/** @class NotesWidget
+    @brief A small text editor to create project notes.
+    @author Jean-Baptiste Mardelle
  */
-
 class NotesWidget : public QTextEdit
 {
     Q_OBJECT

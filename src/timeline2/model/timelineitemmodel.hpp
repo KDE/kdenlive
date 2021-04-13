@@ -25,7 +25,10 @@
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
 
-/** @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
+class MarkerListModel;
+
+/** @class TimelineItemModel
+    @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
 
    It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be
    hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
@@ -40,11 +43,7 @@
    An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
    have a track index as parent.
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to.
-
-*/
-
-class MarkerListModel;
-
+   */
 class TimelineItemModel : public TimelineModel
 {
     Q_OBJECT

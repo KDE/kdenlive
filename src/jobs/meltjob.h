@@ -34,12 +34,9 @@ class Filter;
 class Event;
 } // namespace Mlt
 
-/**
- * @class MeltJob
- * @brief This is an abstract class for jobs that rely on a melt filter to process the clips
- *
+/** @class MeltJob
+    @brief This is an abstract class for jobs that rely on a melt filter to process the clips
  */
-
 class MeltJob : public AbstractClipJob
 {
     Q_OBJECT

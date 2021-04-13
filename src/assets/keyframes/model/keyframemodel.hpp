@@ -37,15 +37,16 @@ class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 
-/** @brief This class is the model for a list of keyframes.
-   A keyframe is defined by a time, a type and a value
-   We store them in a sorted fashion using a std::map
- */
 
 enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 
+/** @class KeyframeModel
+    @brief This class is the model for a list of keyframes.
+   A keyframe is defined by a time, a type and a value
+   We store them in a sorted fashion using a std::map
+ */
 class KeyframeModel : public QAbstractListModel
 {
     Q_OBJECT

@@ -39,13 +39,11 @@ class AudioStreamInfo;
 class EffectStackModel;
 class MarkerListModel;
 
-/**
- * @class ClipController
- * @brief Provides a convenience wrapper around the project Bin clip producers.
- * It also holds a QList of track producers for the 'master' producer in case we
- * need to update or replace them
+/** @class ClipController
+ *  @brief Provides a convenience wrapper around the project Bin clip producers.
+ *  It also holds a QList of track producers for the 'master' producer in case we
+ *  need to update or replace them
  */
-
 class ClipController
 {
 public:

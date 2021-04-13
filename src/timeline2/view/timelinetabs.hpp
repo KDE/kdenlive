@@ -25,13 +25,13 @@
 #include <QTabWidget>
 #include <memory>
 
-/** @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
- */
-
 class TimelineWidget;
 class AssetParameterModel;
 class EffectStackModel;
 
+/** @class TimelineContainer
+    @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
+ */
 class TimelineContainer : public QWidget
 {
 

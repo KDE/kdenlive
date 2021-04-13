@@ -20,7 +20,6 @@ class JogShuttleAction;
  * @class JogManager
  * @brief Turns JogShuttle support on/off according to KdenliveSettings and connects between JogShuttleAction and the actual actions.
  */
-
 class JogManager : public QObject
 {
     Q_OBJECT

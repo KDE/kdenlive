@@ -31,7 +31,8 @@
 /** State of a point being moved */
 enum class State_t { NORMAL, DRAG };
 
-/** This class is a workaround to be able to use templating in the actual class
+/** @class __dummy_AbstractCurveWidget
+    @brief This class is a workaround to be able to use templating in the actual class
     Note that Qt doesn't support templated signals, so we have to define a signal for
     all possible Point type
 */

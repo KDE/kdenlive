@@ -26,14 +26,14 @@
 #include <QSemaphore>
 #include <memory>
 
-/** @brief This class represents the job that corresponds to computing the thumb of a clip
- */
-
 class ProjectClip;
 namespace Mlt {
 class Producer;
 }
 
+/** @class CacheJob
+    @brief This class represents the job that corresponds to computing the thumb of a clip
+ */
 class CacheJob : public AbstractClipJob
 {
     Q_OBJECT

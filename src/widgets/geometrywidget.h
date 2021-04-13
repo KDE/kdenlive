@@ -26,10 +26,9 @@ class QAction;
 class DragValue;
 class Monitor;
 
-/**
- * @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
+/** @class GeometryWidget
+    @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
  */
-
 class GeometryWidget : public QWidget
 {
     Q_OBJECT

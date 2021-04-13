@@ -30,13 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDir>
 
-/**
- * @namespace TimelineFunction
- * @brief This namespace contains a list of static methods for advanced timeline editing features
- *  based on timelinemodel methods
- */
-
 class TimelineItemModel;
+
+/** @namespace TimelineFunction
+    @brief This namespace contains a list of static methods for advanced timeline editing features
+    based on timelinemodel methods
+ */
 struct TimelineFunctions
 {
     /** @brief Cuts a clip at given position

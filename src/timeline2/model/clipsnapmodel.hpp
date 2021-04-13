@@ -30,11 +30,10 @@
 
 class MarkerListModel;
 
-/** @brief This class represents the snap points of a clip of the timeline.
+/** @class ClipSnapModel
+    @brief This class represents the snap points of a clip of the timeline.
     Basically, one can add or remove snap points
- *
- */
-
+  */
 class ClipSnapModel : public virtual SnapInterface, public std::enable_shared_from_this<SnapInterface>
 {
 public:

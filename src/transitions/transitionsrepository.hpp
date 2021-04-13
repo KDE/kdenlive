@@ -28,11 +28,11 @@
 #include <memory>
 #include <mutex>
 
-/** @brief This class stores all the transitions that can be added by the user.
- * You can query any transitions based on its name.
- * Note that this class is a Singleton
+/** @class TransitionsRepository
+    @brief This class stores all the transitions that can be added by the user.
+    You can query any transitions based on its name.
+    Note that this class is a Singleton
  */
-
 class TransitionsRepository : public AbstractAssetsRepository<AssetListType::AssetType>
 {
 

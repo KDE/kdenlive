@@ -54,7 +54,6 @@ class Properties;
  * To workaround this, we need to have a master clip for each instance of the audio clip in the timeline. This class is tracking them all. This track also holds
  * a master clip for each clip where the timewarp producer has been applied
  */
-
 class ProjectClip : public AbstractProjectItem, public ClipController
 {
     Q_OBJECT

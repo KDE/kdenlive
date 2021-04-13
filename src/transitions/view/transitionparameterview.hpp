@@ -25,9 +25,9 @@
 #include "assets/model/assetparametermodel.hpp"
 #include <QQuickWidget>
 
-/** @brief This class is the view of the properties of a transition
+/** @class TransitionParameterView
+    @brief This class is the view of the properties of a transition
  */
-
 class TransitionParameterView : public QQuickWidget
 {
     Q_OBJECT

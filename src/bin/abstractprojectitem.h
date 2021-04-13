@@ -44,7 +44,6 @@ class ProjectItemModel;
  *
  * Project items are stored in a tree like structure ...
  */
-
 class AbstractProjectItem : public QObject, public TreeItem
 {
     Q_OBJECT

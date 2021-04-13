@@ -33,12 +33,6 @@
 #include <mlt++/MltProperties.h>
 
 class KeyframeModelList;
-/** @brief This class is the model for a list of parameters.
-   The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
-   using the relevant widgets.
-   Note that internally parameters are not sorted in any ways, because some effects like sox need a precise order
-
- */
 
 enum class ParamType {
     Double,
@@ -67,6 +61,13 @@ enum class ParamType {
     Hidden
 };
 Q_DECLARE_METATYPE(ParamType)
+
+/** @class AssetParameterModel
+    @brief This class is the model for a list of parameters.
+   The behaviour of a transition or an effect is typically  controlled by several parameters. This class exposes this parameters as a list that can be rendered
+   using the relevant widgets.
+   Note that internally parameters are not sorted in any ways, because some effects like sox need a precise order
+    */
 class AssetParameterModel : public QAbstractListModel, public enable_shared_from_this_virtual<AssetParameterModel>
 {
     Q_OBJECT

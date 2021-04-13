@@ -27,11 +27,6 @@
 #include <memory>
 #include <unordered_set>
 
-/** @brief This class is a wrapper around a melt playlist that allows one to store the Bin.
-    Clips that are in the bin must be added into this playlist so that they are savedn in the project's xml even if not inserted in the actual timeline.
-    The folder structure is also saved as properties.
- */
-
 class AbstractProjectItem;
 namespace Mlt {
 class Playlist;
@@ -41,6 +36,11 @@ class Tractor;
 
 class MarkerListModel;
 
+/** @class BinPlaylist
+    @brief This class is a wrapper around a melt playlist that allows one to store the Bin.
+    Clips that are in the bin must be added into this playlist so that they are savedn in the project's xml even if not inserted in the actual timeline.
+    The folder structure is also saved as properties.
+ */
 class BinPlaylist : public QObject
 {
 

@@ -8,11 +8,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-/**
-  Exports color planes (e.g. YUV-UV-planes) to a file.
-  Basically just for fun, but also for comparing color models.
- */
-
 #ifndef COLORPLANEEXPORT_H
 #define COLORPLANEEXPORT_H
 
@@ -22,6 +17,10 @@
 
 class ColorPlaneExport_UI;
 
+/** @class ColorPlaneExport
+    @brief Exports color planes (e.g. YUV-UV-planes) to a file.
+    Basically just for fun, but also for comparing color models.
+ */
 class ColorPlaneExport : public QDialog, public Ui::ColorPlaneExport_UI
 {
     Q_OBJECT

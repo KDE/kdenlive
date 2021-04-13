@@ -8,15 +8,15 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-/**
-  Color tools.
- */
-
 #ifndef COLORTOOLS_H
 #define COLORTOOLS_H
 
 #include <QImage>
 
+/** @class ColorTools
+    @brief \@todo Describe class ColorTools
+    @todo Describe class ColorTools
+ */
 class ColorTools : public QObject
 {
     Q_OBJECT

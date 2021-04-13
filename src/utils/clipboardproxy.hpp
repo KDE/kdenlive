@@ -23,10 +23,10 @@
 
 #include <QObject>
 
-/** @brief Provides an interface to the clipboard, to use directly from QML
+/** @class ClipboardProxy
+    @brief Provides an interface to the clipboard, to use directly from QML
     Inspired by https://stackoverflow.com/questions/40092352/passing-qclipboard-to-qml
  */
-
 class ClipboardProxy : public QObject
 {
     Q_OBJECT

@@ -27,9 +27,9 @@
 
 class TransitionListWidgetProxy;
 
-/** @brief This class is a widget that display the list of available effects
+/** @class TransitionListWidget
+    @brief This class is a widget that display the list of available effects
  */
-
 class TransitionListWidget : public AssetListWidget
 {
     Q_OBJECT

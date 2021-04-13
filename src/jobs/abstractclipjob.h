@@ -27,13 +27,11 @@
 #include "undohelper.hpp"
 #include <memory>
 
-/**
- * @class AbstractClipJob
- * @brief This is the base class for all Kdenlive clip jobs.
- *
- */
-
 struct Job_t;
+
+/** @class AbstractClipJob
+    @brief This is the base class for all Kdenlive clip jobs.
+ */
 class AbstractClipJob : public QObject
 {
     Q_OBJECT

@@ -72,6 +72,10 @@ namespace Mlt {
 class Producer;
 }
 
+/** @class MyListView
+    @brief \@todo Describe class MyListView
+    @todo Describe class MyListView
+ */
 class MyListView : public QListView
 {
     Q_OBJECT
@@ -95,6 +99,10 @@ private:
     PlaylistState::ClipState m_dragType;
 };
 
+/** @class MyTreeView
+    @brief \@todo Describe class MyTreeView
+    @todo Describe class MyTreeView
+ */
 class MyTreeView : public QTreeView
 {
     Q_OBJECT
@@ -130,6 +138,10 @@ signals:
     void editingChanged();
 };
 
+/** @class SmallJobLabel
+    @brief \@todo Describe class SmallJobLabel
+    @todo Describe class SmallJobLabel
+ */
 class SmallJobLabel : public QPushButton
 {
     Q_OBJECT
@@ -153,6 +165,10 @@ private slots:
     void slotTimeLineFinished();
 };
 
+/** @class LineEventEater
+    @brief \@todo Describe class LineEventEater
+    @todo Describe class LineEventEater
+ */
 class LineEventEater : public QObject
 {
     Q_OBJECT
@@ -167,11 +183,10 @@ signals:
     void showClearButton(bool);
 };
 
-/**
- * @class Bin
- * @brief The bin widget takes care of both item model and view upon project opening.
+/** @class ClipWidget
+    @brief \@todo Describe class ClipWidget
+    @todo Describe class ClipWidget
  */
-
 class ClipWidget : public QWidget
 {
 public:
@@ -180,6 +195,10 @@ public:
     void init(QDockWidget* m_DockClipWidget);
 };
 
+/**
+ * @class Bin
+ * @brief The bin widget takes care of both item model and view upon project opening.
+ */
 class Bin : public QWidget
 {
     Q_OBJECT

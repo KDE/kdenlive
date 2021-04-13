@@ -25,15 +25,15 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
-/** @brief This class is a widget that display the list of available effects
- */
-
 class EffectFilter;
 class EffectTreeModel;
 class EffectListWidgetProxy;
 class KActionCategory;
 class QMenu;
 
+/** @class EffectListWidget
+    @brief This class is a widget that display the list of available effects
+ */
 class EffectListWidget : public AssetListWidget
 {
     Q_OBJECT

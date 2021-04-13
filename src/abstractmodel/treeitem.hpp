@@ -28,7 +28,11 @@
 #include <memory>
 #include <unordered_map>
 
-/** @brief This class is a generic class to represent items of a tree-like model
+
+class AbstractTreeModel;
+
+/** @class TreeItem
+    @brief This class is a generic class to represent items of a tree-like model.
    It works in tandem with AbstractTreeModel or one of its derived classes.
    There is a registration mechanism that takes place: each TreeItem holds a unique Id
    that can allow to retrieve it directly from the model.
@@ -41,8 +45,6 @@
    Note that the root is a special object. In particular, it must stay at the root and
    must not be declared as the child of any other item.
  */
-
-class AbstractTreeModel;
 class TreeItem : public enable_shared_from_this_virtual<TreeItem>
 {
 public:

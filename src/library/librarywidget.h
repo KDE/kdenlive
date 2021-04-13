@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class LibraryWidget
- * @brief A "library" that contains a list of clips to be used across projects
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef LIBRARYWIDGET_H
 #define LIBRARYWIDGET_H
 
@@ -53,7 +47,6 @@ class QToolBar;
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
  */
-
 class LibraryItemDelegate : public QStyledItemDelegate
 {
 public:
@@ -141,6 +134,10 @@ public:
     }
 };
 
+/** @class LibraryTree
+    @brief \@todo Describe class LibraryTree
+    @todo Describe class LibraryTree
+ */
 class LibraryTree : public QTreeWidget
 {
     Q_OBJECT
@@ -162,6 +159,10 @@ signals:
     void importSequence(const QStringList &, const QString &);
 };
 
+/** @class LibraryWidget
+    @brief A "library" that contains a list of clips to be used across projects
+    @author Jean-Baptiste Mardelle
+ */
 class LibraryWidget : public QWidget
 {
     Q_OBJECT

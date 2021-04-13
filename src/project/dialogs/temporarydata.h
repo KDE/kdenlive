@@ -55,12 +55,9 @@ private:
     QList<int> m_segments;
 };
 
-/**
- * @class TreeWidgetItem
- * @brief Manage custom sort order for size.
- *
- */
-
+/** @class TreeWidgetItem
+    @brief Manage custom sort order for size.
+  */
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
@@ -87,12 +84,9 @@ private:
     }
 };
 
-/**
- * @class TemporaryData
- * @brief Dialog allowing management of cache data.
- *
+/** @class TemporaryData
+    @brief Dialog allowing management of cache data.
  */
-
 class TemporaryData : public QDialog, public Ui::ManageCache_UI
 {
     Q_OBJECT

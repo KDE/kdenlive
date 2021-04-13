@@ -24,14 +24,11 @@
 
 class DragValue;
 
-/**
- * @class DoubleWidget
- * @brief Widget to choose a double parameter (for a effect) with the help of a slider and a spinbox.
- * @author Till Theato
- *
- * The widget does only handle integers, so the parameter has to be converted into the proper double range afterwards.
+/** @class DoubleWidget
+    @brief Widget to choose a double parameter (for a effect) with the help of a slider and a spinbox.
+    The widget does only handle integers, so the parameter has to be converted into the proper double range afterwards.
+    @author Till Theato
  */
-
 class DoubleWidget : public QWidget
 {
     Q_OBJECT

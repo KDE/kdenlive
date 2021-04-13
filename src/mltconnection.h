@@ -18,12 +18,10 @@ namespace Mlt {
 class Repository;
 }
 
-/**
- * @class MltConnection
- * @brief Initializes MLT and provides access to its API
- * This is where the Mlt Factory is initialized, as well as the producers
+/** @class MltConnection
+    @brief Initializes MLT and provides access to its API.
+    This is where the Mlt Factory is initialized, as well as the producers
  */
-
 class MltConnection
 {
 

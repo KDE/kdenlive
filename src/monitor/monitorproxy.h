@@ -19,10 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/** @brief  This class is a wrapper around the monitor / glwidget and handles communication
- *          with the qml overlay through its properties.
- */
-
 #ifndef MONITORPROXY_H
 #define MONITORPROXY_H
 
@@ -34,6 +30,10 @@
 class GLWidget;
 class TimecodeDisplay;
 
+/** @class MonitorProxy
+    @brief This class is a wrapper around the monitor / glwidget and handles communication
+    with the qml overlay through its properties.
+ */
 class MonitorProxy : public QObject
 {
     Q_OBJECT
