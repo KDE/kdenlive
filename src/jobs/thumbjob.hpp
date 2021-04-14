@@ -27,14 +27,14 @@
 #include <QMutex>
 #include <memory>
 
-/** @brief This class represents the job that corresponds to computing the thumb of a clip
- */
-
 class ProjectClip;
 namespace Mlt {
 class Producer;
 }
 
+/** @class ThumbJob
+    @brief This class represents the job that corresponds to computing the thumb of a clip
+ */
 class ThumbJob : public AbstractClipJob
 {
     Q_OBJECT

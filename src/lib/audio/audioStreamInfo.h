@@ -16,8 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <memory>
 #include <mlt++/Mlt.h>
 
-/**
-  Provides easy access to properties of an audio stream.
+/** @class AudioStreamInfo
+    @brief Provides easy access to properties of an audio stream.
   */
 class AudioStreamInfo
 {

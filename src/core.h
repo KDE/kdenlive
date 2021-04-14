@@ -60,7 +60,6 @@ namespace Mlt {
  * Needs to be initialize before any widgets are created in MainWindow.
  * Plugins should be loaded after the widget setup.
  */
-
 class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT

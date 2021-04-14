@@ -30,7 +30,6 @@ class QProgressDialog;
 
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
-
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
 
 #endif

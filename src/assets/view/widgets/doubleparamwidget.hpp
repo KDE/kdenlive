@@ -26,14 +26,13 @@
 #include <QModelIndex>
 #include <memory>
 
-/** @brief This represent a double parameter
-
- */
-
 class AssetParameterModel;
 class DoubleWidget;
 class QVBoxLayout;
 
+/** @class DoubleParamWidget
+    @brief This represent a double parameter
+ */
 class DoubleParamWidget : public AbstractParamWidget
 {
     Q_OBJECT

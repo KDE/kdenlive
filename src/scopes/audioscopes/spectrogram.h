@@ -8,7 +8,17 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-/** This Spectrogram shows the spectral power distribution of incoming audio samples
+#ifndef SPECTROGRAM_H
+#define SPECTROGRAM_H
+
+#include "abstractaudioscopewidget.h"
+#include "lib/audio/fftTools.h"
+#include "ui_spectrogram_ui.h"
+
+class Spectrogram_UI;
+
+/** @class Spectrogram 
+    @brief This Spectrogram shows the spectral power distribution of incoming audio samples
     over time. See https://en.wikipedia.org/wiki/Spectrogram.
 
     The Spectrogram makes use of two caches:
@@ -21,15 +31,6 @@
       case for an image (consider re-sizing the widget to 100x100 px and then back to
       800x400 px -- lost is lost).
 */
-
-#ifndef SPECTROGRAM_H
-#define SPECTROGRAM_H
-
-#include "abstractaudioscopewidget.h"
-#include "lib/audio/fftTools.h"
-#include "ui_spectrogram_ui.h"
-
-class Spectrogram_UI;
 class Spectrogram : public AbstractAudioScopeWidget
 {
     Q_OBJECT

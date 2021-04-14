@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class RecManager
- * @brief All recording specific features are gathered here
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef RECMANAGER_H
 #define RECMANAGER_H
 
@@ -45,6 +39,10 @@ namespace Mlt {
 class Producer;
 }
 
+/** @class RecManager
+    @brief All recording specific features are gathered here
+    @author Jean-Baptiste Mardelle
+ */
 class RecManager : public QObject
 {
     Q_OBJECT

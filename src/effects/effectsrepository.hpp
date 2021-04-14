@@ -28,11 +28,11 @@
 #include <mutex>
 #include <unordered_map>
 
-/** @brief This class stores all the effects that can be added by the user.
- * You can query any effect based on its name.
- * Note that this class is a Singleton
+/** @class EffectsRepository
+    @brief This class stores all the effects that can be added by the user.
+    You can query any effect based on its name.
+    Note that this class is a Singleton
  */
-
 class EffectsRepository : public AbstractAssetsRepository<AssetListType::AssetType>
 {
 

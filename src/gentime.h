@@ -26,7 +26,6 @@
  * @brief Encapsulates a time, which can be set in various forms and outputted in various forms.
  * @author Jason Wood
  */
-
 class GenTime
 {
 public:

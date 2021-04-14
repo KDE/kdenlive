@@ -36,7 +36,6 @@ namespace Mlt {
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
 {
     Q_OBJECT

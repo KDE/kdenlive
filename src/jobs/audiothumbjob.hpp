@@ -26,14 +26,15 @@
 #include <memory>
 #include <QImage>
 
-/** @brief This class represents the job that corresponds to computing the audio thumb of a clip (waveform)
- */
-
 class ProjectClip;
 namespace Mlt {
 class Producer;
 }
 class QProcess;
+
+/** @class AudioThumbJob
+    @brief This class represents the job that corresponds to computing the audio thumb of a clip (waveform)
+ */
 class AudioThumbJob : public AbstractClipJob
 {
     Q_OBJECT

@@ -29,9 +29,6 @@
 #include <QWidget>
 #include <memory>
 
-/** @brief This class is the view for a list of parameters.
- */
-
 class QVBoxLayout;
 class QMenu;
 class QActionGroup;
@@ -39,6 +36,9 @@ class AbstractParamWidget;
 class AssetParameterModel;
 class KeyframeWidget;
 
+/** @class AssetParameterView
+    @brief This class is the view for a list of parameters.
+ */
 class AssetParameterView : public QWidget
 {
     Q_OBJECT

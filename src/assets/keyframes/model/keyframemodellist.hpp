@@ -37,11 +37,11 @@
 class AssetParameterModel;
 class DocUndoStack;
 
-/** @brief This class is a container for the keyframe models.
+/** @class KeyframeModelList
+    @brief This class is a container for the keyframe models.
    If an asset has several keyframable parameters, each one has its own keyframeModel,
    but we regroup all of these in a common class to provide unified access.
  */
-
 class KeyframeModelList : public QObject
 {
     Q_OBJECT

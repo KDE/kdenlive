@@ -29,11 +29,11 @@
 #include <mutex>
 #include <unordered_map>
 
-/** @brief This class is used to read all the provider configs available.
- * You can then query providers based on their paths
- * Note that this class is a Singleton, with Mutex protections to allow concurrent access.
+/** @class ProvidersRepository
+    @brief This class is used to read all the provider configs available.
+    You can then query providers based on their paths
+    Note that this class is a Singleton, with Mutex protections to allow concurrent access.
  */
-
 class ProvidersRepository
 {
 public:

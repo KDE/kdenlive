@@ -29,6 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Monitor;
 
+/** @class RotoHelper
+    @brief \@todo Describe class RotoHelper
+    @todo Describe class RotoHelper
+ */
 class RotoHelper : public KeyframeMonitorHelper
 {
     Q_OBJECT

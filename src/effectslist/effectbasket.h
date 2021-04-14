@@ -27,7 +27,6 @@
  * @brief A list of favorite effects that can be embedded in a toolbar
  * @author Jean-Baptiste Mardelle
  */
-
 class EffectBasket : public QListWidget
 {
     Q_OBJECT

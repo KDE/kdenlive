@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class AudioGraphSpectrum
- * @brief An audio spectrum
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
 
@@ -49,6 +43,10 @@ public:
 
 };*/
 
+/** @class AudioGraphWidget
+    @brief \@todo Describe class AudioGraphWidget
+    @todo Describe class AudioGraphWidget
+ */
 class AudioGraphWidget : public QWidget
 {
     Q_OBJECT
@@ -74,6 +72,10 @@ private:
     void drawChanLabels(QPainter &p, const QRect &rect, int barWidth);
 };
 
+/** @class AudioGraphSpectrum
+    @brief An audio spectrum
+    @author Jean-Baptiste Mardelle
+ */
 class AudioGraphSpectrum : public ScopeWidget
 {
     Q_OBJECT

@@ -26,14 +26,14 @@
 #include <QDomElement>
 #include <memory>
 
-/** @brief This class represents the job that corresponds to loading a clip from xml
- */
-
 class ProjectClip;
 namespace Mlt {
 class Producer;
 }
 
+/** @class LoadJob
+    @brief This class represents the job that corresponds to loading a clip from xml
+ */
 class LoadJob : public AbstractClipJob
 {
     Q_OBJECT

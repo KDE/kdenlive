@@ -27,10 +27,11 @@
 #include <QWidget>
 #include <memory>
 
-/** @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
- */
-
 class AssetParameterModel;
+
+/** @class AbstractParamWidget
+    @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
+ */
 class AbstractParamWidget : public QWidget
 {
     Q_OBJECT

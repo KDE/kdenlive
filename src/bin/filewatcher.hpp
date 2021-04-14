@@ -28,10 +28,10 @@
 #include <unordered_map>
 #include <unordered_set>
 
-/** @brief This class is responsible for watching all files used in the project
+/** @class FileWatcher
+    @brief This class is responsible for watching all files used in the project
     and triggers a reload notification when a file changes.
  */
-
 class FileWatcher : public QObject
 {
     Q_OBJECT

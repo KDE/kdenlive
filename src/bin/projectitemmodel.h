@@ -51,7 +51,6 @@ class Tractor;
  * @class ProjectItemModel
  * @brief Acts as an adaptor to be able to use BinModel with item views.
  */
-
 class ProjectItemModel : public AbstractTreeModel
 {
     Q_OBJECT

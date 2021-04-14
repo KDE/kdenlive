@@ -26,13 +26,14 @@
 #include <QQuickWidget>
 #include <memory>
 
-/** @brief This class is a generic widget that display the list of available assets
- */
 
 class AssetIconProvider;
 class AssetFilter;
 class AssetTreeModel;
 
+/** @class AssetListWidget
+    @brief This class is a generic widget that display the list of available assets
+ */
 class AssetListWidget : public QQuickWidget
 {
     Q_OBJECT

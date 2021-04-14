@@ -29,9 +29,9 @@
 #include <mutex>
 #include <unordered_map>
 
-/** @brief This class is the base class for assets (transitions or effets) repositories
+/** @class AbstractAssetsRepository
+    @brief This class is the base class for assets (transitions or effets) repositories
  */
-
 template <typename AssetType> class AbstractAssetsRepository
 {
 

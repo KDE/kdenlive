@@ -32,7 +32,6 @@ class FlowLayout;
  * @brief Provides options to choose 3 colors.
  * @author Jean-Baptiste Mardelle
  */
-
 class LumaLiftGainParam : public AbstractParamWidget
 {
     Q_OBJECT

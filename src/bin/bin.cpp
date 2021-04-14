@@ -82,7 +82,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
  */
-
 class BinItemDelegate : public QStyledItemDelegate
 {
 public:

@@ -27,13 +27,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
-/**
- * @class SceneSplitJob
- * @brief Detects the scenes of a clip using a mlt filter
- *
- */
-
 class JobManager;
+
+/** @class SceneSplitJob
+    @brief Detects the scenes of a clip using a mlt filter
+ */
 class SceneSplitJob : public MeltJob
 {
     Q_OBJECT

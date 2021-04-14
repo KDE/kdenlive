@@ -31,7 +31,8 @@
 #include <unordered_map>
 #include <vector>
 
-/** @brief This class class is an interface to the caches that store thumbnails.
+/** @class ThumbnailCache
+    @brief This class class is an interface to the caches that store thumbnails.
     In Kdenlive, we use two such caches, a persistent that is stored on disk to allow thumbnails to be reused when reopening.
     The other one is a volatile LRU cache that lives in memory.
     Note that for the volatile cache uses a custom implementation.
@@ -39,7 +40,6 @@
     KImageCache is not suitable since it lacks a way to remove objects from the cache.
  * Note that this class is a Singleton
  */
-
 class ThumbnailCache
 {
 

@@ -30,13 +30,13 @@
 #include <mutex>
 #include <unordered_map>
 
-/** @brief This class is used to read all the profiles available to the user (MLT defaults one and Custom ones).
- * You can then query profiles based on their paths
- * Note that this class is a Singleton, with Mutex protections to allow concurrent access.
- */
-
 class ProfileModel;
 
+/** @class ProfileRepository 
+    @brief This class is used to read all the profiles available to the user (MLT defaults one and Custom ones).
+    You can then query profiles based on their paths
+    Note that this class is a Singleton, with Mutex protections to allow concurrent access.
+ */
 class ProfileRepository
 {
 

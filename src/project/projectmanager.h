@@ -37,11 +37,9 @@ class QProgressDialog;
 class QUrl;
 class DocUndoStack;
 
-/**
- * @class ProjectManager
- * @brief Takes care of interaction with projects.
+/** @class ProjectManager
+    @brief Takes care of interaction with projects.
  */
-
 class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 {
     Q_OBJECT

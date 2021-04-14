@@ -35,9 +35,7 @@ class QToolButton;
 class QComboBox;
 class QScrollArea;
 
-/** @brief This class is the widget that provides interaction with the asset currently selected.
-    That is, it either displays an effectStack or the parameters of a transition
- */
+
 
 class AssetParameterModel;
 class AssetParameterView;
@@ -47,6 +45,11 @@ class TransitionStackView;
 class MixStackView;
 class QLabel;
 
+
+/** @class AssetPanel
+    @brief This class is the widget that provides interaction with the asset currently selected.
+    That is, it either displays an effectStack or the parameters of a transition
+ */
 class AssetPanel : public QWidget
 {
     Q_OBJECT

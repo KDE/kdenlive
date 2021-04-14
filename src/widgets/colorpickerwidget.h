@@ -41,14 +41,11 @@ signals:
     void getColor();
 };
 
-/**
- * @class ColorPickerWidget
- * @brief A widget to pick a color anywhere on the screen.
- * @author Till Theato
- *
- * The code is partially based on the color picker in KColorDialog.
+/** @class ColorPickerWidget
+    @brief A widget to pick a color anywhere on the screen.
+    The code is partially based on the color picker in KColorDialog.
+    @author Till Theato
  */
-
 class ColorPickerWidget : public QWidget
 {
     Q_OBJECT

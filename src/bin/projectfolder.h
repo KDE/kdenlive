@@ -25,14 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 
+class ProjectClip;
+class Bin;
+
 /**
  * @class ProjectFolder
  * @brief A folder in the bin.
  */
-
-class ProjectClip;
-class Bin;
-
 class ProjectFolder : public AbstractProjectItem
 {
     Q_OBJECT

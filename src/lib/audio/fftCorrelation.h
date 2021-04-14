@@ -12,11 +12,11 @@ the Free Software Foundation, either version 3 of the License, or
 #define FFTCORRELATION_H
 
 #include <QtGlobal>
-/**
-  This class provides methods to calculate convolution
-  and correlation of two vectors by means of FFT, which
-  is O(n log n) (convolution in spacial domain would be
-  O(n²)).
+/** @class FFTCorrelation
+    @brief This class provides methods to calculate convolution
+    and correlation of two vectors by means of FFT, which
+    is O(n log n) (convolution in spacial domain would be
+    O(n²)).
   */
 class FFTCorrelation
 {

@@ -37,13 +37,13 @@ class ClipController;
 class DocUndoStack;
 class SnapInterface;
 
-/** @brief This class is the model for a list of markers.
-   A marker is defined by a time, a type (the color used to represent it) and a comment string.
-   We store them in a sorted fashion using a std::map
+/** @class MarkerListModel
+    @brief This class is the model for a list of markers.
+    A marker is defined by a time, a type (the color used to represent it) and a comment string.
+    We store them in a sorted fashion using a std::map
 
-   A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
+    A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
  */
-
 class MarkerListModel : public QAbstractListModel
 {
     Q_OBJECT

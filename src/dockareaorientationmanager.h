@@ -14,11 +14,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 class QAction;
 
-/**
- * @class DockAreaOrientationManager
- * @brief Handles functionality to set the orientation of the DockWidgetAreas
+/** @class DockAreaOrientationManager
+    @brief Handles functionality to set the orientation of the DockWidgetAreas
  */
-
 class DockAreaOrientationManager : public QObject
 {
     Q_OBJECT

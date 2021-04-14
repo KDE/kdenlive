@@ -27,13 +27,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
-/**
- * @class StabilizeJob
- * @brief Stabilize a clip using a mlt filter
- *
- */
-
 class JobManager;
+
+/** @class StabilizeJob
+    @brief Stabilize a clip using a mlt filter
+ */
 class StabilizeJob : public MeltJob
 {
     Q_OBJECT

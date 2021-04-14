@@ -25,10 +25,10 @@
 #include <map>
 #include <vector>
 
-/** @brief This is a base class for snap models (timeline, clips)
+/** @class SnapInterface
+    @brief This is a base class for snap models (timeline, clips)
     Implements only basic functions like add or remove snap points
  */
-
 class SnapInterface
 {
 public:
@@ -42,11 +42,10 @@ public:
 };
 
 
-/** @brief This class represents the snap points of the timeline.
+/** @class SnapModel
+    @brief This class represents the snap points of the timeline.
     Basically, one can add or remove snap points, and query the closest snap point to a given location
- *
  */
-
 class SnapModel : public virtual SnapInterface
 {
 public:

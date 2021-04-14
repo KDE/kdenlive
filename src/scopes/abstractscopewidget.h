@@ -15,8 +15,9 @@
 #include <QMenu>
 #include <QSemaphore>
 #include <QWidget>
-/**
-  \brief Abstract class for audio/colour scopes (receive data and paint it).
+
+/** @class AbstractScopeWidget
+    @brief Abstract class for audio/colour scopes (receive data and paint it).
 
   This abstract widget is a proof that abstract things sometimes \b *are* useful.
 

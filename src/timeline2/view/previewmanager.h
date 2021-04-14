@@ -36,16 +36,14 @@ class Playlist;
 class Producer;
 } // namespace Mlt
 
-/**
- * @namespace PreviewManager
- * @brief Handles timeline preview.
- * This manager creates an additional video track on top of the current timeline and renders
- * chunks (small video files of 25 frames) that are added on this track when rendered.
- * This allow us to get a preview with a smooth playback of our project.
- * Only the preview zone is rendered. Once defined, a preview zone shows as a red line below
- * the timeline ruler. As chunks are rendered, the zone turns to green.
+/** @class PreviewManager
+    @brief Handles timeline preview.
+    This manager creates an additional video track on top of the current timeline and renders
+    chunks (small video files of 25 frames) that are added on this track when rendered.
+    This allow us to get a preview with a smooth playback of our project.
+    Only the preview zone is rendered. Once defined, a preview zone shows as a red line below
+    the timeline ruler. As chunks are rendered, the zone turns to green.
  */
-
 class PreviewManager : public QObject
 {
     Q_OBJECT

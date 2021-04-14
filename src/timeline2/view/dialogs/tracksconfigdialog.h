@@ -40,12 +40,10 @@ class TrackInfo;
 class Timeline;
 class QTableWidgetItem;
 
-/**
- * @class TracksConfigDialog
- * @brief A dialog to change the name, type, ... of tracks.
- * @author Till Theato
+/** @class TracksConfigDialog
+    @brief A dialog to change the name, type, ... of tracks.
+    @author Till Theato
  */
-
 class TracksConfigDialog : public QDialog, public Ui::TracksConfigDialog_UI
 {
     Q_OBJECT

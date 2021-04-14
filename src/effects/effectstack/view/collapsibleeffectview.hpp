@@ -41,7 +41,6 @@ class TimecodeDisplay;
  * @brief A container for the parameters of an effect
  * @author Jean-Baptiste Mardelle
  */
-
 class CollapsibleEffectView : public AbstractCollapsibleWidget
 {
     Q_OBJECT

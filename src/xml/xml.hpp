@@ -30,7 +30,6 @@
 
 /** @brief This static class provides helper functions to manipulate Dom objects easily
  */
-
 namespace Xml {
 
 /** @brief Returns the content of a given tag within the current DomElement.

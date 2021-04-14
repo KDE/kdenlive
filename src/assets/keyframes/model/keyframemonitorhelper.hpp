@@ -32,10 +32,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Monitor;
 class AssetParameterModel;
 
-/** @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
-   the data and pass it to the model
-
- */
+/** @class KeyframeMonitorHelper
+    @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
+    the data and pass it to the model
+    */
 class KeyframeMonitorHelper : public QObject
 {
     Q_OBJECT

@@ -35,13 +35,12 @@
 class KJob;
 class KArchive;
 
-/**
- * @class ArchiveWidget
- * @brief A widget allowing to archive a project (copy all project files to a new location)
- * @author Jean-Baptiste Mardelle
- */
-
 class KMessageWidget;
+
+/** @class ArchiveWidget
+    @brief A widget allowing to archive a project (copy all project files to a new location)
+    @author Jean-Baptiste Mardelle
+ */
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 {
     Q_OBJECT

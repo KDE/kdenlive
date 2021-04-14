@@ -64,10 +64,9 @@ signals:
     void resetValue();
 };
 
-/**
- * @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
+/** @class DragValue
+    @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
  */
-
 class DragValue : public QWidget
 {
     Q_OBJECT

@@ -26,6 +26,10 @@
 
 #include <QWidget>
 
+/** @class BezierSplineEditor
+    @brief \@todo Describe class BezierSplineEditor
+    @todo Describe class BezierSplineEditor
+ */
 class BezierSplineEditor : public AbstractCurveWidget<CubicBezierSpline>
 {
     Q_OBJECT
