@@ -2105,7 +2105,21 @@ void TimelineController::insertSpace(int trackId, int frame)
         pCore->displayMessage(i18n("No clips found to insert space"), ErrorMessage, 500);
         return;
     }
-    int start = m_model->getItemPosition(cid);
+    int start = -1;
+    if (m_model->isGroup(cid)) {
+        std::unordered_set<int> sub = m_model->m_groups->getLeaves(cid);
+        cid = *sub.cbegin();
+        int start = m_model->getItemPosition(cid);
+        for (int current_id : sub) {
+            int st = m_model->getItemPosition(current_id);
+            if (st < start) {
+                cid = current_id;
+                start = st;
+            }
+        }
+    } else {
+        start = m_model->getItemPosition(cid);
+    }
     requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId);
 }
 
@@ -2187,8 +2201,10 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         }
         QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), duration, minSpeed, maxSpeed, speed < 0, pitchCompensate));
         if (d->exec() != QDialog::Accepted) {
+            emit regainFocus();
             return;
         }
+        emit regainFocus();
         speed = d->getValue();
         pitchCompensate = d->getPitchCompensate();
         qDebug() << "requesting speed " << speed;
@@ -3158,6 +3174,7 @@ void TimelineController::editItemDuration(int id)
             undo();
         }
     }
+    emit regainFocus();
 }
 
 void TimelineController::editTitleClip(int id)
@@ -4152,6 +4169,7 @@ void TimelineController::importSubtitle(const QString path)
         }
         subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true);
     }
+    emit regainFocus();
 }
 
 void TimelineController::exportSubtitle()

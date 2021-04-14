@@ -1736,7 +1736,6 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     slotOpenClip(nullptr);
     m_streamAction->setVisible(false);
     m_glMonitor->setProducer(path);
-    m_glMonitor->producer();
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
     m_glMonitor->setRulerInfo(m_glMonitor->producer()->get_length() - 1);

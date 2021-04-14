@@ -306,11 +306,14 @@ Rectangle {
             dragProxy.height = tentativeClip.height
             dragProxy.masterObject = tentativeClip
             dragProxy.sourceTrack = tk
-            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk))
             dragProxy.sourceFrame = tentativeClip.modelStart
             dragProxy.isComposition = tentativeClip.isComposition
+            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRM: ', dragProxy.sourceFrame)
         } else {
             console.log('item not found')
+            if (dragProxy.draggedItem > -1) {
+                endDrag()
+            }
         }
     }
 

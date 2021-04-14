@@ -57,7 +57,6 @@ public:
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
-    void regainFocus();
     void unsetModel();
 
 protected:
@@ -79,6 +78,7 @@ public slots:
     void endDrag();
     /** @brief Show menu to switch track target audio stream */
     void showTargetMenu(int tid = -1);
+    void regainFocus();
 
 private slots:
     void slotUngrabHack();
