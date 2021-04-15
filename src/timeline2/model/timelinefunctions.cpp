@@ -1885,7 +1885,21 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     if (cid == -1) {
         return false;
     }
-    int start = timeline->getItemPosition(cid);
+    int start = -1;
+    if (timeline->isGroup(cid)) {
+        std::unordered_set<int> sub = timeline->m_groups->getLeaves(cid);
+        cid = *sub.cbegin();
+        int start = timeline->getItemPosition(cid);
+        for (int current_id : sub) {
+            int st = timeline->getItemPosition(current_id);
+            if (st < start) {
+                cid = current_id;
+                start = st;
+            }
+        }
+    } else {
+        start = timeline->getItemPosition(cid);
+    }
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
