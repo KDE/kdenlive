@@ -100,6 +100,7 @@ bool ProxyJob::startJob()
                 parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
             }
         }
+
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
 #else
@@ -253,7 +254,25 @@ bool ProxyJob::startJob()
             QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
                                          QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
                                          QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
-            bool supported = KdenliveSettings::nvScalingEnabled() && supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+                                         
+            // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
+            bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+            if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
+                supported = false;
+            }
+            if (proxyParams.contains(QStringLiteral("%frameSize"))) {
+                int w = 640;
+                int h = 0;
+                int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
+                int oH = binClip->getProducerProperty(QStringLiteral("meta.media.height")).toInt();
+                if (oH > 0) {
+                    h = w * oH / oW;
+                } else {
+                    h = int(w / pCore->getCurrentDar());
+                }
+                h += h%2;
+                proxyParams.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+            }
             if (supported) {
                 // Full hardware decoding supported
                 codec.append(QStringLiteral("_cuvid"));
