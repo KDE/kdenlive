@@ -325,6 +325,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
 int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
+    timeline->requestClearSelection();
     if (!clips.empty()) {
         // Remove grouped items that are before the click position
         // First get top groups ids
@@ -332,16 +333,24 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         spacerUngroupedItems.clear();
         std::transform(clips.begin(), clips.end(), std::inserter(roots, roots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
         std::unordered_set<int> groupsToRemove;
+        int firstCid = -1;
+        int firstPosition = -1;
         for (int r : roots) {
             if (timeline->isGroup(r)) {
                 std::unordered_set<int> leaves = timeline->m_groups->getLeaves(r);
                 std::unordered_set<int> leavesToRemove;
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
-                    if (timeline->getItemPosition(l) + timeline->getItemPlaytime(l) < position) {
+                    int pos = timeline->getItemPosition(l);
+                    if (pos + timeline->getItemPlaytime(l) < position) {
                         leavesToRemove.insert(l);
                     } else {
                         leavesToKeep.insert(l);
+                        // Find first item
+                        if (firstPosition == -1 || pos < firstPosition) {
+                            firstCid = l;
+                            firstPosition = pos;
+                        }
                     }
                 }
                 if (leavesToKeep.size() == 1) {
@@ -370,7 +379,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
             timeline->m_groups->ungroupItem(i.key(), undo, redo);
         }
         timeline->requestSetSelection(roots);
-        return (*roots.cbegin());
+        return (firstCid);
     }
     return -1;
 }

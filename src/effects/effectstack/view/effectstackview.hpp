@@ -111,6 +111,9 @@ private slots:
     /** @brief Refresh the enabled state on widgets
      */
     void changeEnabledState();
+    /** @brief Activate an effect in the view
+     */
+    void activateEffect(QModelIndex ix, bool active);
 
     //    void switchBuiltStack(bool show);
 

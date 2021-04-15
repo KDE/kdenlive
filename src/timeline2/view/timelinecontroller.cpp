@@ -1750,6 +1750,10 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
     }
     if (duration <= 0) {
         // remove fade
+        if (initialDuration > 0) {
+            // Restore original fade duration
+            m_model->adjustEffectLength(cid, effectId, initialDuration, -1);
+        }
         m_model->removeFade(cid, effectId == QLatin1String("fadein"));
     } else {
         m_model->adjustEffectLength(cid, effectId, duration, initialDuration);
@@ -2105,21 +2109,7 @@ void TimelineController::insertSpace(int trackId, int frame)
         pCore->displayMessage(i18n("No clips found to insert space"), ErrorMessage, 500);
         return;
     }
-    int start = -1;
-    if (m_model->isGroup(cid)) {
-        std::unordered_set<int> sub = m_model->m_groups->getLeaves(cid);
-        cid = *sub.cbegin();
-        int start = m_model->getItemPosition(cid);
-        for (int current_id : sub) {
-            int st = m_model->getItemPosition(current_id);
-            if (st < start) {
-                cid = current_id;
-                start = st;
-            }
-        }
-    } else {
-        start = m_model->getItemPosition(cid);
-    }
+    int start = m_model->getItemPosition(cid);
     requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId);
 }
 
