@@ -1750,6 +1750,10 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
     }
     if (duration <= 0) {
         // remove fade
+        if (initialDuration > 0) {
+            // Restore original fade duration
+            m_model->adjustEffectLength(cid, effectId, initialDuration, -1);
+        }
         m_model->removeFade(cid, effectId == QLatin1String("fadein"));
     } else {
         m_model->adjustEffectLength(cid, effectId, duration, initialDuration);
