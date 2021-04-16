@@ -51,6 +51,7 @@ class BinListItemDelegate;
 class ClipController;
 class EffectStackModel;
 class InvalidDialog;
+class TranscodeSeek;
 class KdenliveDoc;
 class TagWidget;
 class Monitor;
@@ -348,6 +349,8 @@ public:
      * @param properties some extra properties that will be set on the producer
      * @param createNew if true, the playlist will be added as a new clip in project binId */
     void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
+    /** @brief A non seekable clip was added to project, propose transcoding */
+    void requestTranscoding(const QString &url, const QString &id);
 
 private slots:
     void slotAddClip();
@@ -528,7 +531,10 @@ private:
     KMessageWidget *m_infoMessage;
     BinMessage::BinCategory m_currentMessage;
     QStringList m_errorLog;
+    /** @brief Dialog listing invalid clips on load. */
     InvalidDialog *m_invalidClipDialog;
+    /** @brief Dialog listing non seekable clips on load. */
+    TranscodeSeek *m_transcodingDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
     bool m_gainedFocus;
     /** @brief List of Clip Ids that want an audio thumb. */

@@ -35,13 +35,14 @@
 
 #include <klocalizedstring.h>
 
-TranscodeJob::TranscodeJob(const QString &binId, QString params)
+TranscodeJob::TranscodeJob(const QString &binId, QString params, bool replaceProducer)
     : AbstractClipJob(TRANSCODEJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)
     , m_done(false)
     , m_transcodeParams(std::move(params))
+    , m_replaceProducer(replaceProducer)
 {
 }
 
@@ -242,7 +243,20 @@ bool TranscodeJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
-    QString folderId = QStringLiteral("-1");
-    auto id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
+    QString id;
+    if (m_replaceProducer) {
+        id = m_clipId;
+        QMap <QString, QString> sourceProps;
+        QMap <QString, QString> newProps;
+        auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+        sourceProps.insert(QStringLiteral("resource"), binClip->url());
+        sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
+        newProps.insert(QStringLiteral("resource"), m_destUrl);
+        newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(m_destUrl).fileName());
+        pCore->bin()->slotEditClipCommand(m_clipId, sourceProps, newProps);
+    } else {
+        QString folderId = QStringLiteral("-1");
+        id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
+    }
     return id != QStringLiteral("-1");
 }

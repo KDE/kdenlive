@@ -528,6 +528,12 @@ bool LoadJob::startJob()
             m_producer->set("out", fixedLength - 1);
         }
     } else if (mltService == QLatin1String("avformat")) {
+        // Check if file is seekable
+        bool seekable = m_producer->get_int("seekable");
+        if (!seekable) {
+            m_producer->set("kdenlive:transcodingrequired", 1);
+            qDebug()<<"================0\n\nFOUND UNSEEKABLE FILE: "<<m_producer->get("resource")<<"\n\n===================";
+        }
         // check if there are multiple streams
         vindex = m_producer->get_int("video_index");
         // List streams
