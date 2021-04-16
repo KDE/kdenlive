@@ -40,6 +40,10 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     KConfigGroup group(&conf, "intermediate");
     m_encodeParams = group.entryMap();
     encodingprofiles->addItems(group.keyList());
+    int ix = encodingprofiles->findText(KdenliveSettings::transcodeFriendly());
+    if (ix > -1) {
+        encodingprofiles->setCurrentIndex(ix);
+    }
 }
 
 TranscodeSeek::~TranscodeSeek()
@@ -63,5 +67,6 @@ std::vector<QString> TranscodeSeek::ids() const
 
 QString TranscodeSeek::params() const
 {
+    KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
     return m_encodeParams.value(encodingprofiles->currentText());
 }
