@@ -90,7 +90,7 @@ bool AudioThumbJob::computeWithMlt()
         }
         QScopedPointer<Mlt::Frame> mltFrame(audioProducer->get_frame());
         if ((mltFrame != nullptr) && mltFrame->is_valid() && (mltFrame->get_int("test_audio") == 0)) {
-            int samples = mlt_sample_calculator(float(framesPerSecond), m_frequency, z);
+            int samples = mlt_audio_calculate_frame_samples(float(framesPerSecond), m_frequency, z);
             mltFrame->get_audio(audioFormat, m_frequency, m_channels, samples);
             for (int channel = 0; channel < m_channels; ++channel) {
                 double lev = mltFrame->get_double(keys.at(channel).toUtf8().constData());
