@@ -1844,7 +1844,6 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 
 bool GLWidget::updateScaling()
 {
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
@@ -1876,21 +1875,6 @@ bool GLWidget::updateScaling()
         m_consumer->set("height", m_profileSize.height());
         resizeGL(width(), height());
     }
-#else
-    int previewHeight = pCore->getCurrentFrameSize().height();
-    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-    if (pWidth% 2 > 0) {
-        pWidth ++;
-    }
-    QSize profileSize(pWidth, previewHeight);
-    if (profileSize == m_profileSize) {
-        return false;
-    }
-    m_profileSize = profileSize;
-    if (m_consumer) {
-        resizeGL(width(), height());
-    }
-#endif
     return true;
 }
 

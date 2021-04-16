@@ -76,8 +76,6 @@
 #include "dialogs/textbasededit.h"
 #include "project/dialogs/temporarydata.h"
 
-#include <framework/mlt_version.h>
-
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
@@ -105,7 +103,6 @@
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
-#include <KRun>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -360,14 +357,9 @@ void MainWindow::init(const QString &mltPath)
     auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
     connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path, const QString &title) {
-    qDebug()<<"MLT VER: "<<LIBMLT_VERSION_INT<<"; QTVER: "<<QT_VERSION_CHECK(6,26,0);
-#if LIBMLT_VERSION_INT == QT_VERSION_CHECK(6,26,0)
-        new KRun(QUrl(path), this);
-#else
         m_clipMonitor->slotPreviewResource(path, title);
         m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
-#endif
     });
 
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
@@ -1461,7 +1453,6 @@ void MainWindow::setupActions()
         overlayAudioInfo->setEnabled(toggled);
     });
 
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     // Monitor resolution scaling
     KActionCategory *resolutionActionCategory = new KActionCategory(i18n("Preview Resolution"), actionCollection());
     m_scaleGroup = new QActionGroup(this);
@@ -1513,7 +1504,6 @@ void MainWindow::setupActions()
         // Clear timeline selection so that any qml monitor scene is reset
         emit pCore->monitorManager()->updatePreviewScaling();
     });
-#endif
 
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
