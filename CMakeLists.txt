@@ -26,8 +26,8 @@ option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR lib
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 
 # Minimum versions of main dependencies.
-set(MLT_MIN_MAJOR_VERSION 6)
-set(MLT_MIN_MINOR_VERSION 20)
+set(MLT_MIN_MAJOR_VERSION 7)
+set(MLT_MIN_MINOR_VERSION 0)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
