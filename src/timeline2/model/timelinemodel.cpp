@@ -4311,7 +4311,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
-    while (mlt_type == transition_type) {
+    while (mlt_type == mlt_service_transition_type) {
         Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
         nextservice = mlt_service_producer(nextservice);
         int internal = transition.get_int("internal_added");
@@ -4507,7 +4507,7 @@ bool TimelineModel::checkConsistency()
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (nextservice != nullptr) {
-        if (mlt_type == transition_type) {
+        if (mlt_type == mlt_service_transition_type) {
             auto tr = mlt_transition(nextservice);
             if (mlt_properties_get_int( MLT_TRANSITION_PROPERTIES(tr), "internal_added") > 0) {
                 // Skip track compositing
@@ -4828,7 +4828,7 @@ void TimelineModel::updateProfile(Mlt::Profile *profile)
     for (int i = 0; i < m_tractor->count(); i++) {
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(i));
         tk->set_profile(*m_profile);
-        if (tk->type() == tractor_type) {
+        if (tk->type() == mlt_service_tractor_type) {
             Mlt::Tractor sub(*tk.get());
             for (int j = 0; j < sub.count(); j++) {
                 std::shared_ptr<Mlt::Producer> subtk(sub.track(j));

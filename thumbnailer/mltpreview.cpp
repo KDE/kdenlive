@@ -109,7 +109,7 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
         return mltImage;
     }
 
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgba;
     const uchar *imagedata = frame->get_image(format, width, height);
     if (imagedata != nullptr) {
         memcpy(mltImage.bits(), imagedata, size_t(width * height * 4));

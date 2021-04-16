@@ -415,7 +415,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_glsl_texture)));
+            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_opengl_texture)));
         }
     }
 

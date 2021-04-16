@@ -109,7 +109,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidt
     }
     int ow = width;
     int oh = height;
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgba;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
         QImage temp(ow, oh, QImage::Format_ARGB32);

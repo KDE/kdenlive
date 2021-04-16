@@ -646,7 +646,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     // Make sure all previous track compositing is removed
     if (rebuild) {
         while (service != nullptr && service->is_valid()) {
-            if (service->type() == transition_type) {
+            if (service->type() == mlt_service_transition_type) {
                 Mlt::Transition t(mlt_transition(service->get_service()));
                 service.reset(service->producer());
                 if (t.get_int("internal_added") == 237) {
