@@ -565,7 +565,8 @@
         {
           "type": "git",
           "url": "https://github.com/mltframework/mlt.git",
-          "branch": "master"
+          "commit": "531aa1a19df55cc378c9c79b86c7cbb187487f37",
+          "tag": "v6.26.1"
         }
       ]
     },
