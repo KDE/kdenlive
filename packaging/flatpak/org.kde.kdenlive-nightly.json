@@ -555,18 +555,18 @@
     },
     {
       "name": "mlt",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
       "config-opts": [
-        "--enable-gpl",
-        "--enable-gpl3",
-        "--enable-opengl",
-        "--enable-opencv"
+        "-DMOD_OPENCV=ON",
+        "-DMOD_MOVIT=ON",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
       ],
       "sources": [
         {
           "type": "git",
           "url": "https://github.com/mltframework/mlt.git",
-          "commit": "531aa1a19df55cc378c9c79b86c7cbb187487f37",
-          "tag": "v6.26.1"
+          "branch": "v6"
         }
       ]
     },
