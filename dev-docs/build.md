@@ -1,10 +1,41 @@
 # Building Kdenlive
 
+## Supported platforms
+
+Kdenlive is primarily developed on GNU/Linux, but there is also a working version of [Kdenlive on Microsoft Windows](https://community.kde.org/Kdenlive/Development/WindowsBuild). 
+
+Currently supported distributions are:
+
+* Ubuntu 20.04 LTS Focal Fossa and derivatives
+* Arch Linux
+
+But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50,MLT >= 6.20.0.
+
 ## Base procedure
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bufixes and optimizations.
+On Ubuntu, the easiest way is to add [https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master Kdenlive's ppa]
+
+```bash
+sudo add-apt-repository ppa:kdenlive/kdenlive-master
+sudo apt update
+```
+
+It is recommended to uninstall the official kdenlive packages to avoid potential conflicts. 
+
+```bash
+sudo apt remove kdenlive kdenlive-data
+```
+
 
 ### Get the build dependencies
+
+
+First, make sure you have the required tooling installed:
+
+```bash
+sudo apt install build-essential git cmake extra-cmake-modules libsm-dev
+```
 
 You can use your distribution packages information (if not too old) to easily get a complete build environment:
 
@@ -16,14 +47,41 @@ dnf builddep mlt kdenlive
 # OpenSUSE
 zypper source-install --build-deps-only mlt kdenlive
 ```
+Or install the dependencies explicitely:
 
+```bash
+# KDE Frameworks 5, based on Qt5
+sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev libkf5config-dev \
+libkf5configwidgets-dev libkf5dbusaddons-dev libkf5kio-dev libkf5widgetsaddons-dev \
+libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
+libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev libkf5purpose-dev \
+libkf5iconthemes-dev kdoctools-dev libkf5crash-dev libkf5filemetadata-dev kio \
+kinit qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick-controls libqt5networkauth5-dev \
+qtmultimedia5-dev qtquickcontrols2-5-dev breeze-icon-theme breeze
+
+# Multimedia stack
+sudo apt install frei0r-plugins ffmpeg
+
+# MLT, except if you want to build it manually 
+sudo apt install libmlt++-dev libmlt-dev melt
+
+# Dependencies for localization
+sudo apt install ruby subversion gnupg2 gettext
+
+
+```
 ### Clone the repositories
 
 In your development directory, run:
 
 ```bash
-git clone https://github.com/mltframework/mlt.git
 git clone https://invent.kde.org/multimedia/kdenlive.git
+```
+
+And if you want to build MLT manually:
+
+```bash
+git clone https://github.com/mltframework/mlt.git
 ```
 
 ### Build and install the projects
@@ -43,7 +101,7 @@ And build the dependencies (MLT) before the project (Kdenlive):
 INSTALL_PREFIX=$HOME/.local # or any other choice
 JOBS=4
 
-# MLT
+# Only if you want to compile MLT manually
 cd mlt
 ./configure --enable-gpl --enable-gpl3 --prefix=$INSTALL_PREFIX
 make -j$JOBS
@@ -54,7 +112,15 @@ make install
 cd ../kdenlive
 mkdir build
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
+```
+
+To compile the translations of the application, you need KDE Frameworks >= 5.76, make sure to delete the "po" subdirectory from your build folder if it exists, and use this cmake command to configure the project :
+```bash
+cmake .. -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_L10N_SYNC_TRANSLATIONS=ON -DRELEASE_BUILD=OFF
+```
+
+```bash
 make -j$JOBS
 make install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable
@@ -80,6 +146,7 @@ Having debug symbols helps getting much more useful information from crash logs 
 - in MLT, append `--enable-debug` to `./configure` line
 - in Kdenlive, append `-DCMAKE_BUILD_TYPE=Debug` to `cmake` line
 
+
 ### Running tests
 
 Kdenlive test coverage is focused mostly on timeline model code (extending tests to more parts is highly desired). To run those tests, append to `cmake` line:
@@ -87,8 +154,8 @@ Kdenlive test coverage is focused mostly on timeline model code (extending tests
 
 ### Fuzzer
 
-Kdenlive embeds a fuzzing engine that can detect crashes and auto-generate tests. This can be activated in `cmake` line with:
-`-DBUILD_FUZZING=ON`
+Kdenlive embeds a fuzzing engine that can detect crashes and auto-generate tests. It requires to have clang installed (generally in `/usr/bin/clang++`). This can be activated in `cmake` line with:
+`-DBUILD_FUZZING=ON -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DECM_ENABLE_SANITIZERS='address'`
 
 ### Help file for QtCreator, KDevelop, etc.
 
