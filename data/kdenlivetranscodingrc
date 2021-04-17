@@ -33,3 +33,9 @@ DVD PAL 4:3=-f dvd -r 25 -vf scale=720:576 -aspect 4:3 -minrate 0 -maxrate 8000k
 DVD PAL 16:9=-f dvd -r 25 -vf scale=720:576 -aspect 16:9 -minrate 0 -maxrate 8000k -muxrate 10080000 -g 15 -bufsize 1835008 -packetsize 2048 -trellis 1 -me_range 63 -acodec ac3 -ab 192k -ar 48000 -vcodec mpeg2video -vb 5000k %1.vob;Dvd PAL wide
 DVD NTSC 4:3=-f dvd -r 23.976 -vf scale=720:480 -aspect 4:3 -minrate 0 -maxrate 9000k -muxrate 10080000 -g 18 -bufsize 1835008 -packetsize 2048 -trellis 1 -me_range 63 -acodec ac3 -ab 192k -ar 48000 -vcodec mpeg2video -vb 6000k %1.vob;Dvd NTSC
 DVD NTSC 16:9=-f dvd -r 23.976 -vf scale=720:480 -aspect 16:9 -minrate 0 -maxrate 9000k -muxrate 10080000 -g 18 -bufsize 1835008 -packetsize 2048 -trellis 1 -me_range 63 -acodec ac3 -ab 192k -ar 48000 -vcodec mpeg2video -vb 6000k %1.vob;Dvd NTSC wide
+
+[intermediate]
+Lossy x264 I frame only=-f mp4 -codec:v libx264 -g 1 -bf 0 -crf 15 -preset medium -codec:a aac -ab 256k %1.mp4
+Lossy x264 I frame only (NVidia GPU)=-f mp4 -vsync 0 -c:v %nvcodec -i -codec:v h264_nvenc -g 1 -bf 0 -codec:a aac -ab 256k %1.mp4
+Intermediate DNxHR HQ (Large files)=-f mov -codec:a alac -codec:v dnxhd -profile:v dnxhr_hq -pix_fmt yuv422p %1.mov
+Lossless (Huge files)=-f matroska -codec:a pcm_f32le -codec:v utvideo -pix_fmt yuv422p %1.mkv

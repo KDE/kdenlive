@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/audiothumbjob.hpp"
+#include "jobs/transcodeclipjob.h"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
@@ -42,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
+#include "project/transcodeseek.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
 #include "projectclip.h"
@@ -883,6 +885,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_filterRateGroup(this)
     , m_filterTypeGroup(this)
     , m_invalidClipDialog(nullptr)
+    , m_transcodingDialog(nullptr)
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
@@ -4482,4 +4485,23 @@ void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> z
         }
         selectClipById(id);
     }
+}
+
+void Bin::requestTranscoding(const QString &url, const QString &id)
+{
+    if (m_transcodingDialog == nullptr) {
+        m_transcodingDialog = new TranscodeSeek(this);
+        connect(m_transcodingDialog, &QDialog::accepted, this, [=] () {
+            qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
+            pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
+            delete m_transcodingDialog;
+            m_transcodingDialog = nullptr;
+        });
+        connect(m_transcodingDialog, &QDialog::rejected, this, [=] () {
+            delete m_transcodingDialog;
+            m_transcodingDialog = nullptr;
+        });
+    }
+    m_transcodingDialog->addUrl(url, id);
+    m_transcodingDialog->show();
 }

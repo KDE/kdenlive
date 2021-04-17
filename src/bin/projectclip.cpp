@@ -491,6 +491,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     updateProducer(producer);
     emit producerChanged(m_binId, producer);
+    if (producer->get_int("kdenlive:transcodingrequired") == 1) {
+        pCore->bin()->requestTranscoding(clipUrl(), clipId());
+        producer->set("kdenlive:transcodingrequired", nullptr);
+    }
     m_thumbsProducer.reset();
     connectEffectStack();
 

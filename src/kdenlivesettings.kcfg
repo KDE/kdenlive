@@ -225,6 +225,11 @@
       <default></default>
     </entry>
 
+    <entry name="transcodeFriendly" type="String">
+      <label>Name of the default transcoding profile for edit friendly convert.</label>
+      <default>Lossy x264 I frame only</default>
+    </entry>
+
     <entry name="previewextension" type="String">
       <label>File extension for timeline preview.</label>
       <default></default>

@@ -30,7 +30,7 @@ class TranscodeJob : public AbstractClipJob
     Q_OBJECT
 
 public:
-    TranscodeJob(const QString &binId, QString params);
+    TranscodeJob(const QString &binId, QString params, bool replaceProducer = false);
     const QString getDescription() const override;
     bool startJob() override;
     /** @brief This is to be called after the job finished.
@@ -47,6 +47,7 @@ private:
     bool m_done;
     QString m_destUrl;
     QString m_transcodeParams;
+    bool m_replaceProducer;
 };
 
 #endif

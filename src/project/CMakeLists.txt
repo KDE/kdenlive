@@ -8,4 +8,5 @@ set(kdenlive_SRCS
   project/projectmanager.cpp
   project/effectsettings.cpp
   project/notesplugin.cpp
+  project/transcodeseek.cpp
   PARENT_SCOPE)
