@@ -306,6 +306,25 @@
       ]
     },
     {
+      "name": "bigsh0t",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "no-make-install": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release"
+      ],
+      "post-install": [
+        "cp -v bigsh0t-*-linux/lib/frei0r-1/*.so /app/lib/frei0r-1"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://bitbucket.org/leo_sutic/bigsh0t",
+          "tag": "2.3"
+        }
+      ]
+    },
+    {
       "name": "ladspa-sdk",
       "no-autogen": true,
       "subdir": "src",
