@@ -99,6 +99,30 @@
       ]
     },
     {
+      "name": "vosk",
+      "buildsystem": "simple",
+      "build-options": {
+        "build-args": [
+          "--share=network"
+        ]
+      },
+      "build-commands": [
+          "pip3 install vosk==0.3.22 --prefix=/app --root=/"
+      ]
+    },
+    {
+      "name": "srt",
+      "buildsystem": "simple",
+      "build-options": {
+        "build-args": [
+          "--share=network"
+        ]
+      },
+      "build-commands": [
+          "pip3 install srt==3.4.1 --prefix=/app --root=/"
+      ]
+    },
+    {
       "name": "rttr",
       "buildsystem": "cmake-ninja",
       "builddir": true,
