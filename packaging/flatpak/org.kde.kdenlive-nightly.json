@@ -93,8 +93,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://files.pythonhosted.org/packages/81/8d/f8a5470adf58c0841a8343debee2fa835861e62f05380933aa2fdc056fff/OpenTimelineIO-0.12.1.tar.gz",
-          "sha256": "f9742498dc8631981a7a7781932749936fb1d716fd4a34693ecb7d02972cef13"
+          "url": "https://files.pythonhosted.org/packages/9e/bb/a3b1f7c94b42f20a59a0d5dbc693ebfeb7623f0f86953f0d946595e2b03d/OpenTimelineIO-0.13.0.tar.gz",
+          "sha256": "c29c947479687cad7844684016aecc2a640daa67cbefb2dbf5c6a1aca45bfe1b"
         }
       ]
     },
