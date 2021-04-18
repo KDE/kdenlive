@@ -9,7 +9,7 @@ set_package_properties(LibV4L2 PROPERTIES
 if(NOT WIN32)
     find_package(PkgConfig QUIET)
     execute_process(
-        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=mltdatadir mlt-framework
+        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=mltdatadir mlt-framework-7
         OUTPUT_VARIABLE MLT_DATADIR
         RESULT_VARIABLE MLT_DATADIR_failed)
     if(NOT MLT_DATADIR_failed)
@@ -17,7 +17,7 @@ if(NOT WIN32)
     endif()
 
     execute_process(
-        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework
+        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework-7
         OUTPUT_VARIABLE MLT_MELTBIN
         RESULT_VARIABLE MLT_MELTBIN_failed)
     if(NOT MLT_MELTBIN_failed)

@@ -866,6 +866,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement trans = transitions.at(i).toElement();
             int out = trans.attribute(QStringLiteral("out")).toInt() - trans.attribute(QStringLiteral("in")).toInt();
             QString geom = Xml::getXmlProperty(trans, QStringLiteral("geometry"));
+            //TODO MLT7: port?
+            /*
             Mlt::Geometry *g = new Mlt::Geometry(geom.toUtf8().data(), out, profileWidth, profileHeight);
             Mlt::GeometryItem item;
             if (g->next_key(&item, out) == 0) {
@@ -878,6 +880,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
             delete g;
+            */
         }
     }
 
