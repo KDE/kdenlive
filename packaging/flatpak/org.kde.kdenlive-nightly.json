@@ -20,6 +20,32 @@
     "--env=FREI0R_PATH=/app/lib/frei0r-1",
     "--env=LADSPA_PATH=/app/lib/ladspa"
   ],
+  "add-extensions": {
+    "org.freedesktop.LinuxAudio.Plugins": {
+      "directory": "extensions/Plugins",
+      "version": "20.08",
+      "add-ld-path": "lib",
+      "merge-dirs": "ladspa",
+      "subdirectories": true,
+      "no-autodownload": true
+    },
+    "org.freedesktop.LinuxAudio.Plugins.swh": {
+      "directory": "extensions/Plugins/swh",
+      "version": "20.08",
+      "add-ld-path": "lib",
+      "merge-dirs": "ladspa",
+      "autodelete": false,
+      "subdirectories": true
+    },
+    "org.freedesktop.LinuxAudio.Plugins.TAP": {
+      "directory": "extensions/Plugins/TAP",
+      "version": "20.08",
+      "add-ld-path": "lib",
+      "merge-dirs": "ladspa",
+      "autodelete": false,
+      "subdirectories": true
+    }
+  },
   "cleanup": [
     "/include",
     "/lib/pkgconfig",
@@ -261,6 +287,28 @@
       ]
     },
     {
+      "name": "exiv2",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      ],
+      "cleanup": [
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.exiv2.org/builds/exiv2-0.27.3-Source.tar.gz",
+          "sha256": "a79f5613812aa21755d578a297874fb59a85101e793edc64ec2c6bd994e3e778"
+        },
+        {
+          "type": "patch",
+          "path": "patches/exiv2-fcf-protection-only-on-x86.patch"
+        }
+      ]
+    },
+    {
       "name": "vidstab",
       "buildsystem": "cmake-ninja",
       "builddir": true,
@@ -480,24 +528,6 @@
       ]
     },
     {
-      "name": "nv-codec-headers",
-      "cleanup": [
-        "*"
-      ],
-      "no-autogen": true,
-      "make-install-args": [
-        "PREFIX=/app"
-      ],
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-          "commit": "7a81595786463d1c7efcb03aa85def69fc2cad41",
-          "tag": "n11.0.10.0"
-        }
-      ]
-    },
-    {
       "name": "mediasdk",
       "buildsystem": "cmake-ninja",
       "builddir": true,
@@ -515,6 +545,52 @@
            "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-20.1.1.tar.gz",
            "sha256": "44300c0f068f6d018d182455dd9c2f48db1e85fe0b38fcd60d0353bd145923dc"
          }
+      ]
+    },
+    {
+      "name": "opencl-headers",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cp -av CL /app/include"
+        ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2020.06.16.tar.gz",
+          "sha256": "2f5a60e5ac4b127650618c58a7e3b35a84dbf23c1a0ac72eb5e7baf221600e06"
+        }
+      ]
+    },
+    {
+      "name": "amf-headers",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cp -av amf/public/include/. /app/include/AMF"
+        ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.18.tar.gz",
+          "sha256": "4f21ee07c8bb9b73ff48dbce7cb0917cdcd4d81d33333da391d97ce7f00642fe"
+        }
+      ]
+    },
+    {
+      "name": "nv-codec-headers",
+      "cleanup": [
+        "*"
+      ],
+      "no-autogen": true,
+      "make-install-args": [
+        "PREFIX=/app"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
+          "commit": "7a81595786463d1c7efcb03aa85def69fc2cad41",
+          "tag": "n11.0.10.0"
+        }
       ]
     },
     {
@@ -536,30 +612,26 @@
         "--enable-libxml2",
         "--enable-libx264",
         "--enable-libx265",
+        "--enable-libopenjpeg",
+        "--enable-libdav1d",
         "--enable-libv4l2",
         "--enable-libmp3lame",
-        "--enable-vaapi",
         "--enable-libass",
         "--enable-gnutls",
         "--enable-libzimg",
         "--enable-libaom",
         "--enable-libvidstab",
-        "--enable-libmfx"
+        "--enable-vaapi",
+        "--enable-libmfx",
+        "--enable-amf",
+        "--enable-opencl",
+        "--enable-ffnvcodec",
+        "--enable-cuda-llvm",
+        "--enable-nvenc",
+        "--enable-vdpau",
+        "--enable-nvdec",
+        "--enable-cuvid"
       ],
-      "build-options": {
-        "arch": {
-          "x86_64": {
-            "config-opts": [
-              "--enable-ffnvcodec",
-              "--enable-cuda-llvm",
-              "--enable-nvenc",
-              "--enable-vdpau",
-              "--enable-nvdec",
-              "--enable-cuvid"
-            ]
-          }
-        }
-      },
       "cleanup": [
         "/share/ffmpeg/examples"
       ],
@@ -593,6 +665,44 @@
           "type": "archive",
           "url": "https://github.com/opencv/opencv_contrib/archive/4.3.0.tar.gz",
           "sha256": "acb8e89c9e7d1174e63e40532125b60d248b00e517255a98a419d415228c6a55"
+        }
+      ]
+    },
+    {
+      "name": "libzen",
+      "subdir": "Project/GNU/Library",
+      "config-opts": [ "--enable-shared", "--disable-static" ],
+      "cleanup": [ "/bin", "/include", "/lib/pkgconfig", "/lib/*.la" ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://mediaarea.net/download/source/libzen/0.4.39/libzen_0.4.39.tar.xz",
+          "sha256": "cded5d7774294e7d5b42768ceb285243709b6e99eec6e980a3cf7f0890dbb622"
+        }
+      ]
+    },
+    {
+      "name": "libmediainfo",
+      "subdir": "Project/GNU/Library",
+      "config-opts": [ "--enable-shared", "--disable-static", "--with-libcurl" ],
+      "cleanup": [ "/bin", "/include", "/lib/pkgconfig", "/lib/*.la" ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://mediaarea.net/download/source/libmediainfo/21.03/libmediainfo_21.03.tar.xz",
+          "sha256": "56b7e9abf80cba48032165cd7a46fd8d43dd63e3af35765f66c3f134caaca4ca"
+        }
+      ]
+    },
+    {
+      "name": "mediainfo-cli",
+      "subdir": "Project/GNU/CLI",
+      "cleanup": [ "share/pixmaps", "/share/apps", "/share/kde4", "/share/kservices5" ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://mediaarea.net/download/source/mediainfo/21.03/mediainfo_21.03.tar.xz",
+          "sha256": "de50ca0b2c607b8999d3c9e542d27c97030a59f31859b612335315be6850021e"
         }
       ]
     },
@@ -650,6 +760,9 @@
       "builddir": true,
       "config-opts": [
         "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      ],
+      "post-install": [
+        "install -d /app/extensions/Plugins"
       ],
       "sources": [
         {
