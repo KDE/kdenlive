@@ -39,11 +39,12 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+    QSize profileSize = pCore->getCurrentFrameSize();
     Mlt::Properties mlt_prop;
     m_model->passProperties(mlt_prop);
     mlt_prop.set("rect", value.toUtf8().data());
     mlt_rect r = mlt_prop.get_rect("rect");
-    QRect rect = QRect(int(r.x), int(r.y), int(r.w), int(r.h));;
+    QRect rect = QRect(int(profileSize.width() * r.x), int(profileSize.height() * r.y), int(profileSize.width()* r.w), int(profileSize.height() * r.h));;
     if (rect.isNull()) {
         // Cannot read value, use random default
         rect = QRect(50, 50, 200, 200);
