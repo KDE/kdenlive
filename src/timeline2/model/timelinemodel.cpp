@@ -3725,7 +3725,14 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
 bool TimelineModel::addClipEffect(int clipId, const QString &effectId, bool notify)
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    bool result = m_allClips.at(clipId)->addEffect(effectId);
+    // Check if we are applying an audio effect on an audio clip
+    bool isAudio = EffectsRepository::get()->isAudioEffect(effectId);
+    bool audioClip = m_allClips.at(clipId)->isAudioOnly();
+    if (isAudio != audioClip) {
+        // Check if we have a split partner
+        clipId = getClipSplitPartner(clipId);
+    }
+    bool result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
     if (!result && notify) {
         QString effectName = EffectsRepository::get()->getName(effectId);
         pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
