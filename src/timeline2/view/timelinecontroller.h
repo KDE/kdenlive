@@ -668,7 +668,6 @@ private:
     bool m_usePreview;
     int m_audioTarget;
     int m_videoTarget;
-    int m_activeTrack;
     int m_audioRef;
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
@@ -680,6 +679,7 @@ private:
     QPair<int, int> m_recordStart;
     int m_recordTrack;
     QPoint m_zone;
+    int m_activeTrack;
     double m_scale;
     static int m_duration;
     PreviewManager *m_timelinePreview;

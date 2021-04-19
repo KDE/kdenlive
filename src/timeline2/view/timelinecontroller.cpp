@@ -69,9 +69,9 @@ TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
     , m_root(nullptr)
     , m_usePreview(false)
-    , m_activeTrack(-1)
     , m_audioRef(-1)
     , m_zone(-1, -1)
+    , m_activeTrack(-1)
     , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
     , m_timelinePreview(nullptr)
     , m_ready(false)
@@ -296,7 +296,7 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
     int currentClip = -1;
     if (type == ObjectType::TimelineClip) {
         currentClip = m_activeTrack == -2 ? m_model->getSubtitleByPosition(pCore->getTimelinePosition()) : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
-    } else {
+    } else if (type == ObjectType::TimelineComposition) {
         currentClip =  m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
     }
 
@@ -307,7 +307,12 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
     if (!select) {
         m_model->requestRemoveFromSelection(currentClip);
     } else {
+        bool grouped = m_model->m_groups->isInGroup(currentClip);
         m_model->requestAddToSelection(currentClip, !addToCurrent);
+        if (grouped) {
+            // If part of a group, ensure the effect/composition stack displays the selected item's properties
+            emit showAsset(currentClip);
+        }
     }
 }
 
@@ -1211,10 +1216,11 @@ void TimelineController::addAsset(const QVariantMap &data)
 {
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     const auto selection = m_model->getCurrentSelection();
+    bool audioEffect = EffectsRepository::get()->isAudioEffect(effect);
     if (!selection.empty()) {
         QList<int> effectSelection;
         for (int id : selection) {
-            if (m_model->isClip(id)) {
+            if (m_model->isClip(id) && audioEffect == m_model->m_allClips.at(id)->isAudioOnly()) {
                 effectSelection << id;
             }
         }
@@ -3234,7 +3240,8 @@ void TimelineController::updateClipActions()
     }
     std::shared_ptr<ClipModel> clip(nullptr);
     int item = *m_model->getCurrentSelection().begin();
-    if (m_model->getCurrentSelection().size() == 1) {
+    int selectionSize = m_model->getCurrentSelection().size();
+    if (selectionSize == 1) {
         if (m_model->isClip(item) || m_model->isComposition(item)) {
             showAsset(item);
             emit showSubtitle(-1);
@@ -3249,7 +3256,7 @@ void TimelineController::updateClipActions()
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {
-            enableAction = isInSelection(item) && m_model->getCurrentSelection().size() > 1;
+            enableAction = isInSelection(item) && selectionSize > 1;
         } else if (actionData == QLatin1Char('U')) {
             enableAction = m_model->m_groups->isInGroup(item);
         } else if (actionData == QLatin1Char('A')) {
