@@ -1,0 +1,12 @@
+--- a/src/solid/devices/backends/udev/udevdevice.cpp	2021-04-04 11:51:05.000000000 +0000
++++ b/src/solid/devices/backends/udev/udevdevice.cpp	2021-04-20 19:46:41.574402969 +0000
+@@ -13,6 +13,9 @@
+ #include "udevportablemediaplayer.h"
+ #include "udevprocessor.h"
+ 
++#include <sys/socket.h>
++#include <sys/types.h>
++
+ #include <linux/if_arp.h>
+ #include <sys/socket.h>
+ 
