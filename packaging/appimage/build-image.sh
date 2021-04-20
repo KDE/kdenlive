@@ -74,6 +74,7 @@ cp -r $DEPS_INSTALL_PREFIX/lib/libpango*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/melt-7  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffplay  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffprobe  $APPDIR/usr/bin
@@ -212,7 +213,7 @@ rm  $APPDIR/AppRun
 cat > $APPDIR/AppRun << EOF
 #!/bin/bash
 
-DIR="\`dirname \"\$0\"\`" 
+DIR="\`dirname \"\$0\"\`"
 DIR="\`( cd \"\$DIR\" && pwd )\`"
 export APPDIR=\$DIR
 export LC_ALL=\$LANG
@@ -277,4 +278,3 @@ appimagetool $APPDIR
 # Generate a new name for the Appimage file and rename it accordingly
 APPIMAGE=kdenlive-"$VERSION"-x86_64.appimage
 mv Kdenlive-x86_64.AppImage $APPIMAGE
-
