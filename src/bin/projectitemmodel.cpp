@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "projectsubclip.h"
 #include "lib/localeHandling.h"
+#include "jobs/audiolevelstask.h"
+#include "jobs/cliploadtask.h"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
@@ -602,6 +604,9 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
         binId = ptr->clipId();
     }
     bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
+    if (!isSubClip) {
+        AudioLevelsTask::cancel(clip->clipId());
+    }
     clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
     Fun operation = removeItem_lambda(id);
@@ -721,14 +726,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
+        ClipLoadTask::start(id, description, this);
+        //int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
+        int loadJob = -1;
         emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
-        ClipType::ProducerType type = new_clip->clipType();
-        if (KdenliveSettings::audiothumbnails()) {
-            if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
-            }
-        }
     }
     return res;
 }
@@ -762,9 +763,6 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
         if (new_clip->statusReady() || new_clip->sourceExists()) {
             int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
             emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
-            if (KdenliveSettings::audiothumbnails()) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
-            }
         }
     }
     return res;
@@ -1050,6 +1048,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 i.value()->set("_kdenlive_processed", 1);
                 requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
+                qApp->processEvents();
                 binIdCorresp[QString::number(i.key())] = newId;
             }
         }

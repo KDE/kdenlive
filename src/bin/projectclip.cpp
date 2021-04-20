@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/audiothumbjob.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
+#include "jobs/audiolevelstask.h"
 #include "jobs/thumbjob.hpp"
 #include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
@@ -120,6 +121,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
+    if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
+        AudioLevelsTask::start(m_binId, this, false);
+    }
 }
 
 // static
@@ -413,9 +417,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            if (KdenliveSettings::audiothumbnails()) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadJob, QString());
-            }
         }
     }
 }
@@ -529,6 +530,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
+    AudioLevelsTask::start(m_binId, this, false);
 
     if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
         QList<std::shared_ptr<ProjectClip>> clipList;
@@ -1778,7 +1780,16 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
-    QString key = QString("%1:%2").arg(m_binId).arg(stream);
+    QString key = QString("_kdenlive:audio%1").arg(stream);
+    if (m_masterProducer->get_data(key.toUtf8().constData())) {
+        const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
+        return audioData;
+    } else {
+        qDebug()<<"=== AUDIO NOT FOUND ";
+    }
+    return QVector <uint8_t>();
+    
+    /*QString key = QString("%1:%2").arg(m_binId).arg(stream);
     QByteArray audioData;
     if (pCore->audioThumbCache.find(key, &audioData)) {
         if (audioData != QByteArray("-")) {
@@ -1806,7 +1817,7 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
         st << audioLevels;
         pCore->audioThumbCache.insert(key, audioData);
     }
-    return audioLevels;
+    return audioLevels;*/
 }
 
 void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
@@ -2008,5 +2019,17 @@ void ProjectClip::updateTimelineOnReload()
                 m_resetTimelineOccurences = true;
             }
         }
+    }
+}
+
+void ProjectClip::audioJobProgress(int progress)
+{
+    if (progress == 100) {
+        m_clipJobProgress = 0;
+    } else {
+        m_clipJobProgress = progress;
+    }
+    if (auto ptr = m_model.lock()) {
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
     }
 }

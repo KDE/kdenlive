@@ -141,13 +141,6 @@ public:
     void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
 
-    /** @brief Sets the MLT producer associated with this clip
-     *  @param producer The producer
-     *  @param replaceProducer If true, we replace existing producer with this one
-     *  @returns true if producer was changed
-     * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
-
     /** @brief Returns this clip's producer. */
     std::shared_ptr<Mlt::Producer> thumbProducer() override;
 
@@ -278,6 +271,7 @@ public slots:
     void updateAudioThumbnail();
     /** @brief Delete the proxy file */
     void deleteProxy();
+    void audioJobProgress(int progress);
 
     /**
      * Imports effect from a given producer
@@ -285,6 +279,13 @@ public slots:
      * @param originalDecimalPoint Decimal point to convert to “.”; See AssetParameterModel
      */
     void importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint = QString());
+
+    /** @brief Sets the MLT producer associated with this clip
+     *  @param producer The producer
+     *  @param replaceProducer If true, we replace existing producer with this one
+     *  @returns true if producer was changed
+     * . */
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
 
 private:
     /** @brief Generate and store file hash if not available. */

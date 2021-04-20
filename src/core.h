@@ -20,6 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include <QThreadPool>
 #include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
@@ -71,6 +72,9 @@ public:
     Core &operator=(Core &&) = delete;
 
     ~Core() override;
+    
+    /* @brief The thread job pool for clip jobs, allowing to set a max number of concurrent jobs */
+    QThreadPool clipJobPool;
 
     /**
      * @brief Setup the basics of the application, in particular the connection

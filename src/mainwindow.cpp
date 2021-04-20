@@ -42,6 +42,7 @@
 #include "jobs/speedjob.hpp"
 #include "jobs/stabilizejob.hpp"
 #include "jobs/transcodeclipjob.h"
+#include "jobs/audiolevelstask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"

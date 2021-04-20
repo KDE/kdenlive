@@ -79,6 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <utility>
+#include <jobs/audiolevelstask.h>
 
 /**
  * @class BinItemDelegate
@@ -4058,9 +4059,6 @@ void Bin::reloadAllProducers(bool reloadThumbs)
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
-            if (KdenliveSettings::audiothumbnails()) {
-                pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
-            }
         }
     }
 }
@@ -4074,7 +4072,7 @@ void Bin::checkAudioThumbs()
     for (const auto &clip : qAsConst(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-            pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, -1, QString());
+            AudioLevelsTask::start(clip->clipId(), this, false);
         }
     }
 }

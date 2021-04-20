@@ -49,6 +49,7 @@ Core::Core()
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
+    clipJobPool.setMaxThreadCount(2);
 }
 
 void Core::prepareShutdown()
@@ -1036,4 +1037,3 @@ void Core::updateMasterZones()
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
 }
-
