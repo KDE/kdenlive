@@ -278,7 +278,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
-    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+    } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
         emit replugEffect(shared_from_this());
     }
@@ -368,7 +368,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
         updateChildRequired = false;
-    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+    } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
         emit replugEffect(shared_from_this());
         updateChildRequired = false;
