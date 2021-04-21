@@ -544,6 +544,26 @@
       ]
     },
     {
+      "name": "mfx-dispatch",
+      "skip-arches": [
+        "aarch64"
+      ],
+      "buildsystem": "simple",
+      "build-commands": [
+        "autoreconf -fiv",
+        "./configure --prefix=/app",
+        "make",
+        "make install"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.34.tar.gz",
+          "sha256": "904d8f3ed14f583e0202db558532b64a8b1f6460d4ab5f68ae1562a00fbb3c5d"
+        }
+      ]
+    },
+    {
       "name": "opencl-headers",
       "buildsystem": "simple",
       "build-commands": [
