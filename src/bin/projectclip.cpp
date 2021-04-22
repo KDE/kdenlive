@@ -27,11 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiothumbjob.hpp"
 #include "jobs/jobmanager.h"
-#include "jobs/loadjob.hpp"
 #include "jobs/audiolevelstask.h"
-#include "jobs/thumbjob.hpp"
+#include "jobs/cliploadtask.h"
 #include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
@@ -122,6 +120,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
     if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
+        ClipLoadTask::start(m_binId, QDomElement(), true, this);
         AudioLevelsTask::start(m_binId, this, false);
     }
 }
@@ -374,19 +373,22 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
-    pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::LOADJOB, &loadjobId);
+    //pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::LOADJOB, &loadjobId);
     QMutexLocker lock(&m_thumbMutex);
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
         ThumbnailCache::get()->invalidateThumbsForClip(clipId());
-        pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
+        //pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
+        ClipLoadTask::cancel(m_binId);
         m_thumbsProducer.reset();
-        emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
+        ClipLoadTask::start(m_binId, QDomElement(), true, this);
+        //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
-        pCore->jobManager()->discardJobs(clipId());
+        ClipLoadTask::cancel(m_binId);
+        AudioLevelsTask::cancel(m_binId);
         if (QFile::exists(m_path) && !hasProxy()) {
             clearBackupProperties();
         }
@@ -394,7 +396,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
             bool hashChanged = false;
-            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
@@ -412,8 +413,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
-            int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
-            emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
+            ClipLoadTask::start(m_binId, xml, false, this);
+            //int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
+            //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
@@ -530,6 +532,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
+    ClipLoadTask::start(m_binId, QDomElement(), true, this);
     AudioLevelsTask::start(m_binId, this, false);
 
     if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
@@ -600,19 +603,20 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     return true;
 }
 
+void ProjectClip::setThumbProducer(std::shared_ptr<Mlt::Producer>prod)
+{
+    m_thumbsProducer = std::move(prod);
+}
+
 std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 {
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }
-    if (clipType() == ClipType::Unknown) {
+    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr) {
         return nullptr;
     }
     QMutexLocker lock(&m_thumbMutex);
-    std::shared_ptr<Mlt::Producer> prod = originalProducer();
-    if (!prod->is_valid()) {
-        return nullptr;
-    }
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
@@ -1479,7 +1483,7 @@ void ProjectClip::discardAudioThumb()
     if (!m_audioInfo) {
         return;
     }
-    pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
+    AudioLevelsTask::cancel(m_binId);
     QString audioThumbPath;
     QList <int> streams = m_audioInfo->streams().keys();
     // Delete audio thumbnail data

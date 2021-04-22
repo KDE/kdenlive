@@ -251,6 +251,8 @@ public:
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
+    /** @brief The number of clip load jobs changed */
+    void loadingClips(int);
 
 private:
     explicit Core();

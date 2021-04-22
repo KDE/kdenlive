@@ -726,10 +726,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start(id, description, this);
+        ClipLoadTask::start(id, description, false, this);
         //int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         int loadJob = -1;
-        emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
+        //emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
     }
     return res;
 }
@@ -762,7 +762,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
         new_clip->importEffects(producer);
         if (new_clip->statusReady() || new_clip->sourceExists()) {
             int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
-            emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
+            //emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
         }
     }
     return res;
@@ -787,7 +787,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     bool res = addItem(new_clip, subId, undo, redo);
     if (res) {
         int parentJob = pCore->jobManager()->getBlockingJobId(subId, AbstractClipJob::LOADJOB);
-        emit pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), -1, true);
+        //emit pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), -1, true);
     }
     return res;
 }

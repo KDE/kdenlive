@@ -137,8 +137,6 @@ public:
 
     QVariant getData(DataType type) const override;
 
-    /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
 
     /** @brief Returns this clip's producer. */
@@ -272,6 +270,10 @@ public slots:
     /** @brief Delete the proxy file */
     void deleteProxy();
     void audioJobProgress(int progress);
+
+    /** @brief Sets thumbnail for this clip. */
+    void setThumbnail(const QImage &);
+    void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /**
      * Imports effect from a given producer

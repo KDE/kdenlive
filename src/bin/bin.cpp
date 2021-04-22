@@ -32,8 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/audiothumbjob.hpp"
 #include "jobs/transcodeclipjob.h"
 #include "jobs/jobmanager.h"
-#include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
+#include "jobs/cliploadtask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -4054,11 +4054,12 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
-            int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
+            //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
+            ClipLoadTask::start(clip->clipId(), xml, false, this);
             if (reloadThumbs) {
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
-            pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
+            //pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
         }
     }
 }
@@ -4233,7 +4234,7 @@ void Bin::adjustProjectProfileToItem()
         auto clip = std::static_pointer_cast<ProjectClip>(item);
         if (clip) {
             QDomDocument doc;
-            LoadJob::checkProfile(clip->clipId(), clip->toXml(doc, false), clip->originalProducer());
+            ClipLoadTask::checkProfile(clip->clipId(), clip->toXml(doc, false), clip->originalProducer());
         }
     }
 }

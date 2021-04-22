@@ -31,12 +31,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 #include <QList>
 
+class ProjectClip;
+
 class ClipLoadTask : public QRunnable
 {
 public:
-    ClipLoadTask(const QString &clipId, const QDomElement &xml, QObject* object, std::function<void()> readyCallBack);
+    ClipLoadTask(const QString &clipId, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack);
     virtual ~ClipLoadTask();
-    static void start(const QString cid, const QDomElement &xml, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
+    static void start(const QString cid, const QDomElement &xml, bool thumbOnly, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
     static void cancel(const QString cid);
     static void closeAll();
     const QString clipId() const;
@@ -46,6 +48,8 @@ public:
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);
     void processProducerProperties(const std::shared_ptr<Mlt::Producer> &prod, const QDomElement &xml);
     void processSlideShow(std::shared_ptr<Mlt::Producer> producer);
+    // Do some checks on the profile
+    static void checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer);
 
 protected:
     void run() override;
@@ -55,11 +59,12 @@ private:
     QString m_cid;
     QObject* m_object;
     QDomElement m_xml;
+    bool m_thumbOnly;
     std::function<void()> m_readyCallBack;
-    bool m_successful;
     QString m_errorMessage;
     bool m_isCanceled;
     bool m_isForce;
+    void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
     void cleanup();
 };
 

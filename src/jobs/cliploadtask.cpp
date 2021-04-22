@@ -25,6 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
 #include "kdenlivesettings.h"
+#include "doc/kthumb.h"
+#include "doc/kdenlivedoc.h"
+#include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
 #include <QString>
@@ -36,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTime>
 #include <QFile>
 #include <QAction>
+#include <QPainter>
 #include <QElapsedTimer>
 #include <QMimeDatabase>
 #include <monitor/monitor.h>
@@ -47,12 +51,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static QList<ClipLoadTask*> tasksList;
 static QMutex tasksListMutex;
+static int maxJobs = 0;
 
-ClipLoadTask::ClipLoadTask(const QString &clipId, const QDomElement &xml, QObject* object, std::function<void()> readyCallBack)
+ClipLoadTask::ClipLoadTask(const QString &clipId, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack)
     : QRunnable()
     , m_cid(clipId)
     , m_object(object)
     , m_xml(xml)
+    , m_thumbOnly(thumbOnly)
     , m_readyCallBack(std::move(readyCallBack))
     , m_isCanceled(false)
     , m_isForce(false)
@@ -80,11 +86,12 @@ void ClipLoadTask::cancel(const QString cid)
             break;
         }
     }
+    pCore->loadingClips(100 * (maxJobs - tasksList.size()) / maxJobs);
 }
 
-void ClipLoadTask::start(const QString cid, const QDomElement &xml, QObject* object, bool force, std::function<void()> readyCallBack)
+void ClipLoadTask::start(const QString cid, const QDomElement &xml, bool thumbOnly, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(cid, xml, object, readyCallBack);
+    ClipLoadTask* task = new ClipLoadTask(cid, xml, thumbOnly, object, readyCallBack);
     tasksListMutex.lock();
     // See if there is already a task for this MLT service and resource.
     foreach (ClipLoadTask* t, tasksList) {
@@ -99,8 +106,13 @@ void ClipLoadTask::start(const QString cid, const QDomElement &xml, QObject* obj
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
         tasksList << task;
-        pCore->clipJobPool.start(task, 0);
+        pCore->clipJobPool.start(task, 10);
     }
+    int size = tasksList.size();
+    if (size > maxJobs) {
+        maxJobs = size;
+    }
+    pCore->loadingClips(100 * (maxJobs - size) / maxJobs);
     tasksListMutex.unlock();
 }
 
@@ -114,6 +126,7 @@ void ClipLoadTask::closeAll()
         tasksList.removeFirst();
     }
     tasksListMutex.unlock();
+    pCore->loadingClips(100);
 }
 
 bool ClipLoadTask::operator==(ClipLoadTask &b)
@@ -131,6 +144,7 @@ void ClipLoadTask::cleanup()
         }
     }
     tasksListMutex.unlock();
+    pCore->loadingClips(100 * (maxJobs - tasksList.size()) / maxJobs);
 }
 
 ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const QString &path)
@@ -292,10 +306,122 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     }
 }
 
+void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
+{
+        // Fetch thumbnail
+    qDebug()<<"===== \nREADY FOR THUMB\n\n=========";
+    int frameNumber = qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+    if (binClip->clipType() != ClipType::Audio) {
+        if (ThumbnailCache::get()->hasThumbnail(m_cid, frameNumber, false)) {
+            // Thumbnail found in cache
+            QImage result = ThumbnailCache::get()->getThumbnail(m_cid, frameNumber);
+            qDebug()<<"=== FOUND THUMB IN CACHe";
+            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+        } else {
+            std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
+            qDebug()<<"=== REGENARATING THUMB";
+            if (thumbProd == nullptr) {
+                QString mltService = producer->get("mlt_service");
+                const QString mltResource = producer->get("resource");
+                if (mltService == QLatin1String("avformat")) {
+                    mltService = QStringLiteral("avformat-novalidate");
+                }
+                thumbProd.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+                QMetaObject::invokeMethod(binClip.get(), "setThumbProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,thumbProd));
+            }
+            //m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+            //std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
+            if (thumbProd) {
+                thumbProd->set("audio_index", -1);
+                qDebug()<<"===== \nSEEKING THUMB PROD\n\n=========";
+                if (frameNumber > 0) {
+                    thumbProd->seek(frameNumber);
+                }
+                QScopedPointer<Mlt::Frame> frame(thumbProd->get_frame());
+                frame->set("deinterlace_method", "onefield");
+                frame->set("top_field_first", -1);
+                frame->set("rescale.interp", "nearest");
+                if ((frame != nullptr) && frame->is_valid()) {
+                    int imageHeight(pCore->thumbProfile()->height());
+                    int imageWidth(pCore->thumbProfile()->width());
+                    int fullWidth(int(imageHeight * pCore->getCurrentDar() + 0.5));
+                    QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
+                    if (result.isNull()) {
+                        qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
+                        result = QImage(fullWidth, imageHeight, QImage::Format_ARGB32_Premultiplied);
+                        result.fill(Qt::red);
+                        QPainter p(&result);
+                        p.setPen(Qt::white);
+                        p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+                    } else {
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+                        ThumbnailCache::get()->storeThumbnail(m_cid, frameNumber, result, true);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void ClipLoadTask::checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer)
+{
+    // Check if clip profile matches
+    QString service = producer->get("mlt_service");
+    // Check for image producer
+    if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+        // This is an image, create profile from image size
+        int width = producer->get_int("meta.media.width");
+        if (width % 2 > 0) {
+            width += width % 2;
+        }
+        int height = producer->get_int("meta.media.height");
+        height += height % 2;
+        if (width > 100 && height > 100) {
+            std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+            projectProfile->m_width = width;
+            projectProfile->m_height = height;
+            projectProfile->m_sample_aspect_num = 1;
+            projectProfile->m_sample_aspect_den = 1;
+            projectProfile->m_display_aspect_num = width;
+            projectProfile->m_display_aspect_den = height;
+            projectProfile->m_description.clear();
+            pCore->currentDoc()->switchProfile(projectProfile, clipId, xml);
+        } else {
+            // Very small image, we probably don't want to use this as profile
+        }
+    } else if (service.contains(QStringLiteral("avformat"))) {
+        std::unique_ptr<Mlt::Profile> blankProfile(new Mlt::Profile());
+        blankProfile->set_explicit(0);
+        blankProfile->from_producer(*producer);
+        std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile.get()));
+        std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+        clipProfile->adjustDimensions();
+        if (*clipProfile.get() == *projectProfile.get()) {
+            if (KdenliveSettings::default_profile().isEmpty()) {
+                // Confirm default project format
+                KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
+            }
+        } else {
+            // Profiles do not match, propose profile adjustment
+            pCore->currentDoc()->switchProfile(clipProfile, clipId, xml);
+        }
+    }
+}
+
 void ClipLoadTask::run()
 {
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
+        cleanup();
+        return;
+    }
+    //QThread::currentThread()->setPriority(QThread::HighestPriority);
+    if (m_thumbOnly) {
+        auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
+        if (binClip) {
+            generateThumbnail(binClip, binClip->originalProducer());
+        }
         cleanup();
         return;
     }
@@ -440,9 +566,14 @@ void ClipLoadTask::run()
         }
         break;
     }
+
+    if (m_isCanceled) {
+        cleanup();
+        return;
+    }
+
     if (!producer || producer->is_blank() || !producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: " << resource;
-        m_successful = false;
         if (producer) {
             producer.reset();
         }
@@ -571,7 +702,7 @@ void ClipLoadTask::run()
         // List streams
         int streams = producer->get_int("meta.media.nb_streams");
         QList<int> audio_list, video_list;
-        for (int i = 0; i < streams; ++i) {
+        for (int i = 0; i < streams && !m_isCanceled; ++i) {
             QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
             QString stype = producer->get(propertyName.data());
             if (stype == QLatin1String("audio")) {
@@ -581,13 +712,13 @@ void ClipLoadTask::run()
             }
         }
 
-        if (vindex > -1) {
+        if (vindex > -1 && !m_isCanceled) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             fps = producer->get_double(property);
         }
 
-        if (fps <= 0) {
+        if (fps <= 0 && !m_isCanceled) {
             if (producer->get_double("meta.media.frame_rate_den") > 0) {
                 fps = producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den");
             } else {
@@ -602,12 +733,15 @@ void ClipLoadTask::run()
             vindex = -1;
         }
     }
-    auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
-    if (binClip) {
-        QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
+    if (!m_isCanceled) {
+        auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
+        if (binClip) {
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
                                   Q_ARG(bool , true));
-        //binClip->setProducer(producer, true);
+            //binClip->setProducer(producer, true);
+        }
+        generateThumbnail(binClip, producer);
+        m_readyCallBack();
     }
-    
     cleanup();
 }

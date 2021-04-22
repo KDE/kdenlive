@@ -49,7 +49,7 @@ Core::Core()
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
-    clipJobPool.setMaxThreadCount(2);
+    clipJobPool.setMaxThreadCount(qMin(4, QThread::idealThreadCount() - 1));
 }
 
 void Core::prepareShutdown()
@@ -690,6 +690,11 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     } else {
         qDebug() << message;
     }
+}
+
+void Core::loadingClips(int count)
+{
+    m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)

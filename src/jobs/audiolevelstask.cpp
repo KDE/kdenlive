@@ -90,7 +90,7 @@ void AudioLevelsTask::start(const QString cid, QObject* object, bool force)
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
         tasksList << task;
-        pCore->clipJobPool.start(task, 3);
+        pCore->clipJobPool.start(task, 1);
     }
     tasksListMutex.unlock();
 }
