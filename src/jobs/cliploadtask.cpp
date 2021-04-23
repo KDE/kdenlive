@@ -28,14 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kthumb.h"
 #include "doc/kdenlivedoc.h"
 #include "utils/thumbnailcache.hpp"
+#include "project/dialogs/slideshowclip.h"
 
 #include "xml/xml.hpp"
 #include <QString>
 #include <QVariantList>
 #include <QImage>
 #include <QList>
-#include <QThreadPool>
-#include <QMutex>
 #include <QTime>
 #include <QFile>
 #include <QAction>
@@ -46,105 +45,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <profiles/profilemodel.hpp>
 #include <klocalizedstring.h>
 #include <KMessageWidget>
-#include <project/dialogs/slideshowclip.h>
-#include <project/dialogs/slideshowclip.h>
 
-static QList<ClipLoadTask*> tasksList;
-static QMutex tasksListMutex;
-static int maxJobs = 0;
 
-ClipLoadTask::ClipLoadTask(const QString &clipId, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack)
-    : QRunnable()
-    , m_cid(clipId)
-    , m_object(object)
+ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack)
+    : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_thumbOnly(thumbOnly)
     , m_readyCallBack(std::move(readyCallBack))
-    , m_isCanceled(false)
-    , m_isForce(false)
 {
-    setAutoDelete(true);
-}
-
-const QString ClipLoadTask::clipId() const
-{
-    return m_cid;
 }
 
 ClipLoadTask::~ClipLoadTask()
 {
 }
 
-void ClipLoadTask::cancel(const QString cid)
+void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    QMutexLocker lk(&tasksListMutex);
-    // See if there is already a task for this MLT service and resource.
-    foreach (ClipLoadTask* t, tasksList) {
-        if (t->clipId() == cid) {
-            // If so, then just add ourselves to be notified upon completion.
-            t->m_isCanceled = true;
-            break;
-        }
-    }
-    pCore->loadingClips(100 * (maxJobs - tasksList.size()) / maxJobs);
-}
-
-void ClipLoadTask::start(const QString cid, const QDomElement &xml, bool thumbOnly, QObject* object, bool force, std::function<void()> readyCallBack)
-{
-    ClipLoadTask* task = new ClipLoadTask(cid, xml, thumbOnly, object, readyCallBack);
-    tasksListMutex.lock();
-    // See if there is already a task for this MLT service and resource.
-    foreach (ClipLoadTask* t, tasksList) {
-        if (*t == *task) {
-            // If so, then just add ourselves to be notified upon completion.
-            delete task;
-            task = 0;
-            break;
-        }
+    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, object, readyCallBack);
+    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
+        delete task;
+        task = 0;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
-        tasksList << task;
-        pCore->clipJobPool.start(task, 10);
+        pCore->taskManager.startTask(owner.second, task);
     }
-    int size = tasksList.size();
-    if (size > maxJobs) {
-        maxJobs = size;
-    }
-    pCore->loadingClips(100 * (maxJobs - size) / maxJobs);
-    tasksListMutex.unlock();
-}
-
-void ClipLoadTask::closeAll()
-{
-    // Tell all of the audio levels tasks to stop.
-    tasksListMutex.lock();
-    while (!tasksList.isEmpty()) {
-        ClipLoadTask* task = tasksList.first();
-        task->m_isCanceled = true;
-        tasksList.removeFirst();
-    }
-    tasksListMutex.unlock();
-    pCore->loadingClips(100);
-}
-
-bool ClipLoadTask::operator==(ClipLoadTask &b)
-{
-    return m_cid == b.clipId();
-}
-
-void ClipLoadTask::cleanup()
-{
-    tasksListMutex.lock();
-    for (int i = 0; i < tasksList.size(); ++i) {
-        if (*tasksList[i] == *this) {
-            tasksList.removeAt(i);
-            break;
-        }
-    }
-    tasksListMutex.unlock();
-    pCore->loadingClips(100 * (maxJobs - tasksList.size()) / maxJobs);
 }
 
 ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const QString &path)
@@ -312,9 +238,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     qDebug()<<"===== \nREADY FOR THUMB\n\n=========";
     int frameNumber = qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (binClip->clipType() != ClipType::Audio) {
-        if (ThumbnailCache::get()->hasThumbnail(m_cid, frameNumber, false)) {
+        if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
             // Thumbnail found in cache
-            QImage result = ThumbnailCache::get()->getThumbnail(m_cid, frameNumber);
+            QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
             qDebug()<<"=== FOUND THUMB IN CACHe";
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
         } else {
@@ -356,7 +282,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
                     } else {
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
-                        ThumbnailCache::get()->storeThumbnail(m_cid, frameNumber, result, true);
+                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
                     }
                 }
             }
@@ -413,19 +339,19 @@ void ClipLoadTask::run()
 {
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     //QThread::currentThread()->setPriority(QThread::HighestPriority);
     if (m_thumbOnly) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             generateThumbnail(binClip, binClip->originalProducer());
         }
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(m_cid);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     qDebug()<<"============STARTING LOAD TASK FOR: "<<resource<<"\n\n:::::::::::::::::::";
     int duration = 0;
@@ -568,7 +494,7 @@ void ClipLoadTask::run()
     }
 
     if (m_isCanceled) {
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
 
@@ -596,7 +522,7 @@ void ClipLoadTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     processProducerProperties(producer, m_xml);
@@ -734,7 +660,7 @@ void ClipLoadTask::run()
         }
     }
     if (!m_isCanceled) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
                                   Q_ARG(bool , true));
@@ -743,5 +669,5 @@ void ClipLoadTask::run()
         generateThumbnail(binClip, producer);
         m_readyCallBack();
     }
-    cleanup();
+    pCore->taskManager.taskDone(m_owner.second, this);
 }

@@ -605,7 +605,7 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
     }
     bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
     if (!isSubClip) {
-        AudioLevelsTask::cancel(clip->clipId());
+        pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()});
     }
     clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
@@ -726,7 +726,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start(id, description, false, this);
+        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, this);
         //int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         int loadJob = -1;
         //emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);

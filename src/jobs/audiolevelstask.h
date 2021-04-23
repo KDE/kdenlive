@@ -20,31 +20,21 @@
 #ifndef AUDIOLEVELSTASK_H
 #define AUDIOLEVELSTASK_H
 
+#include "abstracttask.h"
+
 #include <QRunnable>
 #include <QObject>
 
-class AudioLevelsTask : public QRunnable
+class AudioLevelsTask : public AbstractTask
 {
 public:
-    AudioLevelsTask(const QString &clipId, QObject* object);
+    AudioLevelsTask(const ObjectId &owner, QObject* object);
     virtual ~AudioLevelsTask();
-    static void start(const QString cid, QObject* object, bool force = false);
-    static void cancel(const QString cid);
-    static void closeAll();
-    const QString clipId() const;
-    bool operator==(AudioLevelsTask& b);
+    static void start(const ObjectId &owner, QObject* object, bool force = false);
 
 protected:
     void run() override;
 
-private:
-    //QString cacheKey();
-    QString m_cid;
-    QObject* m_object;
-    bool m_successful;
-    bool m_isCanceled;
-    bool m_isForce;
-    void cleanup();
 };
 
 #endif // AUDIOLEVELSTASK_H

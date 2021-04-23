@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define CORE_H
 
 #include "definitions.h"
+#include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
 #include <QMutex>
@@ -72,9 +73,6 @@ public:
     Core &operator=(Core &&) = delete;
 
     ~Core() override;
-    
-    /* @brief The thread job pool for clip jobs, allowing to set a max number of concurrent jobs */
-    QThreadPool clipJobPool;
 
     /**
      * @brief Setup the basics of the application, in particular the connection
@@ -251,6 +249,8 @@ public:
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
+    /* @brief The thread job pool for clip jobs, allowing to set a max number of concurrent jobs */
+    TaskManager taskManager;
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
 
@@ -271,6 +271,7 @@ private:
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
+
     /** @brief Current project's profile path */
     QString m_currentProfile;
 

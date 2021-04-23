@@ -46,10 +46,10 @@ the Free Software Foundation, either version 3 of the License, or
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    , taskManager(this)
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
-    clipJobPool.setMaxThreadCount(qMin(4, QThread::idealThreadCount() - 1));
 }
 
 void Core::prepareShutdown()
@@ -221,7 +221,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
-    QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));

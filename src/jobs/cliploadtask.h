@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CLIPLOADTASK_H
 
 #include "definitions.h"
+#include "abstracttask.h"
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
@@ -33,16 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ProjectClip;
 
-class ClipLoadTask : public QRunnable
+class ClipLoadTask : public AbstractTask
 {
 public:
-    ClipLoadTask(const QString &clipId, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack);
+    ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack);
     virtual ~ClipLoadTask();
-    static void start(const QString cid, const QDomElement &xml, bool thumbOnly, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
-    static void cancel(const QString cid);
-    static void closeAll();
-    const QString clipId() const;
-    bool operator==(ClipLoadTask& b);
+    static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
     static ClipType::ProducerType getTypeForService(const QString &id, const QString &path);
     std::shared_ptr<Mlt::Producer> loadResource(QString resource, const QString &type);
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);
@@ -56,16 +53,11 @@ protected:
 
 private:
     //QString cacheKey();
-    QString m_cid;
-    QObject* m_object;
     QDomElement m_xml;
     bool m_thumbOnly;
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
-    bool m_isCanceled;
-    bool m_isForce;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
-    void cleanup();
 };
 
 #endif // CLIPLOADTASK_H

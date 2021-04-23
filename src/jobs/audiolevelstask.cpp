@@ -41,105 +41,46 @@ static void deleteQVariantList(QVector <uint8_t>* list)
     delete list;
 }
 
-AudioLevelsTask::AudioLevelsTask(const QString &clipId, QObject* object)
-    : QRunnable()
-    , m_cid(clipId)
-    , m_object(object)
-    , m_isCanceled(false)
-    , m_isForce(false)
+AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject* object)
+    : AbstractTask(owner, AbstractTask::AUDIOTHUMBJOB, object)
 {
-    setAutoDelete(true);
-}
-
-const QString AudioLevelsTask::clipId() const
-{
-    return m_cid;
 }
 
 AudioLevelsTask::~AudioLevelsTask()
 {
 }
 
-void AudioLevelsTask::cancel(const QString cid)
+void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
 {
-    QMutexLocker lk(&tasksListMutex);
+    AudioLevelsTask* task = new AudioLevelsTask(owner, object);
     // See if there is already a task for this MLT service and resource.
-    foreach (AudioLevelsTask* t, tasksList) {
-        if (t->clipId() == cid) {
-            // If so, then just add ourselves to be notified upon completion.
-            t->m_isCanceled = true;
-            break;
-        }
-    }
-}
-
-void AudioLevelsTask::start(const QString cid, QObject* object, bool force)
-{
-    AudioLevelsTask* task = new AudioLevelsTask(cid, object);
-    tasksListMutex.lock();
-    // See if there is already a task for this MLT service and resource.
-    foreach (AudioLevelsTask* t, tasksList) {
-        if (*t == *task) {
-            // If so, then just add ourselves to be notified upon completion.
-            delete task;
-            task = 0;
-            break;
-        }
+    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
+        delete task;
+        task = 0;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
-        tasksList << task;
-        pCore->clipJobPool.start(task, 1);
+        pCore->taskManager.startTask(owner.second, task);
     }
-    tasksListMutex.unlock();
-}
-
-void AudioLevelsTask::closeAll()
-{
-    // Tell all of the audio levels tasks to stop.
-    tasksListMutex.lock();
-    while (!tasksList.isEmpty()) {
-        AudioLevelsTask* task = tasksList.first();
-        task->m_isCanceled = true;
-        tasksList.removeFirst();
-    }
-    tasksListMutex.unlock();
-}
-
-bool AudioLevelsTask::operator==(AudioLevelsTask &b)
-{
-    return m_cid == b.clipId();
-}
-
-void AudioLevelsTask::cleanup()
-{
-    tasksListMutex.lock();
-    for (int i = 0; i < tasksList.size(); ++i) {
-        if (*tasksList[i] == *this) {
-            tasksList.removeAt(i);
-            break;
-        }
-    }
-    tasksListMutex.unlock();
 }
 
 void AudioLevelsTask::run()
 {
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    auto binClip = pCore->projectItemModel()->getClipByBinID(m_cid);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     if (binClip == nullptr) {
         // Clip was deleted
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     if (binClip->audioChannels() == 0 || binClip->audioThumbCreated()) {
         // nothing to do
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
@@ -147,13 +88,13 @@ void AudioLevelsTask::run()
         /*m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
         m_done = true;
         m_successful = false;*/
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int lengthInFrames = producer->get_length(); // Multiply this if we want more than 1 sample per frame
     if (lengthInFrames == INT_MAX) {
         // This is a broken file or live feed, don't attempt to generate audio thumbnails
-        cleanup();
+        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int frequency = binClip->audioInfo()->samplingRate();
@@ -197,7 +138,7 @@ void AudioLevelsTask::run()
                     producer->unlock();
                     qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
                     QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
-                    cleanup();
+                    pCore->taskManager.taskDone(m_owner.second, this);
                     return;
                 }
             }
@@ -211,7 +152,7 @@ void AudioLevelsTask::run()
         QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
         if (!audioProducer->is_valid()) {
             //m_errorMessage.append(i18n("Audio thumbs: cannot open file %1", producer->get("resource")));
-            cleanup();
+            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         audioProducer->set("video_index", "-1");
@@ -230,14 +171,13 @@ void AudioLevelsTask::run()
             keys << "meta.media.audio_level." + QString::number(i);
         }
         uint maxLevel = 1;
-        int last_val = 0;
         QElapsedTimer updateTime;
         updateTime.start();
         for (int z = 0; z < lengthInFrames && !m_isCanceled; ++z) {
             int val = int(100.0 * z / lengthInFrames);
-            if (last_val != val) {
+            if (m_progress != val) {
+                m_progress = val;
                 QMetaObject::invokeMethod(m_object, "audioJobProgress", Q_ARG(const int, val));
-                last_val = val;
             }
             QScopedPointer<Mlt::Frame> mltFrame(audioProducer->get_frame());
             if ((mltFrame != nullptr) && mltFrame->is_valid() && (mltFrame->get_int("test_audio") == 0)) {
@@ -274,6 +214,7 @@ void AudioLevelsTask::run()
         }*/
         
         if (!m_isCanceled) {
+            m_progress = 100;
             QMetaObject::invokeMethod(m_object, "audioJobProgress", Q_ARG(const int, 100));
             if (mltLevels.size() > 0 && !m_isCanceled) {
                 QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
@@ -305,5 +246,5 @@ void AudioLevelsTask::run()
             }
         }
     }
-    cleanup();
+    pCore->taskManager.taskDone(m_owner.second, this);
 }
