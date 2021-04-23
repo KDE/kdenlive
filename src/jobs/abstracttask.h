@@ -25,8 +25,9 @@
 #include <QMutex>
 #include <QObject>
 
-class AbstractTask : public QRunnable
+class AbstractTask : public QObject, public QRunnable
 {
+    Q_OBJECT
     friend class TaskManager;
 
 public:
@@ -57,14 +58,19 @@ protected:
     bool m_successful;
     bool m_isCanceled;
     bool m_isForce;
+    bool m_running;
     void run() override;
+    QMutex m_runMutex;
     void cleanup();
 
 private:
     //QString cacheKey();
     JOBTYPE m_type;
     int m_priority;
-    QMutex m_runMutex;
+    void cancelJob();
+    
+signals:
+    void jobCanceled();
 };
 
 #endif // ABSTRACTTASK_H

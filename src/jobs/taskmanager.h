@@ -61,7 +61,9 @@ public:
      *  @param owner the owner item for this task
      *  @param type The type of job that you want to query
      */
-    bool hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE);
+    bool hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE) const;
+    
+    TaskManagerStatus jobStatus(const ObjectId &owner) const;
 
     /** @brief return the progress of a given job on a given clip */
     int getJobProgressForClip(const ObjectId &owner) const;

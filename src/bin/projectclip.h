@@ -269,7 +269,8 @@ public slots:
     void updateAudioThumbnail();
     /** @brief Delete the proxy file */
     void deleteProxy();
-    void audioJobProgress(int progress);
+    /** @brief A clip job progressed, update display */
+    void updateJobProgress();
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);

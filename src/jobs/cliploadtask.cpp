@@ -351,6 +351,8 @@ void ClipLoadTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
+    QMutexLocker lk(&m_runMutex);
+    m_running = true;
     pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     qDebug()<<"============STARTING LOAD TASK FOR: "<<resource<<"\n\n:::::::::::::::::::";

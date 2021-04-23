@@ -29,7 +29,6 @@ class AudioLevelsTask : public AbstractTask
 {
 public:
     AudioLevelsTask(const ObjectId &owner, QObject* object);
-    virtual ~AudioLevelsTask();
     static void start(const ObjectId &owner, QObject* object, bool force = false);
 
 protected:

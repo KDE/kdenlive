@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   jobs/taskmanager.cpp
   jobs/audiolevelstask.cpp
   jobs/cliploadtask.cpp
+  jobs/proxytask.cpp
   jobs/jobmanager.cpp
   jobs/cachejob.cpp
   jobs/loadjob.cpp

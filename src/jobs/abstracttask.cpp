@@ -40,6 +40,7 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     , m_progress(0)
     , m_isCanceled(false)
     , m_isForce(false)
+    , m_running(false)
     , m_type(type)
 {
     setAutoDelete(true);
@@ -63,6 +64,12 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     }
 }
 
+void AbstractTask::cancelJob()
+{
+    m_isCanceled = true;
+    emit jobCanceled();
+}
+
 const ObjectId AbstractTask::ownerId() const
 {
     return m_owner;
@@ -79,6 +86,5 @@ bool AbstractTask::operator==(AbstractTask &b)
 
 void AbstractTask::run()
 {
-    // 2 channels interleaved of uchar values
-    QMutexLocker lk(&m_runMutex);
+    qDebug()<<"============0\n\nABSTRACT TASKSTARTRING\n\n==================";
 }

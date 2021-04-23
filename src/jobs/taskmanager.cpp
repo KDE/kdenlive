@@ -57,14 +57,14 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
     for (AbstractTask* t : taskList) {
         if (type == AbstractTask::NOJOBTYPE || type == t->m_type) {
             // If so, then just add ourselves to be notified upon completion.
-            t->m_isCanceled = true;
+            t->cancelJob();
             // Block until the task is finished
             t->m_runMutex.lock();
         }
     }
 }
 
-bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE type)
+bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE type) const
 {
     QReadLocker lk(&m_tasksListLock);
     if (type == AbstractTask::NOJOBTYPE) {
@@ -83,6 +83,22 @@ bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE typ
     return false;
 }
 
+TaskManagerStatus TaskManager::jobStatus(const ObjectId &owner) const
+{
+    QReadLocker lk(&m_tasksListLock);
+    if (m_taskList.find(owner.second) == m_taskList.end()) {
+        // No job for this clip
+        return TaskManagerStatus::NoJob;
+    }
+    std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
+    for (AbstractTask* t : taskList) {
+        if (t->m_running) {
+            return TaskManagerStatus::Running;;
+        }
+    }
+    return TaskManagerStatus::Pending;
+}
+
 void TaskManager::updateJobCount()
 {
     QReadLocker lk(&m_tasksListLock);
@@ -96,24 +112,31 @@ void TaskManager::updateJobCount()
 
 void TaskManager::taskDone(int cid, AbstractTask *task)
 {
-    QReadLocker lk(&m_tasksListLock);
+    m_tasksListLock.lockForWrite();
+    Q_ASSERT(m_taskList.find(cid) != m_taskList.end());
     m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
+    if (m_taskList[cid].size() == 0) {
+        m_taskList.erase(cid);
+    }
+    m_tasksListLock.unlock();
     updateJobCount();
 }
 
 
 void TaskManager::slotCancelJobs()
 {
-    QReadLocker lk(&m_tasksListLock);
+    m_tasksListLock.lockForWrite();
     // See if there is already a task for this MLT service and resource.
     for (auto task : m_taskList) {
         for (AbstractTask* t : task.second) {
             // If so, then just add ourselves to be notified upon completion.
-            t->m_isCanceled = true;
+            t->cancelJob();
             // Block until the task is finished
             t->m_runMutex.lock();
         }
     }
+    m_tasksListLock.unlock();
+    updateJobCount();
 }
 
 void TaskManager::startTask(int ownerId, AbstractTask *task)
@@ -140,11 +163,15 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner) const
         return 100;
     }
     std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
+    int cnt = taskList.size();
+    if (cnt == 0) {
+        return 100;
+    }
     int total = 0;
     for (AbstractTask* t : taskList) {
         total += t->m_progress;
     }
-    total /= taskList.size();
+    total /= cnt;
     return total;
 }
 

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/jobmanager.h"
 #include "jobs/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
+#include "jobs/proxytask.h"
 #include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
@@ -1247,7 +1248,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             backupOriginalProperties();
-            emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+            ProxyTask::start({ObjectType::BinClip,m_binId.toInt()}, this);
+            //emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
     } else if (!reload) {
         const QList<QString> propKeys = properties.keys();
@@ -1308,7 +1310,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (hasProxy()) {
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
-            emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+            //emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+            ProxyTask::start({ObjectType::BinClip,m_binId.toInt()}, this);
         } else {
             reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
         }
@@ -2026,13 +2029,8 @@ void ProjectClip::updateTimelineOnReload()
     }
 }
 
-void ProjectClip::audioJobProgress(int progress)
+void ProjectClip::updateJobProgress()
 {
-    if (progress == 100) {
-        m_clipJobProgress = 0;
-    } else {
-        m_clipJobProgress = progress;
-    }
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
     }

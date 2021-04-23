@@ -46,10 +46,6 @@ AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject* object)
 {
 }
 
-AudioLevelsTask::~AudioLevelsTask()
-{
-}
-
 void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
 {
     AudioLevelsTask* task = new AudioLevelsTask(owner, object);
@@ -67,6 +63,8 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
 
 void AudioLevelsTask::run()
 {
+    QMutexLocker lk(&m_runMutex);
+    m_running = true;
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
         pCore->taskManager.taskDone(m_owner.second, this);
@@ -137,7 +135,6 @@ void AudioLevelsTask::run()
                     producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                     producer->unlock();
                     qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
-                    QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
                     pCore->taskManager.taskDone(m_owner.second, this);
                     return;
                 }
@@ -177,7 +174,7 @@ void AudioLevelsTask::run()
             int val = int(100.0 * z / lengthInFrames);
             if (m_progress != val) {
                 m_progress = val;
-                QMetaObject::invokeMethod(m_object, "audioJobProgress", Q_ARG(const int, val));
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
             }
             QScopedPointer<Mlt::Frame> mltFrame(audioProducer->get_frame());
             if ((mltFrame != nullptr) && mltFrame->is_valid() && (mltFrame->get_int("test_audio") == 0)) {
@@ -212,10 +209,9 @@ void AudioLevelsTask::run()
         for (double &v : mltLevels) {
             m_audioLevels << uchar(255 * v / maxLevel);
         }*/
-        
+        m_progress = 100;
+        QMetaObject::invokeMethod(m_object, "updateJobProgress");
         if (!m_isCanceled) {
-            m_progress = 100;
-            QMetaObject::invokeMethod(m_object, "audioJobProgress", Q_ARG(const int, 100));
             if (mltLevels.size() > 0 && !m_isCanceled) {
                 QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
                 producer->lock();
@@ -247,4 +243,5 @@ void AudioLevelsTask::run()
         }
     }
     pCore->taskManager.taskDone(m_owner.second, this);
+    QMetaObject::invokeMethod(m_object, "updateJobProgress");
 }

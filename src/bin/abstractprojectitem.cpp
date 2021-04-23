@@ -48,7 +48,6 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_usage(0)
     , m_rating(0)
     , m_clipStatus(FileStatus::StatusReady)
-    , m_clipJobProgress(0)
     , m_itemType(type)
     , m_lock(QReadWriteLock::Recursive)
     , m_isCurrent(false)
@@ -184,9 +183,8 @@ QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case JobStatus:
         if (itemType() == ClipItem) {
-            if (m_clipJobProgress > 0) {
-                return QVariant::fromValue(JobManagerStatus::Running);
-            }
+            data = QVariant::fromValue(pCore->taskManager.jobStatus({ObjectType::BinClip, m_binId.toInt()}));
+            /*
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
             if (jobIds.empty()) {
                 jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
@@ -195,18 +193,19 @@ QVariant AbstractProjectItem::getData(DataType type) const
                 data = QVariant::fromValue(pCore->jobManager()->getJobStatus(jobIds[0]));
             } else {
                 data = QVariant::fromValue(JobManagerStatus::NoJob);
-            }
+            }*/
         }
         break;
     case JobProgress:
         if (itemType() == ClipItem) {
-            return m_clipJobProgress;
+            data = pCore->taskManager.getJobProgressForClip({ObjectType::BinClip, m_binId.toInt()});
+            /*
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
             if (jobIds.size() > 0) {
                 data = QVariant(pCore->jobManager()->getJobProgressForClip(jobIds[0], clipId()));
             } else {
                 data = QVariant(0);
-            }
+            }*/
         }
         break;
     case JobSuccess:

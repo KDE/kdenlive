@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/audiothumbjob.hpp"
 #include "jobs/transcodeclipjob.h"
-#include "jobs/jobmanager.h"
+#include "jobs/taskmanager.h"
 #include "jobs/thumbjob.hpp"
 #include "jobs/cliploadtask.h"
 #include "kdenlive_debug.h"
@@ -309,15 +309,15 @@ public:
                         reload.paint(painter, r);
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
-                    auto status = index.data(AbstractProjectItem::JobStatus).value<JobManagerStatus>();
-                    if (status == JobManagerStatus::Pending || status == JobManagerStatus::Running) {
+                    auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
+                    if (status == TaskManagerStatus::Pending || status == TaskManagerStatus::Running) {
                         // Draw job progress bar
                         int progressWidth = option.fontMetrics.averageCharWidth() * 8;
                         int progressHeight = option.fontMetrics.ascent() / 4;
                         QRect progress(r1.x() + 1, opt.rect.bottom() - progressHeight - 2, progressWidth, progressHeight);
                         painter->setPen(Qt::NoPen);
                         painter->setBrush(Qt::darkGray);
-                        if (status == JobManagerStatus::Running) {
+                        if (status == TaskManagerStatus::Running) {
                             painter->drawRoundedRect(progress, 2, 2);
                             painter->setBrush((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0 ? option.palette.text()
                                                                                                                     : option.palette.highlight());
@@ -1228,7 +1228,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // small info button for pending jobs
     m_infoLabel = new SmallJobLabel(this);
     m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
-    connect(pCore->jobManager().get(), &JobManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
+    connect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
     QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
     m_jobsMenu = new QMenu(this);
     // connect(m_jobsMenu, &QMenu::aboutToShow, this, &Bin::slotPrepareJobsMenu);
@@ -1247,14 +1247,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
         const QString currentId = m_monitor->activeClipId();
         if (!currentId.isEmpty()) {
-            pCore->jobManager()->discardJobs(currentId);
+            pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()});
         }
     });
     connect(m_cancelJobs, &QAction::triggered, [&]() {
-        pCore->jobManager()->slotCancelJobs();
+        pCore->taskManager.slotCancelJobs();
     });
     connect(m_discardPendingJobs, &QAction::triggered, [&]() {
-        pCore->jobManager()->slotCancelPendingJobs();
+        // TODO: implement pending only deletion
+        pCore->taskManager.slotCancelJobs();
     });
 
     // Hack, create toolbar spacer
@@ -1287,7 +1288,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
 
 Bin::~Bin()
 {
-    pCore->jobManager()->slotCancelJobs();
+    pCore->taskManager.slotCancelJobs();
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
@@ -4051,7 +4052,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         }
         if (!xml.isNull()) {
             clip->setClipStatus(FileStatus::StatusWaiting);
-            pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()});
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
@@ -4118,7 +4119,7 @@ void Bin::rebuildProxies()
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
-            pCore->jobManager()->discardJobs(clp->clipId(), AbstractClipJob::PROXYJOB);
+            pCore->taskManager.discardJobs({ObjectType::BinClip,clp->clipId().toInt()}, AbstractTask::PROXYJOB);
             clp->deleteProxy();
         }
     }
@@ -4492,7 +4493,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [=] () {
             qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
-            pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
+            //pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
             delete m_transcodingDialog;
             m_transcodingDialog = nullptr;
         });
