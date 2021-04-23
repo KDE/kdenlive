@@ -414,12 +414,12 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
-            ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, this);
-            //int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
-            //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
+            ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, this);
+            //int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
+            //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
         }
     }
 }
@@ -1486,7 +1486,7 @@ void ProjectClip::discardAudioThumb()
     if (!m_audioInfo) {
         return;
     }
-    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()});
+    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::AUDIOTHUMBJOB);
     QString audioThumbPath;
     QList <int> streams = m_audioInfo->streams().keys();
     // Delete audio thumbnail data

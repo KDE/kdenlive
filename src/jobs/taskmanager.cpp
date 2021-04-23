@@ -48,12 +48,14 @@ TaskManager::~TaskManager()
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
 {
-    QReadLocker lk(&m_tasksListLock);
+    m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.second) == m_taskList.end()) {
+        m_tasksListLock.unlock();
         return;
     }
     std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
+    m_tasksListLock.unlock();
     for (AbstractTask* t : taskList) {
         if (type == AbstractTask::NOJOBTYPE || type == t->m_type) {
             // If so, then just add ourselves to be notified upon completion.
