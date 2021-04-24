@@ -88,6 +88,9 @@ public:
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
+    /** @brief Returns a list of external files (e.g. LUTs) used by the effects of the clip */
+    const QStringList externalFiles() const;
+
     /** @brief Returns the timeline clip status (video / audio only) */
     PlaylistState::ClipState clipState() const;
     /** @brief Returns the bin clip type (image, color, AV, ...) */

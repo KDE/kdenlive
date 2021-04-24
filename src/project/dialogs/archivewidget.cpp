@@ -42,7 +42,7 @@
 #include <QtConcurrent>
 #include <memory>
 #include <utility>
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
@@ -110,6 +110,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     QStringList allFonts;
     QStringList extraImageUrls;
     QStringList otherUrls;
+    otherUrls << other_list;
     generateItems(lumas, luma_list);
 
     QMap<QString, QString> slideUrls;
@@ -153,6 +154,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
                 }
             }
         }
+        otherUrls << clip->filesUsedByEffects();
     }
 
     generateItems(images, extraImageUrls);
@@ -161,6 +163,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     generateItems(images, imageUrls);
     generateItems(slideshows, slideUrls);
     generateItems(playlists, playlistUrls);
+    otherUrls.removeDuplicates();
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
 
@@ -866,6 +869,31 @@ bool ArchiveWidget::processProjectFile()
         QString src = Xml::getXmlProperty(e, attribute);
         if (src.isEmpty()) {
             attribute = QStringLiteral("luma");
+        }
+        src = Xml::getXmlProperty(e, attribute);
+        if (!src.isEmpty()) {
+            if (QFileInfo(src).isRelative()) {
+                src.prepend(root);
+            }
+            QUrl srcUrl = QUrl::fromLocalFile(src);
+            QUrl dest = m_replacementList.value(srcUrl);
+            if (!dest.isEmpty()) {
+                Xml::setXmlProperty(e, attribute, dest.toLocalFile());
+            }
+        }
+    }
+
+    // process mlt filters
+    prods = mlt.elementsByTagName(QStringLiteral("filter"));
+    for (int i = 0; i < prods.count(); ++i) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.isNull()) {
+            continue;
+        }
+        attribute = QStringLiteral("filename");
+        QString src = Xml::getXmlProperty(e, attribute);
+        if (src.isEmpty()) {
+            attribute = QStringLiteral("av.file");
         }
         src = Xml::getXmlProperty(e, attribute);
         if (!src.isEmpty()) {
