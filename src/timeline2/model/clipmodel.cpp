@@ -806,6 +806,12 @@ const QString ClipModel::effectNames() const
     return m_effectStack->effectNames();
 }
 
+const QStringList ClipModel::externalFiles() const
+{
+    READ_LOCK();
+    return m_effectStack->externalFiles();
+}
+
 int ClipModel::getFakeTrackId() const
 {
     return m_fakeTrack;

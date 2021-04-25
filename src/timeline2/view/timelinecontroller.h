@@ -486,6 +486,9 @@ public:
     /** @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
+    /** @brief Returns a list of all external files used by effects in the timeline
+     */
+    QStringList extractExternalEffectFiles() const;
     /** @brief Get the frame where mouse is positioned
      */
     int getMousePos();

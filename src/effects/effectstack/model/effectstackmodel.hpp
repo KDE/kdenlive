@@ -128,6 +128,9 @@ public:
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
+    /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
+    QStringList externalFiles() const;
+
     bool isStackEnabled() const;
 
     /** @brief Returns an XML representation of the effect stack with all parameters */

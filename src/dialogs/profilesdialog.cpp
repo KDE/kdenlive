@@ -233,6 +233,9 @@ void ProfilesDialog::slotCreateProfile()
     m_view.button_create->setEnabled(false);
     m_view.button_save->setEnabled(true);
     m_view.properties->setEnabled(true);
+    m_view.description->blockSignals(true);
+    m_view.description->setText(m_view.description->text() + " " +i18n("(copy)"));
+    m_view.description->blockSignals(false);
 }
 
 void ProfilesDialog::slotSetDefaultProfile()

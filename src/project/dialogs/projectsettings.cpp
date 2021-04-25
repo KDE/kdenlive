@@ -621,6 +621,25 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString url = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        if (url.isEmpty()) {
+            url = Xml::getXmlProperty(e, QStringLiteral("luma"));
+        }
+        if (!url.isEmpty()) {
+            if (QFileInfo(url).isRelative()) {
+                url.prepend(root);
+            }
+            urls << url;
+        }
+    }
+
+    // urls for vidstab stabilization data and LUTs
+    files = doc.elementsByTagName(QStringLiteral("filter"));
+    for (int i = 0; i < files.count(); ++i) {
+        QDomElement e = files.at(i).toElement();
+        QString url = Xml::getXmlProperty(e, QStringLiteral("filename"));
+        if (url.isEmpty()) {
+            url = Xml::getXmlProperty(e, QStringLiteral("av.file"));
+        }
         if (!url.isEmpty()) {
             if (QFileInfo(url).isRelative()) {
                 url.prepend(root);
