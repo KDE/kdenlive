@@ -283,13 +283,13 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
     m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
     m_infoMessage->setText(text);
     m_infoMessage->animatedShow();
-    if(!compressed_archive->isChecked() || !success) {
-        archive_url->setEnabled(true);
-        compressed_archive->setEnabled(true);
-        compression_type->setEnabled(true);
-        proxy_only->setEnabled(true);
-        timeline_archive->setEnabled(true);
-    }
+    archive_url->setEnabled(true);
+    compressed_archive->setEnabled(true);
+    compression_type->setEnabled(true);
+    proxy_only->setEnabled(true);
+    timeline_archive->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
 }
 
 void ArchiveWidget::openArchiveForExtraction()
@@ -369,8 +369,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     for (const QString &file : items) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = QUrl::fromLocalFile(file).fileName();
+        if(file.isEmpty() || fileName.isEmpty()) {
+            continue;
+        }
+        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
@@ -568,6 +571,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     compression_type->setEnabled(false);
     proxy_only->setEnabled(false);
     timeline_archive->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
@@ -735,6 +739,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     if (firstPass) {
         progressBar->setValue(0);
         buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     }
     return true;
 }
@@ -762,7 +767,6 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
-        buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
@@ -785,15 +789,6 @@ QString ArchiveWidget::processPlaylistFile(const QString &filename)
         return QString();
     }
     return processMltFile(doc, QStringLiteral("../"));
-    /*QString playList = processMltFile(doc, QStringLiteral("../"));
-
-    m_temp = new QTemporaryFile();
-    if (!m_temp->open()) {
-        KMessageBox::error(this, i18n("Cannot create temporary file"));
-    }
-    m_temp->write(playList.toUtf8());
-    m_temp->close();
-    return m_temp->fileName();*/
 }
 
 bool ArchiveWidget::processProjectFile()
@@ -810,16 +805,31 @@ bool ArchiveWidget::processProjectFile()
         }
         m_temp->write(playList.toUtf8());
         m_temp->close();
+        m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
+        if (compression_type->currentIndex() == 1) {
+            m_archiveName.append(QStringLiteral(".zip"));
+        } else {
+            m_archiveName.append(QStringLiteral(".tar.gz"));
+        }
+        ;
+        if (QFile::exists(m_archiveName)
+                && KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
+            return false;
+        }
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
         return true;
     }
 
     // Make a copy of original project file for extra safety
-    QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+        return false;
+    }
+    QFile::remove(path);
     QFile source(pCore->currentDoc()->url().toLocalFile());
-    if (!source.copy(backupPath)) {
+    if (!source.copy(path)) {
         // Error
-        KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
         return false;
     }
 
@@ -827,24 +837,32 @@ bool ArchiveWidget::processProjectFile()
     QString sub = pCore->currentDoc()->url().toLocalFile();
     if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
         QFile subFile(sub + QStringLiteral(".srt"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
+        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+            return false;
+        }
+        QFile::remove(path);
+        if (!subFile.copy(path)) {
             // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            KMessageBox::error(this, i18n("Cannot write to file %1", path));
             return false;
         }
     }
     if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
         QFile subFile(sub + QStringLiteral(".ass"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
+        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+            return false;
+        }
+        QFile::remove(path);
+        if (!subFile.copy(path)) {
             // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            KMessageBox::error(this, i18n("Cannot write to file %1", path));
             return false;
         }
     }
 
-    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
+    path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
     if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
         return false;
@@ -1036,16 +1054,6 @@ void ArchiveWidget::propertyProcessUrl(QDomElement e, QString propertyName, QStr
 
 void ArchiveWidget::createArchive()
 {
-    m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
-    if (compression_type->currentIndex() == 1) {
-        m_archiveName.append(QStringLiteral(".zip"));
-    } else {
-        m_archiveName.append(QStringLiteral(".tar.gz"));
-    }
-    if (QFile::exists(m_archiveName) &&
-        KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
-        return;
-    }
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
@@ -1105,12 +1113,11 @@ void ArchiveWidget::slotArchivingBoolFinished(bool result)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        //buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
         slotJobResult(false, i18n("There was an error processing project file"));
     }
     progressBar->setValue(100);
-    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
@@ -1138,6 +1145,7 @@ void ArchiveWidget::slotStartExtracting()
     }
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
     m_progressTimer->start();
 }
