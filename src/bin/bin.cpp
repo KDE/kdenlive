@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/audiothumbjob.hpp"
-#include "jobs/transcodeclipjob.h"
+#include "jobs/transcodetask.h"
 #include "jobs/taskmanager.h"
 #include "jobs/thumbjob.hpp"
 #include "jobs/cliploadtask.h"
@@ -4494,6 +4494,11 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
         connect(m_transcodingDialog, &QDialog::accepted, this, [=] () {
             qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
             //pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
+            std::vector<QString> ids = m_transcodingDialog->ids();
+            for (QString id : ids) {
+                std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get());
+            }
             delete m_transcodingDialog;
             m_transcodingDialog = nullptr;
         });

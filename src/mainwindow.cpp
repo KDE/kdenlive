@@ -41,7 +41,7 @@
 #include "jobs/scenesplitjob.hpp"
 #include "jobs/speedjob.hpp"
 #include "jobs/stabilizejob.hpp"
-#include "jobs/transcodeclipjob.h"
+#include "jobs/transcodetask.h"
 #include "jobs/audiolevelstask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
@@ -2179,7 +2179,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
     }
 }
 
-void MainWindow::addProjectClip(const QString &url)
+void MainWindow::addProjectClip(const QString &url, const QString &folder)
 {
     if (pCore->currentDoc()) {
         QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(url));
@@ -2187,8 +2187,7 @@ void MainWindow::addProjectClip(const QString &url)
             // Clip is already in project bin, abort
             return;
         }
-
-        ClipCreator::createClipFromFile(url, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel());
+        ClipCreator::createClipFromFile(url, folder, pCore->projectItemModel());
     }
 }
 
@@ -3597,7 +3596,12 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first(), false);
+            //emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first(), false);
+            std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
+            for (QString id : ids) {
+                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, transcodeData.first(), -1, -1, false, clip.get());
+            }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
             // This is an audio transcoding action
