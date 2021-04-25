@@ -283,6 +283,13 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
     m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
     m_infoMessage->setText(text);
     m_infoMessage->animatedShow();
+    if(!compressed_archive->isChecked() || !success) {
+        archive_url->setEnabled(true);
+        compressed_archive->setEnabled(true);
+        compression_type->setEnabled(true);
+        proxy_only->setEnabled(true);
+        timeline_archive->setEnabled(true);
+    }
 }
 
 void ArchiveWidget::openArchiveForExtraction()
@@ -556,6 +563,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     m_infoMessage->setMessageType(KMessageWidget::Information);
     m_infoMessage->setText(i18n("Starting archive job"));
     m_infoMessage->animatedShow();
+    archive_url->setEnabled(false);
+    compressed_archive->setEnabled(false);
+    compression_type->setEnabled(false);
+    proxy_only->setEnabled(false);
+    timeline_archive->setEnabled(false);
     
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
@@ -569,9 +581,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_filesList.clear();
         slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving..."));
         repaint();
-        archive_url->setEnabled(false);
-        proxy_only->setEnabled(false);
-        compressed_archive->setEnabled(false);
     }
     QList<QUrl> files;
     QUrl destUrl;
@@ -754,9 +763,6 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
     }
     if (!compressed_archive->isChecked()) {
         buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-        archive_url->setEnabled(true);
-        proxy_only->setEnabled(true);
-        compressed_archive->setEnabled(true);
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
@@ -1105,9 +1111,6 @@ void ArchiveWidget::slotArchivingBoolFinished(bool result)
     }
     progressBar->setValue(100);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-    archive_url->setEnabled(true);
-    proxy_only->setEnabled(true);
-    compressed_archive->setEnabled(true);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
