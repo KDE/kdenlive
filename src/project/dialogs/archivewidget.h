@@ -80,6 +80,12 @@ protected:
     void closeEvent(QCloseEvent *e) override;
 
 private:
+    enum {
+        ClipIdRole = Qt::UserRole + 1,
+        SlideshowImagesRole,
+        SlideshowSizeRole,
+        IsInTimelineRole,
+    };
     KIO::filesize_t m_requestedSize, m_timelineSize;
     KIO::CopyJob *m_copyJob;
     QMap<QUrl, QUrl> m_duplicateFiles;

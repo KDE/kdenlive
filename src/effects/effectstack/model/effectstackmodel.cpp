@@ -1327,6 +1327,9 @@ QStringList EffectStackModel::externalFiles() const
     for (int i = 0; i < rootItem->childCount(); ++i) {
         auto filter = std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->filter();
         QString url = filter.get("av.file");
+        if(url.isEmpty()) {
+            url = filter.get("luma.resource");
+        }
         if(!url.isEmpty()) {
             urls << url;
         }

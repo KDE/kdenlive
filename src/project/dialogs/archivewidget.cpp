@@ -198,7 +198,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
                 // Special case: slideshows contain several files
                 for (int j = 0; j < items; ++j) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                    total += parentItem->child(j)->data(0, SlideshowImagesRole).toStringList().count();
                 }
             } else {
                 total += items;
@@ -383,8 +383,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     totalSize += resultList.at(i).size();
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -406,8 +406,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                         slideImages << directory + path;
                     }
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
@@ -424,13 +424,14 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
+            item->setData(0, IsInTimelineRole, 1);
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, Qt::UserRole + 3, fileSize);
+                item->setData(0, SlideshowSizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -448,15 +449,15 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
     while (it != items.constEnd()) {
         QString file = it.value();
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
-        item->setData(0, Qt::UserRole + 4,0);
+        item->setData(0, IsInTimelineRole,0);
         for(int id : timelineBinId) {
             if(id == it.key().toInt()) {
                 m_timelineSize = static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
-                item->setData(0,Qt::UserRole + 4, 1);
+                item->setData(0, IsInTimelineRole, 1);
             }
         }
         // Store the clip's id
-        item->setData(0, Qt::UserRole + 2, it.key());
+        item->setData(0, ClipIdRole, it.key());
         fileName = QUrl::fromLocalFile(file).fileName();
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
@@ -477,8 +478,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                     totalSize += resultList.at(i).size();
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -496,8 +497,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                         slideImages << dir.absoluteFilePath(path);
                     }
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
@@ -520,7 +521,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, Qt::UserRole + 3, fileSize);
+                item->setData(0, SlideshowSizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -647,7 +648,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     // Special case: slideshows
                     destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
                     destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
-                    QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
+                    QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
                     for (int k = 0; k < srcFiles.count(); ++k) {
                         files << QUrl::fromLocalFile(srcFiles.at(k));
                     }
@@ -1220,7 +1221,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         int items = parentItem->childCount();
         for (int j = 0; j < items; ++j) {
-            proxyIdList << parentItem->child(j)->data(0, Qt::UserRole + 2).toString();
+            proxyIdList << parentItem->child(j)->data(0, ClipIdRole).toString();
         }
 
         // Parse all items to disable original clips for existing proxies
@@ -1236,7 +1237,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
                 }
                 items = parentItem->childCount();
                 for (int k = 0; k < items; ++k) {
-                    if (parentItem->child(k)->data(0, Qt::UserRole + 2).toString() == id) {
+                    if (parentItem->child(k)->data(0, ClipIdRole).toString() == id) {
                         // This item has a proxy, do not archive it
                         parentItem->child(k)->setFlags(Qt::ItemIsSelectable);
                         break;
@@ -1265,9 +1266,9 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
-                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, Qt::UserRole + 3).toInt());
+                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, SlideshowSizeRole).toInt());
                 if (isSlideshow) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                    total += parentItem->child(j)->data(0, SlideshowImagesRole).toStringList().count();
                 } else {
                     total++;
                 }
@@ -1289,7 +1290,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         for(int cidx = 0 ; cidx < childCount; ++cidx) {
             parent->child(cidx)->setHidden(true);
             if(onlyTimeline == Qt::Checked) {
-                if(parent->child(cidx)->data(0,Qt::UserRole + 4).toInt() > 0) {
+                if(parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
                     parent->child(cidx)->setHidden(false);
                 }
             }
@@ -1310,7 +1311,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isHidden() && !parentItem->child(j)->isDisabled()) {
                 if (isSlideshow) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 4).toStringList().count();
+                    total += parentItem->child(j)->data(0, IsInTimelineRole).toStringList().count();
                 } else {
                     total++;
                 }
