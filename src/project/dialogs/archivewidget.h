@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartalb.uber.space)   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -103,8 +104,25 @@ private:
     void generateItems(QTreeWidgetItem *parentItem, const QStringList &items);
     /** @brief Generate tree widget subitems from a map of clip ids / urls. */
     void generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString> &items);
-    /** @brief Replace urls in project file. */
+    /** @brief Make urls in the given playlist file (*.mlt) relative.
+    * @param filename the url of the *.mlt file
+    * @returns the files content with replaced urls
+    */
+    QString processPlaylistFile(const QString &filename);
+    /** @brief Make urls in project file relative */
     bool processProjectFile();
+    /** @brief Replace urls in mlt doc.
+    * @param doc the xml document
+    * @param destPrefix (optional) prefix to put before each new file path
+    * @returns the doc's content with replaced urls
+    */
+    QString processMltFile(QDomDocument doc, const QString &destPrefix = QString());
+    /** @brief If the given element cointains the property its content (url) will be converted to a relativ file path
+     *  @param e the dom element  that might contains the property
+     *  @param propertyName name of the property that should be checked
+     *  @param root rootpath of the parent mlt document
+    */
+    void propertyProcessUrl(QDomElement e, QString propertyName, QString root);
 
 signals:
     void archivingFinished(bool);

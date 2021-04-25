@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartalb.uber.space)   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -610,9 +611,40 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 if (item->isDisabled() || item->isHidden()) {
                     continue;
                 }
-                // Special case: slideshows
                 items++;
-                if (isSlideshow) {
+                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
+                    // Special case: playlists (mlt files) may contain urls that need to be replaced too
+                    QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
+                    m_infoMessage->setText(i18n("Copying %1", filename));
+                    const QString playList = processPlaylistFile(item->text(0));
+                    if (isArchive) {
+                        m_temp = new QTemporaryFile();
+                        if (!m_temp->open()) {
+                            KMessageBox::error(this, i18n("Cannot create temporary file"));
+                        }
+                        m_temp->write(playList.toUtf8());
+                        m_temp->close();
+                        m_filesList.insert(m_temp->fileName(), destPath + filename);
+                    } else {
+                        QDir dir(destUrl.toLocalFile());
+                        if (!dir.mkpath(QStringLiteral("."))) {
+                            KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+                        }
+                        QFile file(destUrl.toLocalFile() + filename);
+                        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                            qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
+                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                        }
+                        file.write(playList.toUtf8());
+                        if (file.error() != QFile::NoError) {
+                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                            file.close();
+                            return false;
+                        }
+                        file.close();
+                    }
+                } else if (isSlideshow) {
+                    // Special case: slideshows
                     destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
                     destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
                     QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
@@ -738,11 +770,100 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
     progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
 }
 
+QString ArchiveWidget::processPlaylistFile(const QString &filename)
+{
+    QDomDocument doc;
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly) || !doc.setContent(&file)) {
+        return QString();
+    }
+    return processMltFile(doc, QStringLiteral("../"));
+    /*QString playList = processMltFile(doc, QStringLiteral("../"));
+
+    m_temp = new QTemporaryFile();
+    if (!m_temp->open()) {
+        KMessageBox::error(this, i18n("Cannot create temporary file"));
+    }
+    m_temp->write(playList.toUtf8());
+    m_temp->close();
+    return m_temp->fileName();*/
+}
+
 bool ArchiveWidget::processProjectFile()
+{
+    bool isArchive = compressed_archive->isChecked();
+
+    QString playList = processMltFile(m_doc);
+
+    m_archiveName.clear();
+    if (isArchive) {
+        m_temp = new QTemporaryFile;
+        if (!m_temp->open()) {
+            KMessageBox::error(this, i18n("Cannot create temporary file"));
+        }
+        m_temp->write(playList.toUtf8());
+        m_temp->close();
+        m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
+        return true;
+    }
+
+    // Make a copy of original project file for extra safety
+    QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    QFile source(pCore->currentDoc()->url().toLocalFile());
+    if (!source.copy(backupPath)) {
+        // Error
+        KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+        return false;
+    }
+
+    // Copy subtitle files if any
+    QString sub = pCore->currentDoc()->url().toLocalFile();
+    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
+        QFile subFile(sub + QStringLiteral(".srt"));
+        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (!subFile.copy(backupPath)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            return false;
+        }
+    }
+    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
+        QFile subFile(sub + QStringLiteral(".ass"));
+        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (!subFile.copy(backupPath)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            return false;
+        }
+    }
+
+    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
+    QFile file(path);
+    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        return false;
+    }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+        return false;
+    }
+
+    file.write(playList.toUtf8());
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+        file.close();
+        return false;
+    }
+    file.close();
+    return true;
+}
+
+QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
 
+    m_replacementList.clear();
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
@@ -753,19 +874,19 @@ bool ArchiveWidget::processProjectFile()
                 QUrl src = QUrl::fromLocalFile(item->text(0));
                 QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
                 if (isSlideshow) {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
                                                QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 } else {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
         }
     }
 
-    QDomElement mlt = m_doc.documentElement();
+    QDomElement mlt = doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
@@ -820,17 +941,7 @@ bool ArchiveWidget::processProjectFile()
                 Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
             }
         }
-        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-        if (!src.isEmpty()) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), dest.toLocalFile());
-            }
-        }
+        propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
         bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
@@ -855,6 +966,7 @@ bool ArchiveWidget::processProjectFile()
                 Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
             }
         }
+        propertyProcessUrl(e, QStringLiteral("luma_file"), root);
     }
 
     // process mlt transitions (for luma files)
@@ -865,22 +977,9 @@ bool ArchiveWidget::processProjectFile()
         if (e.isNull()) {
             continue;
         }
-        attribute = QStringLiteral("resource");
-        QString src = Xml::getXmlProperty(e, attribute);
-        if (src.isEmpty()) {
-            attribute = QStringLiteral("luma");
-        }
-        src = Xml::getXmlProperty(e, attribute);
-        if (!src.isEmpty()) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, attribute, dest.toLocalFile());
-            }
-        }
+        propertyProcessUrl(e, QStringLiteral("resource"), root);
+        propertyProcessUrl(e, QStringLiteral("luma"), root);
+        propertyProcessUrl(e, QStringLiteral("luma.resource"), root);
     }
 
     // process mlt filters
@@ -890,25 +989,14 @@ bool ArchiveWidget::processProjectFile()
         if (e.isNull()) {
             continue;
         }
-        attribute = QStringLiteral("filename");
-        QString src = Xml::getXmlProperty(e, attribute);
-        if (src.isEmpty()) {
-            attribute = QStringLiteral("av.file");
-        }
-        src = Xml::getXmlProperty(e, attribute);
-        if (!src.isEmpty()) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, attribute, dest.toLocalFile());
-            }
-        }
+        // propertys for vidstab files
+        propertyProcessUrl(e, QStringLiteral("filename"), root);
+        propertyProcessUrl(e, QStringLiteral("results"), root);
+        // propertys for LUT files
+        propertyProcessUrl(e, QStringLiteral("av.file"), root);
     }
 
-    QString playList = m_doc.toString();
+    QString playList = doc.toString();
     if (isArchive) {
         QString startString(QStringLiteral("\""));
         startString.append(archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile());
@@ -919,67 +1007,24 @@ bool ArchiveWidget::processProjectFile()
         endString = QLatin1Char('>') + basePath;
         playList.replace(startString, endString);
     }
-    m_archiveName.clear();
-    if (isArchive) {
-        m_temp = new QTemporaryFile;
-        if (!m_temp->open()) {
-            KMessageBox::error(this, i18n("Cannot create temporary file"));
-        }
-        m_temp->write(playList.toUtf8());
-        m_temp->close();
-        m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
-        return true;
-    }
+    return playList;
+}
 
-    // Make a copy of original project file for extra safety
-    QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
-    QFile source(pCore->currentDoc()->url().toLocalFile());
-    if (!source.copy(backupPath)) {
-        // Error
-        KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-        return false;
-    }
-    
-    // Copy subtitle files if any
-    QString sub = pCore->currentDoc()->url().toLocalFile();
-    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
-        QFile subFile(sub + QStringLiteral(".srt"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-            return false;
+void ArchiveWidget::propertyProcessUrl(QDomElement e, QString propertyName, QString root)
+{
+    QString src = Xml::getXmlProperty(e, propertyName);
+    if (!src.isEmpty()) {
+        qDebug() << "Found property " << propertyName << " with content: " << src;
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            qDebug() << "-> hast replacement entry " << dest;
+            Xml::setXmlProperty(e, propertyName, dest.toLocalFile());
         }
     }
-    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
-        QFile subFile(sub + QStringLiteral(".ass"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-            return false;
-        }
-    }
-
-    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
-    QFile file(path);
-    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-        return false;
-    }
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
-        KMessageBox::error(this, i18n("Cannot write to file %1", path));
-        return false;
-    }
-
-    file.write(m_doc.toString().toUtf8());
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", path));
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
 }
 
 void ArchiveWidget::createArchive()
