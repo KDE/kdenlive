@@ -366,6 +366,12 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         spacerUngroupedItems.insert(l, r);
                     }
                 }
+            } else {
+                int pos = timeline->getItemPosition(r);
+                if (firstPosition == -1 || pos < firstPosition) {
+                    firstCid = r;
+                    firstPosition = pos;
+                }
             }
         }
         for (int r : groupsToRemove) {
