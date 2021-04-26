@@ -2368,12 +2368,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 #else
                 childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                childitem->setData(0, DefaultBitrateRole, profile.attribute(QStringLiteral("defaultquality")));
             } else if (params.contains(QLatin1String("%bitrate"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
 #else
                 childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                childitem->setData(0, DefaultBitrateRole, profile.attribute(QStringLiteral("defaultbitrate")));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -2381,12 +2383,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 #else
                 childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                childitem->setData(0, DefaultAudioBitrateRole, profile.attribute(QStringLiteral("defaultaudioquality")));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
 #else
                 childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                childitem->setData(0, DefaultAudioBitrateRole, profile.attribute(QStringLiteral("defaultaudiobitrate")));
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -2476,12 +2480,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 #else
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                item->setData(0, DefaultBitrateRole, profileElement.attribute(QStringLiteral("defaultquality")));
             } else if (params.contains(QLatin1String("%bitrate"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
 #else
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                item->setData(0, DefaultBitrateRole, profileElement.attribute(QStringLiteral("defaultbitrate")));
             }
             if (params.contains(QLatin1String("%audioquality"))) {
                 item->setData(0, AudioBitratesRole,
@@ -2490,12 +2496,14 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 #else
                               profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                item->setData(0, DefaultAudioBitrateRole, profileElement.attribute(QStringLiteral("defaultaudioquality")));
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
 #else
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
 #endif
+                item->setData(0, DefaultAudioBitrateRole, profileElement.attribute(QStringLiteral("defaultaudiobitrate")));
             }
             if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
