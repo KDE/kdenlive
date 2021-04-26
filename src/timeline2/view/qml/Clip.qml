@@ -78,6 +78,9 @@ Rectangle {
     property bool forceReloadThumb
     property bool isComposition: false
     property bool hideClipViews: false
+    property int slipFrame: -1
+    property int slipOffset: 0
+    property int slipClickFrame: -1
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
@@ -88,6 +91,9 @@ Rectangle {
     signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
+    signal slipBegin(var clip)
+    signal slipMove(var clip)
+    signal slipEnd(var clip)
 
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
@@ -257,12 +263,21 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === 0
+        enabled: root.activeTool === 0 || root.activeTool === 5
         anchors.fill: clipRoot
-        acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === 0
+        acceptedButtons: Qt.RightButton | Qt.LeftButton
+        hoverEnabled: root.activeTool === 0 || root.activeTool === 5
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: {
+            if(mouse.button == Qt.LeftButton) {
+                if (root.activeTool === 5) {
+                    slipOffset = 0
+                    slipBegin(clipRoot)
+                    slipClickFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                }
+                //mouse.accepted = false
+                return
+            }
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
@@ -275,6 +290,14 @@ Rectangle {
             }
         }
         onReleased: {
+            console.log("Release clip")
+            if(mouse.button == Qt.LeftButton) {
+                if (root.activeTool === 5) {
+                    slipEnd(clipRoot)
+                }
+                mouse.accepted = false
+                return
+            }
             root.autoScrolling = timeline.autoScroll
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
@@ -311,6 +334,32 @@ Rectangle {
         onPositionChanged: {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
             root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
+            if (root.activeTool === 5 && pressed) {
+                if(maxDuration <= 0) {
+                    return;
+                }
+                var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                var offset = frame - slipClickFrame
+                if(offset >= 0) {
+                    //console.log("In: " + inPoint + " Diff: " + slipOffset)
+                    if(inPoint - offset >=0){
+                        slipOffset = offset
+                    } else {
+                        slipOffset = inPoint
+                    }
+                }
+                if(offset < 0) {
+                    //console.log("Duration: " + maxDuration +" In: " + inPoint + " Out: " + (outPoint) + " < " + (maxDuration + offset))
+                    if(outPoint < (maxDuration + offset)) {
+                        slipOffset = offset
+                    } else {
+                        slipOffset = -(maxDuration - outPoint)
+                    }
+                }
+                var s = i18n("In:%1, Out:%2 (%3%4)", timeline.simplifiedTC(clipRoot.inPoint - slipOffset), timeline.simplifiedTC(clipRoot.outPoint - slipOffset), (slipOffset < 0 ? "-" : "+"), timeline.simplifiedTC(Math.abs(slipOffset)))
+                timeline.showToolTip(s)
+                slipMove(clipRoot)
+            }
         }
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)

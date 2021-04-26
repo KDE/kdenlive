@@ -93,10 +93,10 @@ Item {
     }
 
     MouseArea {
-        width: root.width; height: root.height / 2 - info.height
+        width: accept.width; height: accept.height
         anchors {
-            left: root.left
-            top: info.bottom
+            left: accept.left
+            top: accept.top
         }
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
@@ -108,10 +108,10 @@ Item {
         id: accept
         anchors {
             left: root.left
-            top: info.bottom
+            bottom: root.bottom
         }
         width: root.width
-        height: root.height / 2 - info.height
+        height: root.height / 4 - info.height
         color: "darkGreen"
         Text {
             text: i18n("close")

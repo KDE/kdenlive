@@ -1188,10 +1188,35 @@ void MainWindow::setupActions()
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
+
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Ripple tool"), this);
+    // toolbar->addAction(m_buttonRippleTool);
+    m_buttonRippleTool->setCheckable(true);
+    m_buttonRippleTool->setChecked(false);
+
+    m_buttonRoleTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Role tool"), this);
+    // toolbar->addAction(m_buttonRoleTool);
+    m_buttonRoleTool->setCheckable(true);
+    m_buttonRoleTool->setChecked(false);
+
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
+    // toolbar->addAction(m_buttonSlideTool);
+    m_buttonSlipTool->setCheckable(true);
+    m_buttonSlipTool->setChecked(false);
+
+    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slide tool"), this);
+    // toolbar->addAction(m_buttonSlideTool);
+    m_buttonSlideTool->setCheckable(true);
+    m_buttonSlideTool->setChecked(false);
     auto *toolGroup = new QActionGroup(this);
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
+    toolGroup->addAction(m_buttonRippleTool);
+    toolGroup->addAction(m_buttonRoleTool);
+    toolGroup->addAction(m_buttonSlipTool);
+    toolGroup->addAction(m_buttonSlideTool);
+
     toolGroup->setExclusive(true);
     
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
@@ -1332,6 +1357,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
+    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
+    addAction(QStringLiteral("role_tool"), m_buttonRoleTool);
+    addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
+    addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
@@ -2246,6 +2275,7 @@ void MainWindow::connectDocument()
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
     // TODO REFAC: reconnect to new timeline
+    //TimelineModel *timeline = pCore->window()->getCurrentTimeline()->model().get();
     /*
     Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(trackView, &Timeline::configTrack, this, &MainWindow::slotConfigTrack);
@@ -2261,10 +2291,10 @@ void MainWindow::connectDocument()
 
     connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
     connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
-    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
-    connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
-    connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
-    connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
+    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);*/
+    //connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
+    //connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
+    /*connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
 
     connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotTrackSelected(int, TrackInfo)));
 
@@ -3098,6 +3128,14 @@ void MainWindow::slotChangeTool(QAction *action)
         slotSetTool(RazorTool);
     } else if (action == m_buttonSpacerTool) {
         slotSetTool(SpacerTool);
+    } if (action == m_buttonRippleTool) {
+        slotSetTool(RippleTool);
+    } if (action == m_buttonRoleTool) {
+        slotSetTool(RoleTool);
+    } if (action == m_buttonSlipTool) {
+        slotSetTool(SlipTool);
+    } if (action == m_buttonSlideTool) {
+        slotSetTool(SlideTool);
     }
 }
 
@@ -3134,6 +3172,11 @@ void MainWindow::slotSetTool(ProjectTool tool)
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
+        if(tool == RippleTool) {
+            m_projectMonitor->slotShowEffectScene(MonitorSceneRipple);
+        } else {
+            m_projectMonitor->slotShowEffectScene(MonitorSceneDefault);
+        }
     }
 }
 

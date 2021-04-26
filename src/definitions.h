@@ -129,7 +129,7 @@ enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipTyp
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
-enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2 };
+enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2, RippleTool = 3, RoleTool = 4, SlipTool = 5, SlideTool = 6 };
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,

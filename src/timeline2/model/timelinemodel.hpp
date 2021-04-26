@@ -502,6 +502,23 @@ public:
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
+    /** @brief TODO TODO Change the duration of an item (clip or composition)
+       This action is undoable
+       Returns the real size reached (can be different, if snapping occurs).
+       If it fails, nothing is modified, and -1 is returned
+       @param itemId is the ID of the item
+       @param size is the new size of the item
+       @param right is true if we change the right side of the item, false otherwise
+       @param logUndo if set to true, an undo object is created
+       @param snap if set to true, the resize order will be coerced to use the snapping grid
+       if @param allowSingleResize is false, then the resize will also be applied to any clip in the same AV group (allow resizing audio and video at the same
+       time)
+    */
+    Q_INVOKABLE int requestClipSlip(int itemId, int offset, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+
+    /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
+    bool requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
     /* Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
     /* Returns a list of {id, position duration} for all elements in the group*/

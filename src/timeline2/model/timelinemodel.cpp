@@ -3188,6 +3188,90 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
+int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, int snapDistance, bool allowSingleResize)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    Q_ASSERT(isClip(itemId));
+    /*if (size <= 0) {
+        TRACE_RES(-1)
+        return -1;
+    }*/
+    //int in = 0;
+    //int offset = getItemPlaytime(itemId);
+    //int tid = getItemTrackId(itemId);
+    //int out = offset;
+    //offset -= size;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::unordered_set<int> all_items;
+    QList <int> tracksWithMixes;
+    all_items.insert(itemId);
+    /* TODO if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        std::unordered_set<int> items = m_groups->getLeaves(groupId);
+        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+            // Only resize group elements if it is an avsplit
+            items = m_groups->getLeaves(groupId);
+        }
+        for (int id : items) {
+            if (id == itemId) {
+                continue;
+            }
+            int start = getItemPosition(id);
+            int end = start + getItemPlaytime(id);
+            bool resizeMix = false;
+            if (right) {
+                if (out == end) {
+                    all_items.insert(id);
+                    resizeMix = true;
+                }
+            } else if (start == in) {
+                all_items.insert(id);
+                resizeMix = true;
+            }
+        }
+    }*/
+    bool result = true;
+    int slipCount = 0;
+    for (int id : all_items) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        result = result && requestClipSlip(id, offset, logUndo, undo, redo);
+        slipCount++;
+    }
+    if (!result || slipCount == 0) {
+        qDebug() << "slip aborted" << result;
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1)
+        return -1;
+    }
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Slip clip"))
+    }
+    int res = result ? offset : -1;
+    TRACE_RES(res)
+    return res;
+}
+
+bool TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+{
+    Q_UNUSED(blockUndo)
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = false;
+    if (isClip(itemId)) {
+        result = m_allClips[itemId]->requestSlip(offset, local_undo, local_redo, logUndo);
+    }
+    if (result) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return result;
+}
+
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, GroupType type)
 {
     QWriteLocker locker(&m_lock);

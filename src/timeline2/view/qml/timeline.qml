@@ -1074,7 +1074,7 @@ Rectangle {
             hoverEnabled: true
             preventStealing: true
             acceptedButtons: Qt.AllButtons
-            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
+            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : root.activeTool === 3 ? Qt.SplitHCursor : Qt.SizeHorCursor
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier) {
                     // Alt + wheel = seek to next snap point
@@ -1089,6 +1089,7 @@ Rectangle {
                 }
             }
             onPressed: {
+                console.log("Here I am, pressed")
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
                 if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
@@ -1107,6 +1108,7 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
+                    console.log("Left Button, yes!!!")
                     if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
@@ -1115,6 +1117,12 @@ Rectangle {
                         } else if (subtitleTrack.height > 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, -2)
                         }
+                    }
+                    if(root.activeTool === 5) {
+                        //slip tool
+                        console.log("Here I am, but is it all?")
+                        //mouse.accepted = false
+                        return
                     }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
@@ -1253,6 +1261,12 @@ Rectangle {
                 }
             }
             onReleased: {
+                if((mouse.button & Qt.LeftButton) && root.activeTool === 5) {
+                    //slip tool
+                    console.log("Slip Tool Release timeline")
+                    mouse.accepted = false
+                    return
+                }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
                     var y = rubberSelect.y - ruler.height + scrollView.contentY

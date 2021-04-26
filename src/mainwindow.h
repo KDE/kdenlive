@@ -240,6 +240,10 @@ private:
     QAction *m_buttonSelectTool;
     QAction *m_buttonRazorTool;
     QAction *m_buttonSpacerTool;
+    QAction *m_buttonRippleTool;
+    QAction *m_buttonRoleTool;
+    QAction *m_buttonSlipTool;
+    QAction *m_buttonSlideTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;

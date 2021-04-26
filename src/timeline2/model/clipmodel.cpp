@@ -323,6 +323,150 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     return false;
 }
 
+bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
+    // m_producer->get_length();
+    /*if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
+        return false;
+    }*/
+    if (offset == 0) {
+        return true;
+    }
+    int in = m_producer->get_in();
+    int out = m_producer->get_out();
+    int oldIn = m_position;
+    int oldOut = m_position + out - in;
+    int old_in = in, old_out = out;
+    // check if there is enough space on the chosen side
+    /*if (!m_endlessResize) {
+        if (!right && in + delta < 0) {
+            return false;
+        }
+        if (right && (out - delta >= m_producer->get_length())) {
+            return false;
+        }
+    }*/
+    /*if (right) {
+        out -= delta;
+    } else {
+        in += delta;
+    }*/
+    // qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
+    //std::function<bool(void)> track_operation = []() { return true; };
+    //std::function<bool(void)> track_reverse = []() { return true; };
+    int outPoint = out - offset;
+    int inPoint = in - offset;
+    //int offset = 0;
+    int trackDuration = 0;
+    /*if (m_endlessResize) {
+        offset = inPoint;
+        outPoint = out - in;
+        inPoint = 0;
+    }*/
+    if (m_currentTrackId != -1) {
+        if (auto ptr = m_parent.lock()) {
+            if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
+                return false;
+            }
+            /*if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
+                trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
+            }
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right, hasMix);*/
+        } else {
+            qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    } else {
+        // Ensure producer is long enough
+        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+            m_producer->set("length", outPoint + 1);
+            m_producer->set("out", outPoint);
+        }
+    }
+    QVector<int> roles{TimelineModel::StartRole};
+    roles.push_back(TimelineModel::InPointRole);
+    roles.push_back(TimelineModel::OutPointRole);
+    Fun operation = [this, inPoint, outPoint, roles, oldIn, oldOut, logUndo]() {
+        //if (track_operation()) {
+            setInOut(inPoint, outPoint);
+            if (m_currentTrackId > -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                    // invalidate timeline preview
+                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                        int newOut = m_position + getOut() - getIn();
+                        if (oldOut < newOut) {
+                            emit ptr->invalidateZone(oldOut, newOut);
+                        } else {
+                            emit ptr->invalidateZone(newOut, oldOut);
+                        }
+                        if (oldIn < m_position) {
+                            emit ptr->invalidateZone(oldIn, m_position);
+                        } else {
+                            emit ptr->invalidateZone(m_position, oldIn);
+                        }
+                    }
+                }
+            }
+            return true;
+        //}
+        //return false;
+    };
+    if (operation()) {
+        Fun reverse = []() { return true; };
+        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        if (m_currentTrackId != -1) {
+            if (auto ptr = m_parent.lock()) {
+                if (trackDuration > 0) {
+                    // Operation changed parent track duration, update effect stack
+                    int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
+                    if (logUndo || trackDuration != newDuration) {
+                        // A clip move changed the track duration, update track effects
+                        ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
+                    }
+                }
+                //track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
+                }
+        }
+        reverse = [this, old_in, old_out, logUndo, oldIn, oldOut, roles]() {
+           // if (track_reverse()) {
+                setInOut(old_in, old_out);
+                if (m_currentTrackId > -1) {
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, roles);
+                        if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                            int newOut = m_position + getOut() - getIn();
+                            if (oldOut < newOut) {
+                                emit ptr->invalidateZone(oldOut, newOut);
+                            } else {
+                                emit ptr->invalidateZone(newOut, oldOut);
+                            }
+                            if (oldIn < m_position) {
+                                emit ptr->invalidateZone(oldIn, m_position);
+                            } else {
+                                emit ptr->invalidateZone(m_position, oldIn);
+                            }
+                        }
+                    }
+                }
+                return true;
+            //}
+            //qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
+            //return false;
+        };
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
+                << m_producer->get_playtime();
+
+        //adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
 const QString ClipModel::getProperty(const QString &name) const
 {
     READ_LOCK();

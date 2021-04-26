@@ -57,6 +57,7 @@
       <Action name="select_tool" />
       <Action name="razor_tool" />
       <Action name="spacer_tool" />
+      <Action name="slip_tool" />
     </Menu>
 
     <Menu name="clip" ><text>&amp;Clip</text>
@@ -280,6 +281,7 @@
     <Action name="select_tool" />
     <Action name="razor_tool" />
     <Action name="spacer_tool" />
+    <Action name="slip_tool" />
     <Separator />
     <Action name="timeline_timecode" />
     <Separator />
