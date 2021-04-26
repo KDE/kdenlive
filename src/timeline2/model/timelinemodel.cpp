@@ -4676,6 +4676,15 @@ QStringList TimelineModel::extractCompositionLumas() const
     return urls;
 }
 
+QStringList TimelineModel::extractExternalEffectFiles() const
+{
+    QStringList urls;
+    for (const auto &clip : m_allClips) {
+        urls << clip.second->externalFiles();
+    }
+    return urls;
+}
+
 void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 {
     Q_UNUSED(clipId)

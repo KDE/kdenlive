@@ -1321,6 +1321,23 @@ const QString EffectStackModel::effectNames() const
     return effects.join(QLatin1Char('/'));
 }
 
+QStringList EffectStackModel::externalFiles() const
+{
+    QStringList urls;
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        auto filter = std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->filter();
+        QString url = filter.get("av.file");
+        if(url.isEmpty()) {
+            url = filter.get("luma.resource");
+        }
+        if(!url.isEmpty()) {
+            urls << url;
+        }
+        urls << url;
+    }
+    return urls;
+}
+
 bool EffectStackModel::isStackEnabled() const
 {
     return m_effectStackEnabled;

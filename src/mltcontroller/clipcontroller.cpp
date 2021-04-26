@@ -868,6 +868,11 @@ int ClipController::effectsCount()
     return count;
 }
 
+QStringList ClipController::filesUsedByEffects()
+{
+    return m_effectStack->externalFiles();
+}
+
 bool ClipController::hasEffects() const
 {
     return m_effectStack->rowCount() > 0;

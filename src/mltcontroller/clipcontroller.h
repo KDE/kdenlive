@@ -195,6 +195,8 @@ public:
     void setBinEffectsEnabled(bool enabled);
     /** @brief Returns the number of Kdenlive added effects for this bin clip */
     int effectsCount();
+    /** @brief Returns all urls of external files used by effects on this bin clip (e.g. LUTs)*/
+    QStringList filesUsedByEffects();
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 
