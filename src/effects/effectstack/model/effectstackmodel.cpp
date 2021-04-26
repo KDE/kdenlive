@@ -213,6 +213,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             } else if (outFades < 0) {
                 pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
             }*/
+            updateEffectZones();
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
@@ -226,6 +227,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
                 roles << TimelineModel::FadeOutRole;
             }
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
+            updateEffectZones();
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
