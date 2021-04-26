@@ -24,13 +24,11 @@
 #include "abstractclipjob.h"
 #include <QProcess>
 
-/**
- * @class CutClipJob
- * @brief This job class will either transcode or render a part of a clip through FFmpeg or LibAV
- *
- */
 class JobManager;
 
+/** @class CutClipJob
+    @brief This job class will either transcode or render a part of a clip through FFmpeg or LibAV
+ */
 class CutClipJob : public AbstractClipJob
 {
     Q_OBJECT

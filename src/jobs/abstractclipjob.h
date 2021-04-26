@@ -27,13 +27,11 @@
 #include "undohelper.hpp"
 #include <memory>
 
-/**
- * @class AbstractClipJob
- * @brief This is the base class for all Kdenlive clip jobs.
- *
- */
-
 struct Job_t;
+
+/** @class AbstractClipJob
+    @brief This is the base class for all Kdenlive clip jobs.
+ */
 class AbstractClipJob : public QObject
 {
     Q_OBJECT
@@ -53,7 +51,7 @@ public:
         SPEEDJOB = 10,
         CACHEJOB = 11
     };
-    AbstractClipJob(JOBTYPE type, QString id, const ObjectId &owner, QObject *parent = nullptr);
+    AbstractClipJob(JOBTYPE type, QString id, ObjectId owner, QObject *parent = nullptr);
     ~AbstractClipJob() override;
 
     template <typename T, typename... Args> static std::shared_ptr<T> make(const QString &binId, Args &&... args)
@@ -76,13 +74,13 @@ public:
     */
     virtual bool commitResult(Fun &undo, Fun &redo) = 0;
 
-    // brief run a given job
+    /** @brief run a given job */
     static bool execute(const std::shared_ptr<AbstractClipJob> &job);
 
-    /* @brief return the type of this job */
+    /** @brief return the type of this job */
     JOBTYPE jobType() const;
 
-    /* @brief return the owner of this job */
+    /** @brief return the owner of this job */
     const ObjectId owner();
 
 protected:
@@ -97,7 +95,7 @@ protected:
     bool m_resultConsumed{false};
 
 signals:
-    // send an int between 0 and 100 to reflect computation progress
+    /** @brief send an int between 0 and 100 to reflect computation progress */
     void jobProgress(int);
     void jobCanceled();
 };

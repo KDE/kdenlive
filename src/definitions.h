@@ -227,7 +227,7 @@ public:
     /** the track on which the transition is applied (a_track)*/
     int a_track{0};
     /** Does the user request for a special a_track */
-    bool forceTrack{0};
+    bool forceTrack{false};
     TransitionInfo() = default;
 };
 
@@ -243,9 +243,9 @@ public:
     /** @brief Returns a string containing infos needed to store marker info. string equals marker type + QLatin1Char(':') + marker comment */
     QString hash() const;
     void setComment(const QString &comm);
+    void setTime(const GenTime &t);
     void setMarkerType(int t);
     int markerType() const;
-    static QColor markerColor(int type);
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(const CommentedTime &op) const;

@@ -56,7 +56,7 @@ the Free Software Foundation, either version 3 of the License, or
 static QString getProjectNameFilters(bool ark=true) {
     auto filter = i18n("Kdenlive project (*.kdenlive)");
     if (ark) {
-        filter.append(";;" + i18n("Archived project (*.tar.gz)"));
+        filter.append(";;" + i18n("Archived project (*.tar.gz *.zip)"));
     }
     return filter;
 }
@@ -65,8 +65,6 @@ static QString getProjectNameFilters(bool ark=true) {
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_mainTimelineModel(nullptr)
-    , m_loading(false)
-
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
@@ -194,13 +192,13 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         projectFolder = w->storageFolder();
         projectTracks = w->tracks();
         audioChannels = w->audioChannels();
-        documentProperties.insert(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));
-        documentProperties.insert(QStringLiteral("generateproxy"), QString::number((int)w->generateProxy()));
+        documentProperties.insert(QStringLiteral("enableproxy"), QString::number(int(w->useProxy())));
+        documentProperties.insert(QStringLiteral("generateproxy"), QString::number(int(w->generateProxy())));
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
-        documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number((int)w->generateImageProxy()));
+        documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         QString preview = w->selectedPreview();
         if (!preview.isEmpty()) {
             documentProperties.insert(QStringLiteral("previewparameters"), preview.section(QLatin1Char(';'), 0, 0));
@@ -277,20 +275,23 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
     }
-    pCore->window()->getMainTimeline()->controller()->prepareClose();
-    pCore->bin()->cleanDocument();
+    pCore->window()->getMainTimeline()->unsetModel();
     pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }
+    pCore->bin()->cleanDocument();
+
     if (!quit && !qApp->isSavingSession()) {
         if (m_project) {
-            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             emit pCore->window()->clearAssetPanel();
+            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             delete m_project;
             m_project = nullptr;
         }
     }
+    pCore->mixer()->unsetModel();
+    // Release model shared pointers
     m_mainTimelineModel.reset();
     return true;
 }
@@ -483,7 +484,7 @@ void ProjectManager::openFile(const QUrl &url)
     QMimeDatabase db;
     // Make sure the url is a Kdenlive project file
     QMimeType mime = db.mimeTypeForUrl(url);
-    if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
+    if (mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"))) {
         // Opening a compressed project file, we need to process it
         // qCDebug(KDENLIVE_LOG)<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
@@ -654,6 +655,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         if (m_project) {
             if (!m_project->url().isEmpty()) {
                 // Only update if restore succeeded
+                pCore->window()->slotEditSubtitle();
                 m_project->setUrl(projectFile);
                 m_project->setModified(true);
             }
@@ -775,23 +777,25 @@ void ProjectManager::slotResetConsumers(bool fullReset)
     pCore->monitorManager()->resetConsumers(fullReset);
 }
 
-void ProjectManager::disableBinEffects(bool disable)
+void ProjectManager::disableBinEffects(bool disable, bool refreshMonitor)
 {
     if (m_project) {
         if (disable) {
-            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number((int)true));
+            m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString::number(1));
         } else {
             m_project->setDocumentProperty(QStringLiteral("disablebineffects"), QString());
         }
     }
-    pCore->monitorManager()->refreshProjectMonitor();
-    pCore->monitorManager()->refreshClipMonitor();
+    if (refreshMonitor) {
+        pCore->monitorManager()->refreshProjectMonitor();
+        pCore->monitorManager()->refreshClipMonitor();
+    }
 }
 
 void ProjectManager::slotDisableTimelineEffects(bool disable)
 {
     if (disable) {
-        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString::number((int)true));
+        m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString::number(true));
     } else {
         m_project->setDocumentProperty(QStringLiteral("disabletimelineeffects"), QString());
     }
@@ -1016,7 +1020,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
-    convertedFile.append(QString("-%1.kdenlive").arg((int)(newProfile->fps() * 100)));
+    convertedFile.append(QString("-%1.kdenlive").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename |   QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
     if (saveInTempFile) {

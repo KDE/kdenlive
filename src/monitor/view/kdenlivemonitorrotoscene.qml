@@ -58,6 +58,9 @@ Item {
     property var topRight: []
     property var bottomLeft: []
     property bool showToolbar: false
+    property string emptyCanvasKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> to close shape.")
+    property string defaultKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Double click</shortcut> on center to resize, <shortcut>Double click</shortcut> on line segment to add new point, <shortcut>Double click</shortcut> point to delete it, <shortcut>Double click</shortcut> background to create new keyframe, <shortcut>Hover right</shortcut> for toolbar");
+    property string resizeKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged()
     signal seekToKeyframe()
@@ -75,6 +78,13 @@ Item {
             root.displayResize = false
         }
         canvas.requestPaint()
+    }
+    onDisplayResizeChanged: {
+        controller.setWidgetKeyBinding(root.displayResize ? resizeKeyBindInfo : defaultKeyBindInfo);
+    }
+
+    onIsDefinedChanged: {
+        controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
     }
 
     onAutoKeyframeChanged: {
@@ -369,7 +379,13 @@ Item {
         hoverEnabled: true
         cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0 || resizeContainsMouse > 0 ) ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: {
-            controller.setWidgetKeyBinding(i18n("<b>Double click</b> on center to resize, <b>Double click</b> on line segment to add new point, <b>Double click</b> point to delete it, <b>Double click</b> background to create new keyframe, <b>Hover right</b> for toolbar"));
+            if(!root.isDefined) {
+                controller.setWidgetKeyBinding(emptyCanvasKeyBindInfo);
+            } else if(root.displayResize){
+                controller.setWidgetKeyBinding(resizeKeyBindInfo);
+            } else {
+                controller.setWidgetKeyBinding(defaultKeyBindInfo);
+            }
         }
         onExited: {
             controller.setWidgetKeyBinding()
@@ -510,19 +526,22 @@ Item {
                         movingCorner = Qt.point(bottomLeft.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
                         referenceCorner = Qt.point(topRight.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
                     }
+                    if(mouse.modifiers && mouse.modifiers === Qt.ShiftModifier) {
+                        referenceCorner = Qt.point(centerCross.x, centerCross.y)
+                    }
                     var originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
                     var mouseDist = Math.sqrt( Math.pow(mouseX - referenceCorner.x, 2) + Math.pow(mouseY - referenceCorner.y, 2) );
                     var factor = Math.max(0.1, mouseDist / originalDist)
                     for (var j = 0; j < root.centerPoints.length; j++) {
                         if (root.resizeContainsMouse != 5 && root.resizeContainsMouse!= 7) {
-                            root.centerPoints[j].x = (referenceCorner.x + (root.centerPoints[j].x * root.scalex - referenceCorner.x) * factor) / root.scalex
-                            root.centerPointsTypes[j * 2].x = (referenceCorner.x + (root.centerPointsTypes[j * 2].x * root.scalex - referenceCorner.x) * factor) / root.scalex
-                            root.centerPointsTypes[j * 2 + 1].x = (referenceCorner.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - referenceCorner.x) * factor) / root.scalex
+                            root.centerPoints[j].x = (referenceCorner.x - frame.x + (root.centerPoints[j].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2].x = (referenceCorner.x - frame.x + (root.centerPointsTypes[j * 2].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2 + 1].x = (referenceCorner.x - frame.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
                         }
                         if (root.resizeContainsMouse != 6 && root.resizeContainsMouse!= 8) {
-                            root.centerPoints[j].y = (referenceCorner.y + (root.centerPoints[j].y * root.scaley - referenceCorner.y) * factor) / root.scaley
-                            root.centerPointsTypes[j * 2].y = (referenceCorner.y + (root.centerPointsTypes[j * 2].y * root.scaley - referenceCorner.y) * factor) / root.scaley
-                            root.centerPointsTypes[j * 2 + 1].y = (referenceCorner.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - referenceCorner.y) * factor) / root.scaley
+                            root.centerPoints[j].y = (referenceCorner.y - frame.y + (root.centerPoints[j].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2].y = (referenceCorner.y - frame.y + (root.centerPointsTypes[j * 2].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2 + 1].y = (referenceCorner.y - frame.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - (referenceCorner.y - frame.y)) * factor) / root.scaley
                         }
                     }
                     canvas.requestPaint()
@@ -700,7 +719,7 @@ Item {
         anchors {
             right: parent.right
             top: parent.top
-            topMargin: 4
+            bottom: parent.bottom
             rightMargin: 4
             leftMargin: 4
         }

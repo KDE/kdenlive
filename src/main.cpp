@@ -94,7 +94,9 @@ int main(int argc, char *argv[])
     } else {
         // Default to OpenGLES (QtAngle) on first start
         QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
+        grp1.writeEntry("opengl_backend", int(Qt::AA_UseOpenGLES));
     }
+    configWin->sync();
 #endif
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
@@ -114,7 +116,8 @@ int main(int argc, char *argv[])
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
-
+#endif
+#if defined(Q_OS_WIN) || defined (Q_OS_MACOS)
     const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
     for(const QString theme : themes ) {
         const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
@@ -156,7 +159,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Init DBus services
-    KDBusService programDBusService;
+    KDBusService programDBusService(KDBusService::NoExitOnFailure);
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
@@ -168,20 +171,25 @@ int main(int argc, char *argv[])
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
                          i18n("Copyright © 2007–2021 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
+    // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
+    // active developers with major involvement
     aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
-    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, bugs fixing"), QStringLiteral("vpinon@kde.org"));
-    aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), QStringLiteral("montel@kde.org"));
-    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), QStringLiteral("root@ttill.de"));
     aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
-    aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), QStringLiteral("g.marco@freenet.de"));
-    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
-    aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), QStringLiteral("avilla@FreeBSD.org"));
-    aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), QStringLiteral("jm@poure.com"));
-    aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), QStringLiteral("rayl@mail.com"));
-    aboutData.addAuthor(i18n("Steve Guilford"), i18n("Bug fixing, etc."), QStringLiteral("s.guilford@dbplugins.com"));
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, packaging, bug fixing"), QStringLiteral("vpinon@kde.org"));
+    // other active developers (alphabetical)
+    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("MLT, Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
+    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Bug fixing, etc."), QStringLiteral("jk.kdedev@smartlab.uber.space"));
+    aboutData.addAuthor(i18n("Sashmita Raghav"), i18n("Subtitle feature (GSoC), timeline colours"));
+    // non active developers with major improvement (alphabetical)
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
-    aboutData.addCredit(i18n("Nara Oliveira and Farid Abdelnour | Estúdio Gunga"), i18n("Kdenlive 16.08 icon"));
+    // non developers (alphabetical)
+    aboutData.addCredit(i18n("Farid Abdelnour"), i18n("Logo, Promotion, testing"));
+    aboutData.addCredit(i18n("Eugen Mohr"), i18n("Bug triage, testing"));
+    aboutData.addCredit(i18n("Nara Oliveira"), i18n("Logo"));
+    aboutData.addCredit(i18n("Bruno Santos"), i18n("Testing"));
+    aboutData.addCredit(i18n("Massimo Stella"), i18n("Expert advice, testing"));
+
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.setOtherText(
@@ -258,7 +266,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     int result = 0;
-    if (!Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")))) {
+    if (!Core::build()) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
@@ -266,7 +274,7 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(url, clipsToLoad);
+        pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();

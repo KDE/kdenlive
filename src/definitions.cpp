@@ -21,6 +21,7 @@
 #include <klocalizedstring.h>
 
 #include <QColor>
+#include <utility>
 
 #ifdef CRASH_AUTO_TEST
 #pragma GCC diagnostic push
@@ -97,6 +98,11 @@ void CommentedTime::setComment(const QString &comm)
     m_comment = comm;
 }
 
+void CommentedTime::setTime(const GenTime &t)
+{
+    m_time = t;
+}
+
 void CommentedTime::setMarkerType(int newtype)
 {
     m_type = newtype;
@@ -110,27 +116,6 @@ QString CommentedTime::hash() const
 int CommentedTime::markerType() const
 {
     return m_type;
-}
-
-QColor CommentedTime::markerColor(int type)
-{
-    switch (type) {
-    case 0:
-        return Qt::red;
-        break;
-    case 1:
-        return Qt::blue;
-        break;
-    case 2:
-        return Qt::green;
-        break;
-    case 3:
-        return Qt::yellow;
-        break;
-    default:
-        return Qt::cyan;
-        break;
-    }
 }
 
 bool CommentedTime::operator>(const CommentedTime &op) const
@@ -214,7 +199,7 @@ SubtitledTime::SubtitledTime()
 
 SubtitledTime::SubtitledTime(const GenTime &start, QString sub, const GenTime &end)
     : m_starttime(start)
-    , m_subtitle(sub)
+    , m_subtitle(std::move(sub))
     , m_endtime(end)
 {
 }

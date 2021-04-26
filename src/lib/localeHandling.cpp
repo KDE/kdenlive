@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtGlobal>
-#include <locale.h>
+#include <clocale>
 
 auto LocaleHandling::setLocale(const QString &lcName) -> QString
 {
@@ -59,29 +59,33 @@ void LocaleHandling::resetAllLocale()
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
 {
-    // Parse installed locales to find one matching
-    const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-
     QLocale locale; // Best matching locale
     MatchType matchType = MatchType::NoMatch;
 
-    for (const QLocale &loc : list) {
-        if (loc.name().startsWith(requestedLocale)) {
-            if (loc.decimalPoint() == decimalPoint) {
-                locale = loc;
-                matchType = MatchType::Exact;
-            }
+    // Parse installed locales to find one matching. Check matching language first
+    QList<QLocale> list = QLocale::matchingLocales(QLocale().language(), QLocale().script(), QLocale::AnyCountry);
+    for (const QLocale &loc : qAsConst(list)) {
+        if (loc.decimalPoint() == decimalPoint) {
+            locale = loc;
+            matchType = MatchType::Exact;
+            break;
         }
     }
 
     if (matchType == MatchType::NoMatch) {
-        for (const QLocale &loc : list) {
+        // Parse installed locales to find one matching. Check in all languages
+        list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
+        for (const QLocale &loc : qAsConst(list)) {
             if (loc.decimalPoint() == decimalPoint) {
                 locale = loc;
                 matchType = MatchType::DecimalOnly;
+                break;
             }
         }
     }
-
+    if (matchType == MatchType::NoMatch && requestedLocale == QLatin1String("C")) {
+        locale = QLocale::c();
+        matchType = MatchType::DecimalOnly;
+    }
     return QPair<QLocale, LocaleHandling::MatchType>(locale, matchType);
 }

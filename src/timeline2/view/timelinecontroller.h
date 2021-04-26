@@ -37,14 +37,14 @@ class QQuickItem;
 class TimelineController : public QObject
 {
     Q_OBJECT
-    /* @brief holds a list of currently selected clips (list of clipId's)
+    /** @brief holds a list of currently selected clips (list of clipId's)
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
     Q_PROPERTY(int selectedMix READ selectedMix NOTIFY selectedMixChanged)
-    /* @brief holds the timeline zoom factor
+    /** @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
-    /* @brief holds the current project duration
+    /** @brief holds the current project duration
      */
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(int fullDuration READ fullDuration NOTIFY durationChanged)
@@ -60,6 +60,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
+    Q_PROPERTY(QVariantList masterEffectZones MEMBER m_masterEffectZones NOTIFY masterZonesChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
@@ -88,6 +89,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
+    Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -99,6 +101,9 @@ public:
     /** @brief Edit an item's in/out points with a dialog
      */
     Q_INVOKABLE void editItemDuration(int itemId = -1);
+    /** @brief Edit a title clip with a title widget
+     */
+    Q_INVOKABLE void editTitleClip(int itemId = -1);
 
     /** @brief Returns the topmost track containing a selected item (-1 if selection is embty) */
     Q_INVOKABLE int selectedTrack() const;
@@ -113,7 +118,7 @@ public:
     /** @brief Select all timeline items
      */
     void selectAll();
-    /* @brief Select all items in one track
+    /** @brief Select all items in one track
      */
     void selectCurrentTrack();
     /** @brief Select multiple objects on the timeline
@@ -126,37 +131,37 @@ public:
     /** @brief request a selection with a list of ids*/
     Q_INVOKABLE void selectItems(const QList<int> &ids);
 
-    /* @brief Returns true is item is selected as well as other items */
+    /** @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
 
-    /* @brief Show/hide audio record controls on a track
+    /** @brief Show/hide audio record controls on a track
      */
     Q_INVOKABLE void switchRecording(int trackId);
-    /* @brief Add recorded file to timeline
+    /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);
-    /* @brief Open Kdenlive's config diablog on a defined page and tab
+    /** @brief Open Kdenlive's config diablog on a defined page and tab
      */
     Q_INVOKABLE void showConfig(int page, int tab);
 
-    /* @brief Returns true if we have at least one active track
+    /** @brief Returns true if we have at least one active track
      */
     Q_INVOKABLE bool hasActiveTracks() const;
 
-    /* @brief returns current timeline's zoom factor
+    /** @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;
-    /* @brief set current timeline's zoom factor
+    /** @brief set current timeline's zoom factor
      */
     void setScaleFactorOnMouse(double scale, bool zoomOnMouse);
     void setScaleFactor(double scale);
-    /* @brief Returns the project's duration (tractor)
+    /** @brief Returns the project's duration (tractor)
      */
     Q_INVOKABLE int duration() const;
     Q_INVOKABLE int fullDuration() const;
-    /* @brief Returns the current cursor position (frame currently displayed by MLT)
+    /** @brief Returns the current cursor position (frame currently displayed by MLT)
      */
-    /* @brief Returns the seek request position (-1 = no seek pending)
+    /** @brief Returns the seek request position (-1 = no seek pending)
      */
     Q_INVOKABLE QVariantList audioTarget() const;
     Q_INVOKABLE QVariantList lastAudioTarget() const;
@@ -186,7 +191,7 @@ public:
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
     bool subtitlesLocked() const;
-    /* @brief Request a seek operation
+    /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
     int zoneIn() const { return m_zone.x(); }
@@ -194,7 +199,7 @@ public:
     void setZoneIn(int inPoint);
     void setZoneOut(int outPoint);
     void setZone(const QPoint &zone, bool withUndo = true);
-    /* @brief Request a seek operation
+    /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
     Q_INVOKABLE void setPosition(int position);
@@ -204,7 +209,7 @@ public:
     Q_INVOKABLE QString timecode(int frames) const;
     QString framesToClock(int frames) const;
     Q_INVOKABLE QString simplifiedTC(int frames) const;
-    /* @brief Request inserting a new clip in timeline (dragged from bin or monitor)
+    /** @brief Request inserting a new clip in timeline (dragged from bin or monitor)
        @param tid is the destination track
        @param position is the timeline position
        @param xml is the data describing the dropped clip
@@ -212,7 +217,7 @@ public:
        @return the id of the inserted clip
      */
     Q_INVOKABLE int insertClip(int tid, int position, const QString &xml, bool logUndo, bool refreshView, bool useTargets);
-    /* @brief Request inserting multiple clips into the timeline (dragged from bin or monitor)
+    /** @brief Request inserting multiple clips into the timeline (dragged from bin or monitor)
      * @param tid is the destination track
      * @param position is the timeline position
      * @param binIds the IDs of the bins being dropped
@@ -222,7 +227,7 @@ public:
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
     Q_INVOKABLE void copyItem();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
-    /* @brief Request inserting a new composition in timeline (dragged from compositions list)
+    /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position
        @param transitionId is the data describing the dropped composition
@@ -230,7 +235,7 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
-    /* @brief Request inserting a new composition in timeline (dragged from compositions list)
+    /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        this function will check if there is a clip at insert point and
        adjust the composition length accordingly
        @param tid is the destination track
@@ -242,14 +247,14 @@ public:
     Q_INVOKABLE int insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo);
     Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo);
 
-    /* @brief Request deletion of the currently selected clips
+    /** @brief Request deletion of the currently selected clips
      */
     Q_INVOKABLE void deleteSelectedClips();
 
     Q_INVOKABLE void triggerAction(const QString &name);
     Q_INVOKABLE const QString actionText(const QString &name);
 
-    /* @brief Returns id of the timeline selected clip if there is only 1 clip selected
+    /** @brief Returns id of the timeline selected clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if
      * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will
      * only return the id if timeline cursor is inside item
@@ -257,57 +262,58 @@ public:
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
     int getMainSelectedClip() const;
 
-    /* @brief Do we want to display video thumbnails
+    /** @brief Do we want to display video thumbnails
      */
     bool showThumbnails() const;
     bool showAudioThumbnails() const;
     bool showMarkers() const;
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
-    /* @brief Do we want to display audio thumbnails
+    /** @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
-    /* @brief Insert a timeline track
+    /** @brief Insert a timeline track
      */
     Q_INVOKABLE void addTrack(int tid);
-    /* @brief Remove multiple(or single) timeline tracks
+    /** @brief Remove multiple(or single) timeline tracks
      */
     Q_INVOKABLE void deleteMultipleTracks(int tid);
-    /* @brief Show / hide audio rec controls in active track
+    /** @brief Show / hide audio rec controls in active track
      */
     void switchTrackRecord(int tid = -1);
-    /* @brief Group selected items in timeline
+    /** @brief Group selected items in timeline
      */
     Q_INVOKABLE void groupSelection();
-    /* @brief Ungroup selected items in timeline
+    /** @brief Ungroup selected items in timeline
      */
     Q_INVOKABLE void unGroupSelection(int cid = -1);
-    /* @brief Ask for edit marker dialog
+    /** @brief Ask for edit marker dialog
      */
     Q_INVOKABLE void editMarker(int cid = -1, int position = -1);
-    /* @brief Ask for marker add dialog
+    /** @brief Ask for marker add dialog
      */
     Q_INVOKABLE void addMarker(int cid = -1, int position = -1);
-    /* @brief Ask for quick marker add (without dialog)
+    /** @brief Ask for quick marker add (without dialog)
      */
     Q_INVOKABLE void addQuickMarker(int cid = -1, int position = -1);
-    /* @brief Ask for marker delete
+    /** @brief Ask for marker delete
      */
     Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
-    /* @brief Ask for all markers delete
+    /** @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid = -1);
-    /* @brief Ask for edit timeline guide dialog
+    /** @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);
     Q_INVOKABLE void moveGuide(int frame, int newFrame);
-    /* @brief Move all guides in the given range
+    Q_INVOKABLE void moveGuideWithoutUndo(int frame, int newFrame);
+    /** @brief Move all guides in the given range
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames
      * @param offset how many frames the guides are moved
      */
     Q_INVOKABLE bool moveGuidesInRange(int start, int end, int offset);
-    /* @brief Move all guides in the given range (same as above but with undo/redo)
+    /** @brief Move all guides in the given range (same as above but with undo/redo)
      * @param start the start point of the range in frames
      * @param end the end point of the range in frames
      * @param offset how many frames the guides are moved
@@ -316,25 +322,25 @@ public:
      */
     Q_INVOKABLE bool moveGuidesInRange(int start, int end, int offset, Fun &undo, Fun &redo);
 
-    /* @brief Add a timeline guide
+    /** @brief Add a timeline guide
      */
     Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
-    /* @brief Request monitor refresh
+    /** @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();
 
-    /* @brief Show the asset of the given item in the AssetPanel
+    /** @brief Show the asset of the given item in the AssetPanel
        If the id corresponds to a clip, we show the corresponding effect stack
        If the id corresponds to a composition, we show its properties
     */
     Q_INVOKABLE void showAsset(int id);
     Q_INVOKABLE void showTrackAsset(int trackId);
-    /* @brief Adjust height of all similar (audio or video) tracks
+    /** @brief Adjust height of all similar (audio or video) tracks
     */
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
     Q_INVOKABLE void collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight);
 
-    /** @brief Reset track @trackId height to default track height. Adjusts all tracks if @trackId == -1
+    /** @brief Reset track \@trackId height to default track height. Adjusts all tracks if \@trackId == -1
     */
     Q_INVOKABLE void defaultTrackHeight(int trackId);
 
@@ -343,64 +349,64 @@ public:
     Q_INVOKABLE int headerWidth() const;
     Q_INVOKABLE void setHeaderWidth(int width);
 
-    /* @brief Seek to next snap point
+    /** @brief Seek to next snap point
      */
     void gotoNextSnap();
-    /* @brief Seek to previous snap point
+    /** @brief Seek to previous snap point
      */
     void gotoPreviousSnap();
-    /* @brief Seek to previous guide
+    /** @brief Seek to previous guide
      */
     void gotoPreviousGuide();
-    /* @brief Seek to next guide
+    /** @brief Seek to next guide
      */
     void gotoNextGuide();
 
-    /* @brief Set current item's start point to cursor position
+    /** @brief Set current item's start point to cursor position
      */
     void setInPoint();
-    /* @brief Set current item's end point to cursor position
+    /** @brief Set current item's end point to cursor position
      */
     void setOutPoint();
-    /* @brief Return the project's tractor
+    /** @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
-    /* @brief Return a track's producer
+    /** @brief Return a track's producer
      */
     Mlt::Producer trackProducer(int tid);
-    /* @brief Get the list of currently selected clip id's
+    /** @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;
-    /* @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
+    /** @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
      */
     int selectedMix() const;
 
-    /* @brief Add an asset (effect, composition)
+    /** @brief Add an asset (effect, composition)
      */
     void addAsset(const QVariantMap &data);
 
-    /* @brief Cuts the clip on current track at timeline position
+    /** @brief Cuts the clip on current track at timeline position
      */
     Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
-    /* @brief Cuts all clips at timeline position
+    /** @brief Cuts all clips at timeline position
      */
     Q_INVOKABLE void cutAllClipsUnderCursor(int position = -1);
-    /* @brief Request a spacer operation
+    /** @brief Request a spacer operation
      */
     Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
-    /* @brief Request a spacer operation
+    /** @brief Request a spacer operation
      */
     Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart = -1);
-    /* @brief Request a Fade in effect for clip
+    /** @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
 
     Q_INVOKABLE const QString getTrackNameFromMltIndex(int trackPos);
-    /* @brief Request inserting space in a track
+    /** @brief Request inserting space in a track
      */
     Q_INVOKABLE void insertSpace(int trackId = -1, int frame = -1);
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
-    /* @brief If clip is enabled, disable, otherwise enable
+    /** @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
     Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
@@ -428,7 +434,7 @@ public:
 
     bool splitAV();
 
-    /* @brief Seeks to selected clip start / end
+    /** @brief Seeks to selected clip start / end
      */
     Q_INVOKABLE void pasteEffects(int targetId = -1);
     Q_INVOKABLE void deleteEffects(int targetId = -1);
@@ -448,73 +454,76 @@ public:
     void switchTargetTrack();
 
     const QString getTrackNameFromIndex(int trackIndex);
-    /* @brief Seeks to selected clip start / end
+    /** @brief Seeks to selected clip start / end
      */
     void seekCurrentClip(bool seekToEnd = false);
-    /* @brief Seeks to a clip start (or end) based on it's clip id
+    /** @brief Seeks to a clip start (or end) based on it's clip id
      */
     void seekToClip(int cid, bool seekToEnd);
-    /* @brief Returns true if timeline cursor is inside the item
+    /** @brief Returns true if timeline cursor is inside the item
      */
     bool positionIsInItem(int id);
-    /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
+    /** @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
     QPair<int, int>getTracksCount() const;
-    /* @brief Request monitor refresh if item (clip or composition) is under timeline cursor
+    /** @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);
-    /* @brief Seek timeline to mouse position
+    /** @brief Seek timeline to mouse position
      */
     void seekToMouse();
 
-    /* @brief Set a property on the active track
+    /** @brief Set a property on the active track
      */
     void setActiveTrackProperty(const QString &name, const QString &value);
-    /* @brief Get a property on the active track
+    /** @brief Get a property on the active track
      */
     const QVariant getActiveTrackProperty(const QString &name) const;
-    /* @brief Is the active track audio
+    /** @brief Is the active track audio
      */
     bool isActiveTrackAudio() const;
 
-    /* @brief Returns a list of all luma files used in the project
+    /** @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
-    /* @brief Get the frame where mouse is positioned
+    /** @brief Returns a list of all external files used by effects in the timeline
+     */
+    QStringList extractExternalEffectFiles() const;
+    /** @brief Get the frame where mouse is positioned
      */
     int getMousePos();
-    /* @brief Get the frame where mouse is positioned
+    /** @brief Get the frame where mouse is positioned
      */
     int getMouseTrack();
-    /* @brief Returns a map of track ids/track names
+    /** @brief Returns a map of track ids/track names
      */
     QMap<int, QString> getTrackNames(bool videoOnly);
-    /* @brief Returns the transition a track index for a composition (MLT index / Track id)
+    /** @brief Returns the transition a track index for a composition (MLT index / Track id)
      */
     QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
-    /* @brief Return true if composition's a_track is automatic (no forced track)
+    /** @brief Return true if composition's a_track is automatic (no forced track)
      */
     bool compositionAutoTrack(int cid) const;
     const QString getClipBinId(int clipId) const;
     void focusItem(int itemId);
-    /* @brief Create and display a split clip view to compare effect
+    /** @brief Create and display a split clip view to compare effect
      */
     bool createSplitOverlay(int clipId, std::shared_ptr<Mlt::Filter> filter);
-    /* @brief Delete the split clip view to compare effect
+    /** @brief Delete the split clip view to compare effect
      */
     void removeSplitOverlay();
-    /* @brief Add current timeline zone to preview rendering
+    /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);
-    /* @brief Clear current timeline zone from preview rendering
+    /** @brief Clear current timeline zone from preview rendering
      */
     void clearPreviewRange(bool resetZones);
     void startPreviewRender();
     void stopPreviewRender();
     QVariantList dirtyChunks() const;
     QVariantList renderedChunks() const;
-    /* @brief returns the frame currently processed by timeline preview, -1 if none
+    /** @brief returns the frame currently processed by timeline preview, -1 if none
      */
     int workingPreview() const;
 
@@ -524,10 +533,10 @@ public:
     /** @brief Return true if the scroll wheel should scroll vertically (Shift key for horizontal); false if it should scroll horizontally (Shift for vertical) */
     bool scrollVertically() const;
 
-    /* @brief Load timeline preview from saved doc
+    /** @brief Load timeline preview from saved doc
      */
     void loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable);
-    /* @brief Return document properties with added settings from timeline
+    /** @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
 
@@ -601,8 +610,8 @@ public:
     /** @brief Edit the subtitle end */
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Add subtitle clip at cursor's position in timeline */
-    Q_INVOKABLE void addSubtitle(int startframe = -1);
-    /** @brief Cut a subtitle and split the text at @param pos */
+    Q_INVOKABLE void addSubtitle(int startframe = -1, QString text = QString());
+    /** @brief Cut a subtitle and split the text at \@param pos */
     void cutSubtitle(int id, int cursorPos);
     /** @brief Delete subtitle clip with frame as start position*/
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
@@ -612,6 +621,12 @@ public:
     void exportSubtitle();
     /** @brief Launch speech recognition on timeline zone*/
     void subtitleSpeechRecognition();
+    /** @brief Show active effect zone for current effect*/
+    void showRulerEffectZone(QPair <int, int>inOut, bool checked);
+    /** @brief Set the list of master effect zones */
+    void updateMasterZones(QVariantList zones);
+    /** @brief get Maximum duration of a clip */
+    int clipMaxDuration(int cid);
 
 public slots:
     void resetView();
@@ -636,6 +651,7 @@ public slots:
     void setScrollPos(int pos);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
+    Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
 
 private slots:
     void updateClipActions();
@@ -655,7 +671,6 @@ private:
     bool m_usePreview;
     int m_audioTarget;
     int m_videoTarget;
-    int m_activeTrack;
     int m_audioRef;
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
@@ -667,6 +682,7 @@ private:
     QPair<int, int> m_recordStart;
     int m_recordTrack;
     QPoint m_zone;
+    int m_activeTrack;
     double m_scale;
     static int m_duration;
     PreviewManager *m_timelinePreview;
@@ -678,6 +694,8 @@ private:
     int m_snapStackIndex;
     QMetaObject::Connection m_connection;
     QMetaObject::Connection m_deleteConnection;
+    QPoint m_effectZone;
+    QVariantList m_masterEffectZones;
 
     void initializePreview();
     bool darkBackground() const;
@@ -710,13 +728,13 @@ signals:
     void seeked(int position);
     void zoneChanged();
     void zoneMoved(const QPoint &zone);
-    /* @brief Requests that a given parameter model is displayed in the asset panel */
+    /** @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
-    /* @brief Requests that a given mix is displayed in the asset panel */
+    /** @brief Requests that a given mix is displayed in the asset panel */
     void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset);
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     void showSubtitle(int id);
-    /* @brief notify of chunks change
+    /** @brief notify of chunks change
      */
     void dirtyChunksChanged();
     void renderedChunksChanged();
@@ -726,16 +744,19 @@ signals:
     void useRulerChanged();
     void scrollVerticallyChanged();
     void updateZoom(double);
-    /* @brief emitted when timeline selection changes, true if a clip is selected
+    /** @brief emitted when timeline selection changes, true if a clip is selected
      */
     void timelineClipSelected(bool);
-    /* @brief User enabled / disabled snapping, update timeline behavior
+    /** @brief User enabled / disabled snapping, update timeline behavior
      */
     void snapChanged();
-    /* @brief Center timeline view on current position
+    /** @brief Center timeline view on current position
      */
     void centerView();
+    void effectZoneChanged();
+    void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
+    void regainFocus();
 };
 
 #endif

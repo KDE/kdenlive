@@ -69,6 +69,8 @@ cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libharfbuzz*  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/libfribidi*  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/libpango*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin

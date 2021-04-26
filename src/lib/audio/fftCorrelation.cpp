@@ -27,7 +27,7 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
     // of the vector), so converting to integers will not lose that much
     // of precision.
     for (size_t i = 0; i < leftSize + rightSize + 1; ++i) {
-        out_correlated[i] = correlatedFloat[i];
+        out_correlated[i] = qint64(correlatedFloat[i]);
     }
     delete[] correlatedFloat;
 }
@@ -60,10 +60,10 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
     // One side needs to be reversed, since multiplication in frequency domain (fourier space)
     // calculates the convolution: \sum l[x]r[N-x] and not the correlation: \sum l[x]r[x]
     for (size_t i = 0; i < leftSize; ++i) {
-        leftF[i] = double(left[i]) / (double)maxLeft;
+        leftF[i] = float(left[i]) / maxLeft;
     }
     for (size_t i = 0; i < rightSize; ++i) {
-        rightF[rightSize - 1 - i] = double(right[i]) / (double)maxRight;
+        rightF[rightSize - 1 - i] = float(right[i]) / maxRight;
     }
 
     // Now we can convolve to get the correlation
@@ -92,8 +92,8 @@ void FFTCorrelation::convolve(const float *left, const size_t leftSize, const fl
     }
 
     const size_t fft_size = size / 2 + 1;
-    kiss_fftr_cfg fftConfig = kiss_fftr_alloc((int)size, 0, nullptr, nullptr);
-    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc((int)size, 1, nullptr, nullptr);
+    kiss_fftr_cfg fftConfig = kiss_fftr_alloc(int(size), 0, nullptr, nullptr);
+    kiss_fftr_cfg ifftConfig = kiss_fftr_alloc(int(size), 1, nullptr, nullptr);
     std::vector<kiss_fft_cpx> leftFFT(fft_size);
     std::vector<kiss_fft_cpx> rightFFT(fft_size);
     std::vector<kiss_fft_cpx> correlatedFFT(fft_size);
@@ -123,7 +123,7 @@ void FFTCorrelation::convolve(const float *left, const size_t leftSize, const fl
     size_t out_size = leftSize + rightSize + 1;
 
     kiss_fftri(ifftConfig, &correlatedFFT[0], &convolved[0]);
-    std::copy(convolved.begin(), convolved.begin() + (int)out_size - 1, out_convolved + 1);
+    std::copy(convolved.begin(), convolved.begin() + int(out_size) - 1, out_convolved + 1);
 
     // Finally some cleanup.
     kiss_fftr_free(fftConfig);

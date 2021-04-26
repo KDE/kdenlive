@@ -71,10 +71,10 @@ void SpeedJob::configureProducer()
         QString resource = m_producer->get("resource");
         m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed)), resource).toUtf8().constData());
         if (m_in > 0) {
-            m_in /= m_speed;
+            m_in = int(m_in / m_speed);
         }
         if (m_out > 0) {
-            m_out /= m_speed;
+            m_out = int(m_out / m_speed);
         }
         if (m_warp_pitch) {
             m_producer->set("warp_pitch", 1);
@@ -111,7 +111,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
         fileUrl.setUrl(QUrl::fromLocalFile(folder.absoluteFilePath(filePath)));
     }
     QFontMetrics fm = fileUrl.lineEdit()->fontMetrics();
-    fileUrl.setMinimumWidth(fm.boundingRect(fileUrl.text().left(50)).width() * 1.4);
+    fileUrl.setMinimumWidth(int(fm.boundingRect(fileUrl.text().left(50)).width() * 1.4));
     QLabel lab(&d);
     lab.setText(i18n("Percentage"));
     QDoubleSpinBox speedInput(&d);
@@ -145,7 +145,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
             QDir dir(fileUrl.url().toLocalFile());
             binClip = pCore->projectItemModel()->getClipByBinID(binId.section(QLatin1Char('/'), 0, 0));
             mltfile = QFileInfo(binClip->url()).fileName().section(QLatin1Char('.'), 0, -2);
-            mltfile.append(QString("-%1.mlt").arg(QString::number((int)speed)));
+            mltfile.append(QString("-%1.mlt").arg(QString::number(int(speed))));
             mltfile = dir.absoluteFilePath(mltfile);
         }
         // Filter several clips, destination points to a folder

@@ -95,16 +95,16 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
-    m_documentProperties[QStringLiteral("enableproxy")] = QString::number((int)KdenliveSettings::enableproxy());
+    m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
     m_documentProperties[QStringLiteral("previewparameters")] = KdenliveSettings::previewparams();
     m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
     m_documentProperties[QStringLiteral("externalproxyparams")] = KdenliveSettings::externalProxyProfile();
-    m_documentProperties[QStringLiteral("enableexternalproxy")] = QString::number((int)KdenliveSettings::externalproxy());
-    m_documentProperties[QStringLiteral("generateproxy")] = QString::number((int)KdenliveSettings::generateproxy());
+    m_documentProperties[QStringLiteral("enableexternalproxy")] = QString::number(int(KdenliveSettings::externalproxy()));
+    m_documentProperties[QStringLiteral("generateproxy")] = QString::number(int(KdenliveSettings::generateproxy()));
     m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
-    m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int)KdenliveSettings::generateimageproxy());
+    m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number(int(KdenliveSettings::generateimageproxy()));
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
@@ -1048,6 +1048,15 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile)) {
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
+        // backup subitle file in case we have one
+        QString subpath(path + QStringLiteral(".srt"));
+        QString subbackupFile(backupFile + QStringLiteral(".srt"));
+        if(QFile(subpath).exists()) {
+            QFile::remove(subbackupFile);
+            if (!QFile::copy(subpath, subbackupFile)) {
+                KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", subbackupFile));
+            }
+        }
     }
 }
 
@@ -1131,21 +1140,25 @@ void KdenliveDoc::cleanupBackupFiles()
         f = hourList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".srt"));
     }
     while (dayList.count() > 0) {
         f = dayList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".srt"));
     }
     while (weekList.count() > 0) {
         f = weekList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".srt"));
     }
     while (oldList.count() > 0) {
         f = oldList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".srt"));
     }
 }
 
@@ -1410,11 +1423,11 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
     QString adjustMessage;
-    double fps = (double)profile->frame_rate_num() / profile->frame_rate_den();
+    double fps = double(profile->frame_rate_num()) / profile->frame_rate_den();
     double fps_int;
     double fps_frac = std::modf(fps, &fps_int);
     if (fps_frac < 0.4) {
-        profile->m_frame_rate_num = (int)fps_int;
+        profile->m_frame_rate_num = int(fps_int);
         profile->m_frame_rate_den = 1;
     } else {
         // Check for 23.98, 29.97, 59.94
@@ -1468,10 +1481,8 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                 updateProjectProfile(true);
                 emit docModified(true);
                 return;
-                break;
             case KMessageBox::No:
                 return;
-                break;
             default:
                 break;
             }
@@ -1487,17 +1498,17 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
-        if (qFuzzyCompare((double)profile->m_frame_rate_num / profile->m_frame_rate_den, fps)) {
+        if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
         if (KMessageBox::warningContinueCancel(QApplication::activeWindow(),
                                                i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile->m_width,
-                                                    profile->m_height, QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2),
+                                                    profile->m_height, QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
             profile->m_description = QStringLiteral("%1x%2 %3fps")
                                          .arg(profile->m_width)
                                          .arg(profile->m_height)
-                                         .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
+                                         .arg(QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2));
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
             // Discard all current jobs
             pCore->jobManager()->slotCancelJobs();
@@ -1577,7 +1588,7 @@ void KdenliveDoc::selectPreviewProfile()
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();
                 if (fps > 0) {
-                    if (qAbs((int)(pCore->getCurrentFps() * 100) - (fps * 100)) <= 1) {
+                    if (qAbs(int(pCore->getCurrentFps() * 100) - (fps * 100)) <= 1) {
                         matchingProfiles << i.value();
                         break;
                     }

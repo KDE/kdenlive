@@ -87,7 +87,7 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int mid = (int)((r1.height() / 2));
+            int mid = int((r1.height() / 2));
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);

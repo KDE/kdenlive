@@ -22,11 +22,12 @@
 #include "kdenlivesettings.h"
 
 #include <QIcon>
+#include <utility>
 
-TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode, int activeTrackId)
+TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode, int activeTrackId)
     : QDialog(parent)
     , m_trackIndex(trackIndex)
-    , m_model(model)
+    , m_model(std::move(model))
     , m_deleteMode(deleteMode)
     , m_activeTrack(activeTrackId)
 {
@@ -78,7 +79,7 @@ void TrackDialog::buildCombo()
         }
         const QString trackName = m_model->getTrackFullName(tid);
         if (m_deleteMode) {
-            QListWidgetItem *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
+            auto *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
             m_idByTrackname.insert(trackName,tid);
             track->setFlags(track->flags() | Qt::ItemIsUserCheckable);
             track->setCheckState(Qt::Unchecked);

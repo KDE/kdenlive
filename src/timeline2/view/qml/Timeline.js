@@ -42,7 +42,7 @@ function getTrackIndexFromPos(pos) {
 
 function getTrackIdFromPos(pos) {
     var index = getTrackIndexFromPos(pos);
-    if (index != -1) {
+    if (index !== -1) {
         return tracksRepeater.itemAt(index).trackInternalId
     }
     return -1
@@ -51,7 +51,7 @@ function getTrackIdFromPos(pos) {
 function getTrackYFromId(id) {
     var result = 0
     for (var i = 0; i < trackHeaderRepeater.count; i++) {
-        if (trackHeaderRepeater.itemAt(i).trackId == id) {
+        if (trackHeaderRepeater.itemAt(i).trackId === id) {
             break;
         }
         result += trackHeaderRepeater.itemAt(i).height
@@ -62,7 +62,7 @@ function getTrackYFromId(id) {
 function getTrackIndexFromId(id) {
     var i = 0;
     for (; i < trackHeaderRepeater.count; i++) {
-        if (trackHeaderRepeater.itemAt(i).trackId == id) {
+        if (trackHeaderRepeater.itemAt(i).trackId === id) {
             break;
         }
     }
@@ -72,7 +72,7 @@ function getTrackIndexFromId(id) {
 function getTrackById(id) {
     var i = 0;
     for (; i < tracksRepeater.count; i++) {
-        if (tracksRepeater.itemAt(i).trackInternalId == id) {
+        if (tracksRepeater.itemAt(i).trackInternalId === id) {
             return tracksRepeater.itemAt(i);
         }
     }

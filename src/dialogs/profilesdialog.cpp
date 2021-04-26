@@ -34,16 +34,14 @@
 
 ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent)
     : QDialog(parent)
-
 {
-
     // ask profile repository for a refresh
     ProfileRepository::get()->refresh();
 
     m_view.setupUi(this);
 
     // Add message widget
-    auto *lay = (QGridLayout *)layout();
+    auto *lay = static_cast<QGridLayout *>(layout());
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);
@@ -96,15 +94,13 @@ void ProfilesDialog::connectDialog()
 
 ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent)
     : QDialog(parent)
-    , m_profileIsModified(false)
     , m_isCustomProfile(true)
     , m_customProfilePath(profilePath)
-    , m_profilesChanged(false)
 {
     m_view.setupUi(this);
 
     // Add message widget
-    auto *lay = (QGridLayout *)layout();
+    auto *lay = static_cast<QGridLayout *>(layout());
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);
@@ -237,6 +233,9 @@ void ProfilesDialog::slotCreateProfile()
     m_view.button_create->setEnabled(false);
     m_view.button_save->setEnabled(true);
     m_view.properties->setEnabled(true);
+    m_view.description->blockSignals(true);
+    m_view.description->setText(m_view.description->text() + " " +i18n("(copy)"));
+    m_view.description->blockSignals(false);
 }
 
 void ProfilesDialog::slotSetDefaultProfile()
@@ -354,9 +353,9 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
     m_view.frame_den->setValue(curProfile->frame_rate_den());
     m_view.progressive->setChecked(curProfile->progressive() != 0);
     if (curProfile->progressive() != 0) {
-        m_view.fields->setText(locale.toString((double)curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString(double(curProfile->frame_rate_num() / curProfile->frame_rate_den()), 'f', 2));
     } else {
-        m_view.fields->setText(locale.toString((double)2 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
+        m_view.fields->setText(locale.toString(2.0 * curProfile->frame_rate_num() / curProfile->frame_rate_den(), 'f', 2));
     }
 
     int colorix = m_view.colorspace->findData(curProfile->colorspace());

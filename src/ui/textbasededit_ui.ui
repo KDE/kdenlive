@@ -35,29 +35,6 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="10">
-       <widget class="QToolButton" name="vosk_config">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <widget class="QToolButton" name="button_search">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="9">
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
@@ -71,10 +48,13 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="1">
-       <widget class="QToolButton" name="button_insert">
+      <item row="0" column="6">
+       <widget class="QToolButton" name="button_search">
         <property name="text">
          <string>...</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -98,8 +78,8 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QToolButton" name="button_add">
+      <item row="0" column="1">
+       <widget class="QToolButton" name="button_insert">
         <property name="text">
          <string>...</string>
         </property>
@@ -110,6 +90,16 @@
       </item>
       <item row="0" column="4">
        <widget class="QToolButton" name="button_bookmark">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QToolButton" name="button_add">
         <property name="text">
          <string>...</string>
         </property>

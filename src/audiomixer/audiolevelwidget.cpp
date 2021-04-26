@@ -48,8 +48,7 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
 }
 
 AudioLevelWidget::~AudioLevelWidget()
-{
-}
+= default;
 
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {
@@ -118,12 +117,12 @@ void AudioLevelWidget::drawBackground(int channels)
         int value = dbscale.at(i);
         QString label = QString::number(value);
         //int labelWidth = fontMetrics().width(label);
-        double xf = m_pixmap.height() - pow(10.0, (double)dbscale.at(i) / 50.0) * m_pixmap.height() * 40.0 / 42;
+        double xf = m_pixmap.height() - pow(10.0, double(dbscale.at(i)) / 50.0) * m_pixmap.height() * 40.0 / 42;
         /*if (xf + labelWidth / 2 > m_pixmap.height()) {
             xf = height() - labelWidth / 2;
         }*/
         p.setPen(palette().dark().color());
-        p.drawLine(m_offset, xf, m_offset + totalWidth - 1, xf);
+        p.drawLine(m_offset, int(xf), m_offset + totalWidth - 1, int(xf));
         xf -= labelHeight * 2 / 3;
         p.setPen(palette().text().color().rgb());
         p.drawText(QRectF(0, xf, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
@@ -203,7 +202,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
             continue;
         }
         //int val = (50 + m_values.at(i)) / 150.0 * rect.height();
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - (m_values.at(i) * rect.height()), palette().dark());
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - (m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - int(m_values.at(i) * rect.height()), palette().dark());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - int(m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
     }
 }

@@ -615,7 +615,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     int in = getIn();
     int out = getOut();
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyIsNull(speed)) {
-        in = in * std::abs(m_speed / speed);
+        in = int(in * std::abs(m_speed / speed));
         out = in + getPlaytime() - 1;
         // prevent going out of the clip's range
         out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
@@ -692,9 +692,8 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
         };
     }
     if (revertSpeed) {
-        int in = getIn();
-        int out = getOut();
-        in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed) + 0.5));
+        int out = getOut() + 1;
+        int in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed)));
         out = in + newDuration;
         operation = [operation, in, out, this]() {
             bool res = operation();
@@ -802,7 +801,7 @@ bool ClipModel::showKeyframes() const
 void ClipModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
-    service()->set("kdenlive:hide_keyframes", (int)!show);
+    service()->set("kdenlive:hide_keyframes", !show);
 }
 
 void ClipModel::setPosition(int pos)
@@ -951,6 +950,12 @@ const QString ClipModel::effectNames() const
     return m_effectStack->effectNames();
 }
 
+const QStringList ClipModel::externalFiles() const
+{
+    READ_LOCK();
+    return m_effectStack->externalFiles();
+}
+
 int ClipModel::getFakeTrackId() const
 {
     return m_fakeTrack;
@@ -979,7 +984,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("in"), getIn());
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
-    container.setAttribute(QStringLiteral("state"), (int)m_currentState);
+    container.setAttribute(QStringLiteral("state"), m_currentState);
     if (auto ptr = m_parent.lock()) {
         int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);

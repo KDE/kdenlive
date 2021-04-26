@@ -34,13 +34,13 @@ class KDualAction;
 class KSqueezedTextLabel;
 class EffectItemModel;
 class AssetParameterView;
+class TimecodeDisplay;
 
 /**)
  * @class CollapsibleEffectView
  * @brief A container for the parameters of an effect
  * @author Jean-Baptiste Mardelle
  */
-
 class CollapsibleEffectView : public AbstractCollapsibleWidget
 {
     Q_OBJECT
@@ -50,7 +50,6 @@ public:
     ~CollapsibleEffectView() override;
     KSqueezedTextLabel *title;
 
-    void setupWidget(const ItemInfo &info);
     void updateTimecodeFormat();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
@@ -86,10 +85,14 @@ public:
     QDomDocument toXml() const;
     /** @brief Update monitor scene depending on effect enabled state. */
     void updateScene();
+    void updateInOut(QPair<int, int> inOut, bool withUndo);
 
 public slots:
     void slotSyncEffectsPos(int pos);
+    /** @brief Enable / disable an effect. */
     void slotDisable(bool disable);
+    /** @brief Restrict an effec to an in/out point region, of full length. */
+    void switchInOut(bool checked);
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
     void slotActivateEffect(bool active);
@@ -115,12 +118,12 @@ private slots:
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void prepareImportClipKeyframes();
+    void updateEffectZone();
 
 private:
     AssetParameterView *m_view;
     std::shared_ptr<EffectItemModel> m_model;
     KDualAction *m_collapse;
-    QToolButton *m_keyframesButton;
     QList<CollapsibleEffectView *> m_subParamWidgets;
     QDomElement m_effect;
     ItemInfo m_itemInfo;
@@ -128,15 +131,16 @@ private:
     QList<QDomElement> m_subEffects;
     QMenu *m_menu;
     bool m_isMovable;
-    /** @brief True if this is a region effect, which behaves in a special way, like a group. */
-    bool m_regionEffect;
     bool m_blockWheel;
     /** @brief The add group action. */
     QAction *m_groupAction;
     KDualAction *m_enabledButton;
+    QAction *m_inOutButton;
     QLabel *m_colorIcon;
     QPixmap m_iconPix;
     QPoint m_dragStart;
+    TimecodeDisplay *m_inPos;
+    TimecodeDisplay *m_outPos;
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
@@ -167,7 +171,8 @@ signals:
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
-    void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
+    void activateEffect(int row);
+    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void refresh();
     /** @brief Requests saving the full effect stack. */
     void saveStack();

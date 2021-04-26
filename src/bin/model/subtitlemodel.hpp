@@ -42,15 +42,15 @@ class SnapInterface;
 class AssetParameterModel;
 class TimelineItemModel;
 
-/* @brief This class is the model for a list of subtitles.
+/** @class SubtitleModel
+    @brief This class is the model for a list of subtitles.
 */
-
 class SubtitleModel:public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    /* @brief Construct a subtitle list bound to the timeline */
+    /** @brief Construct a subtitle list bound to the timeline */
     explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
@@ -140,7 +140,7 @@ public:
     void loadProperties(QMap<QString, QString> subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
-    /** @brief Returns an xml representation of the subtitle with id @sid */
+    /** @brief Returns an xml representation of the subtitle with id \@sid */
     QDomElement toXml(int sid, QDomDocument &document);
     /** @brief Returns the size of the space between subtitles */
     int getBlankSizeAtPos(int pos) const;
@@ -148,6 +148,8 @@ public:
     void switchGrab(int sid);
     /** @brief Ungrab all items */
     void clearGrab();
+    /** @brief Release timeline model pointer */
+    void unsetModel();
 
 public slots:
     /** @brief Function that parses through a subtitle file */

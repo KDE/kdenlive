@@ -110,10 +110,10 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_enableStackButton->setVisible(false);
     buttonToolbar->addAction(m_enableStackButton);
 
-    m_timelineButton = new KDualAction(i18n("Hide keyframes"), i18n("Display keyframes in timeline"), this);
-    m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-    m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-    m_timelineButton->setToolTip(i18n("Display keyframes in timeline"));
+    m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Display keyframes in timeline"), this);
+    m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
+    m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+    m_timelineButton->setToolTip(i18n("Hide keyframes in timeline"));
     m_timelineButton->setVisible(false);
     connect(m_timelineButton, &KDualAction::activeChangedByUser, this, &AssetPanel::showKeyframes);
     buttonToolbar->addAction(m_timelineButton);
@@ -301,7 +301,6 @@ void AssetPanel::clear()
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
-    
     m_assetTitle->setText(QString());
 }
 

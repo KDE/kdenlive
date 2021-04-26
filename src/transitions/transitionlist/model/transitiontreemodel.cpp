@@ -92,7 +92,7 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     if (!index.isValid()) {
         return;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (isEffect && item->depth() == 1) {
         return;
     }
@@ -111,6 +111,6 @@ void TransitionTreeModel::deleteEffect(const QModelIndex &)
 {
 }
 
-void TransitionTreeModel::editCustomAsset(const QString newName, const QString newDescription, const QModelIndex &index)
+void TransitionTreeModel::editCustomAsset(const QString, const QString, const QModelIndex &)
 {
 }

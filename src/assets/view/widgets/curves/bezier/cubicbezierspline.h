@@ -24,6 +24,10 @@
 #include <QList>
 #include <QString>
 
+/** @class CubicBezierSpline
+    @brief \@todo Describe class CubicBezierSpline
+    @todo Describe class CubicBezierSpline
+ */
 class CubicBezierSpline
 {
 

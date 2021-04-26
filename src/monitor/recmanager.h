@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class RecManager
- * @brief All recording specific features are gathered here
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef RECMANAGER_H
 #define RECMANAGER_H
 
@@ -45,6 +39,10 @@ namespace Mlt {
 class Producer;
 }
 
+/** @class RecManager
+    @brief All recording specific features are gathered here
+    @author Jean-Baptiste Mardelle
+ */
 class RecManager : public QObject
 {
     Q_OBJECT
@@ -83,10 +81,10 @@ private:
     QCheckBox *m_recVideo;
     QCheckBox *m_recAudio;
     QSlider *m_audioCaptureSlider;
-    bool m_checkAudio;
-    bool m_checkVideo;
+    bool m_checkAudio{false};
+    bool m_checkVideo{false};
     Mlt::Producer *createV4lProducer();
-    int m_screenIndex;
+    int m_screenIndex{0};
 
 private slots:
     void slotSetScreen(int ScreenIndex);

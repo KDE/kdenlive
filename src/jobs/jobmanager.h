@@ -37,12 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class AbstractClipJob;
 
-/**
- * @class JobManager
- * @brief This class is responsible for clip jobs management.
- *
- */
-
 enum class JobManagerStatus { NoJob, Pending, Running, Finished, Canceled };
 Q_DECLARE_METATYPE(JobManagerStatus)
 struct Job_t
@@ -60,7 +54,9 @@ struct Job_t
     bool m_failed = false;    // flag that we set to true when a problem occurred
 };
 
-
+/** @class JobManager
+    @brief This class is responsible for clip jobs management.
+ */
 class JobManager : public QAbstractListModel, public enable_shared_from_this_virtual<JobManager>
 {
     Q_OBJECT
@@ -70,12 +66,12 @@ public:
     ~JobManager() override;
 
     /** @brief Start a job
-        This function calls the prepareJob function of the job if it provides one.
-        @param T is the type of job (must inherit from AbstractClipJob)
-        @param binIds is the list of clips to which we apply the job
-        @param parents is the list of the ids of the job that must terminate before this one can start
-        @param args are the arguments to construct the job
-        @param return the id of the created job
+     *  This function calls the prepareJob function of the job if it provides one.
+     *  @param T is the type of job (must inherit from AbstractClipJob)
+     *  @param binIds is the list of clips to which we apply the job
+     *  @param parents is the list of the ids of the job that must terminate before this one can start
+     *  @param args are the arguments to construct the job
+     *  @param return the id of the created job
     */
     template <typename T, typename... Args> int startJob(const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args);
     // Same function, but we specify the function used to create a new job

@@ -36,8 +36,8 @@ public:
      */
     explicit PatternsModel(QObject *parent = nullptr);
 
-    virtual QVariant data(const QModelIndex& index, int role) const override;
-    virtual int rowCount(const QModelIndex& parent) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    int rowCount(const QModelIndex& parent) const override;
 
     /**
      * @brief Change size of the image to be displayed in the list

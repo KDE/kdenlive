@@ -17,7 +17,7 @@
 #include "../abstractscopewidget.h"
 
 /**
-\brief Abstract class for scopes analyzing image frames.
+* @brief Abstract class for scopes analyzing image frames.
 */
 class AbstractGfxScopeWidget : public AbstractScopeWidget
 {
@@ -31,8 +31,8 @@ protected:
     ///// Variables /////
 
     /** @brief Scope renderer. Must emit signalScopeRenderingFinished()
-        when calculation has finished, to allow multi-threading.
-        accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
+     *  when calculation has finished, to allow multi-threading.
+     *  accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
     virtual QImage renderGfxScope(uint accelerationFactor, const QImage &) = 0;
 
     QImage renderScope(uint accelerationFactor) override;
@@ -45,8 +45,8 @@ private:
 
 public slots:
     /** @brief Must be called when the active monitor has shown a new frame.
-      This slot must be connected in the implementing class, it is *not*
-      done in this abstract class. */
+     * This slot must be connected in the implementing class, it is *not*
+     * done in this abstract class. */
     void slotRenderZoneUpdated(const QImage &);
 
 protected slots:

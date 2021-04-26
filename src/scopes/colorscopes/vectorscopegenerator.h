@@ -31,7 +31,7 @@ public:
                                 const VectorscopeGenerator::ColorSpace &colorSpace, bool, uint accelFactor = 1) const;
 
     QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
-    static const float scaling;
+    static const double scaling;
 
 signals:
     void signalCalculationFinished(const QImage &image, uint ms);

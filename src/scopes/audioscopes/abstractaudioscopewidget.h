@@ -21,7 +21,7 @@
 class Render;
 
 /**
- \brief Abstract class for scopes analyzing audio samples.
+ * @brief Abstract class for scopes analyzing audio samples.
  */
 class AbstractAudioScopeWidget : public AbstractScopeWidget
 {

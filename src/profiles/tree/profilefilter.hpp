@@ -26,7 +26,7 @@
 #include <memory>
 
 class ProfileModel;
-/* @brief This class is used as a proxy model to filter the profile tree based on given criterion (fps, interlaced,...)
+/** @brief This class is used as a proxy model to filter the profile tree based on given criterion (fps, interlaced,...)
  */
 class ProfileFilter : public QSortFilterProxyModel
 {
@@ -35,13 +35,13 @@ class ProfileFilter : public QSortFilterProxyModel
 public:
     ProfileFilter(QObject *parent = nullptr);
 
-    /* @brief Manage the interlaced filter
+    /** @brief Manage the interlaced filter
        @param enabled whether to enable this filter
        @param interlaced whether we keep interlaced profiles or not
     */
     void setFilterInterlaced(bool enabled, bool interlaced);
 
-    /* @brief Manage the fps filter
+    /** @brief Manage the fps filter
        @param enabled whether to enable this filter
        @param fps value of the fps of the profiles to keep
     */

@@ -128,7 +128,7 @@ Rectangle {
                     if (trackHeadRoot.isAudio) {
                         timeline.switchAudioTarget(trackHeadRoot.trackId);
                     } else {
-                        if (trackHeadRoot.trackId == timeline.videoTarget) {
+                        if (trackHeadRoot.trackId === timeline.videoTarget) {
                             timeline.videoTarget = -1;
                         } else if (timeline.hasVideoTarget) {
                             timeline.videoTarget = trackHeadRoot.trackId;
@@ -190,7 +190,7 @@ Rectangle {
     states: [
         State {
             name: 'target'
-            when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
+            when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId === timeline.videoTarget)
             PropertyChanges {
                 target: trackTarget
                 bgColor: timeline.targetColor

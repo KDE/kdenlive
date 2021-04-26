@@ -31,6 +31,7 @@
 #include "kdenlivesettings.h"
 #include <KMessageBox>
 #include <QFontDatabase>
+#include <memory>
 #include <mlt++/Mlt.h>
 
 ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterName, QWidget *parent)
@@ -64,7 +65,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     }
     m_vbox = new QVBoxLayout(optionsbox);
     if (m_filtername == QLatin1String("vidstab")) {
-        m_view.reset(new AssetParameterView(this));
+        m_view = std::make_unique<AssetParameterView>(this);
         qDebug()<<"// Fetching effect: "<<m_filtername;
         std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
         auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());

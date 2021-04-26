@@ -32,15 +32,17 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
     , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId(), originalDecimalPoint)
     , m_childId(0)
 {
-    connect(this, &AssetParameterModel::updateChildren, [&](const QString &name) {
+    connect(this, &AssetParameterModel::updateChildren, [&](const QStringList &names) {
         if (m_childEffects.size() == 0) {
             return;
         }
-        qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
+        //qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
         QMapIterator<int, std::shared_ptr<EffectItemModel>> i(m_childEffects);
         while (i.hasNext()) {
             i.next();
-            i.value()->filter().set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));
+            for (const QString &name : names) {
+                i.value()->filter().set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));
+            }
         }
     });
 }
@@ -205,7 +207,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     emit dataChanged(start, end, QVector<int>());
     emit enabledChange(!isEnabled());
     // Update timeline child producers
-    emit AssetParameterModel::updateChildren(QStringLiteral("disable"));
+    emit AssetParameterModel::updateChildren({QStringLiteral("disable")});
 }
 
 void EffectItemModel::setCollapsed(bool collapsed)
@@ -213,9 +215,14 @@ void EffectItemModel::setCollapsed(bool collapsed)
     filter().set("kdenlive:collapsed", collapsed ? 1 : 0);
 }
 
-bool EffectItemModel::isCollapsed()
+bool EffectItemModel::isCollapsed() const
 {
     return filter().get_int("kdenlive:collapsed") == 1;
+}
+
+bool EffectItemModel::hasForcedInOut() const
+{
+    return filter().get_int("kdenlive:force_in_out") == 1;
 }
 
 bool EffectItemModel::isAudio() const
@@ -227,4 +234,56 @@ bool EffectItemModel::isAudio() const
 bool EffectItemModel::isUnique() const
 {
     return EffectsRepository::get()->isUnique(m_assetId);
+}
+
+QPair <int, int> EffectItemModel::getInOut() const
+{
+    return {m_asset->get_int("in"), m_asset->get_int("out")};
+}
+
+void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled, bool withUndo)
+{
+    QPair<int, int>currentInOut = {m_asset->get_int("in"), m_asset->get_int("out")};
+    int currentState = m_asset->get_int("kdenlive:force_in_out");
+    Fun undo = [this, currentState, currentInOut]() {
+        m_asset->set("kdenlive:force_in_out", currentState);
+        m_asset->set("in", currentInOut.first);
+        m_asset->set("out", currentInOut.second);
+        emit AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
+        if (!isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+            pCore->invalidateItem(m_ownerId);
+        }
+        emit showEffectZone(m_ownerId, currentInOut, currentState == 1);
+        return true;
+    };
+    Fun redo = [this, enabled, bounds]() {
+        m_asset->set("kdenlive:force_in_out", enabled ? 1 : 0);
+        m_asset->set("in", bounds.first);
+        m_asset->set("out", bounds.second);
+        emit AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
+        if (!isAudio()) {
+            pCore->refreshProjectItem(m_ownerId);
+            pCore->invalidateItem(m_ownerId);
+        }
+        emit showEffectZone(m_ownerId, bounds, enabled);
+        return true;
+    };
+    std::shared_ptr<KeyframeModelList> keyframes = getKeyframeModel();
+    if (keyframes != nullptr) {
+        // Effect has keyframes, update these
+        const QModelIndex start = AssetParameterModel::index(0, 0);
+        const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
+        Fun refresh = [this, start, end]() {
+            emit dataChanged(start, end, QVector<int>());
+            return true;
+        };
+        refresh();
+        PUSH_LAMBDA(refresh, redo);
+        PUSH_LAMBDA(refresh, undo);
+    }
+    redo();
+    if (withUndo) {
+        pCore->pushUndo(undo, redo, i18n("Update zone for %1", effectName));
+    }
 }

@@ -19,6 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include <KLocalizedContext>
+
 #include "transitionparameterview.hpp"
 #include "transitions/transitionsrepository.hpp"
 
@@ -34,7 +36,7 @@ TransitionParameterView::TransitionParameterView(QWidget *parent)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-    kdeclarative.setupContext();
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 
     // Set void model for the moment
     auto *model = new QStringListModel();

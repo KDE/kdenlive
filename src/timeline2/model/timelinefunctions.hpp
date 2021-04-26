@@ -30,16 +30,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDir>
 
-/**
- * @namespace TimelineFunction
- * @brief This namespace contains a list of static methods for advanced timeline editing features
- *  based on timelinemodel methods
- */
-
 class TimelineItemModel;
+
+/** @namespace TimelineFunction
+    @brief This namespace contains a list of static methods for advanced timeline editing features
+    based on timelinemodel methods
+ */
 struct TimelineFunctions
 {
-    /* @brief Cuts a clip at given position
+    /** @brief Cuts a clip at given position
        If the clip is part of the group, all clips of the groups are cut at the same position. The group structure is then preserved for clips on both sides
        Returns true on success
        @param timeline : ptr to the timeline model
@@ -47,26 +46,26 @@ struct TimelineFunctions
        @param position: position (in frames from the beginning of the timeline) where to cut
     */
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
-    /* This is the same function, except that it accumulates undo/redo */
+    /** @brief This is the same function, except that it accumulates undo/redo */
     static bool requestClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, Fun &undo, Fun &redo);
-    /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
+    /** @brief This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
     static bool processClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
-    /* Cuts all clips at given position */
+    /** @brief Cuts all clips at given position */
     static bool requestClipCutAll(std::shared_ptr<TimelineItemModel> timeline, int position);
 
-    /* @brief Makes a perfect clone of a given clip, but do not insert it */
+    /** @brief Makes a perfect clone of a given clip, but do not insert it */
     static bool cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
-    /* @brief Creates a string representation of the given clips, that can then be pasted using pasteClips(). Return an empty string on failure */
+    /** @brief Creates a string representation of the given clips, that can then be pasted using pasteClips(). Return an empty string on failure */
     static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds);
-    /* @brief Paste the clips as described by the string. Returns true on success*/
+    /** @brief Paste the clips as described by the string. Returns true on success*/
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo);
     static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position);
     static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo, Fun &timeline_redo, bool pushToStack);
 
-    /* @brief Request the addition of multiple clips to the timeline
+    /** @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
      * @returns true on success, false otherwise.
      * @param binIds the list of bin ids to be inserted
@@ -103,14 +102,14 @@ struct TimelineFunctions
     static void showClipKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, bool value);
     static void showCompositionKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int compoId, bool value);
 
-    /* @brief If the clip is activated, disable, otherwise enable
+    /** @brief If the clip is activated, disable, otherwise enable
      * @param timeline: pointer to the timeline that we modify
      * @param clipId: Id of the clip to modify
      * @param status: target status of the clip
      This function creates an undo object and returns true on success
      */
     static bool switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection);
-    /* @brief change the clip state and accumulates for undo/redo
+    /** @brief change the clip state and accumulates for undo/redo
      */
     static bool changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
 

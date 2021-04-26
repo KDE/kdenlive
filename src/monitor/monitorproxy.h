@@ -19,10 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/** @brief  This class is a wrapper around the monitor / glwidget and handles communication
- *          with the qml overlay through its properties.
- */
-
 #ifndef MONITORPROXY_H
 #define MONITORPROXY_H
 
@@ -34,6 +30,10 @@
 class GLWidget;
 class TimecodeDisplay;
 
+/** @class MonitorProxy
+    @brief This class is a wrapper around the monitor / glwidget and handles communication
+    with the qml overlay through its properties.
+ */
 class MonitorProxy : public QObject
 {
     Q_OBJECT
@@ -44,11 +44,13 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
-    Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
+    Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
+    Q_PROPERTY(QColor markerColor MEMBER m_markerColor NOTIFY markerChanged)
     Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
@@ -73,7 +75,6 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
-    QString markerComment() const;
     const QString timecode() const;
     /** brief: update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
@@ -86,7 +87,7 @@ public:
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
     void positionFromConsumer(int pos, bool playing);
-    void setMarkerComment(const QString &comment);
+    void setMarker(const QString &comment, const QColor &color);
     int zoneIn() const;
     int zoneOut() const;
     void setZoneIn(int pos);
@@ -113,6 +114,10 @@ public:
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
+    /** @brief When the producer changes, ensure we reset the stored position*/
+    void resetPosition();
+    /** @brief Used to display qml info about speed*/
+    void setSpeed(double speed);
 
 signals:
     void positionChanged(int);
@@ -121,7 +126,7 @@ signals:
     void zoneChanged();
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
-    void markerCommentChanged();
+    void markerChanged();
     void rulerHeightChanged();
     void addSnap(int);
     void removeSnap(int);
@@ -143,6 +148,7 @@ signals:
     void profileChanged();
     void autoKeyframeChanged();
     void timecodeChanged();
+    void speedChanged();
 
 private:
     GLWidget *q;
@@ -150,9 +156,11 @@ private:
     int m_zoneIn;
     int m_zoneOut;
     bool m_hasAV;
+    double m_speed;
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;
+    QColor m_markerColor;
     QString m_clipName;
     QString m_clipStream;
     int m_clipType;

@@ -125,7 +125,7 @@ QImage RGBParade::renderHUD(uint)
             valY = scopeRect().height() - bottom;
         }
 
-	int val = 255 + int(255. * (1. - (float)y) / ((float)scopeRect().height() - RGBParadeGenerator::distBottom));
+    int val = 255 + int(255. * (1 - y) / (scopeRect().height() - RGBParadeGenerator::distBottom));
 	if((val >= 0) && (val <= 255)) {
         	davinci.drawText(x, valY, QVariant(val).toString());
 	}
@@ -142,9 +142,9 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     timer.start();
 
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode)paintmode, m_aAxis->isChecked(),
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, RGBParadeGenerator::PaintMode(paintmode), m_aAxis->isChecked(),
                                                              m_aGradRef->isChecked(), accelerationFactor);
-    emit signalScopeRenderingFinished((uint)timer.elapsed(), accelerationFactor);
+    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;
 }
 

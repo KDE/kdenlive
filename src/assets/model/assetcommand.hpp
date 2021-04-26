@@ -27,6 +27,10 @@
 #include <QTime>
 #include <QUndoCommand>
 
+/** @class AssetCommand
+    @brief \@todo Describe class AssetCommand
+    @todo Describe class AssetCommand
+ */
 class AssetCommand : public QUndoCommand
 {
 public:
@@ -46,6 +50,10 @@ private:
     QTime m_stamp;
 };
 
+/** @class AssetMultiCommand
+    @brief \@todo Describe class AssetMultiCommand
+    @todo Describe class AssetMultiCommand
+ */
 class AssetMultiCommand : public QUndoCommand
 {
 public:
@@ -65,6 +73,10 @@ private:
     QTime m_stamp;
 };
 
+/** @class AssetKeyframeCommand
+    @brief \@todo Describe class AssetKeyframeCommand
+    @todo Describe class AssetKeyframeCommand
+ */
 class AssetKeyframeCommand : public QUndoCommand
 {
 public:
@@ -85,6 +97,10 @@ private:
     QTime m_stamp;
 };
 
+/** @class AssetUpdateCommand
+    @brief \@todo Describe class AssetUpdateCommand
+    @todo Describe class AssetUpdateCommand
+ */
 class AssetUpdateCommand : public QUndoCommand
 {
 public:

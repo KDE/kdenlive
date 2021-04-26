@@ -26,6 +26,7 @@
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
+#include <kwidgetsaddons_version.h>
 #include <KDualAction>
 
 #include "kdenlive_debug.h"
@@ -116,9 +117,9 @@ void MonitorManager::refreshProjectMonitor()
     m_projectMonitor->refreshMonitorIfActive();
 }
 
-void MonitorManager::refreshClipMonitor()
+void MonitorManager::refreshClipMonitor(bool directUpdate)
 {
-    m_clipMonitor->refreshMonitorIfActive();
+    m_clipMonitor->refreshMonitorIfActive(directUpdate);
 }
 
 void MonitorManager::forceProjectMonitorRefresh()
@@ -129,6 +130,11 @@ void MonitorManager::forceProjectMonitorRefresh()
 bool MonitorManager::projectMonitorVisible() const
 {
     return (m_projectMonitor->monitorIsFullScreen() || (m_projectMonitor->isVisible() && !m_projectMonitor->visibleRegion().isEmpty()));
+}
+
+bool MonitorManager::clipMonitorVisible() const
+{
+    return (m_clipMonitor->monitorIsFullScreen() || (m_clipMonitor->isVisible() && !m_clipMonitor->visibleRegion().isEmpty()));
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
@@ -315,8 +321,12 @@ void MonitorManager::slotEnd()
 
 void MonitorManager::resetProfiles()
 {
-    m_clipMonitor->resetProfile();
-    m_projectMonitor->resetProfile();
+    if (m_clipMonitor) {
+        m_clipMonitor->resetProfile();
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->resetProfile();
+    }
 }
 
 void MonitorManager::resetConsumers(bool fullReset)
@@ -328,6 +338,13 @@ void MonitorManager::resetConsumers(bool fullReset)
         refreshClipMonitor();
     } else {
         refreshProjectMonitor();
+    }
+}
+
+void MonitorManager::slotToggleEffectScene(bool enable)
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->enableEffectScene(enable);
     }
 }
 
@@ -422,6 +439,12 @@ void MonitorManager::setupActions()
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
 
+    QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
+    enableEditmode->setCheckable(true);
+    enableEditmode->setChecked(KdenliveSettings::showOnMonitorScene());
+    connect(enableEditmode, &QAction::triggered, this, &MonitorManager::slotToggleEffectScene);
+    pCore->window()->addAction(QStringLiteral("monitor_editmode"), enableEditmode);
+
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
     pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL + Qt::Key_End);
@@ -448,8 +471,13 @@ void MonitorManager::setupActions()
     } else {
         interlace->setCurrentItem(0);
     }
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
     connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
+#else
+    connect(interlace, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetDeinterlacer);
+#endif
     pCore->window()->addAction(QStringLiteral("mlt_interlace"), interlace);
+    pCore->window()->actionCollection()->setShortcutsConfigurable(interlace, false);
 
     KSelectAction *interpol = new KSelectAction(i18n("Interpolation"), this);
     interpol->addAction(i18n("Nearest Neighbor (fast)"));
@@ -465,8 +493,13 @@ void MonitorManager::setupActions()
     } else {
         interpol->setCurrentItem(0);
     }
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
     connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
+#else
+    connect(interpol, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetInterpolation);
+#endif
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
+    pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
 
     QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);

@@ -19,7 +19,7 @@ class RGBParade_UI;
 class RGBParadeGenerator;
 
 /**
- * \brief Displays the RGB waveform of a frame.
+ * @brief Displays the RGB waveform of a frame.
  * This is the same as the Waveform, but for each colour channel separately.
  */
 class RGBParade : public AbstractGfxScopeWidget

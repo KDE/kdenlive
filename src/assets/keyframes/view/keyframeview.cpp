@@ -31,10 +31,11 @@
 #include <QFontDatabase>
 #include <utility>
 
-KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent)
+KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, int inPoint, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_duration(duration)
+    , m_inPoint(inPoint)
     , m_position(0)
     , m_currentKeyframe(-1)
     , m_currentKeyframeOriginal(-1)
@@ -59,7 +60,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     m_colSelected = palette().highlight().color();
     m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
     m_size = QFontInfo(font()).pixelSize() * 3;
-    m_lineHeight = m_size / 2.1;
+    m_lineHeight = int(m_size / 2.1);
     m_zoomHeight = m_size * 3 / 4;
     m_offset = m_size / 4;
     setFixedHeight(m_size);
@@ -86,7 +87,7 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
         m_position = pos;
         int offset = pCore->getItemIn(m_model->getOwnerId());
         emit atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
-        double zoomPos = (double) m_position / m_duration;
+        double zoomPos = double(m_position) / m_duration;
         if (zoomPos < m_zoomHandle.x()) {
             double interval = m_zoomHandle.y() - m_zoomHandle.x();
             zoomPos = qBound(0.0, zoomPos - interval / 5, 1.0);
@@ -114,7 +115,7 @@ void KeyframeView::slotDuplicateKeyframe()
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         int delta = m_position - m_currentKeyframe;
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             m_model->duplicateKeyframeWithUndo(GenTime(kf + offset, pCore->getCurrentFps()), GenTime(kf + delta + offset, pCore->getCurrentFps()), undo, redo);
         }
         pCore->pushUndo(undo, redo, i18n("Duplicate keyframe"));
@@ -127,7 +128,7 @@ void KeyframeView::slotAddKeyframe(int pos)
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp());
+    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
 }
 
 const QString KeyframeView::getAssetId()
@@ -182,9 +183,10 @@ void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
     pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
-void KeyframeView::setDuration(int dur)
+void KeyframeView::setDuration(int dur, int inPoint)
 {
     m_duration = dur;
+    m_inPoint = inPoint;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
@@ -202,10 +204,10 @@ void KeyframeView::slotGoToNext()
     auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMin((int)next.first.frames(pCore->getCurrentFps()) - offset, m_duration - 1));
+        emit seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1) + m_inPoint);
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        emit seekToPos(m_duration - 1 + m_inPoint);
     }
 }
 
@@ -221,10 +223,10 @@ void KeyframeView::slotGoToPrev()
     auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMax(0, (int)prev.first.frames(pCore->getCurrentFps()) - offset));
+        emit seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset) + m_inPoint);
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        emit seekToPos(m_duration - 1 + m_inPoint);
     }
 }
 
@@ -243,7 +245,7 @@ void KeyframeView::slotCenterKeyframe()
     QVector<int>currentSelection = m_selectedKeyframes;
     int sourcePosition = m_currentKeyframeOriginal;
     QVector<int>updatedSelection;
-    for (int kf : m_selectedKeyframes) {
+    for (int kf : qAsConst(m_selectedKeyframes)) {
         if (kf == 0) {
             // Don't allow moving first keyframe
             continue;
@@ -268,7 +270,7 @@ void KeyframeView::slotCenterKeyframe()
     local_redo();
     PUSH_LAMBDA(local_redo, redo);
     PUSH_FRONT_LAMBDA(local_undo, undo);
-    pCore->pushUndo(undo, redo, i18n("Move keyframe"));
+    pCore->pushUndo(undo, redo, i18nc("@action", "Move keyframe"));
 }
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
@@ -278,7 +280,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
-    int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
+    int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     m_moveKeyframeMode = false;
     if (event->button() == Qt::LeftButton) {
@@ -308,7 +310,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 if (m_currentKeyframeOriginal > -1) {
                     m_moveKeyframeMode = true;
                     if (KdenliveSettings::keyframeseek()) {
-                        emit seekToPos(m_currentKeyframeOriginal);
+                        emit seekToPos(m_currentKeyframeOriginal + m_inPoint);
                     } else {
                         update();
                     }
@@ -323,7 +325,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
         } else if (event->y() > m_zoomHeight + 2) {
             // click on zoom area
             if (m_hoverZoom) {
-                m_clickOffset = ((double) event->x() - m_offset) / (width() - 2 * m_offset);
+                m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
             }
             return;
         }
@@ -342,8 +344,10 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             return;
         }
     }
-    emit seekToPos(pos);
-    update();
+    if (pos != m_position) {
+        emit seekToPos(pos + m_inPoint);
+        update();
+    }
 }
 
 void KeyframeView::mouseMoveEvent(QMouseEvent *event)
@@ -352,25 +356,25 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
-    int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
+    int pos = int(((double(event->x()) - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     GenTime position(pos + offset, pCore->getCurrentFps());
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_hoverZoomIn || m_hoverZoomOut || m_hoverZoom) {
             // Moving zoom handles
             if (m_hoverZoomIn) {
-                m_zoomHandle.setX(qMin(qMax(0., (double)(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
+                m_zoomHandle.setX(qMin(qMax(0., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
                 update();
                 return;
             }
             if (m_hoverZoomOut) {
-                m_zoomHandle.setY(qMax(qMin(1., (double)(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
+                m_zoomHandle.setY(qMax(qMin(1., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
                 update();
                 return;
             }
             // moving zoom zone
             if (m_hoverZoom) {
-                double clickOffset = ((double)event->x() - m_offset) / (width() - 2 * m_offset) - m_clickOffset;
+                double clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset) - m_clickOffset;
                 double newX = m_zoomHandle.x() + clickOffset;
                 if (newX < 0) {
                     clickOffset = - m_zoomHandle.x();
@@ -382,7 +386,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                     newY = 1;
                     newX = m_zoomHandle.x() + clickOffset;
                 }
-                m_clickOffset = ((double)event->x() - m_offset) / (width() - 2 * m_offset);
+                m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
                 m_zoomHandle = QPointF(newX, newY);
                 update();
             }
@@ -395,14 +399,14 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             if (!m_model->hasKeyframe(pos + offset)) {
                 int delta = pos - m_currentKeyframe;
                 // Check that the move is possible
-                for (int kf : m_selectedKeyframes) {
+                for (int kf : qAsConst(m_selectedKeyframes)) {
                     int updatedPos = kf + offset + delta;
                     if (!m_selectedKeyframes.contains(updatedPos) && m_model->hasKeyframe(updatedPos)) {
                         // Don't allow moving over another keyframe
                         return;
                     }
                 }
-                for (int kf : m_selectedKeyframes) {
+                for (int kf : qAsConst(m_selectedKeyframes)) {
                     if (kf == 0) {
                         // Don't allow moving first keyframe
                         continue;
@@ -447,7 +451,9 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         }
         
         if (!m_moveKeyframeMode || KdenliveSettings::keyframeseek()) {
-            emit seekToPos(pos);
+            if (pos != m_position) {
+                emit seekToPos(pos + m_inPoint);
+            }
         }
         return;
     }
@@ -521,7 +527,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         } else {
             std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end(), std::greater<>());
         }
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
                 continue;
@@ -539,7 +545,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         } else {
             std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end());
         }
-        for (int kf : m_selectedKeyframes) {
+        for (int kf : qAsConst(m_selectedKeyframes)) {
             if (kf == 0) {
                 // Don't allow moving first keyframe
                 continue;
@@ -561,7 +567,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
         double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
         double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
-        int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
+        int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
         pos = qBound(0, pos, m_duration - 1);
         GenTime position(pos + offset, pCore->getCurrentFps());
         bool ok;
@@ -583,7 +589,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        m_model->addKeyframe(position, (KeyframeType)KdenliveSettings::defaultkeyframeinterp());
+        m_model->addKeyframe(position, KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
@@ -627,7 +633,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
-    emit seekToPos(pos);
+    emit seekToPos(pos + m_inPoint);
 }
 
 void KeyframeView::paintEvent(QPaintEvent *event)
@@ -636,7 +642,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 
     QStylePainter p(this);
     int maxWidth = width() - 2 * m_offset;
-    m_scale = maxWidth / (double)(m_duration - 1);
+    m_scale = maxWidth / double(m_duration - 1);
     int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     m_zoomStart = m_zoomHandle.x() * maxWidth;
@@ -644,7 +650,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
     /* ticks */
     double fps = pCore->getCurrentFps();
-    int displayedLength = m_duration / m_zoomFactor / fps;
+    int displayedLength = int(m_duration / m_zoomFactor / fps);
     double factor = 1;
     if (displayedLength < 2) {
         // 1 frame tick
@@ -677,12 +683,12 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     // Position of left border in frames
     double tickOffset = m_zoomStart * m_zoomFactor;
     double frameSize = factor * m_scale * m_zoomFactor;
-    int base = tickOffset / frameSize;
+    int base = int(tickOffset / frameSize);
     tickOffset = frameSize - (tickOffset - (base * frameSize));
     // Draw frame ticks
     int scaledTick = 0;
     for (int i = 0; i < maxWidth / frameSize; i++) {
-        scaledTick = m_offset + (i * frameSize) + tickOffset;
+        scaledTick = int(m_offset + (i * frameSize) + tickOffset);
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }
@@ -750,7 +756,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             scaledPos *= m_zoomFactor;
             scaledPos += m_offset;
             QPolygon pa(3);
-            int cursorwidth = (m_zoomHeight - m_lineHeight) / 1.8;
+            int cursorwidth = int((m_zoomHeight - m_lineHeight) / 1.8);
             QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_zoomHeight - 3) << QPointF(cursorwidth, m_zoomHeight - 3) << QPointF(0, m_lineHeight + 1);
             position.translate(scaledPos, 0);
             p.setBrush(m_colKeyframe);
@@ -759,8 +765,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     }
     // Rubberband
     if (m_clickEnd >= 0) {
-        int min = (qMin(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
-        int max = (qMax(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset;
+        int min = int((qMin(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset);
+        int max = int((qMax(m_clickPoint, m_clickEnd) * m_scale - m_zoomStart) * m_zoomFactor + m_offset);
         p.setOpacity(0.5);
         p.fillRect(QRect(min, 0, max - min, m_lineHeight), palette().highlight());
         p.setOpacity(1);
@@ -771,7 +777,11 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     p.setBrush(palette().mid());
     p.drawRoundedRect(m_offset, m_zoomHeight + 3, width() - 2 * m_offset, m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
     p.setBrush(palette().highlight());
-    p.drawRoundedRect(m_offset + (width() - m_offset) * m_zoomHandle.x(), m_zoomHeight + 3, (width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x()), m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
+    p.drawRoundedRect(int(m_offset + (width() - m_offset) * m_zoomHandle.x()),
+                      m_zoomHeight + 3,
+                      int((width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x())),
+                      m_size - m_zoomHeight - 3,
+                      m_lineHeight / 5, m_lineHeight / 5);
 }
 
 
@@ -782,8 +792,8 @@ void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
     const QStringList vals = val.split(QLatin1Char(' '));
     int offset = pCore->getItemIn(m_model->getOwnerId());
     qDebug()<<"=== COPYING VALS: "<<val<<", PARAM NAME_ "<<paramName;
-    QUndoCommand *parentCommand = new QUndoCommand();
-    for (int kf : m_selectedKeyframes) {
+    auto *parentCommand = new QUndoCommand();
+    for (int kf : qAsConst(m_selectedKeyframes)) {
         QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));
         if (paramName == QLatin1String("spinX")) {

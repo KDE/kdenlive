@@ -31,7 +31,8 @@
 #include <unordered_map>
 #include <vector>
 
-/** @brief This class class is an interface to the caches that store thumbnails.
+/** @class ThumbnailCache
+    @brief This class class is an interface to the caches that store thumbnails.
     In Kdenlive, we use two such caches, a persistent that is stored on disk to allow thumbnails to be reused when reopening.
     The other one is a volatile LRU cache that lives in memory.
     Note that for the volatile cache uses a custom implementation.
@@ -39,7 +40,6 @@
     KImageCache is not suitable since it lacks a way to remove objects from the cache.
  * Note that this class is a Singleton
  */
-
 class ThumbnailCache
 {
 
@@ -47,14 +47,14 @@ public:
     // Returns the instance of the Singleton
     static std::unique_ptr<ThumbnailCache> &get();
 
-    /* @brief Check whether a given thumbnail is in the cache
+    /** @brief Check whether a given thumbnail is in the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
      */
     bool hasThumbnail(const QString &binId, int pos, bool volatileOnly = false) const;
 
-    /* @brief Get a given thumbnail from the cache
+    /** @brief Get a given thumbnail from the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
@@ -63,20 +63,20 @@ public:
     QImage getAudioThumbnail(const QString &binId, bool volatileOnly = false) const;
     const QList <QUrl> getAudioThumbPath(const QString &binId) const;
 
-    /* @brief Get a given thumbnail from the cache
+    /** @brief Get a given thumbnail from the cache
        @param binId is the id of the queried clip
        @param pos is the position where we query
        @param persistent if true, we store the image in the persistent cache, which generates a disk access
     */
     void storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent = false);
 
-    /* @brief Removes all the thumbnails for a given clip */
+    /** @brief Removes all the thumbnails for a given clip */
     void invalidateThumbsForClip(const QString &binId);
 
-    /* @brief Save all cached thumbs to disk */
+    /** @brief Save all cached thumbs to disk */
     void saveCachedThumbs(QStringList keys);
 
-    /* @brief Reset cache (discarding all thumbs stored in memory) */
+    /** @brief Reset cache (discarding all thumbs stored in memory) */
     void clearCache();
 
 protected:

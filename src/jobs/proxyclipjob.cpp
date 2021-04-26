@@ -100,6 +100,7 @@ bool ProxyJob::startJob()
                 parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
             }
         }
+
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
 #else
@@ -131,7 +132,7 @@ bool ProxyJob::startJob()
                 if (!ok) {
                     width = 640;
                 }
-                int height = width / display_ratio;
+                int height = int(width / display_ratio);
                 // Make sure we get an even height
                 height += height % 2;
                 mltParameters << QStringLiteral("s=%1x%2").arg(width).arg(height);
@@ -237,7 +238,7 @@ bool ProxyJob::startJob()
         }
         // Only output error data, make sure we don't block when proxy file already exists
         QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
-        m_jobDuration = (int)binClip->duration().seconds();
+        m_jobDuration = int(binClip->duration().seconds());
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -253,7 +254,25 @@ bool ProxyJob::startJob()
             QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
                                          QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
                                          QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
-            bool supported = KdenliveSettings::nvScalingEnabled() && supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+                                         
+            // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
+            bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+            if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
+                supported = false;
+            }
+            if (proxyParams.contains(QStringLiteral("%frameSize"))) {
+                int w = 640;
+                int h = 0;
+                int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
+                int oH = binClip->getProducerProperty(QStringLiteral("meta.media.height")).toInt();
+                if (oH > 0) {
+                    h = w * oH / oW;
+                } else {
+                    h = int(w / pCore->getCurrentDar());
+                }
+                h += h%2;
+                proxyParams.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+            }
             if (supported) {
                 // Full hardware decoding supported
                 codec.append(QStringLiteral("_cuvid"));
@@ -339,7 +358,7 @@ void ProxyJob::processLogInfo()
                     if (numbers.size() < 3) {
                         return;
                     }
-                    m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    m_jobDuration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
@@ -347,15 +366,15 @@ void ProxyJob::processLogInfo()
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
-                    progress = (int)time.toDouble();
+                    progress = time.toInt();
                     if (progress == 0) {
                         return;
                     }
                 } else {
-                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
                 }
             }
-            emit jobProgress((int)(100.0 * progress / m_jobDuration));
+            emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
@@ -396,5 +415,4 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }
     return ok;
-    return true;
 }

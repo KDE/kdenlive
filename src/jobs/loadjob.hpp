@@ -26,24 +26,24 @@
 #include <QDomElement>
 #include <memory>
 
-/* @brief This class represents the job that corresponds to loading a clip from xml
- */
-
 class ProjectClip;
 namespace Mlt {
 class Producer;
 }
 
+/** @class LoadJob
+    @brief This class represents the job that corresponds to loading a clip from xml
+ */
 class LoadJob : public AbstractClipJob
 {
     Q_OBJECT
 
 public:
-    /* @brief Extract a thumb for given clip.
+    /** @brief Extract a thumb for given clip.
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack = []() {});
+    LoadJob(const QString &binId, const QDomElement &xml, std::function<void()> readyCallBack = []() {});
 
     const QString getDescription() const override;
 

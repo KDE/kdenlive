@@ -99,8 +99,11 @@ ProviderModel::ProviderModel(const QString &path)
             m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
             m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
             m_oauth2.setClientIdentifierSharedKey(m_clientkey);
-
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken){
+#else
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::tokenChanged, this, [&](const QString &refreshToken){
+#endif
                 KSharedConfigPtr config = KSharedConfig::openConfig();
                 KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
                 authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
@@ -391,7 +394,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 
     if(m_search["req"].toObject()["method"].toString() == "GET") {
 
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 
@@ -461,7 +464,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
             onlineItem.previewUrl = objectGetString(item.toObject(), "previewUrl");
             onlineItem.width = objectGetValue(item.toObject(), "width").toInt();
             onlineItem.height = objectGetValue(item.toObject(), "height").toInt();
-            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? (int) objectGetValue(item.toObject(), "duration").toDouble() : objectGetValue(item.toObject(), "duration").toInt();
+            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble()) : objectGetValue(item.toObject(), "duration").toInt();
 
             if(keys["downloadUrls"].isObject()) {
                 for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
@@ -526,7 +529,7 @@ void ProviderModel::slotFetchFiles(const QString &id) {
 
     if(m_download["req"].toObject()["method"].toString() == "GET") {
 
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 
@@ -578,7 +581,7 @@ std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByt
         if(keys["downloadUrls"].isObject()) {
             if(keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
                 QJsonObject list = objectGetValue(res, "downloadUrls.key").toObject();
-                for (const auto key : list.keys()) {
+                for (const auto &key : list.keys()) {
                     QJsonObject urlItem = list[key].toObject();
                     QString format = objectGetString(urlItem, "downloadUrls.format", id, key);
                     //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and metafiles

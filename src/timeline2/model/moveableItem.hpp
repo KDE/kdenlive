@@ -27,7 +27,7 @@
 #include <QReadWriteLock>
 #include <memory>
 
-/* @brief This is the base class for objects that can move, for example clips and compositions
+/** @brief This is the base class for objects that can move, for example clips and compositions
  */
 template <typename Service> class MoveableItem
 {
@@ -39,58 +39,58 @@ protected:
 public:
     MoveableItem(std::weak_ptr<TimelineModel> parent, int id = -1);
 
-    /* @brief returns (unique) id of current item
+    /** @brief returns (unique) id of current item
      */
     int getId() const;
 
-    /* @brief returns the length of the item on the timeline
+    /** @brief returns the length of the item on the timeline
      */
     virtual int getPlaytime() const = 0;
 
-    /* @brief returns the id of the track in which this items is inserted (-1 if none)
+    /** @brief returns the id of the track in which this items is inserted (-1 if none)
      */
     int getCurrentTrackId() const;
 
-    /* @brief returns the current position of the item (-1 if not inserted)
+    /** @brief returns the current position of the item (-1 if not inserted)
      */
     int getPosition() const;
 
-    /* @brief returns the in and out times of the item
+    /** @brief returns the in and out times of the item
      */
     std::pair<int, int> getInOut() const;
     virtual int getIn() const;
     virtual int getOut() const;
 
-    /* Set grab status */
+    /** @brief Set grab status */
     virtual void setGrab(bool grab) = 0;
 
     friend class TrackModel;
     friend class TimelineModel;
-    /* Implicit conversion operator to access the underlying producer
+    /** @brief Implicit conversion operator to access the underlying producer
      */
     operator Service &() { return *service(); }
 
-    /* Returns true if the underlying producer is valid
+    /** @brief Returns true if the underlying producer is valid
      */
     bool isValid();
 
-    /* @brief returns a property of the current item
+    /** @brief returns a property of the current item
      */
     virtual const QString getProperty(const QString &name) const = 0;
 
-    /* Set if the item is in grab state */
+    /** @brief Set if the item is in grab state */
     bool isGrabbed() const;
 
-    /* True if item is selected in timeline */
+    /** @brief True if item is selected in timeline */
     bool selected {false};
-    /* Set selected status */
+    /** @brief Set selected status */
     virtual void setSelected(bool sel) = 0;
 
 protected:
-    /* @brief Returns a pointer to the service. It may be used but do NOT store it*/
+    /** @brief Returns a pointer to the service. It may be used but do NOT store it*/
     virtual Service *service() const = 0;
 
-    /* @brief Performs a resize of the given item.
+    /** @brief Performs a resize of the given item.
        Returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        If a snap point is within reach, the operation will be coerced to use it.
@@ -101,28 +101,30 @@ protected:
     */
     virtual bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) = 0;
 
-    /* Updates the stored position of the item
+    /** @brief Updates the stored position of the item
       This function is meant to be called by the trackmodel, not directly by the user.
       If you wish to actually move the item, use the requestMove slot.
     */
     virtual void setPosition(int position);
-    /* Updates the stored track id of the item
+    /** @brief Updates the stored track id of the item
        This function is meant to be called by the timeline, not directly by the user.
        If you wish to actually change the track the item, use the slot in the timeline
        slot.
     */
     virtual void setCurrentTrackId(int tid, bool finalMove = true);
 
-    /* Set in and out of service */
+    /** @brief Set in and out of service */
     virtual void setInOut(int in, int out);
 
 protected:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; // this is the creation id of the item, used for book-keeping
+    /** @brief this is the creation id of the item, used for book-keeping */
+    int m_id;
     int m_position;
     int m_currentTrackId;
     bool m_grabbed;
-    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
 };
 
 #include "moveableItem.ipp"

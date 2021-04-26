@@ -123,7 +123,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.description = metadata->get("description") ? i18n(metadata->get("description")) + QString(" (%1)").arg(id) : id;
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
-            res.version = ceil(100 * metadata->get_double("version"));
+            res.version = int(ceil(100 * metadata->get_double("version")));
             res.id = res.mltId = assetId;
             parseType(metadata, res);
             // Create params
@@ -132,11 +132,11 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             eff.setAttribute(QStringLiteral("tag"), id);
             eff.setAttribute(QStringLiteral("id"), id);
 
-            Mlt::Properties param_props((mlt_properties)metadata->get_data("parameters"));
+            Mlt::Properties param_props(mlt_properties(metadata->get_data("parameters")));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
                 QDomElement params = doc.createElement(QStringLiteral("parameter"));
 
-                Mlt::Properties paramdesc((mlt_properties)param_props.get_data(param_props.get_name(j)));
+                Mlt::Properties paramdesc(mlt_properties(param_props.get_data(param_props.get_name(j))));
                 params.setAttribute(QStringLiteral("name"), paramdesc.get("identifier"));
                 if (params.attribute(QStringLiteral("name")) == QLatin1String("argument")) {
                     // This parameter has to be given as attribute when using command line, do not show it in Kdenlive
@@ -256,9 +256,9 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::exists(c
 template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRepository<AssetType>::getNames() const
 {
     QVector<QPair<QString, QString>> res;
-    res.reserve((int)m_assets.size());
+    res.reserve(int(m_assets.size()));
     for (const auto &asset : m_assets) {
-        if (((int) (asset.second.type) == -1) || (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit.")))) {
+        if ((int(asset.second.type) == -1) || (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit.")))) {
             // Hide GPU effects/compositions when movit disabled
             continue;
         }
@@ -310,7 +310,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Check if there is a maximal version set
     if (currentAsset.hasAttribute(QStringLiteral("version"))) {
         // a specific version of the filter is required
-        if (m_assets.at(tag).version < (int)(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
+        if (m_assets.at(tag).version < int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
             return false;
         }
     }

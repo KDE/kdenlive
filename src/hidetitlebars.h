@@ -19,7 +19,6 @@ class QAction;
  * @class HideTitleBars
  * @brief Handles functionality to switch the title bars of the dock widgets on/off.
  */
-
 class HideTitleBars : public QObject
 {
     Q_OBJECT

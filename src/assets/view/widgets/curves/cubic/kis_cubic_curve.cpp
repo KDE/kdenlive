@@ -121,7 +121,6 @@ public:
     explicit KisCubicSpline(const QList<T_point> &a)
         : m_begin(0)
         , m_end(0)
-        , m_intervals(0)
     {
         createSpline(a);
     }
@@ -181,7 +180,7 @@ public:
     }
 
     /**
-     * Get value of precalculated spline in the point @x
+     * @brief Get value of precalculated spline in the point at \@x
      */
     T getValue(T x) const
     {
@@ -197,8 +196,8 @@ public:
 
 protected:
     /**
-     * findRegion - Searches for the region containing @x
-     * @x0 - out parameter, containing beginning of the region
+     * @brief findRegion - Searches for the region containing \@x
+     * @param x - out parameter, containing beginning of the region
      * @return - index of the region
      */
     int findRegion(T x, T &x0) const
@@ -289,7 +288,7 @@ qreal KisCubicCurve::Data::value(qreal x)
      */
     x = qBound(spline.begin(), x, spline.end());
     qreal y = spline.getValue(x);
-    return qBound((qreal)0.0, y, (qreal)1.0);
+    return qBound(qreal(0.0), y, qreal(1.0));
 }
 
 template <typename _T_, typename _T2_> void KisCubicCurve::Data::updateTransfer(QVector<_T_> *transfer, bool &valid, _T2_ min, _T2_ max, int size)

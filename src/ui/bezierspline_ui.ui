@@ -1,279 +1,214 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>BezierSpline_UI</class>
-    <widget class="QWidget" name="BezierSpline_UI">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>230</width>
-                <height>118</height>
-            </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-            <property name="leftMargin">
-                <number>0</number>
-            </property>
-            <property name="topMargin">
-                <number>0</number>
-            </property>
-            <property name="rightMargin">
-                <number>0</number>
-            </property>
-            <property name="bottomMargin">
-                <number>0</number>
-            </property>
-            <property name="spacing">
-                <number>0</number>
-            </property>
-            <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                    <item>
-                        <widget class="QWidget" name="widgetPoint" native="true">
-                            <property name="sizePolicy">
-                                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <layout class="QGridLayout" name="gridLayout_2">
-                                <property name="leftMargin">
-                                    <number>0</number>
-                                </property>
-                                <property name="topMargin">
-                                    <number>0</number>
-                                </property>
-                                <property name="rightMargin">
-                                    <number>0</number>
-                                </property>
-                                <property name="bottomMargin">
-                                    <number>0</number>
-                                </property>
-                                <property name="spacing">
-                                    <number>0</number>
-                                </property>
-                                <item row="0" column="0" colspan="3">
-                                    <widget class="QWidget" name="widget" native="true">
-                                        <property name="minimumSize">
-                                            <size>
-                                                <width>0</width>
-                                                <height>20</height>
-                                            </size>
-                                        </property>
-                                        <layout class="QHBoxLayout" name="horizontalLayout">
-                                            <property name="leftMargin">
-                                                <number>0</number>
-                                            </property>
-                                            <property name="topMargin">
-                                                <number>0</number>
-                                            </property>
-                                            <property name="rightMargin">
-                                                <number>0</number>
-                                            </property>
-                                            <property name="bottomMargin">
-                                                <number>0</number>
-                                            </property>
-                                            <item>
-                                                <layout class="QHBoxLayout" name="layoutP"/>
-                                            </item>
-                                        </layout>
-                                    </widget>
-                                </item>
-                            </layout>
-                        </widget>
-                    </item>
-                    <item>
-                        <widget class="QToolButton" name="buttonDeletePoint">
-                            <property name="toolTip">
-                                <string>Delete current point</string>
-                            </property>
-                            <property name="text">
-                                <string>...</string>
-                            </property>
-                            <property name="autoRaise">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                    </item>
-                    <item row="1" column="0">
-                        <layout class="QGridLayout" name="handlesLayout">
-                            <property name="spacing">
-                                <number>0</number>
-                            </property>
-                            <item row="0" column="0">
-                                <layout class="QHBoxLayout" name="layoutH1"/>
-                            </item>
-                            <item row="0" column="1">
-                                <widget class="QToolButton" name="buttonLinkHandles">
-                                    <property name="toolTip">
-                                        <string>Link the handles' position for current point.&lt;br /&gt;Results in a natural spline.</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="checkable">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item row="1" column="0">
-                                <layout class="QHBoxLayout" name="layoutH2"/>
-                            </item>
-                        </layout>
-                    </item>
-                    <item row="2" column="0" colspan="3">
-                        <layout class="QHBoxLayout" name="horizontalLayout_4">
-                            <item>
-                                <widget class="QToolButton" name="buttonResetSpline">
-                                    <property name="toolTip">
-                                        <string>Reset the selected spline</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QToolButton" name="buttonShowPixmap">
-                                    <property name="toolTip">
-                                        <string>Show background indicating changes caused by modifying the curve.</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="checkable">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="checked">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QToolButton" name="buttonGridChange">
-                                    <property name="toolTip">
-                                        <string>Increases the number of lines in the grid.&lt;br /&gt;After 8 lines it will begin from 0 again.</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QToolButton" name="buttonZoomIn">
-                                    <property name="toolTip">
-                                        <string>Zoom in</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QToolButton" name="buttonZoomOut">
-                                    <property name="toolTip">
-                                        <string>Zoom out</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QToolButton" name="buttonShowAllHandles">
-                                    <property name="toolTip">
-                                        <string>Show handles for all points or only for the selected one</string>
-                                    </property>
-                                    <property name="text">
-                                        <string>...</string>
-                                    </property>
-                                    <property name="checkable">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="checked">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="autoRaise">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                        </layout>
-                    </item>
-                </layout>
-            </item>
-            <item row="2" column="3">
-                <spacer name="spacer">
-                    <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                        <size>
-                            <width>40</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                </spacer>
-            </item>
-            <item row="3" column="1">
-                <spacer name="verticalSpacer">
-                    <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                        <size>
-                            <width>20</width>
-                            <height>1</height>
-                        </size>
-                    </property>
-                </spacer>
-            </item>
-            <item row="1" column="1" colspan="3">
-                <spacer name="horizontalSpacer_3">
-                    <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                        <size>
-                            <width>150</width>
-                            <height>43</height>
-                        </size>
-                    </property>
-                </spacer>
-            </item>
-            <item row="0" column="1" colspan="3">
-                <spacer name="horizontalSpacer_2">
-                    <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                        <size>
-                            <width>177</width>
-                            <height>33</height>
-                        </size>
-                    </property>
-                </spacer>
-            </item>
-        </layout>
-    </widget>
-    <resources/>
-    <connections/>
+ <class>BezierSpline_UI</class>
+ <widget class="QWidget" name="BezierSpline_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>292</width>
+    <height>36</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="widgetPoint">
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="layoutP"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonDeletePoint">
+       <property name="toolTip">
+        <string>Delete current point</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="handlesLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="layoutH1"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QToolButton" name="buttonLinkHandles">
+         <property name="toolTip">
+          <string>Link the handles' position for current point.&lt;br /&gt;Results in a natural spline.</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="layoutH2"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QToolButton" name="buttonResetSpline">
+         <property name="toolTip">
+          <string>Reset the selected spline</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonShowPixmap">
+         <property name="toolTip">
+          <string>Show background indicating changes caused by modifying the curve.</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonGridChange">
+         <property name="toolTip">
+          <string>Increases the number of lines in the grid.&lt;br /&gt;After 8 lines it will begin from 0 again.</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonZoomIn">
+         <property name="toolTip">
+          <string>Zoom in</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonZoomOut">
+         <property name="toolTip">
+          <string>Zoom out</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonShowAllHandles">
+         <property name="toolTip">
+          <string>Show handles for all points or only for the selected one</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>

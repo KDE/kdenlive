@@ -24,7 +24,7 @@
 
 #include "abstractmodel/abstracttreemodel.hpp"
 
-/* @brief This class represents an effect hierarchy to be displayed as a tree
+/** @brief This class represents an effect hierarchy to be displayed as a tree
  */
 class TreeItem;
 class QMenu;

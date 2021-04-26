@@ -60,17 +60,18 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
     }
 
+#if false
+    // Debut test  stuff. Warning, assets can also come from TransitionsRepository depending on owner type
     if (EffectsRepository::get()->exists(assetId)) {
         qDebug() << "Asset " << assetId << " found in the repository. Description: " << EffectsRepository::get()->getDescription(assetId);
-#if false
         QString str;
         QTextStream stream(&str);
         EffectsRepository::get()->getXml(assetId).save(stream, 4);
         qDebug() << "Asset XML: " << str;
-#endif
     } else {
         qDebug() << "Asset not found in repo: " << assetId;
     }
+#endif
 
     qDebug() << "XML parsing of " << assetId << ". found" << parameterNodes.count() << "parameters";
 
@@ -165,6 +166,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::Animated: // Fine because unsupported
                 case ParamType::Addedgeometry: // Fine because unsupported
                 case ParamType::Url:
+                case ParamType::UrlList:
                     // All fine
                     converted = false;
                     break;
@@ -381,7 +383,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         emit modelChanged();
     }
     if (updateChildRequired) {
-        emit updateChildren(name);
+        emit updateChildren({name});
     }
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {
@@ -432,6 +434,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case ParentInRole:
         return pCore->getItemIn(m_ownerId);
     case ParentDurationRole:
+        if (m_asset->get_int("kdenlive:force_in_out") == 1) {
+            // Zone effect, return effect length
+            return m_asset->get_int("out") - m_asset->get_int("in");
+        }
         return pCore->getItemDuration(m_ownerId);
     case ParentPositionRole:
         return pCore->getItemPosition(m_ownerId);
@@ -640,14 +646,14 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
-            double factor = (double)width / frameSize.width() * pCore->getCurrentSar();
-            contentHeight = (int)(height * factor + 0.5);
+            double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
+            contentHeight = int(height * factor + 0.5);
             contentWidth = width;
         } else {
             // Fit to height
-            double factor = (double)height / frameSize.height();
+            double factor = double(height) / frameSize.height();
             contentHeight = height;
-            contentWidth =(int)(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
+            contentWidth =int(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
         }
         // Center
         content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);
@@ -757,7 +763,7 @@ bool AssetParameterModel::isActive() const
 QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 {
     QVector<QPair<QString, QVariant>> res;
-    res.reserve((int)m_fixedParams.size() + (int)m_params.size());
+    res.reserve(int(m_fixedParams.size() + m_params.size()));
     for (const auto &fixed : m_fixedParams) {
         res.push_back(QPair<QString, QVariant>(fixed.first, fixed.second));
     }

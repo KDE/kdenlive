@@ -117,7 +117,7 @@ QStringList TransitionsRepository::assetDirs() const
 
 void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
-    Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
+    Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");
 
     if (getSingleTrackTransitions().contains(res.id)) {

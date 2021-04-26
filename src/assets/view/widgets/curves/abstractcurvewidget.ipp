@@ -20,6 +20,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QResizeEvent>
+#include <QFontInfo>
 
 template <typename Curve_t>
 AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
@@ -30,7 +31,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     setMouseTracking(true);
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
-    setMinimumSize(150, 150);
+    setMinimumSize(150, QFontInfo(font()).pixelSize() * 12);
     QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
@@ -44,8 +45,8 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(Q
      */
     m_wWidth = width() - 1;
     m_wHeight = height() - 1;
-    int offsetX = 1 / 8. * m_zoomLevel * m_wWidth;
-    int offsetY = 1 / 8. * m_zoomLevel * m_wHeight;
+    int offsetX = int(1 / 8. * m_zoomLevel * m_wWidth);
+    int offsetY = int(1 / 8. * m_zoomLevel * m_wHeight);
     m_wWidth -= 2 * offsetX;
     m_wHeight -= 2 * offsetY;
 
@@ -88,8 +89,8 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(Q
      * Grid
      */
     if (m_gridLines != 0) {
-        double stepH = m_wWidth / (double)(m_gridLines + 1);
-        double stepV = m_wHeight / (double)(m_gridLines + 1);
+        double stepH = m_wWidth / double(m_gridLines + 1);
+        double stepV = m_wHeight / double(m_gridLines + 1);
         for (int i = 1; i <= m_gridLines; ++i) {
             p->drawLine(QLineF(i * stepH, 0, i * stepH, m_wHeight));
             p->drawLine(QLineF(0, i * stepV, m_wWidth, i * stepV));

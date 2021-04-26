@@ -20,17 +20,18 @@
  ***************************************************************************/
 
 #include "textbasededit.h"
-#include "monitor/monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
-#include "bin/projectsubclip.h"
 #include "bin/projectitemmodel.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+#include "bin/projectsubclip.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "timecodedisplay.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
+#include <memory>
 #include <profiles/profilemodel.hpp>
 
 #include "klocalizedstring.h"
@@ -43,8 +44,6 @@
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)
-    , m_hoveredBlock(-1)
-    , m_lastClickedBlock(-1)
 {
     setMouseTracking(true);
     setReadOnly(true);
@@ -433,16 +432,16 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
     int additional_margin;
     if (blockNumber == 0)
         // Simply adjust to document's margin
-        additional_margin = (int) this->document()->documentMargin() -1 - this->verticalScrollBar()->sliderPosition();
+        additional_margin = int(this->document()->documentMargin()) -1 - this->verticalScrollBar()->sliderPosition();
     else
         // Getting the height of the visible part of the previous "non entirely visible" block
-        additional_margin = (int) this->document()->documentLayout()->blockBoundingRect(prev_block)
-                .translated(0, translate_y).intersected(this->viewport()->geometry()).height();
+        additional_margin = int(this->document()->documentLayout()->blockBoundingRect(prev_block)
+                .translated(0, translate_y).intersected(this->viewport()->geometry()).height());
 
     // Shift the starting point
     top += additional_margin;
 
-    int bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+    int bottom = top + int(this->document()->documentLayout()->blockBoundingRect(block).height());
 
     QColor col_2 = palette().link().color();
     QColor col_1 = palette().highlightedText().color();
@@ -467,7 +466,7 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
 
         block = block.next();
         top = bottom;
-        bottom = top + (int) this->document()->documentLayout()->blockBoundingRect(block).height();
+        bottom = top + int(this->document()->documentLayout()->blockBoundingRect(block).height());
         ++blockNumber;
     }
 
@@ -524,11 +523,17 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
                 // Selection already ends with a space
                 return;
             }
-            qDebug()<<"=== LAST CHARACTER: "<<document()->characterAt(end);
-            cursor.setPosition(start);
-            cursor.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
-            cursor.setPosition(end, QTextCursor::KeepAnchor);
-            cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            QTextBlock 	bk = cursor.block();
+            if (bk.text().simplified() == i18n("No speech")) {
+                // This is a silence block, select all
+                cursor.movePosition(QTextCursor::StartOfBlock, QTextCursor::MoveAnchor);
+                cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            } else {
+                cursor.setPosition(start);
+                cursor.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
+                cursor.setPosition(end, QTextCursor::KeepAnchor);
+                cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+            }
             pos = cursor.position();
             if (!cursor.atBlockEnd() && document()->characterAt(pos - 1) != QLatin1Char(' ')) {
                 // Remove trailing space
@@ -541,7 +546,7 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
             repaintLines();
         }
     } else {
-        qDebug()<<"==== NO LEF TCLICK!";
+        qDebug()<<"==== NO LEFT CLICK!";
     }
 }
 
@@ -561,19 +566,17 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
-    , m_clipDuration(0.)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
-    vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    vosk_config->setToolTip(i18n("Configure speech recognition"));
-    connect(vosk_config, &QToolButton::clicked, [this]() {
+    m_voskConfig = new QAction(i18n("Configure"), this);
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
 
     // Visual text editor
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->setContentsMargins(0, 0, 0, 0);
     m_visualEditor = new VideoTextEdit(this);
     m_visualEditor->installEventFilter(this);
@@ -598,20 +601,16 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(button_abort, &QToolButton::clicked, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
+        } else if (m_tCodeJob && m_tCodeJob->state() == QProcess::Running) {
+            m_tCodeJob->kill();
         }
     });
-    connect(pCore.get(), &Core::updateVoskAvailability, this, &TextBasedEdit::updateAvailability);
     connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
-        updateAvailability();
         if (models.isEmpty()) {
-            showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information);
-            vosk_config->setVisible(true);
+            showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
         } else {
-            if (KdenliveSettings::vosk_found()) {
-                vosk_config->setVisible(false);
-            }
             if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
                 int ix = language_box->findText(KdenliveSettings::vosk_text_model());
                 if (ix > -1) {
@@ -631,7 +630,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
-    connect(speech_zone, &QCheckBox::stateChanged, [this](int state) {
+    connect(speech_zone, &QCheckBox::stateChanged, [](int state) {
         KdenliveSettings::setSpeech_zone(state == Qt::Checked);
     });
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
@@ -730,6 +729,14 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     parseVoskDictionaries();
 }
 
+TextBasedEdit::~TextBasedEdit()
+{
+    if (m_speechJob && m_speechJob->state() == QProcess::Running) {
+        m_speechJob->kill();
+        m_speechJob->waitForFinished();
+    }
+}
+
 bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
@@ -757,17 +764,24 @@ void TextBasedEdit::startRecognition()
     m_errorString.clear();
     m_visualEditor->cleanup();
     //m_visualEditor->insertHtml(QStringLiteral("<body>"));
-
-    info_message->removeAction(m_logAction);
+#ifdef Q_OS_WIN
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+#endif
     if (pyExec.isEmpty()) {
         showMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
+        return;
+    }
+
+    if (!KdenliveSettings::vosk_found()) {
+        showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
         return;
     }
     // Start python script
     QString language = language_box->currentText();
     if (language.isEmpty()) {
-        showMessage(i18n("Please install a language model."), KMessageWidget::Warning);
+        showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
         return;
     }
     QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speechtotext.py"));
@@ -778,21 +792,11 @@ void TextBasedEdit::startRecognition()
     m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
     if (clip == nullptr) {
-        showMessage(i18n("Select a clip in Project Bin."), KMessageWidget::Information);
+        showMessage(i18n("Select a clip with audio in Project Bin."), KMessageWidget::Information);
         return;
     }
 
-    m_speechJob.reset(new QProcess(this));
-/*
-#ifdef Q_OS_WIN
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QDir pythonDir(QFileInfo(pyExec).absolutePath());
-    env.insert("PYTHONHOME", pythonDir.absolutePath());
-    pythonDir.cd(QStringLiteral("Lib"));
-    env.insert("PYTHONPATH", pythonDir.absolutePath());
-    m_speechJob->setProcessEnvironment(env);
-#endif
-*/
+    m_speechJob = std::make_unique<QProcess>(this);
     showMessage(i18n("Starting speech recognition"), KMessageWidget::Information);
     qApp->processEvents();
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
@@ -806,11 +810,13 @@ void TextBasedEdit::startRecognition()
     m_clipOffset = 0;
     m_lastPosition = 0;
     double endPos = 0;
+    bool hasAudio = false;
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
         if (clipItem) {
             m_sourceUrl = clipItem->url();
             clipName = clipItem->clipName();
+            hasAudio = clipItem->hasAudio();
             if (speech_zone->isChecked()) {
                 // Analyse clip zone only
                 QPoint zone = clipItem->zone();
@@ -827,6 +833,7 @@ void TextBasedEdit::startRecognition()
         if (clipItem) {
             auto master = clipItem->getMasterClip();
             m_sourceUrl = master->url();
+            hasAudio = master->hasAudio();
             clipName = master->clipName();
             QPoint zone = clipItem->zone();
             m_lastPosition = zone.x();
@@ -835,42 +842,82 @@ void TextBasedEdit::startRecognition()
             endPos = m_clipDuration;
         }
     }
-    if (m_sourceUrl.isEmpty()) {
-        showMessage(i18n("Select a clip for speech recognition."), KMessageWidget::Information);
+    if (m_sourceUrl.isEmpty() || !hasAudio) {
+        showMessage(i18n("Select a clip with audio for speech recognition."), KMessageWidget::Information);
         return;
     }
-    showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
     clipNameLabel->setText(clipName);
-    qApp->processEvents();
-    connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
-    connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
-    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
-    qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_clipOffset<<", DUR: "<<endPos;
-    button_add->setEnabled(false);
-    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
-    speech_progress->setValue(0);
-    frame_progress->setVisible(true);
-}
+    if (clip->clipType() == ClipType::Playlist) {
+        // We need to extract audio first
+        m_playlistWav.remove();
+        m_playlistWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
+        if (!m_playlistWav.open()) {
+            showMessage(i18n("Cannot create temporary file."), KMessageWidget::Warning);
+            return;
+        }
+        m_playlistWav.close();
 
-void TextBasedEdit::updateAvailability()
-{
-    bool enabled = KdenliveSettings::vosk_found() && language_box->count() > 0;
-    button_start->setEnabled(enabled);
-    vosk_config->setVisible(!enabled);
+        showMessage(i18n("Extracting audio for %1.", clipName), KMessageWidget::Information);
+        qApp->processEvents();
+        m_tCodeJob = std::make_unique<QProcess>(this);
+        m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+            Q_UNUSED(code)
+            qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";
+            if (status == QProcess::CrashExit) {
+                showMessage(i18n("Audio extract failed."), KMessageWidget::Warning);
+                speech_progress->setValue(0);
+                frame_progress->setVisible(false);
+                m_playlistWav.remove();
+                return;
+            }
+            showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
+            qApp->processEvents();
+            connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
+            connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
+            connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this](int code, QProcess::ExitStatus status) {
+                m_playlistWav.remove();
+                slotProcessSpeechStatus(code, status);
+            });
+            m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_playlistWav.fileName(), QString::number(m_clipOffset), QString::number(endPos)});
+            speech_progress->setValue(0);
+            frame_progress->setVisible(true);
+        });
+        connect(m_tCodeJob.get(), &QProcess::readyReadStandardOutput, [this]() {
+            QString saveData = QString::fromUtf8(m_tCodeJob->readAllStandardOutput());
+            qDebug()<<"+GOT OUTUT: "<<saveData;
+            saveData = saveData.section(QStringLiteral("percentage:"), 1).simplified();
+            int percent = saveData.section(QLatin1Char(' '), 0, 0).toInt();
+            speech_progress->setValue(percent);
+        });
+        m_tCodeJob->start(KdenliveSettings::rendererpath(), {QStringLiteral("-progress"), m_sourceUrl, QStringLiteral("-consumer"), QString("avformat:%1").arg(m_playlistWav.fileName()), QStringLiteral("vn=1"), QStringLiteral("ar=16000")});
+        speech_progress->setValue(0);
+        frame_progress->setVisible(true);
+    } else {
+        showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
+        qApp->processEvents();
+        connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
+        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
+        connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TextBasedEdit::slotProcessSpeechStatus);
+        qDebug()<<"=== STARTING RECO: "<<speechScript<<" / "<<modelDirectory<<" / "<<language<<" / "<<m_sourceUrl<<", START: "<<m_clipOffset<<", DUR: "<<endPos;
+        button_add->setEnabled(false);
+        m_speechJob->start(pyExec, {speechScript, modelDirectory, language, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
+        speech_progress->setValue(0);
+        frame_progress->setVisible(true);
+    }
 }
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 {
     if (status == QProcess::CrashExit) {
-        if (!m_errorString.isEmpty()) {
-            info_message->addAction(m_logAction);
-        }
-        showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning);
+        showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else if (m_visualEditor->toPlainText().isEmpty()) {
-        if (!m_errorString.isEmpty()) {
-            info_message->addAction(m_logAction);
+        if (m_errorString.contains(QStringLiteral("ModuleNotFoundError"))) {
+            showMessage(i18n("Error, please check the speech to text configuration."), KMessageWidget::Warning, m_voskConfig);
+        } else {
+            showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
         }
-        showMessage(i18n("No speech detected."), KMessageWidget::Information);
     } else {
         button_add->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
@@ -1067,7 +1114,7 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("kdenlive:baseid"), m_binId);
     QStringList playZones;
-    for (const auto&p : zones) {
+    for (const auto&p : qAsConst(zones)) {
         playZones << QString("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
@@ -1090,15 +1137,26 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     }
 }
 
-void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType type)
+void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action)
 {
+    if (m_currentMessageAction != nullptr && (action == nullptr || action != m_currentMessageAction)) {
+        info_message->removeAction(m_currentMessageAction);
+        m_currentMessageAction = action;
+        if (m_currentMessageAction) {
+            info_message->addAction(m_currentMessageAction);
+        }
+    } else if (action) {
+        m_currentMessageAction = action;
+        info_message->addAction(m_currentMessageAction);
+    }
+
     if (info_message->isVisible()) {
         m_hideTimer.stop();
     }
     info_message->setMessageType(type);
     info_message->setText(text);
     info_message->animatedShow();
-    if (type != KMessageWidget::Error) {
+    if (type != KMessageWidget::Error && m_currentMessageAction == nullptr) {
         m_hideTimer.start();
     }
 }
@@ -1128,7 +1186,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
                 clipNameLabel->setText(refClip->clipName());
             }
             QStringList zones = clip->getProducerProperty("kdenlive:cutzones").split(QLatin1Char(';'));
-            for (const QString &z : zones) {
+            for (const QString &z : qAsConst(zones)) {
                 cutZones << QPoint(z.section(QLatin1Char(':'), 0, 0).toInt(), z.section(QLatin1Char(':'), 1, 1).toInt());
             }
         } else {

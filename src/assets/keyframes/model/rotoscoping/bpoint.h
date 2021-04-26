@@ -21,10 +21,9 @@
 
 #include <QPointF>
 
-/**
+/** @class BPoint
  * @brief Represents a point in a cubic Bézier spline.
  */
-
 class BPoint
 {
 public:

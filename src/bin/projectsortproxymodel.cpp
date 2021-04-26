@@ -26,9 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
-    , m_searchType(0)
-    , m_searchRating(0)
-    , m_unusedFilter(false)
 {
     m_collator.setLocale(QLocale()); // Locale used for sorting → OK
     m_collator.setCaseSensitivity(Qt::CaseInsensitive);

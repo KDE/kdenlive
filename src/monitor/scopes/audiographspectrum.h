@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class AudioGraphSpectrum
- * @brief An audio spectrum
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
 
@@ -49,6 +43,10 @@ public:
 
 };*/
 
+/** @class AudioGraphWidget
+    @brief \@todo Describe class AudioGraphWidget
+    @todo Describe class AudioGraphWidget
+ */
 class AudioGraphWidget : public QWidget
 {
     Q_OBJECT
@@ -57,14 +55,14 @@ public:
     void drawBackground();
 
 public slots:
-    void showAudio(const QVector<double> &bands);
+    void showAudio(const QVector<float> &bands);
 
 protected:
     void paintEvent(QPaintEvent *pe) override;
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    QVector<double> m_levels;
+    QVector<float> m_levels;
     QVector<int> m_dbLabels;
     QStringList m_freqLabels;
     QPixmap m_pixmap;
@@ -74,6 +72,10 @@ private:
     void drawChanLabels(QPainter &p, const QRect &rect, int barWidth);
 };
 
+/** @class AudioGraphSpectrum
+    @brief An audio spectrum
+    @author Jean-Baptiste Mardelle
+ */
 class AudioGraphSpectrum : public ScopeWidget
 {
     Q_OBJECT

@@ -90,7 +90,7 @@ public:
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void init();
+    void init(const QString &mltPath);
     ~MainWindow() override;
 
     /** @brief Cache for luma files thumbnails. */
@@ -131,6 +131,9 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+
+    /** @brief Returns true if a timeline widget is available */
+    bool hasTimeline() const;
     
     /** @brief Returns true if the timeline widget is visible */
     bool timelineVisible() const;
@@ -315,6 +318,10 @@ public slots:
     void slotDownloadResources();
     void slotEditSubtitle(QMap<QString, QString> subProperties = {});
     void slotTranscode(const QStringList &urls = QStringList());
+    /** @brief Add subtitle clip to timeline */
+    void slotAddSubtitle(const QString &text = QString());
+    /** @brief Ensure subtitle track is displayed */
+    void showSubtitleTrack();
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -528,8 +535,6 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
-    /** @brief Add subtitle clip to timeline */
-    void slotAddSubtitle();
     /** @brief Enable/disable subtitle track */
     void slotDisableSubtitle();
     /** @brief Lock / unlock subtitle track */
@@ -540,6 +545,8 @@ private slots:
     void slotExportSubtitle();
     /** @brief Start a speech recognition on timeline zone */
     void slotSpeechRecognition();
+    /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */
+    void slotCopyDebugInfo();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

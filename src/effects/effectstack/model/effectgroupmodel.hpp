@@ -26,26 +26,26 @@
 #include "abstractmodel/treeitem.hpp"
 
 class EffectStackModel;
-/* @brief This represents a group of effects of the effectstack
+/** @brief This represents a group of effects of the effectstack
  */
 class EffectGroupModel : public AbstractEffectItem
 {
 
 public:
-    /* This construct an effect of the given id
+    /** @brief This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
     static std::shared_ptr<EffectGroupModel> construct(const QString &name, std::shared_ptr<AbstractTreeModel> stack, bool isRoot = false);
 
-    /* @brief Return true if the effect applies only to audio */
+    /** @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
     bool isUnique() const override;
 
-    /* @brief This function plants the effect into the given service in last position
+    /** @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
     void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
-    /* @brief This function unplants (removes) the effect from the given service
+    /** @brief This function unplants (removes) the effect from the given service
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
     void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;

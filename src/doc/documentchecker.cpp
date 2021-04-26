@@ -219,7 +219,7 @@ bool DocumentChecker::hasErrorInClips()
             QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
             QStringList images = TitleWidget::extractImageList(xml);
             QStringList fonts = TitleWidget::extractFontList(xml);
-            checkMissingImagesAndFonts(images, fonts, e.attribute(QStringLiteral("id")), e.attribute(QStringLiteral("name")));
+            checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
             continue;
         }
         QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
@@ -552,7 +552,7 @@ bool DocumentChecker::hasErrorInClips()
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
-        item->setData(0, clipTypeRole, (int)type);
+        item->setData(0, clipTypeRole, int(type));
         item->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         item->setToolTip(0, i18n("Missing item"));
 
@@ -566,6 +566,7 @@ bool DocumentChecker::hasErrorInClips()
                 if (imageResource.startsWith(m_rootReplacement.first)) {
                     imageResource.replace(m_rootReplacement.first, m_rootReplacement.second);
                     if (QFile::exists(imageResource)) {
+                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                         item->setData(0, statusRole, CLIPOK);
                         item->setToolTip(0, i18n("Relocated item"));
                     }
@@ -583,6 +584,7 @@ bool DocumentChecker::hasErrorInClips()
                 if (resource.startsWith(m_rootReplacement.first)) {
                     resource.replace(m_rootReplacement.first, m_rootReplacement.second);
                     if (QFile::exists(resource)) {
+                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                         item->setData(0, statusRole, CLIPOK);
                         item->setToolTip(0, i18n("Relocated item"));
                     }
@@ -833,6 +835,7 @@ void DocumentChecker::slotCheckClips()
         QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
         const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
         if (newpath.isEmpty()) {
+            m_checkRunning = false;
             return;
         }
         slotSearchClips(newpath);
@@ -869,7 +872,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
             }
         } else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             bool perfectMatch = true;
-            ClipType::ProducerType type = (ClipType::ProducerType)child->data(0, clipTypeRole).toInt();
+            ClipType::ProducerType type = ClipType::ProducerType(child->data(0, clipTypeRole).toInt());
             QString clipPath;
             if (type != ClipType::SlideShow) {
                 // Slideshows cannot be found with hash / size
@@ -1114,7 +1117,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     //|| t == TITLE_IMAGE_ELEMENT) {
-    ClipType::ProducerType type = (ClipType::ProducerType)item->data(0, clipTypeRole).toInt();
+    ClipType::ProducerType type = ClipType::ProducerType(item->data(0, clipTypeRole).toInt());
     QUrl url;
     if (type == ClipType::SlideShow) {
         QString path = QFileInfo(item->text(1)).dir().absolutePath();
@@ -1156,6 +1159,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     }
     if (fixed || QFile::exists(url.toLocalFile())) {
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+        item->setToolTip(0, i18n("Relocated item"));
         int id = item->data(0, statusRole).toInt();
         if (id < 10) {
             item->setData(0, statusRole, CLIPOK);
@@ -1410,11 +1414,11 @@ void DocumentChecker::slotPlaceholders()
     while (child != nullptr) {
         if (child->data(0, statusRole).toInt() == CLIPMISSING) {
             child->setData(0, statusRole, CLIPPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
             child->setData(0, statusRole, LUMAPLACEHOLDER);
-            child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
         }
+        child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
@@ -1535,6 +1539,9 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             e.setAttribute(QStringLiteral("resource"), img);
             e.setAttribute(QStringLiteral("id"), id);
             e.setAttribute(QStringLiteral("name"), baseClip);
+            QMap<QString, QString> properties;
+            properties.insert("kdenlive:id", id);
+            Xml::addXmlProperties(e, properties);
             m_missingClips.append(e);
         } else {
             m_safeImages.append(img);

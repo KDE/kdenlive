@@ -101,7 +101,7 @@ void LumaLiftGainParam::updateEffect(QDomElement &effect)
             continue;
         }
         if (values.contains(pa.attribute(QStringLiteral("name")))) {
-            pa.setAttribute(QStringLiteral("value"), (int)(values.value(pa.attribute(QStringLiteral("name"))) *
+            pa.setAttribute(QStringLiteral("value"), int(values.value(pa.attribute(QStringLiteral("name"))) *
                                                            pa.attribute(QStringLiteral("factor"), QStringLiteral("1")).toDouble()));
         }
     }

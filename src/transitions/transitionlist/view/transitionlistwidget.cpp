@@ -104,11 +104,11 @@ void TransitionListWidget::downloadNewLumas()
     }
 }
 
-void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &path)
+void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &)
 {
 }
 
-void TransitionListWidget::editCustomAsset(const QModelIndex &index)
+void TransitionListWidget::editCustomAsset(const QModelIndex &)
 {
 
 }

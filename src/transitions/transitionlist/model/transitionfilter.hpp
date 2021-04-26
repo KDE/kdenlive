@@ -26,7 +26,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include <memory>
 
-/* @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type).
+/** @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type).
    It simply adds a filter of type
  */
 class TransitionFilter : public AssetFilter
@@ -36,7 +36,7 @@ class TransitionFilter : public AssetFilter
 public:
     TransitionFilter(QObject *parent = nullptr);
 
-    /* @brief Manage the type filter
+    /** @brief Manage the type filter
        @param enabled whether to enable this filter
        @param type Effect type to display
     */

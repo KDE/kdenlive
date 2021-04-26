@@ -19,6 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include <KLocalizedContext>
+
 #include "builtstack.hpp"
 #include "assets/assetpanel.hpp"
 #include "core.h"
@@ -35,10 +37,10 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     , m_model(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
-    QQmlEngine *eng = engine();
-    kdeclarative.setDeclarativeEngine(eng);
-    kdeclarative.setupEngine(eng);
-    kdeclarative.setupContext();
+    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setupEngine(engine());
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+
     // qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);
@@ -56,7 +58,7 @@ void BuiltStack::setModel(const std::shared_ptr<EffectStackModel> &model, Object
 {
     m_model = model;
     if (ownerId.first == ObjectType::TimelineClip) {
-        QVariant current_speed((int)(100.0 * pCore->getClipSpeed(ownerId.second)));
+        QVariant current_speed(int(100.0 * pCore->getClipSpeed(ownerId.second)));
         qDebug() << " CLIP SPEED OFR: " << ownerId.second << " = " << current_speed;
         QMetaObject::invokeMethod(rootObject(), "setSpeed", Qt::QueuedConnection, Q_ARG(QVariant, current_speed));
     }

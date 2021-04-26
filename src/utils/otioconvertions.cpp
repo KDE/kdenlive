@@ -30,8 +30,7 @@
 #include <KMessageBox>
 
 OtioConvertions::OtioConvertions()
-{
-}
+= default;
 
 bool OtioConvertions::getOtioConverters()
 {
@@ -44,14 +43,19 @@ bool OtioConvertions::getOtioConverters()
                                    "listed in PATH environment variable"));
         return false;
     }
-    if(QStandardPaths::findExecutable(QStringLiteral("python3")).isEmpty()) {
+#ifdef Q_OS_WIN
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+#endif
+    if(pyExec.isEmpty()) {
         KMessageBox::error(pCore->window(), ("Could not find \"python3\" executable, needed for OpenTimelineIO adapters.\n"
                                    "If already installed, check it is installed in a directory"
                                    "listed in PATH environment variable"));
         return false;
     }
     QProcess listAdapters;
-    listAdapters.start(QStringLiteral("python3"));
+    listAdapters.start(pyExec,QStringList());
     listAdapters.write(QStringLiteral(
                            "from opentimelineio import *\n"
                            "for a in plugins.ActiveManifest().adapters:\n"

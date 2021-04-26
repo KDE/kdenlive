@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 import QtQuick 2.11
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.4
 import QtQml.Models 2.11
 
 Rectangle
@@ -42,7 +42,7 @@ Rectangle
     }
 
     Keys.onShortcutOverride: {
-        if (event.key == Qt.Key_Left) {
+        if (event.key === Qt.Key_Left) {
             if (event.modifiers & Qt.AltModifier) {
                 activeFrame = keyframes.itemAt(Math.max(0, --activeIndex)).frame
             } else {
@@ -56,7 +56,7 @@ Rectangle
             }
             event.accepted = true
         }
-        else if (event.key == Qt.Key_Right) {
+        else if (event.key === Qt.Key_Right) {
             if (event.modifiers & Qt.AltModifier) {
                 activeFrame = keyframes.itemAt(Math.min(keyframes.count - 1, ++activeIndex)).frame
             } else {
@@ -69,16 +69,16 @@ Rectangle
             }
             event.accepted = true
         }
-        else if (event.key == Qt.Key_Return || event.key == Qt.Key_Escape) {
+        else if (event.key === Qt.Key_Return || event.key === Qt.Key_Escape) {
             keyframeContainer.focus = false
             event.accepted = true
         }
-        if ((event.key == Qt.Key_Plus) && !(event.modifiers & Qt.ControlModifier)) {
+        if ((event.key === Qt.Key_Plus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.min(keyframes.itemAt(activeIndex).value / parent.height + .05, 1)
             kfrModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
         }
-        else if ((event.key == Qt.Key_Minus) && !(event.modifiers & Qt.ControlModifier)) {
+        else if ((event.key === Qt.Key_Minus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.max(keyframes.itemAt(activeIndex).value / parent.height - .05, 0)
             kfrModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
@@ -98,6 +98,7 @@ Rectangle
                 id: keyframe
                 property int frame : model.frame
                 property int frameType : model.type
+                property string realValue: model.value
                 x: (model.frame - inPoint) * timeScale
                 height: parent.height
                 property int value: parent.height * model.normalizedValue
@@ -110,6 +111,9 @@ Rectangle
                 }
                 onValueChanged: {
                     keyframecanvas.requestPaint()
+                }
+                onRealValueChanged: {
+                    kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
                 }
                 width: Math.max(1, timeScale)
                 color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
@@ -174,6 +178,9 @@ Rectangle
                         cursorShape: Qt.PointingHandCursor
                         drag.target: parent
                         drag.smoothed: false
+                        drag.threshold: 1
+                        property string movingVal: kfrModel.realValue(model.normalizedValue)
+                        property double newVal: NaN
                         onPressed: {
                             drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
@@ -183,16 +190,18 @@ Rectangle
                             keyframeContainer.focus = true
                         }
                         onReleased: {
+                            if (isNaN(newVal)) {
+                                return
+                            }
                             root.autoScrolling = timeline.autoScroll
                             var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
-                            if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
+                            if (newPos === frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
                                 var pos = masterObject.modelStart + frame - inPoint
                                 if (proxy.position != pos) {
                                     proxy.position = pos
                                 }
                                 return
                             }
-                            var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
                             if (newVal > 1.5 || newVal < -0.5) {
                                 if (frame != inPoint) {
                                     timeline.removeEffectKeyframe(masterObject.clipId, frame);
@@ -231,11 +240,15 @@ Rectangle
                                     }
                                 }
                                 keyframecanvas.requestPaint()
+                                newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
+                                movingVal = kfrModel.realValue(Math.min(Math.max(newVal, 0), 1))
                             }
                         }
                         onDoubleClicked: {
                             timeline.removeEffectKeyframe(masterObject.clipId, frame);
                         }
+                        ToolTip.visible: (containsMouse || pressed) && movingVal != ""
+                        ToolTip.text: movingVal
                     }
                 }
             }
@@ -276,7 +289,7 @@ Rectangle
             {
                 var type = i > 0 ? keyframes.itemAt(i-1).frameType : keyframes.itemAt(i).frameType
                 xpos = keyframes.itemAt(i).tmpPos
-                if (type == 0) {
+                if (type === 0) {
                     // discrete
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                 }
@@ -284,7 +297,7 @@ Rectangle
                 if (type < 2) {
                     // linear
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
-                } else if (type == 2) {
+                } else if (type === 2) {
                     // curve
                     paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                 }

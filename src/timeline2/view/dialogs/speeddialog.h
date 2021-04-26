@@ -37,7 +37,7 @@ class SpeedDialog : public QDialog
 
 public:
     explicit SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate);
-    ~SpeedDialog();
+    ~SpeedDialog() override;
 
     double getValue() const;
     bool getPitchCompensate() const;

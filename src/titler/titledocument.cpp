@@ -187,6 +187,21 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width,
                 content.setAttribute(QStringLiteral("gradient"), gradient);
             }
             break;
+        case 4:
+            e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsEllipseItem"));
+            content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsEllipseItem *>(item)->rect().normalized()));
+            content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->pen().color()));
+            if (static_cast<QGraphicsEllipseItem *>(item)->pen() == Qt::NoPen) {
+                content.setAttribute(QStringLiteral("penwidth"), 0);
+            } else {
+                content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsEllipseItem *>(item)->pen().width());
+            }
+            content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->brush().color()));
+            gradient = item->data(TitleDocument::Gradient).toString();
+            if (!gradient.isEmpty()) {
+                content.setAttribute(QStringLiteral("gradient"), gradient);
+            }
+            break;
         case 8:
             e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
             t = static_cast<MyTextItem *>(item);
@@ -264,7 +279,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width,
                 content.setAttribute(QStringLiteral("kdenlive-axis-y-inverted"), t->data(OriginYTop).toInt());
             }
             if (t->textWidth() > 0) {
-                content.setAttribute(QStringLiteral("alignment"), (int)t->alignment());
+                content.setAttribute(QStringLiteral("alignment"), int(t->alignment()));
             }
 
             content.setAttribute(QStringLiteral("shadow"), t->shadowInfo().join(QLatin1Char(';')));
@@ -342,7 +357,7 @@ QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> & items)
 {
     QColor color(0, 0, 0, 0);
     for (auto item : qAsConst(items)) {
-        if ((int)item->zValue() == -1100) {
+        if (int(item->zValue()) == -1100) {
             color = static_cast<QGraphicsRectItem *>(item)->brush().color();
             return color;
         }
@@ -381,13 +396,14 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     return result;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
+int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
 {
     m_projectPath = projectpath;
 
     QList<QGraphicsItem *> items;
+
     int width, height;
-    int res = loadFromXml(doc, items, width, height, startv, endv, duration, m_missingElements);
+    int res = loadFromXml(doc, items, width, height, scene, startv, endv, duration, m_missingElements);
 
     if (m_width != width || m_height != height) {
         KMessageBox::information(QApplication::activeWindow(), i18n("This title clip was created with a different frame size."), i18n("Title Profile"));
@@ -396,13 +412,13 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
         m_height = height;
     }
 
-    for (auto i : items) {
+    for (auto i : qAsConst(items)) {
         m_scene->addItem(i);
     }
     return res;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
+int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
 {
     for (auto * i : gitems) {
         delete i;
@@ -502,13 +518,13 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // Gradient color
                         QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         txt->setData(TitleDocument::Gradient, data);
-                        QLinearGradient gr = GradientWidget::gradientFromString(data, txt->boundingRect().width(), txt->boundingRect().height());
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(txt->boundingRect().width()), int(txt->boundingRect().height()));
                         cformat.setForeground(QBrush(gr));
                         cursor.setCharFormat(cformat);
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {
-                        txt->setAlignment((Qt::Alignment)txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt());
+                        txt->setAlignment(Qt::Alignment(txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt()));
                     }
 
                     if (!txtProperties.namedItem(QStringLiteral("kdenlive-axis-x-inverted")).isNull()) {
@@ -561,7 +577,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // Gradient color
                         QString data = rectProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                         rec->setData(TitleDocument::Gradient, data);
-                        QLinearGradient gr = GradientWidget::gradientFromString(data, rec->rect().width(), rec->rect().height());
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(rec->rect().width()), int(rec->rect().height()));
                         rec->setBrush(QBrush(gr));
                     } else {
                         rec->setBrush(QBrush(stringToColor(br_str)));
@@ -569,6 +585,31 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                     gitems.append(rec);
 
                     gitem = rec;
+                } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsEllipseItem")) {
+                    QDomNamedNodeMap ellipseProperties = itemNode.namedItem(QStringLiteral("content")).attributes();
+                    QString rect = ellipseProperties.namedItem(QStringLiteral("rect")).nodeValue();
+                    QString br_str = ellipseProperties.namedItem(QStringLiteral("brushcolor")).nodeValue();
+                    QString pen_str = ellipseProperties.namedItem(QStringLiteral("pencolor")).nodeValue();
+                    double penwidth = ellipseProperties.namedItem(QStringLiteral("penwidth")).nodeValue().toDouble();
+                    auto *ellipse = new MyEllipseItem();
+                    ellipse->setRect(stringToRect(rect));
+                    if (penwidth > 0) {
+                        ellipse->setPen(QPen(QBrush(stringToColor(pen_str)), penwidth, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin));
+                    } else {
+                        ellipse->setPen(Qt::NoPen);
+                    }
+                    if (!ellipseProperties.namedItem(QStringLiteral("gradient")).isNull()) {
+                        // Gradient color
+                        QString data = ellipseProperties.namedItem(QStringLiteral("gradient")).nodeValue();
+                        ellipse->setData(TitleDocument::Gradient, data);
+                        QLinearGradient gr = GradientWidget::gradientFromString(data, int(ellipse->rect().width()), int(ellipse->rect().height()));
+                        ellipse->setBrush(QBrush(gr));
+                    } else {
+                        ellipse->setBrush(QBrush(stringToColor(br_str)));
+                    }
+                    gitems.append(ellipse);
+
+                    gitem = ellipse;
                 } else if (itemNode.attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsPixmapItem")) {
                     QString url = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("url")).nodeValue();
                     QString base64 = itemNode.namedItem(QStringLiteral("content")).attributes().namedItem(QStringLiteral("base64")).nodeValue();
@@ -670,11 +711,15 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                 // qCDebug(KDENLIVE_LOG) << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
-                for (auto sceneItem : qAsConst(gitems)) {
-                    if ((int)sceneItem->zValue() == -1100) {
-                        static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
-                        break;
+                if (scene) {
+                    QList<QGraphicsItem *> sceneItems = scene->items();
+                    for (auto sceneItem : qAsConst(sceneItems)) {
+                        if (int(sceneItem->zValue()) == -1100) {
+                            static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
+                            break;
+                        }
                     }
+                    scene->setBackgroundBrush(QBrush(color));
                 }
             } else if (itemNode.nodeName() == QLatin1String("startviewport") && (startv != nullptr)) {
                 QString rect = itemNode.attributes().namedItem(QStringLiteral("rect")).nodeValue();

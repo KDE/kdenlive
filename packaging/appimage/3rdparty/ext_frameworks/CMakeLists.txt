@@ -195,11 +195,11 @@ function(InstallKF5Component
 endfunction()
 
 if(MINGW)
-    set(KF5_VERSION 5.76) # we have Qt 5.14.2 available.
+    set(KF5_VERSION 5.81) # we have Qt 5.14.2 available.
 elseif(APPLE)
-    set(KF5_VERSION 5.76) # we have Qt 5.14.1 available.
+    set(KF5_VERSION 5.81) # we have Qt 5.14.1 available.
 else()
-    set(KF5_VERSION 5.76) # we have Qt 5.14.2 available.
+    set(KF5_VERSION 5.81) # we have Qt 5.14.2 available.
 endif()
 
 if(APPLE)
@@ -210,7 +210,7 @@ endif()
 InstallKF5Component(extra-cmake-modules ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kconfig             ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(breeze-icons        ${KF5_VERSION} "-DBINARY_ICONS_RESOURCE=OFF"                                        "${MacosBreezePatch}")
-InstallKF5Component(solid               ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(solid               ${KF5_VERSION} ""                                                                   "fix-solid-compile.diff")
 InstallKF5Component(kcoreaddons         ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(threadweaver        ${KF5_VERSION} ""                                                                   "${MacosThreadWeaverPatch}")
 InstallKF5Component(kwindowsystem       ${KF5_VERSION} ""                                                                   "")

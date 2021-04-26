@@ -76,7 +76,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
     connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
-    updateTW(0, 2, 1, 0, 0);
+    updateTW(false, 2, 1, 0, 0);
 }
 
 Qt::Alignment MyTextItem::alignment() const
@@ -148,7 +148,7 @@ void MyTextItem::refreshFormat()
 
     if (!gradientData.isEmpty()) {
         QRectF rect = boundingRect();
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, rect.width(), rect.height());
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height()));
         cformat.setForeground(QBrush(gr));
     }
 
@@ -223,7 +223,7 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             paintBrush = QBrush(cursor.charFormat().foreground().color());
         } else {
             QRectF rect = boundingRect();
-            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, rect.width(), rect.height()));
+            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
         }
         painter->fillPath(m_path, paintBrush);
         if (outline > 0) {
@@ -282,7 +282,7 @@ void MyTextItem::updateShadow()
     // Calculate position of text in parent item
     path.translate(QPointF(2 * m_shadowBlur, 2 * m_shadowBlur));
     QRectF fullSize = bounding.united(path.boundingRect());
-    QImage shadow(fullSize.width() + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, fullSize.height() + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
+    QImage shadow(int(fullSize.width()) + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, int(fullSize.height()) + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
                   QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
     QPainter painter(&shadow);
@@ -320,7 +320,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += bpl;
         for (int j = r1; j < r2; j++, p += bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -333,7 +333,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p += 4;
         for (int j = c1; j < c2; j++, p += 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -346,7 +346,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= bpl;
         for (int j = r1; j < r2; j++, p -= bpl)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 
@@ -359,7 +359,7 @@ void MyTextItem::blurShadow(QImage &result, int radius)
         p -= 4;
         for (int j = c1; j < c2; j++, p -= 4)
             for (int i = i1; i <= i2; i++) {
-                p[i] = (uchar)((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
+                p[i] = uchar((rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4);
             }
     }
 }
@@ -383,7 +383,7 @@ QRectF MyTextItem::baseBoundingRect() const
     QTextCursor cur(document());
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
-    int lineHeight = format.lineHeight();
+    int lineHeight = int(format.lineHeight());
     int lineHeight2 = QFontMetrics(font()).lineSpacing();
     int lines = document()->lineCount();
     if (lines > 1) {
@@ -463,12 +463,46 @@ void MyRectItem::setRect(const QRectF &rectangle)
     QGraphicsRectItem::setRect(rectangle);
     if (m_rect != rectangle && !data(TitleDocument::Gradient).isNull()) {
         m_rect = rectangle;
-        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), m_rect.width(), m_rect.height());
+        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), int(m_rect.width()), int(m_rect.height()));
         setBrush(QBrush(gr));
     }
 }
 
 QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemPositionChange && (scene() != nullptr)) {
+        QPoint newPos = value.toPoint();
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *>(scene()) != nullptr)) {
+            auto *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
+            int gridSize = customScene->gridSize();
+            int xV = (newPos.x() / gridSize) * gridSize;
+            int yV = (newPos.y() / gridSize) * gridSize;
+            newPos = QPoint(xV, yV);
+        }
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+MyEllipseItem::MyEllipseItem(QGraphicsItem *parent)
+    : QGraphicsEllipseItem(parent)
+{
+    //Disabled because cache makes text cursor invisible and borders ugly
+    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+}
+
+void MyEllipseItem::setRect(const QRectF &rectangle)
+{
+    QGraphicsEllipseItem::setRect(rectangle);
+    if (m_ellipse != rectangle && !data(TitleDocument::Gradient).isNull()) {
+        m_ellipse = rectangle;
+        QLinearGradient gr = GradientWidget::gradientFromString(data(TitleDocument::Gradient).toString(), int(m_ellipse.width()), int(m_ellipse.height()));
+        setBrush(QBrush(gr));
+    }
+}
+
+QVariant MyEllipseItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
@@ -563,6 +597,7 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool)
 {
     m_tool = tool;
     switch (m_tool) {
+    case TITLE_ELLIPSE:
     case TITLE_RECTANGLE:
         setCursor(Qt::CrossCursor);
         break;
@@ -700,8 +735,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             return;
         }
     }
-    int xPos = ((int)e->scenePos().x() / m_gridSize) * m_gridSize;
-    int yPos = ((int)e->scenePos().y() / m_gridSize) * m_gridSize;
+    int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
+    int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
     m_moveStarted = false;
     m_clickPoint = e->scenePos();
     m_resizeMode = m_possibleAction;
@@ -756,10 +791,10 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 t->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
                 setCursor(Qt::ClosedHandCursor);
-            } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
+            } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsEllipseItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
                 if (m_selectedItem->type() == QGraphicsRectItem::Type) {
-                    r1 = ((QGraphicsRectItem *)m_selectedItem)->rect().normalized();
+                    r1 = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect().normalized();
                 } else {
                     r1 = m_selectedItem->boundingRect().normalized();
                 }
@@ -792,7 +827,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             }
         }
         QGraphicsScene::mousePressEvent(e);
-    } else if (m_tool == TITLE_RECTANGLE) {
+    } else if (m_tool == TITLE_RECTANGLE || m_tool == TITLE_ELLIPSE) {
         clearTextSelection();
         m_sceneClickPoint = QPointF(xPos, yPos);
         m_selectedItem = nullptr;
@@ -801,7 +836,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         if (e->button() == Qt::LeftButton) {
             clearTextSelection();
             MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
-            yPos = (((int)e->scenePos().y() - (int)(m_fontSize / 2)) / m_gridSize) * m_gridSize;
+            yPos = ((int(e->scenePos().y()) - (m_fontSize / 2)) / m_gridSize) * m_gridSize;
             textItem->setPos(xPos, yPos);
             addItem(textItem);
             textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -859,16 +894,16 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_moveStarted = true;
     }
     if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
-        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type ||
-            m_selectedItem->type() == QGraphicsPixmapItem::Type) {
+        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsEllipseItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type ||
+                m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
             if (m_selectedItem->type() == QGraphicsRectItem::Type) {
-                newrect = ((QGraphicsRectItem *)m_selectedItem)->rect();
+                newrect = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect();
             } else {
                 newrect = m_selectedItem->boundingRect();
             }
-            int xPos = ((int)e->scenePos().x() / m_gridSize) * m_gridSize;
-            int yPos = ((int)e->scenePos().y() / m_gridSize) * m_gridSize;
+            int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
+            int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
             switch (m_resizeMode) {
             case BottomRight:
@@ -898,8 +933,25 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
-                    double hRatio = (double)newrect.width() / m_selectedItem->data(0).toInt();
-                    double vRatio = (double)newrect.height() / m_selectedItem->data(1).toInt();
+                    double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
+                    double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
+                    if (hRatio < vRatio) {
+                        newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
+                    } else {
+                        newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                    }
+                }
+                gi->setPos(newrect.topLeft());
+                gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
+                return;
+            }
+            if (m_selectedItem->type() == QGraphicsEllipseItem::Type && m_resizeMode != NoResize) {
+                auto *gi = static_cast<MyEllipseItem *>(m_selectedItem);
+                // Resize using aspect ratio
+                if (!m_selectedItem->data(0).isNull()) {
+                    // we want to keep aspect ratio
+                    double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
+                    double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
                     if (hRatio < vRatio) {
                         newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
                     } else {
@@ -936,11 +988,16 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 setCursor(Qt::OpenHandCursor);
                 itemFound = true;
                 break;
-            } else if (g->type() == QGraphicsRectItem::Type && g->zValue() > -1000) {
+            } else if ((g->type() == QGraphicsRectItem::Type || g->type() == QGraphicsEllipseItem::Type) && g->zValue() > -1000) {
                 if (view == nullptr) {
                     continue;
                 }
-                QRectF r1 = ((const QGraphicsRectItem *)g)->rect().normalized();
+                QRectF r1;
+                if(g->type() == QGraphicsRectItem::Type) {
+                    r1 = static_cast<const QGraphicsRectItem *>(g)->rect().normalized();
+                } else {
+                    r1 = static_cast<const QGraphicsEllipseItem *>(g)->rect().normalized();
+                }
                 itemFound = true;
 
                 // Item mapped coordinates
@@ -1010,6 +1067,22 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             m_selectedItem->setPos(m_sceneClickPoint);
             m_selectedItem->setSelected(true);
             emit newRect(rect);
+            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
+            m_resizeMode = BottomRight;
+            QGraphicsScene::mouseMoveEvent(e);
+        }
+    } else if (m_tool == TITLE_ELLIPSE && ((e->buttons() & Qt::LeftButton) != 0u)) {
+        if (m_selectedItem == nullptr) {
+            // create new rect item
+            QRectF r(0, 0, e->scenePos().x() - m_sceneClickPoint.x(), e->scenePos().y() - m_sceneClickPoint.y());
+            r = r.normalized();
+            auto *ellipse = new MyEllipseItem();
+            ellipse->setRect(QRectF(0, 0, r.width(), r.height()));
+            addItem(ellipse);
+            m_selectedItem = ellipse;
+            m_selectedItem->setPos(m_sceneClickPoint);
+            m_selectedItem->setSelected(true);
+            emit newEllipse(ellipse);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);

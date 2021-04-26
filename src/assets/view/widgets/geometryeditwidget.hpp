@@ -30,7 +30,7 @@
 class QSlider;
 class GeometryWidget;
 
-/*@brief This class is used to display a parameter with time value */
+/** @brief This class is used to display a parameter with time value */
 class GeometryEditWidget : public AbstractParamWidget
 {
     Q_OBJECT

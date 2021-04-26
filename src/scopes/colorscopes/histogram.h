@@ -17,7 +17,7 @@
 class HistogramGenerator;
 
 /**
- *  \brief Displays the histogram of frames.
+ *  @brief Displays the histogram of frames.
  */
 class Histogram : public AbstractGfxScopeWidget
 {

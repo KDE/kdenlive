@@ -25,11 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolButton>
 
 
-/**
- * @class DragButton
- * @brief A draggable QToolButton subclass
+/** @class DragButton
+    @brief A draggable QToolButton subclass
  */
-
 class DragButton : public QToolButton
 {
     Q_OBJECT
@@ -58,11 +56,9 @@ signals:
 };
 
 
-/**
- * @class TagWidget
- * @brief The tag widget takes care context menu tagging
+/** @class TagWidget
+    @brief The tag widget takes care context menu tagging
  */
-
 class TagWidget : public QWidget
 {
     Q_OBJECT

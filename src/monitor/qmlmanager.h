@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class QmlManager
- * @brief Manages all Qml monitor overlays
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef QMLMANAGER_H
 #define QMLMANAGER_H
 
@@ -32,6 +26,10 @@
 
 class QQuickView;
 
+/** @class QmlManager
+    @brief Manages all Qml monitor overlays
+    @author Jean-Baptiste Mardelle
+ */
 class QmlManager : public QObject
 {
     Q_OBJECT

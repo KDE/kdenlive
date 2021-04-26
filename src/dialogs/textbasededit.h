@@ -30,6 +30,7 @@
 #include <QTextEdit>
 #include <QMouseEvent>
 #include <QTimer>
+#include <QTemporaryFile>
 
 class ProjectClip;
 
@@ -38,7 +39,6 @@ class ProjectClip;
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class VideoTextEdit : public QTextEdit
 {
     Q_OBJECT
@@ -87,8 +87,8 @@ private slots:
     
 private:
     QWidget *lineNumberArea;
-    int m_hoveredBlock;
-    int m_lastClickedBlock;
+    int m_hoveredBlock{-1};
+    int m_lastClickedBlock{-1};
     QVector <int> m_selectedBlocks;
     int getFirstVisibleBlockId();
 };
@@ -147,13 +147,13 @@ private:
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class TextBasedEdit : public QWidget, public Ui::TextBasedEdit_UI
 {
     Q_OBJECT
 
 public:
     explicit TextBasedEdit(QWidget *parent = nullptr);
+    ~TextBasedEdit() override;
     void openClip(std::shared_ptr<ProjectClip>);
 
 public slots:
@@ -165,13 +165,12 @@ private slots:
     void slotProcessSpeechError();
     void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
-    void updateAvailability();
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
     /** @brief Preview current edited text in the clip monitor */
     void previewPlaylist(bool createNew = true);
     /** @brief Display info message */
-    void showMessage(const QString &text, KMessageWidget::MessageType type);
+    void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();
 
 protected:
@@ -179,20 +178,24 @@ protected:
 
 private:
     std::unique_ptr<QProcess> m_speechJob;
+    std::unique_ptr<QProcess> m_tCodeJob;
     /** @brief Id of the master bin clip on which speech processing is done */
     QString m_binId;
     /** @brief Id of the playlist which is processed from the master clip */
     QString m_refId;
     QString m_sourceUrl;
-    double m_clipDuration;
+    double m_clipDuration{0.};
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
+    QAction *m_voskConfig;
+    QAction *m_currentMessageAction{nullptr};
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
     QString m_playlist;
     QTimer m_hideTimer;
     double m_clipOffset;
+    QTemporaryFile m_playlistWav;
 };
 
 #endif

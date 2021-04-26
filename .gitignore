@@ -3,3 +3,4 @@ build/*
 CMakeLists.txt.user*
 po
 *.patch
+packaging/flatpak/.flatpak-builder

@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartalb.uber.space)   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -40,8 +41,9 @@
 
 #include <QTreeWidget>
 #include <QtConcurrent>
+#include <memory>
 #include <utility>
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
@@ -109,6 +111,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     QStringList allFonts;
     QStringList extraImageUrls;
     QStringList otherUrls;
+    otherUrls << other_list;
     generateItems(lumas, luma_list);
 
     QMap<QString, QString> slideUrls;
@@ -152,6 +155,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
                 }
             }
         }
+        otherUrls << clip->filesUsedByEffects();
     }
 
     generateItems(images, extraImageUrls);
@@ -160,6 +164,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     generateItems(images, imageUrls);
     generateItems(slideshows, slideUrls);
     generateItems(playlists, playlistUrls);
+    otherUrls.removeDuplicates();
     generateItems(others, otherUrls);
     generateItems(proxies, proxyUrls);
 
@@ -193,7 +198,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
                 // Special case: slideshows contain several files
                 for (int j = 0; j < items; ++j) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                    total += parentItem->child(j)->data(0, SlideshowImagesRole).toStringList().count();
                 }
             } else {
                 total += items;
@@ -249,6 +254,8 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     proxy_only->setHidden(true);
     project_files->setHidden(true);
     files_list->setHidden(true);
+    timeline_archive->setHidden(true);
+    compression_type->setHidden(true);
     label->setText(i18n("Extract to"));
     setWindowTitle(i18n("Open Archived Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
@@ -276,12 +283,26 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
     m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
     m_infoMessage->setText(text);
     m_infoMessage->animatedShow();
+    archive_url->setEnabled(true);
+    compressed_archive->setEnabled(true);
+    compression_type->setEnabled(true);
+    proxy_only->setEnabled(true);
+    timeline_archive->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
 }
 
 void ArchiveWidget::openArchiveForExtraction()
 {
     emit showMessage(QStringLiteral("system-run"), i18n("Opening archive..."));
-    m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+    QMimeDatabase db;
+    QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
+    if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
+        m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+    } else {
+        m_extractArchive = new KZip(m_extractUrl.toLocalFile());
+    }
+
     if (!m_extractArchive->isOpen() && !m_extractArchive->open(QIODevice::ReadOnly)) {
         emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
@@ -348,8 +369,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     for (const QString &file : items) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         fileName = QUrl::fromLocalFile(file).fileName();
+        if(file.isEmpty() || fileName.isEmpty()) {
+            continue;
+        }
+        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
@@ -369,8 +393,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     totalSize += resultList.at(i).size();
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -392,8 +416,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                         slideImages << directory + path;
                     }
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
@@ -410,13 +434,14 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
+            item->setData(0, IsInTimelineRole, 1);
             qint64 fileSize = QFileInfo(file).size();
             if (fileSize <= 0) {
                 item->setIcon(0, QIcon::fromTheme(QStringLiteral("edit-delete")));
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, Qt::UserRole + 3, fileSize);
+                item->setData(0, SlideshowSizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -434,15 +459,15 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
     while (it != items.constEnd()) {
         QString file = it.value();
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
-        item->setData(0, Qt::UserRole + 4,0);
+        item->setData(0, IsInTimelineRole,0);
         for(int id : timelineBinId) {
             if(id == it.key().toInt()) {
                 m_timelineSize = static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
-                item->setData(0,Qt::UserRole + 4, 1);
+                item->setData(0, IsInTimelineRole, 1);
             }
         }
         // Store the clip's id
-        item->setData(0, Qt::UserRole + 2, it.key());
+        item->setData(0, ClipIdRole, it.key());
         fileName = QUrl::fromLocalFile(file).fileName();
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
@@ -463,8 +488,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                     totalSize += resultList.at(i).size();
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -482,8 +507,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                         slideImages << dir.absoluteFilePath(path);
                     }
                 }
-                item->setData(0, Qt::UserRole + 1, slideImages);
-                item->setData(0, Qt::UserRole + 3, totalSize);
+                item->setData(0, SlideshowImagesRole, slideImages);
+                item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName)) {
@@ -506,7 +531,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, Qt::UserRole + 3, fileSize);
+                item->setData(0, SlideshowSizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -541,6 +566,12 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     m_infoMessage->setMessageType(KMessageWidget::Information);
     m_infoMessage->setText(i18n("Starting archive job"));
     m_infoMessage->animatedShow();
+    archive_url->setEnabled(false);
+    compressed_archive->setEnabled(false);
+    compression_type->setEnabled(false);
+    proxy_only->setEnabled(false);
+    timeline_archive->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
@@ -554,9 +585,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_filesList.clear();
         slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving..."));
         repaint();
-        archive_url->setEnabled(false);
-        proxy_only->setEnabled(false);
-        compressed_archive->setEnabled(false);
     }
     QList<QUrl> files;
     QUrl destUrl;
@@ -597,12 +625,43 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 if (item->isDisabled() || item->isHidden()) {
                     continue;
                 }
-                // Special case: slideshows
                 items++;
-                if (isSlideshow) {
+                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
+                    // Special case: playlists (mlt files) may contain urls that need to be replaced too
+                    QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
+                    m_infoMessage->setText(i18n("Copying %1", filename));
+                    const QString playList = processPlaylistFile(item->text(0));
+                    if (isArchive) {
+                        m_temp = new QTemporaryFile();
+                        if (!m_temp->open()) {
+                            KMessageBox::error(this, i18n("Cannot create temporary file"));
+                        }
+                        m_temp->write(playList.toUtf8());
+                        m_temp->close();
+                        m_filesList.insert(m_temp->fileName(), destPath + filename);
+                    } else {
+                        QDir dir(destUrl.toLocalFile());
+                        if (!dir.mkpath(QStringLiteral("."))) {
+                            KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+                        }
+                        QFile file(destUrl.toLocalFile() + filename);
+                        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                            qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
+                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                        }
+                        file.write(playList.toUtf8());
+                        if (file.error() != QFile::NoError) {
+                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                            file.close();
+                            return false;
+                        }
+                        file.close();
+                    }
+                } else if (isSlideshow) {
+                    // Special case: slideshows
                     destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
                     destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
-                    QStringList srcFiles = item->data(0, Qt::UserRole + 1).toStringList();
+                    QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
                     for (int k = 0; k < srcFiles.count(); ++k) {
                         files << QUrl::fromLocalFile(srcFiles.at(k));
                     }
@@ -680,6 +739,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     if (firstPass) {
         progressBar->setValue(0);
         buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     }
     return true;
 }
@@ -707,10 +767,6 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
     if (!compressed_archive->isChecked()) {
-        buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-        archive_url->setEnabled(true);
-        proxy_only->setEnabled(true);
-        compressed_archive->setEnabled(true);
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
             for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
@@ -725,11 +781,114 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
     progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
 }
 
+QString ArchiveWidget::processPlaylistFile(const QString &filename)
+{
+    QDomDocument doc;
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly) || !doc.setContent(&file)) {
+        return QString();
+    }
+    return processMltFile(doc, QStringLiteral("../"));
+}
+
 bool ArchiveWidget::processProjectFile()
+{
+    bool isArchive = compressed_archive->isChecked();
+
+    QString playList = processMltFile(m_doc);
+
+    m_archiveName.clear();
+    if (isArchive) {
+        m_temp = new QTemporaryFile;
+        if (!m_temp->open()) {
+            KMessageBox::error(this, i18n("Cannot create temporary file"));
+        }
+        m_temp->write(playList.toUtf8());
+        m_temp->close();
+        m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
+        if (compression_type->currentIndex() == 1) {
+            m_archiveName.append(QStringLiteral(".zip"));
+        } else {
+            m_archiveName.append(QStringLiteral(".tar.gz"));
+        }
+        ;
+        if (QFile::exists(m_archiveName)
+                && KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
+            return false;
+        }
+        m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
+        return true;
+    }
+
+    // Make a copy of original project file for extra safety
+    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+        return false;
+    }
+    QFile::remove(path);
+    QFile source(pCore->currentDoc()->url().toLocalFile());
+    if (!source.copy(path)) {
+        // Error
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+        return false;
+    }
+
+    // Copy subtitle files if any
+    QString sub = pCore->currentDoc()->url().toLocalFile();
+    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
+        QFile subFile(sub + QStringLiteral(".srt"));
+        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+            return false;
+        }
+        QFile::remove(path);
+        if (!subFile.copy(path)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", path));
+            return false;
+        }
+    }
+    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
+        QFile subFile(sub + QStringLiteral(".ass"));
+        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+            return false;
+        }
+        QFile::remove(path);
+        if (!subFile.copy(path)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", path));
+            return false;
+        }
+    }
+
+    path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
+    QFile file(path);
+    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        return false;
+    }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+        return false;
+    }
+
+    file.write(playList.toUtf8());
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+        file.close();
+        return false;
+    }
+    file.close();
+    return true;
+}
+
+QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
 
+    m_replacementList.clear();
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
@@ -740,19 +899,19 @@ bool ArchiveWidget::processProjectFile()
                 QUrl src = QUrl::fromLocalFile(item->text(0));
                 QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
                 if (isSlideshow) {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
                                                QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 } else {
-                    dest = QUrl::fromLocalFile(parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
         }
     }
 
-    QDomElement mlt = m_doc.documentElement();
+    QDomElement mlt = doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
@@ -807,17 +966,7 @@ bool ArchiveWidget::processProjectFile()
                 Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
             }
         }
-        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-        if (!src.isEmpty()) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), dest.toLocalFile());
-            }
-        }
+        propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
         bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
@@ -842,6 +991,7 @@ bool ArchiveWidget::processProjectFile()
                 Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
             }
         }
+        propertyProcessUrl(e, QStringLiteral("luma_file"), root);
     }
 
     // process mlt transitions (for luma files)
@@ -852,25 +1002,26 @@ bool ArchiveWidget::processProjectFile()
         if (e.isNull()) {
             continue;
         }
-        attribute = QStringLiteral("resource");
-        QString src = Xml::getXmlProperty(e, attribute);
-        if (src.isEmpty()) {
-            attribute = QStringLiteral("luma");
-        }
-        src = Xml::getXmlProperty(e, attribute);
-        if (!src.isEmpty()) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, attribute, dest.toLocalFile());
-            }
-        }
+        propertyProcessUrl(e, QStringLiteral("resource"), root);
+        propertyProcessUrl(e, QStringLiteral("luma"), root);
+        propertyProcessUrl(e, QStringLiteral("luma.resource"), root);
     }
 
-    QString playList = m_doc.toString();
+    // process mlt filters
+    prods = mlt.elementsByTagName(QStringLiteral("filter"));
+    for (int i = 0; i < prods.count(); ++i) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.isNull()) {
+            continue;
+        }
+        // propertys for vidstab files
+        propertyProcessUrl(e, QStringLiteral("filename"), root);
+        propertyProcessUrl(e, QStringLiteral("results"), root);
+        // propertys for LUT files
+        propertyProcessUrl(e, QStringLiteral("av.file"), root);
+    }
+
+    QString playList = doc.toString();
     if (isArchive) {
         QString startString(QStringLiteral("\""));
         startString.append(archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile());
@@ -881,89 +1032,36 @@ bool ArchiveWidget::processProjectFile()
         endString = QLatin1Char('>') + basePath;
         playList.replace(startString, endString);
     }
-    m_archiveName.clear();
-    if (isArchive) {
-        m_temp = new QTemporaryFile;
-        if (!m_temp->open()) {
-            KMessageBox::error(this, i18n("Cannot create temporary file"));
-        }
-        m_temp->write(playList.toUtf8());
-        m_temp->close();
-        m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
-        return true;
-    }
+    return playList;
+}
 
-    // Make a copy of original project file for extra safety
-    QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
-    QFile source(pCore->currentDoc()->url().toLocalFile());
-    if (!source.copy(backupPath)) {
-        // Error
-        KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-        return false;
-    }
-    
-    // Copy subtitle files if any
-    QString sub = pCore->currentDoc()->url().toLocalFile();
-    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
-        QFile subFile(sub + QStringLiteral(".srt"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-            return false;
+void ArchiveWidget::propertyProcessUrl(QDomElement e, QString propertyName, QString root)
+{
+    QString src = Xml::getXmlProperty(e, propertyName);
+    if (!src.isEmpty()) {
+        qDebug() << "Found property " << propertyName << " with content: " << src;
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            qDebug() << "-> hast replacement entry " << dest;
+            Xml::setXmlProperty(e, propertyName, dest.toLocalFile());
         }
     }
-    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
-        QFile subFile(sub + QStringLiteral(".ass"));
-        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (!subFile.copy(backupPath)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
-            return false;
-        }
-    }
-
-    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
-    QFile file(path);
-    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-        return false;
-    }
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
-        KMessageBox::error(this, i18n("Cannot write to file %1", path));
-        return false;
-    }
-
-    file.write(m_doc.toString().toUtf8());
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", path));
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
 }
 
 void ArchiveWidget::createArchive()
 {
-    m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
-    if (compression_type->currentIndex() == 1) {
-        m_archiveName.append(QStringLiteral(".zip"));
-    } else {
-        m_archiveName.append(QStringLiteral(".tar.gz"));
-    }
-    if (QFile::exists(m_archiveName) &&
-        KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
-        return;
-    }
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
     std::unique_ptr<KArchive> archive;
     if (compression_type->currentIndex() == 1) {
-        archive.reset(new KZip(m_archiveName));
+        archive = std::make_unique<KZip>(m_archiveName);
     } else {
-        archive.reset(new KTar(m_archiveName, QStringLiteral("application/x-gzip")));
+        archive = std::make_unique<KTar>(m_archiveName, QStringLiteral("application/x-gzip"));
     }
     archive->open(QIODevice::WriteOnly);
 
@@ -980,7 +1078,7 @@ void ArchiveWidget::createArchive()
         i.next();
         m_infoMessage->setText(i18n("Archiving %1", i.key()));
         success = archive->addLocalFile(i.key(), i.value());
-        emit archiveProgress((int)100 * ix / m_filesList.count());
+        emit archiveProgress(100 * ix / m_filesList.count());
         ix++;
         if (!success) {
             break;
@@ -996,6 +1094,13 @@ void ArchiveWidget::createArchive()
         delete m_temp;
         m_temp = nullptr;
     }
+    if(success) {
+        // Add subtitle files if any
+        QString sub = pCore->currentDoc()->subTitlePath(false);
+        if (QFileInfo::exists(sub)) {
+            success = archive->addLocalFile(sub, m_name + QStringLiteral(".kdenlive.") + QFileInfo(sub).completeSuffix());
+        }
+    }
     if (success) {
         success = archive->close();
     } else {
@@ -1008,15 +1113,11 @@ void ArchiveWidget::slotArchivingBoolFinished(bool result)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        //buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
         slotJobResult(false, i18n("There was an error processing project file"));
     }
     progressBar->setValue(100);
-    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-    archive_url->setEnabled(true);
-    proxy_only->setEnabled(true);
-    compressed_archive->setEnabled(true);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         files_list->topLevelItem(i)->setDisabled(false);
         for (int j = 0; j < files_list->topLevelItem(i)->childCount(); ++j) {
@@ -1044,6 +1145,7 @@ void ArchiveWidget::slotStartExtracting()
     }
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting..."));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
     m_progressTimer->start();
 }
@@ -1130,7 +1232,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         int items = parentItem->childCount();
         for (int j = 0; j < items; ++j) {
-            proxyIdList << parentItem->child(j)->data(0, Qt::UserRole + 2).toString();
+            proxyIdList << parentItem->child(j)->data(0, ClipIdRole).toString();
         }
 
         // Parse all items to disable original clips for existing proxies
@@ -1146,7 +1248,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
                 }
                 items = parentItem->childCount();
                 for (int k = 0; k < items; ++k) {
-                    if (parentItem->child(k)->data(0, Qt::UserRole + 2).toString() == id) {
+                    if (parentItem->child(k)->data(0, ClipIdRole).toString() == id) {
                         // This item has a proxy, do not archive it
                         parentItem->child(k)->setFlags(Qt::ItemIsSelectable);
                         break;
@@ -1175,9 +1277,9 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
-                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, Qt::UserRole + 3).toInt());
+                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, SlideshowSizeRole).toInt());
                 if (isSlideshow) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 1).toStringList().count();
+                    total += parentItem->child(j)->data(0, SlideshowImagesRole).toStringList().count();
                 } else {
                     total++;
                 }
@@ -1199,7 +1301,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         for(int cidx = 0 ; cidx < childCount; ++cidx) {
             parent->child(cidx)->setHidden(true);
             if(onlyTimeline == Qt::Checked) {
-                if(parent->child(cidx)->data(0,Qt::UserRole + 4).toInt() > 0) {
+                if(parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
                     parent->child(cidx)->setHidden(false);
                 }
             }
@@ -1220,7 +1322,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isHidden() && !parentItem->child(j)->isDisabled()) {
                 if (isSlideshow) {
-                    total += parentItem->child(j)->data(0, Qt::UserRole + 4).toStringList().count();
+                    total += parentItem->child(j)->data(0, IsInTimelineRole).toStringList().count();
                 } else {
                     total++;
                 }

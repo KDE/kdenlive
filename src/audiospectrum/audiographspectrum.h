@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class AudioGraphSpectrum
- * @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
 
@@ -47,6 +41,10 @@ public:
     explicit EqualizerWidget(QWidget *parent = nullptr);
 };
 
+/** @class AudioGraphWidget
+    @brief \@todo Describe class AudioGraphWidget
+    @todo Describe class AudioGraphWidget
+ */
 class AudioGraphWidget : public QWidget
 {
     Q_OBJECT
@@ -55,7 +53,7 @@ public:
     void drawBackground();
 
 public slots:
-    void showAudio(const QVector<double> &bands);
+    void showAudio(const QVector<float> &bands);
 
 protected:
     void paintEvent(QPaintEvent *pe);
@@ -72,6 +70,10 @@ private:
     void drawChanLabels(QPainter &p, const QRect &rect, int barWidth);
 };
 
+/** @class AudioGraphSpectrum
+    @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
+    @author Jean-Baptiste Mardelle
+ */
 class AudioGraphSpectrum : public QWidget
 {
     Q_OBJECT

@@ -39,6 +39,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), pCore->window()->actionCollection());
+    pCore->window()->actionCollection()->setShortcutsConfigurable(m_loadLayout, false);
 
     // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
@@ -60,7 +61,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container = new QWidget(main);
     m_containerGrp = new QButtonGroup(m_container);
     connect(m_containerGrp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &LayoutManagement::activateLayout);
-    QVBoxLayout *l1 = new QVBoxLayout;
+    auto *l1 = new QVBoxLayout;
     l1->addStretch();
     m_containerLayout = new QHBoxLayout;
     m_containerLayout->setSpacing(0);
@@ -156,7 +157,7 @@ void LayoutManagement::initializeLayouts()
             QString translatedName = translatedLayoutNames.contains(layoutName) ? translatedLayoutNames.value(layoutName) : layoutName;
             load->setText(i18n("Layout %1: %2", i, translatedName));
             if (i < 6) {
-                QPushButton *lab = new QPushButton(translatedName, m_container);
+                auto *lab = new QPushButton(translatedName, m_container);
                 lab->setProperty("layoutid", layoutName);
                 lab->setFocusPolicy(Qt::NoFocus);
                 lab->setCheckable(true);
@@ -223,7 +224,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         // Activate layout button
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
         bool buttonFound = false;
-        for (auto *button : buttons) {
+        for (auto *button : qAsConst(buttons)) {
             if (button->property("layoutid").toString() == layoutId) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -298,7 +299,7 @@ void LayoutManagement::slotSaveLayout()
     // Activate layout button
     if(names.first != nullptr) {
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
-        for (auto *button : buttons) {
+        for (auto *button : qAsConst(buttons)) {
             if (button->text() == names.first) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -330,7 +331,7 @@ void LayoutManagement::slotManageLayouts()
     QToolButton tb(&d);
     tb.setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     tb.setAutoRaise(true);
-    connect(&tb, &QToolButton::clicked, this, [this, &layouts, &list]() {
+    connect(&tb, &QToolButton::clicked, this, [ &layouts, &list]() {
         if (list.currentItem()) {
             layouts.deleteEntry(list.currentItem()->data(Qt::UserRole).toString());
             delete list.currentItem();
@@ -398,7 +399,7 @@ void LayoutManagement::slotManageLayouts()
         }
 
         // Re-add missing default layouts
-        for (const QString &name : defaultLayoutNames) {
+        for (const QString &name : qAsConst(defaultLayoutNames)) {
             if (!currentNames.contains(name) && translatedLayoutNames.contains(name)) {
                 // Insert default layout
                 QListWidgetItem *item = new QListWidgetItem(translatedLayoutNames.value(name));
@@ -447,7 +448,7 @@ void LayoutManagement::slotManageLayouts()
         std::pair<QString, QString> names = saveLayout(state, suggestedName);
 
         if(names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
-                QListWidgetItem *item = new QListWidgetItem(names.first, &list);
+                auto *item = new QListWidgetItem(names.first, &list);
                 item->setData(Qt::UserRole, names.second);
                 item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             }
@@ -459,7 +460,7 @@ void LayoutManagement::slotManageLayouts()
     tb6.setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     tb6.setAutoRaise(true);
     tb6.setToolTip(i18n("Export selected"));
-    connect(&tb6, &QToolButton::clicked, [this, &d, &list](){
+    connect(&tb6, &QToolButton::clicked, [ &d, &list](){
 
         if (!list.currentItem()) {
             // Error, no layout selected
@@ -520,7 +521,7 @@ void LayoutManagement::slotManageLayouts()
         } else {
             visibleName = name;
         }
-        QListWidgetItem *item = new QListWidgetItem(visibleName, &list);
+        auto *item = new QListWidgetItem(visibleName, &list);
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     }

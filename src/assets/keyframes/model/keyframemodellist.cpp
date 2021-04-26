@@ -138,7 +138,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         } else {
             value = param->getInterpolatedValue(pos);
         }
-        return param->addKeyframe(pos, (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), value, true, undo, redo);
+        return param->addKeyframe(pos, KeyframeType(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
     };
     return applyOperation(op, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
 }
@@ -221,8 +221,14 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
             if (m_parameters.at(m_inTimelineIndex) == param) {
                 if (isRectParam) {
                     if (normalizedVal.isValid()) {
+                        double newValue = normalizedVal.toDouble();
+                        if (auto ptr = m_model.lock()) {
+                            if (ptr->getAssetId() != QLatin1String("qtblend")) {
+                                newValue *= 100.;
+                            }
+                        }
                         value = param->getInterpolatedValue(oldPos);
-                        value = param->updateInterpolated(value, normalizedVal.toDouble());
+                        value = param->updateInterpolated(value, newValue);
                     }
                 } else {
                     value = normalizedVal;
@@ -247,9 +253,9 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const
         auto *command = new AssetKeyframeCommand(ptr, index, value, pos, parentCommand);
         if (parentCommand == nullptr) {
             pCore->pushUndo(command);
-        }
+        } // clang-tidy: else "command" is leaked? no because is was pushed to parentCommand
     }
-    return true;
+    return true; // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
 }
 
 bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index)
@@ -373,6 +379,14 @@ KeyframeModel *KeyframeModelList::getKeyModel()
     }
     if (auto ptr = m_model.lock()) {
         for (const auto &param : m_parameters) {
+            auto tp = ptr->data(param.first, AssetParameterModel::TypeRole).value<ParamType>();
+            if (tp == ParamType::AnimatedRect) {
+                // Check if we have an opacity
+                if (ptr->data(param.first, AssetParameterModel::OpacityRole).toBool() == false) {
+                    // Rect with no opacity, don't show timeline keyframes
+                    continue;
+                }
+            }
             if (ptr->data(param.first, AssetParameterModel::ShowInTimelineRole) == true) {
                 m_inTimelineIndex = param.first;
                 return param.second.get();
@@ -389,6 +403,25 @@ KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index
     }
     return nullptr;
 }
+
+void KeyframeModelList::moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo)
+{
+    // Get list of keyframes positions
+    QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
+    GenTime offset(in - oldIn, pCore->getCurrentFps());
+    if (in > oldIn) {
+        // Moving to the right, process in reverse order to prevent collisions
+        std::sort(positions.begin(), positions.end(), std::greater<>());
+    } else {
+        std::sort(positions.begin(), positions.end());
+    }
+    for (const auto &param : m_parameters) {
+        for (auto frame : qAsConst(positions)) {
+            param.second->moveKeyframe(frame, frame + offset, QVariant(), undo, redo);
+        }
+    }
+}
+
 
 void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
@@ -524,7 +557,7 @@ void KeyframeModelList::checkConsistency()
         }
     }
     Fun local_update = []() { return true; };
-    KeyframeType type = (KeyframeType)KdenliveSettings::defaultkeyframeinterp();
+    auto type = KeyframeType(KdenliveSettings::defaultkeyframeinterp());
     for (const auto &param : m_parameters) {
         QList<GenTime> list = param.second->getKeyframePos();
         for (auto &time : fullList) {

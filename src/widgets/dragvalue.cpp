@@ -34,6 +34,8 @@
 #include <QFontDatabase>
 #include <QStyle>
 #include <klocalizedstring.h>
+#include <kwidgetsaddons_version.h>
+
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, bool oddOnly, 
                      QWidget *parent)
@@ -101,8 +103,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         if (m_maximum - m_minimum > 10000) {
             factor = 1000;
         }
-        m_label->setStep(1);
-        m_doubleEdit->setSingleStep((m_maximum - m_minimum) / factor);
+        double steps = (m_maximum - m_minimum) / factor;
+        m_doubleEdit->setSingleStep(steps);
+        m_label->setStep(steps);
+        //m_label->setStep(1);
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
@@ -142,7 +146,11 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
     connect(m_scale, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &DragValue::slotSetScaleMode);
+#else
+    connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
+#endif
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
 }
 
@@ -240,6 +248,7 @@ void DragValue::setRange(qreal min, qreal max)
     } else {
         m_doubleEdit->setRange(m_minimum, m_maximum);
     }
+    m_label->setMaximum(max - min);
 }
 
 void DragValue::setStep(qreal step)
@@ -249,6 +258,7 @@ void DragValue::setStep(qreal step)
     } else {
         m_doubleEdit->setSingleStep(step);
     }
+    m_label->setStep(step);
 }
 
 void DragValue::slotReset()
@@ -407,6 +417,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     , m_dragMode(false)
     , m_showSlider(showSlider)
     , m_step(10.0)
+    , m_value(0.)
 // m_precision(pow(10, precision)),
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -442,7 +453,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *e)
 
 void CustomLabel::mouseMoveEvent(QMouseEvent *e)
 {
-    if (m_dragStartPosition != QPoint(-1, -1)) {
+    if ((e->buttons() & Qt::LeftButton) && m_dragStartPosition != QPoint(-1, -1)) {
         if (!m_dragMode && (e->pos() - m_dragStartPosition).manhattanLength() >= QApplication::startDragDistance()) {
             m_dragMode = true;
             m_dragLastPosition = e->pos();
@@ -461,9 +472,8 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                 if (KdenliveSettings::dragvalue_mode() == 2) {
                     diff = (diff > 0 ? 1 : -1) * pow(diff, 2);
                 }
-
-                double nv = value() + diff * m_step;
-                if (!qFuzzyCompare(nv, value())) {
+                double nv = m_value + diff * m_step;
+                if (!qFuzzyCompare(nv, m_value)) {
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
             } else {
@@ -482,7 +492,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
             e->accept();
         }
     } else {
-        QWidget::mouseMoveEvent(e);
+        QProgressBar::mouseMoveEvent(e);
     }
 }
 
@@ -498,7 +508,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         return;
     }
     if (m_dragMode) {
-        setNewValue(value(), true);
+        setNewValue(m_value, true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
@@ -518,7 +528,11 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
 
 void CustomLabel::wheelEvent(QWheelEvent *e)
 {
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     if (e->delta() > 0) {
+#else
+    if (e->angleDelta().y() > 0) {
+#endif
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueInc(10);
         } else if (e->modifiers() == Qt::AltModifier) {
@@ -540,23 +554,25 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
 
 void CustomLabel::slotValueInc(double factor)
 {
-    setNewValue(value() + m_step * factor, true);
+    setNewValue(m_value + m_step * factor, true);
 }
 
 void CustomLabel::slotValueDec(double factor)
 {
-    setNewValue(value() - m_step * factor, true);
+    setNewValue(m_value - m_step * factor, true);
 }
 
 void CustomLabel::setProgressValue(double value)
 {
+    m_value = value;
     setValue(qRound(value));
 }
 
 void CustomLabel::setNewValue(double value, bool update)
 {
+    m_value = value;
     setValue(qRound(value));
-    emit valueChanged(qRound(value), update);
+    emit valueChanged(value, update);
 }
 
 void CustomLabel::setStep(double step)

@@ -27,12 +27,6 @@
 #include <QPair>
 #include <QPixmap>
 
-/**
- * @class Generators
- * @brief Base class for clip generators.
- *
- */
-
 namespace Mlt {
 class Producer;
 }
@@ -42,6 +36,9 @@ class QResizeEvent;
 class ParameterContainer;
 class TimecodeDisplay;
 
+/** @class Generators
+    @brief Base class for clip generators.
+ */
 class Generators : public QDialog
 {
     Q_OBJECT

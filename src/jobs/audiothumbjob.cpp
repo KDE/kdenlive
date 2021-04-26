@@ -83,7 +83,7 @@ bool AudioThumbJob::computeWithMlt()
     double maxLevel = 1;
     QVector <double> mltLevels;
     for (int z = 0; z < m_lengthInFrames; ++z) {
-        int val = (int)(100.0 * z / m_lengthInFrames);
+        int val = int(100.0 * z / m_lengthInFrames);
         if (last_val != val) {
             emit jobProgress(val);
             last_val = val;
@@ -105,7 +105,7 @@ bool AudioThumbJob::computeWithMlt()
     }
     // Normalize
     for (double &v : mltLevels) {
-        m_audioLevels << 255 * v / maxLevel;
+        m_audioLevels << uchar(255 * v / maxLevel);
     }
 
     m_done = true;
@@ -203,7 +203,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                  << QStringLiteral("-f") << QStringLiteral("data") << channelFiles[size_t(i)]->fileName();
             }
         }
-        m_ffmpegProcess.reset(new QProcess);
+        m_ffmpegProcess = std::make_unique<QProcess>();
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&]() {
             if (m_ffmpegProcess) {
@@ -238,12 +238,12 @@ bool AudioThumbJob::computeWithFFMPEG()
             }
             int progress = 0;
             std::vector<long> channelsData;
-            double offset = (double)dataSize / (2.0 * m_lengthInFrames);
+            double offset = double(dataSize) / (2.0 * m_lengthInFrames);
             int intraOffset = 1;
             if (offset > 1000) {
-                intraOffset = offset / 60;
+                intraOffset = int(offset / 60);
             } else if (offset > 250) {
-                intraOffset = offset / 10;
+                intraOffset = int(offset / 10);
             }
 
             long maxAudioLevel = 1;
@@ -253,11 +253,11 @@ bool AudioThumbJob::computeWithFFMPEG()
             }
             std::vector <long> ffmpegLevels;
             for (int i = 0; i < m_lengthInFrames; i++) {
-                channelsData.resize((size_t)rawChannels.size());
+                channelsData.resize(size_t(rawChannels.size()));
                 std::fill(channelsData.begin(), channelsData.end(), 0);
-                int pos = (int)(i * offset);
+                int pos = int(i * offset);
                 int steps = 0;
-                for (int j = 0; j < (int)offset && (pos + j < dataSize); j += intraOffset) {
+                for (int j = 0; j < int(offset) && (pos + j < dataSize); j += intraOffset) {
                     steps++;
                     for (size_t k = 0; k < rawChannels.size(); k++) {
                         channelsData[k] += abs(rawChannels[k][pos + j]);
@@ -284,7 +284,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 return true;
             }
             for (long &v : ffmpegLevels) {
-                m_audioLevels << (uint8_t) (255 * v / maxAudioLevel);
+                m_audioLevels << uint8_t(255 * v / maxAudioLevel);
             }
             m_done = true;
             return true;
@@ -310,7 +310,7 @@ void AudioThumbJob::updateFfmpegProgress()
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
             double ms = data.section(QLatin1Char('='), 1).toDouble();
-            emit jobProgress((int)(ms / m_binClip->duration().ms() / 10));
+            emit jobProgress(int(ms / m_binClip->duration().ms() / 10));
         } else {
             m_logDetails += data + QStringLiteral("\n");
         }
@@ -396,7 +396,7 @@ bool AudioThumbJob::startJob()
         if (ok && !QFile::exists(m_cachePath) && m_done && !m_audioLevels.isEmpty()) {
             // Put into an image for caching.
             int count = m_audioLevels.size();
-            QImage image((int)lrint((count + 3) / 4.0 / m_channels), m_channels, QImage::Format_ARGB32);
+            QImage image(int(lrint((count + 3) / 4.0 / m_channels)), m_channels, QImage::Format_ARGB32);
             int n = image.width() * image.height();
             for (int i = 0; i < n; i++) {
                 QRgb p;

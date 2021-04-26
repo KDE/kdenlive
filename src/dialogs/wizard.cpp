@@ -89,7 +89,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     , m_brokenModule(false)
 {
     setWindowTitle(i18n("Welcome to Kdenlive"));
-    int logoHeight = fontMetrics().height() * 2.5;
+    int logoHeight = int(fontMetrics().height() * 2.5);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
     // setOption(QWizard::ExtendedWatermarkPixmap, false);
@@ -120,7 +120,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             QLabel *lab = new QLabel(this);
             lab->setText(i18n("Converting old custom effects successful:"));
             m_startLayout->addWidget(lab);
-            QListWidget *list = new QListWidget(this);
+            auto *list = new QListWidget(this);
             m_startLayout->addWidget(list);
             list->addItems(conversion.first);
         }
@@ -128,7 +128,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             QLabel *lab = new QLabel(this);
             lab->setText(i18n("Converting old custom effects failed:"));
             m_startLayout->addWidget(lab);
-            QListWidget *list = new QListWidget(this);
+            auto *list = new QListWidget(this);
             m_startLayout->addWidget(list);
             list->addItems(conversion.second);
         }
@@ -501,11 +501,11 @@ void Wizard::checkMltComponents()
             consumer->set("acodec", "list");
             consumer->set("f", "list");
             consumer->start();
-            Mlt::Properties vcodecs((mlt_properties)consumer->get_data("vcodec"));
+            Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
             for (int i = 0; i < vcodecs.count(); ++i) {
                 vcodecsList << QString(vcodecs.get(i));
             }
-            Mlt::Properties acodecs((mlt_properties)consumer->get_data("acodec"));
+            Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
             for (int i = 0; i < acodecs.count(); ++i) {
                 acodecsList << QString(acodecs.get(i));
             }

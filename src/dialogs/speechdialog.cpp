@@ -30,13 +30,15 @@
 #include "mlt++/MltTractor.h"
 #include "mlt++/MltConsumer.h"
 
-#include <QFontDatabase>
-#include <QDir>
-#include <QProcess>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <QDir>
+#include <QFontDatabase>
+#include <QProcess>
+#include <memory>
+#include <utility>
 
-SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly, bool selectionOnly, QWidget *parent)
+SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool, bool, QWidget *parent)
     : QDialog(parent)
     , m_timeline(timeline)
     
@@ -45,25 +47,19 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
     setupUi(this);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
-    vosk_config->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    vosk_config->setToolTip(i18n("Configure speech recognition"));
-    connect(vosk_config, &QToolButton::clicked, [this]() {
+    m_voskConfig = new QAction(i18n("Configure"), this);
+    connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
-    m_availableConnection = connect(pCore.get(), &Core::updateVoskAvailability, this, &SpeechDialog::updateAvailability);
     m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
-        updateAvailability();
         if (models.isEmpty()) {
+            speech_info->addAction(m_voskConfig);
             speech_info->setMessageType(KMessageWidget::Information);
             speech_info->setText(i18n("Please install speech recognition models"));
             speech_info->animatedShow();
-            vosk_config->setVisible(true);
         } else {
-            if (KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
-                vosk_config->setVisible(false);
-            }
             if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
                 int ix = language_box->findText(KdenliveSettings::vosk_srt_model());
                 if (ix > -1) {
@@ -90,26 +86,31 @@ SpeechDialog::SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, Q
 
 SpeechDialog::~SpeechDialog()
 {
-    QObject::disconnect(m_availableConnection);
     QObject::disconnect(m_modelsConnection);
-}
-
-void SpeechDialog::updateAvailability()
-{
-    bool enabled = KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found() && language_box->count() > 0;
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(enabled);
-    vosk_config->setVisible(!enabled);
 }
 
 void SpeechDialog::slotProcessSpeech(QPoint zone)
 {
+#ifdef Q_OS_WIN
+    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+#else
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+#endif
     if (pyExec.isEmpty()) {
+        speech_info->removeAction(m_voskConfig);
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Cannot find python3, please install it on your system."));
         speech_info->animatedShow();
         return;
     }
+    if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("Please configure speech to text."));
+        speech_info->animatedShow();
+        speech_info->addAction(m_voskConfig);
+        return;
+    }
+    speech_info->removeAction(m_voskConfig);
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting audio export"));
     speech_info->show();
@@ -118,8 +119,8 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     QString speech;
     QString audio;
     QTemporaryFile tmpPlaylist(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-    m_tmpSrt.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt"))));
-    m_tmpAudio.reset(new QTemporaryFile(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav"))));
+    m_tmpSrt = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt")));
+    m_tmpAudio = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav")));
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
@@ -178,7 +179,7 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
         modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
-    m_speechJob.reset(new QProcess(this));
+    m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, speech, zone](int, QProcess::ExitStatus status) {
        slotProcessSpeechStatus(status, speech, zone);

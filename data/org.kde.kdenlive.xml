@@ -2,8 +2,11 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
+    <comment xml:lang="az">Kdenlive video layihəsi sənədi</comment>
     <comment xml:lang="ca">Document de projecte de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Document de projecte de vídeo del Kdenlive</comment>
+    <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
+    <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
     <comment xml:lang="es">Proyecto de video de Kdenlive</comment>
     <comment xml:lang="eu">Kdenlive-ko bideo-proiektuaren dokumentua</comment>
@@ -19,14 +22,17 @@
     <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="uk">документ відеопроєкту Kdenlive</comment>
-    <comment xml:lang="zh_CN">Kdenlive 视频项目文档</comment>
+    <comment xml:lang="zh_CN">Kdenlive 视频工程文件</comment>
     <sub-class-of type="video/mlt-playlist"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
+    <comment xml:lang="az">Kdenlive video başlığı</comment>
     <comment xml:lang="ca">Títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
+    <comment xml:lang="cs">Název videa Kdenlive</comment>
+    <comment xml:lang="de">Kdenlive-Videotitel</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
     <comment xml:lang="es">Título de video de Kdenlive</comment>
     <comment xml:lang="eu">Kdenlive-ko bideo-izenburua</comment>
@@ -47,8 +53,11 @@
   </mime-type>
   <mime-type type="application/kdenlivelayout">
     <comment>Kdenlive application layout</comment>
+    <comment xml:lang="az">Kdenlive tətbiq qatı</comment>
     <comment xml:lang="ca">Disposició de l'aplicació Kdenlive</comment>
     <comment xml:lang="ca@valencia">Disposició de l'aplicació Kdenlive</comment>
+    <comment xml:lang="cs">Rozvržení aplikace Kdenlive</comment>
+    <comment xml:lang="de">Kdenlive-Anwendungslayout</comment>
     <comment xml:lang="en_GB">Kdenlive application layout</comment>
     <comment xml:lang="es">Organización de paneles de Kdenlive</comment>
     <comment xml:lang="eu">Kdenlive aplikazioaren antolaera</comment>
@@ -62,6 +71,7 @@
     <comment xml:lang="sl">Kdenlive postavitev aplikacije</comment>
     <comment xml:lang="sv">Kdenlive programlayout</comment>
     <comment xml:lang="uk">Компонування вікон програми Kdenlive</comment>
+    <comment xml:lang="zh_CN">Kdenlive 应用程序布局</comment>
     <sub-class-of type="text/plain"/>
     <glob pattern="*.kdenlivelayout"/>
   </mime-type>

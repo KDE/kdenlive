@@ -55,63 +55,63 @@ struct band
 static const band BAND_TAB[] = {
     //     Low      Preferred  High                Band
     //     Freq      Center    Freq     Label       Num
-    {1.12, 1.25, 1.41, "1.25"},            //  1
-    {1.41, 1.60, 1.78, "1.6"},             //  2
-    {1.78, 2.00, 2.24, "2.0"},             //  3
-    {2.24, 2.50, 2.82, "2.5"},             //  4
-    {2.82, 3.15, 3.55, "3.15"},            //  5
-    {3.55, 4.00, 4.44, "4.0"},             //  6
-    {4.44, 5.00, 6.00, "5.0"},             //  7
-    {6.00, 6.30, 7.00, "6.3"},             //  8
-    {7.00, 8.00, 9.00, "8.0"},             //  9
-    {9.00, 10.00, 11.00, "10"},            // 10
-    {11.00, 12.50, 14.00, "12.5"},         // 11
-    {14.00, 16.00, 18.00, "16"},           // 12
-    {18.00, 20.00, 22.00, "20"},           // 13 - First in audible range
-    {22.00, 25.00, 28.00, "25"},           // 14
-    {28.00, 31.50, 35.00, "31"},           // 15
-    {35.00, 40.00, 45.00, "40"},           // 16
-    {45.00, 50.00, 56.00, "50"},           // 17
-    {56.00, 63.00, 71.00, "63"},           // 18
-    {71.00, 80.00, 90.00, "80"},           // 19
-    {90.00, 100.00, 112.00, "100"},        // 20
-    {112.00, 125.00, 140.00, "125"},       // 21
-    {140.00, 160.00, 179.00, "160"},       // 22
-    {179.00, 200.00, 224.00, "200"},       // 23
-    {224.00, 250.00, 282.00, "250"},       // 24
-    {282.00, 315.00, 353.00, "315"},       // 25
-    {353.00, 400.00, 484.00, "400"},       // 26
-    {484.00, 500.00, 560.00, "500"},       // 27
-    {560.00, 630.00, 706.00, "630"},       // 28
-    {706.00, 800.00, 897.00, "800"},       // 29
-    {897.00, 1000.00, 1121.00, "1k"},      // 30
-    {1121.00, 1250.00, 1401.00, "1.3k"},   // 31
-    {1401.00, 1600.00, 1794.00, "1.6k"},   // 32
-    {1794.00, 2000.00, 2242.00, "2k"},     // 33
-    {2242.00, 2500.00, 2803.00, "2.5k"},   // 34
-    {2803.00, 3150.00, 3531.00, "3.2k"},   // 35
-    {3531.00, 4000.00, 4484.00, "4k"},     // 36
-    {4484.00, 5000.00, 5605.00, "5k"},     // 37
-    {5605.00, 6300.00, 7062.00, "6.3k"},   // 38
-    {7062.00, 8000.00, 8908.00, "8k"},     // 39
-    {8908.00, 10000.00, 11210.00, "10k"},  // 40
-    {11210.00, 12500.00, 14012.00, "13k"}, // 41
-    {14012.00, 16000.00, 17936.00, "16k"}, // 42
-    {17936.00, 20000.00, 22421.00, "20k"}, // 43 - Last in audible range
+    {1.12f, 1.25f, 1.41f, "1.25"},            //  1
+    {1.41f, 1.60f, 1.78f, "1.6"},             //  2
+    {1.78f, 2.00f, 2.24f, "2.0"},             //  3
+    {2.24f, 2.50f, 2.82f, "2.5"},             //  4
+    {2.82f, 3.15f, 3.55f, "3.15"},            //  5
+    {3.55f, 4.00f, 4.44f, "4.0"},             //  6
+    {4.44f, 5.00f, 6.00f, "5.0"},             //  7
+    {6.00f, 6.30f, 7.00f, "6.3"},             //  8
+    {7.00f, 8.00f, 9.00f, "8.0"},             //  9
+    {9.00f, 10.00f, 11.00f, "10"},            // 10
+    {11.00f, 12.50f, 14.00f, "12.5"},         // 11
+    {14.00f, 16.00f, 18.00f, "16"},           // 12
+    {18.00f, 20.00f, 22.00f, "20"},           // 13 - First in audible range
+    {22.00f, 25.00f, 28.00f, "25"},           // 14
+    {28.00f, 31.50f, 35.00f, "31"},           // 15
+    {35.00f, 40.00f, 45.00f, "40"},           // 16
+    {45.00f, 50.00f, 56.00f, "50"},           // 17
+    {56.00f, 63.00f, 71.00f, "63"},           // 18
+    {71.00f, 80.00f, 90.00f, "80"},           // 19
+    {90.00f, 100.00f, 112.00f, "100"},        // 20
+    {112.00f, 125.00f, 140.00f, "125"},       // 21
+    {140.00f, 160.00f, 179.00f, "160"},       // 22
+    {179.00f, 200.00f, 224.00f, "200"},       // 23
+    {224.00f, 250.00f, 282.00f, "250"},       // 24
+    {282.00f, 315.00f, 353.00f, "315"},       // 25
+    {353.00f, 400.00f, 484.00f, "400"},       // 26
+    {484.00f, 500.00f, 560.00f, "500"},       // 27
+    {560.00f, 630.00f, 706.00f, "630"},       // 28
+    {706.00f, 800.00f, 897.00f, "800"},       // 29
+    {897.00f, 1000.00f, 1121.00f, "1k"},      // 30
+    {1121.00f, 1250.00f, 1401.00f, "1.3k"},   // 31
+    {1401.00f, 1600.00f, 1794.00f, "1.6k"},   // 32
+    {1794.00f, 2000.00f, 2242.00f, "2k"},     // 33
+    {2242.00f, 2500.00f, 2803.00f, "2.5k"},   // 34
+    {2803.00f, 3150.00f, 3531.00f, "3.2k"},   // 35
+    {3531.00f, 4000.00f, 4484.00f, "4k"},     // 36
+    {4484.00f, 5000.00f, 5605.00f, "5k"},     // 37
+    {5605.00f, 6300.00f, 7062.00f, "6.3k"},   // 38
+    {7062.00f, 8000.00f, 8908.00f, "8k"},     // 39
+    {8908.00f, 10000.00f, 11210.00f, "10k"},  // 40
+    {11210.00f, 12500.00f, 14012.00f, "13k"}, // 41
+    {14012.00f, 16000.00f, 17936.00f, "16k"}, // 42
+    {17936.00f, 20000.00f, 22421.00f, "20k"}, // 43 - Last in audible range
 };
 
 static const int FIRST_AUDIBLE_BAND_INDEX = 12;
 static const int LAST_AUDIBLE_BAND_INDEX = 42;
 static const int AUDIBLE_BAND_COUNT = LAST_AUDIBLE_BAND_INDEX - FIRST_AUDIBLE_BAND_INDEX + 1;
 
-const double log_factor = 1.0 / log10(1.0 / 127);
+const float log_factor = 1.0f / log10f(1.0f / 127);
 
-static inline double levelToDB(double dB)
+static inline float levelToDB(float dB)
 {
     if (dB <= 0) {
         return 0;
     }
-    return (1.0 - log10(dB) * log_factor);
+    return (1.0f - log10f(dB) * log_factor);
 }
 
 /*EqualizerWidget::EqualizerWidget(QWidget *parent) : QWidget(parent)
@@ -144,7 +144,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 }
 
-void AudioGraphWidget::showAudio(const QVector<double> &bands)
+void AudioGraphWidget::showAudio(const QVector<float> &bands)
 {
     m_levels = bands;
     update();
@@ -167,7 +167,7 @@ void AudioGraphWidget::drawDbLabels(QPainter &p, const QRect &rect)
     for (int i = 0; i < dbLabelCount; i++) {
         QString label = QString::number(m_dbLabels.at(i));
         int x = rect.left() + maxWidth - fontMetrics().horizontalAdvance(label);
-        int yline = rect.bottom() - pow(10.0, (double)m_dbLabels.at(i) / 50.0) * rect.height() * 40.0 / 42;
+        int yline = int(rect.bottom() - pow(10.0, double(m_dbLabels.at(i)) / 50.0) * rect.height() * 40.0 / 42);
         int y = yline + textHeight / 2;
         if (y - textHeight < 0) {
             y = textHeight;
@@ -262,7 +262,7 @@ void AudioGraphWidget::paintEvent(QPaintEvent *pe)
     p.setOpacity(0.6);
     QRectF rect(m_rect.left(), 0, barWidth, height);
     for (int i = 0; i < chanCount; i++) {
-        double level = (0.5 + m_levels.at(i)) / 1.5 * height;
+        float level = (0.5 + m_levels.at(i)) / 1.5 * height;
         if (level < 0) {
             continue;
         }
@@ -369,17 +369,17 @@ void AudioGraphSpectrum::refreshScope(const QSize & /*size*/, bool /*full*/)
 
 void AudioGraphSpectrum::processSpectrum()
 {
-    QVector<double> bands(AUDIBLE_BAND_COUNT);
-    auto *bins = (float *)m_filter->get_data("bins");
+    QVector<float> bands(AUDIBLE_BAND_COUNT);
+    auto *bins = static_cast<float *>(m_filter->get_data("bins"));
     int bin_count = m_filter->get_int("bin_count");
-    double bin_width = m_filter->get_double("bin_width");
+    float bin_width = float(m_filter->get_double("bin_width"));
 
     int band = 0;
     bool firstBandFound = false;
     for (int bin = 0; bin < bin_count; bin++) {
         // Loop through all the FFT bins and align bin frequencies with
         // band frequencies.
-        double F = bin_width * (double)bin;
+        float F = bin_width * bin;
 
         if (!firstBandFound) {
             // Skip bins that come before the first band.
@@ -407,11 +407,11 @@ void AudioGraphSpectrum::processSpectrum()
     // At this point, bands contains the magnitude of the signal for each
     // band. Convert to dB.
     for (band = 0; band < bands.size(); band++) {
-        double mag = bands[band];
-        double dB = mag > 0.0 ? levelToDB(mag) : -100.0;
+        float mag = bands[band];
+        float dB = mag > 0.0f ? levelToDB(mag) : -100.0;
         bands[band] = dB;
     }
 
     // Update the audio signal widget
-    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(QVector<double>, bands));
+    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(QVector<float>, bands));
 }

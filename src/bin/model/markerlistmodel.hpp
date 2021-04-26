@@ -37,28 +37,27 @@ class ClipController;
 class DocUndoStack;
 class SnapInterface;
 
-/* @brief This class is the model for a list of markers.
-   A marker is defined by a time, a type (the color used to represent it) and a comment string.
-   We store them in a sorted fashion using a std::map
+/** @class MarkerListModel
+    @brief This class is the model for a list of markers.
+    A marker is defined by a time, a type (the color used to represent it) and a comment string.
+    We store them in a sorted fashion using a std::map
 
-   A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
-
+    A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
  */
-
 class MarkerListModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    /* @brief Construct a marker list bound to the bin clip with given id */
+    /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    /* @brief Construct a guide list (bound to the timeline) */
+    /** @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole };
 
-    /* @brief Adds a marker at the given position. If there is already one, the comment will be overridden
+    /** @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip
        @param comment is the text associated with the marker
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
@@ -67,22 +66,22 @@ public:
     bool addMarkers(QMap <GenTime, QString> markers, int type = -1);
 
 protected:
-    /* @brief Same function but accumulates undo/redo */
+    /** @brief Same function but accumulates undo/redo */
     bool addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo);
 
 public:
-    /* @brief Removes the marker at the given position.
+    /** @brief Removes the marker at the given position.
        Returns false if no marker was found at given pos
      */
     bool removeMarker(GenTime pos);
-    /* @brief Delete all the markers of the model */
+    /** @brief Delete all the markers of the model */
     bool removeAllMarkers();
 
-    /* @brief Same function but accumulates undo/redo */
+    /** @brief Same function but accumulates undo/redo */
     bool removeMarker(GenTime pos, Fun &undo, Fun &redo);
 
 public:
-    /* @brief Edit a marker
+    /** @brief Edit a marker
        @param oldPos is the old position of the marker
        @param pos defines the new position of the marker, relative to the clip
        @param comment is the text associated with the marker
@@ -90,7 +89,7 @@ public:
     */
     bool editMarker(GenTime oldPos, GenTime pos, QString comment = QString(), int type = -1);
 
-    /* @brief Moves all markers from on to another position
+    /** @brief Moves all markers from on to another position
        @param markers list of markers to move
        @param fromPos
        @param toPos
@@ -98,32 +97,34 @@ public:
        @param redo
     */
     bool moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
+    bool moveMarker(int mid, GenTime pos);
 
+    /** @brief This describes the available markers type and their corresponding colors */
+    static std::array<QColor, 9> markerTypes;
 
-    /* @brief This describes the available markers type and their corresponding colors */
-    static std::array<QColor, 5> markerTypes;
-
-    /* @brief Returns a marker data at given pos */
+    /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;
 
-    /* @brief Returns all markers in model */
+    /** @brief Returns all markers in model */
     QList<CommentedTime> getAllMarkers() const;
 
-    /* @brief Returns all markers of model that are intersect with a given range.
+    /** @brief Returns all markers of model that are intersect with a given range.
      * @param start is the position where start to search for markers
      * @param end is the position after which markers will not be returned, set to -1 to get all markers after start
     */
     QList<CommentedTime> getMarkersInRange(int start, int end) const;
 
-    /* @brief Returns all markers positions in model */
+    /** @brief Returns all markers positions in model */
     std::vector<int> getSnapPoints() const;
 
-    /* @brief Returns true if a marker exists at given pos
+    /** @brief Returns true if a marker exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasMarker(int frame) const;
+    bool hasMarker(GenTime pos) const;
+    CommentedTime marker(GenTime pos) const;
 
-    /* @brief Registers a snapModel to the marker model.
+    /** @brief Registers a snapModel to the marker model.
        This is intended to be used for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves. This is also used
        on the clip monitor to keep tracking the clip markers
        The snap logic for clips is managed from the Timeline
@@ -131,10 +132,10 @@ public:
     */
     void registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
 
-    /* @brief Exports the model to json using format above */
+    /** @brief Exports the model to json using format above */
     QString toJson() const;
 
-    /* @brief Shows a dialog to edit a marker/guide
+    /** @brief Shows a dialog to edit a marker/guide
        @param pos: position of the marker to edit, or new position for a marker
        @param widget: qt widget that will be the parent of the dialog
        @param createIfNotFound: if true, we create a marker if none is found at pos
@@ -149,7 +150,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 public slots:
-    /* @brief Imports a list of markers from json data
+    /** @brief Imports a list of markers from json data
    The data should be formatted as follows:
    [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
    return true on success and logs undo object
@@ -161,11 +162,11 @@ public slots:
     bool importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo);
 
 protected:
-    /* @brief Adds a snap point at marker position in the registered snap models
+    /** @brief Adds a snap point at marker position in the registered snap models
      (those that are still valid)*/
     void addSnapPoint(GenTime pos);
 
-    /* @brief Deletes a snap point at marker position in the registered snap models
+    /** @brief Deletes a snap point at marker position in the registered snap models
        (those that are still valid)*/
     void removeSnapPoint(GenTime pos);
 
@@ -181,27 +182,27 @@ protected:
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
     static std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
 
-    /* @brief Connects the signals of this object */
+    /** @brief Connects the signals of this object */
     void setup();
 
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
+    /** @brief whether this model represents timeline-wise guides */
+    bool m_guide;
+    /** @brief the Id of the clip this model corresponds to, if any. */
+    QString m_clipId;
 
-    bool m_guide;     // whether this model represents timeline-wise guides
-    QString m_clipId; // the Id of the clip this model corresponds to, if any.
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
 
-    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
-
-    std::map<GenTime, std::pair<QString, int>> m_markerList;
+    std::map<int, CommentedTime> m_markerList;
     std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
+    int getRowfromId(int mid) const;
+    int getIdFromPos(const GenTime &pos) const;
 
 signals:
     void modelChanged();
 
-public:
-    // this is to enable for range loops
-    auto begin() -> decltype(m_markerList.begin()) { return m_markerList.begin(); }
-    auto end() -> decltype(m_markerList.end()) { return m_markerList.end(); }
 };
 Q_DECLARE_METATYPE(MarkerListModel *)
 

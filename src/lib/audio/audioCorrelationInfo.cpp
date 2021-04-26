@@ -75,15 +75,15 @@ QImage AudioCorrelationInfo::toImage(size_t height) const
     size_t width = size();
     qint64 maxVal = max();
 
-    QImage img((int)width, (int)height, QImage::Format_ARGB32);
+    QImage img(int(width), int(height), QImage::Format_ARGB32);
     img.fill(qRgb(255, 255, 255));
 
     if (maxVal == 0) {
         return img;
     }
 
-    for (int x = 0; x < (int)width; ++x) {
-        int val = img.height() * (int)m_correlationVector[x] / (int)maxVal;
+    for (int x = 0; x < int(width); ++x) {
+        int val = img.height() * int(m_correlationVector[x] / maxVal);
         for (int y = img.height() - 1; y > img.height() - val - 1; --y) {
             img.setPixel(x, y, qRgb(50, 50, 50));
         }

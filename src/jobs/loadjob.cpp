@@ -41,11 +41,12 @@
 #include <QWidget>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <utility>
 
-LoadJob::LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack)
+LoadJob::LoadJob(const QString &binId, const QDomElement &xml, std::function<void()> readyCallBack)
     : AbstractClipJob(LOADJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_xml(xml)
-    , m_readyCallBack(readyCallBack)
+    , m_readyCallBack(std::move(readyCallBack))
 {
 }
 
@@ -243,7 +244,7 @@ void LoadJob::processSlideShow()
                 QString softness = Xml::getXmlProperty(m_xml, QStringLiteral("softness"));
                 if (!softness.isEmpty()) {
                     int soft = softness.toInt();
-                    filter->set("luma.softness", (double)soft / 100.0);
+                    filter->set("luma.softness", double(soft) / 100.0);
                 }
             }
             m_producer->attach(*filter);
@@ -283,7 +284,7 @@ bool LoadJob::startJob()
         break;
     case ClipType::Text:
     case ClipType::TextTemplate: {
-            bool ok;
+            bool ok = false;
             int producerLength = 0;
             QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
             if (pLength.isEmpty()) {
@@ -357,7 +358,7 @@ bool LoadJob::startJob()
         m_producer = loadPlaylist(m_resource);
         if (!m_errorMessage.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString,m_errorMessage),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         }
         if (m_producer && m_resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(m_resource);
@@ -412,7 +413,7 @@ bool LoadJob::startJob()
             m_producer.reset();
         }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", m_resource)),
-                                  Q_ARG(int, (int)KMessageWidget::Warning));
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
@@ -431,7 +432,7 @@ bool LoadJob::startJob()
         QList<QAction*>actions = {ac};
         
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", m_resource)),
-                                  Q_ARG(int, (int)KMessageWidget::Warning), Q_ARG(QList<QAction*>, actions));
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
@@ -454,8 +455,10 @@ bool LoadJob::startJob()
     QMimeDatabase db;
     const QString mime = db.mimeTypeForFile(m_resource).name();
     const bool isGif = mime.contains(QLatin1String("image/gif"));
-    if (duration == 0 && (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
-        type == ClipType::SlideShow) || (isGif && mltService == QLatin1String("qimage"))) {
+    if ((duration == 0 && (
+                type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText
+                || type == ClipType::Color || type == ClipType::Image || type == ClipType::SlideShow))
+            || (isGif && mltService == QLatin1String("qimage"))) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();
@@ -520,11 +523,17 @@ bool LoadJob::startJob()
         fps = originalFps;
         if (originalFps > 0 && !qFuzzyCompare(originalFps, pCore->getCurrentFps())) {
             int originalLength = tmpProd->get_length();
-            int fixedLength = (int)(originalLength * pCore->getCurrentFps() / originalFps);
+            int fixedLength = int(originalLength * pCore->getCurrentFps() / originalFps);
             m_producer->set("length", fixedLength);
             m_producer->set("out", fixedLength - 1);
         }
     } else if (mltService == QLatin1String("avformat")) {
+        // Check if file is seekable
+        bool seekable = m_producer->get_int("seekable");
+        if (!seekable) {
+            m_producer->set("kdenlive:transcodingrequired", 1);
+            qDebug()<<"================0\n\nFOUND UNSEEKABLE FILE: "<<m_producer->get("resource")<<"\n\n===================";
+        }
         // check if there are multiple streams
         vindex = m_producer->get_int("video_index");
         // List streams
@@ -601,7 +610,7 @@ void LoadJob::processMultiStream()
         return;
     }
 
-    int width = 60.0 * pCore->getCurrentDar();
+    int width = int(60.0 * pCore->getCurrentDar());
     if (width % 2 == 1) {
         width++;
     }
@@ -735,7 +744,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
         m_readyCallBack();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
-            pCore->selectBinClip(m_clipId);
+            pCore->selectBinClip(m_clipId, false);
         }
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }

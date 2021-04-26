@@ -24,8 +24,8 @@
 
 class QPointF;
 
-/**
- * Hold the data for a cubic curve.
+/** @class KisCubicCurve
+    @brief Hold the data for a cubic curve.
  */
 class KisCubicCurve
 {

@@ -27,6 +27,10 @@
 #include <QQuickImageProvider>
 #include <memory>
 
+/** @class AssetIconProvider
+    @brief \@todo Describe class AssetIconProvider
+    @todo Describe class AssetIconProvider
+ */
 class AssetIconProvider : public QQuickImageProvider
 {
 public:

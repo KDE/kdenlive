@@ -27,18 +27,19 @@
 #include <QProcess>
 #include <QTemporaryFile>
 
+class QAction;
+
 /**
  * @class SpeechDialog
  * @brief A dialog for editing markers and guides.
  * @author Jean-Baptiste Mardelle
  */
-
 class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
 {
     Q_OBJECT
 
 public:
-    explicit SpeechDialog(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
+    explicit SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
     ~SpeechDialog() override;
 
 private:
@@ -47,14 +48,13 @@ private:
     int m_duration;
     std::unique_ptr<QTemporaryFile> m_tmpAudio;
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
-    QMetaObject::Connection m_availableConnection;
     QMetaObject::Connection m_modelsConnection;
+    QAction *m_voskConfig;
     void parseVoskDictionaries();
 
 private slots:
     void slotProcessSpeech(QPoint zone);
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone);
-    void updateAvailability();
     void slotProcessProgress();
 };
 

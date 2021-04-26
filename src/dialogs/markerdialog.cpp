@@ -23,6 +23,8 @@
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
+#include "project/projectmanager.h"
+#include "bin/model/markerlistmodel.hpp"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
@@ -40,9 +42,12 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     setWindowTitle(caption);
 
     // Set  up categories
-    for (int i = 0; i < 5; ++i) {
-        marker_type->insertItem(i, i18n("Category %1", i));
-        marker_type->setItemData(i, CommentedTime::markerColor(i), Qt::DecorationRole);
+    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
+    QPixmap pixmap(32,32);
+    for (uint i = 0; i < markerTypes.size(); ++i) {
+        pixmap.fill(markerTypes[size_t(i)]);
+        QIcon colorIcon(pixmap);
+        marker_type->addItem(colorIcon, i18n("Category %1", i));
     }
     marker_type->setCurrentIndex(t.markerType());
 
@@ -56,7 +61,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         m_in->setRange(0, m_clip->getFramePlaytime());
         m_previewTimer->setInterval(100);
         connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
-        int width = 200 * pCore->getCurrentDar();
+        int width = int(200 * pCore->getCurrentDar());
         QPixmap p(width, 200);
         p.fill(Qt::transparent);
         switch (m_clip->clipType()) {

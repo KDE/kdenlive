@@ -69,7 +69,7 @@ Rectangle {
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property bool selected: false
-    property bool isLocked: parentTrack && parentTrack.isLocked == true
+    property bool isLocked: parentTrack && parentTrack.isLocked === true
     property bool hasAudio
     property bool canBeAudio
     property bool canBeVideo
@@ -120,7 +120,7 @@ Rectangle {
     }
 
     onClipResourceChanged: {
-        if (itemType == ProducerType.Color) {
+        if (itemType === ProducerType.Color) {
             color: Qt.darker(getColor(), 1.5)
         }
     }
@@ -182,7 +182,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+    border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 2
 
     function updateDrag() {
@@ -200,24 +200,24 @@ Rectangle {
     }
 
     function getColor() {
-        if (clipRoot.clipState == ClipState.Disabled) {
+        if (clipRoot.clipState === ClipState.Disabled) {
             return '#888'
         }
         if (clipRoot.tagColor) {
             return clipRoot.tagColor
         }
-        if (itemType == ProducerType.Text) {
+        if (itemType === ProducerType.Text) {
             return titleColor
         }
-        if (itemType == ProducerType.Image) {
+        if (itemType === ProducerType.Image) {
             return imageColor
         }
-        if (itemType == ProducerType.SlideShow) {
+        if (itemType === ProducerType.SlideShow) {
             return slideshowColor
         }
-        if (itemType == ProducerType.Color) {
+        if (itemType === ProducerType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
-            if (color[0] == '#') {
+            if (color[0] === '#') {
                 return color
             }
             return '#' + color.substring(color.length - 8, color.length - 2)
@@ -235,7 +235,7 @@ Rectangle {
         //generateWaveform()
     }
 */
-    property bool noThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
+    property bool noThumbs: (isAudio || itemType === ProducerType.Color || mltService === '')
     property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/#'
 
     DropArea { //Drop area for clips
@@ -281,7 +281,7 @@ Rectangle {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
-                if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
+                if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
                 root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
@@ -526,12 +526,11 @@ Rectangle {
                 model: markers
                 delegate:
                 Item {
-                    anchors.fill: parent
                     visible: markerBase.x >= 0 && markerBase.x < clipRoot.width
                     Rectangle {
                         id: markerBase
                         width: 1
-                        height: parent.height
+                        height: container.height
                         x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
@@ -542,9 +541,7 @@ Rectangle {
                         radius: 2
                         width: mlabel.width + 4
                         height: mlabel.height
-                        anchors {
-                            bottom: parent.verticalCenter
-                        }
+                        y: mlabel.y
                         color: model.color
                         MouseArea {
                             z: 10
@@ -565,15 +562,11 @@ Rectangle {
                     }
                     Text {
                         id: mlabel
-                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit
+                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
                         text: textMetrics.elidedText
                         font: miniFont
-                        x: markerBase.x
-                        anchors {
-                            bottom: parent.verticalCenter
-                            topMargin: 2
-                            leftMargin: 2
-                        }
+                        x: markerBase.x + 1
+                        y: Math.min(label.height, container.height - height)
                         color: 'white'
                     }
                 }
@@ -617,6 +610,8 @@ Rectangle {
                         } else {
                             endDrag()
                         }
+                    } else {
+                        root.groupTrimData = undefined
                     }
                 }
                 onDoubleClicked: {
@@ -729,6 +724,8 @@ Rectangle {
                         } else {
                             endDrag()
                         }
+                    } else {
+                        root.groupTrimData = undefined
                     }
                 }
                 onDoubleClicked: {
@@ -845,7 +842,6 @@ Rectangle {
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
                         anchors {
-                            top: labelRect.top
                             left: labelRect.left
                             leftMargin: clipRoot.border.width
                         }
@@ -931,7 +927,7 @@ Rectangle {
                     x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
-                    visible: !clipRoot.isAudio && clipRoot.clipStatus == ClipStatus.StatusProxy || clipRoot.clipStatus == ClipStatus.StatusProxyOnly
+                    visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
                         id: proxyLabel

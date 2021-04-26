@@ -52,7 +52,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         ui->checkBox->setChecked(true);
     }
     ui->speedSpin->setValue(speed);
-    ui->speedSlider->setValue(qLn(speed) * 12);
+    ui->speedSlider->setValue(int(qLn(speed) * 12));
     ui->pitchCompensate->setChecked(pitch_compensate);
     if (!EffectsRepository::get()->exists(QStringLiteral("rbpitch"))) {
         ui->pitchCompensate->setEnabled(false);
@@ -60,7 +60,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     }
 
     // Info widget
-    KMessageWidget *infoMessage = new KMessageWidget(this);
+    auto *infoMessage = new KMessageWidget(this);
     ui->infoLayout->addWidget(infoMessage);
     infoMessage->hide();
     ui->speedSpin->setFocus();
@@ -75,12 +75,12 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
                 value = 1;
                 m_durationDisplay->setValue(value);
             } else if (value > m_duration * speed / minSpeed) {
-                value = m_duration * speed / minSpeed;
+                value = int(m_duration * speed / minSpeed);
                 m_durationDisplay->setValue(value);
             }
             double updatedSpeed = speed * m_duration / value;
             QSignalBlocker bk(ui->speedSlider);
-            ui->speedSlider->setValue(qLn(updatedSpeed) * 12);
+            ui->speedSlider->setValue(int(qLn(updatedSpeed) * 12));
             QSignalBlocker bk2(ui->speedSpin);
             ui->speedSpin->setValue(updatedSpeed);
             checkSpeed(infoMessage, updatedSpeed);
@@ -90,7 +90,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
 
     connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&, speed] (double value) {
         QSignalBlocker bk(ui->speedSlider);
-        ui->speedSlider->setValue(qLn(value) * 12);
+        ui->speedSlider->setValue(int(qLn(value) * 12));
         if (m_durationDisplay) {
             QSignalBlocker bk2(m_durationDisplay);
             int dur = qRound(m_duration * std::fabs(speed / value));

@@ -25,6 +25,10 @@
 
 #include <QAbstractSpinBox>
 
+/** @class MyValidator
+    @brief \@todo Describe class MyValidator
+    @todo Describe class MyValidator
+ */
 class MyValidator : public QValidator
 {
 public:

@@ -31,16 +31,18 @@
 
 #include <QProcess>
 #include <QThread>
+#include <utility>
 
 #include <klocalizedstring.h>
 
-TranscodeJob::TranscodeJob(const QString &binId, QString params)
+TranscodeJob::TranscodeJob(const QString &binId, QString params, bool replaceProducer)
     : AbstractClipJob(TRANSCODEJOB, binId, {ObjectType::BinClip, binId.toInt()})
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)
     , m_done(false)
-    , m_transcodeParams(params)
+    , m_transcodeParams(std::move(params))
+    , m_replaceProducer(replaceProducer)
 {
 }
 
@@ -66,12 +68,10 @@ bool TranscodeJob::startJob()
     int fileCount = 1;
     QString num = QString::number(fileCount).rightJustified(4, '0', false);
     QString path = fileName + num + transcoderExt;
-    bool updatedPath = false;
     while (dir.exists(path)) {
         ++fileCount;
         num = QString::number(fileCount).rightJustified(4, '0', false);
         path = fileName + num + transcoderExt;
-        updatedPath = true;
     }
     m_destUrl = dir.absoluteFilePath(fileName);
     m_destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
@@ -142,7 +142,7 @@ bool TranscodeJob::startJob()
             m_done = true;
             return false;
         }
-        m_jobDuration = (int)binClip->duration().seconds();
+        m_jobDuration = int(binClip->duration().seconds());
         parameters << QStringLiteral("-y");
         if (m_inPoint > -1) {
             parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
@@ -208,7 +208,7 @@ void TranscodeJob::processLogInfo()
                     if (numbers.size() < 3) {
                         return;
                     }
-                    m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    m_jobDuration = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
@@ -216,15 +216,15 @@ void TranscodeJob::processLogInfo()
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
-                    progress = (int)time.toDouble();
+                    progress = int(time.toDouble());
                     if (progress == 0) {
                         return;
                     }
                 } else {
-                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                    progress = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
                 }
             }
-            emit jobProgress((int)(100.0 * progress / m_jobDuration));
+            emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
@@ -243,7 +243,20 @@ bool TranscodeJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
-    QString folderId = QStringLiteral("-1");
-    auto id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
+    QString id;
+    if (m_replaceProducer) {
+        id = m_clipId;
+        QMap <QString, QString> sourceProps;
+        QMap <QString, QString> newProps;
+        auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+        sourceProps.insert(QStringLiteral("resource"), binClip->url());
+        sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
+        newProps.insert(QStringLiteral("resource"), m_destUrl);
+        newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(m_destUrl).fileName());
+        pCore->bin()->slotEditClipCommand(m_clipId, sourceProps, newProps);
+    } else {
+        QString folderId = QStringLiteral("-1");
+        id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
+    }
     return id != QStringLiteral("-1");
 }

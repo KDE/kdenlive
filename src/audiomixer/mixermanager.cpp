@@ -141,20 +141,25 @@ void MixerManager::cleanup()
     }
 }
 
+void MixerManager::unsetModel()
+{
+    m_model.reset();
+}
+
 void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     // Insert master mixer
     m_model = model;
     connect(m_model.get(), &TimelineItemModel::dataChanged, this, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
         if (roles.contains(TimelineModel::IsDisabledRole)) {
-            int id = (int) topLeft.internalId();
+            int id = int(topLeft.internalId());
             if (m_mixers.count(id) > 0) {
                 m_mixers[id]->setMute(m_model->data(topLeft, TimelineModel::IsDisabledRole).toBool());
             } else {
                 qDebug()<<"=== MODEL DATA CHANGED: MUTE DONE TRACK NOT FOUND!!!";
             }
         } else if (roles.contains(TimelineModel::NameRole)) {
-            int id = (int) topLeft.internalId();
+            int id = int(topLeft.internalId());
             if (m_mixers.count(id) > 0) {
                 qDebug()<<"=== MODEL DATA CHANGED: CHANGED";
                 m_mixers[id]->setTrackName(m_model->data(topLeft, TimelineModel::NameRole).toString());

@@ -50,7 +50,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     titleTemplates.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory));
 #endif
     titleTemplates.removeDuplicates();
-    for (const QString &folderpath : titleTemplates) {
+    for (const QString &folderpath : qAsConst(titleTemplates)) {
         QDir sysdir(folderpath);
         const QStringList filesnames = sysdir.entryList(filter, QDir::Files);
         for (const QString &fname : filesnames) {

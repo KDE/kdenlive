@@ -25,14 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 
+class ProjectClip;
+class Bin;
+
 /**
  * @class ProjectFolder
  * @brief A folder in the bin.
  */
-
-class ProjectClip;
-class Bin;
-
 class ProjectFolder : public AbstractProjectItem
 {
     Q_OBJECT
@@ -87,7 +86,7 @@ public:
     ClipType::ProducerType clipType() const override;
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
-    /** @brief Returns a clip id if folder contains clip with matching @hash, empty if not found. */
+    /** @brief Returns a clip id if folder contains clip with matching at \@hash, empty if not found. */
     QString childByHash(const QString &hash);
 };
 

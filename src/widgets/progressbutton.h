@@ -28,12 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QAction;
 
-/**
- * @class ProgressButton
- * @brief A Toolbar button with a small progress bar.
- *
+/** @class ProgressButton
+    @brief A Toolbar button with a small progress bar.
  */
-
 class ProgressButton : public QToolButton
 {
     Q_PROPERTY(int progress READ progress WRITE setProgress NOTIFY progressChanged)

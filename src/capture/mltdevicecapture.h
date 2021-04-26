@@ -15,14 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-/*!
- * @class MltDeviceCapture
- * @brief Interface for MLT capture.
- * Capturing started by   MltDeviceCapture::slotStartCapture ()
- *
- * Capturing is stopped  by  RecMonitor::slotStopCapture()
- */
-
 #ifndef MLTDEVICECAPTURE_H
 #define MLTDEVICECAPTURE_H
 
@@ -44,6 +36,11 @@ class Producer;
 class Profile;
 } // namespace Mlt
 
+/** @class MltDeviceCapture
+    @brief Interface for MLT capture.
+    Capturing started by   MltDeviceCapture::slotStartCapture ()
+    Capturing is stopped  by  RecMonitor::slotStopCapture()
+ */
 class MltDeviceCapture : public AbstractRender
 {
     Q_OBJECT public :

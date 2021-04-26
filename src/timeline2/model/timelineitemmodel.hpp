@@ -25,7 +25,10 @@
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
 
-/* @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
+class MarkerListModel;
+
+/** @class TimelineItemModel
+    @brief This class is the thin wrapper around the TimelineModel that provides interface for the QML.
 
    It derives from AbstractItemModel to provide the model to the QML interface. An itemModel is organized with row and columns that contain the data. It can be
    hierarchical, meaning that a given index (row,column) can contain another level of rows and column.
@@ -40,17 +43,13 @@
    An ModelIndex in the ItemModel consists of a row number, a column number, and a parent index. In our case, tracks have always an empty parent, and the clip
    have a track index as parent.
    A ModelIndex can also store one additional integer, and we exploit this feature to store the unique ID of the object it corresponds to.
-
-*/
-
-class MarkerListModel;
-
+   */
 class TimelineItemModel : public TimelineModel
 {
     Q_OBJECT
 
 public:
-    /* @brief construct a timeline object and returns a pointer to the created object
+    /** @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
        @param guideModel ptr to the guide model of the project
      */
@@ -60,7 +59,7 @@ public:
     friend bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor);
 
 protected:
-    /* @brief this constructor should not be called. Call the static construct instead
+    /** @brief this constructor should not be called. Call the static construct instead
      */
     TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
@@ -72,19 +71,19 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
     // QModelIndex makeIndex(int trackIndex, int clipIndex) const;
-    /* @brief Creates an index based on the ID of the clip*/
+    /** @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int clipId) const override;
-    /* @brief Creates an index based on the ID of the compoition*/
+    /** @brief Creates an index based on the ID of the compoition*/
     QModelIndex makeCompositionIndexFromID(int compoId) const override;
     void subtitleChanged(int subId, const QVector<int> roles);
-    /* @brief Creates an index based on the ID of the track*/
+    /** @brief Creates an index based on the ID of the track*/
     QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     Q_INVOKABLE void setTrackProperty(int tid, const QString &name, const QString &value);
-    /* @brief Enabled/disabled a track's effect stack */
+    /** @brief Enabled/disabled a track's effect stack */
     Q_INVOKABLE void setTrackStackEnabled(int tid, bool enable);
     Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name) const;
-    /* @brief Sets a track name
+    /** @brief Sets a track name
        @param trackId is of the track to alter
        @param text is the new track name.
     */
@@ -114,7 +113,7 @@ public:
     void _resetView() override;
 
 protected:
-    // This is an helper function that finishes a construction of a freshly created TimelineItemModel
+    /** @brief This is an helper function that finishes a construction of a freshly created TimelineItemModel */
     static void finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr, const std::shared_ptr<MarkerListModel> &guideModel);
 
 signals:

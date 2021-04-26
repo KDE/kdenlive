@@ -26,11 +26,11 @@
 #include "widgets/dragvalue.h"
 #include <klocalizedstring.h>
 
-/*@brief this label is a pixmap corresponding to a legend of the axis*/
+/** @brief this label is a pixmap corresponding to a legend of the axis*/
 template <typename CurveWidget_t> class ValueLabel : public QLabel
 {
 public:
-    /**@brief Creates the widget
+    /** @brief Creates the widget
        @param isVert This parameter is true if the widget is vertical
        @param mode This is the original mode
        @param parent Parent of the widget
@@ -141,9 +141,9 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     layout->setSpacing(0);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     layout->addWidget(m_edit);
-    m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
+    /*m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
     m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
     m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -156,7 +156,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     horiz_layout->addWidget(m_leftParam);
     horiz_layout->addWidget(m_bottomParam);
 
-    layout->addLayout(horiz_layout);
+    layout->addLayout(horiz_layout);*/
     auto *widget = new QWidget(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
@@ -168,7 +168,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, (float)0.8))));
+    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, 0.8))));
     m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QStringLiteral("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
@@ -198,8 +198,6 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
 template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
 {
-    m_ui.gridLayout->removeItem(m_ui.horizontalSpacer_3);
-    delete m_ui.horizontalSpacer_3;
     delete m_ui.layoutH1;
     delete m_ui.layoutH2;
     delete m_ui.buttonLinkHandles;
@@ -265,8 +263,8 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMode(
         if (m_showPixmap) {
             slotShowPixmap(true);
         }
-        m_leftParam->setMode(mode);
-        m_bottomParam->setMode(mode);
+        //m_leftParam->setMode(mode);
+        //m_bottomParam->setMode(mode);
     }
 }
 
@@ -408,15 +406,15 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefr
     if (m_model->data(m_index, AssetParameterModel::TypeRole).template value<ParamType>() == ParamType::Curve) {
         QList<QPointF> points;
         // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
-        int number = m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10 + 0.5;
+        int number = int(m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10 + 0.5);
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
-        int inRef = (int)AssetParameterModel::Enum6Role + 2 * (start - 1);
-        int outRef = (int)AssetParameterModel::Enum7Role + 2 * (start - 1);
+        int inRef = int(AssetParameterModel::Enum6Role) + 2 * (start - 1);
+        int outRef = int(AssetParameterModel::Enum7Role) + 2 * (start - 1);
         for (int j = start; j <= number; ++j) {
-            double inVal = m_model->data(m_index, (AssetParameterModel::DataRoles)inRef).toDouble();
-            double outVal = m_model->data(m_index, (AssetParameterModel::DataRoles)outRef).toDouble();
+            double inVal = m_model->data(m_index, AssetParameterModel::DataRoles(inRef)).toDouble();
+            double outVal = m_model->data(m_index, AssetParameterModel::DataRoles(outRef)).toDouble();
             points << QPointF(inVal, outVal);
             inRef += 2;
             outRef += 2;

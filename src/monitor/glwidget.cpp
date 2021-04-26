@@ -21,16 +21,17 @@
  */
 
 #include <KDeclarative/KDeclarative>
+#include <KLocalizedContext>
 #include <KMessageBox>
 #include <QApplication>
+#include <QFontDatabase>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QFontDatabase>
 #include <kdeclarative_version.h>
-#include <KLocalizedContext>
 #include <klocalizedstring.h>
+#include <memory>
 
 #include "core.h"
 #include "glwidget.h"
@@ -63,13 +64,13 @@
 using namespace Mlt;
 
 GLWidget::GLWidget(int id, QObject *parent)
-    : QQuickView((QWindow *)parent)
+    : QQuickView(static_cast<QWindow *>(parent))
     , sendFrameForAnalysis(false)
     , m_glslManager(nullptr)
     , m_consumer(nullptr)
     , m_producer(nullptr)
     , m_id(id)
-    , m_rulerHeight(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5)
+    , m_rulerHeight(int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5))
     , m_bgColor(KdenliveSettings::window_background())
     , m_shader(nullptr)
     , m_initSem(0)
@@ -102,7 +103,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setupEngine(engine());
-    KLocalizedContext *localizedContextObject = new KLocalizedContext(engine());
+    auto *localizedContextObject = new KLocalizedContext(engine());
     engine()->rootContext()->setContextObject(localizedContextObject);
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -124,13 +125,13 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
-    m_refreshTimer.setInterval(50);
+    m_refreshTimer.setInterval(10);
     m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = m_blackClip;
-    rootContext()->setContextProperty("markersModel", 0);
+    rootContext()->setContextProperty("markersModel", nullptr);
     if (!initGPUAccel()) {
         disableGPUAccel();
     }
@@ -215,27 +216,27 @@ void GLWidget::initializeGL()
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
-    reconfigure();
+    QMetaObject::invokeMethod(this, "reconfigure", Qt::QueuedConnection);
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
     height -= m_displayRulerHeight;
-    double this_aspect = (double)width / height;
+    double this_aspect = double(width) / height;
 
     // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
-    if ((int)(this_aspect * 1000) == (int)(m_dar * 1000)) {
+    if (int(this_aspect * 1000) == int(m_dar * 1000)) {
         w = width;
         h = height;
     }
     // Use OpenGL to normalise sample aspect ratio
     else if (height * m_dar > width) {
         w = width;
-        h = width / m_dar;
+        h = int(width / m_dar);
     } else {
-        w = height * m_dar;
+        w = int(height * m_dar);
         h = height;
     }
     x = (width - w) / 2;
@@ -244,8 +245,8 @@ void GLWidget::resizeGL(int width, int height)
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
         QSize s = pCore->getCurrentFrameSize();
-        double scalex = (double)m_rect.width() / s.width() * m_zoom;
-        double scaley = (double)m_rect.height() / s.height() * m_zoom;
+        double scalex = double(m_rect.width() * m_zoom) / s.width();
+        double scaley = double(m_rect.height() * m_zoom) / s.height();
         rootQml->setProperty("center", m_rect.center());
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
@@ -414,7 +415,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image(mlt_image_glsl_texture));
+            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_glsl_texture)));
         }
     }
 
@@ -491,7 +492,7 @@ bool GLWidget::initGPUAccelSync()
     if (m_glslManager == nullptr) return false;
     if (!openglContext()->hasExtension("GL_ARB_sync")) return false;
 
-    m_ClientWaitSync = (ClientWaitSync_fp)openglContext()->getProcAddress("glClientWaitSync");
+    m_ClientWaitSync = ClientWaitSync_fp(openglContext()->getProcAddress("glClientWaitSync"));
     if (m_ClientWaitSync) {
         return true;
     } else {
@@ -507,15 +508,15 @@ bool GLWidget::initGPUAccelSync()
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
-    float width = this->width() * devicePixelRatio();
-    float height = this->height() * devicePixelRatio();
+    float width = float(this->width() * devicePixelRatio());
+    float height = float(this->height() * devicePixelRatio());
 
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, (m_displayRulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
+    f->glViewport(0, int(m_displayRulerHeight * devicePixelRatio() * 0.5 + 0.5), int(width), int(height));
     check_error(f);
-    f->glClearColor(m_bgColor.redF(), m_bgColor.greenF(), m_bgColor.blueF(), 0);
+    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
@@ -542,7 +543,7 @@ void GLWidget::paintGL()
     // Set model view.
     QMatrix4x4 modelView;
     if (!qFuzzyCompare(m_zoom, 1.0f)) {
-        if ((offset().x() != 0) || (offset().y() != 0)) modelView.translate(-offset().x() * devicePixelRatio(), offset().y() * devicePixelRatio());
+        if ((offset().x() != 0) || (offset().y() != 0)) modelView.translate(float(-offset().x() * devicePixelRatio()), float(offset().y() * devicePixelRatio()));
         modelView.scale(zoom(), zoom());
     }
     m_shader->setUniformValue(m_modelViewLocation, modelView);
@@ -550,8 +551,8 @@ void GLWidget::paintGL()
 
     // Provide vertices of triangle strip.
     QVector<QVector2D> vertices;
-    width = m_rect.width() * devicePixelRatio();
-    height = m_rect.height() * devicePixelRatio();
+    width = float(m_rect.width() * devicePixelRatio());
+    height = float(m_rect.height() * devicePixelRatio());
     vertices << QVector2D(-width / 2.0f, -height / 2.0f);
     vertices << QVector2D(-width / 2.0f, height / 2.0f);
     vertices << QVector2D(width / 2.0f, -height / 2.0f);
@@ -589,7 +590,7 @@ void GLWidget::paintGL()
         glViewport(0, 0, m_profileSize.width(), m_profileSize.height());
 
         QMatrix4x4 projection2;
-        projection2.scale(2.0f / (float)width, 2.0f / (float)height);
+        projection2.scale(2.0f / width, 2.0f / height);
         m_shader->setUniformValue(m_projectionLocation, projection2);
 
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
@@ -631,7 +632,7 @@ void GLWidget::slotZoom(bool zoomIn)
             setZoom(2.0);
         } else if (qFuzzyCompare(m_zoom, 2.0f)) {
             setZoom(1.0);
-        } else if (m_zoom > 0.2) {
+        } else if (m_zoom > 0.2f) {
             setZoom(m_zoom / 2);
         }
     }
@@ -639,8 +640,13 @@ void GLWidget::slotZoom(bool zoomIn)
 
 void GLWidget::updateRulerHeight(int addedHeight)
 {
-    m_displayRulerHeight =  m_rulerHeight > 0 ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 + addedHeight : 0;
+    m_displayRulerHeight =  m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeGL(width(), height());
+}
+
+bool GLWidget::isReady() const
+{
+    return m_consumer != nullptr;
 }
 
 void GLWidget::requestSeek(int position)
@@ -671,8 +677,10 @@ void GLWidget::refresh()
 {
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mltMutex);
-    restartConsumer();
-    m_consumer->set("refresh", 1);
+    if (m_consumer) {
+        restartConsumer();
+        m_consumer->set("refresh", 1);
+    }
 }
 
 bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
@@ -688,6 +696,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             }
             m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
             m_producer->set_speed(1.0);
+            m_proxy->setSpeed(1.);
             m_consumer->set("refresh", 1);
             return true;
         }
@@ -697,6 +706,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         if (pos >= (maxPos - 1) && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
+            m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_proxy->setPosition(qMax(0, maxPos));
@@ -705,6 +715,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         } else if (pos <= 0 && speed < 0.) {
             // rewinding reached 0, pause
             m_producer->set_speed(0);
+            m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_proxy->setPosition(0);
@@ -873,6 +884,10 @@ int GLWidget::setProducer(const QString &file)
         m_producer.reset();
     }
     m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
+    if (!m_producer && !m_producer->is_valid()) {
+        m_producer.reset();
+        m_producer = m_blackClip;
+    }
     if (m_consumer) {
         //m_consumer->stop();
         if (!m_consumer->is_stopped()) {
@@ -906,10 +921,11 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         }
         m_producer = m_blackClip;
         // Reset markersModel
-        rootContext()->setContextProperty("markersModel", 0);
+        rootContext()->setContextProperty("markersModel", nullptr);
     }
     // redundant check. postcondition of above is m_producer != null
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     error = reconfigure();
     if (error == 0) {
         // The profile display aspect ratio may have changed.
@@ -925,6 +941,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     }
     if (isActive) {
         startConsumer();
+        m_proxy->resetPosition();
     }
     m_consumer->set("scrub_audio", 0);
     m_proxy->setPosition(position > 0 ? position : m_producer->position());
@@ -1112,8 +1129,8 @@ int GLWidget::reconfigure()
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
         if (m_consumer) {
-            m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, (mlt_listener)onThreadCreate);
-            m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, (mlt_listener)onThreadJoin);
+            m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, mlt_listener(onThreadCreate));
+            m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, mlt_listener(onThreadJoin));
         }
     }
     if (m_consumer->is_valid()) {
@@ -1135,10 +1152,10 @@ int GLWidget::reconfigure()
         // C & D
         if (m_glslManager) {
             if (!m_threadStartEvent) {
-                m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, (mlt_listener)onThreadStarted);
+                m_threadStartEvent = m_consumer->listen("consumer-thread-started", this, mlt_listener(onThreadStarted));
             }
             if (!m_threadStopEvent) {
-                m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, (mlt_listener)onThreadStopped);
+                m_threadStopEvent = m_consumer->listen("consumer-thread-stopped", this, mlt_listener(onThreadStopped));
             }
             if (!serviceName.startsWith(QLatin1String("decklink"))) {
                 m_consumer->set("mlt_image_format", "glsl");
@@ -1151,10 +1168,10 @@ int GLWidget::reconfigure()
         delete m_displayEvent;
         // C & D
         if (m_glslManager) {
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, mlt_listener(on_gl_frame_show));
         } else {
             // A & B
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, mlt_listener(on_frame_show));
         }
 
         int volume = KdenliveSettings::volume();
@@ -1242,7 +1259,7 @@ QPoint GLWidget::offset() const
 
 void GLWidget::setZoom(float zoom)
 {
-    double zoomRatio = zoom / m_zoom;
+    double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
     emit zoomChanged();
     if (rootObject()) {
@@ -1306,7 +1323,7 @@ void GLWidget::setOffsetX(int x, int max)
     m_offset.setX(x);
     emit offsetChanged();
     if (rootObject()) {
-        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0 + 10 * m_zoom : 0);
+        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0f + 10 * m_zoom : 0);
     }
     update();
 }
@@ -1315,7 +1332,7 @@ void GLWidget::setOffsetY(int y, int max)
 {
     m_offset.setY(y);
     if (rootObject()) {
-        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 + 10 * m_zoom : 0);
+        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0f + 10 * m_zoom : 0);
     }
     update();
 }
@@ -1358,7 +1375,7 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath, 
     Mlt::Service s(m_producer->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter.reset(new Mlt::Filter (pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData()));
+        filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());
@@ -1563,7 +1580,7 @@ void FrameRenderer::cleanup()
 // D
 void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
 {
-    auto sync = (GLsync)frame.get_data("movit.convert.fence");
+    auto sync = GLsync(frame.get_data("movit.convert.fence"));
     if (!sync) return;
 
 #ifdef Q_OS_WIN
@@ -1594,11 +1611,11 @@ void GLWidget::refreshSceneLayout()
     }
     QSize s = pCore->getCurrentFrameSize();
     emit m_proxy->profileChanged();
-    rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
-    rootObject()->setProperty("scaley", (double)m_rect.height() / s.height() * m_zoom);
+    rootObject()->setProperty("scalex", double(m_rect.width() * m_zoom) / s.width());
+    rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
 
-void GLWidget::switchPlay(bool play, double speed)
+void GLWidget::switchPlay(bool play, int offset, double speed)
 {
     if (!m_producer || !m_consumer) {
         return;
@@ -1607,11 +1624,13 @@ void GLWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() && speed > 0) {
+        if ((m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) && m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
             m_producer->seek(0);
         }
+        qDebug() << "pos: " << m_consumer->position() << "out-offset: " << m_producer->get_out() - offset;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
+        m_proxy->setSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
         } else {
@@ -1628,6 +1647,7 @@ void GLWidget::switchPlay(bool play, double speed)
     } else {
         emit paused();
         m_producer->set_speed(0);
+        m_proxy->setSpeed(0);
         m_producer->seek(m_consumer->position() + 1);
         m_consumer->purge();
         m_consumer->start();
@@ -1642,6 +1662,7 @@ bool GLWidget::playZone(bool loop)
     }
     m_producer->seek(m_proxy->zoneIn());
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     m_consumer->purge();
     m_producer->set("out", m_proxy->zoneOut());
     m_producer->set_speed(1.0);
@@ -1679,6 +1700,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_loopIn = inOut.x();
     m_producer->seek(inOut.x());
     m_producer->set_speed(0);
+    m_proxy->setSpeed(0);
     m_consumer->purge();
     m_producer->set("out", inOut.y());
     m_producer->set_speed(1.0);
@@ -1750,6 +1772,7 @@ void GLWidget::stop()
             resetZoneMode();
         }
         m_producer->set_speed(0.0);
+        m_proxy->setSpeed(0);
     }
     if (m_consumer) {
         m_consumer->purge();
@@ -1784,9 +1807,9 @@ int GLWidget::volume() const
         return -1;
     }
     if (m_consumer->get("mlt_service") == QStringLiteral("multi")) {
-        return ((int)100 * m_consumer->get_double("0.volume"));
+        return (int(100 * m_consumer->get_double("0.volume")));
     }
-    return ((int)100 * m_consumer->get_double("volume"));
+    return (int(100 * m_consumer->get_double("volume")));
 }
 
 void GLWidget::setVolume(double volume)
@@ -1819,7 +1842,7 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
     }
 }
 
-void GLWidget::updateScaling()
+bool GLWidget::updateScaling()
 {
 #if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
@@ -1839,11 +1862,15 @@ void GLWidget::updateScaling()
         default:
             break;
     }
-    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
+    int pWidth = int(previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar());
     if (pWidth% 2 > 0) {
         pWidth ++;
     }
-    m_profileSize = QSize(pWidth, previewHeight);
+    QSize profileSize(pWidth, previewHeight);
+    if (profileSize == m_profileSize) {
+        return false;
+    }
+    m_profileSize = profileSize;
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());
@@ -1855,16 +1882,21 @@ void GLWidget::updateScaling()
     if (pWidth% 2 > 0) {
         pWidth ++;
     }
-    m_profileSize = QSize(pWidth, previewHeight);
+    QSize profileSize(pWidth, previewHeight);
+    if (profileSize == m_profileSize) {
+        return false;
+    }
+    m_profileSize = profileSize;
     if (m_consumer) {
         resizeGL(width(), height());
     }
 #endif
+    return true;
 }
 
 void GLWidget::switchRuler(bool show)
 {
-    m_rulerHeight = show ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 : 0;
+    m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
     emit m_proxy->rulerHeightChanged();

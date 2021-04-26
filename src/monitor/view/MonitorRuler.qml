@@ -553,7 +553,6 @@ Rectangle {
             }
             Rectangle {
                 visible: !rulerMouseArea.pressed && (guideArea.containsMouse || (rulerMouseArea.containsMouse && Math.abs(rulerMouseArea.mouseX - markerBase.x) < 4))
-                opacity: 0.7
                 property int guidePos: markerBase.x - mlabel.contentWidth / 2
                 x: guidePos < 0 ? 0 : (guidePos > (parent.width - mlabel.contentWidth) ? parent.width - mlabel.contentWidth : guidePos)
                 radius: 2
@@ -566,12 +565,12 @@ Rectangle {
                 Text {
                     id: mlabel
                     text: model.comment
-                    font.pixelSize: root.baseUnit
+                    font: fixedFont
                     verticalAlignment: Text.AlignVCenter
                     anchors {
                         fill: parent
                     }
-                    color: 'white'
+                    color: '#000'
                 }
                 MouseArea {
                     z: 10

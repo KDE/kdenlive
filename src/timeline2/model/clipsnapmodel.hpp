@@ -30,20 +30,19 @@
 
 class MarkerListModel;
 
-/** @brief This class represents the snap points of a clip of the timeline.
+/** @class ClipSnapModel
+    @brief This class represents the snap points of a clip of the timeline.
     Basically, one can add or remove snap points
- *
- */
-
+  */
 class ClipSnapModel : public virtual SnapInterface, public std::enable_shared_from_this<SnapInterface>
 {
 public:
     ClipSnapModel();
 
-    /* @brief Adds a snappoint at given position */
+    /** @brief Adds a snappoint at given position */
     void addPoint(int position) override;
 
-    /* @brief Removes a snappoint from given position */
+    /** @brief Removes a snappoint from given position */
     void removePoint(int position) override;
 
     void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out, double speed = 1.);
@@ -54,7 +53,7 @@ public:
     void updateSnapModelPos(int newPos);
     void updateSnapModelInOut(std::vector<int> borderSnaps);
     void updateSnapMixPosition(int mixPos);
-    /* @brief Retrieve all snap points */
+    /** @brief Retrieve all snap points */
     void allSnaps(std::vector<int> &snaps, int offset = 0);
 
 

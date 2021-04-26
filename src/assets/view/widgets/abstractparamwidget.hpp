@@ -27,11 +27,11 @@
 #include <QWidget>
 #include <memory>
 
-/** @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
-
- */
-
 class AssetParameterModel;
+
+/** @class AbstractParamWidget
+    @brief Base class of all the widgets representing a parameter of an asset (effect or transition)
+ */
 class AbstractParamWidget : public QWidget
 {
     Q_OBJECT
@@ -56,7 +56,7 @@ signals:
     void valueChanged(QModelIndex, QString, bool);
     void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
 
-    /* @brief Signal sent when the filter needs to be deactivated or reactivated.
+    /** @brief Signal sent when the filter needs to be deactivated or reactivated.
        This happens for example when the user has to pick a color.
      */
     void disableCurrentFilter(bool);

@@ -23,11 +23,9 @@
 #include "ui_clipspeed_ui.h"
 #include <QDialog>
 
-/**
- * @class ClipSpeed
- * @brief A dialog allowing to set a destination and a new speed to create an MLT file from a clip.
+/** @class ClipSpeed
+    @brief A dialog allowing to set a destination and a new speed to create an MLT file from a clip.
  */
-
 class ClipSpeed : public QDialog
 {
     Q_OBJECT

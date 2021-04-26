@@ -24,6 +24,7 @@
         <file alias="AudioLevels.qml">timeline2/view/qml/AudioLevels.qml</file>
         <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
         <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
+        <file alias="RulerZone.qml">timeline2/view/qml/RulerZone.qml</file>
         <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
         <file alias="SubTitle.qml">timeline2/view/qml/SubTitle.qml</file>
         <file alias="MixShape.qml">timeline2/view/qml/MixShape.qml</file>
@@ -43,6 +44,7 @@
         <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
         <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
         <file alias="splash.qml">qml/splash.qml</file>
+        <file alias="ZoomBar.qml">timeline2/view/qml/ZoomBar.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file alias="blacklisted_effects.txt">../data/blacklisted_effects.txt</file>

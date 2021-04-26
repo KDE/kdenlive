@@ -71,7 +71,7 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-bool Core::build(bool isAppImage, const QString &MltPath)
+bool Core::build(bool testMode)
 {
     if (m_self) {
         return true;
@@ -91,45 +91,22 @@ bool Core::build(bool isAppImage, const QString &MltPath)
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     
-    // Check if we had a crash
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    if (lockFile.exists()) {
-        // a previous instance crashed, propose to delete config files
-        if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes) {
-            return false;
+    if (!testMode) {
+        // Check if we had a crash
+        QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+        if (lockFile.exists()) {
+            // a previous instance crashed, propose to delete config files
+            if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes)
+            {
+                return false;
+            }
+        } else {
+            // Create lock file
+            lockFile.open(QFile::WriteOnly);
+            lockFile.write(QByteArray());
+            lockFile.close();
         }
-    } else {
-        // Create lock file
-        lockFile.open(QFile::WriteOnly);
-        lockFile.write(QByteArray());
-        lockFile.close();
     }
-
-    if (isAppImage) {
-        QString appPath = qApp->applicationDirPath();
-        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
-        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
-        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
-        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
-        MltConnection::construct(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
-    } else {
-        // Open connection with Mlt
-        MltConnection::construct(MltPath);
-    }
-
-    // load the profile from disk
-    ProfileRepository::get()->refresh();
-    // load default profile
-    m_self->m_profile = KdenliveSettings::default_profile();
-    if (m_self->m_profile.isEmpty()) {
-        m_self->m_profile = ProjectManager::getDefaultProjectFormat();
-        KdenliveSettings::setDefault_profile(m_self->m_profile);
-    }
-
-    // Init producer shown for unavailable media
-    // TODO make it a more proper image, it currently causes a crash on exit
-    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
-    ClipController::mediaUnavailable->set("length", 99999999);
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
     // Job manager must be created before bin to correctly connect
@@ -137,11 +114,10 @@ bool Core::build(bool isAppImage, const QString &MltPath)
     return true;
 }
 
-void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
-    profileChanged();
     m_mainWindow = new MainWindow();
     m_guiConstructed = true;
     QStringList styles = QQuickStyle::availableStyles();
@@ -152,13 +128,50 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     }
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
+    
+    m_projectManager = new ProjectManager(this);
+    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
+    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
+    m_mixerWidget = new MixerManager(m_mainWindow);
+    m_textEditWidget = new TextBasedEdit(m_mainWindow);
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
+    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
+    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
+    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
+    m_monitorManager = new MonitorManager(this);
+    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
+    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, m_mainWindow, &MainWindow::slotAddSubtitle);
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+        }
+    });
 
+
+    // The MLT Factory will be initiated there, all MLT classes will be usable only after this
+    if (isAppImage) {
+        QString appPath = qApp->applicationDirPath();
+        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
+        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
+        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
+        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        m_mainWindow->init(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
+    } else {
+        // Open connection with Mlt
+        m_mainWindow->init(MltPath);
+    }
+    m_projectItemModel->buildPlaylist();
+    // load the profiles from disk
+    ProfileRepository::get()->refresh();
+    // load default profile
+    m_profile = KdenliveSettings::default_profile();
     // load default profile and ask user to select one if not found.
     if (m_profile.isEmpty()) {
         m_profile = ProjectManager::getDefaultProjectFormat();
-        profileChanged();
         KdenliveSettings::setDefault_profile(m_profile);
     }
+    profileChanged();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
@@ -192,45 +205,11 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
         KdenliveSettings::setDefault_profile(m_profile);
         profileChanged();
     }
+        // Init producer shown for unavailable media
+    // TODO make it a more proper image, it currently causes a crash on exit
+    ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
+    ClipController::mediaUnavailable->set("length", 99999999);
 
-    m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
-    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
-    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
-    m_mixerWidget = new MixerManager(m_mainWindow);
-    m_textEditWidget = new TextBasedEdit(m_mainWindow);
-    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
-    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
-    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
-    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
-    m_monitorManager = new MonitorManager(this);
-    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
-    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, [this]() {
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
-        }
-    });
-    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
-        }
-    });
-    
-    // Producer queue, creating MLT::Producers on request
-    /*
-    m_producerQueue = new ProducerQueue(m_binController);
-    connect(m_producerQueue, &ProducerQueue::gotFileProperties, m_binWidget, &Bin::slotProducerReady);
-    connect(m_producerQueue, &ProducerQueue::replyGetImage, m_binWidget, &Bin::slotThumbnailReady);
-    connect(m_producerQueue, &ProducerQueue::requestProxy,
-            [this](const QString &id){ m_binWidget->startJob(id, AbstractClipJob::PROXYJOB);});
-    connect(m_producerQueue, &ProducerQueue::removeInvalidClip, m_binWidget, &Bin::slotRemoveInvalidClip, Qt::DirectConnection);
-    connect(m_producerQueue, SIGNAL(addClip(QString, QMap<QString, QString>)), m_binWidget, SLOT(slotAddUrl(QString, QMap<QString, QString>)));
-    connect(m_binController.get(), SIGNAL(createThumb(QDomElement, QString, int)), m_producerQueue, SLOT(getFileProperties(QDomElement, QString, int)));
-    connect(m_binWidget, &Bin::producerReady, m_producerQueue, &ProducerQueue::slotProcessingDone, Qt::DirectConnection);
-    // TODO
-    connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
-
-    m_mainWindow->init();
     if (!Url.isEmpty()) {
         emit loadingMessageUpdated(i18n("Loading project..."));
     }
@@ -297,9 +276,9 @@ Bin *Core::bin()
     return m_binWidget;
 }
 
-void Core::selectBinClip(const QString &clipId, int frame, const QPoint &zone)
+void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame, const QPoint &zone)
 {
-    m_binWidget->selectClipById(clipId, frame, zone);
+    m_binWidget->selectClipById(clipId, frame, zone, activateMonitor);
 }
 
 void Core::selectTimelineItem(int id)
@@ -402,9 +381,9 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
         emit m_mainWindow->updateRenderWidgetProfile();
-        pCore->monitorManager()->resetProfiles();
-        emit pCore->monitorManager()->updatePreviewScaling();
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+        m_monitorManager->resetProfiles();
+        emit m_monitorManager->updatePreviewScaling();
+        if (m_guiConstructed && m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
             emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
@@ -443,7 +422,7 @@ double Core::getCurrentFps() const
 
 QSize Core::getCurrentFrameDisplaySize() const
 {
-    return {(int)(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height()};
+    return {int(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height()};
 }
 
 QSize Core::getCurrentFrameSize() const
@@ -488,7 +467,6 @@ int Core::getItemPosition(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return 0;
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -515,7 +493,6 @@ int Core::getItemIn(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return 0;
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -533,15 +510,12 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         break;
     case ObjectType::TimelineComposition:
         return PlaylistState::VideoOnly;
-        break;
     case ObjectType::BinClip:
         return m_binWidget->getClipState(id.second);
-        break;
     case ObjectType::TimelineTrack:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     case ObjectType::Master:
         return PlaylistState::Disabled;
-        break;
     default:
         qWarning() << "unhandled object type";
         break;
@@ -564,8 +538,7 @@ int Core::getItemDuration(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        return (int)m_binWidget->getClipDuration(id.second);
-        break;
+        return int(m_binWidget->getClipDuration(id.second));
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
@@ -594,7 +567,6 @@ QSize Core::getItemFrameSize(const ObjectId &id)
         break;
     case ObjectType::BinClip:
         return m_binWidget->getFrameSize(id.second);
-        break;
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return pCore->getCurrentFrameSize();
@@ -612,7 +584,6 @@ int Core::getItemTrack(const ObjectId &id)
     case ObjectType::TimelineComposition:
     case ObjectType::TimelineMix:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
-        break;
     default:
         qWarning() << "unhandled object type";
     }
@@ -640,8 +611,10 @@ void Core::refreshProjectItem(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
-        m_monitorManager->refreshClipMonitor();
+        if (m_monitorManager->clipMonitorVisible()) {
+            m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
+            m_monitorManager->refreshClipMonitor(true);
+        }
         if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.second)) {
             m_monitorManager->refreshTimer.start();
         }
@@ -720,12 +693,12 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions, showClose, messageCategory);
+    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, logInfo);
+    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
 }
 
 void Core::clearAssetPanel(int itemId)
@@ -737,14 +710,13 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-    case (int)ObjectType::TimelineClip:
+    case int(ObjectType::TimelineClip):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
-    case (int)ObjectType::TimelineTrack:
+    case int(ObjectType::TimelineTrack):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackEffectStackModel(itemId);
-        break;
-    case (int)ObjectType::BinClip:
+    case int(ObjectType::BinClip):
         return m_binWidget->getClipEffectStack(itemId);
-    case (int)ObjectType::Master:
+    case int(ObjectType::Master):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectStackModel();
     default:
         return nullptr;
@@ -849,7 +821,7 @@ Mlt::Profile *Core::thumbProfile()
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         double factor = 144. / m_thumbProfile->height();
         m_thumbProfile->set_height(144);
-        int width = m_thumbProfile->width() * factor + 0.5;
+        int width = int(m_thumbProfile->width() * factor + 0.5);
         if (width % 2 > 0) {
             width ++;
         }
@@ -1049,5 +1021,19 @@ void Core::transcodeFile(const QString url)
 void Core::setWidgetKeyBinding(const QString &mess)
 {
     window()->setWidgetKeyBinding(mess);
+}
+
+void Core::showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked)
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+        m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
+    }
+}
+
+void Core::updateMasterZones()
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+        m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
+    }
 }
 

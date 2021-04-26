@@ -42,7 +42,7 @@
 class Logger
 {
 public:
-    /// @brief Inits the logger. Must be called at startup
+    /** @brief Inits the logger. Must be called at startup */
     static void init();
 
     /** @brief Notify the logger that the current thread wants to start logging.
@@ -66,11 +66,11 @@ public:
     // log whenever an undo/redo occurred
     static void log_undo(bool undo);
 
-    /// @brief Notify that we are done with our function. Must not be called if start_logging returned false.
+    /** @brief Notify that we are done with our function. Must not be called if start_logging returned false. */
     static void stop_logging();
     static void print_trace();
 
-    /// @brief Resets the current log
+    /** @brief Resets the current log */
     static void clear();
 
     static std::unordered_map<std::string, std::string> translation_table;
@@ -117,7 +117,7 @@ class LogGuard
 public:
     LogGuard();
     ~LogGuard();
-    // @brief Returns true if we are the top-level caller.
+    /** @brief Returns true if we are the top-level caller. */
     bool hasGuard() const;
 
 protected:

@@ -154,7 +154,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             const QString effectTag = currentEffect.attribute(QStringLiteral("tag"));
             QScopedPointer<Mlt::Properties> metadata(getMetadata(effectTag));
             if (metadata && metadata->is_valid()) {
-                Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
+                Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
                 if (QString(tags.get(0)) == QLatin1String("Audio")) {
                     result.type = AssetListType::AssetType::CustomAudio;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
@@ -187,7 +187,7 @@ QStringList EffectsRepository::assetDirs() const
 void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
     res.type = AssetListType::AssetType::Video;
-    Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
+    Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
         res.type = AssetListType::AssetType::Audio;
     }

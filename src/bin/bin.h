@@ -51,6 +51,7 @@ class BinListItemDelegate;
 class ClipController;
 class EffectStackModel;
 class InvalidDialog;
+class TranscodeSeek;
 class KdenliveDoc;
 class TagWidget;
 class Monitor;
@@ -72,6 +73,10 @@ namespace Mlt {
 class Producer;
 }
 
+/** @class MyListView
+    @brief \@todo Describe class MyListView
+    @todo Describe class MyListView
+ */
 class MyListView : public QListView
 {
     Q_OBJECT
@@ -95,6 +100,10 @@ private:
     PlaylistState::ClipState m_dragType;
 };
 
+/** @class MyTreeView
+    @brief \@todo Describe class MyTreeView
+    @todo Describe class MyTreeView
+ */
 class MyTreeView : public QTreeView
 {
     Q_OBJECT
@@ -130,6 +139,10 @@ signals:
     void editingChanged();
 };
 
+/** @class SmallJobLabel
+    @brief \@todo Describe class SmallJobLabel
+    @todo Describe class SmallJobLabel
+ */
 class SmallJobLabel : public QPushButton
 {
     Q_OBJECT
@@ -153,6 +166,10 @@ private slots:
     void slotTimeLineFinished();
 };
 
+/** @class LineEventEater
+    @brief \@todo Describe class LineEventEater
+    @todo Describe class LineEventEater
+ */
 class LineEventEater : public QObject
 {
     Q_OBJECT
@@ -167,19 +184,22 @@ signals:
     void showClearButton(bool);
 };
 
-/**
- * @class Bin
- * @brief The bin widget takes care of both item model and view upon project opening.
+/** @class ClipWidget
+    @brief \@todo Describe class ClipWidget
+    @todo Describe class ClipWidget
  */
-
 class ClipWidget : public QWidget
 {
 public:
-    explicit ClipWidget(){}
+    explicit ClipWidget()= default;
     ~ClipWidget() override;
     void init(QDockWidget* m_DockClipWidget);
 };
 
+/**
+ * @class Bin
+ * @brief The bin widget takes care of both item model and view upon project opening.
+ */
 class Bin : public QWidget
 {
     Q_OBJECT
@@ -225,7 +245,7 @@ public:
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     PlaylistState::ClipState getClipState(int itemId) const;
 
-    /** @brief Add markers on clip @param binId at @param positions with @comments text if given */
+    /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
     void addClipMarker(const QString binId, QList<int> positions, QStringList comments = {});
 
     /** @brief Returns a list of selected clip ids.
@@ -281,7 +301,7 @@ public:
 
     /** @brief This function change the global enabled state of the bin effects
      */
-    void setBinEffectsEnabled(bool enabled);
+    void setBinEffectsEnabled(bool enabled, bool refreshMonitor = true);
 
     void requestAudioThumbs(const QString &id, long duration);
     /** @brief Proxy status for the project changed, update. */
@@ -329,6 +349,8 @@ public:
      * @param properties some extra properties that will be set on the producer
      * @param createNew if true, the playlist will be added as a new clip in project binId */
     void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
+    /** @brief A non seekable clip was added to project, propose transcoding */
+    void requestTranscoding(const QString &url, const QString &id);
 
 private slots:
     void slotAddClip();
@@ -426,7 +448,7 @@ public slots:
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */
-    void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
+    void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
     const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Returns the effectstack of a given clip. */
@@ -438,6 +460,7 @@ public slots:
      * @param minimumTracksCount the number of active streams for this clip
      */
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
+    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
@@ -508,7 +531,10 @@ private:
     KMessageWidget *m_infoMessage;
     BinMessage::BinCategory m_currentMessage;
     QStringList m_errorLog;
+    /** @brief Dialog listing invalid clips on load. */
     InvalidDialog *m_invalidClipDialog;
+    /** @brief Dialog listing non seekable clips on load. */
+    TranscodeSeek *m_transcodingDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */
     bool m_gainedFocus;
     /** @brief List of Clip Ids that want an audio thumb. */
@@ -527,7 +553,6 @@ private:
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
-    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);

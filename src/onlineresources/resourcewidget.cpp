@@ -42,15 +42,13 @@
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
-    , m_currentProvider(nullptr)
-    , m_currentItem(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     m_tmpThumbFile = new QTemporaryFile(this);
 
-    int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
-    m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
+    int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
+    m_iconSize = QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight);
 
     slider_zoom->setRange(0, 15);
     connect(slider_zoom, &QAbstractSlider::valueChanged, this, &ResourceWidget::slotSetIconSize);
@@ -61,7 +59,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 
     message_line->hide();
 
-    for (QPair<QString, QString> provider : ProvidersRepository::get()->getAllProviers()) {
+    for (const QPair<QString, QString> &provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
         switch(ProvidersRepository::get()->getProvider(provider.second)->type()){
         case ProviderModel::AUDIO:

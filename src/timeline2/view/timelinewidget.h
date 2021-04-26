@@ -39,25 +39,25 @@ class TimelineWidget : public QQuickWidget
 public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
-    /* @brief Sets the model shown by this widget */
+    /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
 
-    /* @brief Return the project's tractor
+    /** @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
     void setTool(ProjectTool tool);
     QPair<int, int>getTracksCount() const;
-    /* @brief calculate zoom level for a scale */
+    /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
-    /* @brief Give keyboard focus to timeline qml */
+    /** @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
-    void regainFocus();
+    void unsetModel();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -66,18 +66,19 @@ protected:
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void slotFitZoom();
-    /* @brief Center timeline view on current timeline cursor position */
+    /** @brief Center timeline view on current timeline cursor position */
     void slotCenterView();
     void zoneUpdated(const QPoint &zone);
     void zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &newZone);
-    /* @brief Favorite effects have changed, reload model for context menu */
+    /** @brief Favorite effects have changed, reload model for context menu */
     void updateEffectFavorites();
-    /* @brief Favorite transitions have changed, reload model for context menu */
+    /** @brief Favorite transitions have changed, reload model for context menu */
     void updateTransitionFavorites();
-    /* @brief Bin clip drag ended, make sure we correctly processed the drop */
+    /** @brief Bin clip drag ended, make sure we correctly processed the drop */
     void endDrag();
-    /* @brief Show menu to switch track target audio stream */
+    /** @brief Show menu to switch track target audio stream */
     void showTargetMenu(int tid = -1);
+    void regainFocus();
 
 private slots:
     void slotUngrabHack();
@@ -97,7 +98,7 @@ private:
     QMenu *m_guideMenu;
     QMenu *m_headerMenu;
     QMenu *m_targetsMenu;
-    QActionGroup *m_targetsGroup;
+    QActionGroup *m_targetsGroup{nullptr};
     QMenu *m_thumbsMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
@@ -105,11 +106,11 @@ private:
     QMenu *m_timelineSubtitleClipMenu;
     static const int comboScale[];
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
-    /* @brief Keep last scale before fit to restore it on second click */
+    /** @brief Keep last scale before fit to restore it on second click */
     double m_prevScale;
-    /* @brief Keep last scroll position before fit to restore it on second click */
+    /** @brief Keep last scroll position before fit to restore it on second click */
     int m_scrollPos;
-    /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
+    /** @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
 

@@ -86,7 +86,6 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure();
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
     const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
@@ -141,6 +140,8 @@ public:
     void purgeCache();
     /** @brief Show / hide monitor ruler */
     void switchRuler(bool show);
+    /** @brief Returns true if consumer is initialized */
+    bool isReady() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -158,10 +159,12 @@ public slots:
     void slotZoom(bool zoomIn);
     void initializeGL();
     void releaseAnalyse();
-    void switchPlay(bool play, double speed = 1.0);
+    void switchPlay(bool play, int offset = 0, double speed = 1.0);
     void reloadProfile();
-    /** @brief Update MLT's consumer scaling */
-    void updateScaling();
+    /** @brief Update MLT's consumer scaling 
+     *  @returns true is scaling was changed
+     */
+    bool updateScaling();
 
 signals:
     void frameDisplayed(const SharedFrame &frame);
@@ -251,6 +254,7 @@ private slots:
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
     void onFrameDisplayed(const SharedFrame &frame);
+    int reconfigure();
     void refresh();
 
 protected:

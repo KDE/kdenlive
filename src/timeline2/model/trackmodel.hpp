@@ -48,7 +48,7 @@ public:
     std::pair<int, int> mixInOut;
 };
 
-/* @brief This class represents a Track object, as viewed by the backend.
+/** @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
    validity of the modifications
@@ -73,47 +73,47 @@ private:
     TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1);
 
 public:
-    /* @brief Creates a track, which references itself to the parent
+    /** @brief Creates a track, which references itself to the parent
        Returns the (unique) id of the created track
        @param id Requested id of the track. Automatic if id = -1
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
     static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1, const QString &trackName = QString(), bool audioTrack = false);
 
-    /* @brief returns the number of clips */
+    /** @brief returns the number of clips */
     int getClipsCount();
 
-    /* @brief returns the number of compositions */
+    /** @brief returns the number of compositions */
     int getCompositionsCount() const;
 
-    /* Perform a split at the requested position */
+    /** @brief Perform a split at the requested position */
     bool splitClip(QSharedPointer<ClipModel> caller, int position);
 
-    /* Implicit conversion operator to access the underlying producer
+    /** @brief Implicit conversion operator to access the underlying producer
      */
     operator Mlt::Producer &() { return *m_track.get(); }
 
-    /* @brief Returns true if track is in locked state
+    /** @brief Returns true if track is in locked state
      */
     bool isLocked() const;
-    /* @brief Returns true if track is active in timeline, ie.
+    /** @brief Returns true if track is active in timeline, ie.
      * will receive insert/lift/overwrite/extract operations
      */
     bool isTimelineActive() const;
-    /* @brief Returns true if track is active and not locked
+    /** @brief Returns true if track is active and not locked
      */
     bool shouldReceiveTimelineOp() const;
-    /* @brief Returns true if track is an audio track
+    /** @brief Returns true if track is an audio track
      */
     bool isAudioTrack() const;
     std::shared_ptr<Mlt::Tractor> getTrackService();
-    /* @brief Returns the track type (audio / video)
+    /** @brief Returns the track type (audio / video)
      */
     PlaylistState::ClipState trackType() const;
-    /* @brief Returns true if track is disabled
+    /** @brief Returns true if track is disabled
      */
     bool isHidden() const;
-    /* @brief Returns true if track is disabled
+    /** @brief Returns true if track is disabled
      */
     bool isMute() const;
 
@@ -145,16 +145,18 @@ public:
     void setMixDuration(int cid, int mixDuration, int mixCut);
     /** @brief Get the assetparameter model for a mix */
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
+    /** @brief Get a list of current effect stack zones */
+    QVariantList stackZones() const;
 
 protected:
-    /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
+    /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
        This functions are dangerous to call directly since locking the track will potentially
        mess up with the undo/redo system (a track lock may make an undo impossible).
        Prefer calling TimelineModel::setTrackLockedState */
     void lock();
     void unlock();
 
-    /* @brief Returns a lambda that performs a resize of the given clip.
+    /** @brief Returns a lambda that performs a resize of the given clip.
        The lambda returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clipId is the id of the clip
@@ -164,7 +166,7 @@ protected:
     */
     Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false);
 
-    /* @brief Performs an insertion of the given clip.
+    /** @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clip is the id of the clip
@@ -175,10 +177,10 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
-    /* @brief This function returns a lambda that performs the requested operation */
+    /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false);
 
-    /* @brief Performs an deletion of the given clip.
+    /** @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        @param clipId is the id of the clip
@@ -190,10 +192,10 @@ protected:
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
     bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
-    /* @brief This function returns a lambda that performs the requested operation */
+    /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
-    /* @brief Performs an insertion of the given composition.
+    /** @brief Performs an insertion of the given composition.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
        Note that in Mlt, the composition insertion logic is not really at the track level, but we use that level to do collision checking
@@ -204,94 +206,94 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestCompositionInsertion(int compoId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
-    /* @brief This function returns a lambda that performs the requested operation */
+    /** @brief This function returns a lambda that performs the requested operation */
     Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView, bool finalMove = false);
 
     bool requestCompositionDeletion(int compoId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool finalDeletion);
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView, bool finalMove = false);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1, bool logUndo = false);
 
-    /* @brief Returns the size of the blank before or after the given clip
+    /** @brief Returns the size of the blank before or after the given clip
        @param clipId is the id of the clip
        @param after is true if we query the blank after, false otherwise
     */
     int getBlankSizeNearClip(int clipId, bool after);
     int getBlankSizeNearComposition(int compoId, bool after);
     int getBlankStart(int position);
-    /* @brief Returns the start of the blank on a specific playlist */
+    /** @brief Returns the start of the blank on a specific playlist */
     int getBlankStart(int position, int track);
     int getBlankSizeAtPos(int frame);
-    /* @brief Returns true if clip at position is the last on playlist
+    /** @brief Returns true if clip at position is the last on playlist
      * @param position the position in playlist
     */
     bool isLastClip(int position);
 
-    /*@brief Returns the best composition duration depending on clips on the track */
+    /** @brief Returns the best composition duration depending on clips on the track */
     int suggestCompositionLength(int position);
-    /*@brief Returns the best composition duration depending on compositions on the track */
+    /** @brief Returns the best composition duration depending on compositions on the track */
     QPair <int, int> validateCompositionLength(int pos, int offset, int duration, int endPos);
 
-    /*@brief Returns the (unique) construction id of the track*/
+    /** @brief Returns the (unique) construction id of the track*/
     int getId() const;
 
-    /*@brief This function is used only by the QAbstractItemModel
+    /** @brief This function is used only by the QAbstractItemModel
       Given a row in the model, retrieves the corresponding clip id. If it does not exist, returns -1
     */
     int getClipByRow(int row) const;
 
-    /*@brief This function is used only by the QAbstractItemModel
+    /** @brief This function is used only by the QAbstractItemModel
       Given a row in the model, retrieves the corresponding composition id. If it does not exist, returns -1
     */
     int getCompositionByRow(int row) const;
-    /*@brief This function is used only by the QAbstractItemModel
+    /** @brief This function is used only by the QAbstractItemModel
       Given a clip ID, returns the row of the clip.
     */
     int getRowfromClip(int clipId) const;
 
-    /*@brief This function is used only by the QAbstractItemModel
+    /** @brief This function is used only by the QAbstractItemModel
       Given a composition ID, returns the row of the composition.
     */
     int getRowfromComposition(int compoId) const;
 
-    /*@brief This is an helper function that test frame level consistency with the MLT structures */
+    /** @brief This is an helper function that test frame level consistency with the MLT structures */
     bool checkConsistency();
 
-    /* @brief Returns true if we have a composition intersecting with the range [in,out]*/
+    /** @brief Returns true if we have a composition intersecting with the range [in,out]*/
     bool hasIntersectingComposition(int in, int out) const;
 
-    /* @brief This is an helper function that returns the sub-playlist in which the clip is inserted, along with its index in the playlist
+    /** @brief This is an helper function that returns the sub-playlist in which the clip is inserted, along with its index in the playlist
      @param position the position of the target clip*/
     std::pair<int, int> getClipIndexAt(int position, int playlist = -1);
     QSharedPointer<Mlt::Producer> getClipProducer(int clipId);
 
-    /* @brief This is an helper function that checks in all playlists if the given position is a blank */
+    /** @brief This is an helper function that checks in all playlists if the given position is a blank */
     bool isBlankAt(int position, int playlist = -1);
 
-    /* @brief This is an helper function that returns the end of the blank that covers given position */
+    /** @brief This is an helper function that returns the end of the blank that covers given position */
     int getBlankEnd(int position);
-    /* Same, but we restrict to a specific track*/
+    /** @brief Same, but we restrict to a specific track*/
     int getBlankEnd(int position, int track);
 
-    /* @brief Returns the clip id on this track at position requested, or -1 if no clip */
+    /** @brief Returns the clip id on this track at position requested, or -1 if no clip */
     int getClipByPosition(int position, int playlist = -1);
-    /* @brief Returns the clip id on this track that starts at position requested, or -1 if no clip */
+    /** @brief Returns the clip id on this track that starts at position requested, or -1 if no clip */
     int getClipByStartPosition(int position) const;
 
-    /* @brief Returns the composition id on this track starting position requested, or -1 if not found */
+    /** @brief Returns the composition id on this track starting position requested, or -1 if not found */
     int getCompositionByPosition(int position);
-    /* @brief Add a track effect */
+    /** @brief Add a track effect */
     bool addEffect(const QString &effectId);
 
-    /* @brief Returns a comma separated list of effect names */
+    /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
-    /* @brief Returns true if effect stack is enabled */
+    /** @brief Returns true if effect stack is enabled */
     bool stackEnabled() const;
 
-    /* @brief Enable / disable the track's effect stack */
+    /** @brief Enable / disable the track's effect stack */
     void setEffectStackEnabled(bool enable);
 
-    /* @brief This function removes the clip from the mlt object, and then insert it back in the same spot again.
+    /** @brief This function removes the clip from the mlt object, and then insert it back in the same spot again.
      * This is used when some properties of the clip have changed, and we need this to refresh it */
     void replugClip(int clipId);
     void temporaryReplugClip(int cid);
@@ -299,18 +301,18 @@ protected:
 
     int trackDuration() const;
 
-    /* @brief Returns the list of the ids of the clips that intersect the given range */
+    /** @brief Returns the list of the ids of the clips that intersect the given range */
     std::unordered_set<int> getClipsInRange(int position, int end = -1);
-    /* @brief Returns the list of the ids of the compositions that intersect the given range */
+    /** @brief Returns the list of the ids of the compositions that intersect the given range */
     std::unordered_set<int> getCompositionsInRange(int position, int end);
 
-    /* @brief Import effects from a service that contains some (another track) */
+    /** @brief Import effects from a service that contains some (another track) */
     bool importEffects(std::weak_ptr<Mlt::Service> service);
-    /* @brief Copy effects from another effect stack */
+    /** @brief Copy effects from another effect stack */
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
-    /* @brief Returns true if we have a blank at position for duration */
+    /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
-    /* @brief Returns the number of same track transitions (mix) in this track */
+    /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */
     bool hasMix(int cid) const;

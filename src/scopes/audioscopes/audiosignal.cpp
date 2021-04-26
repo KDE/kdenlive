@@ -83,8 +83,8 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
     for (int i = 0; i < numchan; ++i) {
         // int maxx= (unsigned char)m_channels[i] * (horiz ? width() : height() ) / 127;
-        double valpixel = valueToPixel((double)(unsigned char)chanAvg[i] / 127.0);
-        int maxx = height() * valpixel;
+        double valpixel = valueToPixel(chanAvg[i] / 127.0);
+        int maxx = int(height() * valpixel);
         int xdelta = height() / 42;
         int _y2 = (showdb ? width() - dbsize : width()) / numchan - 1;
         int _y1 = (showdb ? width() - dbsize : width()) * i / numchan;
@@ -92,7 +92,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
         if (horiz) {
             dbsize = 9;
             showdb = height() > (dbsize);
-            maxx = width() * valpixel;
+            maxx = int(width() * valpixel);
             xdelta = width() / 42;
             _y2 = (showdb ? height() - dbsize : height()) / numchan - 1;
             _y1 = (showdb ? height() - dbsize : height()) * i / numchan;
@@ -103,7 +103,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
             int _x1 = x * xdelta;
             QColor sig = Qt::green;
             // value of actual painted digit
-            double ival = (double)_x1 / (double)xdelta / 42.0;
+            double ival = double(_x1) / xdelta / 42.;
             if (ival > 40.0 / 42.0) {
                 sig = Qt::red;
             } else if (ival > 37.0 / 42.0) {
@@ -120,23 +120,23 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
                 maxx -= xdelta;
             }
         }
-        int xp = valueToPixel((double)m_peeks.at(i) / 127.0) * (horiz ? width() : height()) - 2;
+        int xp = int(valueToPixel(m_peeks.at(i) / 127.)) * (horiz ? width() : height()) - 2;
         p.fillRect(horiz ? xp : _y1, horiz ? _y1 : height() - xdelta - xp, horiz ? 3 : _y2, horiz ? _y2 : 3, QBrush(Qt::gray, Qt::SolidPattern));
     }
     if (showdb) {
         // draw db value at related pixel
         for (int l : qAsConst(m_dbscale)) {
             if (!horiz) {
-                double xf = pow(10.0, (double)l / 20.0) * (double)height();
-                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString::number(l));
+                double xf = pow(10.0, l / 20.0) * height();
+                p.drawText(width() - dbsize, height() - int(xf * 40 / 42 + 20), QString::number(l));
             } else {
-                double xf = pow(10.0, (double)l / 20.0) * (double)width();
-                p.drawText(xf * 40 / 42 - 10, height() - 2, QString::number(l));
+                double xf = pow(10.0, l / 20.0) * width();
+                p.drawText(int(xf * 40 / 42 - 10), height() - 2, QString::number(l));
             }
         }
     }
     p.end();
-    emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
+    emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
     return image;
 }
 
@@ -184,11 +184,11 @@ void AudioSignal::slotReceiveAudio(audioShortVector audioSamples, int, int num_c
         }
         // max amplitude = 40/42, 3to10  oversamples=41, more then 10 oversamples=42
         if (over2 > 0.0) {
-            chanSignal.append(over2);
+            chanSignal.append(char(over2));
         } else if (over1 > 0.0) {
-            chanSignal.append(over1);
+            chanSignal.append(char(over1));
         } else {
-            chanSignal.append(char((double)val / (double)num_samples * 40.0 / 42.0));
+            chanSignal.append(char(double(val) / num_samples * 40.0 / 42.0));
         }
     }
     showAudio(chanSignal);

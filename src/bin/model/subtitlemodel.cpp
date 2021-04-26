@@ -35,11 +35,12 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTextCodec>
-#include <QApplication>
+#include <utility>
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
@@ -76,6 +77,11 @@ void SubtitleModel::setup()
     connect(this, &SubtitleModel::columnsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::rowsMoved, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
+}
+
+void SubtitleModel::unsetModel()
+{
+    m_timeline.reset();
 }
 
 void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
@@ -351,10 +357,10 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return false;
     }
-    int row = m_timeline->m_allSubtitles.size();
+    m_timeline->registerSubtitle(id, start, temporary);
+    int row = m_timeline->getSubtitleIndex(id);
     beginInsertRows(QModelIndex(), row, row);
     m_subtitleList[start] = {str, end};
-    m_timeline->registerSubtitle(id, start, temporary);
     endInsertRows();
     addSnapPoint(start);
     addSnapPoint(end);
@@ -972,11 +978,11 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         QTextStream out(&outF);
         out.setCodec("UTF-8");
         if (assFormat) {
-        	out<<scriptInfoSection<<endl;
-        	out<<styleSection<<endl;
-        	out<<eventSection;
+            out<<scriptInfoSection<<'\n';
+            out<<styleSection<<'\n';
+            out<<eventSection;
         }
-        for (const auto &entry : list) {
+        for (const auto &entry : qAsConst(list)) {
             if (!entry.isObject()) {
                 qDebug() << "Warning : Skipping invalid subtitle data";
                 continue;
@@ -988,7 +994,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             }
             double startPos = entryObj[QLatin1String("startPos")].toDouble();
             //convert seconds to FORMAT= hh:mm:ss.SS (in .ass) and hh:mm:ss,SSS (in .srt)
-            int millisec = startPos * 1000;
+            int millisec = int(startPos * 1000);
             int seconds = millisec / 1000;
             millisec %=1000;
             int minutes = seconds / 60;
@@ -997,18 +1003,18 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             minutes %= 60;
             int milli_2 = millisec / 10;
             QString startTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
             QString startTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(millisec,3,10,QChar('0'));
             QString dialogue = entryObj[QLatin1String("dialogue")].toString();
             double endPos = entryObj[QLatin1String("endPos")].toDouble();
-            millisec = endPos * 1000;
+            millisec = int(endPos * 1000);
             seconds = millisec / 1000;
             millisec %=1000;
             minutes = seconds / 60;
@@ -1018,22 +1024,22 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
 
             milli_2 = millisec / 10; // to limit ms to 2 digits (for .ass)
             QString endTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
 
             QString endTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 1, 10, QChar('0'))
+              .arg(hours, 2, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(millisec,3,10,QChar('0'));
             line++;
             if (assFormat) {
-            	//Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
-            	out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
+                //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+                out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<'\n';
             } else {
-                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<endl;
+                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<'\n';
             }
             
             //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();

@@ -50,7 +50,6 @@
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KWindowConfig>
-#include <KColorScheme>
 #include <kio_version.h>
 
 #include "kdenlive_debug.h"
@@ -129,7 +128,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_dragStarted(false)
     , m_recManager(nullptr)
     , m_loopClipAction(nullptr)
-    , m_sceneVisibilityAction(nullptr)
     , m_contextMenu(nullptr)
     , m_markerMenu(nullptr)
     , m_audioChannels(nullptr)
@@ -149,7 +147,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget((int)id);
+    m_glMonitor = new GLWidget(id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
@@ -196,7 +194,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
 
-    QComboBox *scalingAction = new QComboBox(this);
+    auto *scalingAction = new QComboBox(this);
     scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
     // Combobox padding is bad, so manually add a space before text
     scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"),QStringLiteral(" ") + i18n("720p"),QStringLiteral(" ") + i18n("540p"),QStringLiteral(" ") + i18n("360p"),QStringLiteral(" ") + i18n("270p")});
@@ -222,7 +220,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
-        m_glMonitor->updateScaling();
+        bool scalingChanged = m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
                 scalingAction->setCurrentIndex(1);
@@ -240,20 +238,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 scalingAction->setCurrentIndex(0);
                 break;
         }
-        refreshMonitorIfActive();
+        if (scalingChanged) {
+            refreshMonitorIfActive();
+        }
     });
     scalingAction->setFrame(false);
     scalingAction->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_toolbar->addWidget(scalingAction);
     m_toolbar->addSeparator();
 
-    m_speedLabel = new QLabel(this);
-    m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::PositiveBackground).color();
-    m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
-    m_toolbar->addWidget(m_speedLabel);
-    m_speedLabel->setFixedWidth(0);
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
@@ -437,11 +430,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::slotSeekToKeyFrame);
 
-    m_sceneVisibilityAction = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
-    m_sceneVisibilityAction->setCheckable(true);
-    m_sceneVisibilityAction->setChecked(KdenliveSettings::showOnMonitorScene());
-    connect(m_sceneVisibilityAction, &QAction::triggered, this, &Monitor::slotEnableEffectScene);
-    m_toolbar->addAction(m_sceneVisibilityAction);
+    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_editmode")));
 
     m_toolbar->addSeparator();
     m_toolbar->addWidget(m_timePos);
@@ -664,7 +653,7 @@ void Monitor::slotForceSize(QAction *a)
         // calculate size
         QRect r = QApplication::primaryScreen()->geometry();
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
-        profileWidth = pCore->getCurrentProfile()->dar() * profileHeight;
+        profileWidth = int(pCore->getCurrentProfile()->dar() * profileHeight);
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
             const QList<QAction *> list = m_forceSize->actions();
@@ -708,7 +697,7 @@ void Monitor::updateMarkers()
         QList<CommentedTime> markers = m_controller->getMarkerModel()->getAllMarkers();
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
-                int pos = (int)markers.at(i).time().frames(pCore->getCurrentFps());
+                int pos = markers.at(i).time().frames(pCore->getCurrentFps());
                 QString position = pCore->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
@@ -728,7 +717,7 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         i.next();
         CommentedTime timeGuide(GenTime(i.key()), i.value());
         guidesList << timeGuide;
-        int pos = (int)timeGuide.time().frames(pCore->getCurrentFps());
+        int pos = timeGuide.time().frames(pCore->getCurrentFps());
         QString position = pCore->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
@@ -887,23 +876,23 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 {
     if (m_glMonitor->zoom() > 1.0f) {
         m_horizontalScroll->setPageStep(m_glWidget->width());
-        m_horizontalScroll->setMaximum(m_glWidget->width() * m_glMonitor->zoom());
+        m_horizontalScroll->setMaximum(int(m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->setValue(qRound(horizontal * float(m_horizontalScroll->maximum())));
         emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {
-        emit m_horizontalScroll->valueChanged(qRound(0.5 * m_glWidget->width() * m_glMonitor->zoom()));
+        emit m_horizontalScroll->valueChanged(int(0.5f * m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->hide();
     }
 
     if (m_glMonitor->zoom() > 1.0f) {
         m_verticalScroll->setPageStep(m_glWidget->height());
-        m_verticalScroll->setMaximum(m_glWidget->height() * m_glMonitor->zoom());
-        m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum() * vertical));
+        m_verticalScroll->setMaximum(int(m_glWidget->height() * m_glMonitor->zoom()));
+        m_verticalScroll->setValue(int(m_verticalScroll->maximum() * vertical));
         emit m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
-        emit m_verticalScroll->valueChanged(qRound(0.5 * m_glWidget->height() * m_glMonitor->zoom()));
+        emit m_verticalScroll->valueChanged(int(0.5f * m_glWidget->height() * m_glMonitor->zoom()));
         m_verticalScroll->hide();
     }
 }
@@ -947,7 +936,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         m_videoWidget->setFocus();
     } else {
         m_glWidget->showNormal();
-        auto *lay = (QVBoxLayout *)layout();
+        auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
         setFocus();
     }
@@ -1250,6 +1239,7 @@ void Monitor::checkOverlay(int pos)
         return;
     }
     QString overlayText;
+    QColor color;
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
@@ -1267,9 +1257,10 @@ void Monitor::checkOverlay(int pos)
         CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
         if (found) {
             overlayText = marker.comment();
+            color = model->markerTypes.at(marker.markerType());
         }
     }
-    m_glMonitor->getControllerProxy()->setMarkerComment(overlayText);
+    m_glMonitor->getControllerProxy()->setMarker(overlayText, color);
 }
 
 int Monitor::getZoneStart()
@@ -1308,19 +1299,16 @@ void Monitor::slotRewind(double speed)
         if (currentspeed > -1) {
             m_glMonitor->purgeCache();
             speed = -1;
-            resetSpeedInfo();
         } else {
             m_speedIndex++;
             if (m_speedIndex > 4) {
                 m_speedIndex = 0;
             }
             speed = -MonitorManager::speedArray[m_speedIndex];
-            m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
-            m_speedLabel->setText(QString("x%1").arg(speed));
         }
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, m_offset, speed);
 }
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
@@ -1333,9 +1321,8 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
         if (currentspeed < 1) {
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
-                resetSpeedInfo();
                 updatePlayAction(true);
-                m_glMonitor->switchPlay(true, 1);
+                m_glMonitor->switchPlay(true, m_offset);
                 return;
             } else {
                 m_speedIndex = 0;
@@ -1347,11 +1334,9 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
             m_speedIndex = 0;
         }
         speed = MonitorManager::speedArray[m_speedIndex];
-        m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
-        m_speedLabel->setText(QString("x%1").arg(speed));
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, speed);
+    m_glMonitor->switchPlay(true, m_offset, speed);
 }
 
 void Monitor::slotRewindOneFrame(int diff)
@@ -1405,7 +1390,7 @@ void Monitor::mute(bool mute, bool updateIconOnly)
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
     }
     if (!updateIconOnly) {
-        m_glMonitor->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0);
+        m_glMonitor->setVolume(mute ? 0 : KdenliveSettings::volume() / 100.0);
     }
 }
 
@@ -1436,11 +1421,24 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitorIfActive(bool directUpdate)
 {
+    if (!m_glMonitor->isReady()) {
+        return;
+    }
     if (isActive()) {
         if (directUpdate) {
             m_glMonitor->refresh();
         } else {
             m_glMonitor->requestRefresh();
+        }
+    } else if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+        slotActivateMonitor();
+        if (isActive()) {
+            m_glMonitor->refresh();
+            // Monitor was not active, so we activate it, refresh and activate the other monitor once done
+            m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
+                m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
+                QObject::disconnect( m_switchConnection );
+            });
         }
     }
 }
@@ -1459,8 +1457,7 @@ void Monitor::switchPlay(bool play)
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
-    m_glMonitor->switchPlay(play);
-    resetSpeedInfo();
+    m_glMonitor->switchPlay(play, m_offset);
 }
 
 void Monitor::updatePlayAction(bool play)
@@ -1479,7 +1476,7 @@ void Monitor::slotSwitchPlay()
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
-    m_glMonitor->switchPlay(m_playAction->isActive());
+    m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;
@@ -1492,7 +1489,6 @@ void Monitor::slotSwitchPlay()
     } else {
         m_droppedTimer.stop();
     }
-    resetSpeedInfo();
 }
 
 void Monitor::slotPlay()
@@ -1558,7 +1554,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     // TODO
     // Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
-    m_glMonitor->switchPlay(true);
+    m_glMonitor->switchPlay(true, m_offset);
 }
 
 void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
@@ -1627,8 +1623,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setOffset(m_controller->getRecordTime());
         }
         if (m_controller->statusReady()) {
-            m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
-            m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
+            m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
+            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getMarkerModel());
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
@@ -1638,7 +1634,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             } else {
                 m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
             }
-            m_snaps->addPoint((int)m_controller->frameDuration() - 1);
+            m_snaps->addPoint(int(m_controller->frameDuration() - 1));
             // Loading new clip / zone, stop if playing
             if (m_playAction->isActive()) {
                 updatePlayAction(false);
@@ -1659,6 +1655,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
+            if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+                slotActivateMonitor();
+            }
             m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
@@ -1672,8 +1671,11 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
         //m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
+        if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+            slotActivateMonitor();
+        }
     }
-    if (slotActivateMonitor()) {
+    if (isActive()) {
         start();
     }
     checkOverlay();
@@ -1734,7 +1736,6 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     slotOpenClip(nullptr);
     m_streamAction->setVisible(false);
     m_glMonitor->setProducer(path);
-    m_glMonitor->producer();
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
     m_glMonitor->setRulerInfo(m_glMonitor->producer()->get_length() - 1);
@@ -1831,7 +1832,7 @@ QPoint Monitor::getZoneInfo() const
     return m_glMonitor->getControllerProxy()->zone();
 }
 
-void Monitor::slotEnableEffectScene(bool enable)
+void Monitor::enableEffectScene(bool enable)
 {
     KdenliveSettings::setShowOnMonitorScene(enable);
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
@@ -1948,7 +1949,7 @@ void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
     double renderVolume = m_glMonitor->volume();
-    m_glMonitor->setVolume((double)volume / 100.0);
+    m_glMonitor->setVolume(volume / 100.0);
     if (renderVolume > 0 && volume > 0) {
         return;
     }
@@ -1987,7 +1988,7 @@ void Monitor::checkDrops()
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
     } else {
         m_glMonitor->resetDrops();
-        dropped = pCore->getCurrentFps() - dropped;
+        dropped = int(pCore->getCurrentFps() - dropped);
         m_qmlManager->setProperty(QStringLiteral("dropped"), true);
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(dropped, 'f', 2));
     }
@@ -2013,7 +2014,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
         QDir dir = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
         if (ok) {
             QString url = dir.absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') +
-                                            QString::number((int)pos.frames(pCore->getCurrentFps())) + QStringLiteral(".png"));
+                                            QString::number(pos.frames(pCore->getCurrentFps())) + QStringLiteral(".png"));
             if (QFile::exists(url)) {
                 return url;
             }
@@ -2175,7 +2176,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
-    m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), m_controller->getMarkerModel());
+    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getMarkerModel());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -2187,7 +2188,7 @@ QSize Monitor::profileSize() const
 void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
     if (m_id == Kdenlive::DvdMonitor) {
-        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()), m_timePos->maximum());
         m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
         return;
     }
@@ -2195,12 +2196,12 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
         return;
     }
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
-    if ((m_sceneVisibilityAction != nullptr) && !m_sceneVisibilityAction->isChecked() && sceneWithEdit) {
+    if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:
@@ -2420,7 +2421,6 @@ void Monitor::slotStart()
     }
     m_glMonitor->switchPlay(false);
     m_glMonitor->getControllerProxy()->setPosition(0);
-    resetSpeedInfo();
 }
 
 void Monitor::slotEnd()
@@ -2429,19 +2429,11 @@ void Monitor::slotEnd()
         return;
     }
     m_glMonitor->switchPlay(false);
-    resetSpeedInfo();
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration() - 1);
     } else {
         m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration() - 1);
     }
-}
-
-void Monitor::resetSpeedInfo()
-{
-    m_speedIndex = -1;
-    m_speedLabel->setFixedWidth(0);
-    m_speedLabel->clear();
 }
 
 void Monitor::addSnapPoint(int pos)

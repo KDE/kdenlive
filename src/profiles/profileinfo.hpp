@@ -29,7 +29,7 @@ namespace Mlt {
 class Profile;
 }
 
-/* @brief This is a virtual class that represents any profile that we can get info from
+/** @brief This is a virtual class that represents any profile that we can get info from
  */
 class ProfileInfo
 {
@@ -55,7 +55,7 @@ public:
     QString colorspaceDescription() const;
     virtual QString path() const = 0;
 
-    /* @brief overload of comparison operators */
+    /** @brief overload of comparison operators */
     bool operator==(const ProfileInfo &other) const;
     bool operator!=(const ProfileInfo &other) const;
 

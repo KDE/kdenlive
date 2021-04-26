@@ -32,16 +32,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Monitor;
 class AssetParameterModel;
 
-/** @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
-   the data and pass it to the model
-
- */
+/** @class KeyframeMonitorHelper
+    @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
+    the data and pass it to the model
+    */
 class KeyframeMonitorHelper : public QObject
 {
     Q_OBJECT
 
 public:
-    /* @brief Construct a keyframe list bound to the given effect
+    /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
@@ -72,7 +72,7 @@ public slots:
     void addIndex(const QPersistentModelIndex &index);
 
 signals:
-    /** @brief Send updated keyframe data to the parameter @index
+    /** @brief Send updated keyframe data to the parameter \@index
      */
     void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);
 };

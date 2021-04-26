@@ -31,6 +31,7 @@ Item{
     property int trackThumbsFormat
     property int itemType: 0
     property int slipStart: -1
+    property var effectZones
     opacity: model.disabled ? 0.4 : 1
 
     function clipAt(index) {
@@ -67,7 +68,7 @@ Item{
                     target: loader.item
                     property: "tagColor"
                     value: model.tag
-                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -211,7 +212,7 @@ Item{
                     target: loader.item
                     property: "clipState"
                     value: model.clipState
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -266,7 +267,7 @@ Item{
                         console.log('loaded unwanted element: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                     }
                     item.trackId = model.trackId
-                    //item.selected= trackRoot.selection.indexOf(item.clipId) !== -1
+                    //item.selected= trackRoot.selection.indexOf(item.clipId) != -1
                     //console.log(width, height);
                 }
             }
@@ -411,7 +412,7 @@ Item{
         Composition {
             displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (root.baseUnit * 2))
             opacity: 0.8
-            selected: root.timelineSelection.indexOf(clipId) !== -1
+            selected: root.timelineSelection.indexOf(clipId) != -1
             onTrimmingIn: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
                 if (new_duration > 0) {
@@ -472,6 +473,7 @@ Item{
             NumberAnimation { property: "opacity"; duration: 300}
         } ]
     }
+<<<<<<< HEAD
     Rectangle {
         id: currentRegion
         color: activePalette.highlight
@@ -512,6 +514,17 @@ Item{
             horizontalAlignment: Text.AlignHCenter
             color: activePalette.highlightedText
             opacity: 1
+        }
+    }
+    Repeater {
+        model: effectZones
+        Rectangle {
+            x: effectZones[index].x * timeline.scaleFactor
+            height: 2
+            width: (effectZones[index].y - effectZones[index].x) * timeline.scaleFactor
+            color: 'blueviolet'
+            opacity: 1
+            anchors.top: parent.top
         }
     }
 }

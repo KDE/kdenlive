@@ -19,12 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-/*!
- * @class LibraryWidget
- * @brief A "library" that contains a list of clips to be used across projects
- * @author Jean-Baptiste Mardelle
- */
-
 #ifndef LIBRARYWIDGET_H
 #define LIBRARYWIDGET_H
 
@@ -53,7 +47,6 @@ class QToolBar;
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
  */
-
 class LibraryItemDelegate : public QStyledItemDelegate
 {
 public:
@@ -69,8 +62,8 @@ public:
         QRect r1 = option.rect;
         QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int decoWidth = 2 * textMargin + r1.height() * 1.8;
-        int mid = (int)((r1.height() / 2));
+        int decoWidth = int(2 * textMargin + r1.height() * 1.8);
+        int mid = r1.height() / 2;
         r1.adjust(decoWidth, 0, 0, -mid);
         QFont ft = option.font;
         ft.setBold(true);
@@ -89,7 +82,7 @@ public:
         QFontMetricsF fm(ft);
         QStyle *style = option.widget ? option.widget->style() : QApplication::style();
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
+        int width = int(fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin);
         hint.setWidth(width);
         return {hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height()))};
     }
@@ -116,11 +109,11 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            int decoWidth = 2 * textMargin + r1.height() * 1.8;
-            r.setWidth(r1.height() * 1.8);
+            int decoWidth = int(2 * textMargin + r1.height() * 1.8);
+            r.setWidth(int(r1.height() * 1.8));
             // Draw thumbnail
             opt.icon.paint(painter, r);
-            int mid = (int)((r1.height() / 2));
+            int mid = r1.height() / 2;
             r1.adjust(decoWidth, 0, 0, -mid);
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
@@ -129,7 +122,7 @@ public:
             font.setBold(false);
             painter->setFont(font);
             QString subText = index.data(Qt::UserRole + 1).toString();
-            r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
+            r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
             QColor subTextColor = painter->pen().color();
             subTextColor.setAlphaF(.5);
             painter->setPen(subTextColor);
@@ -141,6 +134,10 @@ public:
     }
 };
 
+/** @class LibraryTree
+    @brief \@todo Describe class LibraryTree
+    @todo Describe class LibraryTree
+ */
 class LibraryTree : public QTreeWidget
 {
     Q_OBJECT
@@ -162,6 +159,10 @@ signals:
     void importSequence(const QStringList &, const QString &);
 };
 
+/** @class LibraryWidget
+    @brief A "library" that contains a list of clips to be used across projects
+    @author Jean-Baptiste Mardelle
+ */
 class LibraryWidget : public QWidget
 {
     Q_OBJECT

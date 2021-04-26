@@ -37,6 +37,7 @@ class PatternsModel;
 
 class Monitor;
 class KMessageWidget;
+class TimecodeDisplay;
 class TitleTemplate
 {
 public:
@@ -60,9 +61,9 @@ public:
     int rotatex, rotatey, rotatez;
 };
 
-/*! \class TitleWidget
-    \brief Title creation dialog
-    Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
+/** @class TitleWidget
+ *  @brief Title creation dialog
+ *  Instances of TitleWidget classes are instantiated by KdenliveDoc::slotCreateTextClip ()
 */
 class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 {
@@ -71,11 +72,10 @@ class TitleWidget : public QDialog, public Ui::TitleWidget_UI
 public:
     /** @brief Draws the dialog and loads a title document (if any).
      * @param url title document to load
-     * @param tc timecode of the project
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
+    explicit TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
     ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QDomDocument &doc, const QString &id = QString());
@@ -130,7 +130,7 @@ private:
 
     /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
-    Timecode m_tc;
+    TimecodeDisplay *m_duration;
 
     /** @brief The project framerate. */
     double m_fps;
@@ -139,6 +139,7 @@ private:
     QString m_clipId;
 
     QAction *m_buttonRect;
+    QAction *m_buttonEllipse;
     QAction *m_buttonText;
     QAction *m_buttonImage;
     QAction *m_buttonCursor;
@@ -251,6 +252,7 @@ private:
 public slots:
     void slotNewText(MyTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
+    void slotNewEllipse(QGraphicsEllipseItem *rect);
     void slotChangeBackground();
 
     /** @brief Sets up the tools (toolbars etc.) according to the selected item. */
@@ -325,6 +327,7 @@ private slots:
     void slotSelectAll();
     void slotSelectText();
     void slotSelectRects();
+    void slotSelectEllipses();
     void slotSelectImages();
     void slotSelectNone();
 
@@ -339,6 +342,7 @@ private slots:
 
     void slotTextTool();
     void slotRectTool();
+    void slotEllipseTool();
     void slotSelectTool();
     void slotImageTool();
 

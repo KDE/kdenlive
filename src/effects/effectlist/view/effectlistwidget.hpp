@@ -25,15 +25,15 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
 
-/* @brief This class is a widget that display the list of available effects
- */
-
 class EffectFilter;
 class EffectTreeModel;
 class EffectListWidgetProxy;
 class KActionCategory;
 class QMenu;
 
+/** @class EffectListWidget
+    @brief This class is a widget that display the list of available effects
+ */
 class EffectListWidget : public AssetListWidget
 {
     Q_OBJECT
@@ -43,7 +43,7 @@ public:
     ~EffectListWidget() override;
     void setFilterType(const QString &type);
 
-    /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/
+    /** @brief Return mime type used for drag and drop. It will be kdenlive/effect*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);

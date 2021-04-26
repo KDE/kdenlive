@@ -60,7 +60,6 @@ namespace Mlt {
  * Needs to be initialize before any widgets are created in MainWindow.
  * Plugins should be loaded after the widget setup.
  */
-
 class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 {
     Q_OBJECT
@@ -80,7 +79,7 @@ public:
      * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(bool isAppImage, const QString &MltPath = QString());
+    static bool build(bool testMode = false);
 
     /**
      * @brief Init the GUI part of the app and show the main window
@@ -88,7 +87,7 @@ public:
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void initGUI(const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -110,7 +109,7 @@ public:
     /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
     /** @brief Select a clip in the Bin from its id. */
-    void selectBinClip(const QString &id, int frame = -1, const QPoint &zone = QPoint());
+    void selectBinClip(const QString &id, bool activateMonitor = true, int frame = -1, const QPoint &zone = QPoint());
     /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
     void selectTimelineItem(int id);
     /** @brief Returns a pointer to the model of the project bin. */
@@ -183,7 +182,7 @@ public:
     /** @brief Returns the composition A track (MLT index / Track id) */
     QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
-    /* @brief Return true if composition's a_track is automatic (no forced track)
+    /** @brief Return true if composition's a_track is automatic (no forced track)
      */
     bool compositionAutoTrack(int cid) const;
     std::shared_ptr<DocUndoStack> undoStack();
@@ -293,6 +292,9 @@ public slots:
     void buildLumaThumbs(const QStringList &values);
     /** @brief Set current project modified. */
     void setDocumentModified();
+    /** @brief Show currently selected effect zone in timeline ruler. */
+    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void updateMasterZones();
 
 signals:
     void coreIsReady();
@@ -310,6 +312,10 @@ signals:
     void voskModelUpdate(const QStringList models);
     /** @brief This signal means that VOSK and/or SRT module availability changed*/
     void updateVoskAvailability();
+    /** @brief Update current effect zone */
+    void updateEffectZone(const QPoint p, bool withUndo);
+    /** @brief The effect stask is about to be deleted, disconnect everything */
+    void disconnectEffectStack();
 };
 
 #endif

@@ -50,7 +50,7 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     if (!index.isValid()) {
         return QString();
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
     }
@@ -62,7 +62,7 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     if (!index.isValid()) {
         return false;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (item->depth() == 1) {
         return false;
     }
@@ -74,7 +74,7 @@ QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) 
     if (!index.isValid()) {
         return QString();
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (isEffect && item->depth() == 1) {
         return QString();
     }
@@ -95,7 +95,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     switch (role) {
     case IdRole:
         return item->dataColumn(AssetTreeModel::idCol);

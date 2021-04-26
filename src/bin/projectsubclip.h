@@ -33,13 +33,9 @@ class QDomElement;
 namespace Mlt {
 }
 
-/**
- * @class ProjectSubClip
- * @brief Represents a clip in the project (not timeline).
- *
-
- */
-
+/** @class ProjectSubClip
+    @brief Represents a clip in the project (not timeline).
+  */
 class ProjectSubClip : public AbstractProjectItem
 {
     Q_OBJECT

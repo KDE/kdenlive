@@ -25,7 +25,7 @@
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 
-/* @brief This class represents an effect hierarchy to be displayed as a tree
+/** @brief This class represents an effect hierarchy to be displayed as a tree
  */
 class TreeItem;
 

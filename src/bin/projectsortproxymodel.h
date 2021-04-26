@@ -31,7 +31,6 @@ class QItemSelectionModel;
  * @class ProjectSortProxyModel
  * @brief Acts as an filtering proxy for the Bin Views, used when triggering the lineedit filter.
  */
-
 class ProjectSortProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -69,9 +68,9 @@ private:
     QItemSelectionModel *m_selection;
     QString m_searchString;
     QStringList m_searchTag;
-    int m_searchType;
-    int m_searchRating;
-    bool m_unusedFilter;
+    int m_searchType{0};
+    int m_searchRating{0};
+    bool m_unusedFilter{false};
     QCollator m_collator;
 
 signals:

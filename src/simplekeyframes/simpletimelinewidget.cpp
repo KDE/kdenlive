@@ -37,7 +37,7 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget *parent)
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);
     m_colSelected = palette().highlight().color();
     m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
-    m_size = QFontInfo(font()).pixelSize() * 1.8;
+    m_size = int(QFontInfo(font()).pixelSize() * 1.8);
     m_lineHeight = m_size / 2;
     setMinimumHeight(m_size);
     setMaximumHeight(m_size);
@@ -152,7 +152,7 @@ void SimpleTimelineWidget::slotGoToPrev()
 
 void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 {
-    int pos = event->x() / m_scale;
+    int pos = int(event->x() / m_scale);
     if (event->y() < m_lineHeight && event->button() == Qt::LeftButton) {
         for (const int &keyframe : qAsConst(m_keyframes)) {
             if (qAbs(keyframe - pos) < 5) {
@@ -175,7 +175,7 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
+    int pos = qBound(0, int(event->x() / m_scale), m_duration);
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_currentKeyframe >= 0) {
             if (!m_keyframes.contains(pos)) {
@@ -228,7 +228,7 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent *event)
 void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && event->y() < m_lineHeight) {
-        int pos = qBound(0, (int)(event->x() / m_scale), m_duration);
+        int pos = qBound(0, int(event->x() / m_scale), m_duration);
         for (const int &keyframe : qAsConst(m_keyframes)) {
             if (qAbs(keyframe - pos) < 5) {
                 m_keyframes.removeAll(keyframe);
@@ -274,9 +274,9 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
     Q_UNUSED(event)
 
     QStylePainter p(this);
-    m_scale = width() / (double)(m_duration);
+    m_scale = double(width()) / m_duration;
     // p.translate(0, m_lineHeight);
-    int headOffset = m_lineHeight / 1.5;
+    int headOffset = int(m_lineHeight / 1.5);
 
     /*
      * keyframes
@@ -287,7 +287,7 @@ void SimpleTimelineWidget::paintEvent(QPaintEvent *event)
         } else {
             p.setBrush(m_colKeyframe);
         }
-        int scaledPos = pos * m_scale;
+        int scaledPos = int(pos * m_scale);
         p.drawLine(scaledPos, headOffset, scaledPos, m_lineHeight + (headOffset / 2));
         p.drawEllipse(scaledPos - headOffset / 2, 0, headOffset, headOffset);
     }

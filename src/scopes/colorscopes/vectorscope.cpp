@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QElapsedTimer>
 #include <cmath>
-const float P75 = .75;
+const double P75 = .75;
 
 const QPointF YUV_R(-.147, .615);
 const QPointF YUV_G(-.289, -.515);
@@ -236,26 +236,26 @@ QImage Vectorscope::renderHUD(uint)
 
         QPoint reference = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(1, 0));
 
-        float r = sqrt(dx * dx + dy * dy);
-        float percent = (float)100 * r / (float)VectorscopeGenerator::scaling / (float)m_gain / float(reference.x() - widgetCenterPoint.x());
+        float r = sqrtf(dx * dx + dy * dy);
+        float percent = 100.f * r / float(VectorscopeGenerator::scaling) / m_gain / (reference.x() - widgetCenterPoint.x());
 
         switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
             davinci.setPen(penLight);
             break;
         default:
-            if (r > m_cw / 2.0) {
+            if (r > m_cw / 2.0f) {
                 davinci.setPen(penLight);
             } else {
                 davinci.setPen(penDark);
             }
             break;
         }
-        davinci.drawEllipse(m_centerPoint, (int)r, (int)r);
+        davinci.drawEllipse(m_centerPoint, int(r), int(r));
         davinci.setPen(penThin);
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 %%", locale.toString(percent, 'f', 0)));
 
-        float angle = copysign(std::acos((float)dx / (float)r) * 180. / M_PI, dy);
+        float angle = float(copysignf(std::acos(dx / r) * 180.f / float(M_PI), dy));
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
         //        m_circleEnabled = false;
@@ -278,11 +278,11 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
 
         VectorscopeGenerator::ColorSpace colorSpace =
             m_aColorSpace_YPbPr->isChecked() ? VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
-        VectorscopeGenerator::PaintMode paintMode = (VectorscopeGenerator::PaintMode)m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
+        VectorscopeGenerator::PaintMode paintMode = VectorscopeGenerator::PaintMode(m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt());
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
     }
-    emit signalScopeRenderingFinished((uint) timer.elapsed(), accelerationFactor);
+    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return scope;
 }
 
@@ -310,15 +310,15 @@ QImage Vectorscope::renderBackground(uint)
     QImage colorPlane;
     switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
     case BG_YUV:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char)128, 1 / VectorscopeGenerator::scaling, false, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), 128, 1 / float(VectorscopeGenerator::scaling), false, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_CHROMA:
-        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), (unsigned char)255, 1 / VectorscopeGenerator::scaling, true, true);
+        colorPlane = m_colorTools->yuvColorWheel(m_scopeRect.size(), 255, 1 / float(VectorscopeGenerator::scaling), true, true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     case BG_YPbPr:
-        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), (unsigned char)128, 1 / VectorscopeGenerator::scaling, true);
+        colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), 128, 1 / float(VectorscopeGenerator::scaling), true);
         davinci.drawImage(0, 0, colorPlane);
         break;
     }
@@ -496,7 +496,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
     }
 
-    emit signalBackgroundRenderingFinished((uint)timer.elapsed(), 1);
+    emit signalBackgroundRenderingFinished(uint(timer.elapsed()), 1);
     return bg;
 }
 
@@ -506,7 +506,7 @@ void Vectorscope::slotGainChanged(int newval)
 {
     QLocale locale; // Used for UI → OK
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    m_gain = 1 + (float)newval / 10;
+    m_gain = 1 + newval / 10.f;
     m_ui->lblGain->setText(locale.toString(m_gain, 'f', 1) + QLatin1Char('x'));
     forceUpdateScope();
 }

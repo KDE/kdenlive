@@ -54,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
-    , m_binPlaylist(new BinPlaylist())
+    , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
     , m_nextId(1)
     , m_blankThumb()
@@ -76,6 +76,11 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
 }
 
 ProjectItemModel::~ProjectItemModel() = default;
+
+void ProjectItemModel::buildPlaylist()
+{
+    m_binPlaylist.reset(new BinPlaylist());
+}
 
 int ProjectItemModel::mapToColumn(int column) const
 {
@@ -505,7 +510,7 @@ void ProjectItemModel::clean()
 {
     QWriteLocker locker(&m_lock);
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
-    toDelete.reserve((size_t)rootItem->childCount());
+    toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
@@ -582,7 +587,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const
 {
     READ_LOCK();
-    return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
+    return std::static_pointer_cast<AbstractProjectItem>(getItemById(int(index.internalId())));
 }
 
 bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo)
@@ -993,16 +998,14 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
 {
     QWriteLocker locker(&m_lock);
     clean();
-    Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
+    Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
     if (retainList.is_valid()) {
-        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
+        Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
                 emit pCore->loadingMessageUpdated(i18n("Loading project clips..."));
             }
-            // Load bin clips
-            auto currentLocale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());

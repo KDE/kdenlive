@@ -27,7 +27,7 @@
 #include <QGraphicsTextItem>
 
 enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
-enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3 };
+enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3, TITLE_ELLIPSE = 4 };
 
 class MyQGraphicsEffect : public QGraphicsEffect
 {
@@ -104,6 +104,19 @@ private:
     QRectF m_rect;
 };
 
+class MyEllipseItem : public QGraphicsEllipseItem
+{
+public:
+    explicit MyEllipseItem(QGraphicsItem *parent = nullptr);
+    void setRect(const QRectF &rectangle);
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
+private:
+    QRectF m_ellipse;
+};
+
 class MyPixmapItem : public QGraphicsPixmapItem
 {
 public:
@@ -171,6 +184,7 @@ signals:
     void itemMoved();
     void sceneZoom(bool);
     void newRect(QGraphicsRectItem *);
+    void newEllipse(QGraphicsEllipseItem *);
     void newText(MyTextItem *);
     void actionFinished();
     void doubleClickEvent();

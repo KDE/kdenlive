@@ -18,12 +18,10 @@ namespace Mlt {
 class Repository;
 }
 
-/**
- * @class MltConnection
- * @brief Initializes MLT and provides access to its API
- * This is where the Mlt Factory is initialized, as well as the producers
+/** @class MltConnection
+    @brief Initializes MLT and provides access to its API.
+    This is where the Mlt Factory is initialized, as well as the producers
  */
-
 class MltConnection
 {
 
@@ -32,10 +30,10 @@ public:
      */
     static void construct(const QString &mltPath);
 
-    /* @brief Returns a pointer to the MLT Repository*/
+    /** @brief Returns a pointer to the MLT Repository*/
     std::unique_ptr<Mlt::Repository> &getMltRepository();
 
-    /* @brief Returns a pointer to the instance of the singleton */
+    /** @brief Returns a pointer to the instance of the singleton */
     static std::unique_ptr<MltConnection> &self();
 
     /** @brief Updates the list of available Lumas

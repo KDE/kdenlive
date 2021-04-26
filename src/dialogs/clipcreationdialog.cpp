@@ -192,7 +192,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
         QDomDocument xml;
         QDomElement prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
-        prod.setAttribute(QStringLiteral("type"), (int)ClipType::QText);
+        prod.setAttribute(QStringLiteral("type"), int(ClipType::QText));
         int id = pCore->projectItemModel()->getFreeClipId();
         prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
@@ -272,7 +272,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parent
     QDir dir(doc->projectDataFolder() + QStringLiteral("/titles"));
     dir.mkpath(QStringLiteral("."));
     QPointer<TitleWidget> dia_ui =
-        new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), pCore->getMonitor(Kdenlive::ProjectMonitor), pCore->bin());
+        new TitleWidget(QUrl::fromLocalFile(templatePath), dir.absolutePath(), pCore->getMonitor(Kdenlive::ProjectMonitor), pCore->bin());
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
         std::unordered_map<QString, QString> properties;
@@ -375,7 +375,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     l->addStretch(5);
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    QScopedPointer<QDialog> dlg(new QDialog((QWidget *)doc->parent()));
+    QScopedPointer<QDialog> dlg(new QDialog(static_cast<QWidget *>(doc->parent())));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(clipFolder), dlg.data()));
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());

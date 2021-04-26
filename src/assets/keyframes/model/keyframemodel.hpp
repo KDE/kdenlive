@@ -37,21 +37,22 @@ class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 
-/* @brief This class is the model for a list of keyframes.
-   A keyframe is defined by a time, a type and a value
-   We store them in a sorted fashion using a std::map
- */
 
 enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 
+/** @class KeyframeModel
+    @brief This class is the model for a list of keyframes.
+   A keyframe is defined by a time, a type and a value
+   We store them in a sorted fashion using a std::map
+ */
 class KeyframeModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    /* @brief Construct a keyframe list bound to the given effect
+    /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
@@ -67,35 +68,35 @@ public:
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
      *  with keyframes from other parameters */
-    /* @brief Adds a keyframe at the given position. If there is already one then we update it.
+    /** @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
     bool addKeyframe(GenTime pos, KeyframeType type, QVariant value);
     bool addKeyframe(int frame, double normalizedValue);
-    /* @brief Same function but accumulates undo/redo
+    /** @brief Same function but accumulates undo/redo
        @param notify: if true, send a signal to model
      */
     bool addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo);
 
-    /* @brief Removes the keyframe at the given position. */
+    /** @brief Removes the keyframe at the given position. */
     bool removeKeyframe(int frame);
     bool moveKeyframe(int oldPos, int pos, QVariant newVal);
-    /* @brief Duplicate a keyframe at the given position. */
+    /** @brief Duplicate a keyframe at the given position. */
     bool duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo);
     bool removeKeyframe(GenTime pos);
-    /* @brief Delete all the keyframes of the model */
+    /** @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
     bool removeAllKeyframes(Fun &undo, Fun &redo);
     bool removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo);
     QList<GenTime> getKeyframePos() const;
 
 protected:
-    /* @brief Same function but accumulates undo/redo */
+    /** @brief Same function but accumulates undo/redo */
     bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true);
 
 public:
-    /* @brief moves a keyframe
+    /** @brief moves a keyframe
        @param oldPos is the old position of the keyframe
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
@@ -105,7 +106,7 @@ public:
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo);
 
-    /* @brief updates the value of a keyframe
+    /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
@@ -113,53 +114,54 @@ public:
     bool updateKeyframe(GenTime pos, QVariant value);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
     bool updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update = true);
-    /* @brief updates the value of a keyframe, without any management of undo/redo
+    /** @brief updates the value of a keyframe, without any management of undo/redo
        @param pos is the position of the keyframe
        @param value is the new value of the param
     */
     bool directUpdateKeyframe(GenTime pos, QVariant value);
 
-    /* @brief Returns a keyframe data at given pos
+    /** @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
      */
     Keyframe getKeyframe(const GenTime &pos, bool *ok) const;
 
-    /* @brief Returns true if we only have 1 keyframe
+    /** @brief Returns true if we only have 1 keyframe
      */
     bool singleKeyframe() const;
-    /* @brief Returns the keyframe located after given position.
+    /** @brief Returns the keyframe located after given position.
        If there is a keyframe at given position it is ignored.
        @param ok is a return parameter to tell if a keyframe was found.
     */
     Keyframe getNextKeyframe(const GenTime &pos, bool *ok) const;
 
-    /* @brief Returns the keyframe located before given position.
+    /** @brief Returns the keyframe located before given position.
        If there is a keyframe at given position it is ignored.
        @param ok is a return parameter to tell if a keyframe was found.
     */
     Keyframe getPrevKeyframe(const GenTime &pos, bool *ok) const;
 
-    /* @brief Returns the closest keyframe from given position.
+    /** @brief Returns the closest keyframe from given position.
        @param ok is a return parameter to tell if a keyframe was found.
     */
     Keyframe getClosestKeyframe(const GenTime &pos, bool *ok) const;
 
-    /* @brief Returns true if a keyframe exists at given pos
+    /** @brief Returns true if a keyframe exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasKeyframe(int frame) const;
     Q_INVOKABLE bool hasKeyframe(const GenTime &pos) const;
+    Q_INVOKABLE QString realValue(double normalizedValue) const;
 
-    /* @brief Read the value from the model and update itself accordingly */
+    /** @brief Read the value from the model and update itself accordingly */
     void refresh();
-    /* @brief Reset all values to their default */
+    /** @brief Reset all values to their default */
     void reset();
 
-    /* @brief Return the interpolated value at given pos */
+    /** @brief Return the interpolated value at given pos */
     QVariant getInterpolatedValue(int pos) const;
     QVariant getInterpolatedValue(const GenTime &pos) const;
     QVariant updateInterpolated(const QVariant &interpValue, double val);
-    /* @brief Return the real value from a normalized one */
+    /** @brief Return the real value from a normalized one */
     QVariant getNormalizedValue(double newVal) const;
 
     // Mandatory overloads
@@ -180,10 +182,10 @@ protected:
     /** @brief Helper function that generate a lambda to remove given keyframe */
     Fun deleteKeyframe_lambda(GenTime pos, bool notify);
 
-    /* @brief Connects the signals of this object */
+    /** @brief Connects the signals of this object */
     void setup();
 
-    /* @brief Commit the modification to the model */
+    /** @brief Commit the modification to the model */
     void sendModification();
 
     /** @brief returns the keyframes as a Mlt Anim Property string.
@@ -195,9 +197,9 @@ protected:
     QString getAnimProperty() const;
     QString getRotoProperty() const;
 
-    /* @brief this function clears all existing keyframes, and reloads its data from the string passed */
+    /** @brief this function clears all existing keyframes, and reloads its data from the string passed */
     void resetAnimProperty(const QString &prop);
-    /* @brief this function does the opposite of getAnimProperty: given a MLT representation of an animation, build the corresponding model */
+    /** @brief this function does the opposite of getAnimProperty: given a MLT representation of an animation, build the corresponding model */
     void parseAnimProperty(const QString &prop);
     void parseRotoProperty(const QString &prop);
 
@@ -207,7 +209,8 @@ private:
     QPersistentModelIndex m_index;
     QString m_lastData;
     ParamType m_paramType;
-    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
 
     std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
 

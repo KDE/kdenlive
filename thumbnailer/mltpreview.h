@@ -32,12 +32,12 @@ class MltPreview : public ThumbCreator
 {
 public:
     MltPreview();
-    virtual ~MltPreview();
+    ~MltPreview() override;
     bool create(const QString &path, int width, int height, QImage &img) override;
     Flags flags() const override;
 
 protected:
-    static uint imageVariance(const QImage &image);
+    static int imageVariance(const QImage &image);
     QImage getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height);
 };
 

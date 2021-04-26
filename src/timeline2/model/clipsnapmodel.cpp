@@ -34,7 +34,7 @@ void ClipSnapModel::addPoint(int position)
         return;
     }
     if (auto ptr = m_registeredSnap.lock()) {
-        ptr->addPoint(m_speed < 0 ? ceil(m_outPoint + m_position + position / m_speed - m_inPoint) : ceil(m_position + position / m_speed - m_inPoint));
+        ptr->addPoint(m_speed < 0 ? int(ceil(m_outPoint + m_position + position / m_speed - m_inPoint)) : int(ceil(m_position + position / m_speed - m_inPoint)));
     }
 }
 
@@ -45,7 +45,7 @@ void ClipSnapModel::removePoint(int position)
         return;
     }
     if (auto ptr = m_registeredSnap.lock()) {
-        ptr->removePoint(m_speed < 0 ? ceil(m_outPoint + m_position + position / m_speed - m_inPoint) : ceil(m_position + position / m_speed - m_inPoint));
+        ptr->removePoint(m_speed < 0 ? int(ceil(m_outPoint + m_position + position / m_speed - m_inPoint)) : int(ceil(m_position + position / m_speed - m_inPoint)));
     }
 }
 
@@ -80,11 +80,11 @@ void ClipSnapModel::addAllSnaps()
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                ptr->addPoint(m_speed < 0 ? ceil(m_outPoint + m_position + snap / m_speed - m_inPoint) : ceil(m_position + snap / m_speed - m_inPoint));
+                ptr->addPoint(m_speed < 0 ? int(ceil(m_outPoint + m_position + snap / m_speed - m_inPoint)) : int(ceil(m_position + snap / m_speed - m_inPoint)));
             }
         }
         if (m_mixPoint > 0) {
-            ptr->addPoint(ceil(m_position + m_mixPoint / m_speed));
+            ptr->addPoint(int(ceil(m_position + m_mixPoint / m_speed)));
         }
     }
 }
@@ -94,11 +94,11 @@ void ClipSnapModel::removeAllSnaps()
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                ptr->removePoint(m_speed < 0 ? ceil(m_outPoint + m_position + snap / m_speed - m_inPoint) : ceil(m_position + snap / m_speed - m_inPoint));
+                ptr->removePoint(m_speed < 0 ? int(ceil(m_outPoint + m_position + snap / m_speed - m_inPoint)) : int(ceil(m_position + snap / m_speed - m_inPoint)));
             }
         }
         if (m_mixPoint > 0) {
-            ptr->removePoint(ceil(m_position + m_mixPoint / m_speed));
+            ptr->removePoint(int(ceil(m_position + m_mixPoint / m_speed)));
         }
     }
 }
@@ -109,7 +109,7 @@ void ClipSnapModel::allSnaps(std::vector<int> &snaps, int offset)
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                snaps.push_back(m_speed < 0 ? ceil(m_outPoint + m_position + snap / m_speed - m_inPoint - offset) : ceil(m_position + snap / m_speed - m_inPoint - offset));
+                snaps.push_back(m_speed < 0 ? int(ceil(m_outPoint + m_position + snap / m_speed - m_inPoint - offset)) : int(ceil(m_position + snap / m_speed - m_inPoint - offset)));
             }
         }
     }

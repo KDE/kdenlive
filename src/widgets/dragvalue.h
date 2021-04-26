@@ -53,6 +53,7 @@ private:
     bool m_dragMode;
     bool m_showSlider;
     double m_step;
+    double m_value;
     void slotValueInc(double factor = 1);
     void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
@@ -63,10 +64,9 @@ signals:
     void resetValue();
 };
 
-/**
- * @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
+/** @class DragValue
+    @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
  */
-
 class DragValue : public QWidget
 {
     Q_OBJECT

@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QDialog>
 #include <QPointer>
+#include <utility>
 
 CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime inTime, GenTime outTime, const QString destPath, QStringList encodingParams)
     : AbstractClipJob(CUTJOB, binId, {ObjectType::BinClip, binId.toInt()})
@@ -48,8 +49,8 @@ CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime i
     , m_jobProcess(nullptr)
     , m_in(inTime)
     , m_out(outTime)
-    , m_encodingParams(encodingParams)
-    , m_jobDuration((int)(outTime - inTime).seconds())
+    , m_encodingParams(std::move(encodingParams))
+    , m_jobDuration(int((outTime - inTime).seconds()))
 {
 }
 
@@ -81,8 +82,8 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
-    QString inString = QString::number((int)inTime.seconds());
-    QString outString = QString::number((int)outTime.seconds());
+    QString inString = QString::number(int(inTime.seconds()));
+    QString outString = QString::number(int(outTime.seconds()));
     QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString, outString) + transcoderExt);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
@@ -94,7 +95,7 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl::fromLocalFile(path));
     QFontMetrics fm = ui.file_url->lineEdit()->fontMetrics();
-    ui.file_url->setMinimumWidth(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4);
+    ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     ui.extra_params->setPlainText(QStringLiteral("-acodec copy -vcodec copy"));
     QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode((outTime -inTime).frames(pCore->getCurrentFps()), pCore->getCurrentFps(), true), binClip->getStringDuration());
@@ -179,7 +180,7 @@ void CutClipJob::processLogInfo()
                 if (numbers.size() < 3) {
                     return;
                 }
-                m_jobDuration = (int)(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                m_jobDuration = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
             }
         }
     } else if (buffer.contains(QLatin1String("time="))) {
@@ -187,15 +188,15 @@ void CutClipJob::processLogInfo()
         if (!time.isEmpty()) {
             QStringList numbers = time.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
-                progress = (int)time.toDouble();
+                progress = time.toInt();
                 if (progress == 0) {
                     return;
                 }
             } else {
-                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
+                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
             }
         }
-        emit jobProgress((int)(100.0 * progress / m_jobDuration));
+        emit jobProgress(int(100.0 * progress / m_jobDuration));
     }
 }
 

@@ -125,7 +125,7 @@ void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)
     if (!index.isValid()) {
         return;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     const QString path = EffectsRepository::get()->getCustomPath(item->dataColumn(idCol).toString());
     reloadEffect(path);
 }
@@ -154,7 +154,7 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
     if (!index.isValid()) {
         return;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     const QString id = item->dataColumn(idCol).toString();
     m_customCategory->removeChild(item);
     EffectsRepository::get()->deleteEffect(id);
@@ -184,7 +184,7 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     if (!index.isValid()) {
         return;
     }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     if (isEffect && item->depth() == 1) {
         return;
     }
@@ -206,7 +206,7 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
 void EffectTreeModel::editCustomAsset(const QString newName,const QString newDescription, const QModelIndex &index)
 {
 
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     QString currentName = item->dataColumn(AssetTreeModel::nameCol).toString();
 
     QDomDocument doc;
@@ -241,7 +241,7 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
         if (dir.exists(newName + QStringLiteral(".xml"))){
             QMessageBox message;
-            message.critical(0, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
+            message.critical(nullptr, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
             message.setFixedSize(400, 200);
             return;
         }

@@ -134,7 +134,7 @@ QImage Waveform::renderHUD(uint)
     const int y = m_mousePos.y() - scopeRect().y();
 
     if (scopeRect().height() > 0 && m_mouseWithinWidget) {
-        int val = int(255. * (1. - (float)y / (float)scopeRect().height()));
+        int val = 255 - (255 * y) / scopeRect().height();
 
         if (val >= 0 && val <= 255) {
             // Draw a horizontal line through the current mouse position
@@ -157,7 +157,7 @@ QImage Waveform::renderHUD(uint)
             // Draw a vertical line and the x position of the source clip
             const int profileWidth = pCore->getCurrentProfile()->width();
 
-            const int clipX = int((float)x / float(scopeRect().width() - m_textWidth.width() - 1) * float(profileWidth - 1));
+            const int clipX = (x * (profileWidth - 1)) / (scopeRect().width() - m_textWidth.width() - 1);
 
             if (clipX >= 0 && clipX <= profileWidth) {
                 int valX = x - 15;
@@ -188,9 +188,9 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     const int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
-                                                         (WaveformGenerator::PaintMode)paintmode, true, rec, accelFactor);
+                                                         WaveformGenerator::PaintMode(paintmode), true, rec, accelFactor);
 
-    emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
+    emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
     return wave;
 }
 
