@@ -2145,9 +2145,8 @@ void MainWindow::slotRenderProject()
 
     slotCheckRenderStatus();
     if ( m_renderWidget ) {
-        m_renderWidget->show();
+        m_renderWidget->showNormal();
     }
-    // m_renderWidget->showNormal();
 
     // What are the following lines supposed to do?
     // m_renderWidget->enableAudio(false);
