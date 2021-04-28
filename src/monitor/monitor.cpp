@@ -1453,6 +1453,7 @@ void Monitor::pause()
 
 void Monitor::switchPlay(bool play)
 {
+    m_speedIndex = 0;
     m_playAction->setActive(play);
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
@@ -1476,6 +1477,7 @@ void Monitor::slotSwitchPlay()
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
+    m_speedIndex = 0;
     m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
