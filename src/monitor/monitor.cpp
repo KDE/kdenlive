@@ -1299,9 +1299,10 @@ void Monitor::slotRewind(double speed)
         if (currentspeed > -1) {
             m_glMonitor->purgeCache();
             speed = -1;
+            m_speedIndex = 0;
         } else {
             m_speedIndex++;
-            if (m_speedIndex > 4) {
+            if (m_speedIndex > 5) {
                 m_speedIndex = 0;
             }
             speed = -MonitorManager::speedArray[m_speedIndex];
@@ -1319,18 +1320,17 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
+            m_speedIndex = 0;
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
                 updatePlayAction(true);
                 m_glMonitor->switchPlay(true, m_offset);
                 return;
-            } else {
-                m_speedIndex = 0;
             }
         } else {
             m_speedIndex++;
         }
-        if (m_speedIndex > 4) {
+        if (m_speedIndex > 5) {
             m_speedIndex = 0;
         }
         speed = MonitorManager::speedArray[m_speedIndex];

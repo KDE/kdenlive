@@ -73,7 +73,7 @@ public:
     /** @brief Returns true if the clip monitor is visible (and not tabbed under another dock. */
     bool clipMonitorVisible() const;
     QTimer refreshTimer;
-    static const double speedArray[5];
+    static const double speedArray[6];
 
 public slots:
 
