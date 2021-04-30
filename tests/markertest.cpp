@@ -12,20 +12,29 @@ double fps;
 void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::vector<Marker> &l, const std::shared_ptr<SnapModel> &snaps)
 {
     auto list = l;
-    std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
+    //std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
 
     REQUIRE(model->rowCount() == (int)list.size());
     if (model->rowCount() == 0) {
         REQUIRE(snaps->getClosestPoint(0) == -1);
     }
     for (int i = 0; i < model->rowCount(); ++i) {
-        REQUIRE(qAbs(std::get<0>(list[i]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps);
-        REQUIRE(std::get<1>(list[i]) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
-        REQUIRE(std::get<2>(list[i]) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
-        REQUIRE(MarkerListModel::markerTypes[std::get<2>(list[i])] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
+        Marker m;
+        // Model markers and List do not necessarily use the same order
+        for (int j = 0; j < list.size(); j++) {
+            if (qAbs(std::get<0>(list[j]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps) {
+                m = list[j];
+                list.erase(std::remove(list.begin(), list.end(), m), list.end());
+                break;
+            }
+        }
+        REQUIRE(qAbs(std::get<0>(m).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps);
+        REQUIRE(std::get<1>(m) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
+        REQUIRE(std::get<2>(m) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
+        REQUIRE(MarkerListModel::markerTypes[std::get<2>(m)] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
 
         // check for marker existence
-        int frame = std::get<0>(list[i]).frames(fps);
+        int frame = std::get<0>(m).frames(fps);
         REQUIRE(model->hasMarker(frame));
 
         // cheap way to check for snap
@@ -118,7 +127,6 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
         auto state5 = list;
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5}, snaps);
-
         GenTime old = std::get<0>(list.back());
         list.pop_back();
         REQUIRE(model->removeMarker(old));
