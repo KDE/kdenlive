@@ -89,6 +89,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
+    Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
 
 public:
@@ -191,6 +192,7 @@ public:
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
     bool subtitlesLocked() const;
+    bool guidesLocked() const;
     /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -753,6 +755,7 @@ signals:
     /** @brief Center timeline view on current position
      */
     void centerView();
+    void guidesLockedChanged();
     void effectZoneChanged();
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();

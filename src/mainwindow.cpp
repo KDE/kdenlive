@@ -630,6 +630,7 @@ void MainWindow::init(const QString &mltPath)
     auto *timelineRulerMenu = new QMenu(this);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
@@ -1778,6 +1779,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+
+    QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
+    lockGuides->setCheckable(true);
+    lockGuides->setChecked(KdenliveSettings::lockedGuides());
+
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
@@ -2802,6 +2808,12 @@ void MainWindow::slotUnselectAllTracks()
 void MainWindow::slotEditGuide()
 {
     getCurrentTimeline()->controller()->editGuide();
+}
+
+void MainWindow::slotLockGuides(bool lock)
+{
+    KdenliveSettings::setLockedGuides(lock);
+    getCurrentTimeline()->controller()->guidesLockedChanged();
 }
 
 void MainWindow::slotDeleteGuide()

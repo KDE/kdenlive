@@ -824,6 +824,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="lockedGuides" type="Bool">
+      <label>Lock guides on spacer movements (insert/remove space).</label>
+      <default>true</default>
+    </entry>
+
     <entry name="tagsintimeline" type="Bool">
       <label>Show color tags in timeline.</label>
       <default>true</default>

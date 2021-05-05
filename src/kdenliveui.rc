@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="200" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="201" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -135,14 +135,15 @@
       </Menu>
       <Action name="grab_item" />
       <Menu name="guide_menu" ><text>&amp;Guides</text>
-		<Action name="add_guide" />
-		<Action name="edit_guide" />
-		<Action name="delete_guide" />
-		<Action name="delete_all_guides" />
+        <Action name="add_guide" />
+        <Action name="edit_guide" />
+        <Action name="delete_guide" />
+        <Action name="delete_all_guides" />
+        <Action name="lock_guides" />
       </Menu>
       <Menu name="space_menu" ><text>Space</text>
-	<Action name="insert_space" />
-	<Action name="delete_space" />
+    <Action name="insert_space" />
+    <Action name="delete_space" />
         <Action name="delete_space_all_tracks" />
       </Menu>
       <Action name="group_clip" />

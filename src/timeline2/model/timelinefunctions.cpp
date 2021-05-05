@@ -402,6 +402,14 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     } else {
         timeline->requestSubtitleMove(itemId, startPosition, false, false);
     }
+    // Move guides
+    if (!KdenliveSettings::lockedGuides()) {
+        GenTime fromPos(startPosition, pCore->getCurrentFps());
+        GenTime toPos(endPosition, pCore->getCurrentFps());
+        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(startPosition, -1);
+        pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+    }
+
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
     int mainGroup = timeline->m_groups->getRootId(itemId);
     bool final = false;

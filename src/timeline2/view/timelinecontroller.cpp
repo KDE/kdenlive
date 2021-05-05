@@ -766,7 +766,7 @@ void TimelineController::gotoNextSnap()
     if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
         m_snapStackIndex = pCore->undoIndex();
         m_activeSnaps.clear();
-        m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+        m_activeSnaps = pCore->currentDoc()->getGuideModel()->getSnapPoints();
         m_activeSnaps.push_back(m_zone.x());
         m_activeSnaps.push_back(m_zone.y() - 1);
     }
@@ -782,7 +782,7 @@ void TimelineController::gotoPreviousSnap()
         if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
             m_snapStackIndex = pCore->undoIndex();
             m_activeSnaps.clear();
-            m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+            m_activeSnaps = pCore->currentDoc()->getGuideModel()->getSnapPoints();
             m_activeSnaps.push_back(m_zone.x());
             m_activeSnaps.push_back(m_zone.y() - 1);
         }
@@ -792,7 +792,7 @@ void TimelineController::gotoPreviousSnap()
 
 void TimelineController::gotoNextGuide()
 {
-    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
     int pos = pCore->getTimelinePosition();
     double fps = pCore->getCurrentFps();
     for (auto &guide : guides) {
@@ -807,7 +807,7 @@ void TimelineController::gotoNextGuide()
 void TimelineController::gotoPreviousGuide()
 {
     if (pCore->getTimelinePosition() > 0) {
-        QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
         int pos = pCore->getTimelinePosition();
         double fps = pCore->getCurrentFps();
         int lastGuidePos = 0;
@@ -1146,14 +1146,14 @@ void TimelineController::editGuide(int frame)
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
 void TimelineController::moveGuide(int frame, int newFrame)
 {
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     GenTime newPos(newFrame, pCore->getCurrentFps());
     guideModel->editMarker(pos, newPos);
@@ -1161,7 +1161,7 @@ void TimelineController::moveGuide(int frame, int newFrame)
 
 void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
 {
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime newPos(newFrame, pCore->getCurrentFps());
     guideModel->moveMarker(mid, newPos);
 }
@@ -1189,8 +1189,8 @@ bool TimelineController::moveGuidesInRange(int start, int end, int offset, Fun &
 {
     GenTime fromPos(start, pCore->getCurrentFps());
     GenTime toPos(start + offset, pCore->getCurrentFps());
-    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getMarkersInRange(start, end);
-    return pCore->projectManager()->current()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+    QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(start, end);
+    return pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
 }
 
 void TimelineController::switchGuide(int frame, bool deleteOnly)
@@ -1199,16 +1199,16 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    CommentedTime marker = pCore->currentDoc()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
             pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
-        pCore->projectManager()->current()->getGuideModel()->addMarker(pos, i18n("guide"));
+        pCore->currentDoc()->getGuideModel()->addMarker(pos, i18n("guide"));
     } else {
-        pCore->projectManager()->current()->getGuideModel()->removeMarker(marker.time());
+        pCore->currentDoc()->getGuideModel()->removeMarker(marker.time());
     }
 }
 
@@ -1642,10 +1642,9 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    if(guideStart > -1) {
+    if(guideStart > -1 && KdenliveSettings::lockedGuides()) {
         moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
     }
-
     bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, undo, redo);
     return result;
 }
@@ -4274,6 +4273,11 @@ bool TimelineController::subtitlesLocked() const
         return subtitleModel->isLocked();
     }
     return false;
+}
+
+bool TimelineController::guidesLocked() const
+{
+    return KdenliveSettings::lockedGuides();
 }
 
 void TimelineController::showToolTip(const QString &info) const
