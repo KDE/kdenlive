@@ -86,7 +86,7 @@ public:
         @param Undo,Redo are the lambdas accumulating the update.
      */
     virtual bool selfSoftDelete(Fun &undo, Fun &redo);
-
+    virtual Fun getAudio_lambda();
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
     virtual QPoint zone() const;

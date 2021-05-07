@@ -63,7 +63,6 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
 
 void AudioLevelsTask::run()
 {
-    QMutexLocker lk(&m_runMutex);
     m_running = true;
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
@@ -210,38 +209,40 @@ void AudioLevelsTask::run()
             m_audioLevels << uchar(255 * v / maxLevel);
         }*/
         m_progress = 100;
+        if (m_isCanceled) {
+            mltLevels.clear();
+        }
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        if (!m_isCanceled) {
-            if (mltLevels.size() > 0 && !m_isCanceled) {
-                QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
-                producer->lock();
-                QString key = QString("_kdenlive:audio%1").arg(stream);
-                producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
-                producer->unlock();
-                qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
-                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
-                // Put into an image for caching.
-                int count = mltLevels.size();
-                QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
-                int n = image.width() * image.height();
-                for (int i = 0; i < n; i ++) {
-                    QRgb p;
-                    if ((4*i + 3) < count) {
-                        p = qRgba(mltLevels.at(4*i), mltLevels.at(4*i+1), mltLevels.at(4*i+2), mltLevels.at(4*i+3));
-                    } else {
-                        int last = mltLevels.last();
-                        int r = (4*i+0) < count? mltLevels.at(4*i+0) : last;
-                        int g = (4*i+1) < count? mltLevels.at(4*i+1) : last;
-                        int b = (4*i+2) < count? mltLevels.at(4*i+2) : last;
-                        int a = last;
-                        p = qRgba(r, g, b, a);
-                    }
-                    image.setPixel(i / 2, i % channels, p);
+        if (mltLevels.size() > 0) {
+            QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
+            producer->lock();
+            QString key = QString("_kdenlive:audio%1").arg(stream);
+            producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
+            producer->unlock();
+            qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+            // Put into an image for caching.
+            int count = mltLevels.size();
+            QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
+            int n = image.width() * image.height();
+            for (int i = 0; i < n; i ++) {
+                QRgb p;
+                if ((4*i + 3) < count) {
+                    p = qRgba(mltLevels.at(4*i), mltLevels.at(4*i+1), mltLevels.at(4*i+2), mltLevels.at(4*i+3));
+                } else {
+                    int last = mltLevels.last();
+                    int r = (4*i+0) < count? mltLevels.at(4*i+0) : last;
+                    int g = (4*i+1) < count? mltLevels.at(4*i+1) : last;
+                    int b = (4*i+2) < count? mltLevels.at(4*i+2) : last;
+                    int a = last;
+                    p = qRgba(r, g, b, a);
                 }
-                image.save(cachePath);
+                image.setPixel(i / 2, i % channels, p);
             }
+            image.save(cachePath);
         }
     }
+    qDebug()<<"============= TASK WAS CANCELED: "<<m_isCanceled<<"\n\n===================";
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
 }

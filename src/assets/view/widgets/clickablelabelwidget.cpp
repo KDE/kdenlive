@@ -21,8 +21,6 @@
 
 #include "clickablelabelwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "jobs/filterclipjob.h"
-#include "jobs/jobmanager.h"
 #include "core.h"
 
 #include <QPushButton>

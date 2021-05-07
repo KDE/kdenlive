@@ -36,7 +36,8 @@ TaskManager::TaskManager(QObject *parent)
     : QObject(parent)
     , m_tasksListLock(QReadWriteLock::Recursive)
 {
-    m_taskPool.setMaxThreadCount(qMin(4, QThread::idealThreadCount() - 1));
+    int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
+    m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
     // TODO: make configurable for user to adjust to GPU
     m_transcodePool.setMaxThreadCount(2);
 }
@@ -48,6 +49,7 @@ TaskManager::~TaskManager()
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
 {
+    qDebug()<<"========== READY FOR TASK DELETION ON: "<<owner.second;
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.second) == m_taskList.end()) {
@@ -60,8 +62,9 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
         if (type == AbstractTask::NOJOBTYPE || type == t->m_type) {
             // If so, then just add ourselves to be notified upon completion.
             t->cancelJob();
+            qDebug()<<"========== DELETING JOB!!!!";
             // Block until the task is finished
-            t->m_runMutex.lock();
+            //t->m_runMutex.lock();
         }
     }
 }
@@ -114,6 +117,7 @@ void TaskManager::updateJobCount()
 
 void TaskManager::taskDone(int cid, AbstractTask *task)
 {
+    // This will be executed in the QRunnable job thread
     m_tasksListLock.lockForWrite();
     Q_ASSERT(m_taskList.find(cid) != m_taskList.end());
     m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
@@ -121,29 +125,30 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
         m_taskList.erase(cid);
     }
     m_tasksListLock.unlock();
-    updateJobCount();
+    QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
 
 void TaskManager::slotCancelJobs()
 {
-    m_tasksListLock.lockForWrite();
+    m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     for (auto task : m_taskList) {
         for (AbstractTask* t : task.second) {
             // If so, then just add ourselves to be notified upon completion.
             t->cancelJob();
-            // Block until the task is finished
-            t->m_runMutex.lock();
         }
     }
     m_tasksListLock.unlock();
+    m_taskPool.waitForDone();
+    m_transcodePool.waitForDone();
     updateJobCount();
 }
 
 void TaskManager::startTask(int ownerId, AbstractTask *task)
 {
-    QWriteLocker lk(&m_tasksListLock);
+    m_tasksListLock.lockForWrite();
+    qDebug()<<"========== STARTING TASK FOR: "<<ownerId;
     if (m_taskList.find(ownerId) == m_taskList.end()) {
         // First task for this clip
         m_taskList[ownerId] = {task};
@@ -156,6 +161,8 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     } else {
         m_taskPool.start(task, task->m_priority);
     }
+    m_tasksListLock.unlock();
+    updateJobCount();
 }
 
 int TaskManager::getJobProgressForClip(const ObjectId &owner) const

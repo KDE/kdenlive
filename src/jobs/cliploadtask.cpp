@@ -109,7 +109,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
@@ -133,15 +133,13 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
             m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
             QString loader = resource;
             loader.prepend(QStringLiteral("consumer:"));
-            pCore->getCurrentProfile()->set_explicit(1);
-            return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), loader.toUtf8().constData());
+            return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
         } else {
             m_errorMessage.append(i18n("No matching profile"));
             return nullptr;
         }
     }
-    pCore->getCurrentProfile()->set_explicit(1);
-    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml", resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), "xml", resource.toUtf8().constData());
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
@@ -180,13 +178,13 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
     if (!anim.isEmpty()) {
-        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "affine");
+        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
             if (!geometry.isEmpty()) {
                 if (anim.contains(QStringLiteral("low-pass"))) {
-                    auto *blur = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "boxblur");
+                    auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
                     if ((blur != nullptr) && blur->is_valid()) {
                         producer->attach(*blur);
                     }
@@ -200,7 +198,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString fade = Xml::getXmlProperty(m_xml, QStringLiteral("fade"));
     if (fade == QLatin1String("1")) {
         // user wants a fade effect to slideshow
-        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "luma");
+        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "luma");
         if ((filter != nullptr) && filter->is_valid()) {
             if (ttl != 0) {
                 filter->set("cycle", ttl);
@@ -224,7 +222,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString crop = Xml::getXmlProperty(m_xml, QStringLiteral("crop"));
     if (crop == QLatin1String("1")) {
         // user wants to center crop the slides
-        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "crop");
+        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "crop");
         if ((filter != nullptr) && filter->is_valid()) {
             filter->set("center", 1);
             producer->attach(*filter);
@@ -244,21 +242,26 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
             qDebug()<<"=== FOUND THUMB IN CACHe";
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
         } else {
-            std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
-            qDebug()<<"=== REGENARATING THUMB";
-            if (thumbProd == nullptr) {
-                QString mltService = producer->get("mlt_service");
-                const QString mltResource = producer->get("resource");
-                if (mltService == QLatin1String("avformat")) {
-                    mltService = QStringLiteral("avformat-novalidate");
-                }
-                thumbProd.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
-                QMetaObject::invokeMethod(binClip.get(), "setThumbProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,thumbProd));
+            QString mltService = producer->get("mlt_service");
+            const QString mltResource = producer->get("resource");
+            if (mltService == QLatin1String("avformat")) {
+                mltService = QStringLiteral("avformat-novalidate");
             }
-            //m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
-            //std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
+            std::unique_ptr<Mlt::Producer> thumbProd(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
             if (thumbProd) {
                 thumbProd->set("audio_index", -1);
+                Mlt::Properties original(producer->get_properties());
+                Mlt::Properties cloneProps(thumbProd->get_properties());
+                cloneProps.pass_list(original, ClipController::getPassPropertiesList());
+                Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
+                Mlt::Filter padder(*pCore->thumbProfile(), "resize");
+                Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+                thumbProd->set("audio_index", -1);
+                // Required to make get_playtime() return > 1
+                thumbProd->set("out", thumbProd->get_length() -1);
+                thumbProd->attach(scaler);
+                thumbProd->attach(padder);
+                thumbProd->attach(converter);
                 qDebug()<<"===== \nSEEKING THUMB PROD\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
@@ -339,7 +342,7 @@ void ClipLoadTask::run()
 {
     // 2 channels interleaved of uchar values
     if (m_isCanceled) {
-        pCore->taskManager.taskDone(m_owner.second, this);
+        abort();
         return;
     }
     //QThread::currentThread()->setPriority(QThread::HighestPriority);
@@ -351,7 +354,6 @@ void ClipLoadTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    QMutexLocker lk(&m_runMutex);
     m_running = true;
     pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
@@ -482,7 +484,7 @@ void ClipLoadTask::run()
     }
     case ClipType::SlideShow: {
         resource.prepend(QStringLiteral("qimage:"));
-        producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
+        producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         break;
     }
     default:
@@ -490,13 +492,13 @@ void ClipLoadTask::run()
             service.append(QChar(':'));
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }
 
     if (m_isCanceled) {
-        pCore->taskManager.taskDone(m_owner.second, this);
+        abort();
         return;
     }
 
@@ -508,6 +510,8 @@ void ClipLoadTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
+        abort();
+        return;
     }
     if (producer->get_length() == INT_MAX && producer->get("eof") == QLatin1String("loop")) {
         // This is a live source or broken clip
@@ -524,7 +528,7 @@ void ClipLoadTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
-        pCore->taskManager.taskDone(m_owner.second, this);
+        abort();
         return;
     }
     processProducerProperties(producer, m_xml);
@@ -666,10 +670,25 @@ void ClipLoadTask::run()
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
                                   Q_ARG(bool , true));
-            //binClip->setProducer(producer, true);
         }
         generateThumbnail(binClip, producer);
         m_readyCallBack();
+        if (pCore->projectItemModel()->clipsCount() == 1) {
+            // Always select first added clip
+            pCore->selectBinClip(QString::number(m_owner.second), false);
+        }
+    }
+    pCore->taskManager.taskDone(m_owner.second, this);
+}
+
+void ClipLoadTask::abort()
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    if (binClip) {
+        binClip->setInvalid();
+        pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
     }
     pCore->taskManager.taskDone(m_owner.second, this);
 }

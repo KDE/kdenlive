@@ -22,6 +22,7 @@
 #include "definitions.h"
 
 #include <QRunnable>
+#include <QAtomicInt>
 #include <QMutex>
 #include <QObject>
 
@@ -56,11 +57,10 @@ protected:
     QObject* m_object;
     int m_progress;
     bool m_successful;
-    bool m_isCanceled;
+    QAtomicInt m_isCanceled;
     bool m_isForce;
     bool m_running;
     void run() override;
-    QMutex m_runMutex;
     void cleanup();
 
 private:

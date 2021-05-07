@@ -103,6 +103,8 @@ public:
 
     bool selfSoftDelete(Fun &undo, Fun &redo) override;
 
+    Fun getAudio_lambda() override;
+
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
 
@@ -240,6 +242,8 @@ public:
     static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
+    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
+    void setInvalid();
     int getRecordTime();
 
 protected:
@@ -295,8 +299,6 @@ private:
     const QString getFileHash();
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
-    QFuture<void> m_thumbThread;
-    QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */

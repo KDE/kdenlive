@@ -32,6 +32,7 @@ TreeItem::TreeItem(QList<QVariant> data, const std::shared_ptr<AbstractTreeModel
     , m_id(id == -1 ? AbstractTreeModel::getNextId() : id)
     , m_isInModel(false)
     , m_isRoot(isRoot)
+    , m_isInvalid(false)
 {
 }
 

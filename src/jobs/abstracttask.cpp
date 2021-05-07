@@ -66,7 +66,8 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
 
 void AbstractTask::cancelJob()
 {
-    m_isCanceled = true;
+    m_isCanceled.testAndSetAcquire(0, 1);
+    qDebug()<<"====== SETTING TACK CANCELED: "<<m_isCanceled;
     emit jobCanceled();
 }
 

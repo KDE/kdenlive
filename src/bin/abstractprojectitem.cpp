@@ -289,7 +289,6 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
 
 bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
 {
-    pCore->jobManager()->slotDiscardClipJobs(clipId());
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (const auto &child : m_childItems) {
@@ -338,4 +337,12 @@ uint AbstractProjectItem::rating() const
 void AbstractProjectItem::setRating(uint rating)
 {
     m_rating = rating;
+}
+
+Fun AbstractProjectItem::getAudio_lambda()
+{
+    return []() {
+        qDebug()<<"============\n\nABSTRACT AUDIO CHECK\n\n===========";
+        return true;
+    };
 }

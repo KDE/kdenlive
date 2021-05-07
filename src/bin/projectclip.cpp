@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "timecode.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "macros.hpp"
 
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
@@ -123,7 +124,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
         // Generate clip thumbnail
         ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, this);
-        // Generate audio levels
+        // Generate audio thumbnail
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
 }
@@ -179,11 +180,6 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
 
 ProjectClip::~ProjectClip()
 {
-    // controller is deleted in bincontroller
-    m_thumbMutex.lock();
-    m_requestedThumbs.clear();
-    m_thumbMutex.unlock();
-    m_thumbThread.waitForFinished();
 }
 
 void ProjectClip::connectEffectStack()
@@ -1672,6 +1668,18 @@ QList<int> ProjectClip::timelineInstances() const
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
+    Fun operation = [this]() {
+        // Free audio thumb data and timeline producers
+        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()});
+        m_audioLevels.clear();
+        m_disabledProducer.reset();
+        m_audioProducers.clear();
+        m_videoProducers.clear();
+        m_timewarpProducers.clear();
+        return true;
+    };
+    operation();
+
     auto toDelete = m_registeredClips; // we cannot use m_registeredClips directly, because it will be modified during loop
     for (const auto &clip : toDelete) {
         if (m_registeredClips.count(clip.first) == 0) {
@@ -1687,7 +1695,20 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
             return false;
         }
     }
+    PUSH_LAMBDA(operation, redo);
+    qDebug()<<"===== REMOVING MASTER PRODUCER; CURRENT COUNT: "<<m_masterProducer.use_count()<<"\n:::::::::::::::::::::::::::";
     return AbstractProjectItem::selfSoftDelete(undo, redo);
+}
+
+Fun ProjectClip::getAudio_lambda()
+{
+    return [this]() {
+        if (KdenliveSettings::audiothumbnails() && (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist) && m_audioLevels.isEmpty()) {
+            // Generate audio levels
+            AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+        }
+        return true;
+    };
 }
 
 bool ProjectClip::isIncludedInTimeline()
@@ -2034,4 +2055,9 @@ void ProjectClip::updateJobProgress()
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
     }
+}
+
+void ProjectClip::setInvalid()
+{
+    m_isInvalid = true;
 }

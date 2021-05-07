@@ -77,14 +77,13 @@ public:
     /** @brief return the message of a given job on a given clip (message, detailed log)*/
     //QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;
 
-protected:
-    // Helper function to launch a given job.
-    // This has to be launched asynchronously since it blocks until all parents are finished
-    void updateJobCount();
-
 public slots:
     /** @brief Discard all running jobs. */
     void slotCancelJobs();
+
+private slots:
+    /** @brief Update number of running jobs. */
+    void updateJobCount();
 
 private:
     QThreadPool m_taskPool;

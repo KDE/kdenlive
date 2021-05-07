@@ -8,6 +8,7 @@ set(kdenlive_SRCS
   jobs/cliploadtask.cpp
   jobs/proxytask.cpp
   jobs/transcodetask.cpp
+  jobs/filtertask.cpp
   jobs/jobmanager.cpp
   jobs/cachejob.cpp
   jobs/loadjob.cpp

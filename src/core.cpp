@@ -91,6 +91,7 @@ bool Core::build(bool testMode)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
+    qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     
     if (!testMode) {
         // Check if we had a crash

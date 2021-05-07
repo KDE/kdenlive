@@ -70,7 +70,6 @@ void TranscodeTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    QMutexLocker lk(&m_runMutex);
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     const QString source = binClip->url();

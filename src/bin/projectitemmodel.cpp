@@ -604,9 +604,6 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
         binId = ptr->clipId();
     }
     bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
-    if (!isSubClip) {
-        pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()});
-    }
     clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
     Fun operation = removeItem_lambda(id);
@@ -625,6 +622,9 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
             update_doc();
             PUSH_LAMBDA(update_doc, operation);
             PUSH_LAMBDA(update_doc, reverse);
+        } else {
+            Fun checkAudio = clip->getAudio_lambda();
+            PUSH_LAMBDA(checkAudio, reverse);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
@@ -692,6 +692,9 @@ bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item,
     bool res = operation();
     Q_ASSERT(item->isInModel());
     if (res) {
+        Fun checkAudio = item->getAudio_lambda();
+        checkAudio();
+        PUSH_LAMBDA(checkAudio, operation);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return res;

@@ -58,6 +58,7 @@ private:
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
+    void abort();
 };
 
 #endif // CLIPLOADTASK_H
