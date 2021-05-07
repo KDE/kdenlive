@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "undohelper.hpp"
 
@@ -39,7 +40,7 @@ TaskManager::TaskManager(QObject *parent)
     int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
     m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
     // TODO: make configurable for user to adjust to GPU
-    m_transcodePool.setMaxThreadCount(2);
+    m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 TaskManager::~TaskManager()

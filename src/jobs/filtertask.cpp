@@ -29,19 +29,15 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "xml/xml.hpp"
 
 #include <QThread>
+#include <QProcess>
 
 #include <klocalizedstring.h>
 
-static void consumer_frame_render(mlt_consumer, FilterTask *self, mlt_frame frame_ptr)
-{
-    self->updateProgress(int(100 * mlt_frame_get_position(frame_ptr) / self->length));
-}
-
 FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
-    , m_jobDuration(0)
     , m_binId(binId)
     , m_inPoint(in)
     , m_outPoint(out)
@@ -72,13 +68,6 @@ void FilterTask::updateProgress(int prog)
             QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, prog));
         }
     }
-}
-
-void FilterTask::abort()
-{
-    qDebug()<<"CANCELING FROM THREAD: "<<QThread::currentThreadId()<<"\n::::::::::::::::::::::";
-    m_consumer->purge();
-    m_consumer->stop();
 }
 
 void FilterTask::run()
@@ -128,12 +117,12 @@ void FilterTask::run()
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job
-    }
-
-    if (m_owner.first == ObjectType::Master) {
-        producer = pCore->getMasterProducerInstance();
-    } else if (m_owner.first == ObjectType::TimelineTrack) {
-        producer = pCore->getTrackProducerInstance(m_owner.second);
+        // We are on master or track, configure producer accordingly
+        if (m_owner.first == ObjectType::Master) {
+            producer = pCore->getMasterProducerInstance();
+        } else if (m_owner.first == ObjectType::TimelineTrack) {
+            producer = pCore->getTrackProducerInstance(m_owner.second);
+        }
     }
     
     if ((producer == nullptr) || !producer->is_valid()) {
@@ -149,79 +138,104 @@ void FilterTask::run()
     }
 
     // Build consumer
-    //m_consumer.reset(new Mlt::Consumer(profile, "null"));
-    qDebug()<<"---- BUILDING CONSUMER ------";
-    m_consumer.reset(new Mlt::Consumer(profile, "null"));
-    qDebug()<<"---- BUILDING CONSUMER DONE ------";
-    for (const QString &param : qAsConst(m_consumerArgs)) {
-        if (param.contains(QLatin1Char('='))) {
-            m_consumer->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toInt());
-        }
+    QTemporaryFile sourceFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+    if (!sourceFile.open()) {
+        // Something went wrong
+        return;
     }
-    qDebug()<<"---- BUILDING CONSUMER 2------";
-    if (!m_consumer->is_valid()) {
+    sourceFile.close();
+    QTemporaryFile destFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+    if (!destFile.open()) {
+        // Something went wrong
+        return;
+    }
+    destFile.close();
+    std::unique_ptr<Mlt::Consumer>consumer(new Mlt::Consumer(profile, "xml", sourceFile.fileName().toUtf8().constData()));
+    if (!consumer->is_valid()) {
         m_errorMessage.append(i18n("Cannot create consumer."));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    qDebug()<<"---- BUILDING CONSUMER 3------";
 
-    // Build filter
-    Mlt::Filter filter(profile, m_filterName.toUtf8().data());
-    if (!filter.is_valid()) {
-        m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
-        pCore->taskManager.taskDone(m_owner.second, this);
-        return;
-    }
-
-    // Process filter params
-    qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
-    for (const auto &it : m_filterParams) {
-        qDebug()<<". . ."<<it.first<<" = "<<it.second;
-        if (it.second.type() == QVariant::Double) {
-            filter.set(it.first.toUtf8().constData(), it.second.toDouble());
-        } else {
-            filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());
-        }
-    }
-    if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
-        // leave it operate on full clip
-    } else {
-        filter.set_in_and_out(producer->get_in(), producer->get_out());
-    }
-
-    Mlt::Tractor tractor(profile);
-    tractor.set_track(*producer.get(), 0);
-    m_consumer->connect(tractor);
+    consumer->connect(*producer.get());
     producer->set_speed(0);
     producer->seek(0);
-    producer->attach(filter);
+    if (binClip) {
+        // Build filter
+        Mlt::Filter filter(profile, m_filterName.toUtf8().data());
+        if (!filter.is_valid()) {
+            m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
+            pCore->taskManager.taskDone(m_owner.second, this);
+            return;
+        }
+
+        // Process filter params
+        qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
+        for (const auto &it : m_filterParams) {
+            qDebug()<<". . ."<<it.first<<" = "<<it.second;
+            if (it.second.type() == QVariant::Double) {
+                filter.set(it.first.toUtf8().constData(), it.second.toDouble());
+            } else {
+                filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());
+            }
+        }
+        if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
+            // leave it operate on full clip
+        } else {
+            filter.set_in_and_out(producer->get_in(), producer->get_out());
+        }
+        producer->attach(filter);
+        filter.set("id", "kdenlive-analysis");
+    }
 
     qDebug()<<"=== FILTER READY TO PROCESS; LENGTH: "<<length;
-    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, mlt_listener(consumer_frame_render)));
-    connect(this, &AbstractTask::jobCanceled, [&] () {
-        qDebug()<<"CANCELING FROM THREAD: "<<QThread::currentThreadId()<<"\n::::::::::::::::::::::";
-        m_showFrameEvent.reset();
-        m_consumer->stop();
-    });
-    //QObject::connect(this, &AbstractTask::jobCanceled, this, &FilterTask::abort);
-    /*auto *obj = QAbstractEventDispatcher::instance(thread());
-    QObject::connect(this, &AbstractTask::jobCanceled, this, [this, obj]() {
-        QMetaObject::invokeMethod(obj, [this]{ abort(); });
-    });*/
-    m_consumer->run();
-    qDebug()<<"===============FILTER PROCESSED\n\n==============0";
+    consumer->run();
+    consumer.reset();
+    producer.reset();
+    wholeProducer.reset();
+
+    QFile f1(sourceFile.fileName());
+    f1.open(QIODevice::ReadOnly);
+    QDomDocument dom(sourceFile.fileName());
+    dom.setContent(&f1);
+    f1.close();
+
+    // add consumer element
+    QDomElement consumerNode = dom.createElement("consumer");
+    QDomNodeList profiles = dom.elementsByTagName("profile");
+    if (profiles.isEmpty())
+        dom.documentElement().insertAfter(consumerNode, dom.documentElement());
+    else
+        dom.documentElement().insertAfter(consumerNode, profiles.at(profiles.length() - 1));
+    consumerNode.setAttribute("mlt_service", "xml");
+    for (const QString &param : qAsConst(m_consumerArgs)) {
+        if (param.contains(QLatin1Char('='))) {
+            consumerNode.setAttribute(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
+        }
+    }
+    consumerNode.setAttribute("resource", destFile.fileName());
+
+    f1.open(QIODevice::WriteOnly);
+    QTextStream stream(&f1);
+    stream << dom.toString();
+    f1.close();
+    dom.clear();
+
+    // Step 2: process the xml file and save in another .mlt file
+    QProcess filterProcess;
+    QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
+    m_jobProcess.reset(new QProcess);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);
+    m_jobProcess->start(KdenliveSettings::rendererpath(), args);
+    m_jobProcess->waitForFinished(-1);
+    bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     m_progress = 100;
     if (auto ptr = m_model.lock()) {
-        qDebug()<<"=== UPDATING PROGRESS TO 100";
         QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, 100));
     }
-    m_showFrameEvent.reset();
-    qDebug()<<"=== TASK DONE FROM THREAD: "<<QThread::currentThreadId()<<"\n::::::::::::::::::::::";
     pCore->taskManager.taskDone(m_owner.second, this);
-    qDebug()<<"=== TASK DONE 2";
-    if (m_isCanceled) {
-        qDebug()<<"=== EXITING ON CANCEL";
+    if (m_isCanceled || !result) {
         return;
     }
     
@@ -230,7 +244,20 @@ void FilterTask::run()
     if (m_filterData.find(QStringLiteral("key")) != m_filterData.end()) {
         key = m_filterData.at(QStringLiteral("key"));
     }
-    QString resultData = qstrdup(filter.get(key.toUtf8().constData()));
+    QFile f2(destFile.fileName());
+    f2.open(QIODevice::ReadOnly);
+    dom.setContent(&f2);
+    f2.close();
+    QString resultData;
+    QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
+    for (int i = 0; i < filters.count(); ++i) {
+        QDomElement currentParameter = filters.item(i).toElement();
+        if (currentParameter.attribute(QLatin1String("id")) == QLatin1String("kdenlive-analysis")) {
+            resultData = Xml::getXmlProperty(currentParameter, key);
+            break;
+        }
+    }
+
     params.append({key,QVariant(resultData)});
     qDebug()<<"= = = GOT FILTER RESULTS: "<<params;
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
@@ -263,4 +290,21 @@ void FilterTask::run()
     };
     bool ok = operation();
     return;
+}
+
+void FilterTask::processLogInfo()
+{
+    const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
+    m_logDetails.append(buffer);
+    // Parse MLT output
+    if (buffer.contains(QLatin1String("percentage:"))) {
+        int progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+        if (progress == m_progress) {
+            return;
+        }
+        if (auto ptr = m_model.lock()) {
+            m_progress = progress;
+            QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, m_progress));
+        }
+    }
 }

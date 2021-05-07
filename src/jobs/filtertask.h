@@ -35,6 +35,7 @@ class Event;
 } // namespace Mlt
 
 class AssetParameterModel;
+class QProcess;
 
 class FilterTask : public AbstractTask
 {
@@ -45,13 +46,12 @@ public:
     int length;
 
 private slots:
-    void abort();
+    void processLogInfo();
 
 protected:
     void run() override;
 
 private:
-    int m_jobDuration;
     QString m_binId;
     int m_inPoint;
     int m_outPoint;
@@ -63,8 +63,7 @@ private:
     QStringList m_consumerArgs;
     QString m_errorMessage;
     QString m_logDetails;
-    std::unique_ptr<Mlt::Consumer> m_consumer;
-    std::unique_ptr<Mlt::Event> m_showFrameEvent;
+    std::unique_ptr<QProcess> m_jobProcess;
 };
 
 
