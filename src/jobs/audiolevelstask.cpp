@@ -103,7 +103,6 @@ void AudioLevelsTask::run()
     QMap <int, QString> streams = binClip->audioInfo()->streams();
     QMap <int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
-
     while (st.hasNext() && !m_isCanceled) {
         st.next();
         int stream = st.key();
@@ -128,14 +127,12 @@ void AudioLevelsTask::run()
                     mltLevels << qAlpha(p);
                 }
                 if (mltLevels.size() > 0) {
-                    QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
+                    QVector <uint8_t>* levelsCopy = new QVector <uint8_t>(mltLevels);
                     producer->lock();
                     QString key = QString("_kdenlive:audio%1").arg(stream);
                     producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                     producer->unlock();
-                    qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
-                    pCore->taskManager.taskDone(m_owner.second, this);
-                    return;
+                    continue;
                 }
             }
         }
@@ -152,6 +149,7 @@ void AudioLevelsTask::run()
             return;
         }
         audioProducer->set("video_index", "-1");
+        audioProducer->set("audio_index", stream);
         Mlt::Filter chans(*producer->profile(), "audiochannels");
         Mlt::Filter converter(*producer->profile(), "audioconvert");
         Mlt::Filter levels(*producer->profile(), "audiolevel");
@@ -199,7 +197,6 @@ void AudioLevelsTask::run()
                 QString key = QString("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                 producer->unlock();
-                qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
                 QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
             }
         }
