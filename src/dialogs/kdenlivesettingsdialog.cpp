@@ -119,7 +119,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
-    QRegExp rx("(\\+|-)?\\d{2}:\\d{2}:\\d{2}:\\d{2}");
+    QRegExp rx(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
     QValidator *validator = new QRegExpValidator(rx, this);
     m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
     m_configMisc.kcfg_color_duration->setValidator(validator);
