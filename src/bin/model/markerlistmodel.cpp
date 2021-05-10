@@ -447,7 +447,7 @@ QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) cons
     QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
         int pos = marker.second.time().frames(pCore->getCurrentFps());
-        if(pos > start && (end == -1 || pos < end)) {
+        if(pos >= start && (end == -1 || pos <= end)) {
             markers << marker.second;
         }
     }

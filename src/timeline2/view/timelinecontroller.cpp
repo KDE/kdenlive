@@ -1642,10 +1642,10 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    if(guideStart > -1 && KdenliveSettings::lockedGuides()) {
+    if(guideStart > -1) {
         moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
     }
-    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, undo, redo);
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, false, undo, redo);
     return result;
 }
 

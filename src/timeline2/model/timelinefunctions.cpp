@@ -390,7 +390,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo)
 {
     // Move group back to original position
     int track = timeline->getItemTrackId(itemId);
@@ -403,7 +403,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         timeline->requestSubtitleMove(itemId, startPosition, false, false);
     }
     // Move guides
-    if (!KdenliveSettings::lockedGuides()) {
+    if (moveGuides) {
         GenTime fromPos(startPosition, pCore->getCurrentFps());
         GenTime toPos(endPosition, pCore->getCurrentFps());
         QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(startPosition, -1);
@@ -1912,7 +1912,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, undo, redo);
+    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
     return true;
 }
 
