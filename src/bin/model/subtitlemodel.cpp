@@ -329,12 +329,16 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, F
     int id = TimelineModel::getNextId();
     Fun local_redo = [this, id, start, end, str, updateFilter]() {
         addSubtitle(id, start, end, str, false, updateFilter);
-        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_undo = [this, id, start, end, updateFilter]() {
         removeSubtitle(id, false, updateFilter);
-        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     local_redo();
@@ -464,12 +468,16 @@ bool SubtitleModel::setText(int id, const QString text)
     m_subtitleList[start].first = text;
     Fun local_redo = [this, start, end, text]() {
         editSubtitle(start, text);
-        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_undo = [this, start, end, oldText]() {
         editSubtitle(start, oldText);
-        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     local_redo();
@@ -669,11 +677,14 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
             emit dataChanged(index(row), index(row), {EndFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                QPair<int, int> range;
                 if (endPos > newEndPos) {
-                    pCore->refreshProjectRange({newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+                    range = {newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())};
                 } else {
-                    pCore->refreshProjectRange({endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())});
+                    range = {endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())};
                 }
+                pCore->invalidateRange(range);
+                pCore->refreshProjectRange(range);
             }
             return true;
         };
@@ -686,11 +697,14 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
             emit dataChanged(index(row), index(row), {EndFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                QPair<int, int> range;
                 if (endPos > newEndPos) {
-                    pCore->refreshProjectRange({newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+                    range = {newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())};
                 } else {
-                    pCore->refreshProjectRange({endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())});
+                    range = {endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())};
                 }
+                pCore->invalidateRange(range);
+                pCore->refreshProjectRange(range);
             }
             return true;
         };
@@ -712,11 +726,14 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
             emit dataChanged(index(row), index(row), {StartFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                QPair<int, int> range;
                 if (startPos > newStartPos) {
-                    pCore->refreshProjectRange({newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())});
+                    range = {newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())};
                 } else {
-                    pCore->refreshProjectRange({startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())});
+                    range = {startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())};
                 }
+                pCore->invalidateRange(range);
+                pCore->refreshProjectRange(range);
             }
             return true;
         };
@@ -731,11 +748,14 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
             emit dataChanged(index(row), index(row), {StartFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                QPair<int, int> range;
                 if (startPos > newStartPos) {
-                    pCore->refreshProjectRange({newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())});
+                    range = {newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())};
                 } else {
-                    pCore->refreshProjectRange({startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())});
+                    range = {startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())};
                 }
+                pCore->invalidateRange(range);
+                pCore->refreshProjectRange(range);
             }
             return true;
         };
@@ -853,11 +873,14 @@ bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bo
     addSnapPoint(endPos);
     if (updateView) {
         updateSub(id, {StartFrameRole, EndFrameRole});
+        QPair<int, int> range;
         if (oldPos < newPos) {
-            pCore->refreshProjectRange({oldPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+            range = {oldPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())};
         } else {
-            pCore->refreshProjectRange({newPos.frames(pCore->getCurrentFps()), (oldPos + duration).frames(pCore->getCurrentFps())});
+            range = {newPos.frames(pCore->getCurrentFps()), (oldPos + duration).frames(pCore->getCurrentFps())};
         }
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
     }
     if (updateModel) {
         // Trigger update of the subtitle file
