@@ -1149,7 +1149,7 @@ Rectangle {
                             }
                         }
 
-                        if(mouse.modifiers & Qt.ShiftModifier) {
+                        if((mouse.modifiers & Qt.ShiftModifier) || !timeline.guidesLocked) {
                             //spacer tool and shift modifier
                             spacerGuides = true;
                         }
