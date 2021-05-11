@@ -36,6 +36,7 @@
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 #include "trackmodel.hpp"
+#include "monitor/monitormanager.h"
 
 #include <QDebug>
 #include <QThread>
@@ -3168,6 +3169,11 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return result;
+}
+
+void TimelineModel::trimmingPosChanged(int pos)
+{
+    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos);
 }
 
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, int snapDistance, bool allowSingleResize)

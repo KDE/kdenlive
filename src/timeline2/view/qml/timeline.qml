@@ -64,12 +64,12 @@ Rectangle {
             subtitleTrack.height = 5 * root.baseUnit
         }
     }
-    
+
     function highlightSub(ix) {
         var currentSub = subtitlesRepeater.itemAt(ix)
         currentSub.editText()
     }
-    
+
     function checkDeletion(itemId) {
         if (dragProxy.draggedItem === itemId) {
             endDrag()
@@ -291,7 +291,7 @@ Rectangle {
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
     }
-    
+
     function regainFocus(mousePos) {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
@@ -1881,7 +1881,7 @@ Rectangle {
 
     Connections {
         target: timeline
-        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once 
+        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once
         // we require Qt >= 5.15
         onFrameFormatChanged: {
             ruler.adjustFormat()

@@ -265,7 +265,7 @@ Rectangle {
         id: mouseArea
         enabled: root.activeTool === 0 || root.activeTool === 5
         anchors.fill: clipRoot
-        acceptedButtons: Qt.RightButton | Qt.LeftButton
+        acceptedButtons: Qt.RightButton | (Qt.LeftButton && root.activeTool === 5)
         hoverEnabled: root.activeTool === 0 || root.activeTool === 5
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: {
@@ -341,7 +341,7 @@ Rectangle {
                 var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                 var offset = frame - slipClickFrame
                 if(offset >= 0) {
-                    //console.log("In: " + inPoint + " Diff: " + slipOffset)
+                    console.log("In: " + inPoint + " Diff: " + slipOffset)
                     if(inPoint - offset >=0){
                         slipOffset = offset
                     } else {
@@ -349,11 +349,11 @@ Rectangle {
                     }
                 }
                 if(offset < 0) {
-                    //console.log("Duration: " + maxDuration +" In: " + inPoint + " Out: " + (outPoint) + " < " + (maxDuration + offset))
+                    console.log("Duration: " + maxDuration +" In: " + inPoint + " Out: " + (outPoint) + " < " + (maxDuration + offset))
                     if(outPoint < (maxDuration + offset)) {
                         slipOffset = offset
                     } else {
-                        slipOffset = -(maxDuration - outPoint)
+                        slipOffset = -(maxDuration - 1  - outPoint) //TODO: find out why this -1 is necessary
                     }
                 }
                 var s = i18n("In:%1, Out:%2 (%3%4)", timeline.simplifiedTC(clipRoot.inPoint - slipOffset), timeline.simplifiedTC(clipRoot.outPoint - slipOffset), (slipOffset < 0 ? "-" : "+"), timeline.simplifiedTC(Math.abs(slipOffset)))

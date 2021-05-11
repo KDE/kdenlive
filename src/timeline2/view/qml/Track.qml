@@ -388,6 +388,7 @@ Item{
                 root.groupTrimData = undefined
             }
             onSlipBegin: {
+                timeline.requestTrimmingStartOperation(clip.clipId);
                 console.log("onSlipBegin. maxDuration: " +clip.maxDuration+ " clipDuration: " +clip.clipDuration +" timeScale: "+clip.timeScale)
                 slipControler.visible = true
                 slipControler.width = (clip.maxDuration > 0 ? clip.maxDuration : clip.clipDuration) * clip.timeScale - 2 * clip.border.width
@@ -396,11 +397,17 @@ Item{
                 slipControler.inPoint = clip.inPoint
                 slipControler.outPoint = clip.outPoint
                 currentRegionMoved.width = clip.clipDuration * clip.timeScale - 2 * clip.border.width
+                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset)
+                //proxy.position = clip.inPoint - clip.slipOffset
             }
             onSlipMove: {
                 slipControler.x = slipStart + (clip.slipOffset * clip.timeScale)
+                console.log(clip.inPoint + "-" + (clip.slipOffset) + ": " + (clip.inPoint - clip.slipOffset))
+                //proxy.position = clip.inPoint - clip.slipOffset
+                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset)
             }
             onSlipEnd: {
+                timeline.requestTrimmingEndOperation();
                 slipControler.visible = false
                 console.log(clip.slipOffset)
                 controller.requestClipSlip(clip.clipId, clip.slipOffset, true, true, 0, false)
@@ -473,7 +480,6 @@ Item{
             NumberAnimation { property: "opacity"; duration: 300}
         } ]
     }
-<<<<<<< HEAD
     Rectangle {
         id: currentRegion
         color: activePalette.highlight

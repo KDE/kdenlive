@@ -513,6 +513,10 @@ public:
     /** @brief Delete the split clip view to compare effect
      */
     void removeSplitOverlay();
+
+    Q_INVOKABLE bool requestTrimmingStartOperation(int clipId);
+    Q_INVOKABLE void requestTrimmingEndOperation();
+
     /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);

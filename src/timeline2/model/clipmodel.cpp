@@ -358,6 +358,8 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     //std::function<bool(void)> track_reverse = []() { return true; };
     int outPoint = out - offset;
     int inPoint = in - offset;
+    Q_ASSERT(inPoint >= 0);
+    Q_ASSERT(outPoint < m_producer->get_length()); //TODO is that right?
     //int offset = 0;
     int trackDuration = 0;
     /*if (m_endlessResize) {

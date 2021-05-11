@@ -298,6 +298,7 @@ public slots:
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
+    void slotTrimmingPos(int pos);
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd();

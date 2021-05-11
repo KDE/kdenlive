@@ -2423,6 +2423,16 @@ void Monitor::slotStart()
     m_glMonitor->getControllerProxy()->setPosition(0);
 }
 
+void Monitor::slotTrimmingPos(int pos)
+{
+    processSeek(pos);
+    /*if (!slotActivateMonitor()) {
+        return;
+    }
+    //m_glMonitor->switchPlay(false);
+    m_glMonitor->requestSeek(pos);*/
+}
+
 void Monitor::slotEnd()
 {
     if (!slotActivateMonitor()) {

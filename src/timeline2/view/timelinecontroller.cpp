@@ -52,6 +52,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "ui_import_subtitle_ui.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <KColorScheme>
 #include <KMessageBox>
@@ -1873,6 +1874,115 @@ void TimelineController::removeSplitOverlay()
     // disconnect
     m_timelinePreview->removeOverlayTrack();
     m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+}
+
+bool TimelineController::requestTrimmingStartOperation(int clipId)
+{
+    /*if (m_timelinePreview && m_timelinePreview->hasOverlayTrack()) {
+        return true;
+    }*/
+    if (clipId == -1) {
+        pCore->displayMessage(i18n("Select a clip to compare effect"), ErrorMessage, 500);
+        return false;
+    }
+    std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
+    const QString binId = clip->binId();
+
+    // Get clean bin copy of the clip
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
+    std::shared_ptr<Mlt::Producer> binProd(binClip->masterProducer()->cut(clip->getIn(), clip->getOut()));
+
+    // Get copy of timeline producer
+    std::shared_ptr<Mlt::Producer> clipProducer2(binClip->masterProducer()->cut(clip->getOut() - clip->getIn()));
+    std::shared_ptr<Mlt::Producer> clipProducer(binClip->masterProducer()->cut(0));
+    // Get copy of timeline producer
+    std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
+    //m_blackClip->set("id", "black_track");
+    //m_blackClip->set("mlt_type", "producer");
+    //m_blackClip->set("aspect_ratio", 1);
+    //black->set("length", INT_MAX);
+    //black->set("mlt_image_format", "rgb24a");
+    //black->set("set.test_audio", 0);
+    black->set_in_and_out(0, clipProducer2->get_length());
+
+    // Built tractor and compositing
+    Mlt::Tractor trac(*m_model->m_tractor->profile());
+    Mlt::Playlist backg(*m_model->m_tractor->profile());
+    Mlt::Playlist play(*m_model->m_tractor->profile());
+    Mlt::Playlist play2(*m_model->m_tractor->profile());
+    backg.append(*black.get());
+    //play.insert_blank(0,10);
+    play.append(*clipProducer.get());
+    qDebug() << "outpoint: " << clipProducer2->get_out() << " time: " << clipProducer->get_playtime() << " end: ";
+    play2.append(*clipProducer2.get());
+    trac.set_track(backg, 0);
+    trac.set_track(play, 1);
+    trac.set_track(play2, 2);
+    //int startPos = m_model->getClipPosition(clipId);
+
+    //
+    QStringList trackNames;
+    std::vector<int> videoTracks;
+    //videoTracks.push_back(tid);
+
+    // First, dis/enable track compositing
+    //QScopedPointer<Mlt::Service> service(trac.field());
+    //Mlt::Field *field = trac.field();
+    //field->lock();
+
+    Mlt::Transition transition(*trac.profile(), "composite");
+    transition.set("mlt_service", "composite");
+    transition.set("a_track", 0);
+    transition.set("b_track", 1);
+    transition.set("distort", 0);
+    transition.set("aligned", 0);
+    // 200 is an arbitrary number so we can easily remove these transition later
+    transition.set("internal_added", 200);
+    trackNames << "Clip IN";
+
+    // Add transition to track:
+    transition.set("geometry", QStringLiteral("0 0 50% 100%").toUtf8().constData());
+    transition.set("always_active", 1);
+    trac.plant_transition(transition, 0, 1);
+
+    Mlt::Transition transition2(*trac.profile(), "composite");
+    transition2.set("mlt_service", "composite");
+    transition2.set("a_track", 0);
+    transition2.set("b_track", 2);
+    transition2.set("distort", 0);
+    transition2.set("aligned", 0);
+    // 200 is an arbitrary number so we can easily remove these transition later
+    transition2.set("internal_added", 200);
+    trackNames << "Clip OUT";
+
+    // Add transition to track:
+    transition2.set("geometry", QStringLiteral("50% 0 50% 100%").toUtf8().constData());
+    transition2.set("always_active", 1);
+    trac.plant_transition(transition2, 0, 2);
+    //field->unlock();
+
+    // plug in overlay playlist
+    auto *overlay = new Mlt::Playlist(*m_model->m_tractor->profile());
+    //overlay->insert_blank(0, startPos);
+    Mlt::Producer split(trac.get_producer());
+    overlay->insert_at(0, &split, 1);
+
+    // insert in tractor
+    /*if (!m_timelinePreview) {
+        initializePreview();
+    }
+
+    if(m_timelinePreview){
+        //m_timelinePreview->setOverlayTrack(overlay);
+        //m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }*/
+    pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), 0);
+
+    return true;
+}
+
+void TimelineController::requestTrimmingEndOperation() {
+    pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
 }
 
 void TimelineController::addPreviewRange(bool add)
