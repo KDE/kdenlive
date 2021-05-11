@@ -396,7 +396,7 @@ private slots:
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
-    void slotSetTool(ProjectTool tool);
+    void slotSetTool(ToolType::ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
     void slotGuideForward();

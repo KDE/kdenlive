@@ -3154,19 +3154,19 @@ void MainWindow::slotClipEnd()
 void MainWindow::slotChangeTool(QAction *action)
 {
     if (action == m_buttonSelectTool) {
-        slotSetTool(SelectTool);
+        slotSetTool(ToolType::SelectTool);
     } else if (action == m_buttonRazorTool) {
-        slotSetTool(RazorTool);
+        slotSetTool(ToolType::RazorTool);
     } else if (action == m_buttonSpacerTool) {
-        slotSetTool(SpacerTool);
+        slotSetTool(ToolType::SpacerTool);
     } if (action == m_buttonRippleTool) {
-        slotSetTool(RippleTool);
+        slotSetTool(ToolType::RippleTool);
     } if (action == m_buttonRoleTool) {
-        slotSetTool(RoleTool);
+        slotSetTool(ToolType::RoleTool);
     } if (action == m_buttonSlipTool) {
-        slotSetTool(SlipTool);
+        slotSetTool(ToolType::SlipTool);
     } if (action == m_buttonSlideTool) {
-        slotSetTool(SlideTool);
+        slotSetTool(ToolType::SlideTool);
     }
 }
 
@@ -3190,7 +3190,7 @@ void MainWindow::slotChangeEdit(QAction *action)
         // Disable spacer tool in insert mode
         if (m_buttonSpacerTool->isChecked()) {
             m_buttonSelectTool->setChecked(true);
-            slotSetTool(SelectTool);
+            slotSetTool(ToolType::SelectTool);
         }
         m_buttonSpacerTool->setEnabled(false);
     } else {
@@ -3198,12 +3198,12 @@ void MainWindow::slotChangeEdit(QAction *action)
     }
 }
 
-void MainWindow::slotSetTool(ProjectTool tool)
+void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
-        if(tool == RippleTool) {
+        if(tool == ToolType::RippleTool) {
             m_projectMonitor->slotShowEffectScene(MonitorSceneRipple);
         } else {
             m_projectMonitor->slotShowEffectScene(MonitorSceneDefault);

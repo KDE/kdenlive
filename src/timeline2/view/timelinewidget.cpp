@@ -426,7 +426,7 @@ void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &ne
     m_proxy->updateZone(oldZone, newZone);
 }
 
-void TimelineWidget::setTool(ProjectTool tool)
+void TimelineWidget::setTool(ToolType::ProjectTool tool)
 {
     rootObject()->setProperty("activeTool", int(tool));
 }
