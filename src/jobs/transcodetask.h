@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,24 +18,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef PROXYCLIPJOB
-#define PROXYCLIPJOB
+#ifndef TRANSCODETASK_H
+#define TRANSCODETASK_H
 
-#include "abstractclipjob.h"
+#include "abstracttask.h"
 
 class QProcess;
 
-class ProxyJob : public AbstractClipJob
+class TranscodeTask : public AbstractTask
 {
-    Q_OBJECT
-
 public:
-    ProxyJob(const QString &binId);
-    const QString getDescription() const override;
-    bool startJob() override;
-    /** @brief This is to be called after the job finished.
-    By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
-    bool commitResult(Fun &undo, Fun &redo) override;
+    TranscodeTask(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object);
+    static void start(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool force = false);
+
+protected:
+    void run() override;
 
 private slots:
     void processLogInfo();
@@ -43,8 +40,14 @@ private slots:
 private:
     int m_jobDuration;
     bool m_isFfmpegJob;
-    QProcess *m_jobProcess;
-    bool m_done;
+    QString m_transcodeParams;
+    bool m_replaceProducer;
+    int m_inPoint;
+    int m_outPoint;
+    std::unique_ptr<QProcess> m_jobProcess;
+    QString m_errorMessage;
+    QString m_logDetails;
 };
+
 
 #endif

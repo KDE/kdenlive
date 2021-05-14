@@ -37,11 +37,11 @@
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
-#include "jobs/jobmanager.h"
-#include "jobs/scenesplitjob.hpp"
-#include "jobs/speedjob.hpp"
-#include "jobs/stabilizejob.hpp"
-#include "jobs/transcodeclipjob.h"
+// #include "jobs/scenesplitjob.hpp"
+#include "jobs/transcodetask.h"
+#include "jobs/stabilizetask.h"
+#include "jobs/speedtask.h"
+#include "jobs/audiolevelstask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
@@ -2183,7 +2183,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
     }
 }
 
-void MainWindow::addProjectClip(const QString &url)
+void MainWindow::addProjectClip(const QString &url, const QString &folder)
 {
     if (pCore->currentDoc()) {
         QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(url));
@@ -2191,8 +2191,7 @@ void MainWindow::addProjectClip(const QString &url)
             // Clip is already in project bin, abort
             return;
         }
-
-        ClipCreator::createClipFromFile(url, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel());
+        ClipCreator::createClipFromFile(url, folder, pCore->projectItemModel());
     }
 }
 
@@ -3540,18 +3539,13 @@ void MainWindow::buildDynamicActions()
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
     Mlt::Profile profile;
-    std::unique_ptr<Mlt::Filter> filter;
-    for (const QString &stab : {QStringLiteral("vidstab")}) {
-        filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
-        if ((filter != nullptr) && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
-            ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [stab]() {
-                emit pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(true), {},
-                                                            i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
-            });
-            break;
-        }
+    std::unique_ptr<Mlt::Filter> filter = std::make_unique<Mlt::Filter>(profile, "vidstab");
+    if ((filter != nullptr) && filter->is_valid()) {
+        QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
+        ts->addAction(action->text(), action);
+        connect(action, &QAction::triggered, [this]() {
+            StabilizeTask::start(this);
+        });
     }
     filter = std::make_unique<Mlt::Filter>(profile, "motion_est");
     if (filter) {
@@ -3559,14 +3553,17 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection")); });
+                    [&]() {
+                        // TODO: Port job to FFMPEG
+                        //emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection"));
+                    });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                [&]() { emit pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
+                [&]() { SpeedTask::start(this); });
     }
 
     // TODO refac reimplement analyseclipjob
@@ -3607,7 +3604,11 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first(), false);
+            std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
+            for (QString id : ids) {
+                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, transcodeData.first(), -1, -1, false, clip.get());
+            }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
             // This is an audio transcoding action

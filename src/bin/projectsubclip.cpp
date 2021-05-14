@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
 #include "bincommands.h"
-#include "jobs/jobmanager.h"
-#include "jobs/cachejob.hpp"
+#include "jobs/cachetask.h"
+#include "jobs/cliploadtask.h"
 #include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>
@@ -59,8 +59,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_tags = zoneProperties.value(QLatin1String("tags"));
     qDebug()<<"=== LOADING SUBCLIP WITH RATING: "<<m_rating<<", TAGS: "<<m_tags;
     m_clipStatus = FileStatus::StatusReady;
-    // Save subclip in MLT
-    connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+    ClipLoadTask::start({ObjectType::BinClip,m_parentClipId.toInt()}, QDomElement(), true, in, out, this);
 }
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
@@ -209,10 +208,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
     } else {
         // Generate percent thumbs
-        int id;
-        if (!pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
-            emit pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 30, m_inPoint, m_outPoint);
-        }
+        CacheTask::start({ObjectType::BinClip,m_parentClipId.toInt()}, 30, m_inPoint, m_outPoint, this);
     }
 }
 

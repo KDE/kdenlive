@@ -103,6 +103,8 @@ public:
 
     bool selfSoftDelete(Fun &undo, Fun &redo) override;
 
+    Fun getAudio_lambda() override;
+
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
 
@@ -137,16 +139,7 @@ public:
 
     QVariant getData(DataType type) const override;
 
-    /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
-
-    /** @brief Sets the MLT producer associated with this clip
-     *  @param producer The producer
-     *  @param replaceProducer If true, we replace existing producer with this one
-     *  @returns true if producer was changed
-     * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
 
     /** @brief Returns this clip's producer. */
     std::shared_ptr<Mlt::Producer> thumbProducer() override;
@@ -249,6 +242,8 @@ public:
     static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
+    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
+    void setInvalid();
     int getRecordTime();
 
 protected:
@@ -278,6 +273,12 @@ public slots:
     void updateAudioThumbnail();
     /** @brief Delete the proxy file */
     void deleteProxy();
+    /** @brief A clip job progressed, update display */
+    void updateJobProgress();
+
+    /** @brief Sets thumbnail for this clip. */
+    void setThumbnail(const QImage &, int in, int out);
+    void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /**
      * Imports effect from a given producer
@@ -286,13 +287,18 @@ public slots:
      */
     void importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint = QString());
 
+    /** @brief Sets the MLT producer associated with this clip
+     *  @param producer The producer
+     *  @param replaceProducer If true, we replace existing producer with this one
+     *  @returns true if producer was changed
+     * . */
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
+
 private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash();
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
-    QFuture<void> m_thumbThread;
-    QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */

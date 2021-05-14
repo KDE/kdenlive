@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "capture/mediacapture.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "jobs/jobmanager.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
@@ -46,6 +45,7 @@ the Free Software Foundation, either version 3 of the License, or
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    , taskManager(this)
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
@@ -90,6 +90,7 @@ bool Core::build(bool testMode)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
+    qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     
     if (!testMode) {
         // Check if we had a crash
@@ -109,8 +110,6 @@ bool Core::build(bool testMode)
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
-    // Job manager must be created before bin to correctly connect
-    m_self->m_jobManager.reset(new JobManager(m_self.get()));
     return true;
 }
 
@@ -220,7 +219,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
-    QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
@@ -299,11 +297,6 @@ std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
         return subModel;
     }
     return nullptr;
-}
-
-std::shared_ptr<JobManager> Core::jobManager()
-{
-    return m_jobManager;
 }
 
 LibraryWidget *Core::library()
@@ -691,6 +684,11 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     }
 }
 
+void Core::loadingClips(int count)
+{
+    m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
+}
+
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
     m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
@@ -1036,4 +1034,3 @@ void Core::updateMasterZones()
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
 }
-

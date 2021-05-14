@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2015 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef FILTERJOB
-#define FILTERJOB
+#ifndef CUTTASK_H
+#define CUTTASK_H
 
-#include <QHash>
-#include <QList>
-#include <QStringList>
+#include "abstracttask.h"
+#include <memory>
+#include <unordered_map>
+#include <mlt++/MltConsumer.h>
 
-class ProjectClip;
-class AbstractClipJob;
+class QProcess;
 
-class FilterJob
+class CutTask : public AbstractTask
 {
-
 public:
-    static QList<ProjectClip *> filterClips(const QList<ProjectClip *> &clips, const QStringList &params);
-    static QHash<ProjectClip *, AbstractClipJob *> prepareJob(const QList<ProjectClip *> &clips, const QStringList &parameters);
+    CutTask(const ObjectId &owner, const QString &destination, const QStringList encodingParams, int in ,int out, bool addToProject, QObject* object);
+    static void start(const ObjectId &owner, int in , int out, QObject* object, bool force = false);
+    int length;
+
+private slots:
+    void processLogInfo();
+
+protected:
+    void run() override;
+
+private:
+    GenTime m_inPoint;
+    GenTime m_outPoint;
+    const QString m_destination;
+    QStringList m_encodingParams;
+    QString m_errorMessage;
+    QString m_logDetails;
+    std::unique_ptr<QProcess> m_jobProcess;
+    int m_jobDuration;
+    bool m_addToProject;
 };
+
 
 #endif

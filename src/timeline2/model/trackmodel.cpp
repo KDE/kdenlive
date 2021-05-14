@@ -31,7 +31,6 @@
 #else
 #define TRACE_CONSTR(...)
 #endif
-#include "jobs/jobmanager.h"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
 #include <QDebug>
@@ -439,7 +438,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     int duration = trackDuration();
     if (finalDeletion) {
-        pCore->jobManager()->slotDiscardClipJobs(m_allClips[clipId]->binId(), {ObjectType::TimelineClip,clipId});
+        pCore->taskManager.discardJobs({ObjectType::TimelineClip,clipId});
     }
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {

@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,36 +18,43 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef TRANSCODECLIPJOB
-#define TRANSCODECLIPJOB
+#ifndef SPEEDTASK_H
+#define SPEEDTASK_H
 
-#include "abstractclipjob.h"
+#include "abstracttask.h"
+#include <memory>
+#include <unordered_map>
+#include <mlt++/MltConsumer.h>
 
 class QProcess;
 
-class TranscodeJob : public AbstractClipJob
+class SpeedTask : public AbstractTask
 {
-    Q_OBJECT
-
 public:
-    TranscodeJob(const QString &binId, QString params, bool replaceProducer = false);
-    const QString getDescription() const override;
-    bool startJob() override;
-    /** @brief This is to be called after the job finished.
-    * By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
-    bool commitResult(Fun &undo, Fun &redo) override;
+    SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object);
+    static void start(QObject* object, bool force = false);
+    int length;
 
 private slots:
     void processLogInfo();
 
+protected:
+    void run() override;
+
 private:
-    int m_jobDuration;
-    bool m_isFfmpegJob;
-    QProcess *m_jobProcess;
-    bool m_done;
-    QString m_destUrl;
-    QString m_transcodeParams;
-    bool m_replaceProducer;
+    QString m_binId;
+    double m_speed;
+    int m_inPoint;
+    int m_outPoint;
+    QString m_assetId;
+    QString m_filterName;
+    std::unordered_map<QString, QVariant> m_filterParams;
+    const QString m_destination;
+    QStringList m_consumerArgs;
+    QString m_errorMessage;
+    QString m_logDetails;
+    std::unique_ptr<QProcess> m_jobProcess;
 };
+
 
 #endif

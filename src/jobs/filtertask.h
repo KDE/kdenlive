@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,45 +18,52 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef JOBS_FILTERCLIPJOB
-#define JOBS_FILTERCLIPJOB
+#ifndef FILTERTASK_H
+#define FILTERTASK_H
 
-#include "meltjob.h"
-#include "assets/model/assetparametermodel.hpp"
-
+#include "abstracttask.h"
+#include <memory>
 #include <unordered_map>
-#include <unordered_set>
+#include <mlt++/MltConsumer.h>
 
+namespace Mlt {
+class Profile;
+class Producer;
+class Consumer;
+class Filter;
+class Event;
+} // namespace Mlt
 
-class FilterClipJob : public MeltJob
+class AssetParameterModel;
+class QProcess;
+
+class FilterTask : public AbstractTask
 {
-    Q_OBJECT
-
 public:
-    FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, QString assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs);
-    const QString getDescription() const override;
-    /** @brief This is to be called after the job finished.
-    By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
-    bool commitResult(Fun &undo, Fun &redo) override;
+    FilterTask(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object);
+    static void start(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object, bool force = false);
+    int length;
+
+private slots:
+    void processLogInfo();
 
 protected:
-    /** @brief create and configure consumer */
-    void configureConsumer() override;
+    void run() override;
 
-    /** @brief create and configure producer */
-    void configureProducer() override;
-
-    /** @brief create and configure filter */
-    void configureFilter() override;
-
-protected:
+private:
+    QString m_binId;
+    int m_inPoint;
+    int m_outPoint;
+    QString m_assetId;
     std::weak_ptr<AssetParameterModel> m_model;
     QString m_filterName;
-    int m_timelineClipId;
-    QString m_assetId;
     std::unordered_map<QString, QVariant> m_filterParams;
     std::unordered_map<QString, QString> m_filterData;
     QStringList m_consumerArgs;
+    QString m_errorMessage;
+    QString m_logDetails;
+    std::unique_ptr<QProcess> m_jobProcess;
 };
+
 
 #endif

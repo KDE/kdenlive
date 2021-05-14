@@ -281,6 +281,9 @@ bool AbstractTreeModel::checkConsistency()
 Fun AbstractTreeModel::addItem_lambda(const std::shared_ptr<TreeItem> &new_item, int parentId)
 {
     return [this, new_item, parentId]() {
+        if (new_item->m_isInvalid) {
+            return true;
+        }
         /* Insertion is simply setting the parent of the item.*/
         std::shared_ptr<TreeItem> parent;
         if (parentId != -1) {
@@ -302,6 +305,10 @@ Fun AbstractTreeModel::removeItem_lambda(int id)
            is captured by the reverse operation.
            Actual deletions occurs when the undo object is destroyed.
         */
+        if (m_allItems.count(id) == 0) {
+            // Invalid item, might have been deleted on insert
+            return true;
+        }
         auto item = m_allItems[id].lock();
         Q_ASSERT(item);
         if (!item) {

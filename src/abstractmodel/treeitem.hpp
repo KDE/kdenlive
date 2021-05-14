@@ -167,9 +167,9 @@ protected:
     std::weak_ptr<AbstractTreeModel> m_model;
     int m_depth;
     int m_id;
-
     bool m_isInModel;
     bool m_isRoot;
+    bool m_isInvalid;
 };
 
 template <class T, class BinaryOperation> T TreeItem::accumulate(T init, BinaryOperation op)

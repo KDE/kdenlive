@@ -113,7 +113,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         }
     }
     QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
-
     int nbr_effect = effects.count();
     if (nbr_effect == 0) {
         qWarning() << "broken effect:" << file_name;
@@ -129,8 +128,10 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         Info result;
         bool ok = parseInfoFromXml(currentEffect, result);
         if (!ok) {
+            qDebug()<<"==== PARSING ABORTED FOR: "<<file_name;
             continue;
         }
+
         if (customAssets.count(result.id) > 0) {
             //qDebug() << "duplicate effect" << result.id;
         }

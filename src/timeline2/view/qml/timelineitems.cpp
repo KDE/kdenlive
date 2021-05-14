@@ -156,7 +156,7 @@ public:
         }
         QPen pen = painter->pen();
         pen.setColor(m_color);
-        painter->setBrush(m_color);
+        painter->setBrush(m_color.darker(200));
         pen.setCapStyle(Qt::FlatCap);
         double increment = m_scale / m_channels; //qMax(1., 1. / qAbs(indicesPrPixel));
         qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;

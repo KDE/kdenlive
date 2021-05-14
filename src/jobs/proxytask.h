@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,57 +18,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "abstractclipjob.h"
+#ifndef PROXYTASK_H
+#define PROXYTASK_H
 
-#include "doc/kdenlivedoc.h"
-#include "kdenlivesettings.h"
-#include <utility>
+#include "abstracttask.h"
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, QString id, ObjectId owner, QObject *parent)
-    : QObject(parent)
-    , m_clipId(std::move(id))
-    , m_jobType(type)
-    , m_inPoint(-1)
-    , m_outPoint(-1)
-    , m_owner(std::move(owner))
+class QProcess;
+
+class ProxyTask : public AbstractTask
 {
-    if (m_clipId.count(QStringLiteral("/")) == 2) {
-        m_inPoint = m_clipId.section(QLatin1Char('/'), 1, 1).toInt();
-        m_outPoint = m_clipId.section(QLatin1Char('/'), 2).toInt();
-        m_clipId = m_clipId.section(QLatin1Char('/'), 0, 0);
-    }
-}
+public:
+    ProxyTask(const ObjectId &owner, QObject* object);
+    static void start(const ObjectId &owner, QObject* object, bool force = false);
 
-AbstractClipJob::~AbstractClipJob() = default;
+protected:
+    void run() override;
 
-const QString AbstractClipJob::clipId() const
-{
-    return m_clipId;
-}
+private slots:
+    void processLogInfo();
 
-const QString AbstractClipJob::getErrorMessage() const
-{
-    return m_errorMessage;
-}
+private:
+    int m_jobDuration;
+    bool m_isFfmpegJob;
+    std::unique_ptr<QProcess> m_jobProcess;
+    QString m_errorMessage;
+    QString m_logDetails;
+};
 
-const QString AbstractClipJob::getLogDetails() const
-{
-    return m_logDetails;
-}
 
-// static
-bool AbstractClipJob::execute(const std::shared_ptr<AbstractClipJob> &job)
-{
-    return job->startJob();
-}
-
-AbstractClipJob::JOBTYPE AbstractClipJob::jobType() const
-{
-    return m_jobType;
-}
-
-const ObjectId AbstractClipJob::owner()
-{
-    return m_owner;
-}
-
+#endif

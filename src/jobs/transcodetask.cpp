@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,11 +18,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "transcodeclipjob.h"
+#include "transcodetask.h"
 #include "bin/bin.h"
-#include "bin/clipcreator.hpp"
+#include "mainwindow.h"
 #include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
+#include "bin/clipcreator.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -30,37 +32,54 @@
 #include "macros.hpp"
 
 #include <QProcess>
+#include <QTemporaryFile>
 #include <QThread>
-#include <utility>
 
 #include <klocalizedstring.h>
 
-TranscodeJob::TranscodeJob(const QString &binId, QString params, bool replaceProducer)
-    : AbstractClipJob(TRANSCODEJOB, binId, {ObjectType::BinClip, binId.toInt()})
+TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object)
+    : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
-    , m_jobProcess(nullptr)
-    , m_done(false)
-    , m_transcodeParams(std::move(params))
+    , m_transcodeParams(params)
     , m_replaceProducer(replaceProducer)
+    , m_inPoint(in)
+    , m_outPoint(out)
+    , m_jobProcess(nullptr)
 {
 }
 
-const QString TranscodeJob::getDescription() const
+void TranscodeTask::start(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool force)
 {
-    //TODO: add better description after string freeze
-    return i18n("Transcode Clip");
+    TranscodeTask* task = new TranscodeTask(owner, params, in, out, replaceProducer, object);
+    // See if there is already a task for this MLT service and resource.
+    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
+        delete task;
+        task = 0;
+    }
+    if (task) {
+        // Otherwise, start a new audio levels generation thread.
+        task->m_isForce = force;
+        pCore->taskManager.startTask(owner.second, task);
+    }
 }
 
-bool TranscodeJob::startJob()
+void TranscodeTask::run()
 {
-    auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (m_isCanceled) {
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
+    }
+    m_running = true;
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     const QString source = binClip->url();
     ClipType::ProducerType type = binClip->clipType();
     QString transcoderExt = m_transcodeParams.section(QLatin1String("%1"), 1).section(QLatin1Char(' '), 0, 0);
     if (transcoderExt.isEmpty()) {
         qDebug()<<"// INVALID TRANSCODING PROFILE";
-        return false;
+        m_progress = 100;
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
     }
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
@@ -73,8 +92,8 @@ bool TranscodeJob::startJob()
         num = QString::number(fileCount).rightJustified(4, '0', false);
         path = fileName + num + transcoderExt;
     }
-    m_destUrl = dir.absoluteFilePath(fileName);
-    m_destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
+    QString destUrl = dir.absoluteFilePath(fileName);
+    destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
 
     bool result;
     if (type == ClipType::Playlist || type == ClipType::SlideShow) {
@@ -96,7 +115,7 @@ bool TranscodeJob::startJob()
             } else {
                 if (t.contains(QLatin1String("%1"))) {
                     // file name
-                    mltParameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(m_destUrl)));
+                    mltParameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(destUrl)));
                     mltParameters.prepend(QStringLiteral("-consumer"));
                     continue;
                 }
@@ -126,10 +145,10 @@ bool TranscodeJob::startJob()
             mltParameters.prepend(QString("in=%1").arg(m_inPoint));
         }
         mltParameters.prepend(source);
-        m_jobProcess = new QProcess;
+        m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        connect(this, &TranscodeJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
-        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeJob::processLogInfo);
+        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
@@ -139,8 +158,8 @@ bool TranscodeJob::startJob()
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
             // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
-            m_done = true;
-            return false;
+            pCore->taskManager.taskDone(m_owner.second, this);
+            return;
         }
         m_jobDuration = int(binClip->duration().seconds());
         parameters << QStringLiteral("-y");
@@ -158,42 +177,61 @@ bool TranscodeJob::startJob()
         for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (t.startsWith(QLatin1String("%1"))) {
-                parameters << t.replace(QLatin1String("%1"), m_destUrl);
+                parameters << t.replace(QLatin1String("%1"), destUrl);
             } else {
                 parameters << t;
             }
         }
         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
-        m_jobProcess = new QProcess;
+        m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeJob::processLogInfo);
-        connect(this, &TranscodeJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }
-    m_destUrl.append(transcoderExt);
+    destUrl.append(transcoderExt);
     // remove temporary playlist if it exists
+    m_progress = 100;
+    pCore->taskManager.taskDone(m_owner.second, this);
+    QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result) {
-        if (QFileInfo(m_destUrl).size() == 0) {
-            QFile::remove(m_destUrl);
+        if (QFileInfo(destUrl).size() == 0) {
+            QFile::remove(destUrl);
             // File was not created
-            m_done = false;
             m_errorMessage.append(i18n("Failed to create file."));
         } else {
-            m_done = true;
+            QString id = QString::number(m_owner.second);
+            auto binClip = pCore->projectItemModel()->getClipByBinID(id);
+            if (m_replaceProducer && binClip) {
+                QMap <QString, QString> sourceProps;
+                QMap <QString, QString> newProps;
+                sourceProps.insert(QStringLiteral("resource"), binClip->url());
+                sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
+                newProps.insert(QStringLiteral("resource"), destUrl);
+                newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
+                pCore->bin()->slotEditClipCommand(id, sourceProps, newProps);
+            } else {
+                QString folder = QStringLiteral("-1");
+                if (binClip) {
+                    auto containingFolder = std::static_pointer_cast<ProjectFolder>(binClip->parent());
+                    if (containingFolder) {
+                        folder = containingFolder->clipId();
+                    }
+                }
+                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(const QString&,destUrl), Q_ARG(const QString&,folder));
+                //id = ClipCreator::createClipFromFile(destUrl, folderId, pCore->projectItemModel());
+            }
         }
     } else {
         // Proxy process crashed
-        QFile::remove(m_destUrl);
-        m_done = false;
+        QFile::remove(destUrl);;
         m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
     }
-    m_jobProcess->deleteLater();
-    return result;
 }
 
-void TranscodeJob::processLogInfo()
+void TranscodeTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
@@ -208,7 +246,7 @@ void TranscodeJob::processLogInfo()
                     if (numbers.size() < 3) {
                         return;
                     }
-                    m_jobDuration = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    m_jobDuration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
@@ -216,47 +254,24 @@ void TranscodeJob::processLogInfo()
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
-                    progress = int(time.toDouble());
+                    progress = time.toInt();
                     if (progress == 0) {
                         return;
                     }
                 } else {
-                    progress = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            emit jobProgress(int(100.0 * progress / m_jobDuration));
+            m_progress = 100 * progress / m_jobDuration;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            //emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            emit jobProgress(progress);
+            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            //emit jobProgress(progress);
         }
     }
-}
-
-bool TranscodeJob::commitResult(Fun &undo, Fun &redo)
-{
-    Q_ASSERT(!m_resultConsumed);
-    if (!m_done) {
-        qDebug() << "ERROR: Trying to consume invalid results";
-        return false;
-    }
-    m_resultConsumed = true;
-    QString id;
-    if (m_replaceProducer) {
-        id = m_clipId;
-        QMap <QString, QString> sourceProps;
-        QMap <QString, QString> newProps;
-        auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
-        sourceProps.insert(QStringLiteral("resource"), binClip->url());
-        sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
-        newProps.insert(QStringLiteral("resource"), m_destUrl);
-        newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(m_destUrl).fileName());
-        pCore->bin()->slotEditClipCommand(m_clipId, sourceProps, newProps);
-    } else {
-        QString folderId = QStringLiteral("-1");
-        id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
-    }
-    return id != QStringLiteral("-1");
 }

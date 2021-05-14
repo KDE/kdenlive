@@ -30,7 +30,6 @@
 #include "effects/effectsrepository.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/jobmanager.h"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
@@ -3438,7 +3437,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->jobManager()->slotDiscardClipJobs(QStringLiteral("-1"), {ObjectType::TimelineTrack,trackId});
+    pCore->taskManager.discardJobs({ObjectType::TimelineTrack,trackId});
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {

@@ -26,6 +26,7 @@
 #include <QWidget>
 
 class QPushButton;
+class QProgressBar;
 class KMessageWidget;
 
 /** @brief This class represents a parameter that requires
@@ -58,6 +59,7 @@ public slots:
 
 private:
     QPushButton *m_button;
+    QProgressBar *m_progress;
     KMessageWidget *m_label;
     QString m_keyParam;
     QString m_buttonName;

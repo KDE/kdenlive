@@ -27,11 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "filewatcher.hpp"
-#include "jobs/audiothumbjob.hpp"
-#include "jobs/jobmanager.h"
-#include "jobs/loadjob.hpp"
-#include "jobs/thumbjob.hpp"
-#include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
@@ -40,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectfolder.h"
 #include "projectsubclip.h"
 #include "lib/localeHandling.h"
+#include "jobs/audiolevelstask.h"
+#include "jobs/cliploadtask.h"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
@@ -620,6 +617,9 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
             update_doc();
             PUSH_LAMBDA(update_doc, operation);
             PUSH_LAMBDA(update_doc, reverse);
+        } else {
+            Fun checkAudio = clip->getAudio_lambda();
+            PUSH_LAMBDA(checkAudio, reverse);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
@@ -687,6 +687,9 @@ bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item,
     bool res = operation();
     Q_ASSERT(item->isInModel());
     if (res) {
+        Fun checkAudio = item->getAudio_lambda();
+        checkAudio();
+        PUSH_LAMBDA(checkAudio, operation);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return res;
@@ -721,14 +724,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
-        emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
-        ClipType::ProducerType type = new_clip->clipType();
-        if (KdenliveSettings::audiothumbnails()) {
-            if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
-            }
-        }
+        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
     }
     return res;
 }
@@ -759,13 +755,6 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         new_clip->importEffects(producer);
-        if (new_clip->statusReady() || new_clip->sourceExists()) {
-            int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
-            emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
-            if (KdenliveSettings::audiothumbnails()) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
-            }
-        }
     }
     return res;
 }
@@ -787,10 +776,6 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     std::shared_ptr<ProjectSubClip> new_clip =
         ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneProperties);
     bool res = addItem(new_clip, subId, undo, redo);
-    if (res) {
-        int parentJob = pCore->jobManager()->getBlockingJobId(subId, AbstractClipJob::LOADJOB);
-        emit pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), -1, true);
-    }
     return res;
 }
 bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId)
@@ -1050,6 +1035,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 i.value()->set("_kdenlive_processed", 1);
                 requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
+                qApp->processEvents();
                 binIdCorresp[QString::number(i.key())] = newId;
             }
         }

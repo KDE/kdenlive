@@ -23,13 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "bin.h"
 #include "core.h"
-#include "jobs/jobmanager.h"
 #include "macros.hpp"
 #include "projectitemmodel.h"
-
-#include "jobs/audiothumbjob.hpp"
-#include "jobs/loadjob.hpp"
-#include "jobs/thumbjob.hpp"
 
 #include <QPainter>
 #include <QPainterPath>
@@ -170,19 +165,10 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case ClipHasAudioAndVideo:
         data = hasAudioAndVideo();
         break;
-    case JobType:
-        if (itemType() == ClipItem) {
-            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
-            if (jobIds.empty()) {
-                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
-            }
-            if (jobIds.size() > 0) {
-                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
-            }
-        }
-        break;
     case JobStatus:
         if (itemType() == ClipItem) {
+            data = QVariant::fromValue(pCore->taskManager.jobStatus({ObjectType::BinClip, m_binId.toInt()}));
+            /*
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
             if (jobIds.empty()) {
                 jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
@@ -191,29 +177,26 @@ QVariant AbstractProjectItem::getData(DataType type) const
                 data = QVariant::fromValue(pCore->jobManager()->getJobStatus(jobIds[0]));
             } else {
                 data = QVariant::fromValue(JobManagerStatus::NoJob);
-            }
+            }*/
         }
         break;
     case JobProgress:
         if (itemType() == ClipItem) {
-            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
-            if (jobIds.size() > 0) {
-                data = QVariant(pCore->jobManager()->getJobProgressForClip(jobIds[0], clipId()));
-            } else {
-                data = QVariant(0);
-            }
+            data = pCore->taskManager.getJobProgressForClip({ObjectType::BinClip, m_binId.toInt()});
         }
         break;
     case JobSuccess:
-        if (itemType() == ClipItem) {
+        // TODO: reimplement ?
+        /*if (itemType() == ClipItem) {
             auto jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
             if (jobIds.size() > 0) {
                 // Check the last job status
                 data = QVariant(pCore->jobManager()->jobSucceded(jobIds[jobIds.size() - 1]));
             } else {
-                data = QVariant(true);
+
             }
-        }
+        }*/
+        data = QVariant(true);
         break;
     case ClipStatus:
         data = QVariant(m_clipStatus);
@@ -285,7 +268,6 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(boo
 
 bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
 {
-    pCore->jobManager()->slotDiscardClipJobs(clipId());
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (const auto &child : m_childItems) {
@@ -334,4 +316,12 @@ uint AbstractProjectItem::rating() const
 void AbstractProjectItem::setRating(uint rating)
 {
     m_rating = rating;
+}
+
+Fun AbstractProjectItem::getAudio_lambda()
+{
+    return []() {
+        qDebug()<<"============\n\nABSTRACT AUDIO CHECK\n\n===========";
+        return true;
+    };
 }

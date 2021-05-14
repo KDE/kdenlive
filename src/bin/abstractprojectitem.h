@@ -86,7 +86,7 @@ public:
         @param Undo,Redo are the lambdas accumulating the update.
      */
     virtual bool selfSoftDelete(Fun &undo, Fun &redo);
-
+    virtual Fun getAudio_lambda();
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
     virtual QPoint zone() const;
@@ -132,8 +132,6 @@ public:
         DataInPoint,
         // Outpoint of the subclip (0 for clips)
         DataOutPoint,
-        // If there is a running job, which type
-        JobType,
         // Current progress of the job
         JobProgress,
         // error message if job crashes (not fully implemented)

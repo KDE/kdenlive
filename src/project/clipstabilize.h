@@ -40,7 +40,7 @@ public:
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
-    std::unordered_map<QString, QString> filterParams() const;
+    std::unordered_map<QString, QVariant> filterParams() const;
     /** @brief Return the destination file or folder. */
     QString destination() const;
     /** @brief Return the job description. */

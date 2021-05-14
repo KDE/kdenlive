@@ -18,7 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "proxyclipjob.h"
+#include "proxytask.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -34,32 +34,69 @@
 
 #include <klocalizedstring.h>
 
-ProxyJob::ProxyJob(const QString &binId)
-    : AbstractClipJob(PROXYJOB, binId, {ObjectType::BinClip, binId.toInt()})
+ProxyTask::ProxyTask(const ObjectId &owner, QObject* object)
+    : AbstractTask(owner, AbstractTask::PROXYJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)
-    , m_done(false)
 {
 }
 
-const QString ProxyJob::getDescription() const
+void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
 {
-    return i18n("Creating proxy %1", m_clipId);
+    ProxyTask* task = new ProxyTask(owner, object);
+    // See if there is already a task for this MLT service and resource.
+    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::PROXYJOB)) {
+        delete task;
+        task = 0;
+    }
+    if (task) {
+        // Otherwise, start a new audio levels generation thread.
+        task->m_isForce = force;
+        pCore->taskManager.startTask(owner.second, task);
+    }
 }
 
-bool ProxyJob::startJob()
+void ProxyTask::run()
 {
-    auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (m_isCanceled) {
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
+    }
+    m_running = true;
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
     QFileInfo fInfo(dest);
     if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && fInfo.exists() && fInfo.size() > 0) {
         // Proxy clip already created
-        m_done = true;
-        return true;
+        m_progress = 100;
+        pCore->taskManager.taskDone(m_owner.second, this);
+        QMetaObject::invokeMethod(m_object, "updateJobProgress");
+        auto operation = [clipId = QString::number(m_owner.second)]() {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+            if (binClip) {
+                binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
+                const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
+                binClip->setProducerProperty(QStringLiteral("resource"), dest);
+                pCore->bin()->reloadClip(clipId);
+            }
+            return true;
+        };
+        auto reverse = [clipId = QString::number(m_owner.second)]() {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+            if (binClip) {
+                const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+                binClip->setProducerProperty(QStringLiteral("resource"), dest);
+                pCore->bin()->reloadClip(clipId);
+            }
+            return true;
+        };
+        bool ok = operation();
+        return;
     }
     ClipType::ProducerType type = binClip->clipType();
-    bool result;
+    m_progress = 0;
+    bool result = false;
     QString source = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
     int exif = binClip->getProducerIntProperty(QStringLiteral("_exif_orientation"));
     if (type == ClipType::Playlist || type == ClipType::SlideShow) {
@@ -165,10 +202,10 @@ bool ProxyJob::startJob()
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
 
-        m_jobProcess = new QProcess;
+        m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
-        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
@@ -178,9 +215,12 @@ bool ProxyJob::startJob()
         // Image proxy
         QImage i(source);
         if (i.isNull()) {
-            m_done = false;
+            result = false;
             m_errorMessage.append(i18n("Cannot load image %1.", source));
-            return false;
+            m_progress = 100;
+            pCore->taskManager.taskDone(m_owner.second, this);
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            return;
         }
 
         QImage proxy;
@@ -226,15 +266,21 @@ bool ProxyJob::startJob()
         } else {
             proxy.save(dest);
         }
-        m_done = true;
-        return true;
+        result = true;
+        m_progress = 100;
+        pCore->taskManager.taskDone(m_owner.second, this);
+        QMetaObject::invokeMethod(m_object, "updateJobProgress");
+        return;
     } else {
         m_isFfmpegJob = true;
         if (!QFileInfo(KdenliveSettings::ffmpegpath()).isFile()) {
             // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
-            m_done = true;
-            return false;
+            result = true;
+            m_progress = 100;
+            pCore->taskManager.taskDone(m_owner.second, this);
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            return;
         }
         // Only output error data, make sure we don't block when proxy file already exists
         QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
@@ -315,35 +361,57 @@ bool ProxyJob::startJob()
         parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
         parameters << dest;
         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
-        m_jobProcess = new QProcess;
+        m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
-        connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }
     // remove temporary playlist if it exists
-    if (result) {
+    m_progress = 100;
+    pCore->taskManager.taskDone(m_owner.second, this);
+    QMetaObject::invokeMethod(m_object, "updateJobProgress");
+    if (result && !m_isCanceled) {
         if (QFileInfo(dest).size() == 0) {
             QFile::remove(dest);
             // File was not created
-            m_done = false;
+            result = false;
             m_errorMessage.append(i18n("Failed to create proxy clip."));
+            binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
         } else {
-            m_done = true;
+            // Job successful
+            auto operation = [clipId = QString::number(m_owner.second)]() {
+                auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+                if (binClip) {
+                    binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
+                    const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
+                    binClip->setProducerProperty(QStringLiteral("resource"), dest);
+                    pCore->bin()->reloadClip(clipId);
+                }
+                return true;
+            };
+            auto reverse = [clipId = QString::number(m_owner.second)]() {
+                auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
+                if (binClip) {
+                    const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+                    binClip->setProducerProperty(QStringLiteral("resource"), dest);
+                    pCore->bin()->reloadClip(clipId);
+                }
+                return true;
+            };
+            bool ok = operation();
         }
     } else {
         // Proxy process crashed
         QFile::remove(dest);
-        m_done = false;
         m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
     }
-    m_jobProcess->deleteLater();
-    return result;
+    return;
 }
 
-void ProxyJob::processLogInfo()
+void ProxyTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
@@ -371,48 +439,19 @@ void ProxyJob::processLogInfo()
                         return;
                     }
                 } else {
-                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            emit jobProgress(int(100.0 * progress / m_jobDuration));
+            m_progress = 100 * progress / m_jobDuration;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            //emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            emit jobProgress(progress);
+            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            //emit jobProgress(progress);
         }
     }
-}
-
-bool ProxyJob::commitResult(Fun &undo, Fun &redo)
-{
-    Q_ASSERT(!m_resultConsumed);
-    if (!m_done) {
-        qDebug() << "ERROR: Trying to consume invalid results";
-        auto binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
-        binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-        return false;
-    }
-    m_resultConsumed = true;
-    auto operation = [clipId = m_clipId]() {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-        binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
-        const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-        binClip->setProducerProperty(QStringLiteral("resource"), dest);
-        pCore->bin()->reloadClip(clipId);
-        return true;
-    };
-    auto reverse = [clipId = m_clipId]() {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-        const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
-        binClip->setProducerProperty(QStringLiteral("resource"), dest);
-        pCore->bin()->reloadClip(clipId);
-        return true;
-    };
-    bool ok = operation();
-    if (ok) {
-        UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
-    }
-    return ok;
 }

@@ -1,17 +1,15 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  jobs/abstractclipjob.cpp
-  jobs/audiothumbjob.cpp
-  jobs/jobmanager.cpp
-  jobs/cachejob.cpp
-  jobs/loadjob.cpp
-  jobs/meltjob.cpp
-  jobs/scenesplitjob.cpp
-  jobs/speedjob.cpp
-  jobs/stabilizejob.cpp
-  jobs/thumbjob.cpp
-  jobs/transcodeclipjob.cpp
-  jobs/cutclipjob.cpp
-  jobs/filterclipjob.cpp
-  jobs/proxyclipjob.cpp
+  jobs/abstracttask.cpp
+  jobs/taskmanager.cpp
+  jobs/audiolevelstask.cpp
+  jobs/cliploadtask.cpp
+  jobs/proxytask.cpp
+  jobs/stabilizetask.cpp
+  jobs/speedtask.cpp
+  jobs/transcodetask.cpp
+  jobs/filtertask.cpp
+  jobs/cachetask.cpp
+  #jobs/scenesplitjob.cpp
+  jobs/cuttask.cpp
   PARENT_SCOPE)

@@ -30,6 +30,7 @@
 
 #include "kdenlivesettings.h"
 #include <KMessageBox>
+#include <KIO/RenameDialog>
 #include <QFontDatabase>
 #include <memory>
 #include <mlt++/Mlt.h>
@@ -97,13 +98,13 @@ ClipStabilize::~ClipStabilize()
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
 }
 
-std::unordered_map<QString, QString> ClipStabilize::filterParams() const
+std::unordered_map<QString, QVariant> ClipStabilize::filterParams() const
 {
     QVector<QPair<QString, QVariant>> result = m_assetModel->getAllParameters();
-    std::unordered_map<QString, QString> params;
+    std::unordered_map<QString, QVariant> params;
 
     for (const auto &it : qAsConst(result)) {
-        params[it.first] = it.second.toString();
+        params[it.first] = it.second;
     }
     return params;
 }
@@ -136,8 +137,13 @@ void ClipStabilize::slotValidate()
 {
     if (m_binIds.size() == 1) {
         if (QFile::exists(dest_url->url().toLocalFile())) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", dest_url->url().toLocalFile())) ==
-                KMessageBox::No) {
+            KIO::RenameDialog renameDialog(this, i18n("File already exists"), dest_url->url(), dest_url->url(), KIO::RenameDialog_Option::RenameDialog_Overwrite );
+            if (renameDialog.exec() != QDialog::Rejected) {
+                QUrl final = renameDialog.newDestUrl();
+                if (final.isValid()) {
+                    dest_url->setUrl(final);
+                }
+            } else {
                 return;
             }
         }

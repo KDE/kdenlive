@@ -1,6 +1,6 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,72 +18,52 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "cutclipjob.h"
+#include "cuttask.h"
 #include "bin/bin.h"
-#include "bin/clipcreator.hpp"
-#include "jobmanager.h"
+#include "mainwindow.h"
 #include "bin/projectclip.h"
+#include "bin/projectfolder.h"
+#include "ui_cutjobdialog_ui.h"
 #include "bin/projectitemmodel.h"
+#include "profiles/profilemodel.hpp"
 #include "core.h"
-#include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "xml/xml.hpp"
 
-#include "ui_cutjobdialog_ui.h"
-
-#include <klocalizedstring.h>
+#include <QThread>
+#include <QProcess>
 #include <KIO/RenameDialog>
 #include <KLineEdit>
+#include <klocalizedstring.h>
 
-#include <QApplication>
-#include <QDialog>
-#include <QPointer>
-#include <utility>
-
-CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime inTime, GenTime outTime, const QString destPath, QStringList encodingParams)
-    : AbstractClipJob(CUTJOB, binId, {ObjectType::BinClip, binId.toInt()})
-    , m_sourceUrl(sourcePath)
-    , m_destUrl(destPath)
-    , m_done(false)
-    , m_jobProcess(nullptr)
-    , m_in(inTime)
-    , m_out(outTime)
-    , m_encodingParams(std::move(encodingParams))
-    , m_jobDuration(int((outTime - inTime).seconds()))
+CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList encodingParams, int in, int out, bool addToProject, QObject* object)
+    : AbstractTask(owner, AbstractTask::CUTJOB, object)
+    , m_inPoint(GenTime(in, pCore->getCurrentFps()))
+    , m_outPoint(GenTime(out, pCore->getCurrentFps()))
+    , m_destination(destination)
+    , m_encodingParams(encodingParams)
+    , m_jobDuration(0)
+    , m_addToProject(addToProject)
 {
 }
 
-const QString CutClipJob::getDescription() const
+void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bool force)
 {
-    return i18n("Extract Clip Zone");
-}
-
-// static
-int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString, GenTime inTime, GenTime outTime)
-{
-    if (binIds.empty()) {
-        return -1;
-    }
-    const QString mainId = *binIds.begin();
-    auto binClip = pCore->projectItemModel()->getClipByBinID(mainId);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(owner.second));
     ClipType::ProducerType type = binClip->clipType();
     if (type != ClipType::AV && type != ClipType::Audio && type != ClipType::Video) {
         //m_errorMessage.prepend(i18n("Cannot extract zone for this clip type."));
-        return -1;
-    }
-    if (KdenliveSettings::ffmpegpath().isEmpty()) {
-        // FFmpeg not detected, cannot process the Job
-        //m_errorMessage.prepend(i18n("Failed to create cut. FFmpeg not found, please set path in Kdenlive's settings Environment"));
-        return -1;
+        return;
     }
     const QString source = binClip->url();
     QString transcoderExt = source.section(QLatin1Char('.'), -1);
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
-    QString inString = QString::number(int(inTime.seconds()));
-    QString outString = QString::number(int(outTime.seconds()));
+    QString inString = QString::number(int(GenTime(in, pCore->getCurrentFps()).seconds()));
+    QString outString = QString::number(int(GenTime(out, pCore->getCurrentFps()).seconds()));
     QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString, outString) + transcoderExt);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
@@ -98,11 +78,11 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     ui.extra_params->setPlainText(QStringLiteral("-acodec copy -vcodec copy"));
-    QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode((outTime -inTime).frames(pCore->getCurrentFps()), pCore->getCurrentFps(), true), binClip->getStringDuration());
+    QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(out - in, pCore->getCurrentFps(), true), binClip->getStringDuration());
     ui.info_label->setText(mess);
     if (d->exec() != QDialog::Accepted) {
         delete d;
-        return -1;
+        return;
     }
     path = ui.file_url->url().toLocalFile();
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -121,52 +101,76 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
                 path = final.toLocalFile();
             }
         } else {
-            return -1;
+            return;
         }
     }
-
-    return ptr->startJob_noprepare<CutClipJob>(binIds, parentId, std::move(undoString), source, inTime, outTime, dir.absoluteFilePath(path), encodingParams);
-
-    //return ptr->startJob_noprepare<CutClipJob>(binIds, parentId, std::move(undoString), mainId, source, inTime, outTime, dir.absoluteFilePath(path), encodingParams);
-    //return ptr->startJob<CutClipJob>(binIds, parentId, std::move(undoString), std::make_shared<CutClipJob>(mainId, source, inTime, outTime, dir.absoluteFilePath(path)));
+    CutTask *task = new CutTask(owner, path, encodingParams, in, out, ui.add_clip->isChecked(), object);
+    if (task) {
+        // Otherwise, start a filter thread.
+        task->m_isForce = force;
+        pCore->taskManager.startTask(owner.second, task);
+    }
 }
 
-bool CutClipJob::startJob()
+void CutTask::run()
 {
-    bool result;
-    if (m_destUrl == m_sourceUrl) {
-        m_errorMessage.append(i18n("You cannot overwrite original clip."));
-        m_done = true;
-        return false;
+    if (m_isCanceled) {
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
     }
-    QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-noaccurate_seek"),QStringLiteral("-ss"),QString::number(m_in.seconds()),QStringLiteral("-i"),m_sourceUrl, QStringLiteral("-t"), QString::number((m_out-m_in).seconds()),QStringLiteral("-avoid_negative_ts"),QStringLiteral("make_zero")};
-    params << m_encodingParams << m_destUrl;
-    m_jobProcess = std::make_unique<QProcess>(new QProcess);
-    connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutClipJob::processLogInfo);
-    connect(this, &CutClipJob::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
-    m_jobProcess->waitForFinished(-1);
-    result = m_jobProcess->exitStatus() == QProcess::NormalExit;
-    // remove temporary playlist if it exists
-    if (result) {
-        if (QFileInfo(m_destUrl).size() == 0) {
-            QFile::remove(m_destUrl);
-            // File was not created
-            m_done = false;
-            m_errorMessage.append(i18n("Failed to create file."));
-        } else {
-            m_done = true;
+    m_running = true;
+    qDebug()<<" + + + + + + + + STARTING STAB TASK";
+    
+    QString url;
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    if (binClip) {
+        // Filter applied on a timeline or bin clip
+        url = binClip->url();
+        QString folder = QStringLiteral("-1");
+        auto containingFolder = std::static_pointer_cast<ProjectFolder>(binClip->parent());
+        if (containingFolder) {
+            folder = containingFolder->clipId();
         }
-    } else {
-        // Proxy process crashed
-        QFile::remove(m_destUrl);
-        m_done = false;
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        if (url.isEmpty()) {
+            m_errorMessage.append(i18n("No producer for this clip."));
+            pCore->taskManager.taskDone(m_owner.second, this);
+            return;
+        }
+        if (QFileInfo(m_destination).absoluteFilePath() == QFileInfo(url).absoluteFilePath()) {
+            m_errorMessage.append(i18n("You cannot overwrite original clip."));
+            pCore->taskManager.taskDone(m_owner.second, this);
+            return;
+        }
+        QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-noaccurate_seek"),QStringLiteral("-ss"),QString::number(m_inPoint.seconds()),QStringLiteral("-i"),url, QStringLiteral("-t"), QString::number((m_outPoint-m_inPoint).seconds()),QStringLiteral("-avoid_negative_ts"),QStringLiteral("make_zero")};
+        params << m_encodingParams << m_destination;
+        m_jobProcess = std::make_unique<QProcess>(new QProcess);
+        connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
+        connect(this, &CutTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
+        m_jobProcess->waitForFinished(-1);
+        bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        // remove temporary playlist if it exists
+        if (result && !m_isCanceled) {
+            if (QFileInfo(m_destination).size() == 0) {
+                QFile::remove(m_destination);
+                // File was not created
+                m_errorMessage.append(i18n("Failed to create file."));
+            } else {
+                // all ok, add clip
+                if (m_addToProject) {
+                    QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,folder));
+                }
+            }
+        } else {
+            // Proxy process crashed
+            QFile::remove(m_destination);
+            m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        }
     }
-    return result;
+    pCore->taskManager.taskDone(m_owner.second, this);
 }
 
-void CutClipJob::processLogInfo()
+void CutTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
@@ -180,7 +184,7 @@ void CutClipJob::processLogInfo()
                 if (numbers.size() < 3) {
                     return;
                 }
-                m_jobDuration = int(numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble());
+                m_jobDuration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
             }
         }
     } else if (buffer.contains(QLatin1String("time="))) {
@@ -193,30 +197,10 @@ void CutClipJob::processLogInfo()
                     return;
                 }
             } else {
-                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
+                progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
             }
         }
-        emit jobProgress(int(100.0 * progress / m_jobDuration));
+        m_progress = 100 * progress / m_jobDuration;
+        QMetaObject::invokeMethod(m_object, "updateJobProgress");
     }
-}
-
-bool CutClipJob::commitResult(Fun &undo, Fun &redo)
-{
-    Q_ASSERT(!m_resultConsumed);
-    if (!m_done) {
-        qDebug() << "ERROR: Trying to consume invalid results";
-        return false;
-    }
-    m_resultConsumed = true;
-    if (!KdenliveSettings::add_new_clip()) {
-        return true;
-    }
-    QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(m_destUrl));
-    if (!ids.isEmpty()) {
-        // Clip was already inserted in bin, will be reloaded automatically, don't add twice
-        return true;
-    }
-    QString folderId = QStringLiteral("-1");
-    auto id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
-    return id != QStringLiteral("-1");
 }

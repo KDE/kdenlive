@@ -42,6 +42,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     , m_active(false)
     , m_asset(std::move(asset))
     , m_keyframes(nullptr)
+    , m_filterProgress(0)
 {
     Q_ASSERT(m_asset->is_valid());
     QDomNodeList parameterNodes = assetXml.elementsByTagName(QStringLiteral("parameter"));
@@ -469,6 +470,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("consumerparams"), element);
     case FilterJobParamsRole:
         return parseSubAttributes(QStringLiteral("jobparam"), element);
+    case FilterProgressRole:
+        return m_filterProgress;
     case AlternateNameRole: {
         QDomNode child = element.firstChildElement(QStringLiteral("name"));
         if (child.toElement().hasAttribute(QStringLiteral("conditional"))) {
@@ -542,7 +545,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
-    qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
+    //qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
     if (parent.isValid()) return 0;
     return m_rows.size();
 }
@@ -990,7 +993,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
     return params;
 }
 
-void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params, bool update)
+void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
     ObjectType itemId;
     if (!update) {
@@ -1051,6 +1054,12 @@ void AssetParameterModel::passProperties(Mlt::Properties &target)
 {
     target.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     target.set_lcnumeric(m_asset->get_lcnumeric());
+}
+
+void AssetParameterModel::setProgress(int progress)
+{
+    m_filterProgress = progress;
+    emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {AssetParameterModel::FilterProgressRole});
 }
 
 Mlt::Properties *AssetParameterModel::getAsset()

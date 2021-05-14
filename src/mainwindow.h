@@ -287,7 +287,7 @@ public slots:
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
-    Q_SCRIPTABLE void addProjectClip(const QString &url);
+    Q_SCRIPTABLE void addProjectClip(const QString &url, const QString & folder = QStringLiteral("-1"));
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
