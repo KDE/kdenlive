@@ -277,7 +277,7 @@ public slots:
     void updateJobProgress();
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &);
+    void setThumbnail(const QImage &, int in, int out);
     void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /**

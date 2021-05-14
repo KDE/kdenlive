@@ -182,14 +182,14 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
 
         // note that the image is moved into lambda, it won't be available from this class anymore
         auto operation = [clip = m_binClip, image = std::move(m_result), this]() {
-            clip->setThumbnail(image);
+            clip->setThumbnail(image, -1, -1);
             if (m_reloadAll) {
                 clip->updateTimelineClips({TimelineModel::ReloadThumbRole});
             }
             return true;
         };
         auto reverse = [clip = m_binClip, image = std::move(old), this]() {
-            clip->setThumbnail(image);
+            clip->setThumbnail(image, -1, -1);
             if (m_reloadAll) {
                 clip->updateTimelineClips({TimelineModel::ReloadThumbRole});
             }

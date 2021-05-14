@@ -4056,7 +4056,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
-            ClipLoadTask::start({ObjectType::BinClip,clip->clipId().toInt()}, xml, false, this);
+            ClipLoadTask::start({ObjectType::BinClip,clip->clipId().toInt()}, xml, false, -1, -1, this);
             if (reloadThumbs) {
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
@@ -4509,4 +4509,38 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
     }
     m_transcodingDialog->addUrl(url, id);
     m_transcodingDialog->show();
+}
+
+bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // Check if folder exists
+
+    QString folderId = QStringLiteral("-1");
+    bool found = false;
+    // We first try to see if it exists
+    std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
+    if (!baseFolder) {
+        baseFolder = m_itemModel->getRootFolder();
+    }
+    for (int i = 0; i < baseFolder->childCount(); ++i) {
+        auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
+        if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
+            found = true;
+            folderId = currentItem->clipId();
+            break;
+        }
+    }
+
+    if (!found) {
+        // if it was not found, create folder
+        m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+    }
+    auto id = ClipCreator::createClipFromFile(path, folderId, m_itemModel, undo, redo);
+    bool ok = (id != QStringLiteral("-1"));
+    if (ok) {
+        pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
+    }
+    return ok;
 }

@@ -123,7 +123,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     connectEffectStack();
     if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
         // Generate clip thumbnail
-        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, this);
+        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
@@ -259,7 +259,7 @@ void ProjectClip::updateAudioThumbnail()
             // Cache thumbnail
             ThumbnailCache::get()->storeThumbnail(m_binId, 0, thumb, true);
         }
-        setThumbnail(thumb);
+        setThumbnail(thumb, -1, -1);
     }
     if (!KdenliveSettings::audiothumbnails()) {
         return;
@@ -381,7 +381,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         //pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB);
         m_thumbsProducer.reset();
-        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, this);
+        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
@@ -413,7 +413,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, this);
+            ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
             //int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
         }
@@ -435,9 +435,16 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
     return prod;
 }
 
-void ProjectClip::setThumbnail(const QImage &img)
+void ProjectClip::setThumbnail(const QImage &img, int in, int out)
 {
     if (img.isNull()) {
+        return;
+    }
+    if (in > -1) {
+        std::shared_ptr<ProjectSubClip> sub = getSubClip(in, out);
+        if (sub) {
+            sub->setThumbnail(img);
+        }
         return;
     }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
@@ -529,7 +536,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, this);
+    ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
 
     if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
@@ -1781,7 +1788,7 @@ void ProjectClip::getThumbFromPercent(int percent)
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
-        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos));
+        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
     } else {
         // Generate percent thumbs
         int id;

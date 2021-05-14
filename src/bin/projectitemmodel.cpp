@@ -729,7 +729,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, this);
+        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, -1, -1, this);
         //int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         int loadJob = -1;
         //emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);

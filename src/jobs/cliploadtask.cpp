@@ -47,9 +47,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageWidget>
 
 
-ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack)
+ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack)
     : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
+    , m_in(in)
+    , m_out(out)
     , m_thumbOnly(thumbOnly)
     , m_readyCallBack(std::move(readyCallBack))
 {
@@ -59,10 +61,10 @@ ClipLoadTask::~ClipLoadTask()
 {
 }
 
-void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, bool force, std::function<void()> readyCallBack)
+void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, object, readyCallBack);
-    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
+    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object, readyCallBack);
+    if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
         task = 0;
     }
@@ -234,13 +236,13 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
 {
         // Fetch thumbnail
     qDebug()<<"===== \nREADY FOR THUMB\n\n=========";
-    int frameNumber = qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+    int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (binClip->clipType() != ClipType::Audio) {
         if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
             // Thumbnail found in cache
             QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
             qDebug()<<"=== FOUND THUMB IN CACHe";
-            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
         } else {
             QString mltService = producer->get("mlt_service");
             const QString mltResource = producer->get("resource");
@@ -282,9 +284,10 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         QPainter p(&result);
                         p.setPen(Qt::white);
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
-                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
                     } else {
-                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result));
+                        qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
                     }
                 }

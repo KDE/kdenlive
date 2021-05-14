@@ -39,9 +39,9 @@
 #include "hidetitlebars.h"
 #include "jobs/jobmanager.h"
 #include "jobs/scenesplitjob.hpp"
-#include "jobs/speedjob.hpp"
-#include "jobs/stabilizejob.hpp"
 #include "jobs/transcodetask.h"
+#include "jobs/stabilizetask.h"
+#include "jobs/speedtask.h"
 #include "jobs/audiolevelstask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
@@ -3529,18 +3529,13 @@ void MainWindow::buildDynamicActions()
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
     Mlt::Profile profile;
-    std::unique_ptr<Mlt::Filter> filter;
-    for (const QString &stab : {QStringLiteral("vidstab")}) {
-        filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
-        if ((filter != nullptr) && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
-            ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [stab]() {
-                emit pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(true), {},
-                                                            i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
-            });
-            break;
-        }
+    std::unique_ptr<Mlt::Filter> filter = std::make_unique<Mlt::Filter>(profile, "vidstab");
+    if ((filter != nullptr) && filter->is_valid()) {
+        QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
+        ts->addAction(action->text(), action);
+        connect(action, &QAction::triggered, [this]() {
+            StabilizeTask::start(this);
+        });
     }
     filter = std::make_unique<Mlt::Filter>(profile, "motion_est");
     if (filter) {
@@ -3555,7 +3550,7 @@ void MainWindow::buildDynamicActions()
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                [&]() { emit pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
+                [&]() { SpeedTask::start(this); });
     }
 
     // TODO refac reimplement analyseclipjob

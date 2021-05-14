@@ -60,16 +60,6 @@ void FilterTask::start(const ObjectId &owner, const QString &binId, std::weak_pt
     }
 }
 
-void FilterTask::updateProgress(int prog)
-{
-    if (prog != m_progress) {
-        m_progress = prog;
-        if (auto ptr = m_model.lock()) {
-            QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, prog));
-        }
-    }
-}
-
 void FilterTask::run()
 {
     if (m_isCanceled) {

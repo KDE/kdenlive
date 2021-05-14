@@ -7,6 +7,8 @@ set(kdenlive_SRCS
   jobs/audiolevelstask.cpp
   jobs/cliploadtask.cpp
   jobs/proxytask.cpp
+  jobs/stabilizetask.cpp
+  jobs/speedtask.cpp
   jobs/transcodetask.cpp
   jobs/filtertask.cpp
   jobs/jobmanager.cpp
@@ -14,8 +16,6 @@ set(kdenlive_SRCS
   jobs/loadjob.cpp
   jobs/meltjob.cpp
   jobs/scenesplitjob.cpp
-  jobs/speedjob.cpp
-  jobs/stabilizejob.cpp
   jobs/thumbjob.cpp
   jobs/transcodeclipjob.cpp
   jobs/cutclipjob.cpp

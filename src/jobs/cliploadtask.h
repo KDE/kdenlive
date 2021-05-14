@@ -37,9 +37,9 @@ class ProjectClip;
 class ClipLoadTask : public AbstractTask
 {
 public:
-    ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, std::function<void()> readyCallBack);
+    ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack);
     virtual ~ClipLoadTask();
-    static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
+    static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
     static ClipType::ProducerType getTypeForService(const QString &id, const QString &path);
     std::shared_ptr<Mlt::Producer> loadResource(QString resource, const QString &type);
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);
@@ -54,6 +54,8 @@ protected:
 private:
     //QString cacheKey();
     QDomElement m_xml;
+    int m_in;
+    int m_out;
     bool m_thumbOnly;
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
