@@ -30,7 +30,6 @@ the Free Software Foundation, either version 3 of the License, or
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
-class JobManager;
 class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
@@ -116,8 +115,6 @@ public:
     void selectTimelineItem(int id);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
-    /** @brief Returns a pointer to the job manager. Please do not store it. */
-    std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */
@@ -265,7 +262,6 @@ private:
     ProjectManager *m_projectManager{nullptr};
     MonitorManager *m_monitorManager{nullptr};
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
-    std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};

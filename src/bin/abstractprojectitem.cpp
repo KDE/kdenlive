@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstractprojectitem.h"
 #include "bin.h"
 #include "core.h"
-#include "jobs/jobmanager.h"
 #include "macros.hpp"
 #include "projectitemmodel.h"
 
@@ -170,17 +169,6 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case ClipHasAudioAndVideo:
         data = hasAudioAndVideo();
         break;
-    case JobType:
-        if (itemType() == ClipItem) {
-            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
-            if (jobIds.empty()) {
-                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
-            }
-            if (jobIds.size() > 0) {
-                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
-            }
-        }
-        break;
     case JobStatus:
         if (itemType() == ClipItem) {
             data = QVariant::fromValue(pCore->taskManager.jobStatus({ObjectType::BinClip, m_binId.toInt()}));
@@ -199,25 +187,20 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case JobProgress:
         if (itemType() == ClipItem) {
             data = pCore->taskManager.getJobProgressForClip({ObjectType::BinClip, m_binId.toInt()});
-            /*
-            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
-            if (jobIds.size() > 0) {
-                data = QVariant(pCore->jobManager()->getJobProgressForClip(jobIds[0], clipId()));
-            } else {
-                data = QVariant(0);
-            }*/
         }
         break;
     case JobSuccess:
-        if (itemType() == ClipItem) {
+        // TODO: reimplement ?
+        /*if (itemType() == ClipItem) {
             auto jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
             if (jobIds.size() > 0) {
                 // Check the last job status
                 data = QVariant(pCore->jobManager()->jobSucceded(jobIds[jobIds.size() - 1]));
             } else {
-                data = QVariant(true);
+
             }
-        }
+        }*/
+        data = QVariant(true);
         break;
     case ClipStatus:
         data = QVariant(m_clipStatus);

@@ -26,8 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
 #include "bincommands.h"
-#include "jobs/jobmanager.h"
-#include "jobs/cachejob.hpp"
+#include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
 #include "utils/thumbnailcache.hpp"
 
@@ -209,10 +208,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
     } else {
         // Generate percent thumbs
-        int id;
-        if (!pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
-            emit pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 30, m_inPoint, m_outPoint);
-        }
+        CacheTask::start({ObjectType::BinClip,m_parentClipId.toInt()}, 30, m_inPoint, m_outPoint, this);
     }
 }
 

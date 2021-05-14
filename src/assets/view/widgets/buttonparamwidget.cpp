@@ -22,7 +22,6 @@
 #include "buttonparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "jobs/filtertask.h"
-#include "jobs/jobmanager.h"
 #include "assets/model/assetcommand.hpp"
 #include "core.h"
 #include <mlt++/Mlt.h>

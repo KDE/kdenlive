@@ -132,8 +132,6 @@ public:
         DataInPoint,
         // Outpoint of the subclip (0 for clips)
         DataOutPoint,
-        // If there is a running job, which type
-        JobType,
         // Current progress of the job
         JobProgress,
         // error message if job crashes (not fully implemented)

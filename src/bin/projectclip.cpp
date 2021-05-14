@@ -27,11 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/jobmanager.h"
 #include "jobs/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/proxytask.h"
-#include "jobs/cachejob.hpp"
+#include "jobs/cachetask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clipcontroller.h"
@@ -371,18 +370,16 @@ size_t ProjectClip::frameDuration() const
 void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
 {
     // we find if there are some loading job on that clip
-    //pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::LOADJOB, &loadjobId);
     QMutexLocker lock(&m_thumbMutex);
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
         ThumbnailCache::get()->invalidateThumbsForClip(clipId());
-        //pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
+        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB);
         m_thumbsProducer.reset();
         ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
-        //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()});
@@ -414,8 +411,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 discardAudioThumb();
             }
             ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
-            //int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
-            //emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
         }
     }
 }
@@ -596,10 +591,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     emit refreshPropertiesPanel();
     if (KdenliveSettings::hoverPreview() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
         QTimer::singleShot(1000, this, [this]() {
-            int loadjobId;
-            if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &loadjobId)) {
-                emit pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
-            }
+            CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
         });
     }
     replaceInTimeline();
@@ -1240,9 +1232,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
             int id;
-            if (pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::PROXYJOB, &id)) {
+            if (pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB)) {
                 // The proxy clip is being created, abort
-                pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
+                pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB);
             } else {
                 reload = true;
                 refreshOnly = false;
@@ -1252,7 +1244,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             backupOriginalProperties();
             ProxyTask::start({ObjectType::BinClip,m_binId.toInt()}, this);
-            //emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
     } else if (!reload) {
         const QList<QString> propKeys = properties.keys();
@@ -1311,9 +1302,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (hasProxy()) {
-            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
+            pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB);
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
-            //emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
             ProxyTask::start({ObjectType::BinClip,m_binId.toInt()}, this);
         } else {
             reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
@@ -1784,17 +1774,14 @@ void ProjectClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
     int duration = getFramePlaytime();
-    int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration / 30)));
+    int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
     } else {
         // Generate percent thumbs
-        int id;
-        if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
-            emit pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
-        }
+        CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
     }
 }
 

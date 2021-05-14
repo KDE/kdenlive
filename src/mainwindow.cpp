@@ -37,7 +37,6 @@
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
-#include "jobs/jobmanager.h"
 #include "jobs/scenesplitjob.hpp"
 #include "jobs/transcodetask.h"
 #include "jobs/stabilizetask.h"
@@ -3543,7 +3542,10 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection")); });
+                    [&]() {
+                        // TODO: Port job to FFMPEG
+                        //emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection"));
+                    });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
@@ -3591,7 +3593,6 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            //emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first(), false);
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             for (QString id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);

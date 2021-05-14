@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "capture/mediacapture.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "jobs/jobmanager.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
@@ -111,8 +110,6 @@ bool Core::build(bool testMode)
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
-    // Job manager must be created before bin to correctly connect
-    m_self->m_jobManager.reset(new JobManager(m_self.get()));
     return true;
 }
 
@@ -300,11 +297,6 @@ std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
         return subModel;
     }
     return nullptr;
-}
-
-std::shared_ptr<JobManager> Core::jobManager()
-{
-    return m_jobManager;
 }
 
 LibraryWidget *Core::library()

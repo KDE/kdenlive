@@ -69,7 +69,7 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     auto binClip = pCore->projectItemModel()->getClipByBinID(mainId);
     ClipType::ProducerType type = binClip->clipType();
     if (type != ClipType::AV && type != ClipType::Audio && type != ClipType::Video) {
-        //m_errorMessage.prepend(i18n("Cannot extract zone for this clip type."));
+        //m_errorMessage.prepCore->getCurrentFps())pend(i18n("Cannot extract zone for this clip type."));
         return -1;
     }
     if (KdenliveSettings::ffmpegpath().isEmpty()) {
