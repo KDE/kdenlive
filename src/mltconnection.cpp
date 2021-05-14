@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mlt_config.h"
+#include <KUrlRequester>
 #include <KUrlRequesterDialog>
 #include <klocalizedstring.h>
 #include <QtConcurrent>

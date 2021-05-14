@@ -1415,7 +1415,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
 
-    addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
     QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport"), this);
     connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
@@ -2136,7 +2135,6 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
-        connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
@@ -3470,15 +3468,6 @@ void MainWindow::slotUpdateTimelineView(QAction *action)
     int viewMode = action->data().toInt();
     KdenliveSettings::setAudiotracksbelow(viewMode);
     getMainTimeline()->controller()->getModel()->_resetView();
-}
-
-void MainWindow::slotDvdWizard(const QString &url)
-{
-    // We must stop the monitors since we create a new on in the dvd wizard
-    QPointer<DvdWizard> w = new DvdWizard(pCore->monitorManager(), url, this);
-    w->exec();
-    delete w;
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
 }
 
 void MainWindow::slotShowTimeline(bool show)

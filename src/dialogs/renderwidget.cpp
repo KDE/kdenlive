@@ -216,7 +216,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonGenerateScript->setEnabled(false);
     setRescaleEnabled(false);
     m_view.guides_box->setVisible(false);
-    m_view.open_dvd->setVisible(false);
     m_view.create_chapter->setVisible(false);
     m_view.open_browser->setVisible(false);
     m_view.error_box->setVisible(false);
@@ -2602,9 +2601,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         notify->setUrls({QUrl::fromLocalFile(dest)});
         notify->sendEvent();
         QString itemGroup = item->data(0, Qt::UserRole).toString();
-        if (itemGroup == QLatin1String("dvd")) {
-            emit openDvdWizard(item->text(1));
-        } else if (itemGroup == QLatin1String("websites")) {
+        if (itemGroup == QLatin1String("websites")) {
             QString url = item->metadata();
             if (!url.isEmpty()) {
                 new KRun(QUrl::fromLocalFile(url), this);

@@ -732,13 +732,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="open_dvd">
-            <property name="text">
-             <string>Open Dvd wizard after rendering</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="create_chapter">
             <property name="text">
              <string>Create chapter file based on guides</string>
@@ -997,7 +990,7 @@
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends>QWidget</extends>
+   <extends>QFrame</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>

@@ -50,9 +50,6 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // Scene type already active
         return;
     }
-    /*if (id == Kdenlive::DvdMonitor) {
-        return;
-    }*/
     m_sceneType = type;
     QQuickItem *root = nullptr;
     m_view->rootContext()->setContextProperty("fixedFont", QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -116,7 +113,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         break;
     default:         
         m_view->setSource(
-            QUrl(id == Kdenlive::ClipMonitor || id == Kdenlive::DvdMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+            QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
         root = m_view->rootObject();
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);

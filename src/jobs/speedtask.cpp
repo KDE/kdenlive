@@ -34,6 +34,7 @@
 #include <KIO/RenameDialog>
 #include <klocalizedstring.h>
 #include <KLineEdit>
+#include <KUrlRequester>
 
 SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::SPEEDJOB, object)

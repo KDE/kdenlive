@@ -39,6 +39,7 @@
 #include "timelinecontroller.h"
 #include "utils/clipboardproxy.hpp"
 #include "effects/effectsrepository.hpp"
+#include "bin/model/markerlistmodel.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>

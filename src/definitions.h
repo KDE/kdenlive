@@ -35,7 +35,7 @@ const int MAXCLIPDURATION = 15000;
 
 namespace Kdenlive {
 
-enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10, DvdMonitor = 0x20 };
+enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10 };
 
 const int DefaultThumbHeight = 100;
 } // namespace Kdenlive

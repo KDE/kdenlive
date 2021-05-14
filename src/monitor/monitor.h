@@ -275,7 +275,6 @@ private slots:
 
 public slots:
     void slotSetScreen(int screenIndex);
-    void slotOpenDvdFile(const QString &);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);
