@@ -1,6 +1,5 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  jobs/abstractclipjob.cpp
   jobs/abstracttask.cpp
   jobs/taskmanager.cpp
   jobs/audiolevelstask.cpp

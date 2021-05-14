@@ -29,10 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiothumbjob.hpp"
 #include "jobs/transcodetask.h"
 #include "jobs/taskmanager.h"
-#include "jobs/thumbjob.hpp"
 #include "jobs/cliploadtask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
@@ -2864,7 +2862,7 @@ void Bin::setupMenu()
 
     m_proxyAction = new QAction(i18n("Proxy Clip"), pCore->window());
     pCore->window()->addAction(QStringLiteral("proxy_clip"), m_proxyAction);
-    m_proxyAction->setData(QStringList() << QString::number(static_cast<int>(AbstractClipJob::PROXYJOB)));
+    m_proxyAction->setData(QStringList() << QString::number(static_cast<int>(AbstractTask::PROXYJOB)));
     m_proxyAction->setCheckable(true);
     m_proxyAction->setChecked(false);
 

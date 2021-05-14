@@ -26,10 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "macros.hpp"
 #include "projectitemmodel.h"
 
-#include "jobs/audiothumbjob.hpp"
-#include "jobs/loadjob.hpp"
-#include "jobs/thumbjob.hpp"
-
 #include <QPainter>
 #include <QPainterPath>
 #include <QVariant>

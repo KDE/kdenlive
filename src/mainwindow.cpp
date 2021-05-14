@@ -37,7 +37,7 @@
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
-#include "jobs/scenesplitjob.hpp"
+// #include "jobs/scenesplitjob.hpp"
 #include "jobs/transcodetask.h"
 #include "jobs/stabilizetask.h"
 #include "jobs/speedtask.h"

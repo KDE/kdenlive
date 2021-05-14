@@ -49,7 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 #include <QPainter>
-#include <jobs/proxyclipjob.h>
 #include <kimagecache.h>
 
 #include "kdenlive_debug.h"
