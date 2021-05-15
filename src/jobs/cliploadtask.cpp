@@ -235,9 +235,9 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
 {
         // Fetch thumbnail
-    qDebug()<<"===== \nREADY FOR THUMB\n\n=========";
+    qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-    if (binClip->clipType() != ClipType::Audio) {
+    if (binClip->clipType() != ClipType::Audio && producer->get_int("video_index") > -1) {
         if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
             // Thumbnail found in cache
             QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);

@@ -216,7 +216,7 @@ void ProjectClip::updateAudioThumbnail()
     emit audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
-        if (thumb.isNull()) {
+        if (thumb.isNull() && !pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::AUDIOTHUMBJOB)) {
             int iconHeight = int(QFontInfo(qApp->font()).pixelSize() * 3.5);
             QImage img(QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight), QImage::Format_ARGB32);
             img.fill(Qt::darkGray);
@@ -257,7 +257,9 @@ void ProjectClip::updateAudioThumbnail()
             // Cache thumbnail
             ThumbnailCache::get()->storeThumbnail(m_binId, 0, thumb, true);
         }
-        setThumbnail(thumb, -1, -1);
+        if (!thumb.isNull()) {
+            setThumbnail(thumb, -1, -1);
+        }
     }
     if (!KdenliveSettings::audiothumbnails()) {
         return;

@@ -205,11 +205,11 @@ void AudioLevelsTask::run()
         for (double &v : mltLevels) {
             m_audioLevels << uchar(255 * v / maxLevel);
         }*/
-        m_progress = 100;
         if (m_isCanceled) {
             mltLevels.clear();
+            m_progress = 100;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
         }
-        QMetaObject::invokeMethod(m_object, "updateJobProgress");
         if (mltLevels.size() > 0) {
             QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
             producer->lock();
@@ -217,6 +217,8 @@ void AudioLevelsTask::run()
             producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
             producer->unlock();
             qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
+            m_progress = 100;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
             QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
             // Put into an image for caching.
             int count = mltLevels.size();
