@@ -42,8 +42,8 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
     , m_destination(destination)
 {
     m_speed = filterParams.at(QStringLiteral("warp_speed")).toDouble();
-    m_inPoint = qRound(in / m_speed);
-    m_outPoint = qRound(out / m_speed);
+    m_inPoint = in > -1 ? qRound(in / m_speed) : -1;
+    m_outPoint = out > -1 ? qRound(out / m_speed) : -1;
 }
 
 void SpeedTask::start(QObject* object, bool force)
