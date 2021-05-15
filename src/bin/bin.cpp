@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "monitor/monitor.h"
+#include "monitor/monitormanager.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/transcodeseek.h"

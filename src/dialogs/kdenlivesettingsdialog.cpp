@@ -31,6 +31,7 @@
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 #include "wizard.h"
+#include "monitor/monitor.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "bin/model/subtitlemodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"

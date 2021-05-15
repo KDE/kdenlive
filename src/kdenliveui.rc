@@ -7,7 +7,6 @@
       <Action name="file_save_copy"/>
       <Action name="file_revert"/>
       <Separator />
-      <Action name="dvd_wizard" />
       <Action name="transcode_clip" />
       <Action name="export_project" />
       <Action name="import_project" />
