@@ -1840,7 +1840,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
                 res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
             }
         }
-        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo, false, true);
+        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, !m_closing, undo, redo, false, true);
         if (!res) {
             undo();
             return false;
