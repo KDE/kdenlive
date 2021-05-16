@@ -78,7 +78,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_label = new QLabel(this);
-    m_label->setAlignment(Qt::AlignLeft);
+    m_label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_label->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_keyMap = new QLabel(this);
     m_keyMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
