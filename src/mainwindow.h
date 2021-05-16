@@ -110,9 +110,10 @@ public:
      * @param objectName objectName of the dock widget (required for storing layouts)
      * @param widget widget to use in the dock
      * @param area area to which the dock should be added to
+     * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea, const QKeySequence &shortcut = QKeySequence());
 
     QUndoGroup *m_commandStack;
     QUndoView *m_undoView;

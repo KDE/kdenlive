@@ -3864,12 +3864,21 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     }
 }
 
-QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area)
+QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area, const QKeySequence &shortcut)
 {
     QDockWidget *dockWidget = new QDockWidget(title, this);
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
+
+    // Add action to raise and focus the Dock (e.g. with a shortcut)
+    QAction *action = new QAction(i18n("Raise %1", title), this);
+    connect(action, &QAction::triggered, this, [dockWidget](){
+        dockWidget->raise();
+        dockWidget->setFocus();
+    });
+    addAction("raise_" + objectName, action, shortcut);
+
     return dockWidget;
 }
 
