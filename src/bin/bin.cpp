@@ -3756,7 +3756,8 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         doc.setContent(xmldata);
     }
     dia_ui.setXml(doc, clip->clipId());
-    if (dia_ui.exec() == QDialog::Accepted) {
+    int res = dia_ui.exec();
+    if (res == QDialog::Accepted) {
         pCore->temporaryUnplug(clips, false);
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
@@ -3794,6 +3795,14 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         pCore->requestMonitorRefresh();
     } else {
         pCore->temporaryUnplug(clips, false);
+        if(res == QDialog::Accepted + 1) {
+            // Ready, create clip xml
+            std::unordered_map<QString, QString> properties;
+            properties[QStringLiteral("xmldata")] = dia_ui.xml().toString();
+            QString titleSuggestion = dia_ui.titleSuggest();
+            qDebug() << "new id " << ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, clip->parent()->clipId(),
+                                         m_itemModel);
+        }
     }
 }
 
