@@ -3800,7 +3800,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
             std::unordered_map<QString, QString> properties;
             properties[QStringLiteral("xmldata")] = dia_ui.xml().toString();
             QString titleSuggestion = dia_ui.titleSuggest();
-            qDebug() << "new id " << ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, clip->parent()->clipId(),
+            ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, clip->parent()->clipId(),
                                          m_itemModel);
         }
     }
