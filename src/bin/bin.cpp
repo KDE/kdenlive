@@ -3772,6 +3772,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         if (clip->clipName().contains(i18n("(copy)"))) {
             // We edited a duplicated title clip, update name from new content text
             newprops.insert(QStringLiteral("kdenlive:clipname"), dia_ui.titleSuggest());
+            newprops.insert(QStringLiteral("resource"), QString());
         }
         // trigger producer reload
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
