@@ -463,6 +463,9 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
         if (m_dragMode) {
             if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
                 int diff = e->x() - m_dragLastPosition.x();
+                if(qApp->isRightToLeft()) {
+                    diff = 0 - diff;
+                }
 
                 if (e->modifiers() == Qt::ControlModifier) {
                     diff *= 2;
@@ -477,7 +480,12 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                     setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                 }
             } else {
-                double nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
+                double nv;
+                if(qApp->isLeftToRight()) {
+                    nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
+                } else {
+                    nv = maximum() - ((double)maximum() - minimum()) / width() * e->pos().x();
+                }
                 if (!qFuzzyCompare(nv, value())) {
                     if (m_step > 1) {
                         int current = (int) value();
@@ -512,13 +520,16 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
+        int newVal =(double)maximum() * e->pos().x() / width();
+        if(qApp->isRightToLeft()) {
+            newVal = maximum() - newVal;
+        }
         if (m_step > 1) {
             int current = (int) value();
-            int newVal = (double)maximum() * e->pos().x() / width();
             int diff = (newVal - current) / m_step;
             setNewValue(current + diff * m_step, true);
         } else {
-            setNewValue((double)maximum() * e->pos().x() / width(), true);
+            setNewValue(newVal, true);
         }
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
