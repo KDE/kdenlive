@@ -60,6 +60,7 @@ frei0r_equaliz0r.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
 frei0r_flippo.xml
+frei0r_glitch0r.xml
 frei0r_glow.xml
 frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
@@ -110,6 +111,7 @@ lift_gamma_gain.xml
 lightshow.xml
 loudness.xml
 luma.xml
+lumaliftgaingamma.xml
 mirror.xml
 mono.xml
 movit_blur.xml

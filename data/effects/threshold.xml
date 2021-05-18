@@ -3,7 +3,7 @@
 	<name>Binarize</name>
 	<description>Make monochrome clip</description>
 	<author>Charles Yates</author>
-	<parameter type="constant" name="midpoint" max="255" min="0" default="128">
+        <parameter type="animated" name="midpoint" max="255" min="0" default="128">
 		<name>Threshold value</name>
 	</parameter>
 	<parameter type="bool" name="use_alpha" default="0">
