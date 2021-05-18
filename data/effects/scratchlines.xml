@@ -3,16 +3,16 @@
 	<name>Scratchlines</name>
 	<description>Scratchlines over the picture</description>
 	<author>Marco Gittler</author>
-	<parameter type="double" name="line_width" max="100" min="0" default="2">
+        <parameter type="animated" name="line_width" max="100" min="0" default="2">
 		<name>Width of line</name>
 	</parameter>
-	<parameter type="double" name="num" max="100" min="0" default="5">
+        <parameter type="animated" name="num" max="100" min="0" default="5">
 		<name>Max number of lines</name>
 	</parameter>
-	<parameter type="double" name="darker" max="100" min="0" default="40">
+        <parameter type="animated" name="darker" max="100" min="0" default="40">
 		<name>Max darker</name>
 	</parameter>
-	<parameter type="double" name="lighter" max="100" min="0" default="40">
+        <parameter type="animated" name="lighter" max="100" min="0" default="40">
 		<name>Max lighter</name>
 	</parameter>
 </effect>

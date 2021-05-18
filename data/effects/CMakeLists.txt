@@ -111,6 +111,7 @@ lift_gamma_gain.xml
 lightshow.xml
 loudness.xml
 luma.xml
+lumaliftgaingamma.xml
 mirror.xml
 mono.xml
 movit_blur.xml
