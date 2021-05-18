@@ -80,7 +80,7 @@ protected:
 public:
     ~ProjectClip() override;
 
-    void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false);
+    void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) override;
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     // virtual void hash() = 0;
@@ -279,6 +279,9 @@ public slots:
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &, int in, int out);
     void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
+
+    /** @brief A proxy clip is available or disabled, update path and reload */
+    void updateProxyProducer(const QString &path);
 
     /**
      * Imports effect from a given producer

@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/transcodetask.h"
 #include "jobs/taskmanager.h"
+#include "jobs/abstracttask.h"
 #include "jobs/cliploadtask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
@@ -1246,7 +1247,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
         const QString currentId = m_monitor->activeClipId();
         if (!currentId.isEmpty()) {
-            pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()});
+            pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
         }
     });
     connect(m_cancelJobs, &QAction::triggered, [&]() {
@@ -4061,7 +4062,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         }
         if (!xml.isNull()) {
             clip->setClipStatus(FileStatus::StatusWaiting);
-            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()});
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true);
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);

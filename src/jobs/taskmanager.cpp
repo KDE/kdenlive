@@ -48,7 +48,7 @@ TaskManager::~TaskManager()
     slotCancelJobs();
 }
 
-void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
+void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete)
 {
     qDebug()<<"========== READY FOR TASK DELETION ON: "<<owner.second;
     m_tasksListLock.lockForRead();
@@ -60,9 +60,9 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type)
     std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
     m_tasksListLock.unlock();
     for (AbstractTask* t : taskList) {
-        if (type == AbstractTask::NOJOBTYPE || type == t->m_type) {
+        if ((type == AbstractTask::NOJOBTYPE || type == t->m_type) && t->m_progress < 100) {
             // If so, then just add ourselves to be notified upon completion.
-            t->cancelJob();
+            t->cancelJob(softDelete);
             qDebug()<<"========== DELETING JOB!!!!";
             // Block until the task is finished
             //t->m_runMutex.lock();

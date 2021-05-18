@@ -55,7 +55,7 @@ public:
      *  @param owner the owner item for this task
      *  @param type The type of job that you want to abort, leave to NOJOBTYPE to abort all jobs
      */
-    void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE);
+    void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, bool softDelete = false);
 
     /** @brief Check if there is a pending / running job a clip.
      *  @param owner the owner item for this task

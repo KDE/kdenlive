@@ -377,14 +377,15 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
         ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB);
         m_thumbsProducer.reset();
         ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()});
-        if (QFile::exists(m_path) && !hasProxy()) {
+        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
+        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
+        if (QFile::exists(m_path) && (!isProxy && !hasProxy())) {
             clearBackupProperties();
         }
         QDomDocument doc;
@@ -405,7 +406,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                         hashChanged = true;
                     }
                 }
-                
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             if (forceAudioReload || (!isProxy && hashChanged)) {
@@ -534,9 +534,26 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     updateParent(parentItem().lock());
     ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
-
+    pCore->bin()->reloadMonitorIfActive(clipId());
+    for (auto &p : m_audioProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_videoProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_timewarpProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    // Release audio producers
+    m_audioProducers.clear();
+    m_videoProducers.clear();
+    m_timewarpProducers.clear();
+    emit refreshPropertiesPanel();
+    replaceInTimeline();
+    updateTimelineClips({TimelineModel::IsProxyRole});
+    bool generateProxy = false;
+    QList<std::shared_ptr<ProjectClip>> clipList;
     if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
-        QList<std::shared_ptr<ProjectClip>> clipList;
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
             if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
@@ -572,31 +589,17 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
             }
         }
         if (!clipList.isEmpty()) {
-            pCore->currentDoc()->slotProxyCurrentItem(true, clipList, false);
+            generateProxy = true;
         }
     }
-    pCore->bin()->reloadMonitorIfActive(clipId());
-    for (auto &p : m_audioProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    for (auto &p : m_videoProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    for (auto &p : m_timewarpProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    // Release audio producers
-    m_audioProducers.clear();
-    m_videoProducers.clear();
-    m_timewarpProducers.clear();
-    emit refreshPropertiesPanel();
-    if (KdenliveSettings::hoverPreview() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
+    if (!generateProxy && KdenliveSettings::hoverPreview() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
         QTimer::singleShot(1000, this, [this]() {
             CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
         });
     }
-    replaceInTimeline();
-    updateTimelineClips({TimelineModel::IsProxyRole});
+    if (generateProxy) {
+        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool,true), Q_ARG(QList<std::shared_ptr<ProjectClip>>,clipList), Q_ARG(bool,false));
+    }
     return true;
 }
 
@@ -2055,4 +2058,11 @@ void ProjectClip::updateJobProgress()
 void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
+}
+
+void ProjectClip::updateProxyProducer(const QString &path)
+{
+    setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
+    setProducerProperty(QStringLiteral("resource"), path);
+    reloadProducer(false, true);
 }

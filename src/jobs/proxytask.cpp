@@ -65,6 +65,9 @@ void ProxyTask::run()
     }
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    if (binClip == nullptr) {
+        return;
+    }
     const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
     QFileInfo fInfo(dest);
     if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && fInfo.exists() && fInfo.size() > 0) {
@@ -72,28 +75,10 @@ void ProxyTask::run()
         m_progress = 100;
         pCore->taskManager.taskDone(m_owner.second, this);
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        auto operation = [clipId = QString::number(m_owner.second)]() {
-            auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-            if (binClip) {
-                binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
-                const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-                binClip->setProducerProperty(QStringLiteral("resource"), dest);
-                pCore->bin()->reloadClip(clipId);
-            }
-            return true;
-        };
-        auto reverse = [clipId = QString::number(m_owner.second)]() {
-            auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-            if (binClip) {
-                const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
-                binClip->setProducerProperty(QStringLiteral("resource"), dest);
-                pCore->bin()->reloadClip(clipId);
-            }
-            return true;
-        };
-        bool ok = operation();
+        QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
         return;
     }
+
     ClipType::ProducerType type = binClip->clipType();
     m_progress = 0;
     bool result = false;
@@ -379,29 +364,12 @@ void ProxyTask::run()
             // File was not created
             result = false;
             m_errorMessage.append(i18n("Failed to create proxy clip."));
-            binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-        } else {
+            if (binClip) {
+                binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+            }
+        } else if (binClip) {
             // Job successful
-            auto operation = [clipId = QString::number(m_owner.second)]() {
-                auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-                if (binClip) {
-                    binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
-                    const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-                    binClip->setProducerProperty(QStringLiteral("resource"), dest);
-                    pCore->bin()->reloadClip(clipId);
-                }
-                return true;
-            };
-            auto reverse = [clipId = QString::number(m_owner.second)]() {
-                auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
-                if (binClip) {
-                    const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
-                    binClip->setProducerProperty(QStringLiteral("resource"), dest);
-                    pCore->bin()->reloadClip(clipId);
-                }
-                return true;
-            };
-            bool ok = operation();
+            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
         }
     } else {
         // Proxy process crashed

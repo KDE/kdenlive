@@ -58,6 +58,7 @@ protected:
     int m_progress;
     bool m_successful;
     QAtomicInt m_isCanceled;
+    QAtomicInt m_softDelete;
     bool m_isForce;
     bool m_running;
     void run() override;
@@ -67,7 +68,7 @@ private:
     //QString cacheKey();
     JOBTYPE m_type;
     int m_priority;
-    void cancelJob();
+    void cancelJob(bool softDelete = false);
     
 signals:
     void jobCanceled();

@@ -688,10 +688,12 @@ void ClipLoadTask::abort()
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
-    if (binClip) {
-        binClip->setInvalid();
-        pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+    if (!m_softDelete) {
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        if (binClip) {
+            binClip->setInvalid();
+            pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+        }
     }
     pCore->taskManager.taskDone(m_owner.second, this);
 }

@@ -39,6 +39,7 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     , m_object(object)
     , m_progress(0)
     , m_isCanceled(false)
+    , m_softDelete(false)
     , m_isForce(false)
     , m_running(false)
     , m_type(type)
@@ -64,9 +65,12 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     }
 }
 
-void AbstractTask::cancelJob()
+void AbstractTask::cancelJob(bool softDelete)
 {
     m_isCanceled.testAndSetAcquire(0, 1);
+    if (softDelete) {
+        m_softDelete.testAndSetAcquire(0, 1);
+    }
     qDebug()<<"====== SETTING TACK CANCELED: "<<m_isCanceled;
     emit jobCanceled();
 }
