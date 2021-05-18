@@ -2261,6 +2261,7 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_projectMonitor->slotLoadClipZone(project->zone());
+    m_clipMonitor->updateDocumentUuid();
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getMainTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&] (bool selected) {

@@ -705,24 +705,10 @@ void Monitor::updateMarkers()
     }
 }
 
-void Monitor::setGuides(const QMap<double, QString> &guides)
+
+void Monitor::updateDocumentUuid()
 {
-    // TODO: load guides model
-    m_markerMenu->clear();
-    QMapIterator<double, QString> i(guides);
-    QList<CommentedTime> guidesList;
-    while (i.hasNext()) {
-        i.next();
-        CommentedTime timeGuide(GenTime(i.key()), i.value());
-        guidesList << timeGuide;
-        int pos = timeGuide.time().frames(pCore->getCurrentFps());
-        QString position = pCore->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
-        QAction *go = m_markerMenu->addAction(position);
-        go->setData(pos);
-    }
-    // m_ruler->setMarkers(guidesList);
-    m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
-    checkOverlay();
+    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid);
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -1570,6 +1556,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        ClipType::ProducerType type = controller->clipType();
+        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
+            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId()).arg(pCore->currentDoc()->uuid.toString()));
+        } else  {
+            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
+        }
         m_audioChannels->clear();
         if (m_controller->audioInfo()) {
             QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();

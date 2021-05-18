@@ -73,6 +73,7 @@ const double DOCUMENTVERSION = 1.00;
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
     : QObject(parent)
+    , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
     , m_url(url)
     , m_clipsCount(0)
