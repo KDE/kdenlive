@@ -457,13 +457,21 @@ int TrackModel::getBlankSizeAtPos(int frame)
 {
     READ_LOCK();
     int min_length = 0;
+    int blank_length = 0;
     for (auto &m_playlist : m_playlists) {
-        int ix = m_playlist.get_clip_index_at(frame);
-        if (m_playlist.is_blank(ix)) {
-            int blank_length = m_playlist.clip_length(ix);
-            if (min_length == 0 || (blank_length > 0 && blank_length < min_length)) {
-                min_length = blank_length;
+        if (frame >= m_playlist.get_length()) {
+            blank_length = frame - m_playlist.get_length() + 1;
+        } else {
+            int ix = m_playlist.get_clip_index_at(frame);
+            if (m_playlist.is_blank(ix)) {
+                blank_length = m_playlist.clip_length(ix);
+            } else {
+                // There is a clip at that position, abort
+                return 0;
             }
+        }
+        if (min_length == 0 || blank_length < min_length) {
+            min_length = blank_length;
         }
     }
     return min_length;

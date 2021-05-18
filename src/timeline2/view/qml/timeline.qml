@@ -409,6 +409,7 @@ Rectangle {
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
+    property int spacerMinPos: 0
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -1155,6 +1156,7 @@ Rectangle {
                         }
 
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
+                        spacerMinPos = timeline.spacerMinPos()
                         if (spacerGroup > -1 || spacerGuides) {
                             drag.axis = Drag.XAxis
                             Drag.active = true
@@ -1256,6 +1258,7 @@ Rectangle {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
+                        frame = Math.max(spacerMinPos, frame)
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     } else if (spacerGuides) {

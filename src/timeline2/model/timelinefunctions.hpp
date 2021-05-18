@@ -135,6 +135,8 @@ struct TimelineFunctions
     /** @brief This function extracts the content of an xml playlist file and converts it to json paste format
      */
     static QDomDocument extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId);
+
+    static int spacerMinPos();
 };
 
 #endif

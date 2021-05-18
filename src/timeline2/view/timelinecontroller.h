@@ -396,6 +396,9 @@ public:
     /** @brief Request a spacer operation
      */
     Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
+    /** @brief Returns the minimum available position for a spacer operation
+     */
+    Q_INVOKABLE int spacerMinPos() const;
     /** @brief Request a spacer operation
      */
     Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart = -1);

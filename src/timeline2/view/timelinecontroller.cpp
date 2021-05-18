@@ -1625,7 +1625,6 @@ void TimelineController::cutAllClipsUnderCursor(int position)
         position = pCore->getTimelinePosition();
     }
     QMutexLocker lk(&m_metaMutex);
-
     TimelineFunctions::requestClipCutAll(m_model, position);
 }
 
@@ -1634,6 +1633,11 @@ int TimelineController::requestSpacerStartOperation(int trackId, int position)
     QMutexLocker lk(&m_metaMutex);
     int itemId = TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
     return itemId;
+}
+
+int TimelineController::spacerMinPos() const
+{
+    return TimelineFunctions::spacerMinPos();
 }
 
 bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart)
