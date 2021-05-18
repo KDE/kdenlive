@@ -3176,7 +3176,7 @@ void TimelineModel::trimmingPosChanged(int pos)
     pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos);
 }
 
-int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, int snapDistance, bool allowSingleResize)
+int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
@@ -3193,33 +3193,18 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, int sna
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
-    QList <int> tracksWithMixes;
+    //QList <int> tracksWithMixes;
     all_items.insert(itemId);
-    /* TODO if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+    qDebug() << "allowSingleResize " << allowSingleResize;
+    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+        qDebug() << "inside check";
         int groupId = m_groups->getRootId(itemId);
-        std::unordered_set<int> items = m_groups->getLeaves(groupId);
-        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+        //std::unordered_set<int> items = m_groups->getLeaves(groupId);
+        //if (m_groups->getType(groupId) == GroupType::AVSplit) {
             // Only resize group elements if it is an avsplit
-            items = m_groups->getLeaves(groupId);
-        }
-        for (int id : items) {
-            if (id == itemId) {
-                continue;
-            }
-            int start = getItemPosition(id);
-            int end = start + getItemPlaytime(id);
-            bool resizeMix = false;
-            if (right) {
-                if (out == end) {
-                    all_items.insert(id);
-                    resizeMix = true;
-                }
-            } else if (start == in) {
-                all_items.insert(id);
-                resizeMix = true;
-            }
-        }
-    }*/
+            all_items = m_groups->getLeaves(groupId);
+        //}
+    }
     bool result = true;
     int slipCount = 0;
     for (int id : all_items) {

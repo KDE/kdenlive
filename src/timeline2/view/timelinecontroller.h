@@ -514,7 +514,8 @@ public:
      */
     void removeSplitOverlay();
 
-    Q_INVOKABLE bool requestTrimmingStartOperation(int clipId);
+    Q_INVOKABLE bool requestSlipStartOperation(int clipId, bool onlyCurrent);
+    bool requestTrimmingStartOperation(ToolType::ProjectTool mode, int clipId, bool onlyCurrent);
     Q_INVOKABLE void requestTrimmingEndOperation();
 
     /** @brief Add current timeline zone to preview rendering

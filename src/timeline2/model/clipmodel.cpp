@@ -336,8 +336,6 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     }
     int in = m_producer->get_in();
     int out = m_producer->get_out();
-    int oldIn = m_position;
-    int oldOut = m_position + out - in;
     int old_in = in, old_out = out;
     // check if there is enough space on the chosen side
     /*if (!m_endlessResize) {
@@ -356,10 +354,8 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     // qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
     //std::function<bool(void)> track_operation = []() { return true; };
     //std::function<bool(void)> track_reverse = []() { return true; };
-    int outPoint = out - offset;
-    int inPoint = in - offset;
-    Q_ASSERT(inPoint >= 0);
-    Q_ASSERT(outPoint < m_producer->get_length()); //TODO is that right?
+    int outPoint = qMin(out - offset, m_producer->get_length() - 1);
+    int inPoint = qMax(0, in - offset);
     //int offset = 0;
     int trackDuration = 0;
     /*if (m_endlessResize) {
@@ -390,26 +386,17 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     QVector<int> roles{TimelineModel::StartRole};
     roles.push_back(TimelineModel::InPointRole);
     roles.push_back(TimelineModel::OutPointRole);
-    Fun operation = [this, inPoint, outPoint, roles, oldIn, oldOut, logUndo]() {
+    Fun operation = [this, inPoint, outPoint, roles, logUndo]() {
         //if (track_operation()) {
             setInOut(inPoint, outPoint);
             if (m_currentTrackId > -1) {
                 if (auto ptr = m_parent.lock()) {
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
+                    pCore->requestMonitorRefresh();
                     // invalidate timeline preview
                     if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                        int newOut = m_position + getOut() - getIn();
-                        if (oldOut < newOut) {
-                            emit ptr->invalidateZone(oldOut, newOut);
-                        } else {
-                            emit ptr->invalidateZone(newOut, oldOut);
-                        }
-                        if (oldIn < m_position) {
-                            emit ptr->invalidateZone(oldIn, m_position);
-                        } else {
-                            emit ptr->invalidateZone(m_position, oldIn);
-                        }
+                        emit ptr->invalidateZone(m_position, m_position + getPlaytime());
                     }
                 }
             }
@@ -433,25 +420,16 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 //track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
                 }
         }
-        reverse = [this, old_in, old_out, logUndo, oldIn, oldOut, roles]() {
+        reverse = [this, old_in, old_out, logUndo, roles]() {
            // if (track_reverse()) {
                 setInOut(old_in, old_out);
                 if (m_currentTrackId > -1) {
                     if (auto ptr = m_parent.lock()) {
                         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                         ptr->notifyChange(ix, ix, roles);
+                        pCore->requestMonitorRefresh();
                         if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                            int newOut = m_position + getOut() - getIn();
-                            if (oldOut < newOut) {
-                                emit ptr->invalidateZone(oldOut, newOut);
-                            } else {
-                                emit ptr->invalidateZone(newOut, oldOut);
-                            }
-                            if (oldIn < m_position) {
-                                emit ptr->invalidateZone(oldIn, m_position);
-                            } else {
-                                emit ptr->invalidateZone(m_position, oldIn);
-                            }
+                            emit ptr->invalidateZone(m_position, m_position + getPlaytime());
                         }
                     }
                 }

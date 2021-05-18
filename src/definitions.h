@@ -136,7 +136,7 @@ enum ProjectTool {
     RazorTool = 1,
     SpacerTool = 2,
     RippleTool = 3,
-    RoleTool = 4,
+    RollTool = 4,
     SlipTool = 5,
     SlideTool = 6
 };

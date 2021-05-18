@@ -39,6 +39,7 @@
 #include "jobs/cutclipjob.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thumbnailcache.hpp"
 
@@ -2425,7 +2426,11 @@ void Monitor::slotStart()
 
 void Monitor::slotTrimmingPos(int pos)
 {
-    processSeek(pos);
+    if(m_glMonitor->producer() != pCore->window()->getCurrentTimeline()->model()->producer().get()) {
+        processSeek(pos);
+    } else {
+        Q_ASSERT(0 == 1);
+    }
     /*if (!slotActivateMonitor()) {
         return;
     }

@@ -519,7 +519,7 @@ public:
        if @param allowSingleResize is false, then the resize will also be applied to any clip in the same AV group (allow resizing audio and video at the same
        time)
     */
-    Q_INVOKABLE int requestClipSlip(int itemId, int offset, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    Q_INVOKABLE int requestClipSlip(int itemId, int offset, bool logUndo = true, bool allowSingleResize = false);
 
     /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);

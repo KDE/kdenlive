@@ -244,7 +244,7 @@ private:
     QAction *m_buttonRazorTool;
     QAction *m_buttonSpacerTool;
     QAction *m_buttonRippleTool;
-    QAction *m_buttonRoleTool;
+    QAction *m_buttonRollTool;
     QAction *m_buttonSlipTool;
     QAction *m_buttonSlideTool;
     QAction *m_buttonSnap;

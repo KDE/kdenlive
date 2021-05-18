@@ -91,9 +91,9 @@ Rectangle {
     signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
-    signal slipBegin(var clip)
-    signal slipMove(var clip)
-    signal slipEnd(var clip)
+    signal slipBegin(var clip, bool shiftSlip)
+    signal slipMove(var clip, bool shiftSlip)
+    signal slipEnd(var clip, bool shiftSlip)
 
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
@@ -263,16 +263,21 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === 0 || root.activeTool === 5
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool
         anchors.fill: clipRoot
-        acceptedButtons: Qt.RightButton | (Qt.LeftButton && root.activeTool === 5)
-        hoverEnabled: root.activeTool === 0 || root.activeTool === 5
+        acceptedButtons: Qt.RightButton | (Qt.LeftButton && root.activeTool === ProjectTool.SlipTool)
+        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
+        property bool shiftSlip: false
+        property bool controlSlip: false
         onPressed: {
             if(mouse.button == Qt.LeftButton) {
-                if (root.activeTool === 5) {
+                if (root.activeTool === ProjectTool.SlipTool) {
+                    shiftSlip = mouse.modifiers & Qt.ShiftModifier;
+                    console.log("is shift modifier: " + shiftSlip);
+                    grabItem()
                     slipOffset = 0
-                    slipBegin(clipRoot)
+                    slipBegin(clipRoot, shiftSlip)
                     slipClickFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                 }
                 //mouse.accepted = false
@@ -291,40 +296,53 @@ Rectangle {
         }
         onReleased: {
             console.log("Release clip")
+            console.log("is shift modifier RELEASE: " + shiftSlip);
             if(mouse.button == Qt.LeftButton) {
-                if (root.activeTool === 5) {
-                    slipEnd(clipRoot)
+                if (root.activeTool === ProjectTool.SlipTool) {
+                    slipEnd(clipRoot, shiftSlip)
                 }
                 mouse.accepted = false
                 return
             }
             root.autoScrolling = timeline.autoScroll
         }
-        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
+        Keys.onShortcutOverride: event.accepted = (clipRoot.isGrabbed || (root.activeTool === ProjectTool.SlipTool && (pressed || clipRoot.selected))) && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
-            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
-                offset++;
+            if (root.activeTool === ProjectTool.SlipTool) {
+
+            } else {
+                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
+                    offset++;
+                }
+                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
             }
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: {
-            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-            while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
-                offset++;
+            if (root.activeTool === ProjectTool.SlipTool) {
+
+            } else {
+                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+                while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
+                    offset++;
+                }
+                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
             }
-            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
-            var nextTrack = controller.getNextTrackId(clipRoot.trackId);
-            while(!controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== controller.getNextTrackId(nextTrack)) {
-                nextTrack = controller.getNextTrackId(nextTrack);
+            if (root.activeTool !== ProjectTool.SlipTool) {
+                var nextTrack = controller.getNextTrackId(clipRoot.trackId);
+                while(!controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== controller.getNextTrackId(nextTrack)) {
+                    nextTrack = controller.getNextTrackId(nextTrack);
+                }
             }
         }
         Keys.onDownPressed: {
-            var previousTrack = controller.getPreviousTrackId(clipRoot.trackId);
-            while(!controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== controller.getPreviousTrackId(previousTrack)) {
-                previousTrack = controller.getPreviousTrackId(previousTrack);
+            if (root.activeTool !== ProjectTool.SlipTool) {
+                var previousTrack = controller.getPreviousTrackId(clipRoot.trackId);
+                while(!controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== controller.getPreviousTrackId(previousTrack)) {
+                    previousTrack = controller.getPreviousTrackId(previousTrack);
+                }
             }
         }
         Keys.onEscapePressed: {
@@ -334,7 +352,7 @@ Rectangle {
         onPositionChanged: {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
             root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
-            if (root.activeTool === 5 && pressed) {
+            if (root.activeTool === ProjectTool.SlipTool && pressed) {
                 if(maxDuration <= 0) {
                     return;
                 }
@@ -353,12 +371,12 @@ Rectangle {
                     if(outPoint < (maxDuration + offset)) {
                         slipOffset = offset
                     } else {
-                        slipOffset = -(maxDuration - 1  - outPoint) //TODO: find out why this -1 is necessary
+                        slipOffset = -(maxDuration - 1 - outPoint) //TODO: find out why this -1 is necessary
                     }
                 }
                 var s = i18n("In:%1, Out:%2 (%3%4)", timeline.simplifiedTC(clipRoot.inPoint - slipOffset), timeline.simplifiedTC(clipRoot.outPoint - slipOffset), (slipOffset < 0 ? "-" : "+"), timeline.simplifiedTC(Math.abs(slipOffset)))
                 timeline.showToolTip(s)
-                slipMove(clipRoot)
+                slipMove(clipRoot, shiftSlip)
             }
         }
         onEntered: {
@@ -449,7 +467,7 @@ Rectangle {
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
                         width: root.baseUnit / 2
-                        visible: root.activeTool === 0
+                        visible: root.activeTool === ProjectTool.SelectTool
                         property int previousMix
                         enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                         hoverEnabled: true
@@ -514,7 +532,7 @@ Rectangle {
                             color: clipRoot.border.color
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
-                            visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                            visible: trimInMixArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
                         }
                     }
                 }
@@ -578,7 +596,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === 0
+                visible: root.activeTool === ProjectTool.SelectTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -664,7 +682,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -692,7 +710,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: root.activeTool === 0
+                visible: root.activeTool === ProjectTool.SelectTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -796,7 +814,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
                 }
             }
 

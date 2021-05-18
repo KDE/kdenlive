@@ -388,7 +388,7 @@ Item{
                 root.groupTrimData = undefined
             }
             onSlipBegin: {
-                timeline.requestTrimmingStartOperation(clip.clipId);
+                timeline.requestSlipStartOperation(clip.clipId, shiftSlip);
                 console.log("onSlipBegin. maxDuration: " +clip.maxDuration+ " clipDuration: " +clip.clipDuration +" timeScale: "+clip.timeScale)
                 slipControler.visible = true
                 slipControler.width = (clip.maxDuration > 0 ? clip.maxDuration : clip.clipDuration) * clip.timeScale - 2 * clip.border.width
@@ -404,13 +404,14 @@ Item{
                 slipControler.x = slipStart + (clip.slipOffset * clip.timeScale)
                 console.log(clip.inPoint + "-" + (clip.slipOffset) + ": " + (clip.inPoint - clip.slipOffset))
                 //proxy.position = clip.inPoint - clip.slipOffset
-                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset)
+                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, shiftSlip)
             }
             onSlipEnd: {
                 timeline.requestTrimmingEndOperation();
                 slipControler.visible = false
                 console.log(clip.slipOffset)
-                controller.requestClipSlip(clip.clipId, clip.slipOffset, true, true, 0, false)
+                console.log("requestslip: " + shiftSlip)
+                controller.requestClipSlip(clip.clipId, clip.slipOffset, true, shiftSlip)
             }
         }
     }

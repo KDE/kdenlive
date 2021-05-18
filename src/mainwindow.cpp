@@ -1213,10 +1213,10 @@ void MainWindow::setupActions()
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
-    m_buttonRoleTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Role tool"), this);
+    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Roll tool"), this);
     // toolbar->addAction(m_buttonRoleTool);
-    m_buttonRoleTool->setCheckable(true);
-    m_buttonRoleTool->setChecked(false);
+    m_buttonRollTool->setCheckable(true);
+    m_buttonRollTool->setChecked(false);
 
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
     // toolbar->addAction(m_buttonSlideTool);
@@ -1232,7 +1232,7 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
     toolGroup->addAction(m_buttonRippleTool);
-    toolGroup->addAction(m_buttonRoleTool);
+    toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     toolGroup->addAction(m_buttonSlideTool);
 
@@ -1377,7 +1377,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
     addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
-    addAction(QStringLiteral("role_tool"), m_buttonRoleTool);
+    addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
     addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
@@ -3161,8 +3161,8 @@ void MainWindow::slotChangeTool(QAction *action)
         slotSetTool(ToolType::SpacerTool);
     } if (action == m_buttonRippleTool) {
         slotSetTool(ToolType::RippleTool);
-    } if (action == m_buttonRoleTool) {
-        slotSetTool(ToolType::RoleTool);
+    } if (action == m_buttonRollTool) {
+        slotSetTool(ToolType::RollTool);
     } if (action == m_buttonSlipTool) {
         slotSetTool(ToolType::SlipTool);
     } if (action == m_buttonSlideTool) {
@@ -3215,11 +3215,13 @@ void MainWindow::showToolMessage()
 {
     QString message;
     if (m_buttonSelectTool->isChecked()) {
-        message = i18n("<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for multiple selection, <b>Ctrl drag</b> to pan");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
     } else if (m_buttonRazorTool->isChecked()) {
-        message = i18n("<b>Shift</b> to preview cut frame");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
     } else if (m_buttonSpacerTool->isChecked()) {
-        message = i18n("<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move guides. You can combine both modifiers.");
+        message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
+    } else if (m_buttonSlipTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group");
     }
     m_messageLabel->setKeyMap(message);
 }
