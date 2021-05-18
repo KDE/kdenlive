@@ -2340,10 +2340,14 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
     endViewportY->setValue(m_endViewport->data(1).toInt());
     endViewportSize->setValue(m_endViewport->data(2).toInt());*/
     
-    createButton->setMenu(nullptr);
-    createButton->setPopupMode(QToolButton::DelayedPopup);
     m_createTitleAction->setText(i18n("Update Title"));
     
+    auto *addMenu = new QMenu(this);
+    addMenu->addAction(i18n("Add as new Title"));
+    createButton->setMenu(addMenu);
+    connect(addMenu, &QMenu::triggered, this, [this]() {
+            done(QDialog::Accepted + 1);
+    });
 
     QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     slotSelectTool();
