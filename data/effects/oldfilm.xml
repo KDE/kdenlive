@@ -3,28 +3,28 @@
 	<name>Oldfilm</name>
 	<description>Moves the Picture up and down and random brightness change</description>
 	<author>Marco Gittler</author>
-	<parameter type="double" name="delta" max="400" min="0" default="14">
+        <parameter type="animated" name="delta" max="400" min="0" default="14">
 		<name>Y-Delta</name>
 	</parameter>
-	<parameter type="double" name="every" max="100" min="0" default="20" suffix="%">
+        <parameter type="animated" name="every" max="100" min="0" default="20" suffix="%">
 		<name>% of picture have a delta</name>
 	</parameter>
-	<parameter type="double" name="brightnessdelta_up" max="100" min="0" default="20">
+        <parameter type="animated" name="brightnessdelta_up" max="100" min="0" default="20">
 		<name>Brightness up</name>
 	</parameter>
-	<parameter type="double" name="brightnessdelta_down" max="100" min="0" default="30">
+        <parameter type="animated" name="brightnessdelta_down" max="100" min="0" default="30">
 		<name>Brightness down</name>
 	</parameter>
-	<parameter type="double" name="brightnessdelta_every" max="100" min="0" default="70" suffix="%">
+        <parameter type="animated" name="brightnessdelta_every" max="100" min="0" default="70" suffix="%">
 		<name>Brightness every</name>
 	</parameter>
-	<parameter type="double" name="unevendevelop_up" max="100" min="0" default="60">
+        <parameter type="animated" name="unevendevelop_up" max="100" min="0" default="60">
 		<name>Unevendevelop up</name>
 	</parameter>
-	<parameter type="double" name="unevendevelop_down" max="100" min="0" default="20">
+        <parameter type="animated" name="unevendevelop_down" max="100" min="0" default="20">
 		<name>Unevendevelop down</name>
 	</parameter>
-	<parameter type="double" name="unevendevelop_duration" max="10000" min="0" default="70">
+        <parameter type="animated" name="unevendevelop_duration" max="10000" min="0" default="70">
 		<name>Unevendevelop Duration</name>
 	</parameter>
 </effect>
