@@ -88,6 +88,7 @@ public:
     ProfileParam(QDomElement element);
     ProfileParam(ProfileInfo *p);
     ProfileParam(Mlt::Profile *p);
+    ProfileParam(ProfileParam *p);
 
     QString path() const override;
     QString description() const override;

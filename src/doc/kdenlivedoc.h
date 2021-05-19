@@ -247,7 +247,7 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
-    void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
+    void switchProfile(ProfileParam* pf);
 
 private slots:
     void slotModified();

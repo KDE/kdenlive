@@ -1416,13 +1416,12 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml)
+void KdenliveDoc::switchProfile(ProfileParam* pf)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(xml)
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
     QString adjustMessage;
+    std::unique_ptr<ProfileParam> profile(pf);
     double fps = double(profile->frame_rate_num()) / profile->frame_rate_den();
     double fps_int;
     double fps_frac = std::modf(fps, &fps_int);

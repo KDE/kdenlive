@@ -46,7 +46,7 @@ public:
     void processProducerProperties(const std::shared_ptr<Mlt::Producer> &prod, const QDomElement &xml);
     void processSlideShow(std::shared_ptr<Mlt::Producer> producer);
     // Do some checks on the profile
-    static void checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer);
+    static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
 
 protected:
     void run() override;

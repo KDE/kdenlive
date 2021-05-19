@@ -296,7 +296,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     }
 }
 
-void ClipLoadTask::checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer)
+void ClipLoadTask::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
 {
     // Check if clip profile matches
     QString service = producer->get("mlt_service");
@@ -318,7 +318,7 @@ void ClipLoadTask::checkProfile(const QString &clipId, const QDomElement &xml, c
             projectProfile->m_display_aspect_num = width;
             projectProfile->m_display_aspect_den = height;
             projectProfile->m_description.clear();
-            pCore->currentDoc()->switchProfile(projectProfile, clipId, xml);
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(projectProfile.get())));
         } else {
             // Very small image, we probably don't want to use this as profile
         }
@@ -336,7 +336,7 @@ void ClipLoadTask::checkProfile(const QString &clipId, const QDomElement &xml, c
             }
         } else {
             // Profiles do not match, propose profile adjustment
-            pCore->currentDoc()->switchProfile(clipProfile, clipId, xml);
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(clipProfile.get())));
         }
     }
 }
@@ -673,6 +673,10 @@ void ClipLoadTask::run()
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
                                   Q_ARG(bool , true));
+            if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1) {
+                checkProfile(producer);
+            }
+
         }
         generateThumbnail(binClip, producer);
         m_readyCallBack();
