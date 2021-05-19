@@ -429,7 +429,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return comment;
     }
     case InRole:
-        return m_asset->get_int("in");
+        return pCore->getItemIn(m_ownerId);
     case OutRole:
         return m_asset->get_int("out");
     case ParentInRole:

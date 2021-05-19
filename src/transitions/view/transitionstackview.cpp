@@ -79,7 +79,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-        int clipIn = 0;//pCore->getItemPosition(m_model->getOwnerId());
+        int clipIn = pCore->getItemPosition(m_model->getOwnerId());
         emit seekToTransPos(pos + clipIn);
     });
     emit initKeyframeView(true);
