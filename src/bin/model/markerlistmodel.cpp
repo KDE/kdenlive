@@ -254,6 +254,38 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
     return true;
 }
 
+void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset, bool updateView)
+{
+    QWriteLocker locker(&m_lock);
+    if(markersId.length() <= 0) {
+        return;
+    }
+    int firstRow = -1;
+    int lastRow = -1;
+    for (int &mid : markersId) {
+        Q_ASSERT(m_markerList.count(mid) > 0);
+        GenTime t = m_markerList.at(mid).time() + GenTime(offset, pCore->getCurrentFps());
+        m_markerList[mid].setTime(t);
+        if (!updateView) {
+            continue;
+        }
+        if (firstRow == -1) {
+            firstRow = getRowfromId(mid);
+            lastRow = firstRow;
+        } else {
+            int row = getRowfromId(mid);
+            if (row > lastRow) {
+                lastRow = row;
+            } else if (row < firstRow) {
+                firstRow = row;
+            }
+        }
+    }
+    if (updateView) {
+        emit dataChanged(index(firstRow), index(lastRow), {FrameRole});
+    }
+}
+
 bool MarkerListModel::moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
@@ -452,6 +484,33 @@ QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) cons
         }
     }
     std::sort(markers.begin(), markers.end());
+    return markers;
+}
+
+int MarkerListModel::getMarkerPos(int mid) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_markerList.count(mid) > 0);
+    return m_markerList.at(mid).time().frames(pCore->getCurrentFps());
+
+}
+
+QVector<int> MarkerListModel::getMarkersIdInRange(int start, int end) const
+{
+    READ_LOCK();
+    QVector<int> markers;
+    // Ensure we provide sorted markers list
+    std::map<CommentedTime,int> sortedList;
+
+    for(std::map<int, CommentedTime>::const_iterator it = m_markerList.begin(); it != m_markerList.end(); ++it)
+        sortedList.insert(std::pair<CommentedTime, int>(it -> second, it -> first));
+
+    for (const auto &marker : sortedList) {
+        int pos = marker.first.time().frames(pCore->getCurrentFps());
+        if(pos >= start && (end == -1 || pos <= end)) {
+            markers << marker.second;
+        }
+    }
     return markers;
 }
 

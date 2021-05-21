@@ -98,6 +98,7 @@ public:
     */
     bool moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
     bool moveMarker(int mid, GenTime pos);
+    void moveMarkersWithoutUndo(QVector<int> markersId, int offset, bool updateView = true);
 
     /** @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 9> markerTypes;
@@ -113,6 +114,10 @@ public:
      * @param end is the position after which markers will not be returned, set to -1 to get all markers after start
     */
     QList<CommentedTime> getMarkersInRange(int start, int end) const;
+    QVector<int> getMarkersIdInRange(int start, int end) const;
+
+    /** @brief Returns a marker position in frames given it's id */
+    int getMarkerPos(int mid) const;
 
     /** @brief Returns all markers positions in model */
     std::vector<int> getSnapPoints() const;
