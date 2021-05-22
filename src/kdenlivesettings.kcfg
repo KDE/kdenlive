@@ -30,7 +30,12 @@
       <default>false</default>
     </entry>
   </group>
-
+  <group name="jobs">
+    <entry name="scenesplitthreshold" type="Int">
+      <label>Scene split detection threshold.</label>
+    <default>30</default>
+    </entry>
+  </group>
   <group name="misc">
     <entry name="cleanCacheMonths" type="Int">
       <label>Number of months to discard cache data.</label>

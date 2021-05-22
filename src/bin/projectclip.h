@@ -296,6 +296,8 @@ public slots:
      *  @returns true if producer was changed
      * . */
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
+    
+    void importJsonMarkers(const QString &json);
 
 private:
     /** @brief Generate and store file hash if not available. */

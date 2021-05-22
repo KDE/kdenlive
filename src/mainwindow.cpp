@@ -37,7 +37,7 @@
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
-// #include "jobs/scenesplitjob.hpp"
+#include "jobs/scenesplittask.h"
 #include "jobs/transcodetask.h"
 #include "jobs/stabilizetask.h"
 #include "jobs/speedtask.h"
@@ -3542,11 +3542,9 @@ void MainWindow::buildDynamicActions()
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered,
-                    [&]() {
-                        // TODO: Port job to FFMPEG
-                        //emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection"));
-                    });
+            connect(action, &QAction::triggered, [&]() {
+                SceneSplitTask::start(this);
+            });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {

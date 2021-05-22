@@ -10,6 +10,6 @@ set(kdenlive_SRCS
   jobs/transcodetask.cpp
   jobs/filtertask.cpp
   jobs/cachetask.cpp
-  #jobs/scenesplitjob.cpp
+  jobs/scenesplittask.cpp
   jobs/cuttask.cpp
   PARENT_SCOPE)

@@ -2066,3 +2066,8 @@ void ProjectClip::updateProxyProducer(const QString &path)
     setProducerProperty(QStringLiteral("resource"), path);
     reloadProducer(false, true);
 }
+
+void ProjectClip::importJsonMarkers(const QString &json)
+{
+    getMarkerModel()->importFromJson(json, true);
+}
