@@ -552,24 +552,37 @@ Rectangle {
                 color: model.color
             }
             Rectangle {
+                id: markerTooltip
                 visible: !rulerMouseArea.pressed && (guideArea.containsMouse || (rulerMouseArea.containsMouse && Math.abs(rulerMouseArea.mouseX - markerBase.x) < 4))
                 property int guidePos: markerBase.x - mlabel.contentWidth / 2
                 x: guidePos < 0 ? 0 : (guidePos > (parent.width - mlabel.contentWidth) ? parent.width - mlabel.contentWidth : guidePos)
                 radius: 2
-                width: mlabel.contentWidth
-                height: mlabel.contentHeight * .8
+                width: Math.max(mlabel.contentWidth, imageTooltip.width + 2)
+                height: mlabel.contentHeight + imageTooltip.height
                 anchors {
                     bottom: parent.top
                 }
                 color: model.color
+                Image {
+                    id: imageTooltip
+                    visible: markerTooltip.visible && root.baseThumbPath != undefined
+                    source: visible ? root.baseThumbPath + model.frame : ''
+                    asynchronous: true
+                    height: visible ? 4 * mlabel.height : 0
+                    fillMode: Image.PreserveAspectFit
+                    anchors.horizontalCenter: markerTooltip.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 1
+                }
                 Text {
                     id: mlabel
                     text: model.comment
                     font: fixedFont
                     verticalAlignment: Text.AlignVCenter
-                    anchors {
-                        fill: parent
-                    }
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
                     color: '#000'
                 }
                 MouseArea {

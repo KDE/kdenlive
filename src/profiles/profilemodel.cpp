@@ -190,6 +190,25 @@ ProfileParam::ProfileParam(ProfileInfo *p)
 {
 }
 
+ProfileParam::ProfileParam(ProfileParam *p)
+    : m_path(qstrdup(p->path().toUtf8().constData()))
+    , m_description(qstrdup(p->description().toUtf8().constData()))
+    , m_frame_rate_num(p->frame_rate_num())
+    , m_frame_rate_den(p->frame_rate_den())
+    , m_width(p->width())
+    , m_height(p->height())
+    , m_progressive(p->progressive())
+    , m_sample_aspect_num(p->sample_aspect_num())
+    , m_sample_aspect_den(p->sample_aspect_den())
+    , m_display_aspect_num(p->display_aspect_num())
+    , m_display_aspect_den(p->display_aspect_den())
+    , m_colorspace(p->colorspace())
+    , m_fps(p->fps())
+    , m_sar(p->sar())
+    , m_dar(p->dar())
+{
+}
+
 ProfileParam::ProfileParam(Mlt::Profile *p)
     : m_frame_rate_num(p->frame_rate_num())
     , m_frame_rate_den(p->frame_rate_den())

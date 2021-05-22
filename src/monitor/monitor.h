@@ -90,8 +90,6 @@ public:
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
     std::shared_ptr<ProjectClip> currentController() const;
-    /** @brief Add timeline guides to the ruler and context menu */
-    void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette(const QPalette &p);
@@ -156,6 +154,8 @@ public:
     bool isPlaying() const;
     /** @brief Enables / disables effect scene*/
     void enableEffectScene(bool enable);
+    /** @brief Update the document's uuid - used for qml thumb cache*/
+    void updateDocumentUuid();
     
 
 protected:
@@ -276,7 +276,6 @@ private slots:
 
 public slots:
     void slotSetScreen(int screenIndex);
-    void slotOpenDvdFile(const QString &);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);

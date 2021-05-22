@@ -3,10 +3,10 @@
 	<name>Dust</name>
 	<description>Add dust and specks to the video, as in old movies</description>
 	<author>Marco Gittler</author>
-	<parameter type="double" name="maxdiameter" max="100" min="0" default="2" suffix="%">
+        <parameter type="animated" name="maxdiameter" max="100" min="0" default="2" suffix="%">
 		<name>Maximal Diameter</name>
 	</parameter>
-	<parameter type="double" name="maxcount" max="400" min="0" default="10">
+        <parameter type="animated" name="maxcount" max="400" min="0" default="10">
 		<name>Maximal number of dust</name>
 	</parameter>
 </effect>

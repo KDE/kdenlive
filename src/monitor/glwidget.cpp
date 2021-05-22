@@ -39,6 +39,7 @@
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"
+#include "timeline2/view/qmltypes/thumbnailprovider.h"
 #include <mlt++/Mlt.h>
 #include <lib/localeHandling.h>
 
@@ -143,6 +144,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     rootContext()->setContextProperty("controller", m_proxy);
+    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
 }
 
 GLWidget::~GLWidget()

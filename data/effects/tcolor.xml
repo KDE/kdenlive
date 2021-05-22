@@ -3,10 +3,10 @@
 	<name>Technicolor</name>
 	<description>Oversaturate the color in video, like in old Technicolor movies</description>
 	<author>Marco Gittler</author>
-	<parameter type="double" name="oversaturate_cr" max="400" min="-400" default="190">
+        <parameter type="animated" name="oversaturate_cr" max="400" min="-400" default="190">
 		<name>Blue/Yellow axis</name>
 	</parameter>
-	<parameter type="double" name="oversaturate_cb" max="400" min="-400" default="190">
+        <parameter type="animated" name="oversaturate_cb" max="400" min="-400" default="190">
 		<name>Red/Green axis</name>
 	</parameter>
 </effect>

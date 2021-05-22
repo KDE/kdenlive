@@ -31,6 +31,7 @@
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 #include "wizard.h"
+#include "monitor/monitor.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -119,7 +120,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
-    QRegExp rx("(\\+|-)?\\d{2}:\\d{2}:\\d{2}:\\d{2}");
+    QRegExp rx(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
     QValidator *validator = new QRegExpValidator(rx, this);
     m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
     m_configMisc.kcfg_color_duration->setValidator(validator);
@@ -200,6 +201,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configEnv.libraryfolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
+
+    m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
 
     // Script rendering folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);

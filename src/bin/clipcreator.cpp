@@ -218,7 +218,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                                       Fun &undo, Fun &redo, bool topLevel)
 {
     QString createdItem;
-    QScopedPointer<QProgressDialog> progressDialog;
+    /*QScopedPointer<QProgressDialog> progressDialog;
     if (topLevel) {
         progressDialog.reset(new QProgressDialog(pCore->window()));
         progressDialog->setWindowTitle(i18n("Loading clips"));
@@ -228,10 +228,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         progressDialog->show();
         progressDialog->repaint();
         qApp->processEvents();
-    }
+    }*/
     qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
+    bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
     for (const QUrl &file : list) {
         if (!QFile::exists(file.toLocalFile())) {
             continue;
@@ -303,7 +304,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             }
         } else {
             // file is not a directory
-            if (checkRemovable && isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
+            if (checkRemovable && isOnRemovableDevice(file) && !removableProject) {
                 int answer = KMessageBox::warningContinueCancel(
                     QApplication::activeWindow(),
                     i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position.\nYou "
@@ -318,6 +319,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 createdItem = clipId;
             }
         }
+        //qApp->processEvents();
     }
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;

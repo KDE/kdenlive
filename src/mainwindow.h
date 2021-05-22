@@ -36,10 +36,10 @@
 #include <KXmlGuiWindow>
 #include <kautosavefile.h>
 #include <utility>
+#include <mlt++/Mlt.h>
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "dvdwizard/dvdwizard.h"
 #include "gentime.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
@@ -60,6 +60,7 @@ class TimelineTabs;
 class TimelineWidget;
 class TimelineContainer;
 class Transition;
+class KDualAction;
 
 class MltErrorEvent : public QEvent
 {
@@ -109,9 +110,10 @@ public:
      * @param objectName objectName of the dock widget (required for storing layouts)
      * @param widget widget to use in the dock
      * @param area area to which the dock should be added to
+     * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea, const QKeySequence &shortcut = QKeySequence());
 
     QUndoGroup *m_commandStack;
     QUndoView *m_undoView;
@@ -291,7 +293,7 @@ public slots:
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
-    Q_SCRIPTABLE void addProjectClip(const QString &url);
+    Q_SCRIPTABLE void addProjectClip(const QString &url, const QString & folder = QStringLiteral("-1"));
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
@@ -411,6 +413,7 @@ private slots:
     void slotRemoveAllSpace();
     void slotAddGuide();
     void slotEditGuide();
+    void slotLockGuides(bool lock);
     void slotDeleteGuide();
     void slotDeleteAllGuides();
     void slotGuidesUpdated();
@@ -437,7 +440,6 @@ private slots:
     void slotGetNewKeyboardStuff(QComboBox *schemesList);
     void slotAutoTransition();
     void slotRunWizard();
-    void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();

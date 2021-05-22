@@ -767,7 +767,7 @@ void TimelineController::gotoNextSnap()
     if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
         m_snapStackIndex = pCore->undoIndex();
         m_activeSnaps.clear();
-        m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+        m_activeSnaps = pCore->currentDoc()->getGuideModel()->getSnapPoints();
         m_activeSnaps.push_back(m_zone.x());
         m_activeSnaps.push_back(m_zone.y() - 1);
     }
@@ -783,7 +783,7 @@ void TimelineController::gotoPreviousSnap()
         if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
             m_snapStackIndex = pCore->undoIndex();
             m_activeSnaps.clear();
-            m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+            m_activeSnaps = pCore->currentDoc()->getGuideModel()->getSnapPoints();
             m_activeSnaps.push_back(m_zone.x());
             m_activeSnaps.push_back(m_zone.y() - 1);
         }
@@ -793,7 +793,7 @@ void TimelineController::gotoPreviousSnap()
 
 void TimelineController::gotoNextGuide()
 {
-    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
     int pos = pCore->getTimelinePosition();
     double fps = pCore->getCurrentFps();
     for (auto &guide : guides) {
@@ -808,7 +808,7 @@ void TimelineController::gotoNextGuide()
 void TimelineController::gotoPreviousGuide()
 {
     if (pCore->getTimelinePosition() > 0) {
-        QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
         int pos = pCore->getTimelinePosition();
         double fps = pCore->getCurrentFps();
         int lastGuidePos = 0;
@@ -1147,14 +1147,14 @@ void TimelineController::editGuide(int frame)
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
 void TimelineController::moveGuide(int frame, int newFrame)
 {
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     GenTime newPos(newFrame, pCore->getCurrentFps());
     guideModel->editMarker(pos, newPos);
@@ -1162,7 +1162,7 @@ void TimelineController::moveGuide(int frame, int newFrame)
 
 void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
 {
-    auto guideModel = pCore->projectManager()->current()->getGuideModel();
+    auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime newPos(newFrame, pCore->getCurrentFps());
     guideModel->moveMarker(mid, newPos);
 }
@@ -1190,8 +1190,8 @@ bool TimelineController::moveGuidesInRange(int start, int end, int offset, Fun &
 {
     GenTime fromPos(start, pCore->getCurrentFps());
     GenTime toPos(start + offset, pCore->getCurrentFps());
-    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getMarkersInRange(start, end);
-    return pCore->projectManager()->current()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+    QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(start, end);
+    return pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
 }
 
 void TimelineController::switchGuide(int frame, bool deleteOnly)
@@ -1200,16 +1200,16 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
-    CommentedTime marker = pCore->projectManager()->current()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    CommentedTime marker = pCore->currentDoc()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
             pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
-        pCore->projectManager()->current()->getGuideModel()->addMarker(pos, i18n("guide"));
+        pCore->currentDoc()->getGuideModel()->addMarker(pos, i18n("guide"));
     } else {
-        pCore->projectManager()->current()->getGuideModel()->removeMarker(marker.time());
+        pCore->currentDoc()->getGuideModel()->removeMarker(marker.time());
     }
 }
 
@@ -1626,7 +1626,6 @@ void TimelineController::cutAllClipsUnderCursor(int position)
         position = pCore->getTimelinePosition();
     }
     QMutexLocker lk(&m_metaMutex);
-
     TimelineFunctions::requestClipCutAll(m_model, position);
 }
 
@@ -1637,17 +1636,38 @@ int TimelineController::requestSpacerStartOperation(int trackId, int position)
     return itemId;
 }
 
-bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart)
+int TimelineController::spacerMinPos() const
+{
+    return TimelineFunctions::spacerMinPos();
+}
+
+void TimelineController::spacerMoveGuides(QVector<int> ids, int offset)
+{
+    pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(ids, offset);
+}
+
+QVector<int> TimelineController::spacerSelection(int startFrame)
+{
+    return pCore->currentDoc()->getGuideModel()->getMarkersIdInRange(startFrame, -1);
+}
+
+int TimelineController::getGuidePosition(int id)
+{
+    return pCore->currentDoc()->getGuideModel()->getMarkerPos(id);
+}
+
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector <int> selectedGuides, int guideStart)
 {
     QMutexLocker lk(&m_metaMutex);
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     if(guideStart > -1) {
+        // Move guides back to original position
+        pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(selectedGuides, startPosition - endPosition, false);
         moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
     }
-
-    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, undo, redo);
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, false, undo, redo);
     return result;
 }
 
@@ -4250,12 +4270,16 @@ void TimelineController::editSubtitle(int startFrame, int endFrame, QString newT
     auto subtitleModel = pCore->getSubtitleModel();
     Fun local_redo = [subtitleModel, startFrame, endFrame, newText]() {
         subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText);
-        pCore->refreshProjectRange({startFrame, endFrame});
+        QPair<int, int> range = {startFrame, endFrame};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_undo = [subtitleModel, startFrame, endFrame, oldText]() {
         subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), oldText);
-        pCore->refreshProjectRange({startFrame, endFrame});
+        QPair<int, int> range = {startFrame, endFrame};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     local_redo();
@@ -4297,12 +4321,16 @@ void TimelineController::addSubtitle(int startframe, QString text)
     }
     Fun local_undo = [subtitleModel, id, startframe, endframe]() {
         subtitleModel->removeSubtitle(id);
-        pCore->refreshProjectRange({startframe, endframe});
+        QPair<int, int> range = {startframe, endframe};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_redo = [subtitleModel, id, startframe, endframe, text]() {
         if (subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text)) {
-            pCore->refreshProjectRange({startframe, endframe});
+            QPair<int, int> range = {startframe, endframe};
+            pCore->invalidateRange(range);
+            pCore->refreshProjectRange(range);
             return true;
         }
         return false;
@@ -4437,6 +4465,11 @@ bool TimelineController::subtitlesLocked() const
         return subtitleModel->isLocked();
     }
     return false;
+}
+
+bool TimelineController::guidesLocked() const
+{
+    return KdenliveSettings::lockedGuides();
 }
 
 void TimelineController::showToolTip(const QString &info) const

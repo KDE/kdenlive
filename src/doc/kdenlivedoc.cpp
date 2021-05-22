@@ -32,7 +32,6 @@
 #include "documentvalidator.h"
 #include "docundostack.hpp"
 #include "effects/effectsrepository.hpp"
-#include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
@@ -74,6 +73,7 @@ const double DOCUMENTVERSION = 1.00;
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
     : QObject(parent)
+    , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
     , m_url(url)
     , m_clipsCount(0)
@@ -1389,7 +1389,7 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
-    pCore->jobManager()->slotCancelJobs();
+    pCore->taskManager.slotCancelJobs();
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
@@ -1409,20 +1409,19 @@ void KdenliveDoc::resetProfile(bool reloadThumbs)
 void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThumbs)
 {
     // Discard all current jobs
-    pCore->jobManager()->slotCancelJobs();
+    pCore->taskManager.slotCancelJobs();
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
     // In case we only have one clip in timeline, 
     emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml)
+void KdenliveDoc::switchProfile(ProfileParam* pf)
 {
-    Q_UNUSED(id)
-    Q_UNUSED(xml)
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
     QString adjustMessage;
+    std::unique_ptr<ProfileParam> profile(pf);
     double fps = double(profile->frame_rate_num()) / profile->frame_rate_den();
     double fps_int;
     double fps_frac = std::modf(fps, &fps_int);
@@ -1475,7 +1474,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
             switch (answer) {
             case KMessageBox::Yes:
                 // Discard all current jobs
-                pCore->jobManager()->slotCancelJobs();
+                pCore->taskManager.slotCancelJobs();
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true);
@@ -1511,7 +1510,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                                          .arg(QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2));
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
             // Discard all current jobs
-            pCore->jobManager()->slotCancelJobs();
+            pCore->taskManager.slotCancelJobs();
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true);
             emit docModified(true);

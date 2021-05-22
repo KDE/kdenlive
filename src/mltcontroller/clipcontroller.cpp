@@ -72,6 +72,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
 ClipController::~ClipController()
 {
     delete m_properties;
+    m_thumbsProducer.reset();
     m_masterProducer.reset();
 }
 
@@ -437,9 +438,9 @@ int ClipController::getFramePlaytime() const
     }
     if (!m_hasLimitedDuration) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        return playtime == 0 ? m_masterProducer->get_playtime() : playtime;
+        return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
-    return m_masterProducer->get_playtime();
+    return m_masterProducer->get_length();
 }
 
 QString ClipController::getProducerProperty(const QString &name) const

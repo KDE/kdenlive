@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QList>
 #include <QMap>
+#include <QUuid>
 #include <memory>
 #include <qdom.h>
 
@@ -69,6 +70,7 @@ public:
     int width() const;
     int height() const;
     QUrl url() const;
+    QUuid uuid;
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
@@ -245,10 +247,10 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
+    void switchProfile(ProfileParam* pf);
 
 private slots:
     void slotModified();
-    void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack(int ix);

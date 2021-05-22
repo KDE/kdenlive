@@ -46,6 +46,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
+    QStringList emptyMetaAssets;
     int max = assets->count();
     QString sox = QStringLiteral("sox.");
     for (int i = 0; i < max; ++i) {
@@ -58,6 +59,10 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         }
         if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
             m_assets[name] = info;
+            if (info.xml.isNull()) {
+                // Metadata was invalid
+                emptyMetaAssets << name;
+            }
         } else {
             if (!m_blacklist.contains(name)) {
                 qWarning() << "Failed to parse" << name;
@@ -91,7 +96,15 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // We add the custom assets
     for (const auto &custom : customAssets) {
         // Custom assets should override default ones
+        if (emptyMetaAssets.contains(custom.second.mltId)) {
+            // We didn't find MLT's metadata for this assed, but have an xml definition, so validate
+            emptyMetaAssets.removeAll(custom.second.mltId);
+        }
         m_assets[custom.first] = custom.second;
+    }
+    // Remove really invalid assets
+    for (const auto &invalid : emptyMetaAssets) {
+        m_assets.erase(invalid);
     }
 }
 
@@ -240,10 +253,12 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.xml = eff;
             return true;
         } else {
-            qWarning() << "Invalid title/identifier for" << assetId;
+            res.id = res.mltId = assetId;
+            qWarning() << "Empty metadata for " << assetId;
+            return true;
         }
     } else {
-        qWarning() << "Invalid metadata for" << assetId;
+        qWarning() << "Invalid metadata for " << assetId;
     }
     return false;
 }
@@ -308,7 +323,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
 
     // Check if there is a maximal version set
-    if (currentAsset.hasAttribute(QStringLiteral("version"))) {
+    if (currentAsset.hasAttribute(QStringLiteral("version")) && !m_assets.at(tag).xml.isNull()) {
         // a specific version of the filter is required
         if (m_assets.at(tag).version < int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
             return false;

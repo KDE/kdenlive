@@ -31,12 +31,12 @@
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitorproxy.h"
+#include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
-#include "jobs/jobmanager.h"
-#include "jobs/cutclipjob.h"
+#include "jobs/cuttask.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "timeline2/view/timelinewidget.h"
@@ -315,20 +315,19 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
 
-    if (id != Kdenlive::DvdMonitor) {
-        QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
-        QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
-        m_toolbar->addAction(markIn);
-        m_toolbar->addAction(markOut);
-        connect(markIn, &QAction::triggered, this, [&, manager]() {
-            m_monitorManager->activateMonitor(m_id);
-            manager->getAction(QStringLiteral("mark_in"))->trigger();
-        });
-        connect(markOut, &QAction::triggered, this, [&, manager]() {
-            m_monitorManager->activateMonitor(m_id);
-            manager->getAction(QStringLiteral("mark_out"))->trigger();
-        });
-    }
+
+    QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
+    QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
+    m_toolbar->addAction(markIn);
+    m_toolbar->addAction(markOut);
+    connect(markIn, &QAction::triggered, this, [&, manager]() {
+        m_monitorManager->activateMonitor(m_id);
+        manager->getAction(QStringLiteral("mark_in"))->trigger();
+    });
+    connect(markOut, &QAction::triggered, this, [&, manager]() {
+        m_monitorManager->activateMonitor(m_id);
+        manager->getAction(QStringLiteral("mark_out"))->trigger();
+    });
     // Per monitor rewind action
     QAction *rewind = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     m_toolbar->addAction(rewind);
@@ -366,26 +365,25 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     playButton->setDefaultAction(m_playAction);
     m_configMenu = new QMenu(i18n("Misc..."), this);
 
-    if (id != Kdenlive::DvdMonitor) {
-        if (id == Kdenlive::ClipMonitor) {
-            m_markerMenu = new QMenu(i18n("Go to marker..."), this);
-        } else {
-            m_markerMenu = new QMenu(i18n("Go to guide..."), this);
-        }
-        m_markerMenu->setEnabled(false);
-        m_configMenu->addMenu(m_markerMenu);
-        connect(m_markerMenu, &QMenu::triggered, this, &Monitor::slotGoToMarker);
-        m_forceSize = new KSelectAction(QIcon::fromTheme(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
-        QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
-        fullAction->setData(100);
-        QAction *halfAction = m_forceSize->addAction(QIcon(), i18n("Force 50%"));
-        halfAction->setData(50);
-        QAction *freeAction = m_forceSize->addAction(QIcon(), i18n("Free Resize"));
-        freeAction->setData(0);
-        m_configMenu->addAction(m_forceSize);
-        m_forceSize->setCurrentAction(freeAction);
-        connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
+
+    if (id == Kdenlive::ClipMonitor) {
+        m_markerMenu = new QMenu(i18n("Go to marker..."), this);
+    } else {
+        m_markerMenu = new QMenu(i18n("Go to guide..."), this);
     }
+    m_markerMenu->setEnabled(false);
+    m_configMenu->addMenu(m_markerMenu);
+    connect(m_markerMenu, &QMenu::triggered, this, &Monitor::slotGoToMarker);
+    m_forceSize = new KSelectAction(QIcon::fromTheme(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
+    QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
+    fullAction->setData(100);
+    QAction *halfAction = m_forceSize->addAction(QIcon(), i18n("Force 50%"));
+    halfAction->setData(50);
+    QAction *freeAction = m_forceSize->addAction(QIcon(), i18n("Free Resize"));
+    freeAction->setData(0);
+    m_configMenu->addAction(m_forceSize);
+    m_forceSize->setCurrentAction(freeAction);
+    connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
 
     // Create Volume slider popup
     m_audioSlider = new QSlider(Qt::Vertical);
@@ -727,24 +725,10 @@ void Monitor::updateMarkers()
     }
 }
 
-void Monitor::setGuides(const QMap<double, QString> &guides)
+
+void Monitor::updateDocumentUuid()
 {
-    // TODO: load guides model
-    m_markerMenu->clear();
-    QMapIterator<double, QString> i(guides);
-    QList<CommentedTime> guidesList;
-    while (i.hasNext()) {
-        i.next();
-        CommentedTime timeGuide(GenTime(i.key()), i.value());
-        guidesList << timeGuide;
-        int pos = timeGuide.time().frames(pCore->getCurrentFps());
-        QString position = pCore->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
-        QAction *go = m_markerMenu->addAction(position);
-        go->setData(pos);
-    }
-    // m_ruler->setMarkers(guidesList);
-    m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
-    checkOverlay();
+    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid);
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -1130,9 +1114,7 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    GenTime inPoint(getZoneStart(), pCore->getCurrentFps());
-    GenTime outPoint(getZoneEnd(), pCore->getCurrentFps());
-    emit pCore->jobManager()->startJob<CutClipJob>({m_controller->clipId()}, -1, QString(), inPoint, outPoint);
+    CutTask::start({ObjectType::BinClip,m_controller->clipId().toInt()}, getZoneStart(), getZoneEnd(), this);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const
@@ -1319,9 +1301,10 @@ void Monitor::slotRewind(double speed)
         if (currentspeed > -1) {
             m_glMonitor->purgeCache();
             speed = -1;
+            m_speedIndex = 0;
         } else {
             m_speedIndex++;
-            if (m_speedIndex > 4) {
+            if (m_speedIndex > 5) {
                 m_speedIndex = 0;
             }
             speed = -MonitorManager::speedArray[m_speedIndex];
@@ -1339,18 +1322,17 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
+            m_speedIndex = 0;
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
                 updatePlayAction(true);
                 m_glMonitor->switchPlay(true, m_offset);
                 return;
-            } else {
-                m_speedIndex = 0;
             }
         } else {
             m_speedIndex++;
         }
-        if (m_speedIndex > 4) {
+        if (m_speedIndex > 5) {
             m_speedIndex = 0;
         }
         speed = MonitorManager::speedArray[m_speedIndex];
@@ -1476,6 +1458,7 @@ void Monitor::switchPlay(bool play)
     if(m_trimmingbar->isVisible()) {
         return;
     }
+    m_speedIndex = 0;
     m_playAction->setActive(play);
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
@@ -1499,6 +1482,7 @@ void Monitor::slotSwitchPlay()
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
+    m_speedIndex = 0;
     m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
@@ -1595,6 +1579,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        ClipType::ProducerType type = controller->clipType();
+        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
+            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId()).arg(pCore->currentDoc()->uuid.toString()));
+        } else  {
+            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
+        }
         m_audioChannels->clear();
         if (m_controller->audioInfo()) {
             QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
@@ -1743,12 +1733,6 @@ const QString Monitor::activeClipId()
         return m_controller->clipId();
     }
     return QString();
-}
-
-void Monitor::slotOpenDvdFile(const QString &file)
-{
-    m_glMonitor->setProducer(file);
-    // render->loadUrl(file);
 }
 
 void Monitor::slotPreviewResource(const QString &path, const QString &title)
@@ -2210,11 +2194,6 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
-    if (m_id == Kdenlive::DvdMonitor) {
-        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()), m_timePos->maximum());
-        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
-        return;
-    }
     if (type == m_qmlManager->sceneType() && sceneData.isNull()) {
         return;
     }

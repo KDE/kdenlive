@@ -390,6 +390,7 @@ Rectangle {
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
+    property var selectedGuides
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
@@ -409,6 +410,7 @@ Rectangle {
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
+    property int spacerMinPos: 0
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -1157,12 +1159,13 @@ Rectangle {
                             }
                         }
 
-                        if(mouse.modifiers & Qt.ShiftModifier) {
+                        if((mouse.modifiers & Qt.ShiftModifier) || !timeline.guidesLocked) {
                             //spacer tool and shift modifier
                             spacerGuides = true;
                         }
 
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
+                        spacerMinPos = timeline.spacerMinPos()
                         if (spacerGroup > -1 || spacerGuides) {
                             drag.axis = Drag.XAxis
                             Drag.active = true
@@ -1170,6 +1173,16 @@ Rectangle {
                             spacerClickFrame = frame
                             spacerFrame = spacerGroup > -1 ? controller.getItemPosition(spacerGroup) : frame
                             finalSpacerFrame = spacerFrame
+                            if (spacerGuides) {
+                                selectedGuides = timeline.spacerSelection(spacerClickFrame)
+                                if (selectedGuides.length > 0) {
+                                    var firstGuidePos = timeline.getGuidePosition(selectedGuides[0])
+                                    if (spacerGroup > -1 && firstGuidePos < spacerFrame) {
+                                        // Don't allow moving guide below 0
+                                        spacerMinPos = Math.max(spacerMinPos, spacerFrame - firstGuidePos + 1)
+                                    }
+                                }
+                            }
                         }
                     } else if (root.activeTool === ProjectTool.SelectTool || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
@@ -1263,11 +1276,19 @@ Rectangle {
                     } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
+                        var lastPos = controller.getItemPosition(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
+                        frame = Math.max(spacerMinPos, frame)
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
+                        if (spacerGuides) {
+                            timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
+                        }
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     } else if (spacerGuides) {
-                        finalSpacerFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
+                        var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                        frame = Math.max(spacerMinPos, frame)
+                        timeline.spacerMoveGuides(selectedGuides, frame - spacerFrame)
+                        spacerFrame = frame;
                     }
 
                     scim = true
@@ -1338,15 +1359,19 @@ Rectangle {
 
                 if (spacerGroup > -1 && finalSpacerFrame > -1) {
                     var frame = controller.getItemPosition(spacerGroup)
-                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, spacerGuides ? spacerClickFrame : -1);
+                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, selectedGuides, spacerGuides ? spacerClickFrame : -1);
                 } else if (spacerGuides) {
-                   timeline.moveGuidesInRange(spacerClickFrame, -1, finalSpacerFrame - spacerFrame)
+                    // Move back guides to original pos
+                    timeline.spacerMoveGuides(selectedGuides, spacerClickFrame - spacerFrame)
+                    timeline.moveGuidesInRange(spacerClickFrame, -1, spacerFrame - finalSpacerFrame)
                 }
 
                 if (spacerGroup > -1 && finalSpacerFrame > -1 || spacerGuides) {
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1
+                    spacerMinPos = -1
+                    selectedGuides = []
                     spacerGuides = false
                 }
 

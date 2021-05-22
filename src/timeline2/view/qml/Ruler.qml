@@ -122,6 +122,7 @@ Item {
                     visible: timeline.showMarkers
                     width: mlabel.contentWidth + 4
                     height: guideLabelHeight
+                    radius: timeline.guidesLocked ? 0 : height / 4
                     anchors {
                         top: parent.top
                         left: parent.left

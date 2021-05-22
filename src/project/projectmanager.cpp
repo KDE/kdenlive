@@ -13,7 +13,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
@@ -265,13 +264,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     ::mlt_pool_purge();
     pCore->audioThumbCache.clear();
-    pCore->jobManager()->slotCancelJobs();
+    pCore->taskManager.slotCancelJobs();
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
-            pCore->jobManager()->slotCancelJobs();
             pCore->bin()->abortOperations();
         }
     }
@@ -901,7 +899,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 bool ProjectManager::updateTimeline(int pos, int scrollPos)
 {
     Q_UNUSED(scrollPos);
-    pCore->jobManager()->slotCancelJobs();
+    pCore->taskManager.slotCancelJobs();
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
 

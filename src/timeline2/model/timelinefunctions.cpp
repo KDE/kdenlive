@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "bin/model/subtitlemodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
@@ -70,6 +71,7 @@ QStringList waitingBinIds;
 QMap<QString, QString> mappedIds;
 QMap<int, int> tracksMap;
 QMap<int, int> spacerUngroupedItems;
+int spacerMinPosition;
 QSemaphore semaphore(1);
 
 bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo,
@@ -326,6 +328,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
+    spacerMinPosition = -1;
     if (!clips.empty()) {
         // Remove grouped items that are before the click position
         // First get top groups ids
@@ -385,14 +388,39 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
             timeline->m_groups->ungroupItem(i.key(), undo, redo);
         }
         timeline->requestSetSelection(roots);
+        if (firstPosition > 0) {
+            // Find minimum position, parse all tracks
+            if (trackId > -1) {
+                // Easy, check blank size
+                int spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(firstPosition - 1);
+                if (spaceDuration > 0 ) {
+                    spacerMinPosition = firstPosition - spaceDuration;
+                }
+            } else {
+                // Check space in all tracks
+                auto it = timeline->m_allTracks.cbegin();
+                int space = -1;
+                while (it != timeline->m_allTracks.cend()) {
+                    int spaceDuration = timeline->getTrackById_const((*it)->getId())->getBlankSizeAtPos(firstPosition - 1);
+                    if (space == -1 || spaceDuration < space) {
+                        space = spaceDuration;
+                    }
+                    ++it;
+                }
+                if (space > -1) {
+                    spacerMinPosition = firstPosition - space;
+                }
+            }
+        }
         return (firstCid);
     }
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo)
 {
     // Move group back to original position
+    spacerMinPosition = -1;
     int track = timeline->getItemTrackId(itemId);
     bool isClip = timeline->isClip(itemId);
     if (isClip) {
@@ -402,6 +430,14 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     } else {
         timeline->requestSubtitleMove(itemId, startPosition, false, false);
     }
+    // Move guides
+    if (moveGuides) {
+        GenTime fromPos(startPosition, pCore->getCurrentFps());
+        GenTime toPos(endPosition, pCore->getCurrentFps());
+        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(startPosition, -1);
+        pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+    }
+
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
     int mainGroup = timeline->m_groups->getRootId(itemId);
     bool final = false;
@@ -1896,6 +1932,9 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     } else {
         spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
     }
+    if (spaceDuration <= 0) {
+        return false;
+    }
     int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
     if (cid == -1) {
         return false;
@@ -1904,7 +1943,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, undo, redo);
+    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
     return true;
 }
 
@@ -2124,3 +2163,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     return destDoc;
 }
 
+int TimelineFunctions::spacerMinPos()
+{
+    return spacerMinPosition;
+}

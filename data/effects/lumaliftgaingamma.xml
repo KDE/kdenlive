@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="lumaliftgaingamma" id="lumaliftgaingamma">
+        <name>LumaLiftGainGamma</name>
+        <description>Filter can be used to apply lift, gain and gamma correction to luma values of image.</description>
+        <author>Janne Liljeblad</author>
+        <parameter type="animated" name="lift" max="500" min="-500" default="0" factor="1000">
+                <name>Lift</name>
+        </parameter>
+        <parameter type="animated" name="gain" max="500" min="-500" default="0" factor="1000">
+                <name>Gain</name>
+        </parameter>
+        <parameter type="animated" name="gamma" max="1000" min="-1000" default="0" factor="1000">
+                <name>Gamma</name>
+        </parameter>
+</effect>

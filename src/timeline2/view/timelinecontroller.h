@@ -89,6 +89,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
+    Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
 
 public:
@@ -191,6 +192,7 @@ public:
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
     bool subtitlesLocked() const;
+    bool guidesLocked() const;
     /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -394,9 +396,21 @@ public:
     /** @brief Request a spacer operation
      */
     Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
+    /** @brief Returns the minimum available position for a spacer operation
+     */
+    Q_INVOKABLE int spacerMinPos() const;
+    /** @brief Get a list of guides Id after a given frame
+     */
+    Q_INVOKABLE QVector<int> spacerSelection(int startFrame);
+    /** @brief Move a list of guides from a given offset
+     */
+    Q_INVOKABLE void spacerMoveGuides(QVector<int> ids, int offset);
+    /** @brief Get the position of the first marker in the list
+     */
+    Q_INVOKABLE int getGuidePosition(int ids);
     /** @brief Request a spacer operation
      */
-    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, int guideStart = -1);
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector<int> selectedGuides = QVector<int>(), int guideStart = -1);
     /** @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
@@ -758,6 +772,7 @@ signals:
     /** @brief Center timeline view on current position
      */
     void centerView();
+    void guidesLockedChanged();
     void effectZoneChanged();
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();

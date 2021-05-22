@@ -39,6 +39,7 @@
 #include "timelinecontroller.h"
 #include "utils/clipboardproxy.hpp"
 #include "effects/effectsrepository.hpp"
+#include "bin/model/markerlistmodel.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
@@ -175,9 +176,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails 
     // leaking from one project to another because of qml's image caching
-    rootContext()->setContextProperty("documentId", QUuid::createUuid());
+    rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());

@@ -197,6 +197,7 @@ cmake --build . --config RelWithDebInfo --target ext_kimageformats       -- -j$C
 cmake --build . --config RelWithDebInfo --target ext_frameworkintegration -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kactivities -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_plasma-framework -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_fcitx-qt5 -- -j$CPU_CORES
 
 cmake --build . --target ext_breeze
 

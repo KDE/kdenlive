@@ -21,8 +21,7 @@
 
 #include "buttonparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "jobs/filterclipjob.h"
-#include "jobs/jobmanager.h"
+#include "jobs/filtertask.h"
 #include "assets/model/assetcommand.hpp"
 #include "core.h"
 #include <mlt++/Mlt.h>
@@ -30,6 +29,7 @@
 #include <KMessageWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QProgressBar>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -86,6 +86,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     layout->setSpacing(0);
     m_button = new QPushButton(m_displayConditional ? m_buttonName : m_alternatebuttonName, this);
     layout->addWidget(m_button);
+    m_progress = new QProgressBar(this);
+    m_progress->setMaximumHeight(m_button->height() / 5);
+    m_progress->setTextVisible(false);
+    layout->addWidget(m_progress);
+    m_progress->setVisible(false);
     setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
     // emit the signal of the base class when appropriate
@@ -134,11 +139,16 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 fParams.insert({fparam.section(QLatin1Char('='), 0, 0), fparam.section(QLatin1Char('='), 1)});
             }
         }
-        emit pCore->jobManager()->startJob<FilterClipJob>({binId}, -1, QString(), owner, m_model, assetId, in, out, assetId, fParams, fData, consumerParams);
-        if (m_label) {
-            m_label->setVisible(false);
+        if (m_progress->value() > 0 && m_progress->value() < 100) {
+            // The task is in progress, abort it
+            pCore->taskManager.discardJobs(owner, AbstractTask::FILTERCLIPJOB);
+        } else {
+            FilterTask::start(owner, binId, m_model, assetId, in, out, assetId, fParams, fData, consumerParams, this);
+            if (m_label) {
+                m_label->setVisible(false);
+            }
+            m_button->setEnabled(false);
         }
-        m_button->setEnabled(false);
     });
 }
 
@@ -163,8 +173,21 @@ void ButtonParamWidget::slotRefresh()
     if (m_label) {
         m_label->setVisible(m_displayConditional);
     }
-    m_button->setText(m_displayConditional ? m_buttonName : m_alternatebuttonName);
     m_button->setEnabled(true);
+    // Check running job percentage
+    int progress = m_model->data(m_index, AssetParameterModel::FilterProgressRole).toInt();
+    if (progress > 0 && progress < 100) {
+        m_progress->setValue(progress);
+        if (!m_progress->isVisible()) {
+            m_button->setText(i18n("Abort processing"));
+            m_progress->setVisible(true);
+        }
+        
+    } else {
+        m_button->setText(m_displayConditional ? m_buttonName : m_alternatebuttonName);
+        m_progress->setValue(0);
+        m_progress->setVisible(false);
+    }
     updateGeometry();
 }
 
@@ -172,3 +195,4 @@ bool ButtonParamWidget::getValue()
 {
     return true;
 }
+

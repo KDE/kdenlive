@@ -16,7 +16,7 @@
 
 # Building from source
 
-[Instructions to build Kdenlive](https://community.kde.org/Kdenlive/Development) are available on the KDE wiki.
+[Instructions to build Kdenlive](dev-docs/build.md) are available on the KDE wiki.
 
 # Testing Kdenlive via Nightly Builds
 
@@ -35,11 +35,11 @@ We welcome all feedback and offers for help!
 * Talk about us!
 * [Report bugs](https://kdenlive.org/en/bug-reports/) you encounter (if not already done)
 * Help other users [on the forum](http://forum.kde.org/viewforum.php?f=262) and bug tracker
-* [Help to fill the manual](http://userbase.kde.org/Kdenlive)
+* [Help to fill the manual](https://community.kde.org/Kdenlive/Workgroup/Documentation)
 * Complete and check [application and documentation translation](http://l10n.kde.org)
 * Prepare video tutorials (intro, special tricks...) in your language
   and send us a link to add in homepage or doc
 * Detail improvement suggestions
   we don't test every (any?) other video editor, so give precise explanations
 * Code! Help fixing bugs, improving usability, optimizing, porting...
-  register on KDE infrastructure, study its guidelines, and pick from roadmap:
+  register on KDE infrastructure, study its guidelines, and pick from roadmap. See [here](dev-docs/contributing.md) for more information

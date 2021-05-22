@@ -126,7 +126,6 @@ Exec=kdenlive %F
 Icon=kdenlive
 StartupWMClass=kdenlive
 X-DocPath=kdenlive/index.html
-X-DocPath[cs]=https://cs.wikibooks.org/wiki/Kdenlive
 Terminal=false
 MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;

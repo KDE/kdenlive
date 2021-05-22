@@ -12,6 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define CORE_H
 
 #include "definitions.h"
+#include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
 #include <QMutex>
@@ -20,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include <QThreadPool>
 #include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
@@ -28,7 +30,6 @@ the Free Software Foundation, either version 3 of the License, or
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
-class JobManager;
 class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
@@ -114,8 +115,6 @@ public:
     void selectTimelineItem(int id);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
-    /** @brief Returns a pointer to the job manager. Please do not store it. */
-    std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */
@@ -247,6 +246,10 @@ public:
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
+    /* @brief The thread job pool for clip jobs, allowing to set a max number of concurrent jobs */
+    TaskManager taskManager;
+    /** @brief The number of clip load jobs changed */
+    void loadingClips(int);
 
 private:
     explicit Core();
@@ -259,12 +262,12 @@ private:
     ProjectManager *m_projectManager{nullptr};
     MonitorManager *m_monitorManager{nullptr};
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
-    std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
+
     /** @brief Current project's profile path */
     QString m_currentProfile;
 

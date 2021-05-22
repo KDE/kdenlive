@@ -34,6 +34,8 @@
 
 class KeyframeModelList;
 
+typedef QVector<QPair<QString, QVariant>> paramVector;
+
 enum class ParamType {
     Double,
     List, // Value can be chosen from a list of pre-defined ones
@@ -109,6 +111,7 @@ public:
         FactorRole,
         FilterRole,
         FilterJobParamsRole,
+        FilterProgressRole,
         FilterParamsRole,
         FilterConsumerParamsRole,
         ScaleRole,
@@ -162,11 +165,6 @@ public:
     const QStringList getPresetList(const QString &presetFile) const;
     const QVector<QPair<QString, QVariant>> loadPreset(const QString &presetFile, const QString &presetName);
 
-    /** @brief Sets the value of a list of parameters
-       @param params contains the pairs (parameter name, parameter value)
-     */
-    void setParameters(const QVector<QPair<QString, QVariant>> &params, bool update = true);
-
     /* Which monitor is attached to this asset (clip/project)
      */
     Kdenlive::MonitorId monitorId;
@@ -194,9 +192,16 @@ public:
 
     /** @brief Returns the current value of an effect parameter */
     const QString getParam(const QString &paramName);
-    
     /** @brief Returns the current asset */
     Mlt::Properties *getAsset();
+
+public slots:
+    /** @brief Sets the value of a list of parameters
+       @param params contains the pairs (parameter name, parameter value)
+     */
+    void setParameters(const paramVector &params, bool update = true);
+    /** @brief Set a filter job's progress */
+    void setProgress(int progress);
 
 protected:
     /** @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
@@ -244,6 +249,8 @@ protected:
     bool m_hideKeyframesByDefault;
     /** @brief true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate */
     bool m_isAudio;
+    /** @brief Store a filter's job progress */
+    int m_filterProgress;
 
     /** @brief Set the parameter with given name to the given value. This should be called when first
      *  building an effect in the constructor, so that we don't call shared_from_this

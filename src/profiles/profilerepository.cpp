@@ -202,7 +202,7 @@ const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profi
         profilePath.clear();
     }
     file.close();
-    refresh(false);
+    refresh(true);
     return profilePath;
 }
 

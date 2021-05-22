@@ -37,11 +37,11 @@
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
-#include "jobs/jobmanager.h"
-#include "jobs/scenesplitjob.hpp"
-#include "jobs/speedjob.hpp"
-#include "jobs/stabilizejob.hpp"
-#include "jobs/transcodeclipjob.h"
+// #include "jobs/scenesplitjob.hpp"
+#include "jobs/transcodetask.h"
+#include "jobs/stabilizetask.h"
+#include "jobs/speedtask.h"
+#include "jobs/audiolevelstask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
@@ -630,6 +630,7 @@ void MainWindow::init(const QString &mltPath)
     auto *timelineRulerMenu = new QMenu(this);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
@@ -1443,7 +1444,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
 
-    addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
     QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport"), this);
     connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
@@ -1807,6 +1807,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+
+    QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
+    lockGuides->setCheckable(true);
+    lockGuides->setChecked(KdenliveSettings::lockedGuides());
+
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
@@ -2159,7 +2164,6 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
-        connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
@@ -2174,9 +2178,8 @@ void MainWindow::slotRenderProject()
 
     slotCheckRenderStatus();
     if ( m_renderWidget ) {
-        m_renderWidget->show();
+        m_renderWidget->showNormal();
     }
-    // m_renderWidget->showNormal();
 
     // What are the following lines supposed to do?
     // m_renderWidget->enableAudio(false);
@@ -2207,7 +2210,7 @@ void MainWindow::setRenderingFinished(const QString &url, int status, const QStr
     }
 }
 
-void MainWindow::addProjectClip(const QString &url)
+void MainWindow::addProjectClip(const QString &url, const QString &folder)
 {
     if (pCore->currentDoc()) {
         QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(url));
@@ -2215,8 +2218,7 @@ void MainWindow::addProjectClip(const QString &url)
             // Clip is already in project bin, abort
             return;
         }
-
-        ClipCreator::createClipFromFile(url, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel());
+        ClipCreator::createClipFromFile(url, folder, pCore->projectItemModel());
     }
 }
 
@@ -2288,6 +2290,7 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_projectMonitor->slotLoadClipZone(project->zone());
+    m_clipMonitor->updateDocumentUuid();
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getMainTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&] (bool selected) {
@@ -2833,6 +2836,12 @@ void MainWindow::slotUnselectAllTracks()
 void MainWindow::slotEditGuide()
 {
     getCurrentTimeline()->controller()->editGuide();
+}
+
+void MainWindow::slotLockGuides(bool lock)
+{
+    KdenliveSettings::setLockedGuides(lock);
+    getCurrentTimeline()->controller()->guidesLockedChanged();
 }
 
 void MainWindow::slotDeleteGuide()
@@ -3507,15 +3516,6 @@ void MainWindow::slotUpdateTimelineView(QAction *action)
     getMainTimeline()->controller()->getModel()->_resetView();
 }
 
-void MainWindow::slotDvdWizard(const QString &url)
-{
-    // We must stop the monitors since we create a new on in the dvd wizard
-    QPointer<DvdWizard> w = new DvdWizard(pCore->monitorManager(), url, this);
-    w->exec();
-    delete w;
-    pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
-}
-
 void MainWindow::slotShowTimeline(bool show)
 {
     if (!show) {
@@ -3574,18 +3574,13 @@ void MainWindow::buildDynamicActions()
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
     Mlt::Profile profile;
-    std::unique_ptr<Mlt::Filter> filter;
-    for (const QString &stab : {QStringLiteral("vidstab")}) {
-        filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
-        if ((filter != nullptr) && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
-            ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [stab]() {
-                emit pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(true), {},
-                                                            i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
-            });
-            break;
-        }
+    std::unique_ptr<Mlt::Filter> filter = std::make_unique<Mlt::Filter>(profile, "vidstab");
+    if ((filter != nullptr) && filter->is_valid()) {
+        QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
+        ts->addAction(action->text(), action);
+        connect(action, &QAction::triggered, [this]() {
+            StabilizeTask::start(this);
+        });
     }
     filter = std::make_unique<Mlt::Filter>(profile, "motion_est");
     if (filter) {
@@ -3593,14 +3588,17 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection")); });
+                    [&]() {
+                        // TODO: Port job to FFMPEG
+                        //emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection"));
+                    });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                [&]() { emit pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
+                [&]() { SpeedTask::start(this); });
     }
 
     // TODO refac reimplement analyseclipjob
@@ -3641,7 +3639,11 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first(), false);
+            std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
+            for (QString id : ids) {
+                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, transcodeData.first(), -1, -1, false, clip.get());
+            }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
             // This is an audio transcoding action
@@ -3908,12 +3910,21 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     }
 }
 
-QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area)
+QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area, const QKeySequence &shortcut)
 {
     QDockWidget *dockWidget = new QDockWidget(title, this);
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
+
+    // Add action to raise and focus the Dock (e.g. with a shortcut)
+    QAction *action = new QAction(i18n("Raise %1", title), this);
+    connect(action, &QAction::triggered, this, [dockWidget](){
+        dockWidget->raise();
+        dockWidget->setFocus();
+    });
+    addAction("raise_" + objectName, action, shortcut);
+
     return dockWidget;
 }
 
