@@ -453,11 +453,30 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
     }
 
+    // Trimming tool bar buttons
+    m_trimmingbar = new QToolBar(this);
+    m_trimmingbar->setIconSize(iconSize);
+
+    QAction *fiveLess = new QAction(i18n("-5"), this);
+    m_trimmingbar->addAction(fiveLess);
+    //connect(fiveLess, &QAction::triggered, this, &Monitor::slotRewind);
+    QAction *oneLess = new QAction(i18n("-1"), this);
+    m_trimmingbar->addAction(oneLess);
+    //connect(oneLess, &QAction::triggered, this, &Monitor::slotRewind);
+    QAction *oneMore = new QAction(i18n("+1"), this);
+    m_trimmingbar->addAction(oneMore);
+    //connect(oneMore, &QAction::triggered, this, &Monitor::slotRewind);
+    QAction *fiveMore = new QAction(i18n("+5"), this);
+    m_trimmingbar->addAction(fiveMore);
+    //connect(fiveMore, &QAction::triggered, this, &Monitor::slotRewind);
+
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
     if (m_recManager) {
         layout->addWidget(m_recManager->toolbar());
     }
+    layout->addWidget(m_trimmingbar);
+    m_trimmingbar->setVisible(false);
 
     // Load monitor overlay qml
     loadQmlScene(MonitorSceneDefault);
@@ -1292,7 +1311,7 @@ void Monitor::slotZoneEnd()
 
 void Monitor::slotRewind(double speed)
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (qFuzzyIsNull(speed)) {
@@ -1314,7 +1333,7 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (qFuzzyIsNull(speed)) {
@@ -1454,6 +1473,9 @@ void Monitor::pause()
 
 void Monitor::switchPlay(bool play)
 {
+    if(m_trimmingbar->isVisible()) {
+        return;
+    }
     m_playAction->setActive(play);
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
@@ -1471,7 +1493,7 @@ void Monitor::updatePlayAction(bool play)
 
 void Monitor::slotSwitchPlay()
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (!KdenliveSettings::autoscroll()) {
@@ -2267,6 +2289,27 @@ void Monitor::slotSwitchRec(bool enable)
         m_recManager->stop();
         m_toolbar->setVisible(true);
         emit refreshCurrentClip();
+    }
+}
+
+void Monitor::slotSwitchTrimming(bool enable)
+{
+    if (!m_trimmingbar) {
+        return;
+    }
+    if (enable) {
+        m_toolbar->setVisible(false);
+        m_trimmingbar->setVisible(true);
+        m_glMonitor->rootObject()->setVisible(false);
+        m_glMonitor->switchRuler(false);
+    } else if (m_trimmingbar->isVisible()) {
+        m_trimmingbar->setVisible(false);
+        m_toolbar->setVisible(true);
+        int overlay = KdenliveSettings::displayClipMonitorInfo();
+        //updateQmlDisplay(overlay);
+        m_glMonitor->rootObject()->setVisible((overlay & 0x01) != 0);
+        m_glMonitor->switchRuler(overlay & 0x01);
+
     }
 }
 

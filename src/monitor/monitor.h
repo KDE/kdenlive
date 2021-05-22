@@ -216,6 +216,7 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
+    QToolBar *m_trimmingbar;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
@@ -318,6 +319,8 @@ public slots:
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
+    /** @brief Display or hide the trimming toolbar */
+    void slotSwitchTrimming(bool enable);
     /** @brief Request QImage of current frame */
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */

@@ -2028,12 +2028,14 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
     }
 
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
+    pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);
 
     return true;
 }
 
 void TimelineController::requestTrimmingEndOperation() {
     pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
+    pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
 }
 
 void TimelineController::addPreviewRange(bool add)
