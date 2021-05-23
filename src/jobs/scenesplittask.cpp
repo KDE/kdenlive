@@ -28,6 +28,7 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "core.h"
+#include "ui_scenecutdialog_ui.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
@@ -38,6 +39,7 @@
 #include <QThread>
 
 #include <klocalizedstring.h>
+#include <project/projectmanager.h>
 
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, QObject* object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
@@ -49,11 +51,23 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, QObject*
 
 void SceneSplitTask::start(QObject* object, bool force)
 {
-    bool ok;
-    int threshold = QInputDialog::getInt(qApp->activeWindow(), i18n("Scene Split"), i18n("Enter detection threshold"), KdenliveSettings::scenesplitthreshold(), 0, 100, 1, &ok);
-    if (!ok) {
+    QPointer<QDialog> d = new QDialog;
+    Ui::SceneCutDialog_UI view;
+    view.setupUi(d);
+    view.threshold->setValue(KdenliveSettings::scenesplitthreshold());
+    // Set  up categories
+    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
+    QPixmap pixmap(32,32);
+    for (uint i = 0; i < markerTypes.size(); ++i) {
+        pixmap.fill(markerTypes[size_t(i)]);
+        QIcon colorIcon(pixmap);
+        view.marker_type->addItem(colorIcon, i18n("Category %1", i));
+    }
+    d->setWindowTitle(i18n("Scene detection"));
+    if (d->exec() != QDialog::Accepted) {
         return;
     }
+    int threshold = view.threshold->value();
     KdenliveSettings::setScenesplitthreshold(threshold);
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     for (auto & id : binIds) {
