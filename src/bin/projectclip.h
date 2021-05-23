@@ -245,6 +245,8 @@ public:
     /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
     void setInvalid();
     int getRecordTime();
+    /** @brief Return maximum audio level for a stream. */
+    int getAudioMax(int stream);
 
 protected:
     friend class ClipModel;

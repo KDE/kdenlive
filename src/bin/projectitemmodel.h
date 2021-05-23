@@ -71,7 +71,7 @@ public:
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
-    double getAudioMaxLevel(const QString &binId);
+    double getAudioMaxLevel(const QString &binId, int stream);
 
     /** @brief Returns a list of clips using the given url */
     QStringList getClipByUrl(const QFileInfo &url) const;

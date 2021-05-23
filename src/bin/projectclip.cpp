@@ -1796,6 +1796,23 @@ void ProjectClip::setRating(uint rating)
     pCore->currentDoc()->setModified(true);
 }
 
+int ProjectClip::getAudioMax(int stream)
+{
+    const QString key = QString("kdenlive:audio_max%1").arg(stream);
+    if (m_masterProducer->property_exists(key.toUtf8().constData())) {
+        return m_masterProducer->get_int(key.toUtf8().constData());
+    }
+    // Process audio max for the stream
+    const QString key2 = QString("_kdenlive:audio%1").arg(stream);
+    const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key2.toUtf8().constData()));
+    if (audioData.isEmpty()) {
+        return 0;
+    }
+    uint max = *std::max_element(audioData.constBegin(), audioData.constEnd());
+    m_masterProducer->set(key.toUtf8().constData(), int(max));
+    return int(max);
+}
+
 const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
 {
     QVector <uint8_t> audioLevels;
@@ -1806,7 +1823,7 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
-    QString key = QString("_kdenlive:audio%1").arg(stream);
+    const QString key = QString("_kdenlive:audio%1").arg(stream);
     if (m_masterProducer->get_data(key.toUtf8().constData())) {
         const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
