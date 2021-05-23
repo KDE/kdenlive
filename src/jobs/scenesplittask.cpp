@@ -41,10 +41,13 @@
 #include <klocalizedstring.h>
 #include <project/projectmanager.h>
 
-SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, QObject* object)
+SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_jobDuration(0)
     , m_threshold(threshold)
+    , m_markersType(markersCategory)
+    , m_subClips(addSubclips)
+    , m_minInterval(minDuration)
     , m_jobProcess(nullptr)
 {
 }
@@ -55,6 +58,8 @@ void SceneSplitTask::start(QObject* object, bool force)
     Ui::SceneCutDialog_UI view;
     view.setupUi(d);
     view.threshold->setValue(KdenliveSettings::scenesplitthreshold());
+    view.add_markers->setChecked(KdenliveSettings::scenesplitmarkers());
+    view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
     static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
     QPixmap pixmap(32,32);
@@ -68,7 +73,14 @@ void SceneSplitTask::start(QObject* object, bool force)
         return;
     }
     int threshold = view.threshold->value();
+    bool addMarkers = view.add_markers->isChecked();
+    bool addSubclips = view.cut_scenes->isChecked();
+    int markersCategory = addMarkers ? view.marker_type->currentIndex() : -1;
+    int minDuration = view.minDuration->value();
     KdenliveSettings::setScenesplitthreshold(threshold);
+    KdenliveSettings::setScenesplitmarkers(view.add_markers->isChecked());
+    KdenliveSettings::setScenesplitsubclips(view.cut_scenes->isChecked());
+
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     for (auto & id : binIds) {
         SceneSplitTask* task = nullptr;
@@ -82,12 +94,12 @@ void SceneSplitTask::start(QObject* object, bool force)
             }
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
             auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
-            task = new SceneSplitTask(owner, threshold / 100., binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
 
         } else {
             owner = ObjectId(ObjectType::BinClip, id.toInt());
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
-            task = new SceneSplitTask(owner, threshold / 100., binClip.get());
+            task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
         }
         // See if there is already a task for this MLT service and resource.
         if (task && pCore->taskManager.hasPendingJob(owner, AbstractTask::ANALYSECLIPJOB)) {
@@ -128,6 +140,7 @@ void SceneSplitTask::run()
         return;
     }
     m_jobDuration = int(binClip->duration().seconds());
+    int producerDuration = binClip->frameDuration();
     //QStringList parameters = {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
     QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-r"),QStringLiteral("50")};
 #ifdef Q_OS_WIN
@@ -162,56 +175,59 @@ void SceneSplitTask::run()
     if (result && !m_isCanceled) {
         qDebug()<<"========================\n\nGOR RESULTS: "<<m_results<<"\n\n=========";
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
-    //if (m_markersType >= 0) {
-        // Build json data for markers
-        QJsonArray list;
-        int ix = 1;
-        int lastCut = 0;
-        for (auto &marker : m_results) {
-            int pos = GenTime(marker).frames(pCore->getCurrentFps());
-            /*
-            if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
-                continue;
-            }*/
-            lastCut = pos;
-            QJsonObject currentMarker;
-            currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
-            currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
-            currentMarker.insert(QLatin1String("type"), QJsonValue(0)); //m_markersType));
-            list.push_back(currentMarker);
-            ix++;
-        }
-        QJsonDocument json(list);
-        QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(const QString&,QString(json.toJson())));
-        //binClip->getMarkerModel()->importFromJson(QString(json.toJson()), true, undo, redo);
-    //}
-        /*if (QFileInfo(destUrl).size() == 0) {
-            QFile::remove(destUrl);
-            // File was not created
-            m_errorMessage.append(i18n("Failed to create file."));
-        } else {
-            QString id = QString::number(m_owner.second);
-            auto binClip = pCore->projectItemModel()->getClipByBinID(id);
-            if (m_replaceProducer && binClip) {
-                QMap <QString, QString> sourceProps;
-                QMap <QString, QString> newProps;
-                sourceProps.insert(QStringLiteral("resource"), binClip->url());
-                sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
-                newProps.insert(QStringLiteral("resource"), destUrl);
-                newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
-                pCore->bin()->slotEditClipCommand(id, sourceProps, newProps);
-            } else {
-                QString folder = QStringLiteral("-1");
-                if (binClip) {
-                    auto containingFolder = std::static_pointer_cast<ProjectFolder>(binClip->parent());
-                    if (containingFolder) {
-                        folder = containingFolder->clipId();
-                    }
+        if (m_markersType >= 0) {
+            // Build json data for markers
+            QJsonArray list;
+            int ix = 1;
+            int lastCut = 0;
+            for (auto &marker : m_results) {
+                int pos = GenTime(marker).frames(pCore->getCurrentFps());
+                if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
+                    continue;
                 }
-                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(const QString&,destUrl), Q_ARG(const QString&,folder));
-                //id = ClipCreator::createClipFromFile(destUrl, folderId, pCore->projectItemModel());
+                lastCut = pos;
+                QJsonObject currentMarker;
+                currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                currentMarker.insert(QLatin1String("comment"), QJsonValue(i18n("Scene %1", ix)));
+                currentMarker.insert(QLatin1String("type"), QJsonValue(m_markersType));
+                list.push_back(currentMarker);
+                ix++;
             }
-        }*/
+            QJsonDocument json(list);
+            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(const QString&,QString(json.toJson())));
+        }
+        if (m_subClips) {
+            // Create zones
+            int ix = 1;
+            int lastCut = 0;
+            QJsonArray list;
+            QJsonDocument json;
+            for (double &marker : m_results) {
+                int pos = GenTime(marker).frames(pCore->getCurrentFps());
+                if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
+                    continue;
+                }
+                QJsonObject currentZone;
+                currentZone.insert(QLatin1String("name"), QJsonValue(i18n("Scene %1", ix)));
+                currentZone.insert(QLatin1String("in"), QJsonValue(lastCut));
+                currentZone.insert(QLatin1String("out"), QJsonValue(pos - 1));
+                list.push_back(currentZone);
+                lastCut = pos;
+                ix++;
+            }
+            if (lastCut < producerDuration) {
+                QJsonObject currentZone;
+                currentZone.insert(QLatin1String("name"), QJsonValue(i18n("Scene %1", ix)));
+                currentZone.insert(QLatin1String("in"), QJsonValue(lastCut));
+                currentZone.insert(QLatin1String("out"), QJsonValue(producerDuration));
+                list.push_back(currentZone);
+            }
+            json.setArray(list);
+            if (!json.isEmpty()) {
+                QString dataMap(json.toJson());
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(const QString&,QString::number(m_owner.second)), Q_ARG(const QString&,dataMap));
+            }
+        }
     } else {
         // Proxy process crashed
         m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));

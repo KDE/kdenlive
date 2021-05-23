@@ -28,7 +28,7 @@ class QProcess;
 class SceneSplitTask : public AbstractTask
 {
 public:
-    SceneSplitTask(const ObjectId &owner, double threshold, QObject* object);
+    SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object);
     static void start(QObject* object, bool force = false);
 
 protected:
@@ -41,6 +41,9 @@ private slots:
 private:
     int m_jobDuration;
     double m_threshold;
+    int m_markersType;
+    bool m_subClips;
+    int m_minInterval;
     std::unique_ptr<QProcess> m_jobProcess;
     QString m_errorMessage;
     QString m_logDetails;
