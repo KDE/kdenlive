@@ -1804,6 +1804,9 @@ int ProjectClip::getAudioMax(int stream)
     }
     // Process audio max for the stream
     const QString key2 = QString("_kdenlive:audio%1").arg(stream);
+    if (!m_masterProducer->property_exists(key2.toUtf8().constData())) {
+        return 0;
+    }
     const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key2.toUtf8().constData()));
     if (audioData.isEmpty()) {
         return 0;
