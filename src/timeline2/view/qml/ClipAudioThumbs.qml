@@ -15,6 +15,10 @@ Row {
         interval: 50; running: false; repeat: false
         onTriggered: processReload()
     }
+    
+    onHeightChanged: {
+        waveTimer.start()
+    }
 
     function reload(reset) {
         if (reset === 0) {
@@ -23,7 +27,7 @@ Row {
         waveTimer.start()
     }
     onMaxWidthChanged: {
-        waveTimer.start();
+        waveTimer.start()
     }
 
     function processReload() {
