@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
+#include <QUuid>
 #include <QElapsedTimer>
 
 #include "timeline2/model/timelineitemmodel.hpp"
@@ -32,6 +33,7 @@ class KdenliveDoc;
 class MarkerListModel;
 class NotesPlugin;
 class Project;
+class ProjectClip;
 class QAction;
 class QProgressDialog;
 class QUrl;
@@ -97,6 +99,11 @@ public:
     /** @brief Add requested audio tracks number to project.
      */
     void addAudioTracks(int tracksCount);
+
+    /** @brief Open a new timeline to edit a playlist clip */
+    void openTimeline(std::shared_ptr<ProjectClip> clip);
+
+    QUuid getTimelineUuid(std::shared_ptr<TimelineItemModel> model);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -206,6 +213,7 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    std::unordered_map<std::shared_ptr<TimelineItemModel>,QUuid> m_secondaryTimelines;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();

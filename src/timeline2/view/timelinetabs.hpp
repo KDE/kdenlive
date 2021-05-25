@@ -93,8 +93,13 @@ signals:
      */
     void updateZoom(int);
 
+public slots:
+    TimelineWidget *addTimeline();
+    void connectCurrent(int ix);
+
 private:
     TimelineWidget *m_mainTimeline;
+    TimelineWidget *m_activeTimeline;
 };
 
 #endif

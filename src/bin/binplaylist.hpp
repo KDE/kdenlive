@@ -46,7 +46,7 @@ class BinPlaylist : public QObject
 
 public:
     BinPlaylist();
-
+    BinPlaylist(const QString &id);
     /** @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.

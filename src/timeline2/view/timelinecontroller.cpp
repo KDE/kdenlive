@@ -72,7 +72,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_audioRef(-1)
     , m_zone(-1, -1)
     , m_activeTrack(-1)
-    , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
+    , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250.)
     , m_timelinePreview(nullptr)
     , m_ready(false)
     , m_snapStackIndex(-1)
@@ -378,6 +378,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
     if (position == -1) {
         position = pCore->getTimelinePosition();
     }
+    qDebug()<<"==== INSERTING CLIP on TID: "<<tid<<", AT: "<<position<<", DATA: "<<data_str<<"\nOOOOOOOOOOOOOOOOOO";
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo, refreshView, useTargets)) {
         id = -1;
     }

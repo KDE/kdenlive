@@ -224,7 +224,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     updateTimeline(0);
     pCore->window()->connectDocument();
-    pCore->mixer()->setModel(m_mainTimelineModel);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
@@ -803,37 +802,37 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
 
 void ProjectManager::slotSwitchTrackLock()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackLock();
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackLock();
 }
 
 void ProjectManager::slotSwitchTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackActive();
 }
 
 void ProjectManager::slotSwitchAllTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->switchAllTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->switchAllTrackActive();
 }
 
 void ProjectManager::slotMakeAllTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->makeAllTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->makeAllTrackActive();
 }
 
 void ProjectManager::slotRestoreTargetTracks()
 {
-    pCore->window()->getMainTimeline()->controller()->restoreTargetTracks();
+    pCore->window()->getCurrentTimeline()->controller()->restoreTargetTracks();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackLock(true);
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackLock(true);
 }
 
 void ProjectManager::slotSwitchTrackTarget()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTargetTrack();
+    pCore->window()->getCurrentTimeline()->controller()->switchTargetTrack();
 }
 
 QString ProjectManager::getDefaultProjectFormat()
@@ -927,7 +926,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+    if (!constructTimelineFromMelt(QUuid(), m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
@@ -941,11 +940,8 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
-    connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     emit pCore->monitorManager()->updatePreviewScaling();
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
-    pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
@@ -970,7 +966,7 @@ void ProjectManager::activateAsset(const QVariantMap &effectData)
     if (effectData.contains(QStringLiteral("kdenlive/effect"))) {
         pCore->window()->addEffect(effectData.value(QStringLiteral("kdenlive/effect")).toString());
     } else {
-        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
+        pCore->window()->getCurrentTimeline()->controller()->addAsset(effectData);
     }
 }
 
@@ -1101,10 +1097,40 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 
 QPair<int, int> ProjectManager::tracksCount()
 {
-    return pCore->window()->getMainTimeline()->controller()->getTracksCount();
+    return pCore->window()->getCurrentTimeline()->controller()->getTracksCount();
 }
 
 void ProjectManager::addAudioTracks(int tracksCount)
 {
-    pCore->window()->getMainTimeline()->controller()->addTracks(0, tracksCount);
+    pCore->window()->getCurrentTimeline()->controller()->addTracks(0, tracksCount);
 }
+
+void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
+{
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    TimelineWidget *timeline = pCore->window()->openTimeline();
+    m_secondaryTimelines.insert({timelineModel,timeline->uuid});
+    QDomDocument doc = m_project->createEmptyDocument(2, 2);
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
+                                                            doc.toString().toUtf8().constData()));
+
+    Mlt::Service s(*xmlProd);
+    Mlt::Tractor tractor(s);
+    pCore->buildProjectModel(timeline->uuid);
+    timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    if (!constructTimelineFromMelt(timeline->uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+        //TODO: act on project load failure
+        qDebug()<<"// Project failed to load!!";
+    }
+}
+
+QUuid ProjectManager::getTimelineUuid(std::shared_ptr<TimelineItemModel> model)
+{
+    auto search = m_secondaryTimelines.find(model);
+    if (search == m_secondaryTimelines.end()) {
+        // Not a secondary timeline, return main
+        return QUuid();
+    }
+    return search->second;
+}
+

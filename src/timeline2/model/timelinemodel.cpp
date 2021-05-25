@@ -1566,6 +1566,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     }
 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
+    qDebug()<<"=== FOUND CLIP OF DURATION: "<<master->getFramePlaytime();
     type = master->clipType();
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;

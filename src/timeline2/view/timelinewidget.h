@@ -24,6 +24,7 @@
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
+#include <QUuid>
 
 class ThumbnailProvider;
 class TimelineController;
@@ -58,6 +59,7 @@ public:
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
+    QUuid uuid;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

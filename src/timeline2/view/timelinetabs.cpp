@@ -42,6 +42,7 @@ QSize TimelineContainer::sizeHint() const
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
     , m_mainTimeline(new TimelineWidget(this))
+    , m_activeTimeline(m_mainTimeline)
 {
     setTabBarAutoHide(true);
     setTabsClosable(true);
@@ -56,6 +57,27 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_mainTimeline, &TimelineWidget::zoneUpdatedWithUndo);
     connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
+    connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
+}
+
+TimelineWidget *TimelineTabs::addTimeline()
+{
+    TimelineWidget *newTimeline = new TimelineWidget(this);
+    addTab(newTimeline, i18n("Secondary timeline"));
+    return newTimeline;
+}
+
+void TimelineTabs::connectCurrent(int ix)
+{
+    qDebug()<<"==== SWITCHING CURRENT TIMELINE TO: "<<ix;
+    if (m_activeTimeline) {
+        pCore->window()->disconnectTimeline(m_activeTimeline);
+        disconnectTimeline(m_activeTimeline);
+    }
+    m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
+    pCore->setProjectItemModel(m_activeTimeline->uuid);
+    connectTimeline(m_activeTimeline);
+    pCore->window()->connectTimeline();
 }
 
 TimelineTabs::~TimelineTabs()
@@ -102,5 +124,4 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     disconnect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
-    delete timeline;
 }

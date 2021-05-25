@@ -615,6 +615,7 @@ Rectangle {
             clearDropData()
         }
         onEntered: {
+            console.log(':::::::::::::::::::::\nDRAG ENTERED\n::::::::::::::::::::::')
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
                 var yOffset = 0
@@ -628,6 +629,7 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
+                    console.log('Dropping clips: ', clipBeingDroppedData)
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {

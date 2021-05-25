@@ -1738,6 +1738,13 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 }
 
+void Bin::setProjectModel(std::shared_ptr<ProjectItemModel> model)
+{
+    qDebug()<<"=======\nSETTING PROJECT MODEL\n\n=======================";
+    m_itemModel = model;
+    slotInitView(nullptr);
+}
+
 void Bin::setDocument(KdenliveDoc *project)
 {
     m_doc = project;
@@ -2454,7 +2461,9 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip) {
-                if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
+                if (clip->clipType() == ClipType::Playlist) {
+                    pCore->projectManager()->openTimeline(clip);
+                } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
                 } else {

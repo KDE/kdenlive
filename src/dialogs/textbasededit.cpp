@@ -1097,7 +1097,7 @@ void TextBasedEdit::insertToTimeline()
         return;
     }
     for (auto &zone : zones) {
-        pCore->window()->getMainTimeline()->controller()->insertZone(m_binId, zone, false);
+        pCore->window()->getCurrentTimeline()->controller()->insertZone(m_binId, zone, false);
     }
 }
 

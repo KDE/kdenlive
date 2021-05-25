@@ -35,6 +35,12 @@ BinPlaylist::BinPlaylist()
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
 
+BinPlaylist::BinPlaylist(const QString &id)
+    : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+{
+    m_binPlaylist->set("id", id.toUtf8().constData());
+}
+
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
     QString id = binElem->clipId();

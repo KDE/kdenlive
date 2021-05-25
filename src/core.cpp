@@ -111,6 +111,7 @@ bool Core::build(bool testMode)
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
+    m_self->m_activeProjectModel =  m_self->m_projectItemModel;
     return true;
 }
 
@@ -750,9 +751,41 @@ void Core::setCompositionATrack(int cid, int aTrack)
     m_mainWindow->getCurrentTimeline()->controller()->setCompositionATrack(cid, aTrack);
 }
 
+void Core::buildProjectModel(QUuid uuid)
+{
+    std::shared_ptr<ProjectItemModel> model = ProjectItemModel::construct();
+    model->buildPlaylist(uuid.toString());
+    m_secondaryModels.insert({uuid.toString(), model});
+}
+
+void Core::setProjectItemModel(const QUuid &uuid)
+{
+    if (uuid != QUuid()) {
+        auto md = m_secondaryModels.find(uuid.toString());
+        if (md != m_secondaryModels.end()) {
+            m_activeProjectModel = md->second;
+            m_binWidget->setProjectModel(m_activeProjectModel);
+            return;
+        }
+    }
+    m_activeProjectModel = m_projectItemModel;
+    m_binWidget->setProjectModel(m_activeProjectModel);
+}
+
+std::shared_ptr<ProjectItemModel> Core::getProjectItemModel(const QUuid uuid)
+{
+    if (uuid != QUuid()) {
+        auto md = m_secondaryModels.find(uuid.toString());
+        if (md != m_secondaryModels.end()) {
+            return md->second;
+        }
+    }
+    return m_projectItemModel;
+}
+
 std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 {
-    return m_projectItemModel;
+    return m_activeProjectModel;
 }
 
 void Core::invalidateRange(QPair<int, int> range)
@@ -982,7 +1015,7 @@ bool Core::enableMultiTrack(bool enable)
     }
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     if (isMultiTrack || enable) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, enable);
+        pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(enable, enable);
         return true;
     }
     return false;
@@ -1008,7 +1041,7 @@ void Core::addGuides(QList <int> guides)
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
 {
-    window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+    window()->getCurrentTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
 void Core::transcodeFile(const QString url)

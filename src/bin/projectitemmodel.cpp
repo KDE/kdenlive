@@ -79,6 +79,11 @@ void ProjectItemModel::buildPlaylist()
     m_binPlaylist.reset(new BinPlaylist());
 }
 
+void ProjectItemModel::buildPlaylist(const QString &uuid)
+{
+    m_binPlaylist.reset(new BinPlaylist(uuid));
+}
+
 int ProjectItemModel::mapToColumn(int column) const
 {
     switch (column) {

@@ -19,6 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QObject>
 #include <QColor>
 #include <QUrl>
+#include <QUuid>
 #include <memory>
 #include <QPoint>
 #include <QThreadPool>
@@ -113,8 +114,14 @@ public:
     void selectBinClip(const QString &id, bool activateMonitor = true, int frame = -1, const QPoint &zone = QPoint());
     /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
     void selectTimelineItem(int id);
+    /** @brief Set the currently active project model. */
+    void setProjectItemModel(const QUuid &uuid);
+    /** @brief Returns a project model by uuid. */
+    std::shared_ptr<ProjectItemModel> getProjectItemModel(const QUuid uuid);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
+    /** @brief Build a secondary project model. */
+    void buildProjectModel(QUuid uuid);
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */
@@ -261,7 +268,12 @@ private:
     MainWindow *m_mainWindow{nullptr};
     ProjectManager *m_projectManager{nullptr};
     MonitorManager *m_monitorManager{nullptr};
+    /** @brief The main project's model. */
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
+    /** @brief The currently active project's model (main or secondary). */
+    std::shared_ptr<ProjectItemModel> m_activeProjectModel;
+    /** @brief The existing secondary project models. */
+    std::unordered_map<QString,std::shared_ptr<ProjectItemModel>> m_secondaryModels;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
