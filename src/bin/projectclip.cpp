@@ -486,9 +486,8 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
+bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
 {
-    Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
@@ -532,7 +531,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     pCore->bin()->reloadMonitorIfActive(clipId());
     for (auto &p : m_audioProducers) {

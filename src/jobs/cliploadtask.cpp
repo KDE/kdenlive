@@ -671,8 +671,7 @@ void ClipLoadTask::run()
     if (!m_isCanceled) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
-                                  Q_ARG(bool , true));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer));
             if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1) {
                 checkProfile(producer);
             }

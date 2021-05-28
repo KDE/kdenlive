@@ -297,7 +297,7 @@ public slots:
      *  @param replaceProducer If true, we replace existing producer with this one
      *  @returns true if producer was changed
      * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer);
     
     void importJsonMarkers(const QString &json);
 
