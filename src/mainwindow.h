@@ -162,7 +162,7 @@ public:
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
     /** @brief Open a new timeline tab. */
-    TimelineWidget *openTimeline();
+    TimelineWidget *openTimeline(const QString &tabName);
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
 

@@ -4363,9 +4363,9 @@ void MainWindow::slotCopyDebugInfo() {
     clipboard->setText(debuginfo);
 }
 
-TimelineWidget *MainWindow::openTimeline()
+TimelineWidget *MainWindow::openTimeline(const QString &tabName)
 {
-    return m_timelineTabs->addTimeline();
+    return m_timelineTabs->addTimeline(tabName);
 }
 
 #ifdef DEBUG_MAINW

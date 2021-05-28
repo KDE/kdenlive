@@ -1118,7 +1118,7 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
         return;
     }
 
-    TimelineWidget *timeline = pCore->window()->openTimeline();
+    TimelineWidget *timeline = pCore->window()->openTimeline(clip->clipName());
     std::shared_ptr<MarkerListModel> guidesModel(new MarkerListModel(m_project->commandStack(), this));
     m_project->addGuidesModel(timeline->uuid, guidesModel);
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(timeline->uuid), m_project->commandStack());

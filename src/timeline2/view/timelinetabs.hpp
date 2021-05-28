@@ -96,7 +96,7 @@ signals:
     void updateZoom(int);
 
 public slots:
-    TimelineWidget *addTimeline();
+    TimelineWidget *addTimeline(const QString &tabName);
     void connectCurrent(int ix);
 
 private:

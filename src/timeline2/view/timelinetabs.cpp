@@ -60,10 +60,10 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
 }
 
-TimelineWidget *TimelineTabs::addTimeline()
+TimelineWidget *TimelineTabs::addTimeline(const QString &tabName)
 {
     TimelineWidget *newTimeline = new TimelineWidget(this);
-    addTab(newTimeline, i18n("Secondary timeline"));
+    addTab(newTimeline, tabName);
     return newTimeline;
 }
 
