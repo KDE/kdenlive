@@ -77,7 +77,7 @@ ProjectItemModel::~ProjectItemModel() = default;
 
 void ProjectItemModel::buildPlaylist(const QUuid &uuid)
 {
-    m_binPlaylist.reset(new BinPlaylist(uuid));
+    m_binPlaylist.reset(new BinPlaylist());
 }
 
 int ProjectItemModel::mapToColumn(int column) const

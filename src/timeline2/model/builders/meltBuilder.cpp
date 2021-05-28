@@ -45,12 +45,12 @@
 
 static QStringList m_errorMessage;
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, QProgressDialog *progressDialog = nullptr);
-bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
+bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog = nullptr);
 
-bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -95,6 +95,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
         case tractor_type: {
             // that is a double track
             int tid;
+            qDebug()<<"=== LOADING PLAYLIST FROM MULTI TRACK\n00000000000000000000000";
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
             if (!audioTrack) {
                 videoTracksIndexes << i;
@@ -104,7 +105,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
                 lockedTracksIndexes << tid;
             }
             Mlt::Tractor local_tractor(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+            ok = ok && constructTrackFromMelt(uuid, timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
@@ -113,7 +114,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
         case playlist_type: {
             // that is a single track
             int tid;
-            qDebug()<<"=== LOADING PLAYLIST TRACK";
+            qDebug()<<"=== LOADING PLAYLIST FROM SINGLE TRACK\n00000000000000000000000";
             Mlt::Playlist local_playlist(*track);
             const QString trackName = local_playlist.get("kdenlive:track_name");
             bool audioTrack = local_playlist.get_int("kdenlive:audio_track") == 1;
@@ -219,7 +220,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
 }
 
 
-bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -272,7 +273,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
                 lockedTracksIndexes << tid;
             }
             Mlt::Tractor local_tractor(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+            ok = ok && constructTrackFromMelt(uuid, timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
@@ -385,7 +386,7 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
     return true;
 }
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, QProgressDialog *progressDialog)
 {
     if (track.count() != 2) {
@@ -415,7 +416,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             return false;
         }
         Mlt::Playlist playlist(*sub_track);
-        constructTrackFromMelt(QUuid(), timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, i, progressDialog);
+        constructTrackFromMelt(uuid, timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, i, progressDialog);
         if (i == 0) {
             // Pass track properties
             int height = track.get_int("kdenlive:trackheight");
@@ -478,7 +479,7 @@ PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, 
 }
 } // namespace
 
-bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
+bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog)
 {
     int max = track.count();
@@ -508,6 +509,7 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
+                qDebug()<<"==== STEP1: "<<clipId<<" / BID: "<<binId;
                 if (clipId.isEmpty()) {
                     // This is not a kdenlive project, add an id
                     std::shared_ptr<Mlt::Producer> parentClip(new Mlt::Producer(&clip->parent()));
@@ -531,8 +533,10 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
                         clipId = fixedId.first();
                     }
                     binId = clipId;
+                    qDebug()<<"==== STEP2: "<<clipId<<" / BID: "<<binId;
                 } else if (binIdCorresp.count(clipId) == 0) {
                     // Project was somehow corrupted
+                    qDebug()<<"==== STEP3: "<<clipId<<" / BID: "<<binId;
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist, ADDING IT TO UUID: "<<uuid;
                     QStringList fixedId = pCore->getProjectItemModel(uuid)->getClipByUrl(QFileInfo(clip->parent().get("resource")));
                     if (!fixedId.isEmpty()) {
@@ -542,8 +546,10 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
                     }
                 } else {
+                    qDebug()<<"==== STEP4: "<<clipId<<" / BID: "<<binId;
                     binId = binIdCorresp.at(clipId);
                 }
+                qDebug()<<"==== STEP5: "<<clipId<<" / BID: "<<binId;
                 Q_ASSERT(!clipId.isEmpty() && !binId.isEmpty());
                 clip->parent().set("kdenlive:id", binId.toUtf8().constData());
                 clip->parent().set("_kdenlive_processed", 1);

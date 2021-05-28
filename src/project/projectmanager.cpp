@@ -304,14 +304,38 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
 {
     pCore->monitorManager()->pauseActiveMonitor();
     // Sync document properties
-    if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
+    bool playlistSave = pCore->activeUuid() != QUuid();
+    if (!playlistSave && !saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
         pCore->window()->updateProjectPath(outputFileName);
     }
-    prepareSave();
+    if (!playlistSave) {
+        prepareSave();
+        m_project->updateSubtitle(outputFileName);
+    }
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
-    m_project->updateSubtitle(outputFileName);
     QString scene = projectSceneList(saveFolder);
+    if (playlistSave) {
+        // This is a secondary timeline
+        if (outputFileName.isEmpty()) {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot find write path for timeline: %1", pCore->activeUuid().toString()));
+            return false;
+        }
+        QSaveFile file(outputFileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", outputFileName));
+            return false;
+        }
+
+        const QByteArray sceneData = scene.toUtf8();
+        file.write(sceneData);
+        if (!file.commit()) {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", outputFileName));
+            return false;
+        }
+        pCore->displayBinMessage(i18n("Saved playlist %1", QFileInfo(outputFileName).fileName()), KMessageWidget::Information);
+        return true;
+    }
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
         while (i.hasNext()) {
@@ -397,6 +421,9 @@ bool ProjectManager::saveFile()
         // Calling saveFile before a project was created, something is wrong
         qCDebug(KDENLIVE_LOG) << "SaveFile called without project";
         return false;
+    }
+    if (pCore->activeUuid() != QUuid()) {
+        return saveFileAs( m_timelinePath.value(pCore->activeUuid()));
     }
     if (m_project->url().isEmpty()) {
         return saveFileAs();
@@ -689,6 +716,11 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
+    if (pCore->activeUuid() != QUuid()) {
+        // Disable autosave for secondary timelines
+        m_lastSave.start();
+        return;
+    }
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QString scene = projectSceneList(saveFolder);
@@ -712,21 +744,22 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
-    bool hasPreview = pCore->window()->getMainTimeline()->controller()->hasPreviewTrack();
+    TimelineWidget *timeline = pCore->window()->getCurrentTimeline();
+    bool hasPreview = timeline->controller()->hasPreviewTrack();
     if (isMultiTrack) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(false, false);
+        timeline->controller()->slotMultitrackView(false, false);
     }
     if (hasPreview) {
-        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
+        timeline->controller()->updatePreviewConnection(false);
     }
     pCore->mixer()->pauseMonitoring(true);
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder, QString(), overlayData);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
+        timeline->controller()->slotMultitrackView(true, false);
     }
     if (hasPreview) {
-        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(true);
+        timeline->controller()->updatePreviewConnection(true);
     }
     return scene;
 }
@@ -933,7 +966,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(QUuid(), m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+    if (!constructTimelineFromTractor(QUuid(), m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
@@ -1117,7 +1150,6 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
     }
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml",
                                                             clip->url().toUtf8().constData()));
-                                                            //doc.toString().toUtf8().constData()));
 
     if (xmlProd == nullptr || !xmlProd->is_valid()) {
         pCore->displayBinMessage(i18n("Cannot create a timeline from this clip"), KMessageWidget::Information);
@@ -1130,12 +1162,14 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(timeline->uuid), m_project->commandStack());
     m_secondaryTimelines.insert({timelineModel,timeline->uuid});
     m_secondaryTimelineEntries.insert({clipId,timeline->uuid});
+    m_timelinePath.insert(timeline->uuid, clip->url());
     pCore->buildProjectModel(timeline->uuid);
     timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     //QDomDocument doc = m_project->createEmptyDocument(2, 2);
     Mlt::Service s(xmlProd->producer()->get_service());
     if (s.type() == multitrack_type) {
         Mlt::Multitrack multi(s);
+        qDebug()<<"===== LOADING PROJECT FROM MULTITRACK: " <<multi.count()<<"\n============";
         if (!constructTimelineFromMelt(timeline->uuid, timelineModel, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
             //TODO: act on project load failure
             qDebug()<<"// Project failed to load!!";
@@ -1144,9 +1178,25 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
         Mlt::Tractor tractor(s);
         qDebug()<<"==== GOT PROJECT CLIP LENGTH: "<<xmlProd->get_length()<<", TYPE:"<<s.type();
         qDebug()<<"==== GOT TRACKS: "<<tractor.count();
-        if (!constructTimelineFromMelt(timeline->uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+        if (!constructTimelineFromTractor(timeline->uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
             //TODO: act on project load failure
             qDebug()<<"// Project failed to load!!";
+        }
+    } else {
+        // Is it a Kdenlive project
+        qDebug()<<" + + + + + + LOADING PROJECT MODEL FROM TYPE: "<<s.type();
+        QFile f(clip->url());
+        if (f.open(QFile::ReadOnly | QFile::Text)) {
+            QTextStream in(&f);
+            QString projectData = in.readAll();
+            f.close();
+            QScopedPointer<Mlt::Producer> xmlProd2(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
+                                                            projectData.toUtf8().constData()));
+            Mlt::Service s2(*xmlProd2);
+            Mlt::Tractor tractor2(s2);
+            if (!constructTimelineFromTractor(timeline->uuid, timelineModel, tractor2, m_progressDialog, m_project->modifiedDecimalPoint())) {
+                qDebug()<<"// Project failed to load!!";
+            }
         }
     }
     pCore->window()->raiseTimeline(timeline->uuid);
