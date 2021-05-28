@@ -4095,7 +4095,7 @@ void Bin::checkAudioThumbs()
     for (const auto &clip : qAsConst(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-            AudioLevelsTask::start({ObjectType::BinClip, clip->clipId().toInt()}, this, false);
+            AudioLevelsTask::start(m_itemModel->uuid(), {ObjectType::BinClip, clip->clipId().toInt()}, this, false);
         }
     }
 }

@@ -23,17 +23,20 @@
 #include "abstracttask.h"
 
 #include <QRunnable>
+#include <QUuid>
 #include <QObject>
 
 class AudioLevelsTask : public AbstractTask
 {
 public:
-    AudioLevelsTask(const ObjectId &owner, QObject* object);
-    static void start(const ObjectId &owner, QObject* object, bool force = false);
+    AudioLevelsTask(const QUuid &uuid, const ObjectId &owner, QObject* object);
+    static void start(const QUuid &uuid, const ObjectId &owner, QObject* object, bool force = false);
 
 protected:
     void run() override;
 
+private:
+    QUuid m_uuid;
 };
 
 #endif // AUDIOLEVELSTASK_H

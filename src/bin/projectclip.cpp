@@ -124,7 +124,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         // Generate clip thumbnail
         ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
-        AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+        AudioLevelsTask::start(uuid, {ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
 }
 
@@ -524,16 +524,17 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
-    if (auto ptr = m_model.lock()) {
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::DataDuration);
-        std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
-    }
     // Make sure we have a hash for this clip
     getFileHash();
+    if (auto ptr = m_model.lock()) {
+        auto model = std::static_pointer_cast<ProjectItemModel>(ptr);
+        model->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                       AbstractProjectItem::DataDuration);
+        model->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+        AudioLevelsTask::start(model->uuid(), {ObjectType::BinClip, m_binId.toInt()}, this, false);
+    }
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     pCore->bin()->reloadMonitorIfActive(clipId());
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
@@ -1706,7 +1707,9 @@ Fun ProjectClip::getAudio_lambda()
     return [this]() {
         if (KdenliveSettings::audiothumbnails() && (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist) && m_audioLevels.isEmpty()) {
             // Generate audio levels
-            AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+            if (auto ptr = m_model.lock()) {
+                AudioLevelsTask::start(std::static_pointer_cast<ProjectItemModel>(ptr)->uuid(), {ObjectType::BinClip, m_binId.toInt()}, this, false);
+            }
         }
         return true;
     };

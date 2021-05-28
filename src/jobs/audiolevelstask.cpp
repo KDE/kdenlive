@@ -41,14 +41,15 @@ static void deleteQVariantList(QVector <uint8_t>* list)
     delete list;
 }
 
-AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject* object)
+AudioLevelsTask::AudioLevelsTask(const QUuid &uuid, const ObjectId &owner, QObject* object)
     : AbstractTask(owner, AbstractTask::AUDIOTHUMBJOB, object)
+    , m_uuid(uuid)
 {
 }
 
-void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
+void AudioLevelsTask::start(const QUuid &uuid, const ObjectId &owner, QObject* object, bool force)
 {
-    AudioLevelsTask* task = new AudioLevelsTask(owner, object);
+    AudioLevelsTask* task = new AudioLevelsTask(uuid, owner, object);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
         delete task;
@@ -69,7 +70,7 @@ void AudioLevelsTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->getProjectItemModel(m_uuid)->getClipByBinID(QString::number(m_owner.second));
     if (binClip == nullptr) {
         // Clip was deleted
         pCore->taskManager.taskDone(m_owner.second, this);
