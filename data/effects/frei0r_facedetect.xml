@@ -24,7 +24,7 @@
         <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
     </parameter>
     
-    <parameter type="list" name="Shape" default="0.0" paramlist="0.0;0.1;0.2;1.0">
+    <parameter type="list" name="Shape" default="0" paramlist="0;0.1;0.2;1">
         <paramlistdisplay>circle,ellipse,rectangle,random</paramlistdisplay>
         <name>Shape</name>
     </parameter>

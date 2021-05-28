@@ -4,7 +4,7 @@
         <description>Measure video values</description>
         <author>Marko Cebokli</author>
         
-        <parameter type="list" name="Measurement" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
+        <parameter type="list" name="Measurement" default="0" paramlist="0;0.3;0.5;0.7;1">
                 <paramlistdisplay>RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL</paramlistdisplay>
                 <name>Measurement</name>
         </parameter>

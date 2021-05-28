@@ -25,22 +25,22 @@
                     <name>Blue / Intensity Delta</name>
             </parameter>
         
-            <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
+            <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
                     <name>Color Model</name>
             </parameter>
         
-            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
                     <name>Shape</name>
             </parameter>
         
-            <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0;0.35;0.60;1.0">
+            <parameter type="list" name="Edge mode" default="0" paramlist="0;0.35;0.60;1">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
                     <name>Edge mode</name>
             </parameter>
         
-            <parameter type="list" name="Operation" default="0.5" paramlist="0.0;0.3;0.5;0.7;1.0">
+            <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
                     <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                     <name>Operation</name>
             </parameter>
@@ -60,17 +60,17 @@
                     <name>Invert selection</name>
             </parameter>
 
-            <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
+            <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
                     <name>Color Model</name>
             </parameter>
         
-            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
                     <name>Shape</name>
             </parameter>
         
-            <parameter type="list" name="Edge mode" default="0.9" paramlist="0.0;0.35;0.60;0.7;0.9">
+            <parameter type="list" name="Edge mode" default="0.9" paramlist="0;0.35;0.60;0.7;0.9">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
                     <name>Edge mode</name>
             </parameter>
@@ -91,7 +91,7 @@
                     <name>Soften</name>
             </parameter>
         
-            <parameter type="list" name="Operation" default="0.5" paramlist="0.0;0.3;0.5;0.7;1.0">
+            <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
                     <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                     <name>Operation</name>
             </parameter>

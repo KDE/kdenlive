@@ -9,22 +9,22 @@
 	<parameter type="bool" name="DeFish" default="1">
 		<name>DeFish</name>
 	</parameter>
-	<parameter type="list" name="Type" default="0.666" paramlist="0;0.333;0.666;1.0">
+	<parameter type="list" name="Type" default="0.666" paramlist="0;0.333;0.666;1">
 		<paramlistdisplay>Equidistant,Orthographic,Equiarea,Stereographic</paramlistdisplay>
 		<name>Type</name>
 	</parameter>
-	<parameter type="list" name="Scaling" default="0" paramlist="0;0.333;0.666;1.0">
+	<parameter type="list" name="Scaling" default="0" paramlist="0;0.333;0.666;1">
 		<paramlistdisplay>Fill,Center,Fit,Manual</paramlistdisplay>
 		<name>Scaling</name>
 	</parameter>
 	<parameter type="animated" name="Manual Scale" default="0.5" min="0" max="1000" factor="1000">
 		<name>Manual Scale</name>
 	</parameter>
-	<parameter type="list" name="Interpolator" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1.0">
+	<parameter type="list" name="Interpolator" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1">
 		<paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
 		<name>Interpolator</name>
 	</parameter>
-	<parameter type="list" name="Aspect type" default="0" paramlist="0;0.25;0.5;0.75;1.0">
+	<parameter type="list" name="Aspect type" default="0" paramlist="0;0.25;0.5;0.75;1">
 		<paramlistdisplay>Square,PAL DV,NTSC DV,HDV,Manual</paramlistdisplay>
 		<name>Aspect type</name>
 	</parameter>
