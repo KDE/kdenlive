@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <qvarlengtharray.h>
 #include <utility>
 
-ProjectItemModel::ProjectItemModel(QObject *parent)
+ProjectItemModel::ProjectItemModel(const QUuid uuid, QObject *parent)
     : AbstractTreeModel(parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(nullptr)
@@ -56,6 +56,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
+    , m_uuid(uuid)
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
@@ -65,21 +66,16 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     connect(m_fileWatcher.get(), &FileWatcher::binClipMissing, this, &ProjectItemModel::setClipInvalid);
 }
 
-std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
+std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(const QUuid uuid, QObject *parent)
 {
-    std::shared_ptr<ProjectItemModel> self(new ProjectItemModel(parent));
+    std::shared_ptr<ProjectItemModel> self(new ProjectItemModel(uuid, parent));
     self->rootItem = ProjectFolder::construct(self);
     return self;
 }
 
 ProjectItemModel::~ProjectItemModel() = default;
 
-void ProjectItemModel::buildPlaylist()
-{
-    m_binPlaylist.reset(new BinPlaylist());
-}
-
-void ProjectItemModel::buildPlaylist(const QString &uuid)
+void ProjectItemModel::buildPlaylist(const QUuid &uuid)
 {
     m_binPlaylist.reset(new BinPlaylist(uuid));
 }
@@ -731,7 +727,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
+        ClipLoadTask::start(m_uuid, {ObjectType::BinClip,id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
     }
     return res;
 }
@@ -748,7 +744,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(const QUuid uuid, QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -986,7 +982,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1041,7 +1037,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     parentId = QStringLiteral("-1");
                 }
                 i.value()->set("_kdenlive_processed", 1);
-                requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
+                requestAddBinClip(m_uuid, newId, std::move(i.value()), parentId, undo, redo);
                 qApp->processEvents();
                 binIdCorresp[QString::number(i.key())] = newId;
             }
@@ -1140,4 +1136,9 @@ QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QS
         return folder->childByHash(clipHash);
     }
     return QString();
+}
+
+QUuid ProjectItemModel::uuid() const
+{
+    return m_uuid;
 }

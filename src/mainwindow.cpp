@@ -4158,6 +4158,11 @@ TimelineWidget *MainWindow::getCurrentTimeline() const
     return m_timelineTabs->getCurrentTimeline();
 }
 
+void MainWindow::closeTimelines()
+{
+    m_timelineTabs->closeTimelines();
+}
+
 bool MainWindow::hasTimeline() const
 {
     return m_timelineTabs != nullptr;

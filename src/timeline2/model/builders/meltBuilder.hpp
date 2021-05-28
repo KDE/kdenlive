@@ -23,6 +23,7 @@
 #define MELTBUILDER_H
 #include <memory>
 #include <mlt++/MltTractor.h>
+#include <mlt++/MltMultitrack.h>
 #include <QtCore/QString>
 #include <QtCore/QUuid>
 
@@ -33,4 +34,5 @@ class QProgressDialog;
  */
 bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
 
+bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
 #endif

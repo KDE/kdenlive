@@ -47,11 +47,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageWidget>
 
 
-ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack)
+ClipLoadTask::ClipLoadTask(const QUuid uuid, const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack)
     : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_in(in)
     , m_out(out)
+    , m_uuid(uuid)
     , m_thumbOnly(thumbOnly)
     , m_readyCallBack(std::move(readyCallBack))
 {
@@ -61,9 +62,9 @@ ClipLoadTask::~ClipLoadTask()
 {
 }
 
-void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, std::function<void()> readyCallBack)
+void ClipLoadTask::start(const QUuid uuid, const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object, readyCallBack);
+    ClipLoadTask* task = new ClipLoadTask(uuid, owner, xml, thumbOnly, in, out, object, readyCallBack);
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
         task = 0;
@@ -235,13 +236,11 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
 {
         // Fetch thumbnail
-    qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (binClip->clipType() != ClipType::Audio && producer->get_int("video_index") > -1) {
         if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
             // Thumbnail found in cache
             QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
-            qDebug()<<"=== FOUND THUMB IN CACHe";
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
         } else {
             QString mltService = producer->get("mlt_service");
@@ -264,7 +263,6 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                 thumbProd->attach(scaler);
                 thumbProd->attach(padder);
                 thumbProd->attach(converter);
-                qDebug()<<"===== \nSEEKING THUMB PROD\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
@@ -286,11 +284,12 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
                     } else {
-                        qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
                     }
                 }
+            } else {
+                qDebug()<<"=== NO THB PRODUCER FOR: "<<m_owner.second<<"\n+++++++++++++++++";
             }
         }
     }
@@ -350,9 +349,11 @@ void ClipLoadTask::run()
     }
     //QThread::currentThread()->setPriority(QThread::HighestPriority);
     if (m_thumbOnly) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        auto binClip = pCore->getProjectItemModel(m_uuid)->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             generateThumbnail(binClip, binClip->originalProducer());
+        } else {
+            qDebug()<<"=== COULD NOT FIND BIN CLIP ID: "<<m_owner.second<<" - UUID: "<<m_uuid;
         }
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
@@ -360,7 +361,6 @@ void ClipLoadTask::run()
     m_running = true;
     pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug()<<"============STARTING LOAD TASK FOR: "<<resource<<"\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -669,18 +669,19 @@ void ClipLoadTask::run()
         }
     }
     if (!m_isCanceled) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        auto binClip = pCore->getProjectItemModel(m_uuid)->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
-                                  Q_ARG(bool , true));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer));
             if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1) {
                 checkProfile(producer);
             }
+            generateThumbnail(binClip, producer);
 
+        } else {
+            qDebug()<<"==========================0\nERROR CLIP NOT FOUND\n++++++++++++++++++++++++++++";
         }
-        generateThumbnail(binClip, producer);
         m_readyCallBack();
-        if (pCore->projectItemModel()->clipsCount() == 1) {
+        if (pCore->getProjectItemModel(m_uuid)->clipsCount() == 1 && pCore->isActiveModel(m_uuid)) {
             // Always select first added clip
             pCore->selectBinClip(QString::number(m_owner.second), false);
         }
@@ -693,10 +694,10 @@ void ClipLoadTask::abort()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (!m_softDelete) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        auto binClip = pCore->getProjectItemModel(m_uuid)->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             binClip->setInvalid();
-            pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+            pCore->getProjectItemModel(m_uuid)->requestBinClipDeletion(binClip, undo, redo);
         }
     }
     pCore->taskManager.taskDone(m_owner.second, this);

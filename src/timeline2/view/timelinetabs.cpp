@@ -96,6 +96,13 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
     return static_cast<TimelineWidget *>(currentWidget());
 }
 
+void TimelineTabs::closeTimelines()
+{
+    for (int i = 0; i < count(); i++) {
+        static_cast<TimelineWidget *>(widget(i))->unsetModel();
+    }
+}
+
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor, Qt::DirectConnection);

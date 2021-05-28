@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QFileInfo>
 #include <QIcon>
+#include <QUuid>
 #include <QReadWriteLock>
 #include <QSize>
 
@@ -45,6 +46,7 @@ namespace Mlt {
 class Producer;
 class Properties;
 class Tractor;
+class Service;
 } // namespace Mlt
 
 /**
@@ -56,17 +58,16 @@ class ProjectItemModel : public AbstractTreeModel
     Q_OBJECT
 
 protected:
-    explicit ProjectItemModel(QObject *parent);
+    explicit ProjectItemModel(const QUuid uuid, QObject *parent);
 
 public:
-    static std::shared_ptr<ProjectItemModel> construct(QObject *parent = nullptr);
+    static std::shared_ptr<ProjectItemModel> construct(const QUuid uuid, QObject *parent = nullptr);
     ~ProjectItemModel() override;
 
     friend class ProjectClip;
     
     /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
-    void buildPlaylist();
-    void buildPlaylist(const QString &uuid);
+    void buildPlaylist(const QUuid &uuid = QUuid());
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
@@ -114,7 +115,7 @@ public:
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
@@ -167,7 +168,7 @@ public:
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
 
     /** @brief This is the addition function when we already have a producer for the clip*/
-    bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(const QUuid uuid, QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
 
     /** @brief Create a subClip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
@@ -216,8 +217,11 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    /** @brief Returns the model's uuid */
+    QUuid uuid() const;
 
 protected:
+    QUuid m_uuid;
     /** @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;

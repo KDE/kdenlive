@@ -55,7 +55,8 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    m_binModel = pCore->getProjectItemModel(parent->uuid());
+    std::shared_ptr<ProjectClip> binClip = pCore->getProjectItemModel(parent->uuid())->getClipByBinID(m_binClipId);
     m_canBeVideo = binClip->hasVideo();
     m_canBeAudio = binClip->hasAudio();
     m_clipType = binClip->clipType();
@@ -79,7 +80,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->getProjectItemModel(parent->uuid())->getClipByBinID(binClipId);
 
     // We refine the state according to what the clip can actually produce
     std::pair<bool, bool> videoAudio = stateToBool(state);
@@ -114,7 +115,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     // clipModel (due to a mlt limitation, see ProjectClip doc)
 
     int id = TimelineModel::getNextId();
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
+    std::shared_ptr<ProjectClip> binClip = pCore->getProjectItemModel(parent->uuid())->getClipByBinID(binClipId);
 
     // We refine the state according to what the clip can actually produce
     std::pair<bool, bool> videoAudio = stateToBool(state);
@@ -151,18 +152,22 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 
 void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool registerProducer)
 {
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    if (!binClip) {
-        qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
+    if (auto srv = m_binModel.lock()) {
+        std::shared_ptr<ProjectClip> binClip = srv->getClipByBinID(m_binClipId);
+        if (!binClip) {
+            qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
+        }
+        qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
+        binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
     }
-    qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
-    binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
 }
 
 void ClipModel::deregisterClipToBin()
 {
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    binClip->deregisterTimelineClip(m_id);
+    if (auto srv = m_binModel.lock()) {
+        std::shared_ptr<ProjectClip> binClip = srv->getClipByBinID(m_binClipId);
+        binClip->deregisterTimelineClip(m_id);
+    }
 }
 
 ClipModel::~ClipModel() = default;
@@ -478,7 +483,13 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
     }
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = nullptr;
+    if (auto srv = m_binModel.lock()) {
+        binClip = srv->getClipByBinID(m_binClipId);
+    } else {
+        qDebug() << "Bin model is not available for clip\n\nERROR";
+        return;
+    }
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
@@ -601,19 +612,28 @@ const QString &ClipModel::binId() const
 std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->getMarkerModel();
+    if (auto srv = m_binModel.lock()) {
+        return srv->getClipByBinID(m_binClipId)->getMarkerModel();
+    }
+    return nullptr;
 }
 
 int ClipModel::audioChannels() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
+    if (auto srv = m_binModel.lock()) {
+        return srv->getClipByBinID(m_binClipId)->audioChannels();
+    }
+    return 0;
 }
 
 bool ClipModel::audioMultiStream() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamsCount() > 1;
+    if (auto srv = m_binModel.lock()) {
+        return srv->getClipByBinID(m_binClipId)->audioStreamsCount() > 1;
+    }
+    return false;
 }
 
 int ClipModel::audioStream() const
@@ -624,8 +644,11 @@ int ClipModel::audioStream() const
 int ClipModel::audioStreamIndex() const
 {
     READ_LOCK();
-    QList <int> streams = pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreams().keys();
-    return streams.indexOf(m_producer->parent().get_int("audio_index")) + 1;
+    if (auto srv = m_binModel.lock()) {
+        QList <int> streams = srv->getClipByBinID(m_binClipId)->audioStreams().keys();
+        return streams.indexOf(m_producer->parent().get_int("audio_index")) + 1;
+    }
+    return 0;
 }
 
 int ClipModel::fadeIn() const
@@ -873,7 +896,12 @@ bool ClipModel::checkConsistency()
         qDebug() << "Consistency check failed for effecstack";
         return false;
     }
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    std::shared_ptr<ProjectClip> binClip = nullptr;
+    if (auto srv = m_binModel.lock()) {
+        binClip = srv->getClipByBinID(m_binClipId);
+    } else {
+        return false;
+    }
     auto instances = binClip->timelineInstances();
     bool found = false;
     for (const auto &i : qAsConst(instances)) {
@@ -976,19 +1004,27 @@ int ClipModel::getMaxDuration() const
 
 const QString ClipModel::clipName() const
 {
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->clipName();
+    if (auto srv = m_binModel.lock()) {
+        return srv->getClipByBinID(m_binClipId)->clipName();
+    }
+    return i18n("Invalid model");
 }
 
 const QString ClipModel::clipTag() const
 {
     if (KdenliveSettings::tagsintimeline()) {
-        return pCore->projectItemModel()->getClipByBinID(m_binClipId)->tags();
+        if (auto srv = m_binModel.lock()) {
+            return srv->getClipByBinID(m_binClipId)->tags();
+        }
     }
     return QString();
 }
 
 FileStatus::ClipStatus ClipModel::clipStatus() const
 {
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    return binClip->clipStatus();
+    if (auto srv = m_binModel.lock()) {
+        std::shared_ptr<ProjectClip> binClip = srv->getClipByBinID(m_binClipId);
+        return binClip->clipStatus();
+    }
+    return FileStatus::StatusWaiting;
 }

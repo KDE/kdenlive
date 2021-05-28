@@ -89,7 +89,7 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer";
-    m_masterProducer = producer;
+    m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     // Pass temporary properties
@@ -422,12 +422,14 @@ GenTime ClipController::getPlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return GenTime();
     }
-    double fps = pCore->getCurrentFps();
     if (!m_hasLimitedDuration) {
+        if (!m_masterProducer->property_exists("kdenlive:duration")) {
+            return GenTime(m_masterProducer->get_playtime(), pCore->getCurrentFps());
+        }
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
+        return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, pCore->getCurrentFps());
     }
-    return {m_masterProducer->get_playtime(), fps};
+    return {m_masterProducer->get_playtime(), pCore->getCurrentFps()};
 }
 
 int ClipController::getFramePlaytime() const
@@ -437,6 +439,9 @@ int ClipController::getFramePlaytime() const
         return 0;
     }
     if (!m_hasLimitedDuration) {
+        if (!m_masterProducer->property_exists("kdenlive:duration")) {
+            return m_masterProducer->get_length();
+        }
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }

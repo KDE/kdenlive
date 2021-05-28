@@ -112,8 +112,9 @@ RTTR_REGISTRATION
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
+    , m_uuid(uuid)
     , m_blockRefresh(false)
     , m_tractor(new Mlt::Tractor(*profile))
     , m_masterStack(nullptr)
@@ -5288,4 +5289,9 @@ QVariantList TimelineModel::getMasterEffectZones() const
         return m_masterStack->getEffectZones();
     }
     return {};
+}
+
+const QUuid TimelineModel::uuid() const
+{
+    return m_uuid;
 }

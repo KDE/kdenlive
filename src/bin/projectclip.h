@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timeline2/model/timelinemodel.hpp"
 
 #include <QFuture>
+#include <QUuid>
 #include <QMutex>
 #include <memory>
 
@@ -247,6 +248,8 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
+    /** @brief The project model's uuid. */
+    QUuid uuid;
 
 protected:
     friend class ClipModel;
@@ -294,10 +297,9 @@ public slots:
 
     /** @brief Sets the MLT producer associated with this clip
      *  @param producer The producer
-     *  @param replaceProducer If true, we replace existing producer with this one
      *  @returns true if producer was changed
      * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer);
     
     void importJsonMarkers(const QString &json);
 

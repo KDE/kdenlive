@@ -57,8 +57,8 @@ RTTR_REGISTRATION
 }
 #endif
 
-TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
-    : TimelineModel(profile, std::move(undo_stack))
+TimelineItemModel::TimelineItemModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+    : TimelineModel(uuid, profile, std::move(undo_stack))
 {
 }
 
@@ -69,10 +69,10 @@ void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel>
     guideModel->registerSnapModel(std::static_pointer_cast<SnapInterface>(ptr->m_snaps));
 }
 
-std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
+std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(const QUuid &uuid, Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
                                                                 std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(profile, std::move(undo_stack)));
+    std::shared_ptr<TimelineItemModel> ptr(new TimelineItemModel(uuid, profile, std::move(undo_stack)));
     finishConstruct(ptr, std::move(guideModel));
     return ptr;
 }

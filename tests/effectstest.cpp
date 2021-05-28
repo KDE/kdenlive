@@ -35,7 +35,7 @@ TEST_CASE("Effects stack", "[Effects]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_effects, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_effects, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);

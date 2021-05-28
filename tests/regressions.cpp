@@ -18,7 +18,7 @@ TEST_CASE("Regression")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&reg_profile, undoStack);
+    TimelineItemModel tim(QUuid(), &reg_profile, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -82,7 +82,7 @@ TEST_CASE("Regression2")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&reg_profile, undoStack);
+    TimelineItemModel tim(QUuid(), &reg_profile, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -425,7 +425,7 @@ TEST_CASE("FuzzBug1")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -565,7 +565,7 @@ TEST_CASE("FuzzBug2")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -647,7 +647,7 @@ TEST_CASE("FuzzBug3")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -695,7 +695,7 @@ TEST_CASE("FuzzBug4")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -769,7 +769,7 @@ TEST_CASE("FuzzBug5")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -785,7 +785,7 @@ TEST_CASE("FuzzBug5")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        TimelineItemModel tim_1(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1, guideModel);
@@ -912,7 +912,7 @@ TEST_CASE("FuzzBug6")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -928,7 +928,7 @@ TEST_CASE("FuzzBug6")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        TimelineItemModel tim_1(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1, guideModel);
@@ -979,7 +979,7 @@ TEST_CASE("FuzzBug7")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -995,7 +995,7 @@ TEST_CASE("FuzzBug7")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        TimelineItemModel tim_1(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1, guideModel);
@@ -1096,7 +1096,7 @@ TEST_CASE("FuzzBug8")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -1157,7 +1157,7 @@ TEST_CASE("FuzzBug9")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -1209,7 +1209,7 @@ TEST_CASE("FuzzBug10")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);
@@ -1255,7 +1255,7 @@ TEST_CASE("FuzzBug11")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(QUuid(), &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0, guideModel);

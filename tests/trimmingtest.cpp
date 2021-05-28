@@ -21,7 +21,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -549,7 +549,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -722,7 +722,7 @@ TEST_CASE("Copy/paste", "[CP]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);

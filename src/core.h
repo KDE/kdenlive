@@ -116,12 +116,14 @@ public:
     void selectTimelineItem(int id);
     /** @brief Set the currently active project model. */
     void setProjectItemModel(const QUuid &uuid);
+    /** @brief Returns true if the currently active bin model matches uuid. */
+    bool isActiveModel(const QUuid &uuid) const;
     /** @brief Returns a project model by uuid. */
     std::shared_ptr<ProjectItemModel> getProjectItemModel(const QUuid uuid);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
     /** @brief Build a secondary project model. */
-    void buildProjectModel(QUuid uuid);
+    void buildProjectModel(const QUuid &uuid);
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
     /** @brief Returns a pointer to the subtitle edit. */

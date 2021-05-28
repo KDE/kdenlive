@@ -29,16 +29,14 @@
 
 QString BinPlaylist::binPlaylistId = QString("main_bin");
 
-BinPlaylist::BinPlaylist()
+BinPlaylist::BinPlaylist(const QUuid &id)
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
 {
-    m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
-}
-
-BinPlaylist::BinPlaylist(const QString &id)
-    : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
-{
-    m_binPlaylist->set("id", id.toUtf8().constData());
+    if (id == QUuid()) {
+        m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
+    } else {
+        m_binPlaylist->set("id", id.toString().toUtf8().constData());
+    }
 }
 
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)

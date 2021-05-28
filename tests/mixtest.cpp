@@ -33,7 +33,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_mix, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_mix, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);

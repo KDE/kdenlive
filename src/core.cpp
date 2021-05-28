@@ -110,7 +110,7 @@ bool Core::build(bool testMode)
         }
     }
 
-    m_self->m_projectItemModel = ProjectItemModel::construct();
+    m_self->m_projectItemModel = ProjectItemModel::construct(QUuid());
     m_self->m_activeProjectModel =  m_self->m_projectItemModel;
     return true;
 }
@@ -751,10 +751,10 @@ void Core::setCompositionATrack(int cid, int aTrack)
     m_mainWindow->getCurrentTimeline()->controller()->setCompositionATrack(cid, aTrack);
 }
 
-void Core::buildProjectModel(QUuid uuid)
+void Core::buildProjectModel(const QUuid &uuid)
 {
-    std::shared_ptr<ProjectItemModel> model = ProjectItemModel::construct();
-    model->buildPlaylist(uuid.toString());
+    std::shared_ptr<ProjectItemModel> model = ProjectItemModel::construct(uuid);
+    model->buildPlaylist(uuid);
     m_secondaryModels.insert({uuid.toString(), model});
 }
 
@@ -770,6 +770,11 @@ void Core::setProjectItemModel(const QUuid &uuid)
     }
     m_activeProjectModel = m_projectItemModel;
     m_binWidget->setProjectModel(m_activeProjectModel);
+}
+
+bool Core::isActiveModel(const QUuid &uuid) const
+{
+    return m_activeProjectModel->uuid() == uuid;
 }
 
 std::shared_ptr<ProjectItemModel> Core::getProjectItemModel(const QUuid uuid)

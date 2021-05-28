@@ -26,6 +26,7 @@
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
+#include <QUuid>
 #include <cassert>
 #include <memory>
 #include <mlt++/MltTractor.h>
@@ -100,7 +101,7 @@ class TimelineModel : public QAbstractItemModel_shared_from_this<TimelineModel>
 protected:
     /** @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -575,6 +576,9 @@ public:
        Must be called for example when the doc change
     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
+    /** @brief Returns the model's identifier (uuid)
+     */
+    const QUuid uuid() const;
 
 protected:
     /** @brief Requests the best snapped position for a clip
@@ -593,6 +597,8 @@ protected:
     /** @brief Returns a list of in/out of all items in the group of itemId
      */
     const std::vector<int> getBoundaries(int itemId);
+
+    QUuid m_uuid;
 
 public:
     /** @brief Requests the next snapped point

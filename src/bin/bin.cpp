@@ -4075,7 +4075,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
-            ClipLoadTask::start({ObjectType::BinClip,clip->clipId().toInt()}, xml, false, -1, -1, this);
+            //TODO: get current model uuid
+            qDebug()<<"=== LOAD TASK 1";
+            ClipLoadTask::start(QUuid(), {ObjectType::BinClip,clip->clipId().toInt()}, xml, false, -1, -1, this);
             if (reloadThumbs) {
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }

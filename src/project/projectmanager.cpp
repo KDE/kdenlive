@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectmanager.h"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
+#include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -274,8 +275,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     pCore->window()->getMainTimeline()->unsetModel();
     pCore->window()->resetSubtitles();
+    pCore->window()->closeTimelines();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
+    }
+    for (auto models : m_secondaryTimelines) {
+        models.first->prepareClose();
     }
     pCore->bin()->cleanDocument();
 
@@ -290,6 +295,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     pCore->mixer()->unsetModel();
     // Release model shared pointers
     m_mainTimelineModel.reset();
+    m_secondaryTimelines.clear();
     return true;
 }
 
@@ -922,7 +928,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         }
         return false;
     }
-    m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    m_mainTimelineModel = TimelineItemModel::construct(QUuid(), pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
@@ -1107,20 +1113,36 @@ void ProjectManager::addAudioTracks(int tracksCount)
 
 void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
 {
-    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
-    TimelineWidget *timeline = pCore->window()->openTimeline();
-    m_secondaryTimelines.insert({timelineModel,timeline->uuid});
-    QDomDocument doc = m_project->createEmptyDocument(2, 2);
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
-                                                            doc.toString().toUtf8().constData()));
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml",
+                                                            clip->url().toUtf8().constData()));
+                                                            //doc.toString().toUtf8().constData()));
 
-    Mlt::Service s(*xmlProd);
-    Mlt::Tractor tractor(s);
+    if (xmlProd == nullptr || !xmlProd->is_valid()) {
+        pCore->displayBinMessage(i18n("Cannot create a timeline from this clip"), KMessageWidget::Information);
+        return;
+    }
+
+    TimelineWidget *timeline = pCore->window()->openTimeline();
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    m_secondaryTimelines.insert({timelineModel,timeline->uuid});
     pCore->buildProjectModel(timeline->uuid);
     timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(timeline->uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
-        //TODO: act on project load failure
-        qDebug()<<"// Project failed to load!!";
+    //QDomDocument doc = m_project->createEmptyDocument(2, 2);
+    Mlt::Service s(xmlProd->producer()->get_service());
+    if (s.type() == multitrack_type) {
+        Mlt::Multitrack multi(s);
+        if (!constructTimelineFromMelt(timeline->uuid, timelineModel, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
+            //TODO: act on project load failure
+            qDebug()<<"// Project failed to load!!";
+        }
+    } else if (s.type() == tractor_type) {
+        Mlt::Tractor tractor(s);
+        qDebug()<<"==== GOT PROJECT CLIP LENGTH: "<<xmlProd->get_length()<<", TYPE:"<<s.type();
+        qDebug()<<"==== GOT TRACKS: "<<tractor.count();
+        if (!constructTimelineFromMelt(timeline->uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+            //TODO: act on project load failure
+            qDebug()<<"// Project failed to load!!";
+        }
     }
 }
 

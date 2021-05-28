@@ -81,6 +81,175 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
     QList <int> lockedTracksIndexes;
     // Black track index
     videoTracksIndexes << 0;
+    qDebug()<<"=== OPENING FILE WITH TRACKS: "<<tractor.count();
+    for (int i = 0; i < tractor.count() && ok; i++) {
+        std::unique_ptr<Mlt::Producer> track(tractor.track(i));
+        QString playlist_name = track->get("id");
+        if (reserved_names.contains(playlist_name)) {
+            continue;
+        }
+        switch (track->type()) {
+        case producer_type:
+            // TODO check that it is the black track, and otherwise log an error
+            break;
+        case tractor_type: {
+            // that is a double track
+            int tid;
+            bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
+            if (!audioTrack) {
+                videoTracksIndexes << i;
+            }
+            ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
+            if (track->get_int("kdenlive:locked_track") > 0) {
+                lockedTracksIndexes << tid;
+            }
+            Mlt::Tractor local_tractor(*track);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
+            break;
+        }
+        case playlist_type: {
+            // that is a single track
+            int tid;
+            qDebug()<<"=== LOADING PLAYLIST TRACK";
+            Mlt::Playlist local_playlist(*track);
+            const QString trackName = local_playlist.get("kdenlive:track_name");
+            bool audioTrack = local_playlist.get_int("kdenlive:audio_track") == 1;
+            if (!audioTrack) {
+                videoTracksIndexes << i;
+            }
+            ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack, undo, redo, false);
+            int muteState = track->get_int("hide");
+            if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
+                timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
+            }
+
+            ok = ok && constructTrackFromMelt(uuid, timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, 0, progressDialog);
+            if (local_playlist.get_int("kdenlive:locked_track") > 0) {
+                lockedTracksIndexes << tid;
+            }
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), local_playlist.get("kdenlive:thumbs_format"));
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
+            timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
+            break;
+        }
+        default:
+            qWarning() << "Unexpected track type" << track->type();
+        }
+    }
+    timeline->_resetView();
+
+    // Loading compositions
+    Mlt::Service *prod = tractor.producer();
+    QList<Mlt::Transition *> compositions;
+    if (prod && prod->is_valid()) {
+        QScopedPointer<Mlt::Service> service(prod);
+        while ((service != nullptr) && service->is_valid()) {
+            if (service->type() == transition_type) {
+                Mlt::Transition t(mlt_transition(service->get_service()));
+                if (t.get_b_track() >= timeline->tractor()->count()) {
+                    // Composition outside of available track, maybe because of a preview track
+                    service.reset(service->producer());
+                    continue;
+                }
+                QString id(t.get("kdenlive_id"));
+                QString internal(t.get("internal_added"));
+                QString isMix(t.get("kdenlive:mixcut"));
+                if (internal.isEmpty() && isMix.isEmpty()) {
+                    compositions << new Mlt::Transition(t);
+                    if (id.isEmpty()) {
+                        qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();
+                        t.set("kdenlive_id", t.get("mlt_service"));
+                    }
+                }
+            }
+            service.reset(service->producer());
+        }
+    }
+    // Sort compositions and insert
+    bool compositionOk = true;
+    while (!compositions.isEmpty()) {
+        QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
+        QString id(t->get("kdenlive_id"));
+        int compoId;
+        int aTrack = t->get_a_track();
+        if (aTrack > tractor.count()) {
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
+                                       t->get_in(), t->get_a_track());
+            continue;
+        }
+        if (t->get_int("force_track") == 0) {
+            // This is an automatic composition, check that we composite with lower track or warn
+            int pos = videoTracksIndexes.indexOf(t->get_b_track());
+            if (pos > 0 && videoTracksIndexes.at(pos - 1) != aTrack) {
+                t->set("force_track", 1);
+                m_errorMessage << i18n("Incorrect composition %1 found on track %2 at %3, compositing with track %4 was set to forced track.", t->get("id"), t->get_b_track(),
+                                    t->get_in(), t->get_a_track());
+            }
+        }
+        auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
+        compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(), t->get_length(), std::move(transProps), compoId, undo, redo, false, originalDecimalPoint);
+        if (!compositionOk) {
+            // timeline->requestItemDeletion(compoId, false);
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
+            continue;
+        }
+    }
+
+    // build internal track compositing
+    timeline->buildTrackCompositing();
+
+    // load locked state as last step
+    for (int tid : qAsConst(lockedTracksIndexes)) {
+        timeline->setTrackLockedState(tid, true);
+    }
+
+    if (!ok) {
+        // TODO log error
+        // Don't abort loading because of failed composition
+        undo();
+        return false;
+    }
+    if (!m_errorMessage.isEmpty()) {
+        KMessageBox::sorry(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
+    }
+    return true;
+}
+
+
+bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // First, we destruct the previous tracks
+    timeline->requestReset(undo, redo);
+    m_errorMessage.clear();
+    std::unordered_map<QString, QString> binIdCorresp;
+    QStringList expandedFolders;
+    pCore->getProjectItemModel(uuid)->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    pCore->bin()->checkMissingProxies();
+    QStringList foldersToExpand;
+    // Find updated ids for expanded folders
+    for (const QString &folderId : expandedFolders) {
+        if (binIdCorresp.count(folderId) > 0) {
+            foldersToExpand << binIdCorresp.at(folderId);
+        }
+    }
+    pCore->bin()->loadFolderState(foldersToExpand);
+
+    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"), QLatin1String("black_track"), QLatin1String("overlay_track")};
+    bool ok = true;
+
+    // Import master track effects
+    std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(tractor.get_service());
+    timeline->importMasterEffects(serv);
+
+    QList <int> videoTracksIndexes;
+    QList <int> lockedTracksIndexes;
+    // Black track index
+    videoTracksIndexes << 0;
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
@@ -140,28 +309,31 @@ bool constructTimelineFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemMod
     timeline->_resetView();
 
     // Loading compositions
-    QScopedPointer<Mlt::Service> service(tractor.producer());
+    Mlt::Service *prod = tractor.producer();
     QList<Mlt::Transition *> compositions;
-    while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
-            Mlt::Transition t(mlt_transition(service->get_service()));
-            if (t.get_b_track() >= timeline->tractor()->count()) {
-                // Composition outside of available track, maybe because of a preview track
-                service.reset(service->producer());
-                continue;
-            }
-            QString id(t.get("kdenlive_id"));
-            QString internal(t.get("internal_added"));
-            QString isMix(t.get("kdenlive:mixcut"));
-            if (internal.isEmpty() && isMix.isEmpty()) {
-                compositions << new Mlt::Transition(t);
-                if (id.isEmpty()) {
-                    qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();
-                    t.set("kdenlive_id", t.get("mlt_service"));
+    if (prod && prod->is_valid()) {
+        QScopedPointer<Mlt::Service> service(prod);
+        while ((service != nullptr) && service->is_valid()) {
+            if (service->type() == transition_type) {
+                Mlt::Transition t(mlt_transition(service->get_service()));
+                if (t.get_b_track() >= timeline->tractor()->count()) {
+                    // Composition outside of available track, maybe because of a preview track
+                    service.reset(service->producer());
+                    continue;
+                }
+                QString id(t.get("kdenlive_id"));
+                QString internal(t.get("internal_added"));
+                QString isMix(t.get("kdenlive:mixcut"));
+                if (internal.isEmpty() && isMix.isEmpty()) {
+                    compositions << new Mlt::Transition(t);
+                    if (id.isEmpty()) {
+                        qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();
+                        t.set("kdenlive_id", t.get("mlt_service"));
+                    }
                 }
             }
+            service.reset(service->producer());
         }
-        service.reset(service->producer());
     }
     // Sort compositions and insert
     bool compositionOk = true;
@@ -336,9 +508,26 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
-                if (binIdCorresp.count(clipId) == 0) {
+                if (clipId.isEmpty()) {
+                    // This is not a kdenlive project, add an id
+                    std::shared_ptr<Mlt::Producer> parentClip(new Mlt::Producer(&clip->parent()));
+                    // Check if we already have a clip with this url in bin
+                    QStringList fixedId = pCore->getProjectItemModel(uuid)->getClipByUrl(QFileInfo(parentClip->get("resource")));
+                    qDebug()<<"=== CHECKING FOR MATCHING URL "<<QFileInfo(parentClip->get("resource")).absoluteFilePath();
+                    if (fixedId.isEmpty()) {
+                        int nextId = pCore->getProjectItemModel(uuid)->getFreeClipId();
+                        clip->set("kdenlive:id", nextId);
+                        parentClip->set("kdenlive:id", nextId);
+                        clipId = QString::number(nextId);
+                        qWarning() << "can't find clip with id: " << clipId << "in bin playlist, ADDING IT TO UUID: "<<uuid;
+                        pCore->getProjectItemModel(uuid)->requestAddBinClip(uuid, clipId, std::move(parentClip), QStringLiteral("-1"), undo, redo);
+                    } else {
+                        clipId = fixedId.first();
+                    }
+                    binId = clipId;
+                } else if (binIdCorresp.count(clipId) == 0) {
                     // Project was somehow corrupted
-                    qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
+                    qWarning() << "can't find clip with id: " << clipId << "in bin playlist, ADDING IT TO UUID: "<<uuid;
                     QStringList fixedId = pCore->getProjectItemModel(uuid)->getClipByUrl(QFileInfo(clip->parent().get("resource")));
                     if (!fixedId.isEmpty()) {
                         binId = fixedId.first();
@@ -355,7 +544,7 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
             }
             bool ok = false;
             int cid = -1;
-            if (pCore->bin()->getBinClip(binId)) {
+            if (pCore->getProjectItemModel(uuid)->hasClip(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
                 cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);

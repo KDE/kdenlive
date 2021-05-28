@@ -119,9 +119,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
+    uuid = model->m_uuid;
     if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
         // Generate clip thumbnail
-        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
@@ -380,7 +381,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
         m_thumbsProducer.reset();
-        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
@@ -411,7 +412,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
+            ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
         }
     }
 }
@@ -434,6 +435,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
 void ProjectClip::setThumbnail(const QImage &img, int in, int out)
 {
     if (img.isNull()) {
+        qDebug()<<"==== EMPTY THUMBNAIL";
         return;
     }
     if (in > -1) {
@@ -486,9 +488,8 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
+bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
 {
-    Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
@@ -532,7 +533,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     pCore->bin()->reloadMonitorIfActive(clipId());
     for (auto &p : m_audioProducers) {

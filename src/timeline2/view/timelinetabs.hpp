@@ -56,6 +56,8 @@ public:
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
     void disconnectTimeline(TimelineWidget *timeline);
+    /** @brief Do some closing stuff on timelinewidgets */
+    void closeTimelines();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/

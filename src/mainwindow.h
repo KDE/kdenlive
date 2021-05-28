@@ -134,6 +134,9 @@ public:
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
 
+    /** @brief Prepare closure of timelines */
+    void closeTimelines();
+
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
     

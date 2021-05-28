@@ -32,6 +32,7 @@ class Producer;
 class EffectStackModel;
 class MarkerListModel;
 class TimelineModel;
+class ProjectItemModel;
 class TrackModel;
 class KeyframeModel;
 class ClipSnapModel;
@@ -121,6 +122,7 @@ public:
 protected:
     // helper functions that creates the lambda
     Fun setClipState_lambda(PlaylistState::ClipState state);
+    std::weak_ptr<ProjectItemModel> m_binModel;
 
 public:
     /** @brief returns the length of the item on the timeline

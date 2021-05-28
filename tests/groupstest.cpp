@@ -39,7 +39,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_group, guideModel, undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(QUuid(), &profile_group, guideModel, undoStack);
 
     GroupsModel groups(timeline);
     std::function<bool(void)> undo = []() { return true; };
@@ -245,7 +245,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_group, guideModel, undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(QUuid(), &profile_group, guideModel, undoStack);
     GroupsModel groups(timeline);
 
     std::function<bool(void)> undo = []() { return true; };
@@ -396,7 +396,7 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_group, guideModel, undoStack);
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(QUuid(), &profile_group, guideModel, undoStack);
     GroupsModel groups(timeline);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -473,12 +473,12 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    TimelineItemModel tim(&profile_group, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_group, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    TimelineItemModel tim2(&profile_group, undoStack);
+    TimelineItemModel tim2(QUuid(), &profile_group, undoStack);
     Mock<TimelineItemModel> timMock2(tim2);
     auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline2, guideModel);
@@ -964,7 +964,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    TimelineItemModel tim(&profile_group, undoStack);
+    TimelineItemModel tim(QUuid(), &profile_group, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);

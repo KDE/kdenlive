@@ -1613,8 +1613,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setOffset(m_controller->getRecordTime());
         }
         if (m_controller->statusReady()) {
-            m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
-            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getMarkerModel());
+            int duration = int(m_controller->frameDuration() - 1);
+            m_timePos->setRange(0, duration);
+            m_glMonitor->setRulerInfo(duration, controller->getMarkerModel());
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
