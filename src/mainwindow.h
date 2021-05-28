@@ -161,8 +161,10 @@ public:
     void setWidgetKeyBinding(const QString &text = QString());
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
-    /** @brief Open a new timeline tab. */
+    /** @brief Create a new timeline tab. */
     TimelineWidget *openTimeline(const QString &tabName);
+    /** @brief Show a timeline tab. */
+    void raiseTimeline(const QUuid &uuid);
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
 

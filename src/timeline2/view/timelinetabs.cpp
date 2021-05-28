@@ -60,6 +60,17 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
 }
 
+void TimelineTabs::raiseTimeline(const QUuid &uuid)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (timeline->uuid == uuid) {
+            setCurrentIndex(i);
+            break;
+        }
+    }
+}
+
 TimelineWidget *TimelineTabs::addTimeline(const QString &tabName)
 {
     TimelineWidget *newTimeline = new TimelineWidget(this);

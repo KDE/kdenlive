@@ -1109,6 +1109,12 @@ void ProjectManager::addAudioTracks(int tracksCount)
 
 void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
 {
+    QString clipId = QString("%1:%2").arg(pCore->activeUuid().toString()).arg(clip->binId());
+    auto match = m_secondaryTimelineEntries.find(clipId);
+    if (match != m_secondaryTimelineEntries.end()) {
+        pCore->window()->raiseTimeline(match->second);
+        return;
+    }
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml",
                                                             clip->url().toUtf8().constData()));
                                                             //doc.toString().toUtf8().constData()));
@@ -1123,6 +1129,7 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
     m_project->addGuidesModel(timeline->uuid, guidesModel);
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(timeline->uuid), m_project->commandStack());
     m_secondaryTimelines.insert({timelineModel,timeline->uuid});
+    m_secondaryTimelineEntries.insert({clipId,timeline->uuid});
     pCore->buildProjectModel(timeline->uuid);
     timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     //QDomDocument doc = m_project->createEmptyDocument(2, 2);
@@ -1142,6 +1149,7 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
             qDebug()<<"// Project failed to load!!";
         }
     }
+    pCore->window()->raiseTimeline(timeline->uuid);
 }
 
 QUuid ProjectManager::getTimelineUuid(std::shared_ptr<TimelineItemModel> model)

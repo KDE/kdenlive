@@ -213,6 +213,7 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    std::unordered_map<QString,QUuid> m_secondaryTimelineEntries;
     std::unordered_map<std::shared_ptr<TimelineItemModel>,QUuid> m_secondaryTimelines;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};

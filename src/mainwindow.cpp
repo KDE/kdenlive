@@ -4368,6 +4368,11 @@ TimelineWidget *MainWindow::openTimeline(const QString &tabName)
     return m_timelineTabs->addTimeline(tabName);
 }
 
+void MainWindow::raiseTimeline(const QUuid &uuid)
+{
+    m_timelineTabs->raiseTimeline(uuid);
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

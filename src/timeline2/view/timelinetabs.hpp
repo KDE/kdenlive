@@ -55,6 +55,8 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    /** @brief Activate a timeline tab by uuid */
+    void raiseTimeline(const QUuid &uuid);
     void disconnectTimeline(TimelineWidget *timeline);
     /** @brief Do some closing stuff on timelinewidgets */
     void closeTimelines();
