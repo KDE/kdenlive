@@ -48,7 +48,7 @@
 		<parameter type="constant" name="timeBiasRoll" default="0" min="-100" max="100" factor="1" suffix="%">
 		<name>Roll Time Bias</name>
 		</parameter>
-	<parameter type="list" name="interpolation" default="0.0" paramlist="0.0;1.0">
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
                 <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
                 <name>Interpolation</name>
         </parameter>

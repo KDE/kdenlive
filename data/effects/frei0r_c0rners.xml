@@ -52,7 +52,7 @@
 		<name>Enable Stretch</name>
 	</parameter>
 
-        <parameter type="list" name="11" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1.0">
+        <parameter type="list" name="11" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1">
                 <paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
 		<name>Interpolator</name>
 	</parameter>
@@ -61,7 +61,7 @@
 		<name>Transparent Background</name>
 	</parameter>
 
-        <parameter type="list" name="14" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
+        <parameter type="list" name="14" default="0" paramlist="0;0.3;0.5;0.7;1">
                 <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
                 <name>Alpha operation</name>
         </parameter>

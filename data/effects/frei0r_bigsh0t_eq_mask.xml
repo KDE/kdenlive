@@ -15,7 +15,7 @@
     <parameter type="animated" name="vfov1" default="160" min="0" max="360" factor="1" suffix="deg">
 		<name>Horizontal End</name>
 	</parameter>
-	<parameter type="list" name="interpolation" default="0.0" paramlist="0.0;1.0">
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
                 <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
                 <name>Interpolation</name>
         </parameter>

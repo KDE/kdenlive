@@ -13,7 +13,7 @@
     <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="deg">
 		<name>roll</name>
 	</parameter>
-	<parameter type="list" name="interpolation" default="0.0" paramlist="0.0;1.0">
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
                 <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
                 <name>Interpolation</name>
         </parameter>

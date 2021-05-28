@@ -5,7 +5,7 @@
         <author>Marko Cebokli</author>
 
 
-        <parameter type="list" name="Shape" default="0.0" paramlist="0.0;0.38;0.62;1.0">
+        <parameter type="list" name="Shape" default="0" paramlist="0;0.38;0.62;1">
                 <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>
                 <name>Shape</name>
         </parameter>
@@ -42,7 +42,7 @@
                 <name>Max</name>
         </parameter>
 
-        <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
+        <parameter type="list" name="Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
                 <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                 <name>Operation</name>
         </parameter>
