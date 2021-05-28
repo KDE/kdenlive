@@ -179,7 +179,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel(model->uuid()).get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
@@ -327,7 +327,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(model()->uuid())->getAllMarkers();
     QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
@@ -348,7 +348,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(model()->uuid())->getAllMarkers();
     QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();

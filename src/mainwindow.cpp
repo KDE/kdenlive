@@ -2137,7 +2137,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
-        m_renderWidget->setGuides(project->getGuideModel());
+        m_renderWidget->setGuides(project->getGuideModel(pCore->activeUuid()));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2279,7 +2279,7 @@ void MainWindow::connectTimeline()
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer());
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, pCore->currentDoc()->getGuideModel());
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, pCore->currentDoc()->getGuideModel(getCurrentTimeline()->model()->uuid()));
 }
 
 void MainWindow::connectDocument()
@@ -2309,7 +2309,7 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(pCore->activeUuid()));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2348,7 +2348,7 @@ void MainWindow::connectDocument()
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(pCore->activeUuid()));
     }
 }
 
@@ -2756,7 +2756,7 @@ void MainWindow::slotDeleteGuide()
 
 void MainWindow::slotDeleteAllGuides()
 {
-    pCore->currentDoc()->getGuideModel()->removeAllMarkers();
+    pCore->currentDoc()->getGuideModel(pCore->activeUuid())->removeAllMarkers();
 }
 
 void MainWindow::slotCutTimelineClip()

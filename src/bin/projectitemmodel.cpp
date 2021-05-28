@@ -50,13 +50,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectItemModel::ProjectItemModel(const QUuid uuid, QObject *parent)
     : AbstractTreeModel(parent)
+    , m_uuid(uuid)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
-    , m_uuid(uuid)
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
@@ -744,7 +744,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(const QUuid uuid, QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -1037,7 +1037,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                     parentId = QStringLiteral("-1");
                 }
                 i.value()->set("_kdenlive_processed", 1);
-                requestAddBinClip(m_uuid, newId, std::move(i.value()), parentId, undo, redo);
+                requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
                 qApp->processEvents();
                 binIdCorresp[QString::number(i.key())] = newId;
             }

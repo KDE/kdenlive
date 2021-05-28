@@ -227,6 +227,7 @@ private:
     double m_displayedFps;
     int m_speedIndex;
     QMetaObject::Connection m_switchConnection;
+    std::shared_ptr<MarkerListModel> m_markersModel;
 
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());

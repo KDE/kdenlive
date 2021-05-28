@@ -168,7 +168,7 @@ public:
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
 
     /** @brief This is the addition function when we already have a producer for the clip*/
-    bool requestAddBinClip(const QUuid uuid, QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
 
     /** @brief Create a subClip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.

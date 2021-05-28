@@ -27,7 +27,7 @@
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
 #include "timeline2/model/snapmodel.hpp"
 
 #include <QDebug>
@@ -369,7 +369,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->projectManager()->getGuideModel();
+        return pCore->currentDoc()->getGuideModel(pCore->activeUuid());
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }

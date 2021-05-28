@@ -793,6 +793,11 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
     return m_activeProjectModel;
 }
 
+QUuid Core::activeUuid() const
+{
+    return m_activeProjectModel->uuid();
+}
+
 void Core::invalidateRange(QPair<int, int> range)
 {
     if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
@@ -1041,7 +1046,7 @@ void Core::addGuides(QList <int> guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel()->addMarkers(markers);
+    currentDoc()->getGuideModel(activeUuid())->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)

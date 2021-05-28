@@ -136,6 +136,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_forceSizeFactor(0)
     , m_offset(id == Kdenlive::ProjectMonitor ? TimelineModel::seekDuration : 0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_markersModel(nullptr)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -824,14 +825,8 @@ void Monitor::slotShowMenu(const QPoint pos)
         if (m_markerMenu) {
             // Fill guide menu
             m_markerMenu->clear();
-            std::shared_ptr<MarkerListModel> model;
-            if (m_id == Kdenlive::ClipMonitor && m_controller) {
-                model = m_controller->getMarkerModel();
-            } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-                model = pCore->currentDoc()->getGuideModel();
-            }
-            if (model) {
-                QList<CommentedTime> markersList = model->getAllMarkers();
+            if (m_markersModel) {
+                QList<CommentedTime> markersList = m_markersModel->getAllMarkers();
                 for (const CommentedTime &mkr : qAsConst(markersList)) {
                     QAction *a = m_markerMenu->addAction(mkr.comment());
                     a->setData(mkr.time().frames(pCore->getCurrentFps()));
@@ -1225,21 +1220,14 @@ void Monitor::checkOverlay(int pos)
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
-    std::shared_ptr<MarkerListModel> model(nullptr);
-    if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) {
-            model = m_controller->getMarkerModel();
-        }
-    } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-        model = pCore->currentDoc()->getGuideModel();
-    }
+    qDebug()<<"||||||||||||||||||||||||||||||||||||||||||\n=== CHECKING OVERLAY FOR MONITOR: "<<m_id;
 
-    if (model) {
+    if (m_markersModel) {
         bool found = false;
-        CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
+        CommentedTime marker = m_markersModel->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
         if (found) {
             overlayText = marker.comment();
-            color = model->markerTypes.at(marker.markerType());
+            color = m_markersModel->markerTypes.at(marker.markerType());
         }
     }
     m_glMonitor->getControllerProxy()->setMarker(overlayText, color);
@@ -1555,7 +1543,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
+    m_markersModel.reset();
     if (controller) {
+        m_markersModel = controller->getMarkerModel();
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId()).arg(pCore->currentDoc()->uuid.toString()));
@@ -2258,22 +2248,15 @@ void Monitor::slotEditInlineMarker()
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
-        std::shared_ptr<MarkerListModel> model;
-        if (m_controller) {
-            // We are editing a clip marker
-            model = m_controller->getMarkerModel();
-        } else {
-            model = pCore->currentDoc()->getGuideModel();
-        }
         QString newComment = root->property("markerText").toString();
         bool found = false;
-        CommentedTime oldMarker = model->getMarker(m_timePos->gentime(), &found);
+        CommentedTime oldMarker = m_markersModel->getMarker(m_timePos->gentime(), &found);
         if (!found || newComment == oldMarker.comment()) {
             // No change
             return;
         }
         oldMarker.setComment(newComment);
-        model->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
+        m_markersModel->addMarker(oldMarker.time(), oldMarker.comment(), oldMarker.markerType());
     }
 }
 
@@ -2380,6 +2363,12 @@ void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     m_audioMeterWidget->audioChannels = pCore->audioChannels();
     m_glMonitor->setProducer(std::move(producer), isActive(), pos);
+    qDebug()<<"||||||||||||||||||||||||||||||||||||||||||\n=== SETTING MARKERS MODEL: "<<pCore->activeUuid()<<", MONITOR: "<<m_id;
+    if (producer == nullptr) {
+        m_markersModel.reset();
+    } else {
+        m_markersModel = pCore->currentDoc()->getGuideModel(pCore->activeUuid());
+    }
 }
 
 void Monitor::reconfigure()

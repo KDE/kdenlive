@@ -511,16 +511,22 @@ bool constructTrackFromMelt(QUuid uuid, const std::shared_ptr<TimelineItemModel>
                 if (clipId.isEmpty()) {
                     // This is not a kdenlive project, add an id
                     std::shared_ptr<Mlt::Producer> parentClip(new Mlt::Producer(&clip->parent()));
+                    QString service = parentClip->get("mlt_service");
+                    QString resource = parentClip->get("resource");
+                    if (service == QLatin1String("timewarp")) {
+                        resource = parentClip->get("warp_resource");
+                        parentClip.reset(new Mlt::Producer(*clip->profile(), parentClip->get("warp_resource")));
+                    }
                     // Check if we already have a clip with this url in bin
-                    QStringList fixedId = pCore->getProjectItemModel(uuid)->getClipByUrl(QFileInfo(parentClip->get("resource")));
-                    qDebug()<<"=== CHECKING FOR MATCHING URL "<<QFileInfo(parentClip->get("resource")).absoluteFilePath();
+                    QStringList fixedId = pCore->getProjectItemModel(uuid)->getClipByUrl(QFileInfo(resource));
+                    qDebug()<<"=== CHECKING FOR MATCHING URL "<<QFileInfo(resource).absoluteFilePath();
                     if (fixedId.isEmpty()) {
                         int nextId = pCore->getProjectItemModel(uuid)->getFreeClipId();
                         clip->set("kdenlive:id", nextId);
                         parentClip->set("kdenlive:id", nextId);
                         clipId = QString::number(nextId);
                         qWarning() << "can't find clip with id: " << clipId << "in bin playlist, ADDING IT TO UUID: "<<uuid;
-                        pCore->getProjectItemModel(uuid)->requestAddBinClip(uuid, clipId, std::move(parentClip), QStringLiteral("-1"), undo, redo);
+                        pCore->getProjectItemModel(uuid)->requestAddBinClip(clipId, std::move(parentClip), QStringLiteral("-1"), undo, redo);
                     } else {
                         clipId = fixedId.first();
                     }

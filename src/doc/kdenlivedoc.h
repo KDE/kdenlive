@@ -151,7 +151,9 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model */
-    std::shared_ptr<MarkerListModel> getGuideModel() const;
+    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid &uuid) const;
+    /** @brief Create a guide model for a secondary timeline */
+    void addGuidesModel(const QUuid &uuid, std::shared_ptr<MarkerListModel> model);
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -210,8 +212,9 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
-    std::shared_ptr<MarkerListModel> m_guideModel;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
+    std::shared_ptr<MarkerListModel> m_guideModel;
+    std::unordered_map<QString, std::shared_ptr<MarkerListModel>> m_guideModels;
 
     QString m_modifiedDecimalPoint;
 

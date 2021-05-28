@@ -248,8 +248,6 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
-    /** @brief The project model's uuid. */
-    QUuid uuid;
 
 protected:
     friend class ClipModel;

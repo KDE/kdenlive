@@ -288,6 +288,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (m_project) {
             emit pCore->window()->clearAssetPanel();
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+            pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
             delete m_project;
             m_project = nullptr;
         }
@@ -763,7 +764,7 @@ void ProjectManager::slotAddTextNote(const QString &text)
 void ProjectManager::prepareSave()
 {
     pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
-                                                      m_project->getGuideModel());
+                                                      m_project->getGuideModel(QUuid()));
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
@@ -928,7 +929,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         }
         return false;
     }
-    m_mainTimelineModel = TimelineItemModel::construct(QUuid(), pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    m_mainTimelineModel = TimelineItemModel::construct(QUuid(), pCore->getProjectProfile(), m_project->getGuideModel(QUuid()), m_project->commandStack());
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
@@ -974,11 +975,6 @@ void ProjectManager::activateAsset(const QVariantMap &effectData)
     } else {
         pCore->window()->getCurrentTimeline()->controller()->addAsset(effectData);
     }
-}
-
-std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
-{
-    return current()->getGuideModel();
 }
 
 std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
@@ -1123,7 +1119,9 @@ void ProjectManager::openTimeline(std::shared_ptr<ProjectClip> clip)
     }
 
     TimelineWidget *timeline = pCore->window()->openTimeline();
-    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    std::shared_ptr<MarkerListModel> guidesModel(new MarkerListModel(m_project->commandStack(), this));
+    m_project->addGuidesModel(timeline->uuid, guidesModel);
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(timeline->uuid, pCore->getProjectProfile(), m_project->getGuideModel(timeline->uuid), m_project->commandStack());
     m_secondaryTimelines.insert({timelineModel,timeline->uuid});
     pCore->buildProjectModel(timeline->uuid);
     timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
@@ -1156,3 +1154,8 @@ QUuid ProjectManager::getTimelineUuid(std::shared_ptr<TimelineItemModel> model)
     return search->second;
 }
 
+// Only used for tests, do not use inside the app
+std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
+{
+    return nullptr;
+}

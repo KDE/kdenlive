@@ -63,6 +63,8 @@
 #include <QStandardPaths>
 #include <mlt++/Mlt.h>
 
+#include <unordered_map>
+
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -83,6 +85,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     , m_projectFolder(std::move(projectFolder))
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
+    m_guideModels.emplace(QUuid().toString(), m_guideModel);
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
@@ -292,6 +295,7 @@ KdenliveDoc::~KdenliveDoc()
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     // Clean up guide model
     m_guideModel.reset();
+    m_guideModels.clear();
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
@@ -1729,9 +1733,18 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid &uuid) const
 {
-    return m_guideModel;
+    auto search = m_guideModels.find(uuid.toString());
+    if (search != m_guideModels.end()) {
+        return search->second;
+    }
+    return nullptr;
+}
+
+void KdenliveDoc::addGuidesModel(const QUuid &uuid, std::shared_ptr<MarkerListModel> model)
+{
+    m_guideModels.emplace(uuid.toString(), model);
 }
 
 void KdenliveDoc::guidesChanged()

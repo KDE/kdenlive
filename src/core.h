@@ -122,6 +122,8 @@ public:
     std::shared_ptr<ProjectItemModel> getProjectItemModel(const QUuid uuid);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
+    /** @brief Returns the uuid of the currently active project model. */
+    QUuid activeUuid() const;
     /** @brief Build a secondary project model. */
     void buildProjectModel(const QUuid &uuid);
     /** @brief Returns a pointer to the library. */

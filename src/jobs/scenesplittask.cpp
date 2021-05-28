@@ -39,7 +39,6 @@
 #include <QThread>
 
 #include <klocalizedstring.h>
-#include <project/projectmanager.h>
 
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
@@ -61,7 +60,7 @@ void SceneSplitTask::start(QObject* object, bool force)
     view.add_markers->setChecked(KdenliveSettings::scenesplitmarkers());
     view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
-    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
+    static std::array<QColor, 9> markerTypes = pCore->currentDoc()->getGuideModel(QUuid())->markerTypes;
     QPixmap pixmap(32,32);
     for (uint i = 0; i < markerTypes.size(); ++i) {
         pixmap.fill(markerTypes[size_t(i)]);

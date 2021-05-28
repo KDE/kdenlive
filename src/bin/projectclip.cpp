@@ -119,12 +119,11 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
-    uuid = model->m_uuid;
     if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
         // Generate clip thumbnail
-        ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(model->m_uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
-        AudioLevelsTask::start(uuid, {ObjectType::BinClip, m_binId.toInt()}, this, false);
+        AudioLevelsTask::start(model->m_uuid, {ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
 }
 
@@ -381,7 +380,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
         m_thumbsProducer.reset();
-        ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+        if (auto ptr = m_model.lock()) {
+            ClipLoadTask::start(std::static_pointer_cast<ProjectItemModel>(ptr)->uuid(), {ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+        }
     } else {
         // If another load job is running?
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
@@ -412,7 +413,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            ClipLoadTask::start(uuid, {ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
+            if (auto ptr = m_model.lock()) {
+                ClipLoadTask::start(std::static_pointer_cast<ProjectItemModel>(ptr)->uuid(), {ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
+            }
         }
     }
 }
