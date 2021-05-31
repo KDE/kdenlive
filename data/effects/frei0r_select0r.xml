@@ -35,7 +35,7 @@
                     <name>Shape</name>
             </parameter>
         
-            <parameter type="list" name="Edge mode" default="0" paramlist="0;0.35;0.60;1">
+            <parameter type="list" name="Edge mode" default="0" paramlist="0;0.35;0.6;1">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
                     <name>Edge mode</name>
             </parameter>
@@ -70,7 +70,7 @@
                     <name>Shape</name>
             </parameter>
         
-            <parameter type="list" name="Edge mode" default="0.9" paramlist="0;0.35;0.60;0.7;0.9">
+            <parameter type="list" name="Edge mode" default="0.9" paramlist="0;0.35;0.6;0.7;0.9">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
                     <name>Edge mode</name>
             </parameter>
