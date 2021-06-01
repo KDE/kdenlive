@@ -298,6 +298,8 @@ public slots:
     /** @brief Show currently selected effect zone in timeline ruler. */
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void updateMasterZones();
+    /** @brief Open the proxies test dialog. */
+    void testProxies();
 
 signals:
     void coreIsReady();

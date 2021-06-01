@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ConfigProxy_UI</class>
  <widget class="QWidget" name="ConfigProxy_UI">
@@ -194,6 +195,26 @@
       </item>
       <item row="6" column="1" colspan="4">
        <widget class="QComboBox" name="kcfg_external_proxy_profile"/>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Proxy video resize (width)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2" colspan="3">
+       <widget class="QSpinBox" name="kcfg_proxyscale">
+        <property name="suffix">
+         <string>pixels</string>
+        </property>
+        <property name="minimum">
+         <number>200</number>
+        </property>
+        <property name="maximum">
+         <number>100000</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

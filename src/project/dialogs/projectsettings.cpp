@@ -93,6 +93,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         audio_channels->setCurrentIndex(2);
     }
     connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
+    connect(checkProxy, &QToolButton::clicked, pCore.get(), &Core::testProxies);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
@@ -118,6 +119,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         proxy_imagesize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimagesize")).toInt());
+        proxy_resize->setValue(doc->getDocumentProperty(QStringLiteral("proxyresize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         external_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() != 0);
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
@@ -164,6 +166,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
     proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
+    checkProxy->setIcon(QIcon::fromTheme(QStringLiteral("run-build")));
+    checkProxy->setToolTip(i18n("Compare proxy profiles efficiency"));
 
     connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
     proxy_profile->setToolTip(i18n("Select default proxy profile"));
@@ -538,6 +542,11 @@ int ProjectSettings::proxyImageMinSize() const
 int ProjectSettings::proxyImageSize() const
 {
     return proxy_imagesize->value();
+}
+
+int ProjectSettings::proxyResize() const
+{
+    return proxy_resize->value();
 }
 
 QString ProjectSettings::externalProxyParams() const

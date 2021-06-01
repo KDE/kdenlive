@@ -2038,6 +2038,10 @@ void MainWindow::slotEditProjectSettings()
             modified = true;
             project->setDocumentProperty(QStringLiteral("proxyimagesize"), QString::number(w->proxyImageSize()));
         }
+        if (project->getDocumentProperty(QStringLiteral("proxyresize")) != QString::number(w->proxyResize())) {
+            modified = true;
+            project->setDocumentProperty(QStringLiteral("proxyresize"), QString::number(w->proxyResize()));
+        }
         if (QString::number(int(w->useProxy())) != project->getDocumentProperty(QStringLiteral("enableproxy"))) {
             project->setDocumentProperty(QStringLiteral("enableproxy"), QString::number(int(w->useProxy())));
             modified = true;

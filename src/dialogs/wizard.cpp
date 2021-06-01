@@ -1008,6 +1008,43 @@ void Wizard::testHwEncoders()
     }
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
 
+    // VAAPI with scaling support
+    QStringList scaleargs{"-hide_banner", "-y"
+                     ,"-hwaccel"
+                     ,"vaapi"
+                     ,"-hwaccel_output_format"
+                     ,"vaapi"
+                     ,"/dev/dri/renderD128"
+                     ,"-f"
+                     ,"lavfi"
+                     ,"-i"
+                     ,"smptebars=duration=5:size=1280x720:rate=25"
+                     ,"-vf"
+                     ,"scale_vaapi=w=640:h=-2:format=nv12,hwupload"
+                     ,"-c:v"
+                     ,"h264_vaapi"
+                     ,"-an"
+                     ,"-f"
+                     ,"mp4"
+                     ,tmp.fileName()};
+    qDebug() << "// FFMPEG ARGS: " << scaleargs;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), scaleargs);
+    bool vaapiScalingSupported = false;
+    if (hwEncoders.waitForFinished()) {
+        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
+            qDebug() << "/// ++ VAAPI NOT SUPPORTED";
+        } else {
+            if (tmp.exists() && tmp.size() > 0) {
+                qDebug() << "/// ++ VAAPI YES SUPPORTED ::::::";
+                // vaapi support enabled
+                vaapiScalingSupported = true;
+            } else {
+                qDebug() << "/// ++ VAAPI FAILED ::::::";
+                // vaapi support not enabled
+            }
+        }
+    }
+    KdenliveSettings::setVaapiScalingEnabled(vaapiScalingSupported);
     // NVIDIA testing
     QTemporaryFile tmp2(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
     if (!tmp2.open()) {

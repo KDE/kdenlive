@@ -30,6 +30,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/view/timelinewidget.h"
 #include "dialogs/subtitleedit.h"
 #include "dialogs/textbasededit.h"
+#include "dialogs/proxytest.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -1034,4 +1035,10 @@ void Core::updateMasterZones()
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
+}
+
+void Core::testProxies()
+{
+    QScopedPointer<ProxyTest> dialog(new ProxyTest(QApplication::activeWindow()));
+    dialog->exec();
 }

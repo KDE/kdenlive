@@ -48,6 +48,7 @@ public:
     bool generateImageProxy() const;
     int proxyImageMinSize() const;
     int proxyImageSize() const;
+    int proxyResize() const;
     QString externalProxyParams() const;
     QString proxyParams() const;
     QString proxyExtension() const;

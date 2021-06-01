@@ -122,6 +122,8 @@ void ProxyTask::run()
                 parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
             }
         }
+        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+        parameter.replace(QStringLiteral("%width"), QString::number(proxyResize));
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
@@ -189,6 +191,7 @@ void ProxyTask::run()
 
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        qDebug()<<" :: STARTING PLAYLIST PROXY: "<<mltParameters;
         QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
@@ -317,6 +320,8 @@ void ProxyTask::run()
                 }
             }
         }
+        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+        proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
         bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
         if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source

@@ -107,6 +107,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number(int(KdenliveSettings::generateimageproxy()));
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
+    m_documentProperties[QStringLiteral("proxyresize")] = QString::number(KdenliveSettings::proxyscale());
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
     m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.second);
@@ -1632,8 +1633,12 @@ void KdenliveDoc::initProxySettings()
     // Select best proxy profile depending on hw encoder support
     if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("x264-nvenc"))) {
         params = values.value(QStringLiteral("x264-nvenc"));
-    } else if (KdenliveSettings::vaapiEnabled() && values.contains(QStringLiteral("x264-vaapi"))) {
-        params = values.value(QStringLiteral("x264-vaapi"));
+    } else if (KdenliveSettings::vaapiEnabled()) {
+        if (KdenliveSettings::vaapiScalingEnabled() && values.contains(QStringLiteral("x264-vaapi-scale"))) {
+            params = values.value(QStringLiteral("x264-vaapi-scale"));
+        } else if (values.contains(QStringLiteral("x264-vaapi"))) {
+            params = values.value(QStringLiteral("x264-vaapi"));
+        }
     } else {
         params = values.value(QStringLiteral("MJPEG"));
     }
