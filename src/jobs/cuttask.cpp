@@ -36,6 +36,8 @@
 #include <QProcess>
 #include <KIO/RenameDialog>
 #include <KLineEdit>
+#include <QComboBox>
+#include <QObject>
 #include <klocalizedstring.h>
 
 CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList encodingParams, int in, int out, bool addToProject, QObject* object)
@@ -58,28 +60,113 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
         return;
     }
     const QString source = binClip->url();
+    QString videoCodec = binClip->codec(false);
+    QString audioCodec = binClip->codec(true);
+    // Check if the audio/video codecs are supported for encoding (required for the codec copy feature)
+    QProcess checkProcess;
+    QStringList params = {QStringLiteral("-codecs")};
+    checkProcess.start(KdenliveSettings::ffmpegpath(), params);
+    checkProcess.waitForFinished(); // sets current thread to sleep and waits for pingProcess end
+    QString output(checkProcess.readAllStandardOutput());
+    QString line;
+    QTextStream stream(&output);
+    bool videoOk = videoCodec.isEmpty();
+    bool audioOk = audioCodec.isEmpty();
+    while (stream.readLineInto(&line)) {
+        if (!videoOk && line.contains(videoCodec)) {
+            if (line.simplified().section(QLatin1Char(' '), 0, 0).contains(QLatin1Char('E'))) {
+                videoOk = true;
+            }
+        } else if (!audioOk && line.contains(audioCodec)) {
+            if (line.simplified().section(QLatin1Char(' '), 0, 0).contains(QLatin1Char('E'))) {
+                audioOk = true;
+            }
+        }
+        if (audioOk && videoOk) {
+            break;
+        }
+    }
+    QString warnMessage;
+    if (!videoOk) {
+        warnMessage = i18n("Cannot copy video codec %1, will re-encode.", videoCodec);
+    }
+    if (!audioOk) {
+        if (!videoOk) {
+            warnMessage.append(QLatin1Char('\n'));
+        }
+        warnMessage.append(i18n("Cannot copy audio codec %1, will re-encode.", audioCodec));
+    }
     QString transcoderExt = source.section(QLatin1Char('.'), -1);
+    transcoderExt.prepend(QLatin1Char('.'));
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
     QString inString = QString::number(int(GenTime(in, pCore->getCurrentFps()).seconds()));
     QString outString = QString::number(int(GenTime(out, pCore->getCurrentFps()).seconds()));
-    QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString, outString) + transcoderExt);
+    QString path = dir.absoluteFilePath(fileName + QString("-%1-%2").arg(inString, outString) + transcoderExt);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;
     ui.setupUi(d);
     ui.extra_params->setVisible(false);
+    ui.message->setText(warnMessage);
+    ui.message->setVisible(!warnMessage.isEmpty());
+    if (videoCodec.isEmpty()) {
+        ui.video_codec->setText(i18n("none"));
+        ui.vcodec->setEnabled(false);
+    } else {
+        ui.video_codec->setText(videoCodec);
+        ui.vcodec->addItem(i18n("Copy stream"), QStringLiteral("copy"));
+        ui.vcodec->addItem(i18n("X264 encoding"), QStringLiteral("libx264"));
+    }
+    if (audioCodec.isEmpty()) {
+        ui.audio_codec->setText(i18n("none"));
+        ui.acodec->setEnabled(false);
+    } else {
+        ui.audio_codec->setText(audioCodec);
+        ui.acodec->addItem(i18n("Copy stream"), QStringLiteral("copy"));
+        ui.acodec->addItem(i18n("PCM encoding"), QStringLiteral("pcm_s24le"));
+        ui.acodec->addItem(i18n("AAC encoding"), QStringLiteral("aac"));
+    }
+    ui.audio_codec->setText(audioCodec);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.file_url->setMode(KFile::File);
     ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl::fromLocalFile(path));
+    QObject::connect(ui.acodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [&ui, transcoderExt]() {
+        ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
+        QString path = ui.file_url->url().toLocalFile();
+        QString fileName = path.section(QLatin1Char('.'), 0, -2);
+        if (ui.acodec->currentData() == QLatin1String("copy") && ui.vcodec->currentData() == QLatin1String("copy")) {
+            fileName.append(transcoderExt);
+        } else {
+            fileName.append(QStringLiteral(".mov"));
+        }
+        ui.file_url->setUrl(QUrl::fromLocalFile(fileName));
+    });
+    QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [&ui, transcoderExt]() {
+        ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
+        QString path = ui.file_url->url().toLocalFile();
+        QString fileName = path.section(QLatin1Char('.'), 0, -2);
+        if (ui.acodec->currentData() == QLatin1String("copy") && ui.vcodec->currentData() == QLatin1String("copy")) {
+            fileName.append(transcoderExt);
+        } else {
+            fileName.append(QStringLiteral(".mov"));
+        }
+        ui.file_url->setUrl(QUrl::fromLocalFile(fileName));
+    });
     QFontMetrics fm = ui.file_url->lineEdit()->fontMetrics();
     ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    ui.extra_params->setPlainText(QStringLiteral("-acodec copy -vcodec copy"));
+    ui.extra_params->setPlainText(QStringLiteral("-c:a copy -c:v copy"));
     QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(out - in, pCore->getCurrentFps(), true), binClip->getStringDuration());
     ui.info_label->setText(mess);
+    if (!videoOk) {
+        ui.vcodec->setCurrentIndex(1);
+    }
+    if (!audioOk) {
+        ui.acodec->setCurrentIndex(1);
+    }
     if (d->exec() != QDialog::Accepted) {
         delete d;
         return;
@@ -141,11 +228,12 @@ void CutTask::run()
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
-        QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-noaccurate_seek"),QStringLiteral("-ss"),QString::number(m_inPoint.seconds()),QStringLiteral("-i"),url, QStringLiteral("-t"), QString::number((m_outPoint-m_inPoint).seconds()),QStringLiteral("-avoid_negative_ts"),QStringLiteral("make_zero")};
+        QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-noaccurate_seek"),QStringLiteral("-ss"),QString::number(m_inPoint.seconds()),QStringLiteral("-i"),url, QStringLiteral("-t"), QString::number((m_outPoint-m_inPoint).seconds()),QStringLiteral("-avoid_negative_ts"),QStringLiteral("make_zero"),QStringLiteral("-sn"),QStringLiteral("-dn"),QStringLiteral("-map"),QStringLiteral("0")};
         params << m_encodingParams << m_destination;
         m_jobProcess = std::make_unique<QProcess>(new QProcess);
         connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
         connect(this, &CutTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        qDebug()<<"=== STARTING CUT JOB: "<<params;
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
