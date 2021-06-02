@@ -29,6 +29,21 @@
 #include <QProcess>
 #include <QMutex>
 
+class MyTreeWidgetItem : public QTreeWidgetItem {
+  public:
+  MyTreeWidgetItem(QTreeWidget* parent, const QStringList &list):QTreeWidgetItem(parent, list){}
+  MyTreeWidgetItem(QTreeWidgetItem* parent, const QStringList &list):QTreeWidgetItem(parent, list){}
+  private:
+  bool operator<(const QTreeWidgetItem &other)const override {
+     int column = treeWidget()->sortColumn();
+     if (column == 0) {
+         // Sorting by name
+         return text(column).toLower() < other.text(column).toLower();
+     }
+     return data(column, Qt::UserRole).toInt() < other.data(column, Qt::UserRole).toInt();
+  }
+};
+
 /**
  * @class ProxyTest
  * @brief A dialog to compare the proxy profiles.
@@ -50,6 +65,7 @@ private slots:
 private:
     bool m_closing;
     std::unique_ptr<QProcess> m_process;
+    MyTreeWidgetItem *m_failedProfiles;
     QMutex m_locker;
 };
 

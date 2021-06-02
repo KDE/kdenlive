@@ -44,6 +44,21 @@ ProxyTest::ProxyTest(QWidget *parent)
     setWindowTitle(i18n("Compare proxy profile"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Test Proxy profiles"));
     infoWidget->hide();
+    paramBox->setVisible(false);
+    m_failedProfiles = new MyTreeWidgetItem (resultList, {i18n("Failing profiles")});
+    resultList->addTopLevelItem(m_failedProfiles);
+    m_failedProfiles->setExpanded(false);
+    m_failedProfiles->setHidden(true);
+    connect(resultList, &QTreeWidget::itemSelectionChanged, resultList, [&]() {
+        QTreeWidgetItem *item = resultList->currentItem();
+        if (item) {
+            paramBox->setPlainText(item->data(0, Qt::UserRole).toString());
+            paramBox->setVisible(true);
+        } else {
+            paramBox->clear();
+            paramBox->setVisible(false);
+        }
+    });
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this]() {
         infoWidget->setText(i18n("Starting process"));
         infoWidget->animatedShow();
@@ -54,7 +69,27 @@ ProxyTest::ProxyTest(QWidget *parent)
 
 void ProxyTest::addAnalysis(const QStringList &data)
 {
-    resultList->addTopLevelItem(new QTreeWidgetItem(resultList, data));
+    QStringList itemData = data;
+    QString params = itemData.takeFirst();
+    if (itemData.size() == 1) {
+        // This proxy profile failed
+        MyTreeWidgetItem *item = new MyTreeWidgetItem(m_failedProfiles, itemData);
+        item->setData(0, Qt::UserRole, params);
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("window-close")));
+        m_failedProfiles->setHidden(false);
+        //m_failedProfiles->addChild(item);
+    } else {
+        MyTreeWidgetItem *item = new MyTreeWidgetItem(resultList, itemData);
+        qDebug()<<"=== ADDING ANALYSIS: "<<itemData;
+        item->setData(0, Qt::UserRole, params);
+        item->setData(1, Qt::UserRole, itemData.at(1).toInt());
+        QTime t = QTime(0,0).addMSecs(itemData.at(1).toInt());
+        qDebug()<<"TIME: "<<itemData.at(1).toInt()<<" = "<<t.toString(QStringLiteral("mm:ss:z"));
+        item->setText(1, t.toString(QStringLiteral("mm:ss:z")));
+        item->setText(2, KIO::convertSize(itemData.at(2).toInt()));
+        item->setData(2, Qt::UserRole, itemData.at(2).toInt());
+        //resultList->addTopLevelItem(item);
+    }
 }
 
 void ProxyTest::showMessage(const QString &message)
@@ -67,7 +102,6 @@ void ProxyTest::showMessage(const QString &message)
         infoWidget->animatedHide();
         resultList->setCursor(Qt::ArrowCursor);
     }
-
 }
 
 ProxyTest::~ProxyTest()
@@ -88,6 +122,20 @@ void ProxyTest::startTest()
     QMapIterator<QString, QString> k(values);
     int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
     QElapsedTimer timer;
+    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mov")));
+    if (!src.open()) {
+        // Something went wrong
+        QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(const QString&,i18n("Cannot create temporary files")));
+        return;
+    }
+    m_process.reset(new QProcess());
+    QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(const QString&,i18n("Generating a 60 seconds test video %1", src.fileName())));
+    QStringList source = {QStringLiteral("-y"),QStringLiteral("-f"),QStringLiteral("lavfi"),QStringLiteral("-i"),QStringLiteral("testsrc=duration=60:size=1920x1080:rate=25"),QStringLiteral("-c:v"),QStringLiteral("libx264"),QStringLiteral("-pix_fmt"),QStringLiteral("yuv420p"),src.fileName()};
+    m_process->start(KdenliveSettings::ffmpegpath(), source);
+    m_process->waitForStarted();
+    if (m_process->waitForFinished(-1)) {
+    }
+
     while (k.hasNext()) {
         QMutexLocker lk(&m_locker);
         k.next();
@@ -99,17 +147,17 @@ void ProxyTest::startTest()
             QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("XXXXXX.%1").arg(extension)));
             if (!tmp.open()) {
                 // Something went wrong
+                QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(const QString&,i18n("Cannot create temporary files")));
                 return;
             }
             tmp.close();
             params.replace(QStringLiteral("%width"), QString::number(proxyResize));
             m_process.reset(new QProcess());
             QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
-            QStringList source = {QStringLiteral("-f"),QStringLiteral("lavfi"),QStringLiteral("-i"),QStringLiteral("smptebars=duration=100:size=1920x1080:rate=25")};
             if (params.contains(QLatin1String("-i "))) {
                 // we have some pre-filename parameters, filename will be inserted later
             } else {
-                parameters << source;
+                parameters << QStringLiteral("-i") << src.fileName();
             }
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             for (const QString &s : params.split(QLatin1Char(' '), QString::SkipEmptyParts)) {
@@ -118,10 +166,9 @@ void ProxyTest::startTest()
 #endif
                 QString t = s.simplified();
                 if (t != QLatin1String("-noautorotate")) {
+                    parameters << t;
                     if (t == QLatin1String("-i")) {
-                        parameters << source;
-                    } else {
-                        parameters << t;
+                        parameters << src.fileName();
                     }
                 }
             }
@@ -131,8 +178,8 @@ void ProxyTest::startTest()
             m_process->waitForStarted();
             timer.start();
             bool success = false;
-            QStringList results;
-            if (m_process->waitForFinished()) {
+            QStringList results = {params};
+            if (m_process->waitForFinished(-1)) {
                 if (m_closing) {
                     return;
                 }
@@ -140,7 +187,7 @@ void ProxyTest::startTest()
                 qint64 size = tmp.size();
                 if (size > 0) {
                     success = true;
-                    results = QStringList({k.key(),QString::number(elapsed), KIO::convertSize(size)});
+                    results << QStringList({k.key(),QString::number(elapsed), QString::number(size)});
                 }
             }
             if (!success) {
@@ -148,7 +195,7 @@ void ProxyTest::startTest()
                     return;
                 }
                 qDebug()<<"==== PROFILE FAILED: "<<k.key()<<" !!!!!!!!!!!!";
-                results = QStringList({k.key(),i18n("failed"), i18n("failed")});
+                results << QStringList({k.key()});
             }
             QMetaObject::invokeMethod(this, "addAnalysis", Qt::QueuedConnection, Q_ARG(const QStringList&,results));
         }
