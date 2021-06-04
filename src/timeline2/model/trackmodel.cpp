@@ -459,8 +459,9 @@ int TrackModel::getBlankSizeAtPos(int frame)
     int min_length = 0;
     int blank_length = 0;
     for (auto &m_playlist : m_playlists) {
-        if (frame >= m_playlist.get_length()) {
-            blank_length = frame - m_playlist.get_length() + 1;
+        int playlistLength = m_playlist.get_length();
+        if (frame >= playlistLength) {
+            continue;
         } else {
             int ix = m_playlist.get_clip_index_at(frame);
             if (m_playlist.is_blank(ix)) {
@@ -473,6 +474,10 @@ int TrackModel::getBlankSizeAtPos(int frame)
         if (min_length == 0 || blank_length < min_length) {
             min_length = blank_length;
         }
+    }
+    if (blank_length == 0) {
+        // playlists are shorter than frame
+        return -1;
     }
     return min_length;
 }

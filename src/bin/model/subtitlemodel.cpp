@@ -1225,3 +1225,18 @@ int SubtitleModel::getBlankSizeAtPos(int pos) const
     }
     return max.frames(pCore->getCurrentFps()) - min.frames(pCore->getCurrentFps());
 }
+
+int SubtitleModel::getBlankStart(int pos) const
+{
+    GenTime matchPos(pos, pCore->getCurrentFps());
+    std::unordered_set<int> matching;
+    bool found = false;
+    GenTime min;
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+            min = subtitles.second.second;
+            found = true;
+        }
+    }
+    return found ? min.frames(pCore->getCurrentFps()) + 1 : 0;
+}

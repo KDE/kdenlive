@@ -1925,14 +1925,31 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
 bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks)
 {
     // find blank duration
-    int spaceDuration;
-    if (trackId == -2) {
-        // Subtitle track
-        spaceDuration = timeline->getSubtitleModel()->getBlankSizeAtPos(position);
+    int spaceStart = 0;
+    if (affectAllTracks) {
+        int lastFrame = 0;
+        for (const auto &track: timeline->m_allTracks) {
+            lastFrame = track->getBlankStart(position);
+            if (lastFrame > spaceStart) {
+                spaceStart = lastFrame;
+            }
+        }
+        // check subtitle track
+        if (timeline->getSubtitleModel()) {
+            lastFrame = timeline->getSubtitleModel()->getBlankStart(position);
+            if (lastFrame > spaceStart) {
+                spaceStart = lastFrame;
+            }
+        }
     } else {
-        spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
+        if (trackId == -2) {
+            // Subtitle track
+            spaceStart = timeline->getSubtitleModel()->getBlankStart(position);
+        } else {
+            spaceStart = timeline->getTrackById_const(trackId)->getBlankStart(position);
+        }
     }
-    if (spaceDuration <= 0) {
+    if (spaceStart == position) {
         return false;
     }
     int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
@@ -1943,7 +1960,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
+    requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
     return true;
 }
 
