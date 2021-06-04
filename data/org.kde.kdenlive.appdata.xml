@@ -100,7 +100,7 @@
     <p xml:lang="tr">Kdenlive doğrusal olmayan bir video düzenleyicisidir. MLT çalışma çerçevesi tabanlıdır ve birçok ses ile video biçimini destekleyerek; efektler ve geçişler eklemenizi ve istediğiniz biçime dönüştürmenizi sağlar.</p>
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
     <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
-    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为您想要的格式。</p>
+    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为任意格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
@@ -133,7 +133,7 @@
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
-    <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
@@ -366,7 +366,7 @@
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
-      <caption xml:lang="zh-CN">Kdenlive 特效</caption>
+      <caption xml:lang="zh-CN">Kdenlive 效果控制</caption>
       <caption xml:lang="zh-TW">Kdenlive 特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
