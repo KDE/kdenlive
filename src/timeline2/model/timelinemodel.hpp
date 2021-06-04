@@ -288,6 +288,11 @@ public:
     */
     int getClipIn(int clipId) const;
 
+    /** @brief Returns the in/out cut of a clip
+       @param clipId Id of the clip to test
+    */
+    std::pair<int,int> getClipInOut(int clipId) const;
+
     /** @brief Returns the clip state (audio/video only)
      */
     PlaylistState::ClipState getClipState(int clipId) const;

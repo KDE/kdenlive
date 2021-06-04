@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/model/markerlistmodel.hpp"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "doc/documentobjectmodel.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
@@ -39,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 
-ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
+ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer, const QUuid &uuid)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_masterProducer(producer)
@@ -49,7 +50,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_hasLimitedDuration(true)
-    , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
+    , m_effectStack(producer ? EffectStackModel::construct(pCore->getModel(uuid), producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack(uuid)) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_thumbsProducer(nullptr)
@@ -86,7 +87,7 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
     return m_audioInfo;
 }
 
-void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
+void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer, const QUuid &uuid)
 {
     qDebug() << "################### ClipController::addmasterproducer";
     m_masterProducer = std::move(producer);
@@ -110,7 +111,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
-    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
+    m_effectStack = EffectStackModel::construct(pCore->getModel(uuid), producer, {ObjectType::BinClip, id}, pCore->undoStack(uuid));
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -335,13 +336,13 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
     return subclipsData;
 }
 
-void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &producer)
+void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &producer, const QUuid &uuid)
 {
     qDebug() << "################### ClipController::updateProducer";
     // TODO replace all track producers
     if (!m_properties) {
         // producer has not been initialized
-        return addMasterProducer(producer);
+        return addMasterProducer(producer, uuid);
     }
     m_producerLock.lockForWrite();
     Mlt::Properties passProperties;

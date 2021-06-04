@@ -33,6 +33,7 @@ class Transition;
 class TimelineModel;
 class TrackModel;
 class KeyframeModel;
+class DocumentObjectModel;
 
 /** @brief This class represents a Composition object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -44,7 +45,7 @@ class CompositionModel : public MoveableItem<Mlt::Transition>, public AssetParam
 
 protected:
     /** This constructor is not meant to be called, call the static construct instead */
-    CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
+    CompositionModel(std::weak_ptr<DocumentObjectModel> objectModel, std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
                      const QString &transitionId, const QString &originalDecimalPoint);
 
 public:

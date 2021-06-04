@@ -63,7 +63,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         //m_playlists[1].set("hide", 3);
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_track->set("kdenlive:timeline_active", 1);
-        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(pCore->getModel(ptr->uuid()), m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
         // TODO
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
@@ -89,7 +89,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
         m_track = std::make_shared<Mlt::Tractor>(mltTrack);
         m_playlists[0] = *m_track->track(0);
         m_playlists[1] = *m_track->track(1);
-        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(pCore->getModel(ptr->uuid()), m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -1624,7 +1624,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                         }
                     }
                 }
-                std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetId, {ObjectType::TimelineMix, clipIds.second}, QString()));
+                std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, assetId, {ObjectType::TimelineMix, clipIds.second}, QString()));
                 m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
@@ -1876,7 +1876,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 assetName = QStringLiteral("luma");
             }
             QDomElement xml = TransitionsRepository::get()->getXml(assetName);
-            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
             m_sameCompositions[clipIds.second] = asset;
             m_mixList.insert(clipIds.first, clipIds.second);
         }
@@ -2071,7 +2071,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
             assetName = QStringLiteral("luma");
         }
         QDomElement xml = TransitionsRepository::get()->getXml(assetName);
-        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, info.secondClipId}, QString()));
+        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, assetName, {ObjectType::TimelineMix, info.secondClipId}, QString()));
         m_sameCompositions[info.secondClipId] = asset;
         m_mixList.insert(info.firstClipId, info.secondClipId);
         return true;
@@ -2114,7 +2114,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
             assetName = QStringLiteral("luma");
         }
         QDomElement xml = TransitionsRepository::get()->getXml(assetName);
-        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
         m_sameCompositions[clipIds.second] = asset;
         m_mixList.insert(clipIds.first, clipIds.second);
         return true;
@@ -2240,11 +2240,14 @@ bool TrackModel::loadMix(Mlt::Transition *t)
         QString paramValue = tr->get(paramName.toUtf8().constData());
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
     }
-    std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(tr), xml, assetId, {ObjectType::TimelineMix, cid2}, QString()));
-    m_sameCompositions[cid2] = asset;
-    m_mixList.insert(cid1, cid2);
-    setMixDuration(cid2, t->get_length() - 1, t->get_int("kdenlive:mixcut"));
-    return true;
+    if (auto ptr = m_parent.lock()) {
+        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(tr), xml, assetId, {ObjectType::TimelineMix, cid2}, QString()));
+        m_sameCompositions[cid2] = asset;
+        m_mixList.insert(cid1, cid2);
+        setMixDuration(cid2, t->get_length() - 1, t->get_int("kdenlive:mixcut"));
+        return true;
+    }
+    return false;
 }
 
 const std::shared_ptr<AssetParameterModel> TrackModel::mixModel(int cid)
@@ -2285,7 +2288,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
-            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
         m_playlists[0].unlock();
@@ -2308,7 +2311,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
             QDomElement xml = TransitionsRepository::get()->getXml(currentAsset);
-            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, currentAsset, {ObjectType::TimelineMix, cid}, QString()));
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(pCore->getModel(ptr->uuid()), std::move(t), xml, currentAsset, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
         m_playlists[0].unlock();

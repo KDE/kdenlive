@@ -54,6 +54,7 @@ private:
     QString m_errorMessage;
     QString m_logDetails;
     std::unique_ptr<QProcess> m_jobProcess;
+    QString m_profilePath;
 };
 
 

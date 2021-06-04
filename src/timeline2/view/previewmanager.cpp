@@ -31,7 +31,7 @@
 #include <QStandardPaths>
 #include <QCollator>
 
-PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
+PreviewManager::PreviewManager(const QString &profilePath, TimelineController *controller, Mlt::Tractor *tractor)
     : QObject()
     , workingPreview(-1)
     , m_controller(controller)
@@ -40,6 +40,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_overlayTrack(nullptr)
     , m_previewTrackIndex(-1)
     , m_initialized(false)
+    , m_profilePath(profilePath)
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
@@ -581,7 +582,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      QStringLiteral("-split"),
                      chunks.join(QLatin1Char(',')),
                      QString::number(chunkSize - 1),
-                     pCore->getCurrentProfilePath(),
+                     m_profilePath,
                      m_extension,
                      m_consumerParams.join(QLatin1Char(' '))};
     qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;

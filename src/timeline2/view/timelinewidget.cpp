@@ -55,9 +55,9 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(QWidget *parent)
+TimelineWidget::TimelineWidget(const QUuid &uuid, QWidget *parent)
     : QQuickWidget(parent)
-    , uuid(QUuid::createUuid())
+    , uuid(uuid)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -131,7 +131,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_thumbsMenu = thumbsMenu;
     m_headerMenu->addMenu(m_thumbsMenu);
     m_timelineSubtitleClipMenu = subtitleClipMenu;
-    m_editGuideAcion = editGuideAction;
+    m_editGuideAction = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
     connect(m_favEffects, &QMenu::triggered, this, [&] (QAction *ac) {
@@ -177,15 +177,20 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails 
     // leaking from one project to another because of qml's image caching
-    rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
+    KdenliveDoc *project = pCore->getDocument(model->uuid());
+    if (project == nullptr) {
+        qDebug()<<"=============ERROR INNVALID DOCUMENT ID==============";
+    }
+    rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel(model->uuid()).get());
+    rootContext()->setContextProperty("guidesModel", project->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
     setFont(ft);
     rootContext()->setContextProperty("miniFont", font());
-    rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+    //TODO: make subtitle model relative to document
+    //rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
@@ -327,9 +332,9 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(model()->uuid())->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
     QAction *ac;
-    m_editGuideAcion->setEnabled(false);
+    m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
@@ -337,7 +342,7 @@ void TimelineWidget::showRulerMenu()
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
-            m_editGuideAcion->setEnabled(true);
+            m_editGuideAction->setEnabled(true);
         }
         m_guideMenu->addAction(ac);
     }
@@ -348,9 +353,9 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(model()->uuid())->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
     QAction *ac;
-    m_editGuideAcion->setEnabled(false);
+    m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
@@ -358,7 +363,7 @@ void TimelineWidget::showTimelineMenu()
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
-            m_editGuideAcion->setEnabled(true);
+            m_editGuideAction->setEnabled(true);
         }
         m_guideMenu->addAction(ac);
     }

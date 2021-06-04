@@ -85,7 +85,7 @@ public:
     /** @brief Return the current undo stack
         The method is virtual to allow mocking
     */
-    virtual std::shared_ptr<DocUndoStack> undoStack();
+    virtual std::shared_ptr<DocUndoStack> undoStack(const QUuid &uuid = QUuid());
 
     /** @brief This will create a backup file with fps appended to project name,
      *  and save the project with an updated profile info, then reopen it.
@@ -105,8 +105,12 @@ public:
 
     QUuid getTimelineUuid(std::shared_ptr<TimelineItemModel> model);
 
+    /** @brief Get a document b< uuid */
+    KdenliveDoc *getDocument(const QUuid &uuid);
+    void activateDocument(const QUuid &uuid);
+
 public slots:
-    void newFile(QString profileName, bool showProjectSettings = true);
+    void newFile(QString profileName, bool showProjectSettings = true, bool closeCurrent = false);
     void newFile(bool showProjectSettings = true);
     /** @brief Shows file open dialog. */
     void openFile();
@@ -195,7 +199,7 @@ signals:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos = -1, int scrollPos = -1);
+    bool updateTimeline(KdenliveDoc *doc, int pos = -1, int scrollPos = -1, bool createNewTab = true);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
@@ -213,8 +217,10 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    QMap<QUuid, KdenliveDoc*> m_openedDocuments;
     std::unordered_map<QString,QUuid> m_secondaryTimelineEntries;
     std::unordered_map<std::shared_ptr<TimelineItemModel>,QUuid> m_secondaryTimelines;
+    std::unordered_map<QString,std::shared_ptr<TimelineItemModel>> m_timelineModels;
     QMap<QUuid, QString> m_timelinePath;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};

@@ -72,7 +72,6 @@ void FilterTask::run()
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
     std::unique_ptr<Mlt::Producer> producer;
     std::unique_ptr<Mlt::Producer> wholeProducer;
-    Mlt::Profile profile(pCore->getCurrentProfilePath().toUtf8().constData());
     if (binClip) {
         // Filter applied on a timeline or bin clip
         url = binClip->url();
@@ -83,11 +82,11 @@ void FilterTask::run()
         }
         if (KdenliveSettings::gpu_accel()) {
             producer = binClip->getClone();
-            Mlt::Filter converter(profile, "avcolor_space");
+            Mlt::Filter converter(*producer->profile(), "avcolor_space");
             producer->attach(converter);
         } else {
             qDebug()<<"==== BUILDING PRODUCER: "<<url;
-            producer = std::make_unique<Mlt::Producer>(profile, url.toUtf8().constData());
+            producer = std::make_unique<Mlt::Producer>(*producer->profile(), url.toUtf8().constData());
         }
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong, Notify user?
@@ -140,7 +139,7 @@ void FilterTask::run()
         return;
     }
     destFile.close();
-    std::unique_ptr<Mlt::Consumer>consumer(new Mlt::Consumer(profile, "xml", sourceFile.fileName().toUtf8().constData()));
+    std::unique_ptr<Mlt::Consumer>consumer(new Mlt::Consumer(*producer->profile(), "xml", sourceFile.fileName().toUtf8().constData()));
     if (!consumer->is_valid()) {
         m_errorMessage.append(i18n("Cannot create consumer."));
         pCore->taskManager.taskDone(m_owner.second, this);
@@ -152,7 +151,7 @@ void FilterTask::run()
     producer->seek(0);
     if (binClip) {
         // Build filter
-        Mlt::Filter filter(profile, m_filterName.toUtf8().data());
+        Mlt::Filter filter(*producer->profile(), m_filterName.toUtf8().data());
         if (!filter.is_valid()) {
             m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
             pCore->taskManager.taskDone(m_owner.second, this);

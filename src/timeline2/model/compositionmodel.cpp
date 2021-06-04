@@ -22,15 +22,17 @@
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
+#include "core.h"
+#include "doc/documentobjectmodel.h"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <mlt++/MltTransition.h>
 #include <utility>
 
-CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
+CompositionModel::CompositionModel(std::weak_ptr<DocumentObjectModel> objectModel, std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
                                    const QString &transitionId, const QString &originalDecimalPoint)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
-    , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id}, originalDecimalPoint)
+    , AssetParameterModel(objectModel, std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id}, originalDecimalPoint)
     , m_a_track(-1)
     , m_duration(0)
 {
@@ -63,10 +65,9 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
             transition->set("force_track", sourceProperties->get_int("force_track"));
         }
     }
-    std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId, originalDecimalPoint));
-    id = composition->m_id;
-
     if (auto ptr = parent.lock()) {
+        std::shared_ptr<CompositionModel> composition(new CompositionModel(pCore->getModel(ptr->uuid()), parent, std::move(transition), id, xml, transitionId, originalDecimalPoint));
+        id = composition->m_id;
         ptr->registerComposition(composition);
     } else {
         qDebug() << "Error : construction of composition failed because parent timeline is not available anymore";

@@ -41,22 +41,15 @@ QSize TimelineContainer::sizeHint() const
 
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
-    , m_mainTimeline(new TimelineWidget(this))
-    , m_activeTimeline(m_mainTimeline)
+    , m_activeTimeline(nullptr)
 {
     setTabBarAutoHide(true);
     setTabsClosable(true);
-    addTab(m_mainTimeline, i18n("Main timeline"));
-    connectTimeline(m_mainTimeline);
 
     // Resize to 0 the size of the close button of the main timeline, so that the user cannot close it.
-    if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
+    /*if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
         tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
-    }
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_mainTimeline, &TimelineWidget::zoneUpdated);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_mainTimeline, &TimelineWidget::zoneUpdatedWithUndo);
-    connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
+    }*/
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
 }
 
@@ -71,9 +64,11 @@ void TimelineTabs::raiseTimeline(const QUuid &uuid)
     }
 }
 
-TimelineWidget *TimelineTabs::addTimeline(const QString &tabName)
+TimelineWidget *TimelineTabs::addTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
-    TimelineWidget *newTimeline = new TimelineWidget(this);
+    TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
+    newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction, m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
+    newTimeline->setModel(timelineModel, proxy);
     addTab(newTimeline, tabName);
     return newTimeline;
 }
@@ -86,7 +81,6 @@ void TimelineTabs::connectCurrent(int ix)
         disconnectTimeline(m_activeTimeline);
     }
     m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
-    pCore->setProjectItemModel(m_activeTimeline->uuid);
     connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
 }
@@ -94,17 +88,15 @@ void TimelineTabs::connectCurrent(int ix)
 TimelineTabs::~TimelineTabs()
 {
     // clear source
-    m_mainTimeline->setSource(QUrl());
-}
-
-TimelineWidget *TimelineTabs::getMainTimeline() const
-{
-    return m_mainTimeline;
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        timeline->setSource(QUrl());
+    };
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
 {
-    return static_cast<TimelineWidget *>(currentWidget());
+    return m_activeTimeline;
 }
 
 void TimelineTabs::closeTimelines()
@@ -128,6 +120,11 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     connect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
     connect(timeline->controller(), &TimelineController::centerView, timeline, &TimelineWidget::slotCenterView);
+
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_activeTimeline, &TimelineWidget::zoneUpdated);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_activeTimeline, &TimelineWidget::zoneUpdatedWithUndo);
+    connect(m_activeTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_activeTimeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
@@ -142,4 +139,18 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     disconnect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
+}
+
+void TimelineTabs::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+{
+    m_timelineClipMenu = clipMenu;
+    m_timelineCompositionMenu = compositionMenu;
+    m_timelineMenu = timelineMenu;
+    m_timelineRulerMenu = timelineRulerMenu;
+    m_guideMenu = guideMenu;
+    m_headerMenu = headerMenu;
+    m_thumbsMenu = thumbsMenu;
+    m_headerMenu->addMenu(m_thumbsMenu);
+    m_timelineSubtitleClipMenu = subtitleClipMenu;
+    m_editGuideAction = editGuideAction;
 }

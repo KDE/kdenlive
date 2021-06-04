@@ -20,6 +20,7 @@
 #include "generators.h"
 #include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
+#include "doc/documentobjectmodel.h"
 #include "timecodedisplay.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
@@ -81,7 +82,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         QString tag = base.attribute(QStringLiteral("tag"), QString());
 
         auto prop = std::make_unique<Mlt::Properties>(m_producer->get_properties());
-        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1})); // NOLINT
+        m_assetModel.reset(new AssetParameterModel(pCore->getModel(pCore->activeUuid()), std::move(prop), base, tag, {ObjectType::NoItem, -1})); // NOLINT
         m_view->setModel(m_assetModel, QSize(1920, 1080), false);
         connect(m_assetModel.get(), &AssetParameterModel::modelChanged, this, [this]() { updateProducer(); });
 

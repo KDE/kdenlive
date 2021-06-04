@@ -935,16 +935,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
 
     setFocusPolicy(Qt::ClickFocus);
-
-    connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
-    connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
-    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
-            static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
-            static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
-    connect(m_itemModel.get(), &ProjectItemModel::addTag, this, &Bin::slotTagDropped);
-    connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
     // Zoom slider
@@ -1742,6 +1732,17 @@ void Bin::setProjectModel(std::shared_ptr<ProjectItemModel> model)
 {
     qDebug()<<"=======\nSETTING PROJECT MODEL\n\n=======================";
     m_itemModel = model;
+    if (m_itemModel) {
+        connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
+        connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
+        connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
+            static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
+        connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
+            static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
+        connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
+        connect(m_itemModel.get(), &ProjectItemModel::addTag, this, &Bin::slotTagDropped);
+        connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
+    }
     slotInitView(nullptr);
 }
 
@@ -2112,6 +2113,9 @@ QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
 
 void Bin::slotInitView(QAction *action)
 {
+    if (m_itemModel == nullptr) {
+        return;
+    }
     if (action) {
         if (m_proxyModel) {
             m_proxyModel->selectionModel()->clearSelection();
@@ -3038,6 +3042,7 @@ void Bin::slotCreateProjectClip()
     }
     ClipType::ProducerType type = ClipType::ProducerType(act->data().toInt());
     QString parentFolder = getCurrentFolder();
+    qDebug()<<"==== CREATIN GCLIP IN MODEL: "<<m_itemModel->uuid();
     switch (type) {
     case ClipType::Color:
         ClipCreationDialog::createColorClip(m_doc, parentFolder, m_itemModel);

@@ -50,6 +50,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
 void SpeedTask::start(QObject* object, bool force)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
+    const QString profilePath = pCore->getCurrentProfilePath();
     // Show config dialog
     QDialog d(qApp->activeWindow());
     d.setWindowTitle(i18n("Clip Speed"));
@@ -157,6 +158,7 @@ void SpeedTask::start(QObject* object, bool force)
         if (task) {
             // Otherwise, start a filter thread.
             task->m_isForce = force;
+            task->m_profilePath = profilePath;
             pCore->taskManager.startTask(owner.second, task);
         }
     }
@@ -173,7 +175,7 @@ void SpeedTask::run()
     
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-    QStringList producerArgs = {QStringLiteral("progress=1"),QStringLiteral("-profile"),pCore->getCurrentProfilePath()};
+    QStringList producerArgs = {QStringLiteral("progress=1"),QStringLiteral("-profile"),m_profilePath};
     if (binClip) {
         // Filter applied on a timeline or bin clip
         url = binClip->url();

@@ -1247,7 +1247,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
         chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
         doc.appendChild(chapters);
-        const QList<CommentedTime> guidesList = project->getGuideModel(pCore->activeUuid())->getAllMarkers();
+        const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
         for (int i = 0; i < guidesList.count(); i++) {
             const CommentedTime &c = guidesList.at(i);
             int time = c.time().frames(pCore->getCurrentFps());
@@ -1262,7 +1262,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
             chapter.setAttribute(QStringLiteral("time"), time);
         }
         if (!chapters.childNodes().isEmpty()) {
-            if (!project->getGuideModel(pCore->activeUuid())->hasMarker(out)) {
+            if (!project->getGuideModel()->hasMarker(out)) {
                 // Always insert a guide in pos 0
                 QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
                 chapters.insertBefore(chapter, QDomNode());

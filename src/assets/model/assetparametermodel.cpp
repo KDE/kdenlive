@@ -25,6 +25,7 @@
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
+#include "doc/documentobjectmodel.h"
 #include <QDebug>
 #include <QDir>
 #include <QJsonArray>
@@ -33,12 +34,13 @@
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
 
-AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+AssetParameterModel::AssetParameterModel(std::weak_ptr<DocumentObjectModel> objectModel, std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString& originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
+    , m_objectModel(objectModel)
     , m_active(false)
     , m_asset(std::move(asset))
     , m_keyframes(nullptr)
@@ -123,14 +125,18 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         } else if (currentRow.type == ParamType::Position) {
             int val = value.toInt();
             if (val < 0) {
-                int in = pCore->getItemIn(m_ownerId);
-                int out = in + pCore->getItemDuration(m_ownerId) - 1;
-                val += out;
-                value = QString::number(val);
+                if (auto ptr = m_objectModel.lock()) {
+                    std::pair<int, int> inOut = ptr->getItemInOut(m_ownerId);
+                    val += inOut.second;
+                    value = QString::number(val);
+                }
             }
         } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
             if (!value.contains(QLatin1Char('='))) {
-                value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
+                if (auto ptr = m_objectModel.lock()) {
+                    std::pair<int, int> inOut = ptr->getItemInOut(m_ownerId);
+                    value.prepend(QStringLiteral("%1=").arg(inOut.first));
+                }
             }
         }
 
@@ -433,15 +439,26 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case OutRole:
         return m_asset->get_int("out");
     case ParentInRole:
-        return pCore->getItemIn(m_ownerId);
+        if (auto ptr = m_objectModel.lock()) {
+            std::pair<int, int> inOut = ptr->getItemInOut(m_ownerId);
+            return inOut.first;
+        }
+        return 0;
     case ParentDurationRole:
         if (m_asset->get_int("kdenlive:force_in_out") == 1) {
             // Zone effect, return effect length
             return m_asset->get_int("out") - m_asset->get_int("in");
         }
-        return pCore->getItemDuration(m_ownerId);
+        if (auto ptr = m_objectModel.lock()) {
+            std::pair<int, int> inOut = ptr->getItemInOut(m_ownerId);
+            return inOut.second - inOut.first;
+        }
+        return 0;
     case ParentPositionRole:
-        return pCore->getItemPosition(m_ownerId);
+        if (auto ptr = m_objectModel.lock()) {
+            return ptr->getItemPosition(m_ownerId);
+        }
+        return 0;
     case HideKeyframesFirstRole:
         return m_hideKeyframesByDefault;
     case MinRole:
@@ -1023,7 +1040,7 @@ void AssetParameterModel::addKeyframeParam(const QModelIndex &index)
     if (m_keyframes) {
         m_keyframes->addParameter(index);
     } else {
-        m_keyframes.reset(new KeyframeModelList(shared_from_this(), index, pCore->undoStack()));
+        m_keyframes.reset(new KeyframeModelList(shared_from_this(), index, pCore->undoStack(QUuid())));
     }
 }
 

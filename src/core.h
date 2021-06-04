@@ -32,6 +32,7 @@ class Bin;
 class DocUndoStack;
 class EffectStackModel;
 class KdenliveDoc;
+class DocumentObjectModel;
 class LibraryWidget;
 class MainWindow;
 class MediaCapture;
@@ -146,6 +147,7 @@ public:
      *  @returns true if profile exists, false if not found
      */
     bool setCurrentProfile(const QString &profilePath);
+    bool hasCurrentProfile(const QString &profilePath) const;
     /** @brief Returns Sample Aspect Ratio of current profile */
     double getCurrentSar() const;
     /** @brief Returns Display Aspect Ratio of current profile */
@@ -195,7 +197,7 @@ public:
     /** @brief Return true if composition's a_track is automatic (no forced track)
      */
     bool compositionAutoTrack(int cid) const;
-    std::shared_ptr<DocUndoStack> undoStack();
+    std::shared_ptr<DocUndoStack> undoStack(const QUuid &uuid);
     double getClipSpeed(int id) const;
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
@@ -261,6 +263,10 @@ public:
     TaskManager taskManager;
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
+    /** @brief Get a document by uuid */
+    KdenliveDoc *getDocument(const QUuid &uuid);
+    /** @brief Get an object model by uuid */
+    std::shared_ptr<DocumentObjectModel> getModel(const QUuid &uuid);
 
 private:
     explicit Core();
@@ -272,8 +278,6 @@ private:
     MainWindow *m_mainWindow{nullptr};
     ProjectManager *m_projectManager{nullptr};
     MonitorManager *m_monitorManager{nullptr};
-    /** @brief The main project's model. */
-    std::shared_ptr<ProjectItemModel> m_projectItemModel;
     /** @brief The currently active project's model (main or secondary). */
     std::shared_ptr<ProjectItemModel> m_activeProjectModel;
     /** @brief The existing secondary project models. */
