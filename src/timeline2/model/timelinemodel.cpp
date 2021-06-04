@@ -301,6 +301,14 @@ int TimelineModel::getClipIn(int clipId) const
     return clip->getIn();
 }
 
+std::pair<int,int> TimelineModel::getClipInOut(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    return {clip->getIn(), clip->getOut()};
+}
+
 PlaylistState::ClipState TimelineModel::getClipState(int clipId) const
 {
     READ_LOCK();
@@ -4646,8 +4654,9 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
 {
     READ_LOCK();
     if (m_masterStack == nullptr) {
+        qDebug()<<"=== ATTEMPTING TO FETCH MODEL FOR UUID: "<<m_uuid<<"\n+++++++++++++++++";
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0}, m_undoStack);
+        m_masterStack = EffectStackModel::construct(pCore->getModel(m_uuid), m_masterService, {ObjectType::Master, 0}, m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;

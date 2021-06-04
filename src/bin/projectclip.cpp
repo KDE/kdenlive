@@ -82,7 +82,7 @@ RTTR_REGISTRATION
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id, std::move(producer))
+    , ClipController(id, std::move(producer), model->uuid())
     , m_resetTimelineOccurences(false)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
@@ -496,7 +496,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
-    updateProducer(producer);
+    if (auto ptr = m_model.lock()) {
+        auto model = std::static_pointer_cast<ProjectItemModel>(ptr);
+        updateProducer(producer, model->uuid());
+    }
     emit producerChanged(m_binId, producer);
     if (producer->get_int("kdenlive:transcodingrequired") == 1) {
         pCore->bin()->requestTranscoding(clipUrl(), clipId());

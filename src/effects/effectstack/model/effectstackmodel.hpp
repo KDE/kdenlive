@@ -39,6 +39,7 @@
 class AbstractEffectItem;
 class AssetParameterModel;
 class DocUndoStack;
+class DocumentObjectModel;
 class EffectItemModel;
 class TreeItem;
 class KeyframeModel;
@@ -52,10 +53,10 @@ public:
        @param service is the mlt object on which we will plant the effects
        @param ownerId is some information about the actual object to which the effects are applied
     */
-    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
+    static std::shared_ptr<EffectStackModel> construct(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
 
 protected:
-    EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
+    EffectStackModel(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     /** @brief Add an effect at the bottom of the stack */
@@ -153,6 +154,8 @@ public:
     
     /** @brief Returns a list of zones for all effects */
     QVariantList getEffectZones() const;
+    /** @brief Returns the object model */
+    std::weak_ptr<DocumentObjectModel> objectModel();
 
 public slots:
     /** @brief Delete an effect from the stack */
@@ -171,6 +174,7 @@ protected:
     ObjectId m_ownerId;
 
     std::weak_ptr<DocUndoStack> m_undoStack;
+    std::weak_ptr<DocumentObjectModel> m_objectModel;
 
 private:
     mutable QReadWriteLock m_lock;

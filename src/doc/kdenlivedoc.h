@@ -47,6 +47,8 @@ class MarkerListModel;
 class Render;
 class ProfileParam;
 class SubtitleModel;
+class TimelineWidget;
+class DocumentObjectModel;
 
 class QUndoGroup;
 class QUndoCommand;
@@ -60,10 +62,9 @@ class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-    KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+    KdenliveDoc(const QUrl &url, QString projectFolder, const QString &profileName, const QMap<QString, QString> &properties,
                 const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
-    friend class LoadJob;
     /** @brief Get current document's producer. */
     const QByteArray getAndClearProjectXml();
     double fps() const;
@@ -151,9 +152,7 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model */
-    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid &uuid) const;
-    /** @brief Create a guide model for a secondary timeline */
-    void addGuidesModel(const QUuid &uuid, std::shared_ptr<MarkerListModel> model);
+    std::shared_ptr<MarkerListModel> getGuideModel() const;
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -170,7 +169,6 @@ public:
     /** @brief Returns the number of audio channels for this project */
     int audioChannels() const;
 
-
     /**
      * If the document used a decimal point different than “.”, it is stored in this property.
      * @return Original decimal point, or an empty string if it was “.” already
@@ -183,6 +181,18 @@ public:
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    /** @brief Store a reference to the timeline model. */
+    void setModels(TimelineWidget *timelineWidget, std::shared_ptr<ProjectItemModel> projectModel);
+    std::shared_ptr<DocumentObjectModel> objectModel();
+    /** @brief Returns a project item's duration. */
+    std::pair<int,int> getItemInOut(const ObjectId &id);
+
+    /** @brief Returns the project's MLT profile path */
+    const QString &documentProfile() const;
+    /** @brief Returns the project's MLT profile */
+    Mlt::Profile *getDocumentProfile();
+    /** @brief Used to store timeline position on tab switch */
+    int position;
 
 private:
     QUrl m_url;
@@ -214,8 +224,10 @@ private:
     QMap<QString, QString> m_documentMetadata;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
     std::shared_ptr<MarkerListModel> m_guideModel;
-    std::unordered_map<QString, std::shared_ptr<MarkerListModel>> m_guideModels;
-
+    QUuid m_uuid;
+    std::shared_ptr<DocumentObjectModel>m_objectModel;
+    QString m_documentProfile;
+    std::unique_ptr<Mlt::Profile> m_projectProfile;
     QString m_modifiedDecimalPoint;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;

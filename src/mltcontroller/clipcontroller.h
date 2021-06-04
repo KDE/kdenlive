@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDateTime>
 #include <QDir>
 #include <QMutex>
+#include <QUuid>
 #include <QString>
 #include <QReadWriteLock>
 #include <memory>
@@ -54,7 +55,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr);
+    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr, const QUuid &uuid = QUuid());
 
 public:
     virtual ~ClipController();
@@ -71,7 +72,7 @@ public:
     QDateTime date;
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
-    void updateProducer(const std::shared_ptr<Mlt::Producer> &producer);
+    void updateProducer(const std::shared_ptr<Mlt::Producer> &producer, const QUuid &uuid);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false, bool includeProfile = true);
 
@@ -166,7 +167,7 @@ public:
     int selectedEffectIndex;
 
     /** @brief Sets the master producer for this clip when we build the controller without master clip. */
-    void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer);
+    void addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer, const QUuid &uuid);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

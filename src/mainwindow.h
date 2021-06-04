@@ -57,6 +57,8 @@ class Monitor;
 class Render;
 class RenderWidget;
 class TimelineTabs;
+class TimelineItemModel;
+class MonitorProxy;
 class TimelineWidget;
 class TimelineContainer;
 class Transition;
@@ -128,9 +130,6 @@ public:
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
 
-    /** @brief Returns a ptr to the main timeline widget of the project */
-    TimelineWidget *getMainTimeline() const;
-
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
 
@@ -162,7 +161,7 @@ public:
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
     /** @brief Create a new timeline tab. */
-    TimelineWidget *openTimeline(const QString &tabName);
+    TimelineWidget *openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
     /** @brief Show a timeline tab. */
     void raiseTimeline(const QUuid &uuid);
     void connectTimeline();

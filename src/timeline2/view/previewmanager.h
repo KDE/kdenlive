@@ -51,7 +51,7 @@ class PreviewManager : public QObject
 public:
     friend class TimelineController;
 
-    explicit PreviewManager(TimelineController *controller, Mlt::Tractor *tractor);
+    explicit PreviewManager(const QString &profilePath, TimelineController *controller, Mlt::Tractor *tractor);
     ~PreviewManager() override;
     /** @brief: initialize base variables, return false if error. */
     bool initialize();
@@ -114,6 +114,7 @@ private:
     bool m_initialized;
     QList<int> m_waitingThumbs;
     QFuture<void> m_previewThread;
+    QString m_profilePath;
     /** @brief: The count of chunks to process - to calculate job progress */
     int m_chunksToRender;
     /** @brief: The count of already processed chunks - to calculate job progress */

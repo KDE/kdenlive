@@ -382,7 +382,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
     }
 }
 
-std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
+std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId) const
 {
     READ_LOCK();
     if (binId.contains(QLatin1Char('_'))) {
@@ -395,6 +395,13 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
         }
     }
     return nullptr;
+}
+
+size_t ProjectItemModel::getClipDuration(int itemId) const
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    return clip->frameDuration();
 }
 
 const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)

@@ -38,7 +38,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid &uuid, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
@@ -104,7 +104,7 @@ private:
     QMenu *m_thumbsMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
-    QAction *m_editGuideAcion;
+    QAction *m_editGuideAction;
     QMenu *m_timelineSubtitleClipMenu;
     static const int comboScale[];
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;

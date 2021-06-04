@@ -70,7 +70,9 @@ public:
     void buildPlaylist(const QUuid &uuid = QUuid());
 
     /** @brief Returns a clip from the hierarchy, given its id */
-    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
+    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId) const;
+    /** @brief Returns a clip duration, given its id */
+    size_t getClipDuration(int itemId) const;
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
     double getAudioMaxLevel(const QString &binId, int stream);

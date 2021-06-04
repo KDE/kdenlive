@@ -112,7 +112,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), nullptr, resource.toUtf8().constData());
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
@@ -136,13 +136,13 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
             m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
             QString loader = resource;
             loader.prepend(QStringLiteral("consumer:"));
-            return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
+            return std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), loader.toUtf8().constData());
         } else {
             m_errorMessage.append(i18n("No matching profile"));
             return nullptr;
         }
     }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), "xml", resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), "xml", resource.toUtf8().constData());
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
@@ -181,13 +181,13 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
     if (!anim.isEmpty()) {
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
+        auto *filter = new Mlt::Filter(*pCore->getDocument(m_uuid)->getDocumentProfile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
             if (!geometry.isEmpty()) {
                 if (anim.contains(QStringLiteral("low-pass"))) {
-                    auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
+                    auto *blur = new Mlt::Filter(*pCore->getDocument(m_uuid)->getDocumentProfile(), "boxblur");
                     if ((blur != nullptr) && blur->is_valid()) {
                         producer->attach(*blur);
                     }
@@ -201,7 +201,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString fade = Xml::getXmlProperty(m_xml, QStringLiteral("fade"));
     if (fade == QLatin1String("1")) {
         // user wants a fade effect to slideshow
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "luma");
+        auto *filter = new Mlt::Filter(*pCore->getDocument(m_uuid)->getDocumentProfile(), "luma");
         if ((filter != nullptr) && filter->is_valid()) {
             if (ttl != 0) {
                 filter->set("cycle", ttl);
@@ -225,7 +225,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString crop = Xml::getXmlProperty(m_xml, QStringLiteral("crop"));
     if (crop == QLatin1String("1")) {
         // user wants to center crop the slides
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "crop");
+        auto *filter = new Mlt::Filter(*pCore->getDocument(m_uuid)->getDocumentProfile(), "crop");
         if ((filter != nullptr) && filter->is_valid()) {
             filter->set("center", 1);
             producer->attach(*filter);
@@ -487,7 +487,7 @@ void ClipLoadTask::run()
     }
     case ClipType::SlideShow: {
         resource.prepend(QStringLiteral("qimage:"));
-        producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+        producer = std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), nullptr, resource.toUtf8().constData());
         break;
     }
     default:
@@ -495,7 +495,7 @@ void ClipLoadTask::run()
             service.append(QChar(':'));
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }

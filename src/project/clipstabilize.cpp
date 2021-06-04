@@ -71,7 +71,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
         auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());
         QDomElement xml = EffectsRepository::get()->getXml(m_filtername);
-        m_assetModel.reset(new AssetParameterModel(std::move(prop), xml, m_filtername, {ObjectType::NoItem, -1}));
+        m_assetModel.reset(new AssetParameterModel(pCore->getModel(pCore->activeUuid()), std::move(prop), xml, m_filtername, {ObjectType::NoItem, -1}));
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
         const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
         const QVector<QPair<QString, QVariant>> params = m_assetModel->loadPreset(presetFile, i18n("Last setting"));

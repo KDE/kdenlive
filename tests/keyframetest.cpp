@@ -41,7 +41,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
 
     Mlt::Profile pr;
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(pr, "color", "red");
-    auto effectstack = EffectStackModel::construct(producer, {ObjectType::TimelineClip, 0}, undoStack);
+    auto effectstack = EffectStackModel::construct(pCore->getModel(QUuid()), producer, {ObjectType::TimelineClip, 0}, undoStack);
 
     effectstack->appendEffect(QStringLiteral("audiobalance"));
     REQUIRE(effectstack->checkConsistency());

@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "kdenlivedoc.h"
+#include "documentobjectmodel.h"
 #include "bin/bin.h"
 #include "bin/bincommands.h"
 #include "bin/binplaylist.hpp"
@@ -39,6 +40,8 @@
 #include "profiles/profilerepository.hpp"
 #include "project/projectcommands.h"
 #include "titler/titlewidget.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "transitions/transitionsrepository.hpp"
 
 #include <config-kdenlive.h>
@@ -72,20 +75,20 @@
 
 const double DOCUMENTVERSION = 1.00;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
     : QObject(parent)
     , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , position(0)
     , m_url(url)
     , m_clipsCount(0)
-    , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
+    , m_commandStack(std::make_shared<DocUndoStack>(new QUndoGroup()))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(std::move(projectFolder))
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
-    m_guideModels.emplace(QUuid().toString(), m_guideModel);
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
@@ -248,7 +251,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
         m_url.clear();
-        pCore->setCurrentProfile(profileName);
+        //pCore->setCurrentProfile(profileName);
+        m_documentProfile = profileName;
         m_document = createEmptyDocument(tracks.first, tracks.second);
         updateProjectProfile(false);
     } else {
@@ -295,7 +299,6 @@ KdenliveDoc::~KdenliveDoc()
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     // Clean up guide model
     m_guideModel.reset();
-    m_guideModels.clear();
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
@@ -303,6 +306,17 @@ KdenliveDoc::~KdenliveDoc()
         }
         delete m_autosave;
     }
+}
+
+void KdenliveDoc::setModels(TimelineWidget *timelineWidget, std::shared_ptr<ProjectItemModel> projectModel)
+{
+    qDebug()<<"=== \n\nBUILDING OBJECT MODEL FOR: "<<timelineWidget->uuid<<"\n\n===";
+    m_objectModel.reset(new DocumentObjectModel(timelineWidget, projectModel, this));
+}
+
+std::shared_ptr<DocumentObjectModel> KdenliveDoc::objectModel()
+{
+    return m_objectModel;
 }
 
 int KdenliveDoc::clipsCount() const
@@ -1370,8 +1384,8 @@ void KdenliveDoc::loadDocumentProperties()
         }
     }
 
-    QString profile = m_documentProperties.value(QStringLiteral("profile"));
-    bool profileFound = pCore->setCurrentProfile(profile);
+    m_documentProfile = m_documentProperties.value(QStringLiteral("profile"));
+    bool profileFound = pCore->hasCurrentProfile(m_documentProfile);
     if (!profileFound) {
         // try to find matching profile from MLT profile properties
         list = m_document.elementsByTagName(QStringLiteral("profile"));
@@ -1382,13 +1396,30 @@ void KdenliveDoc::loadDocumentProperties()
             if (profilePath.isEmpty()) {
                 profilePath = ProfileRepository::get()->saveProfile(xmlProfile.get());
             }
-            profileFound = pCore->setCurrentProfile(profilePath);
+            profileFound = pCore->hasCurrentProfile(profilePath);
+            if (profileFound) {
+                m_documentProfile = profilePath;
+            }
         }
     }
     if (!profileFound) {
         qDebug() << "ERROR, no matching profile found";
     }
     updateProjectProfile(false);
+}
+
+const QString &KdenliveDoc::documentProfile() const
+{
+    return m_documentProfile;
+}
+
+Mlt::Profile *KdenliveDoc::getDocumentProfile()
+{
+    if (!m_projectProfile) {
+        m_projectProfile = std::make_unique<Mlt::Profile>(m_documentProfile.toStdString().c_str());
+        m_projectProfile->set_explicit(1);
+    }
+    return m_projectProfile.get();
 }
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
@@ -1414,6 +1445,7 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
 {
     // Discard all current jobs
     pCore->taskManager.slotCancelJobs();
+    m_documentProfile = profile_path;
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
     // In case we only have one clip in timeline, 
@@ -1479,8 +1511,9 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
             case KMessageBox::Yes:
                 // Discard all current jobs
                 pCore->taskManager.slotCancelJobs();
-                KdenliveSettings::setDefault_profile(profile->path());
-                pCore->setCurrentProfile(profile->path());
+                m_documentProfile = profile->path();
+                KdenliveSettings::setDefault_profile(m_documentProfile);
+                pCore->setCurrentProfile(m_documentProfile);
                 updateProjectProfile(true);
                 emit docModified(true);
                 return;
@@ -1515,6 +1548,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
             // Discard all current jobs
             pCore->taskManager.slotCancelJobs();
+            m_documentProfile = profilePath;
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true);
             emit docModified(true);
@@ -1733,18 +1767,9 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid &uuid) const
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 {
-    auto search = m_guideModels.find(uuid.toString());
-    if (search != m_guideModels.end()) {
-        return search->second;
-    }
-    return nullptr;
-}
-
-void KdenliveDoc::addGuidesModel(const QUuid &uuid, std::shared_ptr<MarkerListModel> model)
-{
-    m_guideModels.emplace(uuid.toString(), model);
+    return m_guideModel;
 }
 
 void KdenliveDoc::guidesChanged()

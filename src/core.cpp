@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "capture/mediacapture.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "doc/documentobjectmodel.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
@@ -110,8 +111,7 @@ bool Core::build(bool testMode)
         }
     }
 
-    m_self->m_projectItemModel = ProjectItemModel::construct(QUuid());
-    m_self->m_activeProjectModel =  m_self->m_projectItemModel;
+    m_self->m_activeProjectModel =  nullptr;
     return true;
 }
 
@@ -131,7 +131,7 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
     
     m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
+    m_binWidget = new Bin(m_activeProjectModel, m_mainWindow);
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
@@ -162,7 +162,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
         // Open connection with Mlt
         m_mainWindow->init(MltPath);
     }
-    m_projectItemModel->buildPlaylist();
     // load the profiles from disk
     ProfileRepository::get()->refresh();
     // load default profile
@@ -290,7 +289,7 @@ void Core::selectTimelineItem(int id)
 
 std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
         auto subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
         if (enforce && subModel == nullptr) {
             m_mainWindow->slotEditSubtitle();
@@ -350,6 +349,11 @@ Mlt::Profile *Core::getProjectProfile()
 const QString &Core::getCurrentProfilePath() const
 {
     return m_currentProfile;
+}
+
+bool Core::hasCurrentProfile(const QString &profilePath) const
+{
+    return ProfileRepository::get()->profileExists(profilePath);
 }
 
 bool Core::setCurrentProfile(const QString &profilePath)
@@ -660,12 +664,12 @@ void Core::profileChanged()
 
 void Core::pushUndo(const Fun &undo, const Fun &redo, const QString &text)
 {
-    undoStack()->push(new FunctionalUndoCommand(undo, redo, text));
+    undoStack(m_activeProjectModel->uuid())->push(new FunctionalUndoCommand(undo, redo, text));
 }
 
 void Core::pushUndo(QUndoCommand *command)
 {
-    undoStack()->push(command);
+    undoStack(m_activeProjectModel->uuid())->push(command);
 }
 
 int Core::undoIndex() const
@@ -723,9 +727,9 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
     }
 }
 
-std::shared_ptr<DocUndoStack> Core::undoStack()
+std::shared_ptr<DocUndoStack> Core::undoStack(const QUuid &uuid)
 {
-    return projectManager()->undoStack();
+    return projectManager()->undoStack(uuid);
 }
 
 QMap<int, QString> Core::getTrackNames(bool videoOnly)
@@ -758,18 +762,20 @@ void Core::buildProjectModel(const QUuid &uuid)
     m_secondaryModels.insert({uuid.toString(), model});
 }
 
+void Core::deleteProjectModel(const QUuid &uuid)
+{
+    m_secondaryModels.erase(uuid.toString());
+}
+
 void Core::setProjectItemModel(const QUuid &uuid)
 {
-    if (uuid != QUuid()) {
-        auto md = m_secondaryModels.find(uuid.toString());
-        if (md != m_secondaryModels.end()) {
-            m_activeProjectModel = md->second;
-            m_binWidget->setProjectModel(m_activeProjectModel);
-            return;
-        }
+    auto md = m_secondaryModels.find(uuid.toString());
+    if (md != m_secondaryModels.end()) {
+        m_activeProjectModel = md->second;
+        m_binWidget->setProjectModel(m_activeProjectModel);
+        return;
     }
-    m_activeProjectModel = m_projectItemModel;
-    m_binWidget->setProjectModel(m_activeProjectModel);
+    qDebug()<<"===ERRROR SET PROJECT MODEL FOR: "<<uuid<<" NOT FOUND!!!!";
 }
 
 bool Core::isActiveModel(const QUuid &uuid) const
@@ -779,13 +785,13 @@ bool Core::isActiveModel(const QUuid &uuid) const
 
 std::shared_ptr<ProjectItemModel> Core::getProjectItemModel(const QUuid uuid)
 {
-    if (uuid != QUuid()) {
-        auto md = m_secondaryModels.find(uuid.toString());
-        if (md != m_secondaryModels.end()) {
-            return md->second;
-        }
+
+    auto md = m_secondaryModels.find(uuid.toString());
+    if (md != m_secondaryModels.end()) {
+        return md->second;
     }
-    return m_projectItemModel;
+    qDebug()<<"===ERRROR GET PROJECT MODEL FOR: "<<uuid<<" NOT FOUND!!!!";
+    return nullptr;
 }
 
 std::shared_ptr<ProjectItemModel> Core::projectItemModel()
@@ -1046,7 +1052,7 @@ void Core::addGuides(QList <int> guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel(activeUuid())->addMarkers(markers);
+    currentDoc()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
@@ -1077,4 +1083,15 @@ void Core::updateMasterZones()
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
+}
+
+
+std::shared_ptr<DocumentObjectModel> Core::getModel(const QUuid &uuid)
+{
+    return m_projectManager->getDocument(uuid)->objectModel();
+}
+
+KdenliveDoc *Core::getDocument(const QUuid &uuid)
+{
+    return m_projectManager->getDocument(uuid);
 }

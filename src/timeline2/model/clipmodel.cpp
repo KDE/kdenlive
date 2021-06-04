@@ -41,7 +41,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
                      PlaylistState::ClipState state, double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
-    , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
+    , m_effectStack(EffectStackModel::construct(pCore->getModel(parent->uuid()), m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
     , m_clipMarkerModel(new ClipSnapModel())
     , m_binClipId(binClipId)
     , forceThumbReload(false)
@@ -81,6 +81,10 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->getProjectItemModel(parent->uuid())->getClipByBinID(binClipId);
+    if (!binClip) {
+        qDebug()<<"// CANNOT FIND CLIP: "<<binClipId<<" in MODEL : "<<parent->uuid();
+        return -1;
+    }
 
     // We refine the state according to what the clip can actually produce
     std::pair<bool, bool> videoAudio = stateToBool(state);

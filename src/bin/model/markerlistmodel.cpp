@@ -369,7 +369,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->currentDoc()->getGuideModel(pCore->activeUuid());
+        return pCore->currentDoc()->getGuideModel();
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }

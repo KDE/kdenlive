@@ -23,6 +23,7 @@
 #include "core.h"
 #include "mainwindow.h"
 #include "doc/docundostack.hpp"
+#include "doc/documentobjectmodel.h"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
@@ -33,20 +34,21 @@
 #include <utility>
 #include <vector>
 
-EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
+EffectStackModel::EffectStackModel(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
     , m_effectStackEnabled(true)
     , m_ownerId(std::move(ownerId))
     , m_undoStack(std::move(undo_stack))
+    , m_objectModel(std::move(doc))
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
 {
     m_masterService = std::move(service);
 }
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
+std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, std::move(undo_stack)));
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(doc), std::move(service), ownerId, std::move(undo_stack)));
     self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, true);
     return self;
 }
@@ -382,9 +384,12 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             m_fadeOuts.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
-            int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-            effect->filter().set("in", filterOut - duration);
-            effect->filter().set("out", filterOut);
+            if (auto ptr = m_objectModel.lock()) {
+                std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+                int filterOut = inOut.second;
+                effect->filter().set("in", filterOut - duration);
+                effect->filter().set("out", filterOut);
+            }
         }
         local_redo();
         effectAdded = true;
@@ -450,9 +455,12 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
         m_fadeOuts.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
-        int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-        effect->filter().set("in", out - duration);
-        effect->filter().set("out", out);
+        if (auto ptr = m_objectModel.lock()) {
+                std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+                int out = inOut.second;
+                effect->filter().set("in", out - duration);
+                effect->filter().set("out", out);
+        }
         roles << TimelineModel::FadeOutRole;
     }
     bool res = local_redo();
@@ -514,9 +522,12 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         int outFades = 0;
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             int duration = effect->filter().get_length() - 1;
-            int in = pCore->getItemIn(m_ownerId);
-            effect->filter().set("in", in);
-            effect->filter().set("out", in + duration);
+            if (auto ptr = m_objectModel.lock()) {
+                std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+                int in = inOut.first;
+                effect->filter().set("in", in);
+                effect->filter().set("out", in + duration);
+            }
             inFades++;
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             /*int duration = effect->filter().get_length() - 1;
@@ -525,7 +536,10 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
             effect->filter().set("out", out);*/
             outFades++;
         } else if (m_ownerId.first == ObjectType::TimelineTrack) {
-            effect->filter().set("out", pCore->getItemDuration(m_ownerId));
+            if (auto ptr = m_objectModel.lock()) {
+                std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+                effect->filter().set("out", inOut.second);
+            }
         }
         Fun update = [this, inFades, outFades]() {
             // TODO: only update if effect is fade or keyframe
@@ -726,7 +740,10 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                     oldDuration = effect->filter().get_length();
                 }
                 effect->filter().set("in", in);
-                duration = qMin(pCore->getItemDuration(m_ownerId), duration);
+                if (auto ptr = m_objectModel.lock()) {
+                    std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+                    duration = qMin(inOut.second - inOut.first, duration);
+                }
                 effect->filter().set("out", in + duration);
                 indexes << getIndexFromItem(effect);
             }
@@ -758,7 +775,11 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         if (ptr) {
             in = ptr->get_int("in");
         }
-        int itemDuration = pCore->getItemDuration(m_ownerId);
+        int itemDuration = 0;
+        if (auto ptr = m_objectModel.lock()) {
+            std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+            itemDuration = inOut.second - inOut.first;
+        }
         int out = in + itemDuration - 1;
         int oldDuration = -1;
         QList<QModelIndex> indexes;
@@ -1355,7 +1376,10 @@ bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     if (m_ownerId.first == ObjectType::TimelineTrack) {
-        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+        if (auto ptr = m_objectModel.lock()) {
+            std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+            sourceEffect->filter().set("out", inOut.second - inOut.first);
+        }
     }
     return listModel->addKeyframe(frame, normalisedVal);
 }
@@ -1382,7 +1406,10 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     if (m_ownerId.first == ObjectType::TimelineTrack) {
-        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+        if (auto ptr = m_objectModel.lock()) {
+            std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
+            sourceEffect->filter().set("out", inOut.second - inOut.first);
+        }
     }
     return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }
@@ -1428,4 +1455,9 @@ void EffectStackModel::updateEffectZones()
     if (m_ownerId.first == ObjectType::Master) {
         emit updateMasterZones();
     }
+}
+
+std::weak_ptr<DocumentObjectModel> EffectStackModel::objectModel()
+{
+    return m_objectModel;
 }
