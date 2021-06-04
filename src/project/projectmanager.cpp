@@ -1038,7 +1038,7 @@ bool ProjectManager::updateTimeline(KdenliveDoc *doc, int pos, int scrollPos, bo
     } else {
         // Create a new timeline tab
         pCore->buildProjectModel(uuid);
-        documentTimeline = pCore->window()->openTimeline(uuid, doc->description(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        documentTimeline = pCore->window()->openTimeline(uuid, doc->projectName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
         doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
         //std::shared_ptr<MarkerListModel> guidesModel(new MarkerListModel(doc->commandStack(), this));
         //m_project->addGuidesModel(uuid, guidesModel);

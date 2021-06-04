@@ -81,6 +81,7 @@ public:
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
     const QString description() const;
+    const QString projectName() const;
     void setUrl(const QUrl &url);
     /** @brief Update path of subtitle url. */
     void updateSubtitle(QString newUrl = QString());

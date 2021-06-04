@@ -310,7 +310,6 @@ KdenliveDoc::~KdenliveDoc()
 
 void KdenliveDoc::setModels(TimelineWidget *timelineWidget, std::shared_ptr<ProjectItemModel> projectModel)
 {
-    qDebug()<<"=== \n\nBUILDING OBJECT MODEL FOR: "<<timelineWidget->uuid<<"\n\n===";
     m_objectModel.reset(new DocumentObjectModel(timelineWidget, projectModel, this));
 }
 
@@ -813,10 +812,19 @@ bool KdenliveDoc::isModified() const
 
 const QString KdenliveDoc::description() const
 {
+    const QString desc = ProfileRepository::get()->getProfile(m_documentProfile)->description();
     if (!m_url.isValid()) {
-        return i18n("Untitled") + QStringLiteral("[*] / ") + pCore->getCurrentProfile()->description();
+        return i18n("Untitled") + QStringLiteral("[*] / ") + desc;
     }
-    return m_url.fileName() + QStringLiteral(" [*]/ ") + pCore->getCurrentProfile()->description();
+    return m_url.fileName() + QStringLiteral(" [*]/ ") + desc;
+}
+
+const QString KdenliveDoc::projectName() const
+{
+    if (!m_url.isValid()) {
+        return i18n("Untitled");
+    }
+    return m_url.fileName();
 }
 
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const

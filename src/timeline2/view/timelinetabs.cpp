@@ -65,6 +65,17 @@ void TimelineTabs::raiseTimeline(const QUuid &uuid)
     }
 }
 
+void TimelineTabs::setModified(const QUuid &uuid, bool modified)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (timeline->uuid == uuid) {
+            setTabIcon(i, modified ? QIcon::fromTheme(QStringLiteral("document-save")) : QIcon());
+            break;
+        }
+    }
+}
+
 TimelineWidget *TimelineTabs::addTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);

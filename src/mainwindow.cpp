@@ -2262,6 +2262,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     qDebug()<<"=== DISCONNECTING TIMELINE!!!";
     if (pCore->currentDoc()) {
         pCore->currentDoc()->position = pCore->getTimelinePosition();
+        disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
         qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
@@ -2294,6 +2295,8 @@ void MainWindow::connectTimeline()
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), pCore->currentDoc()->position);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, pCore->currentDoc()->getGuideModel());
+    connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    slotUpdateDocumentState(pCore->currentDoc()->isModified());
 }
 
 void MainWindow::connectDocument()
@@ -2319,7 +2322,9 @@ void MainWindow::connectDocument()
 
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
-    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    connect(project, &KdenliveDoc::docModified, this, [this, project] (bool modified) {
+        m_timelineTabs->setModified(project->uuid, modified);
+    });
 
     if (m_renderWidget) {
         slotCheckRenderStatus();

@@ -64,6 +64,8 @@ public:
     void closeTimelines();
     /** @brief Store timeline menus */
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    /** @brief Mark a tab as modified */
+    void setModified(const QUuid &uuid, bool modified);
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
