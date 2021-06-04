@@ -337,6 +337,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     clipId = clip->get("kdenlive:id");
                 }
                 if (binIdCorresp.count(clipId) == 0) {
+                    if (clip->property_exists("kdenlive:remove")) {
+                        // Clip was marked for deletion
+                        continue;
+                    }
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
@@ -345,6 +349,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         m_errorMessage << i18n("Invalid clip %1 (%2) not found in project bin, recovered.", clip->parent().get("id"), clipId);
                     } else {
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
+                        // Do not try to insert clip
+                        continue;
                     }
                 } else {
                     binId = binIdCorresp.at(clipId);
