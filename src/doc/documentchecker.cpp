@@ -1490,16 +1490,12 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedIds.isEmpty()) {
         QDomElement e;
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-
         QDomNode mlt = m_doc.elementsByTagName(QStringLiteral("mlt")).at(0);
-
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
-            if (deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0)) ||
-                deletedIds.contains(e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
-                // Remove clip
-                mlt.removeChild(e);
-                --i;
+            if (deletedIds.contains(Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")))) {
+                // Mark clip for deletion
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:remove"), QStringLiteral("1"));
             }
         }
 
@@ -1507,17 +1503,9 @@ void DocumentChecker::slotDeleteSelected()
             QDomNodeList entries = playlists.at(i).toElement().elementsByTagName(QStringLiteral("entry"));
             for (int j = 0; j < entries.count(); ++j) {
                 e = entries.item(j).toElement();
-                if (deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char('_'), 0, 0)) ||
-                    deletedIds.contains(e.attribute(QStringLiteral("producer")).section(QLatin1Char(':'), 1, 1).section(QLatin1Char('_'), 0, 0))) {
-                    // Replace clip with blank
-                    while (e.childNodes().count() > 0) {
-                        e.removeChild(e.firstChild());
-                    }
-                    e.setTagName(QStringLiteral("blank"));
-                    e.removeAttribute(QStringLiteral("producer"));
-                    int length = e.attribute(QStringLiteral("out")).toInt() - e.attribute(QStringLiteral("in")).toInt();
-                    e.setAttribute(QStringLiteral("length"), length);
-                    j--;
+                if (deletedIds.contains(Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")))) {
+                    // Mark clip for deletion
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:remove"), QStringLiteral("1"));
                 }
             }
         }

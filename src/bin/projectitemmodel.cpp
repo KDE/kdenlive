@@ -1031,11 +1031,12 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     emit pCore->loadingMessageUpdated(QString(), 1);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
-                if (prod->is_blank() || !prod->is_valid()) {
+                if (prod->is_blank() || !prod->is_valid() || prod->parent().property_exists("kdenlive:remove")) {
+                    qDebug()<<"==== IGNORING BIN PRODUCER: "<<prod->parent().get("kdenlive:id");
                     continue;
                 }
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
-                int id = producer->get_int("kdenlive:id");
+                int id = producer->parent().get_int("kdenlive:id");
                 if (!id) id = getFreeClipId();
                 binProducers.insert(id, producer);
             }
