@@ -2292,7 +2292,6 @@ void MainWindow::connectTimeline()
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    qDebug()<<"==== ACTIVATING POSITION FOR DOC: "<<pCore->currentDoc()->position<<" = "<<pCore->currentDoc()->uuid;
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), pCore->currentDoc()->position);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, pCore->currentDoc()->getGuideModel());
 }
