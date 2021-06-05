@@ -382,7 +382,7 @@ void ResourceWidget::slotUpdateCurrentItem()
 /**
  * @brief ResourceWidget::licenseNameFromUrl
  * @param licenseUrl
- * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-NC-SA 3.0" should be returned
  * @return the license name "Unnamed License" if url is not known.
  */
 QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)
@@ -401,7 +401,7 @@ QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND");
         } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial-ShareAlike");
-            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND-SA");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-NC-SA");
         } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-ShareAlike");
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-SA");
