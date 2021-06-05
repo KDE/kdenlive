@@ -653,7 +653,11 @@ bool GLWidget::isReady() const
 
 void GLWidget::requestSeek(int position)
 {
-    m_consumer->set("scrub_audio", 1);
+    if(KdenliveSettings::audio_scrub()){
+        m_consumer->set("scrub_audio", 1);
+    } else {
+        m_consumer->set("scrub_audio", 0);
+    }
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
@@ -1205,7 +1209,11 @@ int GLWidget::reconfigure()
         m_consumer->set("buffer", qMax(25, fps));
         m_consumer->set("prefill", qMax(1, fps / 25));
         m_consumer->set("drop_max", fps / 4);
-        m_consumer->set("scrub_audio", 1);
+        if (KdenliveSettings::audio_scrub()) {
+            m_consumer->set("scrub_audio", 1);
+        } else {
+            m_consumer->set("scrub_audio", 0);
+        }
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         } else {
@@ -1635,7 +1643,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         m_proxy->setSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
-        } else {
+        } else if (KdenliveSettings::audio_scrub()){
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {

@@ -400,6 +400,10 @@
       <label>Use Movit for GPU accelerated display and effects.</label>
       <default>false</default>
     </entry>
+    <entry name="audio_scrub" type="Bool">
+    <label>Enable Audio Scrubbing</label>
+    <default>true</default>
+    </entry>
     <entry name="sdlAudioBackend" type="String">
       <label>Detected audio backed.</label>
       <default>sdl2_audio</default>
