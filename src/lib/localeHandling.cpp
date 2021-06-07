@@ -50,11 +50,11 @@ void LocaleHandling::resetLocale()
 void LocaleHandling::resetAllLocale()
 {
 #ifdef Q_OS_FREEBSD
-    setlocale(LC_ALL, "C");
+    setlocale(LC_ALL, "C.UTF-8");
 #else
-    std::setlocale(LC_ALL, "C");
+    std::setlocale(LC_ALL, "C.UTF-8");
 #endif
-    ::qputenv("LC_ALL", "C");
+    ::qputenv("LC_ALL", "C.UTF-8");
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
