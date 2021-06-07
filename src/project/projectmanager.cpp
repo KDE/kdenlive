@@ -1020,6 +1020,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
+    double fpsRatio = newProfile->fps() / pCore->getCurrentFps();
     convertedFile.append(QString("-%1.kdenlive").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename |   QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
@@ -1073,14 +1074,45 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QDomElement e = playlists.at(i).toElement();
         if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.profile"), updatedProfile);
+            // Update guides
+            const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"));
+            if (!guidesData.isEmpty()) {
+                // Update guides position
+                auto json = QJsonDocument::fromJson(guidesData.toUtf8());
+
+                QJsonArray updatedList;
+                if (json.isArray()) {
+                    auto list = json.array();
+                    for (auto entry : list) {
+                        if (!entry.isObject()) {
+                            qDebug() << "Warning : Skipping invalid marker data";
+                            continue;
+                        }
+                        auto entryObj = entry.toObject();
+                        if (!entryObj.contains(QLatin1String("pos"))) {
+                            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+                            continue;
+                        }
+                        int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
+                        QJsonObject currentMarker;
+                        currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                        currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
+                        currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
+                        updatedList.push_back(currentMarker);
+                    }
+                    QJsonDocument updatedJSon(updatedList);
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
+                }
+            }
             break;
         }
     }
     QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
-        int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt();
-        if (length > 0) {
+        bool ok;
+        int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
+        if (ok && length > 0) {
             // calculate updated length
             Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getMainTimeline()->controller()->framesToClock(length));
         }
