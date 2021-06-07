@@ -1117,6 +1117,11 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
             Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getMainTimeline()->controller()->framesToClock(length));
         }
     }
+    if (QFile::exists(convertedFile)) {
+        if (KMessageBox::warningYesNo(qApp->activeWindow(), i18n("Output file %1 already exists.\nDo you want to overwrite it?", convertedFile)) != KMessageBox::Yes) {
+            return;
+        }
+    }
     QFile file(convertedFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
@@ -1129,6 +1134,10 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     file.close();
+    // Copy subtitle file if any
+    if (QFile::exists(currentFile + QStringLiteral(".srt"))) {
+        QFile(currentFile + QStringLiteral(".srt")).copy(convertedFile + QStringLiteral(".srt"));
+    }
     openFile(QUrl::fromLocalFile(convertedFile));
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }
