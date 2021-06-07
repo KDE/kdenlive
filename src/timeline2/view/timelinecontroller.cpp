@@ -1901,10 +1901,29 @@ bool TimelineController::requestSlipStartOperation(int clipId, bool onlyCurrent)
 }
 
 bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mode, int mainClipId, bool onlyCurrent)
-{
+{  
     if (mainClipId == -1) {
-        return false;
+        std::unordered_set<int> sel = m_model->getCurrentSelection();
+        for (int i : sel) {
+            if (m_model->isClip(i)) {
+                mainClipId = i;
+                break;
+            }
+        }
+        if (mainClipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return false;
+        }
     }
+
+    /*if(isClip(itemId)) {
+        all_items.insert(itemId);
+    } else if (m_currentSelection != -1 && !isClip(m_currentSelection) && !isGroup(m_currentSelection)) {
+        qWarning() << "Selection is in inconsistent state";
+        return false;
+    } else {
+        all_items.insert(m_currentSelection);
+    }*/
 
     std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);

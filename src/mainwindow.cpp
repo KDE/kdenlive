@@ -3174,6 +3174,7 @@ void MainWindow::slotChangeTool(QAction *action)
         slotSetTool(ToolType::RollTool);
     } if (action == m_buttonSlipTool) {
         slotSetTool(ToolType::SlipTool);
+        //getCurrentTimeline()->controller()->requestSlipStartOperation(-1, false);
     } if (action == m_buttonSlideTool) {
         slotSetTool(ToolType::SlideTool);
     }

@@ -47,6 +47,8 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
     Q_PROPERTY(QColor markerColor MEMBER m_markerColor NOTIFY markerChanged)
     Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
+    Q_PROPERTY(QString trimmingTC1 READ trimmingTC1 NOTIFY trimmingTC1Changed)
+    Q_PROPERTY(QString trimmingTC2 READ trimmingTC2 NOTIFY trimmingTC2Changed)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
@@ -75,11 +77,13 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
+    const QString trimmingTC1() const;
+    const QString trimmingTC2() const;
     const QString timecode() const;
-    /** brief: update position and end seeking if we reached the requested seek position.
+    int getPosition() const;
+    /** @brief: update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
      * */
-    int getPosition() const;
     Q_INVOKABLE bool setPosition(int pos);
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
@@ -114,6 +118,8 @@ public:
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
+    void setTrimmingTC1(int frames);
+    void setTrimmingTC2(int frames);
     /** @brief When the producer changes, ensure we reset the stored position*/
     void resetPosition();
     /** @brief Used to display qml info about speed*/
@@ -148,6 +154,8 @@ signals:
     void profileChanged();
     void autoKeyframeChanged();
     void timecodeChanged();
+    void trimmingTC1Changed();
+    void trimmingTC2Changed();
     void speedChanged();
 
 private:
@@ -168,6 +176,8 @@ private:
     bool m_seekFinished;
     QPoint m_undoZone;
     TimecodeDisplay *m_td;
+    int m_trimmingFrames1;
+    int m_trimmingFrames2;
 };
 
 #endif

@@ -397,14 +397,14 @@ Item{
                 slipControler.inPoint = clip.inPoint
                 slipControler.outPoint = clip.outPoint
                 currentRegionMoved.width = clip.clipDuration * clip.timeScale - 2 * clip.border.width
-                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset)
+                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, clip.inPoint, clip.outPoint)
                 //proxy.position = clip.inPoint - clip.slipOffset
             }
             onSlipMove: {
                 slipControler.x = slipStart + (clip.slipOffset * clip.timeScale)
                 console.log(clip.inPoint + "-" + (clip.slipOffset) + ": " + (clip.inPoint - clip.slipOffset))
                 //proxy.position = clip.inPoint - clip.slipOffset
-                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, shiftSlip)
+                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, clip.slipOffset, clip.inPoint - clip.slipOffset, clip.outPoint- clip.slipOffset)
             }
             onSlipEnd: {
                 timeline.requestTrimmingEndOperation();

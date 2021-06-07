@@ -217,6 +217,7 @@ private:
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
     QToolBar *m_trimmingbar;
+    QLabel *m_trimmingOffset;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
@@ -298,7 +299,7 @@ public slots:
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
-    void slotTrimmingPos(int pos);
+    void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd();

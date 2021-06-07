@@ -455,6 +455,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_trimmingbar = new QToolBar(this);
     m_trimmingbar->setIconSize(iconSize);
 
+    m_trimmingOffset = new QLabel();
+    m_trimmingbar->addWidget(m_trimmingOffset);
+
     QAction *fiveLess = new QAction(i18n("-5"), this);
     m_trimmingbar->addAction(fiveLess);
     //connect(fiveLess, &QAction::triggered, this, &Monitor::slotRewind);
@@ -2209,6 +2212,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
     case MonitorSceneSplit:
         QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
         break;
+    case MonitorSceneTrimming:
     case MonitorSceneGeometry:
     case MonitorSceneCorners:
     case MonitorSceneRoto:
@@ -2277,17 +2281,15 @@ void Monitor::slotSwitchTrimming(bool enable)
         return;
     }
     if (enable) {
+        loadQmlScene(MonitorSceneTrimming);
         m_toolbar->setVisible(false);
         m_trimmingbar->setVisible(true);
-        m_glMonitor->rootObject()->setVisible(false);
         m_glMonitor->switchRuler(false);
     } else if (m_trimmingbar->isVisible()) {
+        loadQmlScene(MonitorSceneDefault);
         m_trimmingbar->setVisible(false);
         m_toolbar->setVisible(true);
-        int overlay = KdenliveSettings::displayClipMonitorInfo();
-        //updateQmlDisplay(overlay);
-        m_glMonitor->rootObject()->setVisible((overlay & 0x01) != 0);
-        m_glMonitor->switchRuler(overlay & 0x01);
+        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & 0x01);
 
     }
 }
@@ -2446,13 +2448,16 @@ void Monitor::slotStart()
     m_glMonitor->getControllerProxy()->setPosition(0);
 }
 
-void Monitor::slotTrimmingPos(int pos)
+void Monitor::slotTrimmingPos(int pos, int offset, int frames1, int frames2)
 {
     if(m_glMonitor->producer() != pCore->window()->getCurrentTimeline()->model()->producer().get()) {
         processSeek(pos);
-    } else {
-        Q_ASSERT(0 == 1);
     }
+    QString tc(pCore->timecode().getDisplayTimecodeFromFrames(offset, KdenliveSettings::frametimecode()));
+    m_trimmingOffset->setText(tc);
+    m_glMonitor->getControllerProxy()->setTrimmingTC1(frames1);
+    m_glMonitor->getControllerProxy()->setTrimmingTC2(frames2);
+
     /*if (!slotActivateMonitor()) {
         return;
     }

@@ -3170,9 +3170,9 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
-void TimelineModel::trimmingPosChanged(int pos)
+void TimelineModel::trimmingPosChanged(int pos, int offset, int frames1, int frames2)
 {
-    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos);
+    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos, offset, frames1, frames2);
 }
 
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)

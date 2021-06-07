@@ -386,10 +386,32 @@ const QString MonitorProxy::timecode() const
     return QString();
 }
 
+const QString MonitorProxy::trimmingTC1() const
+{
+    return toTimecode(m_trimmingFrames1);
+}
+
+const QString MonitorProxy::trimmingTC2() const
+{
+    return toTimecode(m_trimmingFrames2);
+}
+
 void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 {
     m_td = td;
     connect(m_td, &TimecodeDisplay::timeCodeUpdated, this, &MonitorProxy::timecodeChanged);
+}
+
+void MonitorProxy::setTrimmingTC1(int frames)
+{
+    m_trimmingFrames1 = frames;
+    emit trimmingTC1Changed();
+}
+
+void MonitorProxy::setTrimmingTC2(int frames)
+{
+    m_trimmingFrames2 = frames;
+    emit trimmingTC2Changed();
 }
 
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const

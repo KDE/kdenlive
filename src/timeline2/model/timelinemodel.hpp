@@ -524,7 +524,7 @@ public:
     /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
-    Q_INVOKABLE void trimmingPosChanged(int pos);
+    Q_INVOKABLE void trimmingPosChanged(int pos, int offset, int frames1, int frames2);
 
     /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
