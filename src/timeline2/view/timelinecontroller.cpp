@@ -962,10 +962,13 @@ void TimelineController::setOutPoint()
     if (!selectionFound) {
         if (m_activeTrack >= 0) {
             int cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
-            if (cid < 0) {
-                // Check first item after timeline position
-                int minimumSpace = m_model->getTrackById_const(m_activeTrack)->getBlankStart(cursorPos);
-                cid = m_model->getClipByPosition(m_activeTrack, qMax(0, minimumSpace - 1));
+            if (cid < 0 || cursorPos == m_model->getItemPosition(cid)) {
+                // If no clip found at cursor pos or we are at the first frame of a clip, try to find previous clip
+                // Check first item before timeline position
+                // If we are at a clip start, check space before this clip
+                int offset = cid >= 0 ? 1 : 0;
+                int previousPos = m_model->getTrackById_const(m_activeTrack)->getBlankStart(cursorPos - offset);
+                cid = m_model->getClipByPosition(m_activeTrack, qMax(0, previousPos - 1));
             }
             if (cid >= 0) {
                 int start = m_model->getItemPosition(cid);
