@@ -134,6 +134,7 @@ int main(int argc, char **argv)
 
         // older MLT version, does not support embedded consumer in/out in xml, and current 
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
+        LocaleHandling::resetAllLocale();
         QFile f(playlist);
         QDomDocument doc;
         doc.setContent(&f, false);
