@@ -28,6 +28,7 @@
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
+#include <QUuid>
 
 #include <array>
 #include <map>
@@ -53,7 +54,7 @@ public:
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     /** @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    MarkerListModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole };
 
@@ -185,12 +186,13 @@ protected:
     Fun deleteMarker_lambda(GenTime pos);
 
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
-    static std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
+    static std::shared_ptr<MarkerListModel> getModel(const QUuid &uuid, bool guide, const QString &clipId);
 
     /** @brief Connects the signals of this object */
     void setup();
 
 private:
+    QUuid m_uuid;
     std::weak_ptr<DocUndoStack> m_undoStack;
     /** @brief whether this model represents timeline-wise guides */
     bool m_guide;
@@ -200,7 +202,7 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 
-    std::map<int, CommentedTime> m_markerList;
+    std::map<int, CommentedTime> m_markerList;;
     std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
     int getRowfromId(int mid) const;
     int getIdFromPos(const GenTime &pos) const;

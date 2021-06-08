@@ -28,11 +28,12 @@
 #include <QtCore/QUuid>
 
 class TimelineItemModel;
+class ProjectItemModel;
 class QProgressDialog;
 
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
-bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
+bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
 
-bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
+bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Multitrack tractor, QProgressDialog *progressDialog = nullptr, QString originalDecimalPoint = QString());
 #endif

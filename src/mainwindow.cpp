@@ -308,6 +308,11 @@ void MainWindow::init(const QString &mltPath)
 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
+    connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
+        emit pCore->mixer()->updateLevels(frame.get_position());
+        //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
+    });
+    connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
@@ -446,6 +451,9 @@ void MainWindow::init(const QString &mltPath)
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
     m_projectMonitorDock = addDock(i18n("Project Monitor"), QStringLiteral("project_monitor"), m_projectMonitor);
+    connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
+    connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
 
     m_undoView = new QUndoView();
     m_undoView->setCleanIcon(QIcon::fromTheme(QStringLiteral("edit-clear")));
@@ -2139,7 +2147,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
-        m_renderWidget->setGuides(project->getGuideModel());
+        m_renderWidget->setGuides(project->getGuideModel(pCore->activeTimelineUuid()));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2279,7 +2287,8 @@ void MainWindow::connectTimeline()
     if (!getCurrentTimeline()->model()) {
         qDebug()<<"::::::::::: TIMEKINE HAS O MODELÀÀÀÀÀÀÀÀÀÀÀÀÀÀÀ";
     }
-    pCore->projectManager()->activateDocument(getCurrentTimeline()->uuid);
+    QUuid uuid = getCurrentTimeline()->uuid;
+    pCore->projectManager()->activateDocument(uuid);
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getCurrentTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&] (bool selected) {
@@ -2293,10 +2302,18 @@ void MainWindow::connectTimeline()
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), pCore->currentDoc()->position);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, pCore->currentDoc()->getGuideModel());
+
+    KdenliveDoc *project = pCore->currentDoc();
+    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), project->position);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getGuideModel(uuid));
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
+    if (m_renderWidget) {
+        slotCheckRenderStatus();
+        m_renderWidget->setGuides(project->getGuideModel(uuid));
+        m_renderWidget->updateDocumentPath();
+        m_renderWidget->setRenderProfile(project->getRenderProperties());
+    }
 }
 
 void MainWindow::connectDocument()
@@ -2313,12 +2330,6 @@ void MainWindow::connectDocument()
         m_loopClip->setEnabled(selected);
         emit pCore->library()->enableAddSelection(selected);
     });
-    connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
-        emit pCore->mixer()->updateLevels(frame.get_position());
-        //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
-    });
-    connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
-
 
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
@@ -2326,19 +2337,12 @@ void MainWindow::connectDocument()
         m_timelineTabs->setModified(project->uuid, modified);
     });
 
-    if (m_renderWidget) {
-        slotCheckRenderStatus();
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
-        m_renderWidget->updateDocumentPath();
-        m_renderWidget->setRenderProfile(project->getRenderProperties());
-    }
     m_zoomSlider->setValue(project->zoom().x());
     m_commandStack->setActiveStack(project->commandStack().get());
     setWindowTitle(project->description());
     setWindowModified(project->isModified());
     m_saveAction->setEnabled(project->isModified());
     m_normalEditTool->setChecked(true);
-    connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     connect(m_effectList2, &EffectListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateEffectFavorites);
     connect(m_transitionList2, &TransitionListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateTransitionFavorites);
     
@@ -2359,15 +2363,13 @@ void MainWindow::connectDocument()
     setTrimMode(QString());
 
     m_buttonSelectTool->setChecked(true);
-    connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
-    connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     getCurrentTimeline()->focusTimeline();
 }
 
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(pCore->activeTimelineUuid()));
     }
 }
 
@@ -2775,7 +2777,7 @@ void MainWindow::slotDeleteGuide()
 
 void MainWindow::slotDeleteAllGuides()
 {
-    pCore->currentDoc()->getGuideModel()->removeAllMarkers();
+    pCore->currentDoc()->getGuideModel(pCore->activeTimelineUuid())->removeAllMarkers();
 }
 
 void MainWindow::slotCutTimelineClip()

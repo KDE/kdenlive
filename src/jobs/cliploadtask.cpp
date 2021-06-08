@@ -133,11 +133,13 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
     } else {
         // This is currently crashing so I guess we'd better reject it for now
         if (!pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
+            qDebug()<<"==== DIFFERENT FPS ERROR";
             m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
             QString loader = resource;
             loader.prepend(QStringLiteral("consumer:"));
             return std::make_shared<Mlt::Producer>(*pCore->getDocument(m_uuid)->getDocumentProfile(), loader.toUtf8().constData());
         } else {
+            qDebug()<<"==== DIFFERENT FPS ERROR 2";
             m_errorMessage.append(i18n("No matching profile"));
             return nullptr;
         }
@@ -450,8 +452,10 @@ void ClipLoadTask::run()
             break;
     }
     case ClipType::Playlist: {
+        qDebug()<<"================= ATTEMPTING PLAYLIST LOAD!!";
         producer = loadPlaylist(resource);
         if (!m_errorMessage.isEmpty()) {
+            qDebug()<<"==== LOADPLAYLIST FAILED!!!";
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString,m_errorMessage),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         }
@@ -595,6 +599,7 @@ void ClipLoadTask::run()
             producer->set("kdenlive:duration", producer->get("length"));
         }
     }
+    qDebug()<<"==== LOADPLAYLIST , processing out: "<<clipOut;
     if (clipOut > 0) {
         producer->set_in_and_out(m_xml.attribute(QStringLiteral("in")).toInt(), clipOut);
     }
@@ -620,6 +625,7 @@ void ClipLoadTask::run()
         double originalFps = original_profile.fps();
         fps = originalFps;
         if (originalFps > 0 && !qFuzzyCompare(originalFps, pCore->getCurrentFps())) {
+            qDebug()<<"==== LOADPLAYLIST , ADJUST PROFIKE: "<<originalFps;
             int originalLength = tmpProd->get_length();
             int fixedLength = int(originalLength * pCore->getCurrentFps() / originalFps);
             producer->set("length", fixedLength);

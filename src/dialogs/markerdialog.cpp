@@ -33,7 +33,7 @@
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
+MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const QUuid &uuid, const Timecode &tc, const QString &caption, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
 {
@@ -42,7 +42,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     setWindowTitle(caption);
 
     // Set  up categories
-    static std::array<QColor, 9> markerTypes = pCore->currentDoc()->getGuideModel()->markerTypes;
+    static std::array<QColor, 9> markerTypes = pCore->currentDoc()->getGuideModel(uuid)->markerTypes;
     QPixmap pixmap(32,32);
     for (uint i = 0; i < markerTypes.size(); ++i) {
         pixmap.fill(markerTypes[size_t(i)]);

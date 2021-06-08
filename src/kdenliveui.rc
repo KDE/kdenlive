@@ -22,6 +22,7 @@
       <Action name="add_slide_clip" />
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
+      <Action name="add_playlist_clip" />
       <Action name="create_folder" />
       <Menu name="generators" ><text>Generators</text>
       </Menu>

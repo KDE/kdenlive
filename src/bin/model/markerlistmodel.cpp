@@ -48,8 +48,9 @@ MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> und
     setup();
 }
 
-MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+MarkerListModel::MarkerListModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
+    , m_uuid(uuid)
     , m_undoStack(std::move(undo_stack))
     , m_guide(true)
     , m_lock(QReadWriteLock::Recursive)
@@ -317,8 +318,9 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment, type]() {
-        auto model = getModel(guide, clipId);
+    auto &uuid = m_uuid;
+    return [guide, clipId, pos, comment, type, uuid]() {
+        auto model = getModel(uuid, guide, clipId);
         Q_ASSERT(model->hasMarker(pos));
         int mid = model->getIdFromPos(pos);
         int row = model->getRowfromId(mid);
@@ -334,8 +336,9 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment, type]() {
-        auto model = getModel(guide, clipId);
+    auto &uuid = m_uuid;
+    return [guide, clipId, pos, comment, type, uuid]() {
+        auto model = getModel(uuid, guide, clipId);
         Q_ASSERT(model->hasMarker(pos) == false);
         // We determine the row of the newly added marker
         int mid = TimelineModel::getNextId();
@@ -353,8 +356,9 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos]() {
-        auto model = getModel(guide, clipId);
+    auto &uuid = m_uuid;
+    return [guide, clipId, pos, uuid]() {
+        auto model = getModel(uuid, guide, clipId);
         Q_ASSERT(model->hasMarker(pos));
         int mid = model->getIdFromPos(pos);
         int row = model->getRowfromId(mid);
@@ -366,10 +370,11 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
     };
 }
 
-std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
+std::shared_ptr<MarkerListModel> MarkerListModel::getModel(const QUuid &uuid, bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->currentDoc()->getGuideModel();
+        qDebug()<<"=== CHECKING ADD GUIDE MODEL: "<<uuid;
+        return pCore->currentDoc()->getGuideModel(uuid);
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }
@@ -654,7 +659,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     }
 
     QScopedPointer<MarkerDialog> dialog(
-        new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
+        new MarkerDialog(clip, marker, m_uuid, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();

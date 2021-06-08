@@ -2367,7 +2367,7 @@ void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
     if (producer == nullptr) {
         m_markersModel.reset();
     } else {
-        m_markersModel = pCore->currentDoc()->getGuideModel();
+        m_markersModel = pCore->currentDoc()->getGuideModel(pCore->activeTimelineUuid());
     }
 }
 

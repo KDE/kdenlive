@@ -101,9 +101,7 @@ public:
     void addAudioTracks(int tracksCount);
 
     /** @brief Open a new timeline to edit a playlist clip */
-    void openTimeline(std::shared_ptr<ProjectClip> clip);
-
-    QUuid getTimelineUuid(std::shared_ptr<TimelineItemModel> model);
+    void openTimeline(const QString &id);
 
     /** @brief Get a document b< uuid */
     KdenliveDoc *getDocument(const QUuid &uuid);
@@ -112,7 +110,7 @@ public:
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true, bool closeCurrent = false);
-    void newFile(bool showProjectSettings = true);
+    void newFile(bool showProjectSettings = true, bool closeCurrent = true);
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();
@@ -223,6 +221,7 @@ private:
     std::unordered_map<std::shared_ptr<TimelineItemModel>,QUuid> m_secondaryTimelines;
     std::unordered_map<QString,std::shared_ptr<TimelineItemModel>> m_timelineModels;
     QMap<QUuid, QString> m_timelinePath;
+    QMap<QUuid, QUuid> m_uuidMap;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();

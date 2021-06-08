@@ -50,7 +50,7 @@ bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineIte
 bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog = nullptr);
 
-bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -59,7 +59,9 @@ bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<Timel
     m_errorMessage.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
-    pCore->getProjectItemModel(uuid)->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    if (projectModel) {
+        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    }
     pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -220,7 +222,7 @@ bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<Timel
 }
 
 
-bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Multitrack tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -229,7 +231,9 @@ bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<Timeline
     m_errorMessage.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
-    pCore->getProjectItemModel(uuid)->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    if (projectModel) {
+        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    }
     pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;
     // Find updated ids for expanded folders

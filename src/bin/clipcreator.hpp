@@ -43,6 +43,8 @@ namespace ClipCreator {
 */
 QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
 
+QString createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
+
 /** @brief Create a title clip
    @param properties : title properties (xmldata, etc)
    @param duration : duration of the clip

@@ -1714,6 +1714,7 @@ void Bin::setMonitor(Monitor *monitor)
 
 void Bin::cleanDocument()
 {
+    qDebug()<<"==== BIN CLEANING DOCUMENT!!!!!\n\n:::::";
     blockSignals(true);
     if (m_proxyModel) {
         m_proxyModel->selectionModel()->blockSignals(true);
@@ -2466,7 +2467,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip) {
                 if (clip->clipType() == ClipType::Playlist) {
-                    pCore->projectManager()->openTimeline(clip);
+                    pCore->projectManager()->openTimeline(clip->binId());
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
@@ -2845,6 +2846,7 @@ void Bin::setupMenu()
     setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
     setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Playlist, QStringLiteral("add_playlist_clip"), i18n("Add Playlist"), QIcon::fromTheme(QStringLiteral("list-add")));
 
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
@@ -3058,6 +3060,9 @@ void Bin::slotCreateProjectClip()
         break;
     case ClipType::QText:
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this);
+        break;
+    case ClipType::Playlist:
+        ClipCreationDialog::createPlaylistClip(m_doc, parentFolder, m_itemModel);
         break;
     default:
         break;

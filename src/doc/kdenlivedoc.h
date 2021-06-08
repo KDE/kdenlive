@@ -153,7 +153,7 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model */
-    std::shared_ptr<MarkerListModel> getGuideModel() const;
+    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid &testUuid) const;
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -181,7 +181,7 @@ public:
     const QString subTitlePath(bool final);
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Store a reference to the timeline model. */
     void setModels(TimelineWidget *timelineWidget, std::shared_ptr<ProjectItemModel> projectModel);
     std::shared_ptr<DocumentObjectModel> objectModel();
@@ -194,6 +194,9 @@ public:
     Mlt::Profile *getDocumentProfile();
     /** @brief Used to store timeline position on tab switch */
     int position;
+
+    void addTimeline(const QString &path, const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel);
+    const QUuid findTimeline(const QString & path) const;
 
 private:
     QUrl m_url;
@@ -225,16 +228,17 @@ private:
     QMap<QString, QString> m_documentMetadata;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
     std::shared_ptr<MarkerListModel> m_guideModel;
-    QUuid m_uuid;
     std::shared_ptr<DocumentObjectModel>m_objectModel;
     QString m_documentProfile;
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     QString m_modifiedDecimalPoint;
+    QMap <QString, QUuid> m_timelineMaps;
+    QMap <QUuid, std::shared_ptr<MarkerListModel>> m_timelineGuides;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
+    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile = true);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();

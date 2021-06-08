@@ -29,7 +29,7 @@ bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 TEST_CASE("Keyframe model", "[KeyframeModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(QUuid(), undoStack);
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
 

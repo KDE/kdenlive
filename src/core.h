@@ -125,8 +125,10 @@ public:
     std::shared_ptr<ProjectItemModel> projectItemModel();
     /** @brief Returns the uuid of the currently active project model. */
     QUuid activeUuid() const;
+    QUuid activeTimelineUuid() const;
     /** @brief Build a secondary project model. */
     void buildProjectModel(const QUuid &uuid);
+    void addProjectModel(const QUuid &uuid, const std::shared_ptr<ProjectItemModel> &model);
     void deleteProjectModel(const QUuid &uuid);
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();

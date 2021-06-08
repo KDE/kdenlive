@@ -63,7 +63,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     GenTime::setFps(fps);
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
-    std::shared_ptr<MarkerListModel> model = std::make_shared<MarkerListModel>(undoStack, nullptr);
+    std::shared_ptr<MarkerListModel> model = std::make_shared<MarkerListModel>(QUuid(), undoStack, nullptr);
 
     std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
     model->registerSnapModel(snaps);

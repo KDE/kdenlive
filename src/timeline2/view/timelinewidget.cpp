@@ -183,7 +183,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     }
     rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", project->getGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", project->getGuideModel(model->uuid()).get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
@@ -332,7 +332,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(uuid)->getAllMarkers();
     QAction *ac;
     m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();
@@ -353,7 +353,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(uuid)->getAllMarkers();
     QAction *ac;
     m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();

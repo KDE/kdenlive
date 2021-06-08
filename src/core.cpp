@@ -762,6 +762,11 @@ void Core::buildProjectModel(const QUuid &uuid)
     m_secondaryModels.insert({uuid.toString(), model});
 }
 
+void Core::addProjectModel(const QUuid &uuid, const std::shared_ptr<ProjectItemModel> &model)
+{
+    m_secondaryModels.insert({uuid.toString(), model});
+}
+
 void Core::deleteProjectModel(const QUuid &uuid)
 {
     m_secondaryModels.erase(uuid.toString());
@@ -802,6 +807,11 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 QUuid Core::activeUuid() const
 {
     return m_activeProjectModel->uuid();
+}
+
+QUuid Core::activeTimelineUuid() const
+{
+    return m_mainWindow->getCurrentTimeline()->uuid;
 }
 
 void Core::invalidateRange(QPair<int, int> range)
@@ -1052,7 +1062,7 @@ void Core::addGuides(QList <int> guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel()->addMarkers(markers);
+    currentDoc()->getGuideModel(pCore->activeTimelineUuid())->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(QList<int> clipIds, bool hide)
@@ -1095,3 +1105,4 @@ KdenliveDoc *Core::getDocument(const QUuid &uuid)
 {
     return m_projectManager->getDocument(uuid);
 }
+

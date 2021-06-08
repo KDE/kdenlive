@@ -44,6 +44,7 @@ void createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, Projec
 void createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model);
 void createTitleClip(KdenliveDoc *doc, const QString &parentFolder, const QString &templatePath, std::shared_ptr<ProjectItemModel> model);
 void createTitleTemplateClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+void createPlaylistClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 void createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
 void clipWidget(QDockWidget* m_DockClipWidget);
 } // namespace ClipCreationDialog

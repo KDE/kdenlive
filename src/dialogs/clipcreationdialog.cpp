@@ -151,6 +151,33 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     }
 }
 
+
+// static
+void ClipCreationDialog::createPlaylistClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+{
+    /*QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
+    Ui::ColorClip_UI dia_ui;
+    dia_ui.setupUi(dia.data());
+    dia->setWindowTitle(i18n("Color Clip"));
+    dia_ui.clip_name->setText(i18n("Color Clip"));
+
+    QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(doc->timecode(), dia.get()));
+    t->setValue(KdenliveSettings::color_duration());
+    dia_ui.clip_durationBox->addWidget(t.data());
+    dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
+
+    if (dia->exec() == QDialog::Accepted) {
+        QString color = dia_ui.clip_color->color().name();
+        KdenliveSettings::setColorclipcolor(color);
+        color = color.replace(0, 1, QStringLiteral("0x")) + "ff";
+        int duration = doc->getFramePos(doc->timecode().getTimecode(t->gentime()));
+        QString name = dia_ui.clip_name->text();
+
+        ClipCreator::createColorClip(color, duration, name, parentFolder, std::move(model));
+    }*/
+    ClipCreator::createPlaylistClip(i18n("Playlist"), parentFolder, std::move(model));
+}
+
 void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();

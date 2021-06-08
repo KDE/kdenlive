@@ -87,7 +87,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, const QString &
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(m_commandStack, this))
+    , m_guideModel(new MarkerListModel(uuid, m_commandStack, this))
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
@@ -332,7 +332,7 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
     return result;
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
+QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks, bool disableProfile)
 {
     QList<TrackInfo> tracks;
     // Tracks are added «backwards», so we need to reverse the track numbering
@@ -359,23 +359,28 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.duration = 0;
         tracks.append(videoTrack);
     }
-    return createEmptyDocument(tracks);
+    return createEmptyDocument(tracks, disableProfile);
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
+QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile)
 {
     // Creating new document
     QDomDocument doc;
-    Mlt::Profile docProfile;
-    Mlt::Consumer xmlConsumer(docProfile, "xml:kdenlive_playlist");
-    xmlConsumer.set("no_profile", 1);
+    std::unique_ptr<Mlt::Profile> docProfile(new Mlt::Profile);
+    if (pCore->getCurrentProfile()) {
+        docProfile.reset(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
+    }
+    Mlt::Consumer xmlConsumer(*docProfile.get(), "xml:kdenlive_playlist");
+    if (disableProfile) {
+        xmlConsumer.set("no_profile", 1);
+    }
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
-    Mlt::Tractor tractor(docProfile);
-    Mlt::Producer bk(docProfile, "color:black");
+    Mlt::Tractor tractor(*docProfile.get());
+    Mlt::Producer bk(*docProfile.get(), "color:black");
     tractor.insert_track(bk, 0);
     for (int i = 0; i < tracks.count(); ++i) {
-        Mlt::Tractor track(docProfile);
+        Mlt::Tractor track(*docProfile.get());
         track.set("kdenlive:track_name", tracks.at(i).trackName.toUtf8().constData());
         track.set("kdenlive:timeline_active", 1);
         track.set("kdenlive:trackheight", KdenliveSettings::trackheight());
@@ -394,8 +399,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
         } else if (tracks.at(i).isBlind) {
             track.set("hide", 1);
         }
-        Mlt::Playlist playlist1(docProfile);
-        Mlt::Playlist playlist2(docProfile);
+        Mlt::Playlist playlist1(*docProfile.get());
+        Mlt::Playlist playlist2(*docProfile.get());
         track.insert_track(playlist1, 0);
         track.insert_track(playlist2, 1);
         tractor.insert_track(track, i + 1);
@@ -405,7 +410,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     if (!compositeService.isEmpty()) {
         for (int i = 0; i <= tracks.count(); i++) {
             if (i > 0 && tracks.at(i - 1).type == AudioTrack) {
-                Mlt::Transition tr(docProfile, "mix");
+                Mlt::Transition tr(*docProfile.get(), "mix");
                 tr.set("a_track", 0);
                 tr.set("b_track", i);
                 tr.set("always_active", 1);
@@ -415,7 +420,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
                 field->plant_transition(tr, 0, i);
             }
             if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
-                Mlt::Transition tr(docProfile, compositeService.toUtf8().constData());
+                Mlt::Transition tr(*docProfile.get(), compositeService.toUtf8().constData());
                 tr.set("a_track", 0);
                 tr.set("b_track", i);
                 tr.set("always_active", 1);
@@ -1775,9 +1780,13 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid &testUuid) const
 {
-    return m_guideModel;
+    if (testUuid == QUuid() || testUuid == uuid) {
+        return m_guideModel;
+    }
+    qDebug()<<"=== RETURNING SECONDARY GUIDE MODEL: "<<testUuid;
+    return m_timelineGuides.value(testUuid);
 }
 
 void KdenliveDoc::guidesChanged()
@@ -1858,3 +1867,16 @@ void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
     m_subtitleModel = m_subtitle;
 }
 
+void KdenliveDoc::addTimeline(const QString &path, const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel)
+{
+    m_timelineMaps.insert(path, uuid);
+    m_timelineGuides.insert(uuid, std::move(guideModel));
+}
+
+const QUuid KdenliveDoc::findTimeline(const QString & path) const
+{
+    if (m_timelineMaps.contains(path)) {
+        return m_timelineMaps.value(path);
+    }
+    return QUuid();
+}
