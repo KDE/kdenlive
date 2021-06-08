@@ -485,3 +485,24 @@ void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, 
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->animatedShow();
 }
+
+void AssetPanel::slotAddRemoveKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->addRemoveKeyframe();
+    }
+}
+
+void AssetPanel::slotNextKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(true);
+    }
+}
+
+void AssetPanel::slotPreviousKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(false);
+    }
+}

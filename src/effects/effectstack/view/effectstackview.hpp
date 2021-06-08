@@ -73,9 +73,13 @@ public:
      */
     void enableStack(bool enable);
     bool isStackEnabled() const;
-    /** @brief Collaps / expand current effect
+    /** @brief Collapse / expand current effect
      */
     void switchCollapsed();
+    /** @brief Go to next keyframe in current effect
+     */
+    void slotGoToKeyframe(bool next);
+    void addRemoveKeyframe();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

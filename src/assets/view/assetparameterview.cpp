@@ -121,6 +121,9 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_lay->addWidget(w);
                 if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                    connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+                    connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+                    connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 } else {
                     minHeight += w->minimumHeight();
                 }

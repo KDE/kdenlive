@@ -89,7 +89,7 @@ private:
     std::shared_ptr<KeyframeModelList> m_keyframes;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
-    QAction *m_buttonAddDelete;
+    QToolButton *m_buttonAddDelete;
     QToolButton *m_buttonCenter;
     QToolButton *m_buttonCopy;
     QToolButton *m_buttonApply;
@@ -106,6 +106,9 @@ signals:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
     void updateEffectKeyframe(bool);
+    void goToNext();
+    void goToPrevious();
+    void addRemove();
 };
 
 #endif

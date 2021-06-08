@@ -521,3 +521,31 @@ void EffectStackView::switchBuiltStack(bool show)
     KdenliveSettings::setShowbuiltstack(show);
 }
 */
+
+void EffectStackView::slotGoToKeyframe(bool next)
+{
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        auto item = m_model->getEffectStackRow(currentActive);
+        QModelIndex ix = m_model->getIndexFromItem(item);
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        if (next) {
+            w->slotNextKeyframe();
+        } else {
+            w->slotPreviousKeyframe();
+        }
+    }
+}
+
+void EffectStackView::addRemoveKeyframe()
+{
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        auto item = m_model->getEffectStackRow(currentActive);
+        QModelIndex ix = m_model->getIndexFromItem(item);
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        w->addRemoveKeyframe();
+    }
+}

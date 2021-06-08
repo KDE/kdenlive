@@ -69,19 +69,30 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_keyframes = m_model->getKeyframeModel();
     m_keyframeview = new KeyframeView(m_keyframes, duration, in, this);
 
-    // Prepare keyframe actions
-    KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), pCore->window()->actionCollection());
-    m_buttonAddDelete = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-add")), i18n("Add keyframe"), pCore->window()->actionCollection());
-    kfActions->addAction(QStringLiteral("keyframe_add_remove"), m_buttonAddDelete);
-    connect(m_buttonAddDelete, &QAction::triggered, m_keyframeview, &KeyframeView::slotAddRemove);
 
-    QAction *buttonPrevious = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), pCore->window()->actionCollection());
-    kfActions->addAction(QStringLiteral("keyframe_previous"), buttonPrevious);
-    connect(buttonPrevious, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToPrev);
+    m_buttonAddDelete = new QToolButton(this);
+    m_buttonAddDelete->setAutoRaise(true);
 
-    QAction *buttonNext = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), pCore->window()->actionCollection());
-    kfActions->addAction(QStringLiteral("keyframe_next"), buttonNext);
-    connect(buttonNext, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToNext);
+    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
+    connect(this, &KeyframeWidget::addRemove, m_keyframeview, &KeyframeView::slotAddRemove);
+
+    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
+    m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
+
+
+    QToolButton *buttonPrevious = new QToolButton(this);
+    buttonPrevious->setAutoRaise(true);
+    buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
+    buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    connect(buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
+    connect(this, &KeyframeWidget::goToPrevious, m_keyframeview, &KeyframeView::slotGoToPrev);
+
+    QToolButton *buttonNext = new QToolButton(this);
+    buttonNext->setAutoRaise(true);
+    buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
+    buttonNext->setToolTip(i18n("Go to next keyframe"));
+    connect(buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
+    connect(this, &KeyframeWidget::goToNext, m_keyframeview, &KeyframeView::slotGoToNext);
     
     // Move keyframe to cursor
     m_buttonCenter = new QToolButton(this);
@@ -132,9 +143,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
 
-    m_toolbar->addAction(buttonPrevious);
-    m_toolbar->addAction(m_buttonAddDelete);
-    m_toolbar->addAction(buttonNext);
+    m_toolbar->addWidget(buttonPrevious);
+    m_toolbar->addWidget(m_buttonAddDelete);
+    m_toolbar->addWidget(buttonNext);
     m_toolbar->addWidget(m_buttonCenter);
     m_toolbar->addWidget(m_buttonCopy);
     m_toolbar->addWidget(m_buttonApply);
@@ -318,6 +329,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 KeyframeWidget::~KeyframeWidget()
 {
     delete m_keyframeview;
+    delete m_buttonAddDelete;
     delete m_time;
 }
 

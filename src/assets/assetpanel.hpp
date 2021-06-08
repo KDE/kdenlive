@@ -83,6 +83,9 @@ public slots:
     /** @brief Collapse/expand current effect */
     void collapseCurrentEffect();
     void slotCheckWheelEventFilter();
+    void slotAddRemoveKeyframe();
+    void slotNextKeyframe();
+    void slotPreviousKeyframe();
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

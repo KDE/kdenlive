@@ -86,6 +86,9 @@ public:
     /** @brief Update monitor scene depending on effect enabled state. */
     void updateScene();
     void updateInOut(QPair<int, int> inOut, bool withUndo);
+    void slotNextKeyframe();
+    void slotPreviousKeyframe();
+    void addRemoveKeyframe();
 
 public slots:
     void slotSyncEffectsPos(int pos);

@@ -938,3 +938,18 @@ void CollapsibleEffectView::updateEffectZone()
     m_model->setInOut(effectName, inOut, true, true);
 }
 
+void CollapsibleEffectView::slotNextKeyframe()
+{
+    m_view->nextKeyframe();
+}
+
+void CollapsibleEffectView::slotPreviousKeyframe()
+{
+    m_view->previousKeyframe();
+}
+
+void CollapsibleEffectView::addRemoveKeyframe()
+{
+    m_view->addRemoveKeyframe();
+}
+

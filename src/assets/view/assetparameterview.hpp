@@ -112,6 +112,9 @@ signals:
     void updatePresets(const QString &presetName = QString());
     void updateHeight();
     void activateEffect();
+    void nextKeyframe();
+    void previousKeyframe();
+    void addRemoveKeyframe();
 };
 
 #endif
