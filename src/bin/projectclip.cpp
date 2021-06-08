@@ -1217,13 +1217,13 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // Clip source was changed, update important stuff
         refreshPanel = true;
         reload = true;
+        resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
             updateRoles << TimelineModel::ResourceRole;
         } else if (!properties.contains("kdenlive:proxy")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
-            resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
             getInfoForProducer();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
