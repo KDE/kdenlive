@@ -1404,6 +1404,28 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
             }
         }
+    } else if (t == TITLE_FONT_ELEMENT) {
+        // Parse all title producers
+        for (int i = 0; i < producers.count(); ++i) {
+            e = producers.item(i).toElement();
+            QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+            // Fix clip
+            if (service == QLatin1String("kdenlivetitle")) {
+                QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+                QStringList fonts = TitleWidget::extractFontList(xml);
+                bool updated = false;
+                for (const auto &f : fonts) {
+                    if (m_missingFonts.contains(f)) {
+                        updated = true;
+                        QString replacementFont = QFontInfo(QFont(f)).family();
+                        xml.replace(QString("font=\"%1\"").arg(f), QString("font=\"%1\"").arg(replacementFont));
+                    }
+                }
+                if (updated) {
+                    Xml::setXmlProperty(e, QStringLiteral("xmldata"), xml);
+                }
+            }
+        }
     }
 }
 
