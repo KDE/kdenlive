@@ -30,11 +30,12 @@
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-
+#include "mainwindow.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
 #include <KSelectAction>
+#include <KActionCategory>
 #include <QApplication>
 #include <QClipboard>
 #include <QJsonDocument>
@@ -68,20 +69,19 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_keyframes = m_model->getKeyframeModel();
     m_keyframeview = new KeyframeView(m_keyframes, duration, in, this);
 
-    m_buttonAddDelete = new QToolButton(this);
-    m_buttonAddDelete->setAutoRaise(true);
-    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
-    m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
+    // Prepare keyframe actions
+    KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), pCore->window()->actionCollection());
+    m_buttonAddDelete = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-add")), i18n("Add keyframe"), pCore->window()->actionCollection());
+    kfActions->addAction(QStringLiteral("keyframe_add_remove"), m_buttonAddDelete);
+    connect(m_buttonAddDelete, &QAction::triggered, m_keyframeview, &KeyframeView::slotAddRemove);
 
-    m_buttonPrevious = new QToolButton(this);
-    m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
-    m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    QAction *buttonPrevious = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), pCore->window()->actionCollection());
+    kfActions->addAction(QStringLiteral("keyframe_previous"), buttonPrevious);
+    connect(buttonPrevious, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToPrev);
 
-    m_buttonNext = new QToolButton(this);
-    m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
-    m_buttonNext->setToolTip(i18n("Go to next keyframe"));
+    QAction *buttonNext = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), pCore->window()->actionCollection());
+    kfActions->addAction(QStringLiteral("keyframe_next"), buttonNext);
+    connect(buttonNext, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToNext);
     
     // Move keyframe to cursor
     m_buttonCenter = new QToolButton(this);
@@ -132,9 +132,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
 
-    m_toolbar->addWidget(m_buttonPrevious);
-    m_toolbar->addWidget(m_buttonAddDelete);
-    m_toolbar->addWidget(m_buttonNext);
+    m_toolbar->addAction(buttonPrevious);
+    m_toolbar->addAction(m_buttonAddDelete);
+    m_toolbar->addAction(buttonNext);
     m_toolbar->addWidget(m_buttonCenter);
     m_toolbar->addWidget(m_buttonCopy);
     m_toolbar->addWidget(m_buttonApply);
@@ -229,9 +229,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
 
-    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
-    connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
-    connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
     connect(m_buttonApply, &QAbstractButton::pressed, this, [this]() {
@@ -321,9 +318,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 KeyframeWidget::~KeyframeWidget()
 {
     delete m_keyframeview;
-    delete m_buttonAddDelete;
-    delete m_buttonPrevious;
-    delete m_buttonNext;
     delete m_time;
 }
 

@@ -89,9 +89,7 @@ private:
     std::shared_ptr<KeyframeModelList> m_keyframes;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
-    QToolButton *m_buttonAddDelete;
-    QToolButton *m_buttonPrevious;
-    QToolButton *m_buttonNext;
+    QAction *m_buttonAddDelete;
     QToolButton *m_buttonCenter;
     QToolButton *m_buttonCopy;
     QToolButton *m_buttonApply;
