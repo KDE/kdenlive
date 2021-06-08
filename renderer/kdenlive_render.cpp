@@ -147,7 +147,6 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        LocaleHandling::resetAllLocale();
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
         rJob->start();
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&, rJob]() {
