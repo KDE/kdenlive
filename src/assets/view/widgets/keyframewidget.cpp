@@ -30,7 +30,6 @@
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-#include "mainwindow.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
