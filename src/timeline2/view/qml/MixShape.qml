@@ -2,7 +2,7 @@ import QtQuick 2.11
 import QtQuick.Shapes 1.11
 
 Shape {
-    anchors.fill: mixBackground
+    anchors.fill: parent
     asynchronous: true
     opacity: 0.4
     ShapePath {
