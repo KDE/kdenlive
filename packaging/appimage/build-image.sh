@@ -72,7 +72,7 @@ cp -r $DEPS_INSTALL_PREFIX/lib/libharfbuzz*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libfribidi*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libpango*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/ladspa  $APPDIR/usr/lib || true
-cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APePDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
