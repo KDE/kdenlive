@@ -242,7 +242,31 @@
     </ul>
   </description>
   <releases>
-    <release version="21.04.2" date="2021-06-10"/>
+    <release version="21.04.2" date="2021-06-10">
+      <url type="details">https://kdenlive.org/en/2021/06/kdenlive-21-04-2-released/</url>
+      <description>
+        <p>The second maintenance release of the 21.04 series is out bringing</p>
+        <ul>
+          <li>Patch to solve “white” rendering issues.</li>
+          <li>Fix clip thumbs disappearing on timeline resize.</li>
+          <li>Fix timeline thumbnails not saved with project.</li>
+          <li>Don’t discard subtitle files on project fps change.</li>
+          <li>Update guides position on project’s fps change.</li>
+          <li>Fix Chroma Key: Advanced edge mode normal was reset to hard.</li>
+          <li>Fix various frei0r effects losing parameter settings.</li>
+          <li>Fix keyframeview position in mixes.</li>
+          <li>Make effects keyframable: scratchlines, tcolor, lumaliftgaingamma, charcoal, dust, oldfilm, threshold, glitch0r. See bug 393668</li>
+          <li>Fix profile repository not properly refreshed after change.</li>
+          <li>Fix marker monitor overlayer flickers on hover.</li>
+          <li>Ensure timeline zoombar right handle is always visible.</li>
+          <li>Fix issue with duplicated title clips.</li>
+          <li>Fix effect sliders on right to left (rtl) layouts. Fixes bug 434981</li>
+          <li>Fix alignment of statusbar message label. Fixes bug 437113</li>
+          <li>Fix crash using filter with missing MLT metadata (vidstab in MLT 6.26.1)</li>
+          <li>Try to fix wrongly set color in titler.</li>
+        </ul>
+      </description>
+    </release>
     <release version="21.04.1" date="2021-05-13">
       <url type="details">https://kdenlive.org/en/2021/05/kdenlive-21-04-1-is-out/</url>
       <description>
