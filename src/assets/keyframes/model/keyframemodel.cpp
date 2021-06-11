@@ -737,7 +737,7 @@ QString KeyframeModel::getRotoProperty() const
         int out = in + ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QVariantMap map;
         for (const auto &keyframe : m_keyframeList) {
-            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(int(log10(double(out + 1))), '0'), keyframe.second.second);
+            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(int(log10(double(out))) + 1, '0'), keyframe.second.second);
         }
         doc = QJsonDocument::fromVariant(map);
     }
