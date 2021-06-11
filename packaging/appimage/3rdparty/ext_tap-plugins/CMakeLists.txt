@@ -1,0 +1,11 @@
+ExternalProject_Add(
+  ext_tap-plugins
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  GIT_REPOSITORY https://github.com/tomszilagyi/tap-plugins.git
+  PATCH_COMMAND ${PATCH_COMMAND} -p1 -i ${CMAKE_CURRENT_SOURCE_DIR}/fix_install.diff
+  CONFIGURE_COMMAND ""
+  BUILD_IN_SOURCE 1
+  BUILD_ALWAYS TRUE
+  BUILD_COMMAND $(MAKE)
+  INSTALL_COMMAND $(MAKE) install EXT_INSTALL_DIR=${EXT_INSTALL_DIR}
+)

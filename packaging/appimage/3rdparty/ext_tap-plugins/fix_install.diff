@@ -1,0 +1,13 @@
+--- a/Makefile  2021-06-11 06:05:44.926255559 +0000
++++ b/Makefile  2021-06-11 07:17:48.437611770 +0000
+@@ -23,8 +23,8 @@
+ # Change this if you want to install somewhere else. In particular
+ # you may wish to remove the middle "local/" part of the path.
+
+-INSTALL_PLUGINS_DIR    =       /usr/local/lib/ladspa/
+-INSTALL_LRDF_DIR       =       /usr/local/share/ladspa/rdf/
++INSTALL_PLUGINS_DIR    =       $(EXT_INSTALL_DIR)/lib/ladspa/
++INSTALL_LRDF_DIR       =       $(EXT_INSTALL_DIR)/share/ladspa/rdf/
+
+ # NO EDITING below this line is required
+ # if all you want to do is install and use the plugins.

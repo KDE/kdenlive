@@ -146,6 +146,7 @@ cmake --build . --target ext_ffmpeg  -j$CPU_CORES
 cmake --build . --target ext_sox  -j$CPU_CORES
 cmake --build . --target ext_jack  -j$CPU_CORES
 cmake --build . --target ext_ladspa  -j$CPU_CORES
+cmake --build . --target ext_tap-plugins  -j$CPU_CORES
 cmake --build . --target ext_gavl  -j$CPU_CORES
 cmake --build . --target ext_frei0r  -j$CPU_CORES
 cmake --build . --target ext_vidstab  -j$CPU_CORES

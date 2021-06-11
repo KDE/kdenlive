@@ -71,7 +71,8 @@ cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libharfbuzz*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libfribidi*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libpango*  $APPDIR/usr/lib
-cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/ladspa  $APPDIR/usr/lib || true
+cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APePDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
@@ -84,7 +85,7 @@ cp -r $DEPS_INSTALL_PREFIX/plugins/audio  $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/org.kde.kdecoration2 $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/kstyle_breeze_config.so $APPIMAGEPLUGINS
 
-cp $BUILD_PREFIX/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1 || true
+#cp $BUILD_PREFIX/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1 || true
 mkdir -p $APPDIR/usr/libexec
 
 cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
