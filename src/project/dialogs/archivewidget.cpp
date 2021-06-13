@@ -1014,10 +1014,10 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
         if (e.isNull()) {
             continue;
         }
-        // propertys for vidstab files
+        // properties for vidstab files
         propertyProcessUrl(e, QStringLiteral("filename"), root);
         propertyProcessUrl(e, QStringLiteral("results"), root);
-        // propertys for LUT files
+        // properties for LUT files
         propertyProcessUrl(e, QStringLiteral("av.file"), root);
     }
 

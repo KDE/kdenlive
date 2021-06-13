@@ -886,7 +886,7 @@ void TextBasedEdit::startRecognition()
         });
         connect(m_tCodeJob.get(), &QProcess::readyReadStandardOutput, [this]() {
             QString saveData = QString::fromUtf8(m_tCodeJob->readAllStandardOutput());
-            qDebug()<<"+GOT OUTUT: "<<saveData;
+            qDebug()<<"+GOT OUTPUT: "<<saveData;
             saveData = saveData.section(QStringLiteral("percentage:"), 1).simplified();
             int percent = saveData.section(QLatin1Char(' '), 0, 0).toInt();
             speech_progress->setValue(percent);
@@ -1009,7 +1009,7 @@ void TextBasedEdit::slotProcessSpeech()
             }
         }
     } else if (loadDoc.isEmpty()) {
-        qDebug()<<"==== EMPTY OBJEC DOC";
+        qDebug()<<"==== EMPTY OBJECT DOC";
     }
     qDebug()<<"==== GOT BLOCKS: "<<m_document.blockCount();
     qDebug()<<"=== LINES: "<<m_document.firstBlock().lineCount();

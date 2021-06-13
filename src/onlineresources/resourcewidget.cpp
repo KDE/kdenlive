@@ -487,7 +487,8 @@ void ResourceWidget::slotPreviewItem()
  * @param urls list of download urls pointing to the certain file version
  * @param labels list of labels for the certain file version (needs to have the same order than urls)
  * @param accessToken access token to pass through to slotSaveItem
- * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there a multiple versions avaible
+ * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there are multiple versions
+ * available
  */
 void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken) {
     if(urls.isEmpty() || labels.isEmpty()) {
@@ -597,7 +598,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 /**
  * @brief ResourceWidget::slotGotFile
  * @param job
- * Finish the download by emiting addClip and if necessary addLicenseInfo
+ * Finish the download by emitting addClip and if necessary addLicenseInfo
  * Enables the import button
  */
 void ResourceWidget::slotGotFile(KJob *job)

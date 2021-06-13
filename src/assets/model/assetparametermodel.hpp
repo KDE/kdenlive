@@ -39,7 +39,7 @@ typedef QVector<QPair<QString, QVariant>> paramVector;
 enum class ParamType {
     Double,
     List, // Value can be chosen from a list of pre-defined ones
-    UrlList, // File can be choosen from a list of pre-defined ones or a custom file can be used (like url)
+    UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
     RestrictedAnim, // animated 1 dimensional param with linear support only

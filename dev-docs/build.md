@@ -47,7 +47,7 @@ dnf builddep mlt kdenlive
 # OpenSUSE
 zypper source-install --build-deps-only mlt kdenlive
 ```
-Or install the dependencies explicitely:
+Or install the dependencies explicitly:
 
 ```bash
 # KDE Frameworks 5, based on Qt5

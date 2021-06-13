@@ -130,7 +130,7 @@ ProviderModel::ProviderModel(const QString &path)
                 }
             });
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, [=](const QString &error, const QString &errorDescription) {
-                qCWarning(KDENLIVE_LOG) << "Error in autorization flow. " << error << " " << errorDescription;
+                qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
                 emit authenticated(QString());
             });
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
@@ -267,7 +267,7 @@ bool ProviderModel::requiresLogin() const {
  * @return value
  * Gets a value of item identified by key. The key is translated to the key the provider uses (configured in the providers config file)
  * E.g. the provider uses "photographer" as key for the author and another provider uses "user".
- * With this funtion you can simply use "author" as key no matter of the providers specific key.
+ * With this function you can simply use "author" as key no matter of the providers specific key.
  * In addition this function takes care of modifiers like "$" for placeholders, etc. but does not parse them (use objectGetString for this purpose)
  */
 
@@ -386,7 +386,7 @@ QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page) {
  * @brief ProviderModel::slotFetchFiles
  * @param searchText The search query
  * @param page The page to request
- * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ * Fetch metadata about the available files, if they are not included in the search response (e.g. archive.org)
  */
 void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 {
@@ -493,7 +493,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
  * @brief ProviderModel::getFilesUrl
  * @param id The providers id of the item the data should be fetched for
  * @return the url
- * Get the url to fetch metadata about the aviable files.
+ * Get the url to fetch metadata about the available files.
  */
 QUrl ProviderModel::getFilesUrl(const QString &id) {
 
@@ -517,7 +517,7 @@ QUrl ProviderModel::getFilesUrl(const QString &id) {
 /**
  * @brief ProviderModel::slotFetchFiles
  * @param id The providers id of the item the date should be fetched for
- * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ * Fetch metadata about the available files, if they are not included in the search response (e.g. archive.org)
  */
 void ProviderModel::slotFetchFiles(const QString &id) {
 
