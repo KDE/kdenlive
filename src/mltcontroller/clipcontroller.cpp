@@ -247,7 +247,7 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
         m_hasLimitedDuration = false;
-    } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
+    } else if (m_service.startsWith(QLatin1String("xml")) || m_service == QLatin1String("consumer")) {
         m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
@@ -439,7 +439,7 @@ int ClipController::getFramePlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
-    if (!m_hasLimitedDuration) {
+    if (!m_hasLimitedDuration || m_clipType == ClipType::Playlist) {
         if (!m_masterProducer->property_exists("kdenlive:duration")) {
             return m_masterProducer->get_length();
         }
@@ -670,7 +670,7 @@ void ClipController::checkAudioVideo()
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
             m_hasAudio = m_masterProducer->get_int("audio_index") >= 0;
             m_hasVideo = m_masterProducer->get_int("video_index") >= 0;
-        } else if (orig_service == QStringLiteral("xml")) {
+        } else if (orig_service.startsWith(QStringLiteral("xml"))) {
             // Playlist, assume we have audio and video
             m_hasAudio = true;
             m_hasVideo = true;

@@ -117,7 +117,7 @@ public:
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr, QStringList timelines = QStringList());
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
@@ -221,6 +221,7 @@ public:
     int clipsCount() const;
     /** @brief Returns the model's uuid */
     QUuid uuid() const;
+    std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
 
 protected:
     QUuid m_uuid;
@@ -259,6 +260,8 @@ private:
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     std::unique_ptr<FileWatcher> m_fileWatcher;
+
+    std::unordered_map<QString,std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
 
     int m_nextId;
     QIcon m_blankThumb;

@@ -271,6 +271,7 @@ int TimelineController::fullDuration() const
 void TimelineController::checkDuration()
 {
     int currentLength = m_model->duration();
+    qDebug()<<"=== CHECKING DURATION: "<<currentLength<<", EXISTING: "<<m_duration;
     if (currentLength != m_duration) {
         m_duration = currentLength;
         emit durationChanged();

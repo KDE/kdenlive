@@ -175,6 +175,7 @@ public:
      * @return Original decimal point, or an empty string if it was “.” already
      */
     QString &modifiedDecimalPoint();
+    const QStringList getSecondaryTimelines() const;
     /** @brief Initialize subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */

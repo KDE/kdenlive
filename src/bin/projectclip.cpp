@@ -1277,6 +1277,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // Make sure length is >= kdenlive:duration
         int producerLength = getProducerIntProperty(QStringLiteral("length"));
         int kdenliveLength = getFramePlaytime();
+        qDebug()<<"=== COMPARING LENGTHS: "<<producerLength<<" - "<<kdenliveLength;
         if (producerLength < kdenliveLength) {
             setProducerProperty(QStringLiteral("length"), kdenliveLength);
         }
@@ -1285,7 +1286,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::DataDuration);
         refreshOnly = false;
-        reload = true;
+        reload = m_clipType != ClipType::Playlist; // true;
     }
     QVector <int> refreshRoles;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {

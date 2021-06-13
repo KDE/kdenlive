@@ -989,7 +989,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog, QStringList timelines)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1049,8 +1049,25 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 binIdCorresp[QString::number(i.key())] = newId;
             }
         }
+        qDebug()<<"===========CHKING EXTRA PLAYLISTS \n"<<timelines<<"\n\nTTTTTTTTTTTTTTT";
+        for (auto &t : timelines) {
+            std::shared_ptr<Mlt::Tractor> playlist(new Mlt::Tractor(mlt_tractor(retainList.get_data(t.toUtf8().constData()))));
+            qDebug()<<"=== FOUND TYPE: "<<playlist->type();
+            if (playlist->is_valid() && playlist->type() == tractor_type) {
+                m_extraPlaylists.insert({t,playlist});
+            }
+        }
     }
     m_binPlaylist->setRetainIn(modelTractor);
+}
+
+std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &uuid)
+{
+    if (m_extraPlaylists.count(uuid) == 0) {
+        // Playlist not found
+        return nullptr;
+    }
+    return m_extraPlaylists.at(uuid);
 }
 
 /** @brief Save document properties in MLT's bin playlist */

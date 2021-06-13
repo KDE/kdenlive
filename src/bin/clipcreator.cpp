@@ -28,9 +28,11 @@
 #include "klocalizedstring.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "core.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
 #include "dialogs/clipcreationdialog.h"
+#include "profiles/profilemodel.hpp"
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
 #include <KMessageBox>
@@ -46,6 +48,9 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), int(type));
+    if (type == ClipType::Playlist) {
+        prod.setAttribute(QStringLiteral("kdenlive:uuid"), QUuid::createUuid().toString());
+    }
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
@@ -90,24 +95,17 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
                                      const std::shared_ptr<ProjectItemModel> &model)
 {
     QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.kdenlive")));
-    tmp.setAutoRemove(false);
-    if (!tmp.open()) {
-        // Something went wrong
-        return QStringLiteral("-1");
-    }
-
-    tmp.write(xml.toString().toUtf8());
-    if (tmp.error() != QFile::NoError) {
-        tmp.close();
-        return QStringLiteral("-1");
-    }
-    tmp.close();
-    QString playlistPath = tmp.fileName();
-    QDomDocument xml2 = getXmlFromUrl(playlistPath);
-    auto prod = createProducer(xml2, ClipType::Playlist, playlistPath, name, 100, QStringLiteral("xml"));
     QString id;
-    bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    qDebug()<<"======= BUILDING PLAYLIST FROM: "<<xml.toString()<<"\n\nAAAAAAAAAAAAAAAAAAAAAAA";
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
+    prod->set("kdenlive:uuid", QUuid::createUuid().toString().toUtf8().constData());
+    prod->set("kdenlive:clipname", i18n("Playlist").toUtf8().constData());
+    prod->set("kdenlive:duration", 1);
+    bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    //bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");
 }
 

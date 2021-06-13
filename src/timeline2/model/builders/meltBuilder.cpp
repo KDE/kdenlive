@@ -50,7 +50,7 @@ bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineIte
 bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog = nullptr);
 
-bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
+bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint, QStringList timelines)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -59,8 +59,9 @@ bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<Timel
     m_errorMessage.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
+    qDebug()<<"===LOADING PJECT WIHTH SEC TIMELINES: "<<timelines<<"\n\nJJJJJJJJJJJJJJ";
     if (projectModel) {
-        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog, timelines);
     }
     pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;

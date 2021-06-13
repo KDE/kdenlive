@@ -327,6 +327,7 @@ int KdenliveDoc::clipsCount() const
 const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     const QByteArray result = m_document.toString().toUtf8();
+    qDebug()<<"===== GTO PROJECT DATA\n\n"<<result<<"\n\n================";
     // We don't need the xml data anymore, throw away
     m_document.clear();
     return result;
@@ -1848,6 +1849,11 @@ int KdenliveDoc::audioChannels() const
 
 QString& KdenliveDoc::modifiedDecimalPoint() {
     return m_modifiedDecimalPoint;
+}
+
+const QStringList KdenliveDoc::getSecondaryTimelines() const
+{
+    return getDocumentProperty(QStringLiteral("timelines")).split(QLatin1Char(';'));
 }
 
 const QString KdenliveDoc::subTitlePath(bool final)

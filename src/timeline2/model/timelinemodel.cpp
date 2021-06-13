@@ -139,6 +139,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     m_blackClip->set("set.test_audio", 0);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
+    m_tractor->set("id", uuid.toString().toUtf8().constData());
 
     TRACE_CONSTR(this);
 }
@@ -3842,6 +3843,7 @@ void TimelineModel::updateDuration()
     if (duration != current) {
         // update black track length
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
+        qDebug()<<"=== TIMELINE DURATION UPDATED: "<<duration;
         emit durationUpdated();
         if (m_masterStack) {
             m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
