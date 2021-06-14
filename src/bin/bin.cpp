@@ -4587,14 +4587,34 @@ void Bin::updatePlaylistClip(const QUuid &uuid, const QUuid &current)
         clip->reloadPlaylist();
     }
     QMapIterator<QUuid, QString> i(m_openedPlaylists);
-    while (i.hasNext()) {
-        i.next();
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(i.key()));
-        if (i.key() == current) {
-            // TODO
-            // Hide playlist clip of current timeline
-        } else {
-            // Show other playlist clips
+    if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+        auto *view = static_cast<QTreeView *>(m_itemView);
+        while (i.hasNext()) {
+            i.next();
+            std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.value());
+            auto ix = m_proxyModel->mapFromSource(m_itemModel->getIndexFromItem(clip));
+            if (i.key() == current) {
+                view->setRowHidden(ix.row(), ix.parent(), true);
+                // Hide playlist clip of current timeline
+            } else {
+                // Show other playlist clips
+                view->setRowHidden(ix.row(), ix.parent(), false);
+            }
+        }
+    } else {
+        auto *view = static_cast<QListView *>(m_itemView);
+        // Todo: check if playlist is currently displayed (root folder)
+        while (i.hasNext()) {
+            i.next();
+            std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.value());
+            auto ix = m_proxyModel->mapFromSource(m_itemModel->getIndexFromItem(clip));
+            if (i.key() == current) {
+                view->setRowHidden(ix.row(), true);
+                // Hide playlist clip of current timeline
+            } else {
+                // Show other playlist clips
+                view->setRowHidden(ix.row(), false);
+            }
         }
     }
 }
