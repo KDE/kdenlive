@@ -248,6 +248,7 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
+    void reloadPlaylist();
 
 protected:
     friend class ClipModel;

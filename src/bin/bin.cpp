@@ -4574,3 +4574,27 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     }
     return ok;
 }
+
+void Bin::registerPlaylist(QUuid uuid, const QString id)
+{
+    m_openedPlaylists.insert(uuid, id);
+}
+
+void Bin::updatePlaylistClip(const QUuid &uuid, const QUuid &current)
+{
+    if (m_openedPlaylists.contains(uuid)) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
+        clip->reloadPlaylist();
+    }
+    QMapIterator<QUuid, QString> i(m_openedPlaylists);
+    while (i.hasNext()) {
+        i.next();
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(i.key()));
+        if (i.key() == current) {
+            // TODO
+            // Hide playlist clip of current timeline
+        } else {
+            // Show other playlist clips
+        }
+    }
+}

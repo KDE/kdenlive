@@ -1268,6 +1268,7 @@ void ProjectManager::openTimeline(const QString &id)
     }
     m_uuidMap.insert(uuid, m_project->uuid);
     m_openedDocuments.insert(uuid, m_project);
+    pCore->bin()->registerPlaylist(uuid, id);
     // Reference the new timeline's project model (same as main project)
     pCore->addProjectModel(uuid, pCore->projectItemModel());
     // Create guides model for the new timeline

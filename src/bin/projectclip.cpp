@@ -2101,3 +2101,24 @@ void ProjectClip::importJsonMarkers(const QString &json)
 {
     getMarkerModel()->importFromJson(json, true);
 }
+
+void ProjectClip::reloadPlaylist()
+{
+    pCore->bin()->reloadMonitorIfActive(m_binId);
+    for (auto &p : m_audioProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_videoProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_timewarpProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    // Release audio producers
+    m_audioProducers.clear();
+    m_videoProducers.clear();
+    m_timewarpProducers.clear();
+    emit refreshPropertiesPanel();
+    replaceInTimeline();
+    updateTimelineClips({TimelineModel::IsProxyRole});
+}

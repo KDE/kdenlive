@@ -338,6 +338,8 @@ public:
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
+    void registerPlaylist(QUuid uuid, const QString id);
+    void updatePlaylistClip(const QUuid &uuid, const QUuid &current);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -482,6 +484,7 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
+    QMap <QUuid, QString> m_openedPlaylists;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;

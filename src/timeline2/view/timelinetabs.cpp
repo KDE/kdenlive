@@ -88,7 +88,9 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid &uuid, const QString &tabN
 void TimelineTabs::connectCurrent(int ix)
 {
     qDebug()<<"==== SWITCHING CURRENT TIMELINE TO: "<<ix;
+    QUuid previousTab = QUuid();
     if (m_activeTimeline) {
+        previousTab = m_activeTimeline->uuid;
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
@@ -97,6 +99,9 @@ void TimelineTabs::connectCurrent(int ix)
     m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
     connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
+    if (previousTab != QUuid()) {
+        pCore->bin()->updatePlaylistClip(previousTab, m_activeTimeline->uuid);
+    }
 }
 
 void TimelineTabs::closeTimeline(int ix)
