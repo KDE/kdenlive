@@ -122,7 +122,10 @@ GLWidget::GLWidget(int id, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-    m_offscreenSurface.setFormat(QOpenGLContext::globalShareContext()->format());
+    auto fmt = QOpenGLContext::globalShareContext()->format();
+    fmt.setDepthBufferSize(format().depthBufferSize());
+    fmt.setStencilBufferSize(format().stencilBufferSize());
+    m_offscreenSurface.setFormat(fmt);
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
