@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   dialogs/speechdialog.cpp
   dialogs/subtitleedit.cpp
   dialogs/textbasededit.cpp
+  dialogs/timeremap.cpp
   dialogs/titletemplatedialog.cpp
   dialogs/wizard.cpp
   dialogs/splash.cpp

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/timeremap.h"
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -2020,6 +2021,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
+                //TODO: testing only, we should check clip type...
+                pCore->timeRemapWidget()->setClip(clip);
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();

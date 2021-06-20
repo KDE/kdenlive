@@ -42,6 +42,7 @@ class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
+class TimeRemap;
 
 namespace Mlt {
     class Repository;
@@ -122,6 +123,8 @@ public:
     SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the text based editing widget. */
     TextBasedEdit *textEditWidget();
+    /** @brief Returns a pointer to the time remapping widget. */
+    TimeRemap *timeRemapWidget();
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -264,6 +267,7 @@ private:
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
+    TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;
