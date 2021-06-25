@@ -988,7 +988,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
     Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
     if (retainList.is_valid()) {
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
-        if (playlist.is_valid() && playlist.type() == playlist_type) {
+        if (playlist.is_valid() && playlist.type() == mlt_service_playlist_type) {
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
                 emit pCore->loadingMessageUpdated(i18n("Loading project clips..."));

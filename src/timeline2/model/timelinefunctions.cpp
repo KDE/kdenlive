@@ -1072,7 +1072,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     Mlt::Field *field = timeline->m_tractor->field();
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             QString serviceName = t.get("mlt_service");

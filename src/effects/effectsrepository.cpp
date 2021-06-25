@@ -63,7 +63,7 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt() const
 
 Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId) const
 {
-    return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
+    return pCore->getMltRepository()->metadata(mlt_service_filter_type, effectId.toLatin1().data());
 }
 
 void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const

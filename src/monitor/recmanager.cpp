@@ -21,7 +21,7 @@
 
 #include "recmanager.h"
 #include "capture/managecapturesdialog.h"
-#include "capture/mltdevicecapture.h"
+//#include "capture/mltdevicecapture.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"

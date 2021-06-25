@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/timeremap.h"
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -2022,6 +2023,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
+                //TODO: testing only, we should check clip type...
+                pCore->timeRemapWidget()->setClip(clip);
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
@@ -4552,4 +4555,37 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
         pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
     }
     return ok;
+}
+
+void Bin::remapCurrent()
+{
+    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
+    if (clip) {
+        QFileInfo info(clip->url());
+        QDir dir =info.absoluteDir();
+        QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
+        fName.append("-remap");
+        int ix = 1;
+        QString renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+        while (dir.exists(renderName)) {
+            ix++;
+            renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+        }
+        Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
+        consumer.set("terminate_on_pause", 1);
+        consumer.set("title", "Time remap");
+        consumer.set("real_time", -1);
+        Mlt::Tractor t(pCore->getCurrentProfile()->profile());
+        Mlt::Chain chain(pCore->getCurrentProfile()->profile(), nullptr, clip->url().toUtf8().constData());
+        Mlt::Link link("timeremap");
+        chain.attach(link);
+        t.set_track(chain, 0);
+        consumer.connect(t);
+        consumer.run();
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo);
+        pCore->pushUndo(undo, redo, i18n("Add clip remap"));
+        selectClipById(id);
+    }
 }

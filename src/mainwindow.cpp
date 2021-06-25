@@ -74,9 +74,8 @@
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
 #include "dialogs/textbasededit.h"
+#include "dialogs/timeremap.h"
 #include "project/dialogs/temporarydata.h"
-
-#include <framework/mlt_version.h>
 
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
@@ -105,7 +104,6 @@
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
-#include <KRun>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -272,7 +270,7 @@ void MainWindow::init(const QString &mltPath)
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
-
+    QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
@@ -360,14 +358,9 @@ void MainWindow::init(const QString &mltPath)
     auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
     connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path, const QString &title) {
-    qDebug()<<"MLT VER: "<<LIBMLT_VERSION_INT<<"; QTVER: "<<QT_VERSION_CHECK(6,26,0);
-#if LIBMLT_VERSION_INT == QT_VERSION_CHECK(6,26,0)
-        new KRun(QUrl(path), this);
-#else
         m_clipMonitor->slotPreviewResource(path, title);
         m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
-#endif
     });
 
     connect(onlineResources, &ResourceWidget::addClip, this, &MainWindow::slotAddProjectClip);
@@ -1460,7 +1453,6 @@ void MainWindow::setupActions()
         overlayAudioInfo->setEnabled(toggled);
     });
 
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     // Monitor resolution scaling
     KActionCategory *resolutionActionCategory = new KActionCategory(i18n("Preview Resolution"), actionCollection());
     m_scaleGroup = new QActionGroup(this);
@@ -1512,7 +1504,6 @@ void MainWindow::setupActions()
         // Clear timeline selection so that any qml monitor scene is reset
         emit pCore->monitorManager()->updatePreviewScaling();
     });
-#endif
 
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
@@ -3565,6 +3556,12 @@ void MainWindow::buildDynamicActions()
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
                 [&]() { SpeedTask::start(this); });
+    }
+
+    if (true /* TODO: check if timeremap link is available */) {
+        QAction *action = new QAction(i18n("Duplicate clip with time remap"), m_extraFactory->actionCollection());
+        ts->addAction(action->text(), action);
+        connect(action, &QAction::triggered, pCore->bin(), &Bin::remapCurrent);
     }
 
     // TODO refac reimplement analyseclipjob

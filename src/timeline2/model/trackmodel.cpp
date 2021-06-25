@@ -1058,7 +1058,7 @@ bool TrackModel::checkConsistency()
     int mixCount = 0;
     qDebug()<<"=== STARTING MIX CHECK ======";
     while (service != nullptr && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             // Check that the mix has correct in/out

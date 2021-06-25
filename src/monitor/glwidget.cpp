@@ -420,7 +420,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_glsl_texture)));
+            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_opengl_texture)));
         }
     }
 
@@ -1137,7 +1137,7 @@ int GLWidget::reconfigure()
 
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
-        if (m_consumer) {
+        if (m_glslManager) {
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, mlt_listener(onThreadCreate));
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, mlt_listener(onThreadJoin));
         }
@@ -1857,7 +1857,6 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 
 bool GLWidget::updateScaling()
 {
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
@@ -1889,21 +1888,6 @@ bool GLWidget::updateScaling()
         m_consumer->set("height", m_profileSize.height());
         resizeGL(width(), height());
     }
-#else
-    int previewHeight = pCore->getCurrentFrameSize().height();
-    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-    if (pWidth% 2 > 0) {
-        pWidth ++;
-    }
-    QSize profileSize(pWidth, previewHeight);
-    if (profileSize == m_profileSize) {
-        return false;
-    }
-    m_profileSize = profileSize;
-    if (m_consumer) {
-        resizeGL(width(), height());
-    }
-#endif
     return true;
 }
 

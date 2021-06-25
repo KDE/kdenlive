@@ -31,6 +31,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "dialogs/subtitleedit.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/proxytest.h"
+#include "dialogs/timeremap.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -136,6 +137,7 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     m_textEditWidget = new TextBasedEdit(m_mainWindow);
+    m_timeRemapWidget = new TimeRemap(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
@@ -309,6 +311,11 @@ LibraryWidget *Core::library()
 TextBasedEdit *Core::textEditWidget()
 {
     return m_textEditWidget;
+}
+
+TimeRemap *Core::timeRemapWidget()
+{
+    return m_timeRemapWidget;
 }
 
 SubtitleEdit *Core::subtitleWidget()

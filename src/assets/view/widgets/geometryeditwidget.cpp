@@ -27,7 +27,8 @@
 #include "monitor/monitormanager.h"
 #include "timecodedisplay.h"
 #include "widgets/geometrywidget.h"
-#include <mlt++/MltGeometry.h>
+#include <mlt++/MltProperties.h>
+#include <framework/mlt_types.h>
 #include <QVBoxLayout>
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
@@ -39,12 +40,12 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     QSize profileSize = pCore->getCurrentFrameSize();
-    Mlt::Geometry geometry(value.toUtf8().data(), end, profileSize.width(), profileSize.height());
-    Mlt::GeometryItem item;
-    QRect rect;
-    if (geometry.fetch(&item, 0) == 0) {
-        rect = QRect(int(item.x()), int(item.y()), int(item.w()), int(item.h()));
-    } else {
+    Mlt::Properties mlt_prop;
+    m_model->passProperties(mlt_prop);
+    mlt_prop.set("rect", value.toUtf8().data());
+    mlt_rect r = mlt_prop.get_rect("rect");
+    QRect rect = QRect(int(profileSize.width() * r.x), int(profileSize.height() * r.y), int(profileSize.width()* r.w), int(profileSize.height() * r.h));;
+    if (rect.isNull()) {
         // Cannot read value, use random default
         rect = QRect(50, 50, 200, 200);
     }

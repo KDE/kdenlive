@@ -1552,7 +1552,8 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
         if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")),
                                        KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
             // Merge data
-            auto &profile = pCore->getCurrentProfile();
+            //TODO MLT7: convert to Mlt::Animation
+            /*auto &profile = pCore->getCurrentProfile();
             Mlt::Geometry geometry(current.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::GeometryItem item;
@@ -1563,7 +1564,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 pos++;
                 geometry.insert(item);
             }
-            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
+            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();*/
             // m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
         }
         // Add data with another name
@@ -1591,7 +1592,8 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
         return data;
     }
     auto &profile = pCore->getCurrentProfile();
-    Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
+    // TODO MLT7: port to Mlt::Animation
+    /*Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;
@@ -1602,6 +1604,8 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
         newgeometry.insert(item);
     }
     return newgeometry.serialise();
+    */
+    return QString();
 }
 
 bool ProjectClip::isSplittable() const

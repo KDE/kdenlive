@@ -642,7 +642,11 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 
     QStylePainter p(this);
     int maxWidth = width() - 2 * m_offset;
-    m_scale = maxWidth / double(m_duration - 1);
+    if (m_duration > 1) {
+        m_scale = maxWidth / double(m_duration - 1);
+    } else {
+        m_scale = maxWidth;
+    }
     int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     m_zoomStart = m_zoomHandle.x() * maxWidth;

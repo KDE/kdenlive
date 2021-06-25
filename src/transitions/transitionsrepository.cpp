@@ -60,7 +60,7 @@ Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
 
 Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) const
 {
-    return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());
+    return pCore->getMltRepository()->metadata(mlt_service_transition_type, assetId.toLatin1().data());
 }
 
 void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const

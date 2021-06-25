@@ -2244,7 +2244,7 @@ void TimelineController::switchCompositing(int mode)
     QScopedPointer<Mlt::Field>field(m_model->m_tractor->field());
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
