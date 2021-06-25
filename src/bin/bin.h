@@ -461,6 +461,8 @@ public slots:
      */
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
+    /** @brief Create a playlist clip for timeremap. */
+    void remapCurrent();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

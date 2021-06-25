@@ -271,7 +271,6 @@ void MainWindow::init(const QString &mltPath)
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
-
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
@@ -3548,6 +3547,12 @@ void MainWindow::buildDynamicActions()
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
                 [&]() { emit pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
+    }
+
+    if (true /* TODO: check if timeremap link is available */) {
+        QAction *action = new QAction(i18n("Duplicate clip with time remap"), m_extraFactory->actionCollection());
+        ts->addAction(action->text(), action);
+        connect(action, &QAction::triggered, pCore->bin(), &Bin::remapCurrent);
     }
 
     // TODO refac reimplement analyseclipjob

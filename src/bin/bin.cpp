@@ -4508,3 +4508,36 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
     m_transcodingDialog->addUrl(url, id);
     m_transcodingDialog->show();
 }
+
+void Bin::remapCurrent()
+{
+    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
+    if (clip) {
+        QFileInfo info(clip->url());
+        QDir dir =info.absoluteDir();
+        QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
+        fName.append("-remap");
+        int ix = 1;
+        QString renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+        while (dir.exists(renderName)) {
+            ix++;
+            renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+        }
+        Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
+        consumer.set("terminate_on_pause", 1);
+        consumer.set("title", "Time remap");
+        consumer.set("real_time", -1);
+        Mlt::Tractor t(pCore->getCurrentProfile()->profile());
+        Mlt::Chain chain(pCore->getCurrentProfile()->profile(), nullptr, clip->url().toUtf8().constData());
+        Mlt::Link link("timeremap");
+        chain.attach(link);
+        t.set_track(chain, 0);
+        consumer.connect(t);
+        consumer.run();
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo);
+        pCore->pushUndo(undo, redo, i18n("Add clip remap"));
+        selectClipById(id);
+    }
+}

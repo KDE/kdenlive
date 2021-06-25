@@ -28,6 +28,8 @@
 
 #include <QWidget>
 
+#include "mlt++/Mlt.h"
+
 class ProjectClip;
 
 
@@ -39,21 +41,72 @@ class ProjectClip;
 
 class RemapView : public QWidget
 {
+    Q_OBJECT
+
 public:
     explicit RemapView(QWidget *parent = nullptr);
     void setDuration(int duration);
+    void loadKeyframes(std::shared_ptr<ProjectClip> clip, const QString &mapData);
+    const QString getKeyframesData(std::shared_ptr<ProjectClip> clip) const;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+public slots:
+    void updateInPos(int pos);
+    void updateOutPos(int pos);
+    void slotSetPosition(int pos);
+    void addKeyframe();
+    void goNext();
+    void goPrev();
+    void updateBeforeSpeed(double speed);
+    void updateAfterSpeed(double speed);
+    void toggleMoveNext(bool moveNext);
 
 private:
+    enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove};
     int m_duration;
+    int m_position;
     double m_scale;
     QColor m_colSelected;
     QColor m_colKeyframe;
+    int m_zoomHeight;
     int m_lineHeight;
     double m_zoomFactor;
     double m_zoomStart;
+    QMap<int, int>m_keyframes;
+    /** @brief The zoom factor (start, end - between 0 and 1) */
+    QPointF m_zoomHandle;
+    QPointF m_lastZoomHandle;
+    /** @brief Mouse is the zoom left handle */
+    bool m_hoverZoomIn;
+    /** @brief Mouse is the zoom right handle */
+    bool m_hoverZoomOut;
+    /** @brief Mouse is over the zoom bar */
+    bool m_hoverZoom;
+    std::pair<int, bool> m_hoverKeyframe;
+    int m_bottomView;
+    std::pair<int, int> m_currentKeyframe;
+    std::pair<int,int> m_currentKeyframeOriginal;
+    MOVEMODE m_moveKeyframeMode;
+    double m_clickOffset;
+    int m_clickPoint;
+    bool m_moveNext;
+    int m_clickEnd;
+    int m_offset;
+    QMap <int,int>m_selectedKeyframes;
+    int getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
+    std::pair<double,double> getSpeed(std::pair<int,int>kf);
+
+signals:
+    void seekToPos(int);
+    void selectedKf(std::pair<int,int>, std::pair<double,double>);
+    /** When the cursor position changes inform parent if we are on a keyframe or not. */
+    void atKeyframe(bool);
+    void updateKeyframes();
 };
 
  /**
@@ -70,11 +123,16 @@ public:
     ~TimeRemap() override;
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
 
+private slots:
+    void updateKeyframes();
+
 private:
     std::shared_ptr<ProjectClip> m_clip;
+    std::shared_ptr<Mlt::Link>m_remapLink;
     TimecodeDisplay *m_in;
     TimecodeDisplay *m_out;
     RemapView *m_view;
+
 };
 
 #endif
