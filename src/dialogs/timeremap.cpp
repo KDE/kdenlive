@@ -25,6 +25,7 @@
 #include "bin/projectclip.h"
 #include "project/projectmanager.h"
 #include "monitor/monitor.h"
+#include "macros.hpp"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
@@ -44,6 +45,7 @@ RemapView::RemapView(QWidget *parent)
     , m_zoomStart(0)
     , m_zoomHandle(0,1)
     , m_moveKeyframeMode(NoMove)
+    , m_clip(nullptr)
     , m_clickPoint(-1)
     , m_moveNext(true)
 {
@@ -85,13 +87,14 @@ void RemapView::updateOutPos(int pos)
     }
 }
 
-void RemapView::setDuration(int duration)
+void RemapView::setDuration(std::shared_ptr<ProjectClip> clip, int duration)
 {
+    m_clip = clip;
     m_duration = duration;
     m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
 }
 
-void RemapView::loadKeyframes(std::shared_ptr<ProjectClip> clip, const QString &mapData)
+void RemapView::loadKeyframes(const QString &mapData)
 {
     m_keyframes.clear();
     if (mapData.isEmpty()) {
@@ -100,9 +103,18 @@ void RemapView::loadKeyframes(std::shared_ptr<ProjectClip> clip, const QString &
     } else {
         QStringList str = mapData.split(QLatin1Char(';'));
         for (auto &s : str) {
-            int pos = clip->originalProducer()->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
+            int pos = m_clip->originalProducer()->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
             int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
             m_keyframes.insert(val, pos);
+        }
+        if (m_keyframes.contains(m_currentKeyframe.first)) {
+            emit atKeyframe(true);
+            std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
+            emit selectedKf(m_currentKeyframe, speeds);
+        } else {
+            emit atKeyframe(false);
+            m_currentKeyframe = {-1,-1};
+            emit selectedKf(m_currentKeyframe, {-1,-1});
         }
     }
     update();
@@ -348,6 +360,37 @@ void RemapView::mouseReleaseEvent(QMouseEvent *event)
 {
     event->accept();
     m_moveKeyframeMode = NoMove;
+    if (m_keyframesOrigin != m_keyframes) {
+        Fun undo = [this, kfr = m_keyframesOrigin]() {
+            m_keyframes = kfr;
+            if (m_keyframes.contains(m_currentKeyframe.first)) {
+                emit atKeyframe(true);
+                std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
+                emit selectedKf(m_currentKeyframe, speeds);
+            } else {
+                emit atKeyframe(false);
+                m_currentKeyframe = {-1,-1};
+                emit selectedKf(m_currentKeyframe, {-1,-1});
+            }
+            update();
+            return true;
+        };
+        Fun redo = [this, kfr2 = m_keyframes]() {
+            m_keyframes = kfr2;
+            if (m_keyframes.contains(m_currentKeyframe.first)) {
+                emit atKeyframe(true);
+                std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
+                emit selectedKf(m_currentKeyframe, speeds);
+            } else {
+                emit atKeyframe(false);
+                m_currentKeyframe = {-1,-1};
+                emit selectedKf(m_currentKeyframe, {-1,-1});
+            }
+            update();
+            return true;
+        };
+        pCore->pushUndo(undo, redo, i18n("Edit Timeremap keyframes"));
+    }
     qDebug()<<"=== MOUSE RELEASE!!!!!!!!!!!!!";
 }
 
@@ -360,6 +403,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     m_moveKeyframeMode = NoMove;
+    m_keyframesOrigin = m_keyframes;
     if (event->button() == Qt::LeftButton) {
         if (event->y() < m_lineHeight) {
             // mouse click in top keyframes area
@@ -521,23 +565,23 @@ void RemapView::goNext()
 void RemapView::goPrev()
 {
     // insert keyframe at interpolated position
-    QMapIterator<int, int> i(m_keyframes);
     bool previousFound = false;
-    while (i.hasNext()) {
-        i.next();
-        if (i.key() >= m_position) {
-            if (i.hasPrevious()) {
-                i.previous();
-                m_currentKeyframe = {i.peekPrevious().key(), i.peekPrevious().value()};
-                slotSetPosition(m_currentKeyframe.first);
-                emit seekToPos(m_currentKeyframe.first);
-                std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                emit selectedKf(m_currentKeyframe, speeds);
-                previousFound = true;
-            }
-            break;
-        }
+    QMap<int, int>::const_iterator it = m_keyframes.constBegin();
+    while (it.key() < m_position && it != m_keyframes.constEnd()) {
+        it++;
     }
+    if (it != m_keyframes.constEnd()) {
+        if (it != m_keyframes.constBegin()) {
+            it--;
+        }
+        m_currentKeyframe = {it.key(), it.value()};
+        slotSetPosition(m_currentKeyframe.first);
+        emit seekToPos(m_currentKeyframe.first);
+        std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
+        emit selectedKf(m_currentKeyframe, speeds);
+        previousFound = true;
+    }
+
     if (!previousFound && !m_keyframes.isEmpty()) {
         // We are after the last keyframe
         m_currentKeyframe = {m_keyframes.lastKey(), m_keyframes.value(m_keyframes.lastKey())};
@@ -577,13 +621,13 @@ void RemapView::updateAfterSpeed(double speed)
     }
 }
 
-const QString RemapView::getKeyframesData(std::shared_ptr<ProjectClip> clip) const
+const QString RemapView::getKeyframesData() const
 {
     QStringList result;
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
-        result << QString("%1=%2").arg(clip->originalProducer()->frames_to_time(i.value(), mlt_time_clock)).arg(GenTime(i.key(), pCore->getCurrentFps()).seconds());
+        result << QString("%1=%2").arg(m_clip->originalProducer()->frames_to_time(i.value(), mlt_time_clock)).arg(GenTime(i.key(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
 }
@@ -814,7 +858,6 @@ void RemapView::paintEvent(QPaintEvent *event)
 
 TimeRemap::TimeRemap(QWidget *parent)
     : QWidget(parent)
-    , m_clip(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -871,19 +914,18 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 {
     if (!clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         qDebug()<<"===== CLIP NOT READY; TYPE; "<<clip->clipType();
-        m_clip = nullptr;
+        m_view->setDuration(nullptr, 0);
         setEnabled(false);
         return;
     }
-    m_clip = clip;
     m_remapLink.reset();
     bool keyframesLoaded = false;
-    if (m_clip != nullptr) {
+    if (clip != nullptr) {
         int min = in == -1 ? 0 : in;
-        int max = out == -1 ? m_clip->getFramePlaytime() : out;
+        int max = out == -1 ? clip->getFramePlaytime() : out;
         m_in->setRange(min, max);
         m_out->setRange(min, max);
-        m_view->setDuration(max - min);
+        m_view->setDuration(clip, max - min);
         if (clip->clipType() == ClipType::Playlist) {
             Mlt::Service service(clip->originalProducer()->producer()->get_service());
             qDebug()<<"==== producer type: "<<service.type();
@@ -903,7 +945,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                         // Found a timeremap effect, read params
                                         m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
                                         QString mapData(fromLink->get("map"));
-                                        m_view->loadKeyframes(clip, mapData);
+                                        m_view->loadKeyframes(mapData);
                                         keyframesLoaded = true;
                                         break;
                                     }
@@ -929,7 +971,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                                 // Found a timeremap effect, read params
                                                 m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
                                                 QString mapData(fromLink->get("map"));
-                                                m_view->loadKeyframes(clip, mapData);
+                                                m_view->loadKeyframes(mapData);
                                                 keyframesLoaded = true;
                                                 break;
                                             }
@@ -948,7 +990,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
             }
         }
         if (!keyframesLoaded) {
-            m_view->loadKeyframes(clip, QString());
+            m_view->loadKeyframes(QString());
         }
         connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
         connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, m_view, &RemapView::slotSetPosition);
@@ -961,7 +1003,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 
 void TimeRemap::updateKeyframes()
 {
-    QString kfData = m_view->getKeyframesData(m_clip);
+    QString kfData = m_view->getKeyframesData();
     qDebug()<<" ==== RES: "<< kfData;
     if (m_remapLink) {
         m_remapLink->set("map", kfData.toUtf8().constData());

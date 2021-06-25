@@ -45,9 +45,9 @@ class RemapView : public QWidget
 
 public:
     explicit RemapView(QWidget *parent = nullptr);
-    void setDuration(int duration);
-    void loadKeyframes(std::shared_ptr<ProjectClip> clip, const QString &mapData);
-    const QString getKeyframesData(std::shared_ptr<ProjectClip> clip) const;
+    void setDuration(std::shared_ptr<ProjectClip> clip, int duration);
+    void loadKeyframes(const QString &mapData);
+    const QString getKeyframesData() const;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -78,6 +78,8 @@ private:
     double m_zoomFactor;
     double m_zoomStart;
     QMap<int, int>m_keyframes;
+    QMap<int, int>m_keyframesOrigin;
+    std::shared_ptr<ProjectClip> m_clip;
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
@@ -127,7 +129,6 @@ private slots:
     void updateKeyframes();
 
 private:
-    std::shared_ptr<ProjectClip> m_clip;
     std::shared_ptr<Mlt::Link>m_remapLink;
     TimecodeDisplay *m_in;
     TimecodeDisplay *m_out;
