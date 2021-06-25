@@ -56,7 +56,6 @@ RemapView::RemapView(QWidget *parent)
     m_offset = qCeil(m_lineHeight / 4);
     setFixedHeight(size * 4);
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
-    setEnabled(false);
 }
 
 void RemapView::updateInPos(int pos)
@@ -865,11 +864,13 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(button_next, &QToolButton::clicked, m_view, &RemapView::goNext);
     connect(button_prev, &QToolButton::clicked, m_view, &RemapView::goPrev);
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
+    setEnabled(false);
 }
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 {
     if (!clip->statusReady() || clip->clipType() != ClipType::Playlist) {
+        qDebug()<<"===== CLIP NOT READY; TYPE; "<<clip->clipType();
         m_clip = nullptr;
         setEnabled(false);
         return;

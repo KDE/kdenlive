@@ -4584,8 +4584,13 @@ void Bin::remapCurrent()
         consumer.run();
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo);
+
+        std::function<void(const QString &)> callBack = [this](const QString &binId) {
+            selectClipById(binId);
+        };
+
+        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo, callBack);
         pCore->pushUndo(undo, redo, i18n("Add clip remap"));
-        selectClipById(id);
+
     }
 }
