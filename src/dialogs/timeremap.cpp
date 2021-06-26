@@ -35,6 +35,7 @@
 
 #include <KColorScheme>
 #include "klocalizedstring.h"
+#include <profiles/profilemodel.hpp>
 
 RemapView::RemapView(QWidget *parent)
     : QWidget(parent)
@@ -58,6 +59,9 @@ RemapView::RemapView(QWidget *parent)
     m_offset = qCeil(m_lineHeight / 4);
     setFixedHeight(size * 4);
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    timer.setInterval(500);
+    timer.setSingleShot(true);
+    connect(&timer, &QTimer::timeout, this, &RemapView::reloadProducer);
 }
 
 void RemapView::updateInPos(int pos)
@@ -632,6 +636,41 @@ const QString RemapView::getKeyframesData() const
     return result.join(QLatin1Char(';'));
 }
 
+void RemapView::reloadProducer()
+{
+    qDebug()<<"==== RELOAD:";
+    if (!m_clip->clipUrl().endsWith(QLatin1String(".mlt"))) {
+        qDebug()<<"==== shit is not a playlist clip, aborting";
+        return;
+    }
+    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", m_clip->clipUrl().toUtf8().constData());
+    QScopedPointer<Mlt::Service> serv(m_clip->originalProducer()->producer());
+    if (serv == nullptr) {
+        return;
+    }
+    qDebug()<<"==== GOR PLAYLIST SERVICE: "<<serv->type()<<" / "<<serv->consumer()->type()<<", SAVING TO "<<m_clip->clipUrl();
+    Mlt::Multitrack s2(*serv.data());
+    qDebug()<<"==== MULTITRACK: "<<s2.count();
+    Mlt::Tractor s(pCore->getCurrentProfile()->profile());
+    s.set_track(*s2.track(0), 0);
+    qDebug()<<"==== GOT TRACKS: "<<s.count();
+    int ignore = s.get_int("ignore_points");
+    if (ignore) {
+        s.set("ignore_points", 0);
+    }
+    c.connect(s);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("no_root", 1);
+    //c.set("no_profile", 1);
+    c.set("root", "/");
+    c.set("store", "kdenlive");
+    c.run();
+    if (ignore) {
+        s.set("ignore_points", ignore);
+    }
+}
+
 std::pair<double,double> RemapView::getSpeed(std::pair<int,int>kf)
 {
     std::pair<double,double> speeds = {-1,-1};
@@ -1007,6 +1046,7 @@ void TimeRemap::updateKeyframes()
     qDebug()<<" ==== RES: "<< kfData;
     if (m_remapLink) {
         m_remapLink->set("map", kfData.toUtf8().constData());
+        m_view->timer.start();
         qDebug()<<"==== SETTING REMAP LINK!!!!!!!!!!!!!";
     }
 }

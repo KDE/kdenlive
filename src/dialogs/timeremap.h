@@ -27,6 +27,7 @@
 #include "timecodedisplay.h"
 
 #include <QWidget>
+#include <QTimer>
 
 #include "mlt++/Mlt.h"
 
@@ -48,6 +49,7 @@ public:
     void setDuration(std::shared_ptr<ProjectClip> clip, int duration);
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData() const;
+    QTimer timer;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -65,6 +67,7 @@ public slots:
     void updateBeforeSpeed(double speed);
     void updateAfterSpeed(double speed);
     void toggleMoveNext(bool moveNext);
+    void reloadProducer();
 
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove};

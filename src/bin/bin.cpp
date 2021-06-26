@@ -4566,10 +4566,10 @@ void Bin::remapCurrent()
         QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
         fName.append("-remap");
         int ix = 1;
-        QString renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+        QString renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix).rightJustified(4, '0'));
         while (dir.exists(renderName)) {
             ix++;
-            renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix, 'f', 3));
+            renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix).rightJustified(4, '0'));
         }
         Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
         consumer.set("terminate_on_pause", 1);
