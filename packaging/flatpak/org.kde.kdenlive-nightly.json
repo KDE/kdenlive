@@ -731,7 +731,7 @@
         {
           "type": "git",
           "url": "https://github.com/mltframework/mlt.git",
-          "branch": "v6"
+          "branch": "master"
         }
       ]
     },
