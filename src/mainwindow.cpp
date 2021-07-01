@@ -3541,16 +3541,13 @@ void MainWindow::buildDynamicActions()
             StabilizeTask::start(this);
         });
     }
-    filter = std::make_unique<Mlt::Filter>(profile, "motion_est");
-    if (filter) {
-        if (filter->is_valid()) {
-            QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
-            ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [&]() {
-                SceneSplitTask::start(this);
-            });
-        }
-    }
+
+    QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
+    ts->addAction(action->text(), action);
+    connect(action, &QAction::triggered, [&]() {
+        SceneSplitTask::start(this);
+    });
+
     if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
