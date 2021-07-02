@@ -197,7 +197,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
   -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_LIST=tracking -DOPENCV_BUILD_3RDPARTY_LIBS=OFF
 ```
 
-Then you will have to rebuild MLT appending `--enable-opencv` to `configure` line!
+Then you will have to rebuild MLT appending `-DMOD_OPENCV=ON` to `cmake` line!
 
 ### Building frei0r
 
