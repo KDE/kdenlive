@@ -186,15 +186,18 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         ix++;
     }*/
     connect(m_sourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRange()));
-    m_alignCombo = new QComboBox(this);
-    m_alignCombo->addItems(QStringList() << i18n("Align top left") << i18n("Align center") << i18n("Align bottom right"));
+    m_alignSourceCombo = new QComboBox(this);
+    m_alignSourceCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
+    m_alignTargetCombo = new QComboBox(this);
+    m_alignTargetCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
     lab = new QLabel(i18n("Map "), this);
     QLabel *lab2 = new QLabel(i18n(" to "), this);
     l1->addWidget(lab);
     l1->addWidget(m_sourceCombo);
+    l1->addWidget(m_alignSourceCombo);
     l1->addWidget(lab2);
     l1->addWidget(m_targetCombo);
-    l1->addWidget(m_alignCombo);
+    l1->addWidget(m_alignTargetCombo);
     l1->addStretch(10);
     ix = 0;
     QMap<QString, QModelIndex>::const_iterator j = m_geometryTargets.constBegin();
@@ -329,7 +332,8 @@ void KeyframeImport::updateDataDisplay()
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
-    m_alignCombo->setEnabled(pos == ImportRoles::Position);
+    m_alignSourceCombo->setEnabled(pos == ImportRoles::Position);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -742,7 +746,8 @@ void KeyframeImport::importSelectedData()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Geometry target
-    int finalAlign = m_alignCombo->currentIndex();
+    int sourceAlign = m_alignSourceCombo->currentIndex();
+    int targetAlign = m_alignTargetCombo->currentIndex();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : qAsConst(m_indexes)) {
@@ -790,16 +795,30 @@ void KeyframeImport::importSelectedData()
                 }
                 mlt_rect rect = animData->anim_get_rect("key", frame);
                 if (convertMode == ImportRoles::Position) {
-                    switch (finalAlign) {
+                    switch (sourceAlign) {
                     case 1:
                         // Align center
                         rect.x += rect.w / 2;
                         rect.y += rect.h / 2;
                         break;
                     case 2:
-                        //Align bottom right
+                        // Align bottom right
                         rect.x += rect.w;
                         rect.y += rect.h;
+                        break;
+                    default:
+                        break;
+                    }
+                    switch (targetAlign) {
+                    case 1:
+                        // Align center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 2:
+                        // Align bottom right
+                        rect.x -= kfrData[2].toInt();
+                        rect.y -= kfrData[3].toInt();
                         break;
                     default:
                         break;
