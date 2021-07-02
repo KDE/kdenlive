@@ -81,6 +81,8 @@ protected:
         SimpleValue,
         FullGeometry,
         Position,
+        InvertedPosition,
+        OffsetPosition,
         XOnly,
         YOnly,
         WidthOnly,

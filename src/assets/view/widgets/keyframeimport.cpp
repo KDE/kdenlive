@@ -303,6 +303,8 @@ void KeyframeImport::updateDataDisplay()
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     m_sourceCombo->addItem(i18n("Geometry"), ImportRoles::FullGeometry);
     m_sourceCombo->addItem(i18n("Position"), ImportRoles::Position);
+    m_sourceCombo->addItem(i18n("Inverted Position"), ImportRoles::InvertedPosition);
+    m_sourceCombo->addItem(i18n("Offset Position"), ImportRoles::OffsetPosition);
     m_sourceCombo->addItem(i18n("X"), ImportRoles::XOnly);
     m_sourceCombo->addItem(i18n("Y"), ImportRoles::YOnly);
     if (wDist > 0) {
@@ -332,8 +334,8 @@ void KeyframeImport::updateDataDisplay()
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
-    m_alignSourceCombo->setEnabled(pos == ImportRoles::Position);
-    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position);
+    m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -759,6 +761,7 @@ void KeyframeImport::importSelectedData()
             int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
             mlt_keyframe_type type;
+            mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
             for (int i = 0; i < anim->key_count(); i++) {
                 int error = anim->key_get(i, frame, type);
                 if (error) {
@@ -782,6 +785,8 @@ void KeyframeImport::importSelectedData()
                         }
                         break;
                     case ImportRoles::Position:
+                    case ImportRoles::InvertedPosition:
+                    case ImportRoles::OffsetPosition:
                     case ImportRoles::YOnly:
                         if (size < 2) {
                             continue;
@@ -794,7 +799,7 @@ void KeyframeImport::importSelectedData()
                         break;
                 }
                 mlt_rect rect = animData->anim_get_rect("key", frame);
-                if (convertMode == ImportRoles::Position) {
+                if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
                     switch (sourceAlign) {
                     case 1:
                         // Align center
@@ -834,6 +839,14 @@ void KeyframeImport::importSelectedData()
                     case ImportRoles::Position:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
+                        break;
+                    case ImportRoles::InvertedPosition:
+                        kfrData[0] = locale.toString(int(-rect.x));
+                        kfrData[1] = locale.toString(int(-rect.y));
+                        break;
+                    case ImportRoles::OffsetPosition:
+                        kfrData[0] = locale.toString(int(firstRect.x - rect.x));
+                        kfrData[1] = locale.toString(int(firstRect.y - rect.y));
                         break;
                     case ImportRoles::SimpleValue:
                     case ImportRoles::XOnly:
