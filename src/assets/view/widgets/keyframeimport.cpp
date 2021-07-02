@@ -285,6 +285,14 @@ void KeyframeImport::updateDataDisplay()
     if (type == ParamType::KeyframeParam) {
         // 1 dimensional param.
         m_sourceCombo->addItem(m_dataCombo->currentText(), ImportRoles::SimpleValue);
+
+        // map rotation to rotation by default if possible
+        if (m_dataCombo->currentText() == QStringLiteral("rotation")) {
+            int idx = m_targetCombo->findText(i18n("Rotation"));
+            if (idx > -1) {
+                m_targetCombo->setCurrentIndex(idx);
+            }
+        }
         updateRange();
         return;
     }
@@ -299,6 +307,12 @@ void KeyframeImport::updateDataDisplay()
     }
     if (hDist > 0) {
         m_sourceCombo->addItem(i18n("Height"), ImportRoles::HeightOnly);
+    }
+
+    // if available map to Rectangle by default
+    int idx = m_targetCombo->findText(i18n("Rectangle"));
+    if (idx > -1) {
+        m_targetCombo->setCurrentIndex(idx);
     }
     updateRange();
     /*if (!m_inPoint->isValid()) {
