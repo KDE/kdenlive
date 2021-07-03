@@ -283,6 +283,16 @@ void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
     auto type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
+    auto values = m_dataCombo->currentData(Qt::UserRole).toString().split(QLatin1Char(';'));
+
+    // we do not need all the options if there is only one keyframe
+    bool onlyOne = values.length() == 1;
+    m_previewLabel->setVisible(!onlyOne);
+    m_limitKeyframes->setVisible(!onlyOne);
+    m_limitNumber->setVisible(!onlyOne);
+    m_inPoint->setVisible(!onlyOne);
+    m_outPoint->setVisible(!onlyOne);
+
     m_maximas = KeyframeModel::getRanges(comboData, m_model);
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {
