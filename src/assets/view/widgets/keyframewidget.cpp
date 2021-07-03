@@ -159,6 +159,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // copy/paste keyframes from clipboard
     QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
+    QAction *copyValue = new QAction(i18n("Copy value at cursor position to clipboard"), this);
+    connect(copyValue, &QAction::triggered, this, &KeyframeWidget::slotCopyValueAtCursorPos);
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
     // Remove keyframes
@@ -195,6 +197,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     auto *container = new QMenu(this);
     container->addAction(seekKeyframe);
     container->addAction(copy);
+    container->addAction(copyValue);
     container->addAction(paste);
     container->addSeparator();
     container->addAction(kfType);
@@ -651,6 +654,16 @@ void KeyframeWidget::showKeyframes(bool enable)
 void KeyframeWidget::slotCopyKeyframes()
 {
     QJsonDocument effectDoc = m_model->toJson(false);
+    if (effectDoc.isEmpty()) {
+        return;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString(effectDoc.toJson()));
+}
+
+void KeyframeWidget::slotCopyValueAtCursorPos()
+{
+    QJsonDocument effectDoc = m_model->valueAsJson(getPosition(), false);
     if (effectDoc.isEmpty()) {
         return;
     }

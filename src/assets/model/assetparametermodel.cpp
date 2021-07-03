@@ -835,6 +835,64 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     return QJsonDocument(list);
 }
 
+QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
+{
+    QJsonArray list;
+    if(!m_keyframes) {
+        return QJsonDocument(list);
+    }
+
+    if (includeFixed) {
+        for (const auto &fixed : m_fixedParams) {
+            QJsonObject currentParam;
+            QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
+            auto value = m_keyframes->getInterpolatedValue(pos, ix);
+            currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
+            currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+            int type = data(ix, AssetParameterModel::TypeRole).toInt();
+            double min = data(ix, AssetParameterModel::MinRole).toDouble();
+            double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+            double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+            if (factor > 0) {
+                min /= factor;
+                max /= factor;
+            }
+            currentParam.insert(QLatin1String("type"), QJsonValue(type));
+            currentParam.insert(QLatin1String("min"), QJsonValue(min));
+            currentParam.insert(QLatin1String("max"), QJsonValue(max));
+            currentParam.insert(QLatin1String("in"), QJsonValue(0));
+            currentParam.insert(QLatin1String("out"), QJsonValue(0));
+            list.push_back(currentParam);
+        }
+    }
+
+    for (const auto &param : m_params) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+            continue;
+        }
+        QJsonObject currentParam;
+        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        auto value = m_keyframes->getInterpolatedValue(pos, ix);
+        currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
+        currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+        int type = data(ix, AssetParameterModel::TypeRole).toInt();
+        double min = data(ix, AssetParameterModel::MinRole).toDouble();
+        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+        if (factor > 0) {
+            min /= factor;
+            max /= factor;
+        }
+        currentParam.insert(QLatin1String("type"), QJsonValue(type));
+        currentParam.insert(QLatin1String("min"), QJsonValue(min));
+        currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        currentParam.insert(QLatin1String("in"), QJsonValue(0));
+        currentParam.insert(QLatin1String("out"), QJsonValue(0));
+        list.push_back(currentParam);
+    }
+    return QJsonDocument(list);
+}
+
 void AssetParameterModel::deletePreset(const QString &presetFile, const QString &presetName)
 {
     QJsonObject object;
