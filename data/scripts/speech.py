@@ -23,6 +23,7 @@ if not os.path.exists(sys.argv[2]):
 sample_rate=16000
 model = Model(sys.argv[2])
 rec = KaldiRecognizer(model, sample_rate)
+rec.SetWords(True)
 
 process = subprocess.Popen(['ffmpeg', '-loglevel', 'quiet', '-i',
                             sys.argv[3],
