@@ -2055,6 +2055,10 @@ void MainWindow::slotEditProjectSettings()
             project->setMetadata(w->metadata());
         }
         QString newProjectFolder = w->storageFolder();
+
+        if(w->docFolderAsStorageFolder()) {
+            newProjectFolder = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
+        }
         if (newProjectFolder.isEmpty()) {
             newProjectFolder = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         }

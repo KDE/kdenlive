@@ -44,6 +44,7 @@ public:
     bool useProxy() const;
     bool useExternalProxy() const;
     bool generateProxy() const;
+    bool docFolderAsStorageFolder() const;
     int proxyMinSize() const;
     bool generateImageProxy() const;
     int proxyImageMinSize() const;

@@ -153,6 +153,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_page8->setIcon(QIcon::fromTheme(QStringLiteral("project-defaults")));
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
+        m_configProject.kcfg_sameprojectfolder->setEnabled(state == Qt::Unchecked);
+    });
+    connect(m_configProject.kcfg_sameprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
+        m_configProject.kcfg_customprojectfolder->setEnabled(state == Qt::Unchecked);
+        m_configProject.projecturl->setEnabled(state == Qt::Unchecked);
+    });
     connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
             m_configProject.kcfg_videotracks->setValue(1);
@@ -852,7 +859,7 @@ void KdenliveSettingsDialog::slotEditImageApplication()
 void KdenliveSettingsDialog::slotCheckShuttle(int state)
 {
 #ifdef USE_JOGSHUTTLE
-    m_configShuttle.config_group->setEnabled(state != 0);
+    m_configShuttle.config_group->setEnabled(state != Qt::Unchecked);
     m_configShuttle.shuttledevicelist->clear();
 
     QStringList devNames = KdenliveSettings::shuttledevicenames();
@@ -864,7 +871,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
     for (int i = 0; i < devNames.count(); ++i) {
         m_configShuttle.shuttledevicelist->addItem(devNames.at(i), devPaths.at(i));
     }
-    if (state != 0) {
+    if (state != Qt::Unchecked) {
         setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
     }
 #else
