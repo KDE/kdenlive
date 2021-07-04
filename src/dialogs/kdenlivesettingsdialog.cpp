@@ -1890,8 +1890,10 @@ void KdenliveSettingsDialog::checkVoskDependencies()
 {
 #ifdef Q_OS_WIN
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
+    QString pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip"));
 #else
     QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+    QString pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"));
 #endif
     if (pyExec.isEmpty()) {
         doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
@@ -1928,7 +1930,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
             } else {
                 if (m_speechListWidget->count() == 0) {
                     doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-                } else {
+                } else if (!pip3Exec.isEmpty()) {
                     if (!m_voskUpdated) {
                         // only allow upgrading python modules once
                         m_voskAction->setText(i18n("Check for update"));
@@ -1942,7 +1944,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
     } else {
         if (m_speechListWidget->count() == 0) {
             doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-        } else {
+        } else if (!pip3Exec.isEmpty()) {
             if (!m_voskUpdated) {
                 // only allow upgrading python modules once
                 m_voskAction->setText(i18n("Check for update"));

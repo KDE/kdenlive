@@ -22,6 +22,7 @@ if not os.path.exists(sys.argv[2]):
 sample_rate=16000
 model = Model(sys.argv[2])
 rec = KaldiRecognizer(model, sample_rate)
+rec.SetWords(True)
 
 # zone rendering
 if len(sys.argv) > 4 and (float(sys.argv[4])>0 or float(sys.argv[5])>0):
