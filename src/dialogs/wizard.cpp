@@ -486,9 +486,20 @@ void Wizard::checkMltComponents()
             m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio output</li>"));
             m_systemCheckIsOk = false;
         }
-        // AVformat module
+
         Mlt::Consumer *consumer = nullptr;
         Mlt::Profile p;
+        // XML module
+        if (consumersItemList.contains(QStringLiteral("xml"))) {
+            consumer = new Mlt::Consumer(p, "xml");
+        }
+        if (consumer == nullptr || !consumer->is_valid()) {
+            qDebug() << "Missing XML MLT module";
+            m_errors.append(i18n("<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"));
+            m_systemCheckIsOk = true;
+        }
+        // AVformat module
+        consumer = nullptr;
         if (consumersItemList.contains(QStringLiteral("avformat"))) {
             consumer = new Mlt::Consumer(p, "avformat");
         }

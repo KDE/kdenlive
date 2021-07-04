@@ -186,15 +186,18 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         ix++;
     }*/
     connect(m_sourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRange()));
-    m_alignCombo = new QComboBox(this);
-    m_alignCombo->addItems(QStringList() << i18n("Align top left") << i18n("Align center") << i18n("Align bottom right"));
+    m_alignSourceCombo = new QComboBox(this);
+    m_alignSourceCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
+    m_alignTargetCombo = new QComboBox(this);
+    m_alignTargetCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
     lab = new QLabel(i18n("Map "), this);
     QLabel *lab2 = new QLabel(i18n(" to "), this);
     l1->addWidget(lab);
     l1->addWidget(m_sourceCombo);
+    l1->addWidget(m_alignSourceCombo);
     l1->addWidget(lab2);
     l1->addWidget(m_targetCombo);
-    l1->addWidget(m_alignCombo);
+    l1->addWidget(m_alignTargetCombo);
     l1->addStretch(10);
     ix = 0;
     QMap<QString, QModelIndex>::const_iterator j = m_geometryTargets.constBegin();
@@ -280,11 +283,29 @@ void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
     auto type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
+    auto values = m_dataCombo->currentData(Qt::UserRole).toString().split(QLatin1Char(';'));
+
+    // we do not need all the options if there is only one keyframe
+    bool onlyOne = values.length() == 1;
+    m_previewLabel->setVisible(!onlyOne);
+    m_limitKeyframes->setVisible(!onlyOne);
+    m_limitNumber->setVisible(!onlyOne);
+    m_inPoint->setVisible(!onlyOne);
+    m_outPoint->setVisible(!onlyOne);
+
     m_maximas = KeyframeModel::getRanges(comboData, m_model);
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {
         // 1 dimensional param.
         m_sourceCombo->addItem(m_dataCombo->currentText(), ImportRoles::SimpleValue);
+
+        // map rotation to rotation by default if possible
+        if (m_dataCombo->currentText() == QStringLiteral("rotation")) {
+            int idx = m_targetCombo->findText(i18n("Rotation"));
+            if (idx > -1) {
+                m_targetCombo->setCurrentIndex(idx);
+            }
+        }
         updateRange();
         return;
     }
@@ -292,6 +313,8 @@ void KeyframeImport::updateDataDisplay()
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     m_sourceCombo->addItem(i18n("Geometry"), ImportRoles::FullGeometry);
     m_sourceCombo->addItem(i18n("Position"), ImportRoles::Position);
+    m_sourceCombo->addItem(i18n("Inverted Position"), ImportRoles::InvertedPosition);
+    m_sourceCombo->addItem(i18n("Offset Position"), ImportRoles::OffsetPosition);
     m_sourceCombo->addItem(i18n("X"), ImportRoles::XOnly);
     m_sourceCombo->addItem(i18n("Y"), ImportRoles::YOnly);
     if (wDist > 0) {
@@ -299,6 +322,12 @@ void KeyframeImport::updateDataDisplay()
     }
     if (hDist > 0) {
         m_sourceCombo->addItem(i18n("Height"), ImportRoles::HeightOnly);
+    }
+
+    // if available map to Rectangle by default
+    int idx = m_targetCombo->findText(i18n("Rectangle"));
+    if (idx > -1) {
+        m_targetCombo->setCurrentIndex(idx);
     }
     updateRange();
     /*if (!m_inPoint->isValid()) {
@@ -315,7 +344,8 @@ void KeyframeImport::updateDataDisplay()
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
-    m_alignCombo->setEnabled(pos == ImportRoles::Position);
+    m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -728,7 +758,8 @@ void KeyframeImport::importSelectedData()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Geometry target
-    int finalAlign = m_alignCombo->currentIndex();
+    int sourceAlign = m_alignSourceCombo->currentIndex();
+    int targetAlign = m_alignTargetCombo->currentIndex();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : qAsConst(m_indexes)) {
@@ -740,6 +771,7 @@ void KeyframeImport::importSelectedData()
             int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
             mlt_keyframe_type type;
+            mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
             for (int i = 0; i < anim->key_count(); i++) {
                 int error = anim->key_get(i, frame, type);
                 if (error) {
@@ -763,6 +795,8 @@ void KeyframeImport::importSelectedData()
                         }
                         break;
                     case ImportRoles::Position:
+                    case ImportRoles::InvertedPosition:
+                    case ImportRoles::OffsetPosition:
                     case ImportRoles::YOnly:
                         if (size < 2) {
                             continue;
@@ -775,17 +809,31 @@ void KeyframeImport::importSelectedData()
                         break;
                 }
                 mlt_rect rect = animData->anim_get_rect("key", frame);
-                if (convertMode == ImportRoles::Position) {
-                    switch (finalAlign) {
+                if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
+                    switch (sourceAlign) {
                     case 1:
                         // Align center
                         rect.x += rect.w / 2;
                         rect.y += rect.h / 2;
                         break;
                     case 2:
-                        //Align bottom right
+                        // Align bottom right
                         rect.x += rect.w;
                         rect.y += rect.h;
+                        break;
+                    default:
+                        break;
+                    }
+                    switch (targetAlign) {
+                    case 1:
+                        // Align center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 2:
+                        // Align bottom right
+                        rect.x -= kfrData[2].toInt();
+                        rect.y -= kfrData[3].toInt();
                         break;
                     default:
                         break;
@@ -801,6 +849,14 @@ void KeyframeImport::importSelectedData()
                     case ImportRoles::Position:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
+                        break;
+                    case ImportRoles::InvertedPosition:
+                        kfrData[0] = locale.toString(int(-rect.x));
+                        kfrData[1] = locale.toString(int(-rect.y));
+                        break;
+                    case ImportRoles::OffsetPosition:
+                        kfrData[0] = locale.toString(int(firstRect.x - rect.x));
+                        kfrData[1] = locale.toString(int(firstRect.y - rect.y));
                         break;
                     case ImportRoles::SimpleValue:
                     case ImportRoles::XOnly:

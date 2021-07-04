@@ -160,6 +160,9 @@ public:
     QVector<QPair<QString, QVariant>> getAllParameters() const;
     /** @brief Returns a json definition of the effect with all param values */
     QJsonDocument toJson(bool includeFixed = true) const;
+    /** @brief Returns the interpolated value at the given position with all param values as json*/
+    QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
+
     void savePreset(const QString &presetFile, const QString &presetName);
     void deletePreset(const QString &presetFile, const QString &presetName);
     const QStringList getPresetList(const QString &presetFile) const;

@@ -132,7 +132,7 @@ private slots:
     void updateKeyframes();
 
 private:
-    std::shared_ptr<Mlt::Link>m_remapLink;
+    std::shared_ptr<Mlt::Link> m_remapLink;
     TimecodeDisplay *m_in;
     TimecodeDisplay *m_out;
     RemapView *m_view;

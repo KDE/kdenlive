@@ -63,7 +63,8 @@ private:
     QSpinBox *m_limitNumber;
     QComboBox *m_sourceCombo;
     QComboBox *m_targetCombo;
-    QComboBox *m_alignCombo;
+    QComboBox *m_alignSourceCombo;
+    QComboBox *m_alignTargetCombo;
     QLabel *m_sourceRangeLabel;
     QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
@@ -80,6 +81,8 @@ protected:
         SimpleValue,
         FullGeometry,
         Position,
+        InvertedPosition,
+        OffsetPosition,
         XOnly,
         YOnly,
         WidthOnly,

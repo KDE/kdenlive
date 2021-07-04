@@ -103,7 +103,9 @@ JOBS=4
 
 # Only if you want to compile MLT manually
 cd mlt
-./configure --enable-gpl --enable-gpl3 --prefix=$INSTALL_PREFIX
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 make -j$JOBS
 make install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable
@@ -143,8 +145,7 @@ kdenlive
 ### Debugging
 
 Having debug symbols helps getting much more useful information from crash logs or analyzers outputs; this is enabled at configure stage.
-- in MLT, append `--enable-debug` to `./configure` line
-- in Kdenlive, append `-DCMAKE_BUILD_TYPE=Debug` to `cmake` line
+- append `-DCMAKE_BUILD_TYPE=Debug` to `cmake` line of kdenlive and/or mlt
 
 
 ### Running tests
@@ -196,7 +197,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
   -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_LIST=tracking -DOPENCV_BUILD_3RDPARTY_LIBS=OFF
 ```
 
-Then you will have to rebuild MLT appending `--enable-opencv` to `configure` line!
+Then you will have to rebuild MLT appending `-DMOD_OPENCV=ON` to `cmake` line!
 
 ### Building frei0r
 

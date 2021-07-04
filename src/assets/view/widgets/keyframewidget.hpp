@@ -77,6 +77,7 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     void slotCopyKeyframes();
+    void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
     void slotSeekToKeyframe(int ix);
