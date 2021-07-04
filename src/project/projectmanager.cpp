@@ -159,6 +159,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
+    bool sameProjectFolder = KdenliveSettings::sameprojectfolder();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
@@ -210,6 +211,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
+        sameProjectFolder = w->docFolderAsStorageFolder();
         documentMetadata = w->metadata();
         delete w;
     }
@@ -218,6 +220,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->bin()->cleanDocument();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
+    doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
     m_project = doc;
@@ -352,7 +355,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         m_fileRevert->setEnabled(true);
         pCore->window()->m_undoView->stack()->setClean();
         QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
-        if(((oldProjectFolder.isEmpty() && KdenliveSettings::sameprojectfolder()) || m_project->projectTempFolder() == oldProjectFolder) && newProjectFolder != m_project->projectTempFolder()) {
+        if(((oldProjectFolder.isEmpty() && m_project->m_sameProjectFolder) || m_project->projectTempFolder() == oldProjectFolder) && newProjectFolder != m_project->projectTempFolder()) {
             KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
                 pCore->window(), i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
                            "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",

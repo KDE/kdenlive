@@ -72,6 +72,8 @@ public:
     QUrl url() const;
     QUuid uuid;
     KAutoSaveFile *m_autosave;
+    /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
+    bool m_sameProjectFolder;
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
 
