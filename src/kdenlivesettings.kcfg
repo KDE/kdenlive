@@ -534,6 +534,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="sameprojectfolder" type="Bool">
+      <label>Use the parent folder of the *.kdenlive file to store project files.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="capturetoprojectfolder" type="Bool">
       <label>Save captured files to project folder by default.</label>
       <default>true</default>

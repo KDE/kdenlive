@@ -81,6 +81,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
 
+    connect(custom_folder, &QCheckBox::toggled, this, [this](bool checked) {
+        same_folder->setEnabled(!checked);
+    });
+    connect(same_folder, &QCheckBox::toggled, this, [this](bool checked) {
+        custom_folder->setEnabled(!checked);
+        project_folder->setEnabled(!checked && custom_folder->isChecked());
+    });
+
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     // buttonOk->setEnabled(false);
     audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -125,7 +133,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
-        if (!storageFolder.isEmpty()) {
+        if(doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
+            same_folder->setChecked(true);
+        } else if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
         }
         project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
@@ -150,7 +160,15 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewextension = KdenliveSettings::previewextension();
         custom_folder->setChecked(KdenliveSettings::customprojectfolder());
         project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        same_folder->setChecked(KdenliveSettings::sameprojectfolder());
+        /* creating a new project we can't use the same folder option as we don't know the path of the project yet.
+         * If the the option is enabled in the default projec settings, we have disable the custom folder option
+         * and move the files to the new location as soon as the project is saved for the first time
+         */
+        same_folder->setEnabled(false);
+        custom_folder->setEnabled(!KdenliveSettings::sameprojectfolder());
     }
+
     // Select profile
     m_pw->loadProfile(currentProf);
 
@@ -527,6 +545,11 @@ bool ProjectSettings::generateProxy() const
 bool ProjectSettings::generateImageProxy() const
 {
     return generate_imageproxy->isChecked();
+}
+
+bool ProjectSettings::docFolderAsStorageFolder() const
+{
+    return same_folder->isChecked();
 }
 
 int ProjectSettings::proxyMinSize() const

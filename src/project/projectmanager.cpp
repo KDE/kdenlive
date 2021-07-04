@@ -297,6 +297,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
 {
     pCore->monitorManager()->pauseActiveMonitor();
+    QString oldProjectFolder = m_project->url().isEmpty()
+            ? QString()
+            : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
+            // this was the old project folder in case the "save in project file location" setting was active
+
     // Sync document properties
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
@@ -346,6 +351,32 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     if (!saveACopy) {
         m_fileRevert->setEnabled(true);
         pCore->window()->m_undoView->stack()->setClean();
+        QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
+        if(((oldProjectFolder.isEmpty() && KdenliveSettings::sameprojectfolder()) || m_project->projectTempFolder() == oldProjectFolder) && newProjectFolder != m_project->projectTempFolder()) {
+            KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
+                pCore->window(), i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
+                           "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
+                           m_project->projectTempFolder(), newProjectFolder));
+
+            if (answer == KMessageBox::Continue) {
+                // Proceed with move
+                QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
+                bool ok;
+                documentId.toLongLong(&ok, 10);
+                if (!ok || documentId.isEmpty()) {
+                    KMessageBox::sorry(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
+                } else {
+                    QDir newDir(newProjectFolder);
+                    QDir oldDir(m_project->projectTempFolder());
+                    if (newDir.exists(documentId)) {
+                        KMessageBox::sorry(pCore->window(), i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                    } else {
+                        // Proceed with the move
+                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                    }
+                }
+            }
+        }
     }
 
     return true;
