@@ -268,7 +268,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
 
-    if (doc != nullptr) {
+    if (!m_newProject) {
         slotUpdateFiles();
         connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {
@@ -277,8 +277,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     }
     connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
     connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);
-    // Delete unused files is not implemented
-    delete_unused->setVisible(false);
 }
 
 void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
@@ -289,39 +287,28 @@ void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
-    // TODO
-    /*
-    QList<DocClipBase*> list = m_projectList->documentClipList();
-    for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
-        if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
-            QUrl url = clip->fileURL();
+    QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if(!clip->isIncludedInTimeline()) {
+            QUrl url(clip->getOriginalUrl());
             if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
-
     // make sure our urls are not used in another clip
-    for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
-        if (clip->numReferences() > 0) {
-            QUrl url = clip->fileURL();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if(clip->isIncludedInTimeline()) {
+            QUrl url(clip->getOriginalUrl());
             if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
         }
     }
-
-    if (toDelete.count() == 0) {
-        // No physical url to delete, we only remove unused clips from project (color clips for example have no physical url)
-        if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) ==
-    KMessageBox::Cancel) return;
-        m_projectList->cleanup();
-        slotUpdateFiles();
+    if(toDelete.count() == 0) {
         return;
     }
-    if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know
-    what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
-    m_projectList->trashUnusedClips();
+    if (KMessageBox::warningYesNoList(this,
+                                      i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"),
+                                      toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
+    pCore->projectItemModel()->requestTrashClips(toDelete);
     slotUpdateFiles();
-    */
 }
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
