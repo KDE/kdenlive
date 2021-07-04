@@ -210,11 +210,13 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         outPoint = out - in;
         inPoint = 0;
     }
+    bool closing = false;
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
                 return false;
             }
+            closing = ptr->m_closing;
             if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
                 trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
             }
@@ -316,7 +318,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
                 << m_producer->get_playtime();
 
-        adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        if (!closing) {
+            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
