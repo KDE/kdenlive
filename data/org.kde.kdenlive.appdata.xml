@@ -242,6 +242,7 @@
     </ul>
   </description>
   <releases>
+    <release version="21.04.3" date="2021-07-08"/>
     <release version="21.04.2" date="2021-06-10">
       <url type="details">https://kdenlive.org/en/2021/06/kdenlive-21-04-2-released/</url>
       <description>
@@ -300,7 +301,6 @@
       </description>
     </release>
     <release version="21.04.0" date="2021-04-22"/>
-    <release version="20.12.3" date="2021-03-04"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
