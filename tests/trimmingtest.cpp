@@ -544,6 +544,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -1069,3 +1070,4 @@ TEST_CASE("Copy/paste", "[CP]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+

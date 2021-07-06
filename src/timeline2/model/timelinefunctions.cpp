@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -60,7 +61,9 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<TimelineFunctions>("TimelineFunctions")
         .method("requestClipCut", select_overload<bool(std::shared_ptr<TimelineItemModel>, int, int)>(&TimelineFunctions::requestClipCut))(
-            parameter_names("timeline", "clipId", "position"));
+            parameter_names("timeline", "clipId", "position"))
+        .method("requestDeleteBlankAt", select_overload<bool(const std::shared_ptr<TimelineItemModel>&, int, int, bool)>(&TimelineFunctions::requestDeleteBlankAt))(
+            parameter_names("timeline", "trackId", "position", "affectAllTracks"));
 }
 #else
 #define TRACE_STATIC(...)
@@ -434,8 +437,8 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     if (moveGuides) {
         GenTime fromPos(startPosition, pCore->getCurrentFps());
         GenTime toPos(endPosition, pCore->getCurrentFps());
-        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(startPosition, -1);
-        pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel()->getMarkersInRange(startPosition, -1);
+        pCore->projectManager()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
     }
 
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
