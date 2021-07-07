@@ -36,6 +36,7 @@
 #include <QProcess>
 #include <KIO/RenameDialog>
 #include <KLineEdit>
+#include <KMessageBox>
 #include <QComboBox>
 #include <QObject>
 #include <klocalizedstring.h>
@@ -118,6 +119,7 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
         ui.video_codec->setText(videoCodec);
         ui.vcodec->addItem(i18n("Copy stream"), QStringLiteral("copy"));
         ui.vcodec->addItem(i18n("X264 encoding"), QStringLiteral("libx264"));
+        ui.vcodec->addItem(i18n("Disable stream"));
     }
     if (audioCodec.isEmpty()) {
         ui.audio_codec->setText(i18n("none"));
@@ -127,14 +129,24 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
         ui.acodec->addItem(i18n("Copy stream"), QStringLiteral("copy"));
         ui.acodec->addItem(i18n("PCM encoding"), QStringLiteral("pcm_s24le"));
         ui.acodec->addItem(i18n("AAC encoding"), QStringLiteral("aac"));
+        ui.acodec->addItem(i18n("Disable stream"));
     }
     ui.audio_codec->setText(audioCodec);
     ui.add_clip->setChecked(KdenliveSettings::add_new_clip());
     ui.file_url->setMode(KFile::File);
     ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl::fromLocalFile(path));
-    QObject::connect(ui.acodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [&ui, transcoderExt]() {
-        ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
+
+    std::function<void()> callBack = [&ui, transcoderExt]() {
+        if (ui.acodec->currentData().isNull()) {
+            // Video only
+            ui.extra_params->setPlainText(QString("-an -c:v %1").arg(ui.vcodec->currentData().toString()));
+        } else if (ui.vcodec->currentData().isNull()) {
+            // Audio only
+            ui.extra_params->setPlainText(QString("-vn -c:a %1").arg(ui.acodec->currentData().toString()));
+        } else {
+            ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
+        }
         QString path = ui.file_url->url().toLocalFile();
         QString fileName = path.section(QLatin1Char('.'), 0, -2);
         if (ui.acodec->currentData() == QLatin1String("copy") && ui.vcodec->currentData() == QLatin1String("copy")) {
@@ -143,22 +155,19 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
             fileName.append(QStringLiteral(".mov"));
         }
         ui.file_url->setUrl(QUrl::fromLocalFile(fileName));
+    };
+
+    QObject::connect(ui.acodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() {
+        callBack();
     });
-    QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [&ui, transcoderExt]() {
-        ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
-        QString path = ui.file_url->url().toLocalFile();
-        QString fileName = path.section(QLatin1Char('.'), 0, -2);
-        if (ui.acodec->currentData() == QLatin1String("copy") && ui.vcodec->currentData() == QLatin1String("copy")) {
-            fileName.append(transcoderExt);
-        } else {
-            fileName.append(QStringLiteral(".mov"));
-        }
-        ui.file_url->setUrl(QUrl::fromLocalFile(fileName));
+
+    QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() {
+        callBack();
     });
     QFontMetrics fm = ui.file_url->lineEdit()->fontMetrics();
     ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    ui.extra_params->setPlainText(QStringLiteral("-c:a copy -c:v copy"));
+    callBack();
     QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(out - in, pCore->getCurrentFps(), true), binClip->getStringDuration());
     ui.info_label->setText(mess);
     if (!videoOk) {
@@ -219,11 +228,15 @@ void CutTask::run()
             folder = containingFolder->clipId();
         }
         if (url.isEmpty()) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("No producer for this clip."));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         if (QFileInfo(m_destination).absoluteFilePath() == QFileInfo(url).absoluteFilePath()) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("You cannot overwrite original clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("You cannot overwrite original clip."));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
@@ -242,7 +255,9 @@ void CutTask::run()
             if (QFileInfo(m_destination).size() == 0) {
                 QFile::remove(m_destination);
                 // File was not created
-                m_errorMessage.append(i18n("Failed to create file."));
+                m_logDetails.append(QString::fromUtf8(m_jobProcess->readAll()));
+                QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
             } else {
                 // all ok, add clip
                 if (m_addToProject) {
@@ -250,9 +265,11 @@ void CutTask::run()
                 }
             }
         } else {
-            // Proxy process crashed
+            // transcode task crashed
             QFile::remove(m_destination);
-            m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+            m_logDetails.append(QString::fromUtf8(m_jobProcess->readAll()));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cut job failed.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
     pCore->taskManager.taskDone(m_owner.second, this);
