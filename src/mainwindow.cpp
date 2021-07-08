@@ -598,6 +598,7 @@ void MainWindow::init(const QString &mltPath)
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_remap")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
 
@@ -1641,6 +1642,10 @@ void MainWindow::setupActions()
     act->setEnabled(false);
 
     act = addAction(QStringLiteral("edit_item_speed"), i18n("Change Speed"), this, SLOT(slotEditItemSpeed()),
+                             QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
+    act->setEnabled(false);
+    
+    act = addAction(QStringLiteral("edit_item_remap"), i18n("Time Remap"), this, SLOT(slotRemapItemTime()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
     act->setEnabled(false);
 
@@ -4244,6 +4249,14 @@ void MainWindow::resetTimelineTracks()
     TimelineWidget *current = getCurrentTimeline();
     if (current) {
         current->controller()->resetTrackHeight();
+    }
+}
+
+void MainWindow::slotRemapItemTime()
+{
+    TimelineWidget *current = getCurrentTimeline();
+    if (current) {
+        current->controller()->remapItemTime(-1, -1);
     }
 }
 

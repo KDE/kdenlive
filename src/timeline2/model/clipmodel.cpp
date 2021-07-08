@@ -369,6 +369,12 @@ Mlt::Producer *ClipModel::service() const
     return m_producer.get();
 }
 
+bool ClipModel::isChain() const
+{
+    READ_LOCK();
+    return m_producer->parent().type() == mlt_service_chain_type;
+}
+
 std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
 {
     READ_LOCK();
@@ -467,7 +473,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist, bool timeremap)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -483,7 +489,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, timeremap);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     if (hasPitch) {
@@ -513,7 +519,35 @@ void ClipModel::refreshProducerFromBin(int trackId)
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     int stream = m_producer->parent().get_int("audio_index");
-    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1);
+    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, isChain());
+}
+
+bool ClipModel::useTimeRemapProducer(Fun &undo, Fun &redo)
+{
+    if (m_endlessResize) {
+        // no timewarp for endless producers
+        return false;
+    }
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    int audioStream = getIntProperty(QStringLiteral("audio_index"));
+    auto operation = useTimeRemapProducer_lambda(true, audioStream);
+    auto reverse = useTimeRemapProducer_lambda(false, audioStream);
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream)
+{
+    QWriteLocker locker(&m_lock);
+    return [enable, audioStream, this]() {
+        refreshProducerFromBin(m_currentTrackId, m_currentState, audioStream, 0, false, false, enable);
+        return true;
+    };
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)

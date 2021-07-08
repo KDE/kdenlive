@@ -46,9 +46,11 @@ class RemapView : public QWidget
 
 public:
     explicit RemapView(QWidget *parent = nullptr);
-    void setDuration(std::shared_ptr<ProjectClip> clip, int duration);
+    void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
+    void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData() const;
+    int remapDuration() const;
     QTimer timer;
 
 protected:
@@ -83,6 +85,7 @@ private:
     QMap<int, int>m_keyframes;
     QMap<int, int>m_keyframesOrigin;
     std::shared_ptr<ProjectClip> m_clip;
+    std::shared_ptr<Mlt::Producer> m_service;
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
@@ -112,6 +115,7 @@ signals:
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
     void updateKeyframes();
+    void updateMaxDuration(int duration);
 };
 
  /**
@@ -126,6 +130,7 @@ class TimeRemap : public QWidget, public Ui::TimeRemap_UI
 public:
     explicit TimeRemap(QWidget *parent = nullptr);
     ~TimeRemap() override;
+    void selectedClip(int cid, int splitId = -1);
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
 
 private slots:
@@ -133,9 +138,16 @@ private slots:
 
 private:
     std::shared_ptr<Mlt::Link> m_remapLink;
+    std::shared_ptr<Mlt::Link> m_splitRemap;
     TimecodeDisplay *m_in;
     TimecodeDisplay *m_out;
     RemapView *m_view;
+    int m_lastLength;
+    int m_startPos;
+    int m_cid;
+    int m_splitId;
+    QMetaObject::Connection m_seekConnection1;
+    QMetaObject::Connection m_seekConnection2;
 
 };
 

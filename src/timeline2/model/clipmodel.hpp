@@ -85,6 +85,9 @@ public:
     /** @brief Returns true if the clip can be converted to an audio clip */
     bool canBeAudio() const;
 
+    /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
+    bool isChain() const;
+
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
@@ -187,7 +190,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false, bool timeremap = false);
     void refreshProducerFromBin(int trackId);
 
     /** @brief This functions replaces the current producer with a slowmotion one
@@ -196,6 +199,10 @@ protected:
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
+    
+    bool useTimeRemapProducer(Fun &undo, Fun &redo);
+    /** @brief Lambda that merely changes the speed (in and out are untouched) */
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

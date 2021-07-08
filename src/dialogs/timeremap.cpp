@@ -25,6 +25,10 @@
 #include "bin/projectclip.h"
 #include "project/projectmanager.h"
 #include "monitor/monitor.h"
+#include "profiles/profilemodel.hpp"
+#include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "macros.hpp"
 
 #include "kdenlive_debug.h"
@@ -35,7 +39,6 @@
 
 #include <KColorScheme>
 #include "klocalizedstring.h"
-#include <profiles/profilemodel.hpp>
 
 RemapView::RemapView(QWidget *parent)
     : QWidget(parent)
@@ -47,6 +50,7 @@ RemapView::RemapView(QWidget *parent)
     , m_zoomHandle(0,1)
     , m_moveKeyframeMode(NoMove)
     , m_clip(nullptr)
+    , m_service(nullptr)
     , m_clickPoint(-1)
     , m_moveNext(true)
 {
@@ -91,9 +95,31 @@ void RemapView::updateOutPos(int pos)
     }
 }
 
-void RemapView::setDuration(std::shared_ptr<ProjectClip> clip, int duration)
+int RemapView::remapDuration() const
+{
+    int maxDuration = 0;
+    QMapIterator<int, int> i(m_keyframes);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value() > maxDuration) {
+            maxDuration = i.value();
+        }
+    }
+    return maxDuration;
+}
+
+void RemapView::setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration)
 {
     m_clip = clip;
+    m_service = clip->originalProducer();
+    m_duration = duration;
+    m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
+}
+
+void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration)
+{
+    m_clip = nullptr;
+    m_service = service;
     m_duration = duration;
     m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
 }
@@ -107,10 +133,13 @@ void RemapView::loadKeyframes(const QString &mapData)
     } else {
         QStringList str = mapData.split(QLatin1Char(';'));
         for (auto &s : str) {
-            int pos = m_clip->originalProducer()->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
+            int pos = m_service->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
             int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
             m_keyframes.insert(val, pos);
+            m_duration = qMax(m_duration, pos);
+            m_duration = qMax(m_duration, val);
         }
+        emit updateMaxDuration(m_duration);
         if (m_keyframes.contains(m_currentKeyframe.first)) {
             emit atKeyframe(true);
             std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
@@ -631,16 +660,15 @@ const QString RemapView::getKeyframesData() const
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
-        result << QString("%1=%2").arg(m_clip->originalProducer()->frames_to_time(i.value(), mlt_time_clock)).arg(GenTime(i.key(), pCore->getCurrentFps()).seconds());
+        result << QString("%1=%2").arg(m_service->frames_to_time(i.value(), mlt_time_clock)).arg(GenTime(i.key(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
 }
 
 void RemapView::reloadProducer()
 {
-    qDebug()<<"==== RELOAD:";
-    if (!m_clip->clipUrl().endsWith(QLatin1String(".mlt"))) {
-        qDebug()<<"==== shit is not a playlist clip, aborting";
+    if (!m_clip || !m_clip->clipUrl().endsWith(QLatin1String(".mlt"))) {
+        qDebug()<<"==== this is not a playlist clip, aborting";
         return;
     }
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", m_clip->clipUrl().toUtf8().constData());
@@ -897,6 +925,7 @@ void RemapView::paintEvent(QPaintEvent *event)
 
 TimeRemap::TimeRemap(QWidget *parent)
     : QWidget(parent)
+    , m_cid(-1)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -946,11 +975,86 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(button_next, &QToolButton::clicked, m_view, &RemapView::goNext);
     connect(button_prev, &QToolButton::clicked, m_view, &RemapView::goPrev);
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
+    connect(m_view, &RemapView::updateMaxDuration, [this](int duration) {
+        m_out->setRange(m_out->minimum(), duration);
+        m_in->setRange(m_in->minimum(), duration);
+    });
     setEnabled(false);
+}
+
+void TimeRemap::selectedClip(int cid, int splitId)
+{
+    if (cid == -1 && cid == m_cid) {
+        return;
+    }
+    QObject::disconnect( m_seekConnection1 );
+    QObject::disconnect( m_seekConnection2 );
+    m_cid = cid;
+    m_splitId = splitId;
+    if (cid == -1) {
+        m_view->setDuration(nullptr, 0);
+        setEnabled(false);
+        return;
+    }
+    m_remapLink.reset();
+    bool keyframesLoaded = false;
+    std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+    int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
+    m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
+    int max = min + m_lastLength;
+    m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
+    m_in->setRange(min, max);
+    m_out->setRange(min, max);
+    std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
+    m_view->setDuration(prod, max - min);
+    qDebug()<<"===== GOT PRODUCER TYPE: "<<prod->parent().type();
+    if (prod->parent().type() == mlt_service_chain_type) {
+        Mlt::Chain fromChain(prod->parent());
+        int count = fromChain.link_count();
+        for (int i = 0; i < count; i++) {
+            QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+            if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                    // Found a timeremap effect, read params
+                    m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                    if (m_splitId > -1) {
+                        std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
+                        if (prod2->parent().type() == mlt_service_chain_type) {
+                            Mlt::Chain fromChain2(prod2->parent());
+                            count = fromChain2.link_count();
+                            for (int j = 0; j < count; j++) {
+                                QScopedPointer<Mlt::Link> fromLink2(fromChain2.link(j));
+                                if (fromLink2 && fromLink2->is_valid() && fromLink2->get("mlt_service")) {
+                                    if (fromLink2->get("mlt_service") == QLatin1String("timeremap")) {
+                                        m_splitRemap = std::make_shared<Mlt::Link>(fromChain2.link(j)->get_link());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    QString mapData(fromLink->get("map"));
+                    qDebug()<<"==== LOADING KEYFRAMES FROM MAP: "<<mapData;
+                    m_view->loadKeyframes(mapData);
+                    keyframesLoaded = true;
+                    setEnabled(true);
+                    break;
+                }
+            }
+        }
+    }
+    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos) {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos + m_startPos);
+    });
+    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, [this](int pos) {
+        m_view->slotSetPosition(pos - m_startPos);
+    });
 }
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 {
+    QObject::disconnect( m_seekConnection1 );
+    QObject::disconnect( m_seekConnection2 );
+    m_cid = -1;
     if (!clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         qDebug()<<"===== CLIP NOT READY; TYPE; "<<clip->clipType();
         m_view->setDuration(nullptr, 0);
@@ -964,7 +1068,8 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         int max = out == -1 ? clip->getFramePlaytime() : out;
         m_in->setRange(min, max);
         m_out->setRange(min, max);
-        m_view->setDuration(clip, max - min);
+        m_startPos = 0;
+        m_view->setBinClipDuration(clip, max - min);
         if (clip->clipType() == ClipType::Playlist) {
             Mlt::Service service(clip->originalProducer()->producer()->get_service());
             qDebug()<<"==== producer type: "<<service.type();
@@ -1031,11 +1136,10 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         if (!keyframesLoaded) {
             m_view->loadKeyframes(QString());
         }
-        connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
-        connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, m_view, &RemapView::slotSetPosition);
+        m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
+        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, m_view, &RemapView::slotSetPosition);
         setEnabled(m_remapLink != nullptr);
     } else {
-        disconnect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek);
         setEnabled(false);
     }
 }
@@ -1043,11 +1147,20 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 void TimeRemap::updateKeyframes()
 {
     QString kfData = m_view->getKeyframesData();
-    qDebug()<<" ==== RES: "<< kfData;
     if (m_remapLink) {
         m_remapLink->set("map", kfData.toUtf8().constData());
-        m_view->timer.start();
-        qDebug()<<"==== SETTING REMAP LINK!!!!!!!!!!!!!";
+        if (m_splitRemap) {
+            m_splitRemap->set("map", kfData.toUtf8().constData());
+        }
+        if (m_cid == -1) {
+            // This is a playlist clip
+            m_view->timer.start();
+        } else if (m_lastLength != m_view->remapDuration()) {
+            // Resize timeline clip
+            m_lastLength = m_view->remapDuration();
+            std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+            model->requestItemResize(m_cid, m_lastLength, true, true, -1, false);
+        }
     }
 }
 

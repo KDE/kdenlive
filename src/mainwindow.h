@@ -515,6 +515,7 @@ private slots:
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();
+    void slotRemapItemTime();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */

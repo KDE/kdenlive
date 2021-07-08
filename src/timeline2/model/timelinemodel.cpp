@@ -4780,6 +4780,59 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
     return success;
 }
 
+bool TimelineModel::requestClipTimeRemap(int clipId)
+{
+    if (!m_allClips[clipId]->isChain()) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        int splitId = m_groups->getSplitPartner(clipId);
+        bool result = true;
+        if (splitId > -1) {
+            result = requestClipTimeRemap(splitId, undo, redo);
+        }
+        result = result && requestClipTimeRemap(clipId, undo, redo);
+        if (result) {
+            PUSH_UNDO(undo, redo, i18n("Enable time remap"));
+            return true;
+        } else {
+            return false;
+        }
+    } else return true;
+}
+
+std::shared_ptr<Mlt::Producer> TimelineModel::getClipProducer(int clipId)
+{
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    return m_allClips[clipId]->getProducer();
+}
+
+bool TimelineModel::requestClipTimeRemap(int clipId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    int oldPos = getClipPosition(clipId);
+    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    bool success = true;
+    int trackId = getClipTrackId(clipId);
+    if (trackId != -1) {
+        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
+    }
+    if (success) {
+        qDebug()<<"==== REMAPING CLIP: "<<clipId;
+        success = m_allClips[clipId]->useTimeRemapProducer(local_undo, local_redo);
+    }
+    if (trackId != -1) {
+        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+    }
+    if (!success) {
+        local_undo();
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return success;
+}
+
 bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration)
 {
     QWriteLocker locker(&m_lock);
