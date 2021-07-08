@@ -50,6 +50,8 @@ public:
     void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData() const;
+    int position() const;
+    int getKeyframePosition() const;
     int remapDuration() const;
     QTimer timer;
 
@@ -110,7 +112,7 @@ private:
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
 
 signals:
-    void seekToPos(int);
+    void seekToPos(int, int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
@@ -148,6 +150,7 @@ private:
     int m_splitId;
     QMetaObject::Connection m_seekConnection1;
     QMetaObject::Connection m_seekConnection2;
+    QMetaObject::Connection m_seekConnection3;
 
 };
 

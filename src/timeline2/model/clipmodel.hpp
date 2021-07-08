@@ -270,6 +270,8 @@ protected:
     int m_mixDuration;
     /** @brief Position of the original cut, relative to mix right side */
     int m_mixCutPos;
+    /** @brief True if the clip has a timeremap effect */
+    bool m_hasTimeRemap;
 };
 
 #endif

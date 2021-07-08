@@ -231,6 +231,12 @@ Item{
                     value: model.binId
                     when: loader.status == Loader.Ready && clipItem
                 }
+                Binding {
+                    target: loader.item
+                    property: "timeremap"
+                    value: model.timeremap
+                    when: loader.status == Loader.Ready && clipItem
+                }
                 sourceComponent: {
                     if (clipItem) {
                         return clipDelegate

@@ -306,7 +306,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             if (pos != m_position) {
                 qDebug()<<"=== CURSOR MOVE MODE!!!";
                 slotSetPosition(pos);
-                emit seekToPos(pos);
+                emit seekToPos(pos, getKeyframePosition());
             }
         }
         return;
@@ -370,6 +370,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         setCursor(Qt::ArrowCursor);
         update();
     }
+}
+
+int RemapView::position() const
+{
+    return m_position;
 }
 
 int RemapView::getClosestKeyframe(int pos, bool bottomKeyframe) const
@@ -468,7 +473,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     m_moveKeyframeMode = TopMove;
                     if (KdenliveSettings::keyframeseek()) {
                         slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first);
+                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
                     }
@@ -514,7 +519,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     m_moveKeyframeMode = BottomMove;
                     if (KdenliveSettings::keyframeseek()) {
                         slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first);
+                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
                     }
@@ -531,7 +536,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
                 slotSetPosition(pos);
-                emit seekToPos(pos);
+                emit seekToPos(pos, getKeyframePosition());
                 update();
             }
         }
@@ -587,7 +592,7 @@ void RemapView::goNext()
         if (i.key() > m_position) {
             m_currentKeyframe = {i.key(),i.value()};
             slotSetPosition(i.key());
-            emit seekToPos(i.key());
+            emit seekToPos(i.key(), getKeyframePosition());
             std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
             emit selectedKf(m_currentKeyframe, speeds);
             break;
@@ -609,7 +614,7 @@ void RemapView::goPrev()
         }
         m_currentKeyframe = {it.key(), it.value()};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first);
+        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
         previousFound = true;
@@ -619,7 +624,7 @@ void RemapView::goPrev()
         // We are after the last keyframe
         m_currentKeyframe = {m_keyframes.lastKey(), m_keyframes.value(m_keyframes.lastKey())};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first);
+        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
     }
@@ -717,6 +722,41 @@ std::pair<double,double> RemapView::getSpeed(std::pair<int,int>kf)
         speeds.second = (double)qAbs(kf.first - it.key()) / qAbs(kf.second - it.value());
     }
     return speeds;
+}
+
+int RemapView::getKeyframePosition() const
+{
+    QMapIterator<int, int> i(m_keyframes);
+    std::pair<int, int> newKeyframe = {-1,-1};
+    std::pair<int, int> previous = {-1,-1};
+    newKeyframe.first = m_position;
+    while (i.hasNext()) {
+        i.next();
+        if (i.key() > m_position) {
+            if (i.key() == m_keyframes.firstKey()) {
+                // This is the first keyframe
+                double ratio = (double)m_position / i.key();
+                return i.value() * ratio;
+                break;
+            } else if (previous.first > -1) {
+                std::pair<int,int> current = {i.key(), i.value()};
+                double ratio = (double)(m_position - previous.first) / (current.first - previous.first);
+                return previous.second + (qAbs(current.second - previous.second) * ratio);
+                break;
+            }
+        }
+        previous = {i.key(), i.value()};
+    }
+    if (newKeyframe.second == -1) {
+        // We are after the last keyframe
+        if (m_keyframes.isEmpty()) {
+            return m_position;
+        } else {
+            double ratio = (double)(m_position - m_keyframes.lastKey()) / (m_duration - m_keyframes.lastKey());
+            return m_keyframes.value(m_keyframes.lastKey()) + (qAbs(m_duration - m_keyframes.value(m_keyframes.lastKey())) * ratio);
+        }
+    }
+    return m_position;
 }
 
 void RemapView::addKeyframe()
@@ -989,6 +1029,7 @@ void TimeRemap::selectedClip(int cid, int splitId)
     }
     QObject::disconnect( m_seekConnection1 );
     QObject::disconnect( m_seekConnection2 );
+    QObject::disconnect( m_seekConnection3 );
     m_cid = cid;
     m_splitId = splitId;
     if (cid == -1) {
@@ -999,9 +1040,11 @@ void TimeRemap::selectedClip(int cid, int splitId)
     m_remapLink.reset();
     bool keyframesLoaded = false;
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+    const QString binId = pCore->getTimelineClipBinId(cid);
     int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     int max = min + m_lastLength;
+    pCore->selectBinClip(binId, true, min, {min,max});
     m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
     m_in->setRange(min, max);
     m_out->setRange(min, max);
@@ -1042,11 +1085,15 @@ void TimeRemap::selectedClip(int cid, int splitId)
             }
         }
     }
-    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos) {
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos + m_startPos);
+    m_seekConnection3 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, [this](int pos) {
+        m_view->slotSetPosition(pos);
+    });
+    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos, int pos2) {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos2 + m_startPos);
+        pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(pos);
     });
     m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, [this](int pos) {
-        m_view->slotSetPosition(pos - m_startPos);
+        m_view->slotSetPosition(GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps()) - m_startPos);
     });
 }
 
@@ -1054,6 +1101,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 {
     QObject::disconnect( m_seekConnection1 );
     QObject::disconnect( m_seekConnection2 );
+    QObject::disconnect( m_seekConnection3 );
     m_cid = -1;
     if (!clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         qDebug()<<"===== CLIP NOT READY; TYPE; "<<clip->clipType();
@@ -1129,7 +1177,6 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                             qDebug()<<"=== UNHANDLED TRACK TYPE";
                             break;
                     }
-                    break;
                 }
             }
         }

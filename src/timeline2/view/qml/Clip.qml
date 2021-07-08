@@ -41,6 +41,7 @@ Rectangle {
     property int clipDuration: 0
     property int maxDuration: 0
     property bool isAudio: false
+    property bool timeremap: false
     property int audioChannels
     property int audioStream: -1
     property bool multiStream: false
@@ -893,6 +894,32 @@ Rectangle {
                         }
                         color: 'black'
                         styleColor: 'black'
+                    }
+                }
+                Rectangle{
+                    //proxy 
+                    id:remapRect
+                    color: '#cc0033'
+                    width: labelRect.height
+                    height: labelRect.height
+                    x: labelRect.x
+                    anchors.top: labelRect.top
+                    anchors.left: labelRect.right
+                    visible: clipRoot.timeremap
+                    Text {
+                        // Proxy P
+                        id: remapLabel
+                        text: "R"
+                        font.pointSize: root.fontUnit +1
+                        visible: remapRect.visible
+                        anchors {
+                            top: remapRect.top
+                            left: remapRect.left
+                            leftMargin: (labelRect.height-proxyLabel.width)/2
+                            topMargin: (labelRect.height-proxyLabel.height)/2
+                        }
+                        color: 'white'
+                        styleColor: 'white'
                     }
                 }
             }

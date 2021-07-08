@@ -160,6 +160,7 @@ public:
         SpeedRole,          /// clip only
         ReloadThumbRole,    /// clip only
         PositionOffsetRole, /// clip only
+        TimeRemapRole,      /// clip only
         ItemATrack,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
