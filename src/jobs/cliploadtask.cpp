@@ -700,9 +700,7 @@ void ClipLoadTask::abort()
 void ClipLoadTask::doProposeTranscode(const QString &resource)
 {
     QAction *ac = new QAction(i18n("Transcode"), m_object);
-    qDebug()<<"=== PREPARING TRANSCODE!!!";
     QObject::connect(ac, &QAction::triggered, [resource]() {
-        //QMetaObject::invokeMethod(pCore.get(), "transcodeFile", Qt::QueuedConnection, Q_ARG(QString, resource));
         pCore->transcodeFile(resource);
     });
     QList<QAction*>actions = {ac};

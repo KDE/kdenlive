@@ -228,9 +228,11 @@ void TranscodeTask::run()
         }
     } else {
         // Proxy process crashed
-        QFile::remove(destUrl);;
-        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
+        QFile::remove(destUrl);
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
     }
 }
 

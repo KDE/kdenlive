@@ -73,6 +73,9 @@ public:
 
     /** @brief Remove a finished task */
     void taskDone(int cid, AbstractTask *task);
+    
+    /** @brief Update the number of concurrent jobs allowed */
+    void updateConcurrency();
 
     /** @brief return the message of a given job on a given clip (message, detailed log)*/
     //QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;

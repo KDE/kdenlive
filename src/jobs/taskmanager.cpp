@@ -39,13 +39,17 @@ TaskManager::TaskManager(QObject *parent)
 {
     int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
     m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
-    // TODO: make configurable for user to adjust to GPU
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 TaskManager::~TaskManager()
 {
     slotCancelJobs();
+}
+
+void TaskManager::updateConcurrency()
+{
+    m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete)
