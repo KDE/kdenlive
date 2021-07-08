@@ -131,13 +131,13 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
         //resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
-        if (!pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
-            m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+        if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
             QString loader = resource;
             loader.prepend(QStringLiteral("consumer:"));
             return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
         } else {
-            m_errorMessage.append(i18n("No matching profile"));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Playlist has a different framerate (%1/%2fps), not supported.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             return nullptr;
         }
     }
@@ -451,10 +451,6 @@ void ClipLoadTask::run()
     }
     case ClipType::Playlist: {
         producer = loadPlaylist(resource);
-        if (!m_errorMessage.isEmpty()) {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString,m_errorMessage),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
-        }
         if (producer && resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(resource);
             QDomDocument doc;
@@ -512,7 +508,6 @@ void ClipLoadTask::run()
         }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
         abort();
         return;
     }
@@ -530,7 +525,6 @@ void ClipLoadTask::run()
         
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
-        m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
         abort();
         return;
     }
@@ -694,8 +688,14 @@ void ClipLoadTask::abort()
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            binClip->setInvalid();
-            pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+            if (binClip->hash().isEmpty()) {
+                // User tried to add an invalid clip, remove it.
+                binClip->setInvalid();
+                pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+            } else {
+                // An existing clip just became invalid, mark it as missing.
+                binClip->setClipStatus(FileStatus::StatusMissing);
+            }
         }
     }
     pCore->taskManager.taskDone(m_owner.second, this);

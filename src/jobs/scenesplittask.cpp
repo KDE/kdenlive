@@ -127,14 +127,16 @@ void SceneSplitTask::run()
     bool result;
     if (type != ClipType::AV && type != ClipType::Video) {
         // This job can only process video files
-        m_errorMessage.prepend(i18n("Cannot analyse this clip type"));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot analyse this clip type.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         qDebug()<<"=== ABORT 1";
         return;
     }
     if (KdenliveSettings::ffmpegpath().isEmpty()) {
         // FFmpeg not detected, cannot process the Job
-        m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         qDebug()<<"=== ABORT 2";
         return;
@@ -230,7 +232,8 @@ void SceneSplitTask::run()
         }
     } else {
         // Proxy process crashed
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to analyse clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
     }
 }
 
