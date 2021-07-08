@@ -2093,6 +2093,7 @@ void ProjectClip::updateJobProgress()
 void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
+    m_producerLock.unlock();
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)

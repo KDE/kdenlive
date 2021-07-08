@@ -36,6 +36,7 @@ class ProjectClip;
 
 class ClipLoadTask : public AbstractTask
 {
+    Q_OBJECT
 public:
     ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack);
     virtual ~ClipLoadTask();
@@ -51,6 +52,9 @@ public:
 protected:
     void run() override;
 
+private slots:
+    void doProposeTranscode(const QString &resource);
+
 private:
     //QString cacheKey();
     QDomElement m_xml;
@@ -61,6 +65,9 @@ private:
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
     void abort();
+
+signals:
+    void proposeTranscode(const QString &resource);
 };
 
 #endif // CLIPLOADTASK_H

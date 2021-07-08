@@ -223,6 +223,9 @@ public:
     const QString getOriginalUrl();
 
 protected:
+    /** @brief Mutex to protect the producer properties on read/write */
+    mutable QReadWriteLock m_producerLock;
+
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
     virtual void connectEffectStack(){};
 
@@ -255,8 +258,6 @@ protected:
     std::shared_ptr<Mlt::Producer> m_thumbsProducer;
 
 private:
-    /** @brief Mutex to protect the producer properties on read/write */
-    mutable QReadWriteLock m_producerLock;
     /** @brief Temporarily store clip properties until producer is available */
     QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;

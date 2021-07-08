@@ -55,6 +55,7 @@ ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool t
     , m_thumbOnly(thumbOnly)
     , m_readyCallBack(std::move(readyCallBack))
 {
+    QObject::connect(this, &ClipLoadTask::proposeTranscode, this, &ClipLoadTask::doProposeTranscode, Qt::QueuedConnection);
 }
 
 ClipLoadTask::~ClipLoadTask()
@@ -516,15 +517,8 @@ void ClipLoadTask::run()
         if (producer) {
             producer.reset();
         }
-        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60);
-        QAction *ac = new QAction(i18n("Transcode"), m_object);
-        QObject::connect(ac, &QAction::triggered, [&]() {
-            pCore->transcodeFile(resource);
-        });
-        QList<QAction*>actions = {ac};
-        
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
+        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60)<<"; RES: "<<resource;
+        emit proposeTranscode(resource);
         abort();
         return;
     }
@@ -685,18 +679,33 @@ void ClipLoadTask::abort()
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    m_progress = 100;
+    pCore->taskManager.taskDone(m_owner.second, this);
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
             if (binClip->hash().isEmpty()) {
                 // User tried to add an invalid clip, remove it.
-                binClip->setInvalid();
                 pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
             } else {
                 // An existing clip just became invalid, mark it as missing.
                 binClip->setClipStatus(FileStatus::StatusMissing);
+                
             }
         }
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
+}
+
+void ClipLoadTask::doProposeTranscode(const QString &resource)
+{
+    QAction *ac = new QAction(i18n("Transcode"), m_object);
+    qDebug()<<"=== PREPARING TRANSCODE!!!";
+    QObject::connect(ac, &QAction::triggered, [resource]() {
+        //QMetaObject::invokeMethod(pCore.get(), "transcodeFile", Qt::QueuedConnection, Q_ARG(QString, resource));
+        pCore->transcodeFile(resource);
+    });
+    QList<QAction*>actions = {ac};
+    QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
 }

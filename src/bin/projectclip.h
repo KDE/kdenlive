@@ -242,8 +242,6 @@ public:
     static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
-    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
-    void setInvalid();
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
@@ -284,6 +282,9 @@ public slots:
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
+    
+    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
+    void setInvalid();
 
     /**
      * Imports effect from a given producer
