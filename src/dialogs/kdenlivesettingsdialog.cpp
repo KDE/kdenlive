@@ -1203,7 +1203,7 @@ void KdenliveSettingsDialog::updateSettings()
         m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
     }
     
-    // procx/transcode max concurrent jobs
+    // proxy/transcode max concurrent jobs
     if (m_configEnv.kcfg_proxythreads->value() != KdenliveSettings::proxythreads()) {
         KdenliveSettings::setProxythreads(m_configEnv.kcfg_proxythreads->value());
         pCore->taskManager.updateConcurrency();
