@@ -489,6 +489,34 @@
       ]
     },
     {
+      "name": "libva",
+      "skip-arches": [
+        "aarch64"
+      ],
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/intel/libva/archive/refs/tags/2.12.0.tar.gz",
+          "sha256": "7bca8c8a854653e15e602f243e2452e84e4b454b26549bf80a932ab29d7d6b21"
+        }
+      ]
+    },
+    {
+      "name": "libva-utils",
+      "skip-arches": [
+        "aarch64"
+      ],
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.12.0.tar.gz",
+          "sha256": "bcab647f42147aa5cf83b324b6c3fe69e392e44d34aababfafcb6c3b4310377d"
+        }
+      ] 
+    },
+    {
       "name": "mediasdk",
       "buildsystem": "cmake-ninja",
       "builddir": true,
