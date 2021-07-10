@@ -233,6 +233,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[FadeOutRole] = "fadeOut";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
+    roles[TimeRemapRole] = "timeremap";
     roles[HeightRole] = "trackHeight";
     roles[TrackTagRole] = "trackTag";
     roles[ItemIdRole] = "item";
@@ -363,6 +364,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->selected;
         case TagRole:
             return clip->clipTag();
+        case TimeRemapRole:
+            return clip->isChain();
         default:
             break;
         }

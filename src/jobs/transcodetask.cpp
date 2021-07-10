@@ -157,7 +157,8 @@ void TranscodeTask::run()
         QStringList parameters;
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
             // FFmpeg not detected, cannot process the Job
-            m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -200,7 +201,8 @@ void TranscodeTask::run()
         if (QFileInfo(destUrl).size() == 0) {
             QFile::remove(destUrl);
             // File was not created
-            m_errorMessage.append(i18n("Failed to create file."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
             QString id = QString::number(m_owner.second);
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
@@ -226,8 +228,11 @@ void TranscodeTask::run()
         }
     } else {
         // Proxy process crashed
-        QFile::remove(destUrl);;
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        QFile::remove(destUrl);
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
     }
 }
 

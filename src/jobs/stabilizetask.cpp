@@ -38,13 +38,14 @@
 
 #include <klocalizedstring.h>
 
-StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object)
+StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, bool autoAddClip, std::unordered_map<QString, QVariant> filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::STABILIZEJOB, object)
     , m_binId(binId)
     , m_inPoint(in)
     , m_outPoint(out)
     , m_filterParams(filterParams)
     , m_destination(destination)
+    , m_addToProject(autoAddClip)
 {
 }
 
@@ -83,14 +84,14 @@ void StabilizeTask::start(QObject* object, bool force)
                 owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
                 if (binClip) {
-                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
+                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), d->autoAddClip(), filterParams, binClip.get());
                 }
             } else {
                 // Process full clip
                 owner = ObjectId(ObjectType::BinClip, id.toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(id);
                 if (binClip) {
-                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
+                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, d->autoAddClip(), filterParams, binClip.get());
                 }
             }
             if (task) {
@@ -118,7 +119,8 @@ void StabilizeTask::run()
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
-            m_errorMessage.append(i18n("No producer for this clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -133,6 +135,10 @@ void StabilizeTask::run()
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
         // TODO
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
         /*if (m_owner.first == ObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
         } else if (m_owner.first == ObjectType::TimelineTrack) {
@@ -182,11 +188,15 @@ void StabilizeTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to stabilize.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
         return;
     }
-
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,i18n("Stabilized")));
-    return;
+    if (m_addToProject) {
+        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,i18n("Stabilized")));
+    }
 }
 
 void StabilizeTask::processLogInfo()

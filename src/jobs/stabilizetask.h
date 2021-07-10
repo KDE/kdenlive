@@ -31,7 +31,7 @@ class QProcess;
 class StabilizeTask : public AbstractTask
 {
 public:
-    StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object);
+    StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, bool autoAddClip, std::unordered_map<QString, QVariant> filterParams, QObject* object);
     static void start(QObject* object, bool force = false);
     int length;
 
@@ -51,6 +51,7 @@ private:
     QString m_errorMessage;
     QString m_logDetails;
     std::unique_ptr<QProcess> m_jobProcess;
+    bool m_addToProject;
 };
 
 

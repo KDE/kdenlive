@@ -178,7 +178,8 @@ void SpeedTask::run()
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
-            m_errorMessage.append(i18n("No producer for this clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -190,6 +191,10 @@ void SpeedTask::run()
            producerArgs << QString("out=%1").arg(m_outPoint);
         }
     } else {
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
         // TODO
@@ -232,6 +237,10 @@ void SpeedTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create speed clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
         return;
     }
 

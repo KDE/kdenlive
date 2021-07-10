@@ -722,12 +722,12 @@ int ProjectClip::getRecordTime()
     return 0;
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist)
+std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist, bool timeremap)
 {
     if (!m_masterProducer) {
         return nullptr;
     }
-    if (qFuzzyCompare(speed, 1.0)) {
+    if (qFuzzyCompare(speed, 1.0) && !timeremap) {
         // we are requesting a normal speed producer
         bool byPassTrackProducer = false;
         if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
@@ -814,7 +814,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (m_timewarpProducers.count(clipId) > 0) {
         // remove in all cases, we add it unconditionally anyways
         m_effectStack->removeService(m_timewarpProducers[clipId]);
-        if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
+        if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed) || timeremap) {
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
             qDebug() << "Reusing producer!";
@@ -827,16 +827,23 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
         }
-        QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
-        warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
-        qDebug() << "new producer: " << url;
-        qDebug() << "warp LENGTH before" << warpProducer->get_length();
-        int original_length = originalProducer()->get_length();
+        if (timeremap) {
+            Mlt::Chain *chain = new Mlt::Chain(*originalProducer()->profile(), resource.toUtf8().constData());
+            Mlt::Link link("timeremap");
+            chain->attach(link);
+            warpProducer.reset(chain);
+        } else {
+            QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+            warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
+            int original_length = originalProducer()->get_length();
+            warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
+            qDebug() << "new producer: " << url;
+            qDebug() << "warp LENGTH before" << warpProducer->get_length();
+        }
         // this is a workaround to cope with Mlt erroneous rounding
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
         warpProducer->set("audio_index", audioStream);
     }
 
@@ -873,6 +880,8 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         bool timeWarp = false;
         if (QString::fromUtf8(master->parent().get("mlt_service")) == QLatin1String("timewarp")) {
             speed = master->parent().get_double("warp_speed");
+            timeWarp = true;
+        } else if (master->parent().type() == mlt_service_chain_type) {
             timeWarp = true;
         }
         if (master->parent().get_int("_loaded") == 1) {
@@ -2093,6 +2102,7 @@ void ProjectClip::updateJobProgress()
 void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
+    m_producerLock.unlock();
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)

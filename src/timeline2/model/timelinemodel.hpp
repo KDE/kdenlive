@@ -160,6 +160,7 @@ public:
         SpeedRole,          /// clip only
         ReloadThumbRole,    /// clip only
         PositionOffsetRole, /// clip only
+        TimeRemapRole,      /// clip only
         ItemATrack,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
@@ -690,6 +691,9 @@ public:
     /** @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
     bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
+    bool requestClipTimeRemap(int clipId);
+    bool requestClipTimeRemap(int clipId, Fun &undo, Fun &redo);
+    std::shared_ptr<Mlt::Producer> getClipProducer(int clipId);
 
     void replugClip(int clipId);
 

@@ -255,7 +255,6 @@ void CutTask::run()
             if (QFileInfo(m_destination).size() == 0) {
                 QFile::remove(m_destination);
                 // File was not created
-                m_logDetails.append(QString::fromUtf8(m_jobProcess->readAll()));
                 QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
             } else {
@@ -267,7 +266,6 @@ void CutTask::run()
         } else {
             // transcode task crashed
             QFile::remove(m_destination);
-            m_logDetails.append(QString::fromUtf8(m_jobProcess->readAll()));
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cut job failed.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }

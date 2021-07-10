@@ -194,7 +194,7 @@ public:
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false);
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false, bool timeremap = false);
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
@@ -242,8 +242,6 @@ public:
     static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
-    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
-    void setInvalid();
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
@@ -284,6 +282,9 @@ public slots:
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
+    
+    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
+    void setInvalid();
 
     /**
      * Imports effect from a given producer

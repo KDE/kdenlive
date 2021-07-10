@@ -204,7 +204,8 @@ void ProxyTask::run()
         QImage i(source);
         if (i.isNull()) {
             result = false;
-            m_errorMessage.append(i18n("Cannot load image %1.", source));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot load image %1.", source)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             m_progress = 100;
             pCore->taskManager.taskDone(m_owner.second, this);
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
@@ -263,7 +264,8 @@ void ProxyTask::run()
         m_isFfmpegJob = true;
         if (!QFileInfo(KdenliveSettings::ffmpegpath()).isFile()) {
             // FFmpeg not detected, cannot process the Job
-            m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             result = true;
             m_progress = 100;
             pCore->taskManager.taskDone(m_owner.second, this);
@@ -368,7 +370,8 @@ void ProxyTask::run()
             QFile::remove(dest);
             // File was not created
             result = false;
-            m_errorMessage.append(i18n("Failed to create proxy clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create proxy clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
             if (binClip) {
                 binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             }
@@ -379,7 +382,10 @@ void ProxyTask::run()
     } else {
         // Proxy process crashed
         QFile::remove(dest);
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create proxy clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
     }
     return;
 }

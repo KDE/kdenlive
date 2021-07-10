@@ -52,6 +52,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "ui_import_subtitle_ui.h"
+#include "dialogs/timeremap.h"
 
 #include <KColorScheme>
 #include <KMessageBox>
@@ -2193,6 +2194,20 @@ void TimelineController::invalidateZone(int in, int out)
     m_timelinePreview->invalidatePreview(in, out == -1 ? m_duration : out);
 }
 
+void TimelineController::remapItemTime(int clipId, double speed)
+{
+    if (clipId == -1) {
+        clipId = getMainSelectedClip();
+    }
+    if (clipId == -1 || !m_model->isClip(clipId)) {
+        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
+        return;
+    }
+    m_model->requestClipTimeRemap(clipId);
+    int splitId = m_model->m_groups->getSplitPartner(clipId);
+    pCore->timeRemapWidget()->selectedClip(clipId, splitId);
+}
+
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
     /*if (clipId == -1) {
@@ -3263,6 +3278,7 @@ void TimelineController::updateClipActions()
         emit timelineClipSelected(false);
         // nothing selected
         emit showItemEffectStack(QString(), nullptr, QSize(), false);
+        pCore->timeRemapWidget()->selectedClip(-1);
         emit showSubtitle(-1);
         return;
     }
@@ -3279,6 +3295,10 @@ void TimelineController::updateClipActions()
     }
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
+        if (clip->isChain()) {
+            int splitId = m_model->m_groups->getSplitPartner(item);
+            pCore->timeRemapWidget()->selectedClip(item, splitId);
+        }
     }
     for (QAction *act : qAsConst(clipActions)) {
         bool enableAction = true;
