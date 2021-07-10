@@ -8,6 +8,7 @@
   "rename-icon": "kdenlive",
   "desktop-file-name-suffix": " (Nightly)",
   "finish-args": [
+    "--require-version=0.11.4",
     "--share=ipc",
     "--socket=x11",
     "--device=all",
@@ -60,90 +61,7 @@
     "*.cmake"
   ],
   "modules": [
-    {
-      "name": "pyaaf2",
-      "buildsystem": "simple",
-      "build-commands": [
-        "python3 setup.py install --prefix=/app --root=/"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://files.pythonhosted.org/packages/fb/c1/67ceeba190efa1e6281b214c7d827cd05e7c8b82ba456a043f0ba5cc3eb4/pyaaf2-1.2.0.tar.gz",
-          "sha256": "08cba1f96caa41e23570e6961761ac192a42910fb2991dda3004550c931a610c"
-        }
-      ]
-    },
-    {
-      "name": "OpenTimelineIO",
-      "buildsystem": "simple",
-      "build-commands": [
-        "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.8'|\" -i setup.py",
-        "python3 setup.py install --prefix=/app --root=/ --cxx-install-root=/app"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://files.pythonhosted.org/packages/9e/bb/a3b1f7c94b42f20a59a0d5dbc693ebfeb7623f0f86953f0d946595e2b03d/OpenTimelineIO-0.13.0.tar.gz",
-          "sha256": "c29c947479687cad7844684016aecc2a640daa67cbefb2dbf5c6a1aca45bfe1b"
-        }
-      ]
-    },
-    {
-      "name": "python3-cffi",
-      "skip-arches": ["aarch64"],
-      "buildsystem": "simple",
-      "build-commands": [
-        "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"cffi\" --no-build-isolation"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/a8/20/025f59f929bbcaa579704f443a438135918484fffaacfaddba776b374563/cffi-1.14.5.tar.gz",
-          "sha256": "fd78e5fee591709f32ef6edb9a015b4aa1a5022598e36227500c8f4e02328d9c"
-        },
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/0f/86/e19659527668d70be91d0369aeaa055b4eb396b0f387a4f92293a20035bd/pycparser-2.20.tar.gz",
-          "sha256": "2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"
-        }
-      ]
-    },
-    {
-      "name": "python3-vosk",
-      "skip-arches": ["aarch64"],
-      "buildsystem": "simple",
-      "build-commands": [
-        "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"vosk\" --no-build-isolation"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/64/76/750788d585bbec701a6be11bf5a15587ed75a60f732c8044fe5e859d9b02/vosk-0.3.22-py3-none-manylinux2010_x86_64.whl",
-          "sha256": "d9c4106285536c91b08928a0b3a475e4329affea16c6508e4e9d6af1c6ada8fd"
-        },
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/96/43/c993eae7c0b0e099f967020d4ffbf6d010bd0498bc6c3457357b3a74e2f0/vosk-0.3.22-py3-none-linux_armv7l.whl",
-          "sha256": "903fc96aa9e9cf935fefd0cb8a305475fa9cc35401964c467aa8e34769a4f4fd"
-        }
-      ]
-    },
-    {
-      "name": "python3-srt",
-      "skip-arches": ["aarch64"],
-      "buildsystem": "simple",
-      "build-commands": [
-        "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"srt\" --no-build-isolation"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://files.pythonhosted.org/packages/3b/dd/0629a23b11da7696ce69e4432a2de6a1d1277bf2ba5cda624009069d4bb3/srt-3.4.1.tar.gz",
-          "sha256": "aa507439bf593adb1b207d21c5975c9774263da97489f8b90d8a016bfa67ee94"
-        }
-      ]
-    },
+    "python-modules.json",
     {
       "name": "rttr",
       "buildsystem": "cmake-ninja",
@@ -174,8 +92,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2",
-          "sha256": "685adf14bd8e9c015b78097c1dc22f2f01343756f196acdc76a678e1ae352e11"
+          "url": "https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.bz2",
+          "sha256": "0fa5cafe78f66d2b501b43016858070d52ba47bd9b1016b0165a7b8e04675677"
         }
       ]
     },
@@ -210,8 +128,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "http://www.fftw.org/fftw-3.3.8.tar.gz",
-          "sha256": "6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303"
+          "url": "http://www.fftw.org/fftw-3.3.9.tar.gz",
+          "sha256": "bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d"
         }
       ]
     },
@@ -236,18 +154,12 @@
     },
     {
       "name": "zimg",
+      "buildsystem": "autotools",
       "sources": [
         {
-          "type": "git",
-          "url": "https://github.com/sekrit-twc/zimg.git",
-          "commit": "e17ee6cf72509c32c15067b32615849e69486367"
-        },
-        {
-          "type": "script",
-          "dest-filename": "autogen.sh",
-          "commands": [
-            "autoreconf -vfi"
-          ]
+          "type": "archive",
+          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.2.tar.gz",
+          "sha256": "b9eadf1df12ae8395ba781f2468965d411b21abbebbebeae3651d492227d4633"
         }
       ]
     },
@@ -264,8 +176,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.exiv2.org/builds/exiv2-0.27.3-Source.tar.gz",
-          "sha256": "a79f5613812aa21755d578a297874fb59a85101e793edc64ec2c6bd994e3e778"
+          "url": "https://www.exiv2.org/builds/exiv2-0.27.4-Source.tar.gz",
+          "sha256": "84366dba7c162af9a7603bcd6c16f40fe0e9af294ba2fd2f66ffffb9fbec904e"
         }
       ]
     },
@@ -281,6 +193,28 @@
           "type": "archive",
           "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.0.tar.gz",
           "sha256": "14d2a053e56edad4f397be0cb3ef8eb1ec3150404ce99a426c4eb641861dc0bb"
+        }
+      ]
+    },
+    {
+      "name": "jack2",
+      "buildsystem": "simple",
+      "build-commands": [
+        "./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic",
+        "./waf build -j $FLATPAK_BUILDER_N_JOBS",
+        "./waf install"
+      ],
+      "cleanup": [
+        "/bin",
+        "/share",
+        "/lib/jack",
+        "/lib/libjackserver.so*"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/jackaudio/jack2/archive/v1.9.18.tar.gz",
+          "sha256": "5a1d64118034d58529d68a9af42710f9d4843536257c496118065ea3d3e4ae2c"
         }
       ]
     },
@@ -351,7 +285,8 @@
       "builddir": true,
       "no-make-install": true,
       "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release"
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF"
       ],
       "post-install": [
         "cp -v bigsh0t-*-linux/lib/frei0r-1/*.so /app/lib/frei0r-1"
@@ -381,28 +316,6 @@
           "type": "archive",
           "url": "https://www.ladspa.org/download/ladspa_sdk_1.15.tgz",
           "sha256": "4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded"
-        }
-      ]
-    },
-    {
-      "name": "jack2",
-      "buildsystem": "simple",
-      "build-commands": [
-        "./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic",
-        "./waf build -j $FLATPAK_BUILDER_N_JOBS",
-        "./waf install"
-      ],
-      "cleanup": [
-        "/bin",
-        "/share",
-        "/lib/jack",
-        "/lib/libjackserver.so*"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz",
-          "sha256": "a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c"
         }
       ]
     },
