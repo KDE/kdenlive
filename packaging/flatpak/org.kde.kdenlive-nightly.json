@@ -342,8 +342,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/libass/libass/releases/download/0.15.0/libass-0.15.0.tar.xz",
-          "sha256": "9f09230c9a0aa68ef7aa6a9e2ab709ca957020f842e52c5b2e52b801a7d9e833"
+          "url": "https://github.com/libass/libass/releases/download/0.15.1/libass-0.15.1.tar.xz",
+          "sha256": "1cdd39c9d007b06e737e7738004d7f38cf9b1e92843f37307b24e7ff63ab8e53"
         }
       ]
     },
@@ -357,7 +357,7 @@
         {
           "type": "git",
           "url": "https://code.videolan.org/videolan/x264.git",
-          "commit": "d198931a63049db1f2c92d96c34904c69fde8117"
+          "commit": "5db6aa6cab1b146e07b60cc1736a01f21da01154"
         }
       ]
     },
@@ -478,8 +478,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2020.06.16.tar.gz",
-          "sha256": "2f5a60e5ac4b127650618c58a7e3b35a84dbf23c1a0ac72eb5e7baf221600e06"
+          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2021.06.30.tar.gz",
+          "sha256": "6640d590c30d90f89351f5e3043ae6363feeb19ac5e64bc35f8cfa1a6cd5498e"
         }
       ]
     },
@@ -492,8 +492,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.18.tar.gz",
-          "sha256": "4f21ee07c8bb9b73ff48dbce7cb0917cdcd4d81d33333da391d97ce7f00642fe"
+          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v.1.4.21.tar.gz",
+          "sha256": "66b3a94bd284d313f9c682b331fae503f617d20126c9ce24f51b2117f5b3cf05"
         }
       ]
     },
@@ -510,8 +510,8 @@
         {
           "type": "git",
           "url": "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-          "commit": "7a81595786463d1c7efcb03aa85def69fc2cad41",
-          "tag": "n11.0.10.0"
+          "commit": "315ad740ac77282c7cea67ba31f2e4b373132919",
+          "tag": "n11.0.10.1"
         }
       ]
     },
@@ -580,13 +580,13 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv/archive/4.5.2.tar.gz",
-          "sha256": "ae258ed50aa039279c3d36afdea5c6ecf762515836b27871a8957c610d0424f8"
+          "url": "https://github.com/opencv/opencv/archive/4.5.3.tar.gz",
+          "sha256": "77f616ae4bea416674d8c373984b20c8bd55e7db887fd38c6df73463a0647bab"
         },
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.2.tar.gz",
-          "sha256": "9f52fd3114ac464cb4c9a2a6a485c729a223afb57b9c24848484e55cef0b5c2a"
+          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.3.tar.gz",
+          "sha256": "73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc"
         }
       ]
     },
@@ -630,19 +630,12 @@
     },
     {
       "name": "rubberband",
-      "config-opts": [
-        "--disable-program",
-        "--enable-shared",
-        "--disable-static",
-        "--without-ladspa",
-        "--disable-vamp",
-        "--without-jni"
-      ],
+      "buildsystem": "meson",
       "sources": [
         {
           "type": "archive",
-          "url": "https://breakfastquay.com/files/releases/rubberband-1.9.0.tar.bz2",
-          "sha256": "4f5b9509364ea876b4052fc390c079a3ad4ab63a2683aad09662fb905c2dc026"
+          "url": "https://breakfastquay.com/files/releases/rubberband-1.9.2.tar.bz2",
+          "sha256": "b3cff5968517141fcf9e1ef6b5a1fdb06a5511f148000609216cf182ff4ab612"
         }
       ]
     },
