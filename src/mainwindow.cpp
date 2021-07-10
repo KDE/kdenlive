@@ -1419,6 +1419,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("archive_project"), i18n("Archive Project"), this, SLOT(slotArchiveProject()),
               QIcon::fromTheme(QStringLiteral("document-save-all")));
     addAction(QStringLiteral("switch_monitor"), i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
+    addAction(QStringLiteral("focus_timecode"), i18n("Focus Timecode"), this, SLOT(slotFocusTimecode()), QIcon(), Qt::Key_Equal);
     addAction(QStringLiteral("expand_timeline_clip"), i18n("Expand Clip"), this, SLOT(slotExpandClip()),
               QIcon::fromTheme(QStringLiteral("document-open")));
 
@@ -3737,6 +3738,15 @@ void MainWindow::slotSwitchMonitors()
         getMainTimeline()->setFocus();
     } else {
         pCore->bin()->focusBinView();
+    }
+}
+
+void MainWindow::slotFocusTimecode()
+{
+    if (m_clipMonitor->isActive()) {
+        m_clipMonitor->focusTimecode();
+    } else if (m_projectMonitor) {
+        m_projectMonitor->focusTimecode();
     }
 }
 

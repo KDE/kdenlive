@@ -156,6 +156,8 @@ public:
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
     void updateDocumentUuid();
+    /** @brief Focus the timecode to alllow editing*/
+    void focusTimecode();
     
 
 protected:

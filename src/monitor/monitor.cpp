@@ -2494,3 +2494,9 @@ void Monitor::slotSwitchRecTimecode(bool enable)
         m_timePos->setOffset(m_controller->getRecordTime());
     }
 }
+
+void Monitor::focusTimecode()
+{
+    m_timePos->setFocus();
+    m_timePos->selectAll();
+}

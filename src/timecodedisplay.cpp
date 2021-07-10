@@ -245,6 +245,11 @@ const QString TimecodeDisplay::displayText() const
     return lineEdit()->displayText();
 }
 
+void TimecodeDisplay::selectAll()
+{
+    lineEdit()->selectAll();
+}
+
 void TimecodeDisplay::setOffset(int offset)
 {
     m_offset = GenTime(offset/1000.).frames(m_timecode.fps());

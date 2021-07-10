@@ -468,6 +468,8 @@ private slots:
     void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
+    /** @brief Focus the timecode widget of current monitor. */
+    void slotFocusTimecode();
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
