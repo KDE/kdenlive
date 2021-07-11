@@ -238,6 +238,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             } else {
                 // Moving bottom keyframe
                 auto kfrValues = m_keyframes.values();
+                //pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
                 if (!kfrValues.contains(pos)) {
                     int delta = pos - m_currentKeyframe.second;
                     // Check that the move is possible
@@ -302,11 +303,19 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             return;
         }
 
-        if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight && KdenliveSettings::keyframeseek())) {
+        if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight)) {
             if (pos != m_position) {
                 qDebug()<<"=== CURSOR MOVE MODE!!!";
-                slotSetPosition(pos);
-                emit seekToPos(pos, getKeyframePosition());
+                slotSetPosition(pos, true);
+                emit seekToPos(pos);
+            }
+        }
+        if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_bottomView)) {
+            pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
+            if (pos != getKeyframePosition()) {
+                qDebug()<<"=== CURSOR MOVE MODE!!!";
+                slotSetPosition(pos, true);
+                emit seekToPos2(getKeyframePosition());
             }
         }
         return;
@@ -472,8 +481,9 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     qDebug()<<"=== SETTING CURRENT KEYFRAME: "<<m_currentKeyframe.first;
                     m_moveKeyframeMode = TopMove;
                     if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
+                        slotSetPosition(m_currentKeyframeOriginal.first, true);
+                        emit seekToPos(m_currentKeyframeOriginal.first);
+                        emit seekToPos2(getKeyframePosition());
                     } else {
                         update();
                     }
@@ -518,8 +528,9 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 if (m_currentKeyframeOriginal.second > -1) {
                     m_moveKeyframeMode = BottomMove;
                     if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
+                        slotSetPosition(m_currentKeyframeOriginal.first, true);
+                        emit seekToPos(m_currentKeyframeOriginal.first);
+                        emit seekToPos2(getKeyframePosition());
                     } else {
                         update();
                     }
@@ -535,8 +546,16 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
-                slotSetPosition(pos);
-                emit seekToPos(pos, getKeyframePosition());
+                slotSetPosition(pos, true);
+                emit seekToPos(pos);
+                update();
+            }
+        } else if (event->y() > m_bottomView) {
+            qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
+            if (pos != m_position) {
+                m_moveKeyframeMode = CursorMoveBottom;
+                slotSetPosition(pos, true);
+                emit seekToPos2(getKeyframePosition());
                 update();
             }
         }
@@ -561,9 +580,12 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void RemapView::slotSetPosition(int pos)
+void RemapView::slotSetPosition(int pos, bool force)
 {
     if (pos != m_position) {
+        if (!force && m_moveKeyframeMode != NoMove) {
+            return;
+        }
         m_position = pos;
         //int offset = pCore->getItemIn(m_model->getOwnerId());
         emit atKeyframe(m_keyframes.contains(pos));
@@ -592,7 +614,8 @@ void RemapView::goNext()
         if (i.key() > m_position) {
             m_currentKeyframe = {i.key(),i.value()};
             slotSetPosition(i.key());
-            emit seekToPos(i.key(), getKeyframePosition());
+            emit seekToPos(i.key());
+            emit seekToPos2(getKeyframePosition());
             std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
             emit selectedKf(m_currentKeyframe, speeds);
             break;
@@ -614,7 +637,8 @@ void RemapView::goPrev()
         }
         m_currentKeyframe = {it.key(), it.value()};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
+        emit seekToPos(m_currentKeyframe.first);
+        emit seekToPos2(getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
         previousFound = true;
@@ -624,7 +648,8 @@ void RemapView::goPrev()
         // We are after the last keyframe
         m_currentKeyframe = {m_keyframes.lastKey(), m_keyframes.value(m_keyframes.lastKey())};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
+        emit seekToPos(m_currentKeyframe.first);
+        emit seekToPos2(getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
     }
@@ -934,18 +959,29 @@ void RemapView::paintEvent(QPaintEvent *event)
     /*
      * current position cursor
      */
-    p.setPen(m_colKeyframe);
+    p.setPen(m_colSelected);
     if (m_position >= 0 && m_position < m_duration) {
+        p.setBrush(m_colSelected);
         double scaledPos = m_position * m_scale;
+        int cursorwidth = int(m_lineHeight / 3);
         if (scaledPos >= m_zoomStart && qFloor(scaledPos) <= zoomEnd) {
             scaledPos -= m_zoomStart;
             scaledPos *= m_zoomFactor;
             scaledPos += m_offset;
-            QPolygon pa(3);
-            int cursorwidth = int(m_lineHeight / 3);
             QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_lineHeight * 0.5) << QPointF(cursorwidth, m_lineHeight * 0.5) << QPointF(0, 0);
             position.translate(scaledPos, m_lineHeight);
-            p.setBrush(m_colKeyframe);
+            p.drawPolygon(position);
+        }
+        int projectPos = getKeyframePosition();
+        double scaledPos2 = projectPos * m_scale;
+        if (scaledPos2 >= m_zoomStart && qFloor(scaledPos2) <= zoomEnd) {
+            scaledPos2 -= m_zoomStart;
+            scaledPos2 *= m_zoomFactor;
+            scaledPos2 += m_offset;
+            p.drawLine(scaledPos, m_lineHeight * 1.5, scaledPos2, m_bottomView - (m_lineHeight * 0.5));
+            QPolygonF position = QPolygonF() << QPointF(-cursorwidth, 0) << QPointF(cursorwidth, 0) << QPointF(0, m_lineHeight * 0.5);
+            position.translate(scaledPos2, m_bottomView - (m_lineHeight * 0.5));
+            p.setBrush(m_colSelected);
             p.drawPolygon(position);
         }
     }
@@ -1037,7 +1073,7 @@ void TimeRemap::selectedClip(int cid, int splitId)
         setEnabled(false);
         return;
     }
-    m_remapLink.reset();
+    m_view->m_remapLink.reset();
     bool keyframesLoaded = false;
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
     const QString binId = pCore->getTimelineClipBinId(cid);
@@ -1045,7 +1081,7 @@ void TimeRemap::selectedClip(int cid, int splitId)
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     int max = min + m_lastLength;
     pCore->selectBinClip(binId, true, min, {min,max});
-    m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
+    m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
     m_in->setRange(min, max);
     m_out->setRange(min, max);
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
@@ -1059,7 +1095,7 @@ void TimeRemap::selectedClip(int cid, int splitId)
             if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                 if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                     // Found a timeremap effect, read params
-                    m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                    m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
                     if (m_splitId > -1) {
                         std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
                         if (prod2->parent().type() == mlt_service_chain_type) {
@@ -1088,12 +1124,15 @@ void TimeRemap::selectedClip(int cid, int splitId)
     m_seekConnection3 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, [this](int pos) {
         m_view->slotSetPosition(pos);
     });
-    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos, int pos2) {
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos2 + m_startPos);
+    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos) {
         pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(pos);
     });
+    connect(m_view, &RemapView::seekToPos2, [this](int pos) {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos + m_view->m_startPos);
+    });
     m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, [this](int pos) {
-        m_view->slotSetPosition(GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps()) - m_startPos);
+        qDebug()<<"=== PROJECT SEEK: "<<pos<<", START: "<<m_view->m_startPos<<", MAPPED: "<<GenTime(m_view->m_remapLink->anim_get_double("map", pos - m_view->m_startPos)).frames(pCore->getCurrentFps());
+        m_view->slotSetPosition(GenTime(m_view->m_remapLink->anim_get_double("map", pos - m_view->m_startPos)).frames(pCore->getCurrentFps()));
     });
 }
 
@@ -1109,14 +1148,14 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         setEnabled(false);
         return;
     }
-    m_remapLink.reset();
+    m_view->m_remapLink.reset();
     bool keyframesLoaded = false;
     if (clip != nullptr) {
         int min = in == -1 ? 0 : in;
         int max = out == -1 ? clip->getFramePlaytime() : out;
         m_in->setRange(min, max);
         m_out->setRange(min, max);
-        m_startPos = 0;
+        m_view->m_startPos = 0;
         m_view->setBinClipDuration(clip, max - min);
         if (clip->clipType() == ClipType::Playlist) {
             Mlt::Service service(clip->originalProducer()->producer()->get_service());
@@ -1135,7 +1174,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                 if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                     if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                         // Found a timeremap effect, read params
-                                        m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
                                         QString mapData(fromLink->get("map"));
                                         m_view->loadKeyframes(mapData);
                                         keyframesLoaded = true;
@@ -1161,7 +1200,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                         if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                             if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                                 // Found a timeremap effect, read params
-                                                m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
                                                 QString mapData(fromLink->get("map"));
                                                 m_view->loadKeyframes(mapData);
                                                 keyframesLoaded = true;
@@ -1184,8 +1223,10 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
             m_view->loadKeyframes(QString());
         }
         m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
-        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, m_view, &RemapView::slotSetPosition);
-        setEnabled(m_remapLink != nullptr);
+        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, [&](int pos) {
+            m_view->slotSetPosition(pos);
+        });
+        setEnabled(m_view->m_remapLink != nullptr);
     } else {
         setEnabled(false);
     }
@@ -1194,8 +1235,8 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 void TimeRemap::updateKeyframes()
 {
     QString kfData = m_view->getKeyframesData();
-    if (m_remapLink) {
-        m_remapLink->set("map", kfData.toUtf8().constData());
+    if (m_view->m_remapLink) {
+        m_view->m_remapLink->set("map", kfData.toUtf8().constData());
         if (m_splitRemap) {
             m_splitRemap->set("map", kfData.toUtf8().constData());
         }

@@ -45,6 +45,7 @@ class RemapView : public QWidget
     Q_OBJECT
 
 public:
+    friend class TimeRemap;
     explicit RemapView(QWidget *parent = nullptr);
     void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
     void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
@@ -60,11 +61,13 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    std::shared_ptr<Mlt::Link> m_remapLink;
+    int m_startPos;
 
 public slots:
     void updateInPos(int pos);
     void updateOutPos(int pos);
-    void slotSetPosition(int pos);
+    void slotSetPosition(int pos, bool force = false);
     void addKeyframe();
     void goNext();
     void goPrev();
@@ -74,7 +77,7 @@ public slots:
     void reloadProducer();
 
 private:
-    enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove};
+    enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};
     int m_duration;
     int m_position;
     double m_scale;
@@ -112,7 +115,8 @@ private:
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
 
 signals:
-    void seekToPos(int, int);
+    void seekToPos(int);
+    void seekToPos2(int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
@@ -139,13 +143,11 @@ private slots:
     void updateKeyframes();
 
 private:
-    std::shared_ptr<Mlt::Link> m_remapLink;
     std::shared_ptr<Mlt::Link> m_splitRemap;
     TimecodeDisplay *m_in;
     TimecodeDisplay *m_out;
     RemapView *m_view;
     int m_lastLength;
-    int m_startPos;
     int m_cid;
     int m_splitId;
     QMetaObject::Connection m_seekConnection1;
