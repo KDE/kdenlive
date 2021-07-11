@@ -464,8 +464,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.34.tar.gz",
-          "sha256": "904d8f3ed14f583e0202db558532b64a8b1f6460d4ab5f68ae1562a00fbb3c5d"
+          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.35.tar.gz",
+          "sha256": "0790ff82158837124150ab4034db37433a92caac0f145f249d2f194d8ccba3ca"
         }
       ]
     },
