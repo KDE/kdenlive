@@ -29,6 +29,7 @@
 #include "mainwindow.h"
 #include "timeline2/view/timelinewidget.h"
 #include "timeline2/view/timelinecontroller.h"
+#include "timeline2/model/groupsmodel.hpp"
 #include "macros.hpp"
 
 #include "kdenlive_debug.h"
@@ -58,11 +59,16 @@ RemapView::RemapView(QWidget *parent)
     setMinimumSize(QSize(150, 80));
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     int size = QFontInfo(font()).pixelSize() * 3;
+    setFixedHeight(size * 4);
     m_lineHeight = int(size / 2.);
     m_zoomHeight = m_lineHeight * 0.5;
     m_offset = qCeil(m_lineHeight / 4);
-    setFixedHeight(size * 4);
+    m_bottomView = height() - m_zoomHeight - m_lineHeight - 5;
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    int maxWidth = width() - (2 * m_offset);
+    m_scale = maxWidth / double(qMax(1, m_duration - 1));
+    m_zoomStart = m_zoomHandle.x() * maxWidth;
+    m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
     timer.setInterval(500);
     timer.setSingleShot(true);
     connect(&timer, &QTimer::timeout, this, &RemapView::reloadProducer);
@@ -113,6 +119,8 @@ void RemapView::setBinClipDuration(std::shared_ptr<ProjectClip> clip, int durati
     m_clip = clip;
     m_service = clip->originalProducer();
     m_duration = duration;
+    int maxWidth = width() - (2 * m_offset);
+    m_scale = maxWidth / double(qMax(1, m_duration - 1));
     m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
 }
 
@@ -121,6 +129,8 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
     m_clip = nullptr;
     m_service = service;
     m_duration = duration;
+    int maxWidth = width() - (2 * m_offset);
+    m_scale = maxWidth / double(qMax(1, m_duration - 1));
     m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
 }
 
@@ -130,6 +140,7 @@ void RemapView::loadKeyframes(const QString &mapData)
     if (mapData.isEmpty()) {
         m_keyframes.insert(0, 0);
         m_keyframes.insert(m_duration - 1, m_duration - 1);
+        updateKeyframes();
     } else {
         QStringList str = mapData.split(QLatin1Char(';'));
         for (auto &s : str) {
@@ -235,7 +246,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 } else {
                     qDebug()<<"=== KEYFRAME :"<< pos<<" ALREADY EXISTS";
                 }
-            } else {
+            } else if (m_moveKeyframeMode == BottomMove) {
                 // Moving bottom keyframe
                 auto kfrValues = m_keyframes.values();
                 //pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
@@ -305,7 +316,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
 
         if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight)) {
             if (pos != m_position) {
-                qDebug()<<"=== CURSOR MOVE MODE!!!";
                 slotSetPosition(pos, true);
                 emit seekToPos(pos);
             }
@@ -313,7 +323,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_bottomView)) {
             pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
             if (pos != getKeyframePosition()) {
-                qDebug()<<"=== CURSOR MOVE MODE!!!";
                 slotSetPosition(pos, true);
                 emit seekToPos2(getKeyframePosition());
             }
@@ -452,7 +461,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     m_moveKeyframeMode = NoMove;
     m_keyframesOrigin = m_keyframes;
     if (event->button() == Qt::LeftButton) {
-        if (event->y() < m_lineHeight) {
+        if (event->y() > m_lineHeight && event->y() < 2 * m_lineHeight) {
             // mouse click in top keyframes area
             if (event->modifiers() & Qt::ShiftModifier) {
                 m_clickPoint = pos;
@@ -501,7 +510,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
             }
             return;
-        } else if (event->y() > m_bottomView) {
+        } else if (event->y() > m_bottomView - m_lineHeight && event->y() < m_bottomView) {
             // click in bottom keyframe area
             if (event->modifiers() & Qt::ShiftModifier) {
                 m_clickPoint = pos;
@@ -542,7 +551,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             // no keyframe next to mouse
             m_selectedKeyframes.clear();
             m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
-        } else if (event->y() < 2 * m_lineHeight) {
+        } else if (event->y() <= m_lineHeight) {
             qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
@@ -551,11 +560,12 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 update();
             }
         } else if (event->y() > m_bottomView) {
-            qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
-            if (pos != m_position) {
+            int topPos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
+            qDebug()<<"=== PRESSED WITH Y: "<<pos<<" = "<<m_remapLink->anim_get_double("map", pos)<<" TOP: "<<topPos;
+            if (topPos != m_position) {
                 m_moveKeyframeMode = CursorMoveBottom;
-                slotSetPosition(pos, true);
-                emit seekToPos2(getKeyframePosition());
+                slotSetPosition(topPos, true);
+                emit seekToPos2(pos);
                 update();
             }
         }
@@ -844,6 +854,16 @@ void RemapView::toggleMoveNext(bool moveNext)
     m_moveNext = moveNext;
 }
 
+void RemapView::resizeEvent(QResizeEvent *event)
+{
+    int maxWidth = width() - (2 * m_offset);
+    m_scale = maxWidth / double(qMax(1, m_duration - 1));
+    m_zoomStart = m_zoomHandle.x() * maxWidth;
+    m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+    QWidget::resizeEvent(event);
+    update();
+}
+
 void RemapView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
@@ -854,12 +874,11 @@ void RemapView::paintEvent(QPaintEvent *event)
     QColor bg = scheme.background(KColorScheme::AlternateBackground ).color();
     QStylePainter p(this);
     int maxWidth = width() - (2 * m_offset);
-    m_scale = maxWidth / double(qMax(1, m_duration));
-    int headOffset = m_lineHeight / 2;
-    m_zoomStart = m_zoomHandle.x() * maxWidth;
-    m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
-    p.fillRect(m_offset, m_lineHeight, maxWidth, m_lineHeight, bg);
+    // Top timeline
+    p.fillRect(m_offset, 0, maxWidth, m_lineHeight, bg);
+    // Bottom timeline
+    p.fillRect(m_offset, m_bottomView, maxWidth, m_lineHeight, bg);
     /* ticks */
     double fps = pCore->getCurrentFps();
     int displayedLength = int(m_duration / m_zoomFactor / fps);
@@ -905,22 +924,24 @@ void RemapView::paintEvent(QPaintEvent *event)
             break;
         }
         p.drawLine(QPointF(scaledTick , m_lineHeight + 1), QPointF(scaledTick, m_lineHeight - 3));
+        p.drawLine(QPointF(scaledTick , m_bottomView + 1), QPointF(scaledTick, m_bottomView - 3));
     }
-
-
 
     p.setPen(palette().dark().color());
 
     /*
-     * Time-"line"
+     * Time-"lines"
+     * We have a top timeline for the source (clip monitor) and a bottom timeline for the output (project monitor)
      */
-    m_bottomView = height() - m_zoomHeight - m_lineHeight - 5;
     p.setPen(m_colKeyframe);
+    // Top timeline
     p.drawLine(m_offset, m_lineHeight, maxWidth, m_lineHeight);
+    p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);
+    p.drawLine(maxWidth, m_lineHeight - m_lineHeight / 4, maxWidth, m_lineHeight + m_lineHeight / 4);
+    // Bottom timeline
     p.drawLine(m_offset, m_bottomView, maxWidth, m_bottomView);
-    p.drawLine(m_offset, m_lineHeight - headOffset / 2, m_offset, m_lineHeight + headOffset / 2);
-    p.drawLine(maxWidth, m_lineHeight - headOffset / 2, maxWidth, m_lineHeight + headOffset / 2);
-
+    p.drawLine(m_offset, m_bottomView - m_lineHeight / 4, m_offset, m_bottomView + m_lineHeight / 4);
+    p.drawLine(maxWidth, m_bottomView - m_lineHeight / 4, maxWidth, m_bottomView + m_lineHeight / 4);
     /*
      * Keyframes
      */
@@ -930,6 +951,7 @@ void RemapView::paintEvent(QPaintEvent *event)
         double inPos = (double)i.key() * m_scale;
         double outPos = (double)i.value() * m_scale;
         if ((inPos < m_zoomStart && outPos < m_zoomStart) || (qFloor(inPos) > zoomEnd && qFloor(outPos) > zoomEnd)) {
+            qDebug()<<"=== KEYFRAME OUTSIDE: "<<inPos<<"x"<<outPos<<", ZOOM ST: "<<m_zoomStart<<"x"<<zoomEnd;
             continue;
         }
         if ((m_hoverKeyframe.second == false && m_hoverKeyframe.first == i.key()) || (m_hoverKeyframe.second == true && m_hoverKeyframe.first == i.value())) {
@@ -949,11 +971,11 @@ void RemapView::paintEvent(QPaintEvent *event)
         outPos *= m_zoomFactor;
         outPos += m_offset;
 
-        p.drawLine(inPos, m_lineHeight, outPos, m_bottomView);
-        p.drawLine(inPos, m_lineHeight, inPos, m_lineHeight - headOffset);
-        p.drawLine(outPos, m_bottomView, outPos, m_bottomView + headOffset);
-        p.drawEllipse(QRectF(inPos - headOffset / 2.0, 0, headOffset, headOffset));
-        p.drawEllipse(QRectF(outPos - headOffset / 2.0, m_bottomView + headOffset, headOffset, headOffset));
+        p.drawLine(inPos, m_lineHeight + m_lineHeight * 0.75, outPos, m_bottomView - m_lineHeight * 0.75);
+        p.drawLine(inPos, m_lineHeight, inPos, m_lineHeight + m_lineHeight / 2);
+        p.drawLine(outPos, m_bottomView, outPos, m_bottomView - m_lineHeight / 2);
+        p.drawEllipse(QRectF(inPos - m_lineHeight / 4.0, m_lineHeight + m_lineHeight / 2, m_lineHeight / 2, m_lineHeight / 2));
+        p.drawEllipse(QRectF(outPos - m_lineHeight / 4.0, m_bottomView - m_lineHeight, m_lineHeight / 2, m_lineHeight / 2));
     }
 
     /*
@@ -963,14 +985,14 @@ void RemapView::paintEvent(QPaintEvent *event)
     if (m_position >= 0 && m_position < m_duration) {
         p.setBrush(m_colSelected);
         double scaledPos = m_position * m_scale;
-        int cursorwidth = int(m_lineHeight / 3);
         if (scaledPos >= m_zoomStart && qFloor(scaledPos) <= zoomEnd) {
             scaledPos -= m_zoomStart;
             scaledPos *= m_zoomFactor;
             scaledPos += m_offset;
-            QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_lineHeight * 0.5) << QPointF(cursorwidth, m_lineHeight * 0.5) << QPointF(0, 0);
-            position.translate(scaledPos, m_lineHeight);
-            p.drawPolygon(position);
+            QPolygonF topCursor;
+            topCursor << QPointF(-int(m_lineHeight / 3), -m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), -m_lineHeight * 0.5) << QPointF(0, 0);
+            topCursor.translate(scaledPos, m_lineHeight);
+            p.drawPolygon(topCursor);
         }
         int projectPos = getKeyframePosition();
         double scaledPos2 = projectPos * m_scale;
@@ -978,11 +1000,14 @@ void RemapView::paintEvent(QPaintEvent *event)
             scaledPos2 -= m_zoomStart;
             scaledPos2 *= m_zoomFactor;
             scaledPos2 += m_offset;
-            p.drawLine(scaledPos, m_lineHeight * 1.5, scaledPos2, m_bottomView - (m_lineHeight * 0.5));
-            QPolygonF position = QPolygonF() << QPointF(-cursorwidth, 0) << QPointF(cursorwidth, 0) << QPointF(0, m_lineHeight * 0.5);
-            position.translate(scaledPos2, m_bottomView - (m_lineHeight * 0.5));
+            p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 0.75));
+            p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
+            p.drawLine(scaledPos2, m_bottomView, scaledPos2, m_bottomView - m_lineHeight * 0.75);
+            QPolygonF bottomCursor;
+            bottomCursor << QPointF(-int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(0, 0);
+            bottomCursor.translate(scaledPos2, m_bottomView);
             p.setBrush(m_colSelected);
-            p.drawPolygon(position);
+            p.drawPolygon(bottomCursor  );
         }
     }
 
@@ -1058,7 +1083,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     setEnabled(false);
 }
 
-void TimeRemap::selectedClip(int cid, int splitId)
+void TimeRemap::selectedClip(int cid)
 {
     if (cid == -1 && cid == m_cid) {
         return;
@@ -1067,7 +1092,6 @@ void TimeRemap::selectedClip(int cid, int splitId)
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     m_cid = cid;
-    m_splitId = splitId;
     if (cid == -1) {
         m_view->setDuration(nullptr, 0);
         setEnabled(false);
@@ -1076,6 +1100,8 @@ void TimeRemap::selectedClip(int cid, int splitId)
     m_view->m_remapLink.reset();
     bool keyframesLoaded = false;
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+    model->requestClipTimeRemap(cid);
+    m_splitId = model->m_groups->getSplitPartner(cid);
     const QString binId = pCore->getTimelineClipBinId(cid);
     int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
@@ -1112,7 +1138,6 @@ void TimeRemap::selectedClip(int cid, int splitId)
                         }
                     }
                     QString mapData(fromLink->get("map"));
-                    qDebug()<<"==== LOADING KEYFRAMES FROM MAP: "<<mapData;
                     m_view->loadKeyframes(mapData);
                     keyframesLoaded = true;
                     setEnabled(true);

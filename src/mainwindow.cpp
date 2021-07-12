@@ -271,6 +271,13 @@ void MainWindow::init(const QString &mltPath)
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
+    connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock] (int id) {
+        if (id > -1) {
+            timeRemapDock->show();
+            timeRemapDock->raise();
+        }
+        pCore->timeRemapWidget()->selectedClip(id);
+    });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);

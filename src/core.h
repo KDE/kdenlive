@@ -325,6 +325,9 @@ signals:
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */
     void disconnectEffectStack();
+    /** @brief Add a time remap effect to clip and show keyframes dialog */
+    void remapClip(int cid);
+
 };
 
 #endif

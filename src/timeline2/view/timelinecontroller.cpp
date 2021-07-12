@@ -2203,9 +2203,7 @@ void TimelineController::remapItemTime(int clipId, double speed)
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
-    m_model->requestClipTimeRemap(clipId);
-    int splitId = m_model->m_groups->getSplitPartner(clipId);
-    pCore->timeRemapWidget()->selectedClip(clipId, splitId);
+    pCore->remapClip(clipId);
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -3296,8 +3294,7 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
         if (clip->isChain()) {
-            int splitId = m_model->m_groups->getSplitPartner(item);
-            pCore->timeRemapWidget()->selectedClip(item, splitId);
+            pCore->remapClip(item);
         }
     }
     for (QAction *act : qAsConst(clipActions)) {
