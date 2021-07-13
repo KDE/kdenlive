@@ -317,14 +317,14 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight)) {
             if (pos != m_position) {
                 slotSetPosition(pos, true);
-                emit seekToPos(pos);
+                emit seekToPos(pos, -1);
             }
         }
         if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_bottomView)) {
             pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
             if (pos != getKeyframePosition()) {
                 slotSetPosition(pos, true);
-                emit seekToPos2(getKeyframePosition());
+                emit seekToPos(-1, getKeyframePosition());
             }
         }
         return;
@@ -491,8 +491,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     m_moveKeyframeMode = TopMove;
                     if (KdenliveSettings::keyframeseek()) {
                         slotSetPosition(m_currentKeyframeOriginal.first, true);
-                        emit seekToPos(m_currentKeyframeOriginal.first);
-                        emit seekToPos2(getKeyframePosition());
+                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
                     }
@@ -538,8 +537,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     m_moveKeyframeMode = BottomMove;
                     if (KdenliveSettings::keyframeseek()) {
                         slotSetPosition(m_currentKeyframeOriginal.first, true);
-                        emit seekToPos(m_currentKeyframeOriginal.first);
-                        emit seekToPos2(getKeyframePosition());
+                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
                     }
@@ -556,7 +554,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
                 slotSetPosition(pos, true);
-                emit seekToPos(pos);
+                emit seekToPos(pos, -1);
                 update();
             }
         } else if (event->y() > m_bottomView) {
@@ -565,7 +563,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             if (topPos != m_position) {
                 m_moveKeyframeMode = CursorMoveBottom;
                 slotSetPosition(topPos, true);
-                emit seekToPos2(pos);
+                emit seekToPos(-1, pos);
                 update();
             }
         }
@@ -624,8 +622,7 @@ void RemapView::goNext()
         if (i.key() > m_position) {
             m_currentKeyframe = {i.key(),i.value()};
             slotSetPosition(i.key());
-            emit seekToPos(i.key());
-            emit seekToPos2(getKeyframePosition());
+            emit seekToPos(i.key(), getKeyframePosition());
             std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
             emit selectedKf(m_currentKeyframe, speeds);
             break;
@@ -647,8 +644,7 @@ void RemapView::goPrev()
         }
         m_currentKeyframe = {it.key(), it.value()};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first);
-        emit seekToPos2(getKeyframePosition());
+        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
         previousFound = true;
@@ -658,8 +654,7 @@ void RemapView::goPrev()
         // We are after the last keyframe
         m_currentKeyframe = {m_keyframes.lastKey(), m_keyframes.value(m_keyframes.lastKey())};
         slotSetPosition(m_currentKeyframe.first);
-        emit seekToPos(m_currentKeyframe.first);
-        emit seekToPos2(getKeyframePosition());
+        emit seekToPos(m_currentKeyframe.first, getKeyframePosition());
         std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
         emit selectedKf(m_currentKeyframe, speeds);
     }
@@ -1149,11 +1144,13 @@ void TimeRemap::selectedClip(int cid)
     m_seekConnection3 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, [this](int pos) {
         m_view->slotSetPosition(pos);
     });
-    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int pos) {
-        pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(pos);
-    });
-    connect(m_view, &RemapView::seekToPos2, [this](int pos) {
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(pos + m_view->m_startPos);
+    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int topPos, int bottomPos) {
+        if (topPos > -1 && source_seek->isChecked()) {
+            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(topPos);
+        }
+        if (bottomPos > -1 && output_seek->isChecked()) {
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
+        }
     });
     m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, [this](int pos) {
         qDebug()<<"=== PROJECT SEEK: "<<pos<<", START: "<<m_view->m_startPos<<", MAPPED: "<<GenTime(m_view->m_remapLink->anim_get_double("map", pos - m_view->m_startPos)).frames(pCore->getCurrentFps());

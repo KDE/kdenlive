@@ -116,8 +116,7 @@ private:
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
 
 signals:
-    void seekToPos(int);
-    void seekToPos2(int);
+    void seekToPos(int, int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
