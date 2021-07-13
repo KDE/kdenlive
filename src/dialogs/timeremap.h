@@ -57,6 +57,7 @@ public:
     QTimer timer;
 
 protected:
+    void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -115,8 +116,7 @@ private:
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
 
 signals:
-    void seekToPos(int);
-    void seekToPos2(int);
+    void seekToPos(int,int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
@@ -136,7 +136,7 @@ class TimeRemap : public QWidget, public Ui::TimeRemap_UI
 public:
     explicit TimeRemap(QWidget *parent = nullptr);
     ~TimeRemap() override;
-    void selectedClip(int cid, int splitId = -1);
+    void selectedClip(int cid);
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
 
 private slots:
