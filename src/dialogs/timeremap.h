@@ -54,6 +54,7 @@ public:
     int position() const;
     int getKeyframePosition() const;
     int remapDuration() const;
+    void refreshOnDurationChanged(int remapDuration);
     QTimer timer;
 
 protected:
