@@ -173,7 +173,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
     // m_producer->get_length();
-    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
+    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !isChain()) {
         return false;
     }
     int delta = getPlaytime() - size;
@@ -190,7 +190,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (!right && in + delta < 0) {
             return false;
         }
-        if (right && (out - delta >= m_producer->get_length())) {
+        if (right && (out - delta >= m_producer->get_length()) && !isChain()) {
             return false;
         }
     }

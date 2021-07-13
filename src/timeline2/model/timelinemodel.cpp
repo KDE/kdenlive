@@ -2896,11 +2896,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int offset = getItemPlaytime(itemId);
     int tid = getItemTrackId(itemId);
     int out = offset;
+    qDebug()<<"======= REQUESTING NEW CLIP SIZE: "<<size;
     if (tid != -1 || !isClip(itemId)) {
         in = qMax(0, getItemPosition(itemId));
         out += in;
         size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
     }
+    qDebug()<<"======= ADJUSTED NEW CLIP SIZE: "<<size;
     offset -= size;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };

@@ -84,6 +84,7 @@ void RemapView::updateInPos(int pos)
         m_keyframes.insert(pos, m_currentKeyframe.second);
         m_keyframes.remove(m_currentKeyframe.first);
         m_currentKeyframe.first = pos;
+        updateKeyframes();
         update();
     }
 }
@@ -97,6 +98,7 @@ void RemapView::updateOutPos(int pos)
         }
         m_keyframes.insert(m_currentKeyframe.first, pos);
         m_currentKeyframe.second = pos;
+        updateKeyframes();
         update();
     }
 }
@@ -150,6 +152,10 @@ void RemapView::loadKeyframes(const QString &mapData)
             m_duration = qMax(m_duration, pos);
             m_duration = qMax(m_duration, val);
         }
+        int maxWidth = width() - (2 * m_offset);
+        m_scale = maxWidth / double(qMax(1, m_duration - 1));
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
         emit updateMaxDuration(m_duration);
         if (m_keyframes.contains(m_currentKeyframe.first)) {
             emit atKeyframe(true);
@@ -171,6 +177,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
     int pos = int(((double(event->x()) - m_offset) / zoomFactor + zoomStart ) / m_scale);
+    int realPos = qMax(0, pos);
     pos = qBound(0, pos, m_duration - 1);
     GenTime position(pos, pCore->getCurrentFps());
     if (event->buttons() == Qt::NoButton) {
@@ -284,8 +291,8 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 // Moving bottom keyframe
                 auto kfrValues = m_keyframes.values();
                 //pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
-                if (!kfrValues.contains(pos)) {
-                    int delta = pos - m_currentKeyframe.second;
+                if (!kfrValues.contains(realPos)) {
+                    int delta = realPos - m_currentKeyframe.second;
                     // Check that the move is possible
                     auto selectedValues = m_selectedKeyframes.values();
                     QMapIterator<int, int> i(m_selectedKeyframes);
@@ -304,7 +311,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         m_keyframes.insert(i.key(), i.value() + delta);
                         updated.insert(i.key(), i.value() + delta);
                         if (i.value() == m_currentKeyframe.second) {
-                            m_currentKeyframe.second = pos;
+                            m_currentKeyframe.second = realPos;
                         }
                     }
                     // Update all keyframes after selection
@@ -710,6 +717,7 @@ void RemapView::updateBeforeSpeed(double speed)
             it++;
             m_keyframes.insert(it.key(), it.value() + offset);
         }
+        updateKeyframes();
         update();
     }
 }
@@ -721,6 +729,7 @@ void RemapView::updateAfterSpeed(double speed)
         it++;
         int updatedLength = (it.key() - m_currentKeyframe.first) * 100. / speed;
         m_keyframes.insert(it.key(), m_currentKeyframe.second + updatedLength);
+        updateKeyframes();
         update();
     }
 }
@@ -883,6 +892,17 @@ void RemapView::addKeyframe()
 void RemapView::toggleMoveNext(bool moveNext)
 {
     m_moveNext = moveNext;
+}
+
+void RemapView::refreshOnDurationChanged(int remapDuration)
+{
+    if (remapDuration > m_duration) {
+        m_duration = remapDuration;
+        int maxWidth = width() - (2 * m_offset);
+        m_scale = maxWidth / double(qMax(1, m_duration - 1));
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+    }
 }
 
 void RemapView::resizeEvent(QResizeEvent *event)
@@ -1109,8 +1129,8 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(button_prev, &QToolButton::clicked, m_view, &RemapView::goPrev);
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
     connect(m_view, &RemapView::updateMaxDuration, [this](int duration) {
-        m_out->setRange(m_out->minimum(), duration);
-        m_in->setRange(m_in->minimum(), duration);
+        m_out->setRange(m_out->minimum(), INT_MAX);
+        m_in->setRange(m_in->minimum(), duration - 1);
     });
     setEnabled(false);
 }
@@ -1141,8 +1161,8 @@ void TimeRemap::selectedClip(int cid)
     int max = min + m_lastLength;
     pCore->selectBinClip(binId, true, min, {min,max});
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
-    m_in->setRange(min, max);
-    m_out->setRange(min, max);
+    m_in->setRange(min, max - 1);
+    m_out->setRange(min, INT_MAX);
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
     m_view->setDuration(prod, max - min);
     qDebug()<<"===== GOT PRODUCER TYPE: "<<prod->parent().type();
@@ -1198,6 +1218,9 @@ void TimeRemap::selectedClip(int cid)
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 {
+    if (m_cid > -1 && clip == nullptr) {
+        return;
+    }
     QObject::disconnect( m_seekConnection1 );
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
@@ -1213,7 +1236,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         int min = in == -1 ? 0 : in;
         int max = out == -1 ? clip->getFramePlaytime() : out;
         m_in->setRange(min, max);
-        m_out->setRange(min, max);
+        m_out->setRange(min, INT_MAX);
         m_view->m_startPos = 0;
         m_view->setBinClipDuration(clip, max - min);
         if (clip->clipType() == ClipType::Playlist) {
@@ -1306,8 +1329,8 @@ void TimeRemap::updateKeyframes()
             m_view->timer.start();
         } else if (m_lastLength != m_view->remapDuration()) {
             // Resize timeline clip
-            qDebug()<<"=== LAST LENGTH: "<<m_lastLength <<" != "<<m_view->remapDuration();
             m_lastLength = m_view->remapDuration();
+            m_view->refreshOnDurationChanged(m_lastLength);
             std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
             model->requestItemResize(m_cid, m_lastLength, true, true, -1, false);
         }
@@ -1318,5 +1341,3 @@ TimeRemap::~TimeRemap()
 {
     //delete m_previewTimer;
 }
-
-
