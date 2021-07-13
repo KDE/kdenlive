@@ -198,11 +198,19 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             // Moving zoom handles
             if (m_hoverZoomIn) {
                 m_zoomHandle.setX(qMin(qMax(0., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
+                int maxWidth = width() - (2 * m_offset);
+                m_scale = maxWidth / double(qMax(1, m_duration - 1));
+                m_zoomStart = m_zoomHandle.x() * maxWidth;
+                m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
                 return;
             }
             if (m_hoverZoomOut) {
                 m_zoomHandle.setY(qMax(qMin(1., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
+                int maxWidth = width() - (2 * m_offset);
+                m_scale = maxWidth / double(qMax(1, m_duration - 1));
+                m_zoomStart = m_zoomHandle.x() * maxWidth;
+                m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
                 return;
             }
@@ -222,6 +230,10 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 }
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
                 m_zoomHandle = QPointF(newX, newY);
+                int maxWidth = width() - (2 * m_offset);
+                m_scale = maxWidth / double(qMax(1, m_duration - 1));
+                m_zoomStart = m_zoomHandle.x() * maxWidth;
+                m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
             }
             return;
@@ -1005,10 +1017,10 @@ void RemapView::paintEvent(QPaintEvent *event)
     if (m_position >= 0 && m_position < m_duration) {
         p.setBrush(m_colSelected);
         double scaledPos = m_position * m_scale;
-        if (scaledPos >= m_zoomStart && qFloor(scaledPos) <= zoomEnd) {
-            scaledPos -= m_zoomStart;
-            scaledPos *= m_zoomFactor;
-            scaledPos += m_offset;
+        scaledPos -= m_zoomStart;
+        scaledPos *= m_zoomFactor;
+        scaledPos += m_offset;
+        if (scaledPos >= m_offset && qFloor(scaledPos) <= m_offset + maxWidth) {
             QPolygonF topCursor;
             topCursor << QPointF(-int(m_lineHeight / 3), -m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), -m_lineHeight * 0.5) << QPointF(0, 0);
             topCursor.translate(scaledPos, m_lineHeight);
@@ -1016,19 +1028,19 @@ void RemapView::paintEvent(QPaintEvent *event)
         }
         int projectPos = getKeyframePosition();
         double scaledPos2 = projectPos * m_scale;
-        if (scaledPos2 >= m_zoomStart && qFloor(scaledPos2) <= zoomEnd) {
-            scaledPos2 -= m_zoomStart;
-            scaledPos2 *= m_zoomFactor;
-            scaledPos2 += m_offset;
-            p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 0.75));
-            p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
-            p.drawLine(scaledPos2, m_bottomView, scaledPos2, m_bottomView - m_lineHeight * 0.75);
+        scaledPos2 -= m_zoomStart;
+        scaledPos2 *= m_zoomFactor;
+        scaledPos2 += m_offset;
+        if (scaledPos2 >= m_offset && qFloor(scaledPos2) <= m_offset + maxWidth) {
             QPolygonF bottomCursor;
             bottomCursor << QPointF(-int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(0, 0);
             bottomCursor.translate(scaledPos2, m_bottomView);
             p.setBrush(m_colSelected);
             p.drawPolygon(bottomCursor  );
         }
+        p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 0.75));
+        p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
+        p.drawLine(scaledPos2, m_bottomView, scaledPos2, m_bottomView - m_lineHeight * 0.75);
     }
 
     // Zoom bar
