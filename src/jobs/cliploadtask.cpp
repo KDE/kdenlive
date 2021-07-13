@@ -47,13 +47,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageWidget>
 
 
-ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack)
+ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object)
     : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_in(in)
     , m_out(out)
     , m_thumbOnly(thumbOnly)
-    , m_readyCallBack(std::move(readyCallBack))
 {
     QObject::connect(this, &ClipLoadTask::proposeTranscode, this, &ClipLoadTask::doProposeTranscode, Qt::QueuedConnection);
 }
@@ -64,7 +63,7 @@ ClipLoadTask::~ClipLoadTask()
 
 void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object, readyCallBack);
+    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
         task = 0;
@@ -73,6 +72,9 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
         pCore->taskManager.startTask(owner.second, task);
+        connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
+            QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
+        });
     }
 }
 
@@ -666,7 +668,7 @@ void ClipLoadTask::run()
 
         }
         generateThumbnail(binClip, producer);
-        m_readyCallBack();
+        emit taskDone();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
             pCore->selectBinClip(QString::number(m_owner.second), false);
