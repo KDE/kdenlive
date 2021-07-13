@@ -38,7 +38,7 @@ class ClipLoadTask : public AbstractTask
 {
     Q_OBJECT
 public:
-    ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack);
+    ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object);
     virtual ~ClipLoadTask();
     static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
     static ClipType::ProducerType getTypeForService(const QString &id, const QString &path);
@@ -61,13 +61,13 @@ private:
     int m_in;
     int m_out;
     bool m_thumbOnly;
-    std::function<void()> m_readyCallBack;
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
     void abort();
 
 signals:
     void proposeTranscode(const QString &resource);
+    void taskDone();
 };
 
 #endif // CLIPLOADTASK_H
