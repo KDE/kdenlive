@@ -2024,7 +2024,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
                 //TODO: testing only, we should check clip type...
-                pCore->timeRemapWidget()->setClip(clip);
+                if (type == ClipType::Playlist) {
+                    pCore->timeRemapWidget()->setClip(clip);
+                } else {
+                    pCore->timeRemapWidget()->setClip(nullptr);
+                }
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
