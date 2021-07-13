@@ -173,7 +173,27 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
     int pos = int(((double(event->x()) - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     GenTime position(pos, pCore->getCurrentFps());
-    if ((event->buttons() & Qt::LeftButton) != 0u) {
+    if (event->buttons() == Qt::NoButton) {
+        bool hoverKeyframe = false;
+        if (event->y() > m_lineHeight && event->y() < 2 * m_lineHeight) {
+            // mouse click in top keyframes area
+            int keyframe = getClosestKeyframe(pos);
+            if (keyframe > -1 && qAbs(keyframe - pos) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                hoverKeyframe = true;
+            }
+        } else if (event->y() > m_bottomView - m_lineHeight && event->y() < m_bottomView) {
+            // click in bottom keyframe area
+            int keyframe = getClosestKeyframe(pos, true);
+            if (keyframe > -1 && qAbs(keyframe - pos) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                hoverKeyframe = true;
+            }
+        }
+        if (hoverKeyframe) {
+            setCursor(Qt::PointingHandCursor);
+        } else {
+            setCursor(Qt::ArrowCursor);
+        }
+    } else if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_hoverZoomIn || m_hoverZoomOut || m_hoverZoom) {
             // Moving zoom handles
             if (m_hoverZoomIn) {
@@ -242,7 +262,9 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     }
                     m_selectedKeyframes = updated;
                     updateKeyframes();
-                    update();
+                    slotSetPosition(pos, true);
+                    emit seekToPos(pos, -1);
+                    return;
                 } else {
                     qDebug()<<"=== KEYFRAME :"<< pos<<" ALREADY EXISTS";
                 }
@@ -287,7 +309,9 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     emit selectedKf(m_currentKeyframe, speeds);
                     m_selectedKeyframes = updated;
                     updateKeyframes();
+                    emit seekToPos(-1, pos);
                     update();
+                    return;
                 }
             }
         }
@@ -871,9 +895,9 @@ void RemapView::paintEvent(QPaintEvent *event)
     int maxWidth = width() - (2 * m_offset);
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
     // Top timeline
-    p.fillRect(m_offset, 0, maxWidth, m_lineHeight, bg);
+    p.fillRect(m_offset, 0, maxWidth + 1, m_lineHeight, bg);
     // Bottom timeline
-    p.fillRect(m_offset, m_bottomView, maxWidth, m_lineHeight, bg);
+    p.fillRect(m_offset, m_bottomView, maxWidth + 1, m_lineHeight, bg);
     /* ticks */
     double fps = pCore->getCurrentFps();
     int displayedLength = int(m_duration / m_zoomFactor / fps);
@@ -930,13 +954,14 @@ void RemapView::paintEvent(QPaintEvent *event)
      */
     p.setPen(m_colKeyframe);
     // Top timeline
-    p.drawLine(m_offset, m_lineHeight, maxWidth, m_lineHeight);
+    qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
+    p.drawLine(m_offset, m_lineHeight, maxWidth + m_offset, m_lineHeight);
     p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);
-    p.drawLine(maxWidth, m_lineHeight - m_lineHeight / 4, maxWidth, m_lineHeight + m_lineHeight / 4);
+    p.drawLine(maxWidth + m_offset, m_lineHeight - m_lineHeight / 4, maxWidth + m_offset, m_lineHeight + m_lineHeight / 4);
     // Bottom timeline
-    p.drawLine(m_offset, m_bottomView, maxWidth, m_bottomView);
+    p.drawLine(m_offset, m_bottomView, maxWidth + m_offset, m_bottomView);
     p.drawLine(m_offset, m_bottomView - m_lineHeight / 4, m_offset, m_bottomView + m_lineHeight / 4);
-    p.drawLine(maxWidth, m_bottomView - m_lineHeight / 4, maxWidth, m_bottomView + m_lineHeight / 4);
+    p.drawLine(maxWidth + m_offset, m_bottomView - m_lineHeight / 4, maxWidth + m_offset, m_bottomView + m_lineHeight / 4);
     /*
      * Keyframes
      */
@@ -1087,6 +1112,7 @@ void TimeRemap::selectedClip(int cid)
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     m_cid = cid;
+    qDebug()<<"======\n\n!!!!!!!!!!  SELECTED CLIP: "<<m_cid<<"\n\n==========";
     if (cid == -1) {
         m_view->setDuration(nullptr, 0);
         setEnabled(false);
@@ -1164,8 +1190,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     m_cid = -1;
-    if (!clip->statusReady() || clip->clipType() != ClipType::Playlist) {
-        qDebug()<<"===== CLIP NOT READY; TYPE; "<<clip->clipType();
+    if (clip == nullptr || !clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         m_view->setDuration(nullptr, 0);
         setEnabled(false);
         return;
@@ -1257,7 +1282,9 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
 void TimeRemap::updateKeyframes()
 {
     QString kfData = m_view->getKeyframesData();
+    qDebug()<<"SAME DURATION: "<<m_lastLength<<  "= "<<m_view->remapDuration()<<", CID: "<<m_cid;
     if (m_view->m_remapLink) {
+        qDebug()<<"====== OK; PROCESSING REMAP UPDATE";
         m_view->m_remapLink->set("map", kfData.toUtf8().constData());
         if (m_splitRemap) {
             m_splitRemap->set("map", kfData.toUtf8().constData());
@@ -1267,6 +1294,7 @@ void TimeRemap::updateKeyframes()
             m_view->timer.start();
         } else if (m_lastLength != m_view->remapDuration()) {
             // Resize timeline clip
+            qDebug()<<"=== LAST LENGTH: "<<m_lastLength <<" != "<<m_view->remapDuration();
             m_lastLength = m_view->remapDuration();
             std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
             model->requestItemResize(m_cid, m_lastLength, true, true, -1, false);
