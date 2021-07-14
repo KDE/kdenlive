@@ -1169,3 +1169,8 @@ QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QS
     }
     return QString();
 }
+
+bool ProjectItemModel::urlExists(const QString &path) const
+{
+    return m_fileWatcher->contains(path);
+}

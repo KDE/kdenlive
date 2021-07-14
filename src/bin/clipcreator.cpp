@@ -229,11 +229,28 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         progressDialog->repaint();
         qApp->processEvents();
     }*/
-    qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
+    // Check for duplicates
+    QList<QUrl> cleanList;
+    QStringList duplicates;
+    for (const QUrl &url : list) {
+        if (!pCore->projectItemModel()->urlExists(url.toLocalFile())) {
+            cleanList << url;
+        } else {
+            duplicates << url.toLocalFile();
+        }
+    }
+    if (!duplicates.isEmpty()) {
+        if (KMessageBox::warningYesNoList(QApplication::activeWindow(), i18n("The following clips are already inserted in the project. Do you want to duplicate them?"), duplicates) ==
+                KMessageBox::Yes) {
+                cleanList = list;
+            }
+    }
+
+    qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
-    for (const QUrl &file : list) {
+    for (const QUrl &file : cleanList) {
         if (!QFile::exists(file.toLocalFile())) {
             continue;
         }
