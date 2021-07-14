@@ -43,6 +43,8 @@ public:
     void addFile(const QString &binId, const QString &url);
     // Remove a binId from the list of watched items
     void removeFile(const QString &binId);
+    // True if this url is already watched
+    bool contains(const QString &path) const;
     // Reset all watched files
     void clear();
 

@@ -218,6 +218,8 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    /** @brief Check if  a file is already in Bin */
+    bool urlExists(const QString &path) const;
 
 protected:
     /** @brief Register the existence of a new element

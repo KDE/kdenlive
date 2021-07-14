@@ -385,6 +385,14 @@ bool DocumentChecker::hasErrorInClips()
         }
         if (!QFile::exists(filePath)) {
             QString lumaName = filePath.section(QLatin1Char('/'), -1);
+            // MLT 7 now generates lumas on the fly for files named luma01.pgm to luma22.pgm, so don't detect these as missing
+            if (lumaName.length() == 10 && lumaName.startsWith(QLatin1String("luma")) && lumaName.endsWith(QLatin1String(".pgm"))) {
+                bool ok;
+                int lumaNumber = lumaName.mid(4, 2).toInt(&ok);
+                if (ok && lumaNumber > 0 && lumaNumber < 23) {
+                    continue;
+                }
+            }
             // check if this was an old format luma, not in correct folder
             QString fixedLuma = filePath.section(QLatin1Char('/'), 0, -2);
             lumaName.prepend(hdProfile ? QStringLiteral("/HD/") : QStringLiteral("/PAL/"));
