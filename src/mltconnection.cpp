@@ -228,6 +228,8 @@ void MltConnection::refreshLumas()
 #endif
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     customLumas.removeDuplicates();
+    QStringList hdLumas;
+    QStringList sdLumas;
     QStringList allImagefiles;
     for (const QString &folder : qAsConst(customLumas)) {
         QDir topDir(folder);
@@ -236,11 +238,6 @@ void MltConnection::refreshLumas()
         for (const QString &f : qAsConst(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
-            if (f == QLatin1String("HD")) {
-                format = QStringLiteral("16_9");
-            } else {
-                format = f;
-            }
             QStringList filesnames;
             QDirIterator it(dir.absolutePath(), fileFilters, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
@@ -252,10 +249,21 @@ void MltConnection::refreshLumas()
             for (const QString &fname : qAsConst(filesnames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
-            MainWindow::m_lumaFiles.insert(format, imagefiles);
+            if (f == QLatin1String("HD")) {
+                hdLumas << imagefiles;
+            } else {
+                sdLumas << imagefiles;
+            }
             allImagefiles << imagefiles;
         }
     }
+    // Insert MLT builtin lumas (created on the fly)
+    for (int i = 1; i < 23; i++) {
+        QString imageName = QStringLiteral("luma%1.pgm").arg(i, 2, 10, QLatin1Char('0'));
+        hdLumas << imageName;
+    }
+    MainWindow::m_lumaFiles.insert(QStringLiteral("16_9"), hdLumas);
+    MainWindow::m_lumaFiles.insert(QStringLiteral("PAL"), sdLumas);
     allImagefiles.removeDuplicates();
     QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
 }
