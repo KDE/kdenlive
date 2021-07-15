@@ -39,6 +39,7 @@ Item {
     property var effectZones: timeline.masterEffectZones
     property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height + 2 : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
+    property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
     
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -209,16 +210,14 @@ Item {
                 anchors.bottom: parent.bottom
                 height: parent.showText ? 8 : 4
                 width: 1
-                color: activePalette.windowText
-                opacity: 0.5
+                color: dimmedColor
             }
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
-                opacity: 0.7
                 text: timeline.timecode(parent.realPos)
                 font: miniFont
-                color: activePalette.windowText
+                color: dimmedColor
             }
         }
     }
@@ -275,6 +274,7 @@ Item {
         color: "orchid"
         anchors.bottom: parent.bottom
         height: zoneHeight - 1
+        opacity: 0.7
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)
