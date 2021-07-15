@@ -88,6 +88,7 @@ Rectangle {
         root.color = activePalette.window
         root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
+        ruler.dimmedColor = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
         ruler.repaintRuler()
         // Disable caching for track header icons
         root.paletteUnchanged = false
@@ -1407,11 +1408,29 @@ Rectangle {
                         height: parent.height
                         TimelinePlayhead {
                             id: playhead
-                            height: root.baseUnit * .8
-                            width: root.baseUnit * 1.2
+                            height: Math.round(root.baseUnit * .8)
+                            width: Math.round(root.baseUnit * 1.2)
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
+                            anchors.bottomMargin: ruler.zoneHeight - 1
                             x: cursor.x - (width / 2)
+                            // bottom line on zoom
+                            Rectangle {
+                                color: ruler.dimmedColor
+                                width: Math.max(1, timeline.scaleFactor)
+                                height: 1
+                                visible: width > playhead.width
+                                x: playhead.width / 2
+                                y: playhead.height - 1
+                            }
+                        }
+                        Rectangle {
+                            // Vertical line over ruler zone
+                            color: root.textColor
+                            width: 1
+                            height: ruler.zoneHeight - 1
+                            x: cursor.x
+                            anchors.bottom: parent.bottom
                         }
                     }
                 }
@@ -1728,15 +1747,6 @@ Rectangle {
                             opacity: 1
                             height: tracksContainerArea.height
                             x: root.consumerPosition * timeline.scaleFactor
-                            Rectangle {
-                                color: root.textColor
-                                width: Math.max(0, 1 * timeline.scaleFactor - 1)
-                                visible: width > 1
-                                opacity: 0.2
-                                anchors.left:parent.right
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                            }
                         }
                     }
                     ZoomBar {
