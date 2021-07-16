@@ -2361,7 +2361,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 if (getTrackById_const(current_track_id)->hasStartMix(item.first)) {
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
-                if (!getTrackById_const(current_track_id)->isAvailable(target_position, current_in - target_position, subPlaylist)) {
+                if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime, subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
@@ -2403,7 +2403,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 break;
             }
         }
-
         sync_mix();
         PUSH_LAMBDA(sync_mix, local_redo);
         if (ok) {
