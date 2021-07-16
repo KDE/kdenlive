@@ -161,7 +161,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_service = service;
     }
     bool keyframeAdded = false;
-    if (m_duration > 0 && m_service && m_keyframes.isEmpty()) {
+    if (m_duration > 0 && m_service && !m_keyframes.isEmpty()) {
         if (duration > m_duration) {
             // The clip was resized, ensure we have a keyframe at the end of the clip will freeze at last keyframe
             QMap<int, int>::const_iterator it = m_keyframes.constEnd();
@@ -1221,6 +1221,13 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     connect(speedAfter, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) {
         m_view->updateAfterSpeed(speed);
+    });
+    connect(button_del, &QToolButton::clicked, [this]() {
+        if (m_cid > -1) {
+            std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+            model->requestClipTimeRemap(m_cid, false);
+            selectedClip(-1);
+        }
     });
     connect(button_add, &QToolButton::clicked, m_view, &RemapView::addKeyframe);
     connect(button_next, &QToolButton::clicked, m_view, &RemapView::goNext);
