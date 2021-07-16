@@ -712,10 +712,11 @@ void RemapView::updateBeforeSpeed(double speed)
         int offset = it.value() + updatedLength - m_currentKeyframe.second;
         m_currentKeyframe.second = it.value() + updatedLength;
         m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
+        it+=2;
         // Update all keyframes after that so that we don't alter the speeds
         while (m_moveNext && it != m_keyframes.end()) {
-            it++;
             m_keyframes.insert(it.key(), it.value() + offset);
+            it++;
         }
         updateKeyframes();
         update();
@@ -986,7 +987,7 @@ void RemapView::paintEvent(QPaintEvent *event)
      */
     p.setPen(m_colKeyframe);
     // Top timeline
-    qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
+    //qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
     p.drawLine(m_offset, m_lineHeight, maxWidth + m_offset, m_lineHeight);
     p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);
     p.drawLine(maxWidth + m_offset, m_lineHeight - m_lineHeight / 4, maxWidth + m_offset, m_lineHeight + m_lineHeight / 4);
@@ -1090,6 +1091,8 @@ TimeRemap::TimeRemap(QWidget *parent)
     m_view = new RemapView(this);
     time_box->setEnabled(false);
     speed_box->setEnabled(false);
+    speedBefore->setKeyboardTracking(false);
+    speedAfter->setKeyboardTracking(false);
     remapLayout->addWidget(m_view);
     connect(m_view, &RemapView::selectedKf, [this](std::pair<int,int>selection, std::pair<double,double>speeds) {
         qDebug()<<"=== SELECTED KFR SPEEDS: "<<speeds;

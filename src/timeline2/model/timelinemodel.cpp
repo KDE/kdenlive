@@ -2510,7 +2510,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         int current_group = group_queue.front();
         bool isSelection = m_currentSelection == current_group;
         if (isSelection) {
-            m_currentSelection = -1;
+            requestClearSelection(true);
         }
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
