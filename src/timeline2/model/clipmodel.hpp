@@ -200,7 +200,7 @@ protected:
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
     
-    bool useTimeRemapProducer(Fun &undo, Fun &redo);
+    bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimeRemapProducer_lambda(bool enable, int audioStream);
 

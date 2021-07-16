@@ -530,7 +530,7 @@ void ClipModel::refreshProducerFromBin(int trackId)
     refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, isChain());
 }
 
-bool ClipModel::useTimeRemapProducer(Fun &undo, Fun &redo)
+bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
@@ -539,8 +539,8 @@ bool ClipModel::useTimeRemapProducer(Fun &undo, Fun &redo)
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int audioStream = getIntProperty(QStringLiteral("audio_index"));
-    auto operation = useTimeRemapProducer_lambda(true, audioStream);
-    auto reverse = useTimeRemapProducer_lambda(false, audioStream);
+    auto operation = useTimeRemapProducer_lambda(enable, audioStream);
+    auto reverse = useTimeRemapProducer_lambda(!enable, audioStream);
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
