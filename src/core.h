@@ -124,6 +124,8 @@ public:
     TextBasedEdit *textEditWidget();
     /** @brief Returns a pointer to the time remapping widget. */
     TimeRemap *timeRemapWidget();
+    /** @brief Returns true if clip displayed in remap widget is the bin clip with id clipId. */
+    bool currentRemap(const QString &clipId);
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 

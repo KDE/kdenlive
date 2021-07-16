@@ -281,7 +281,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     }
                     m_selectedKeyframes = updated;
                     updateKeyframes();
-                    slotSetPosition(pos, true);
+                    slotSetPosition(pos);
                     emit seekToPos(pos, -1);
                     return;
                 } else {
@@ -359,14 +359,14 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
 
         if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight)) {
             if (pos != m_position) {
-                slotSetPosition(pos, true);
+                slotSetPosition(pos);
                 emit seekToPos(pos, -1);
             }
         }
         if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_bottomView)) {
             pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
             if (pos != getKeyframePosition()) {
-                slotSetPosition(pos, true);
+                slotSetPosition(pos);
                 emit seekToPos(-1, getKeyframePosition());
             }
         }
@@ -533,7 +533,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     qDebug()<<"=== SETTING CURRENT KEYFRAME: "<<m_currentKeyframe.first;
                     m_moveKeyframeMode = TopMove;
                     if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first, true);
+                        slotSetPosition(m_currentKeyframeOriginal.first);
                         emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
@@ -579,7 +579,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 if (m_currentKeyframeOriginal.second > -1) {
                     m_moveKeyframeMode = BottomMove;
                     if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first, true);
+                        slotSetPosition(m_currentKeyframeOriginal.first);
                         emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
                     } else {
                         update();
@@ -596,7 +596,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
-                slotSetPosition(pos, true);
+                slotSetPosition(pos);
                 emit seekToPos(pos, -1);
                 update();
             }
@@ -605,7 +605,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             qDebug()<<"=== PRESSED WITH Y: "<<pos<<" = "<<m_remapLink->anim_get_double("map", pos)<<" TOP: "<<topPos;
             if (topPos != m_position) {
                 m_moveKeyframeMode = CursorMoveBottom;
-                slotSetPosition(topPos, true);
+                slotSetPosition(topPos);
                 emit seekToPos(-1, pos);
                 update();
             }
@@ -631,12 +631,9 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void RemapView::slotSetPosition(int pos, bool force)
+void RemapView::slotSetPosition(int pos)
 {
     if (pos != m_position) {
-        if (!force && m_moveKeyframeMode != NoMove) {
-            return;
-        }
         m_position = pos;
         //int offset = pCore->getItemIn(m_model->getOwnerId());
         emit atKeyframe(m_keyframes.contains(pos));
@@ -1138,6 +1135,11 @@ TimeRemap::TimeRemap(QWidget *parent)
     setEnabled(false);
 }
 
+const QString &TimeRemap::currentClip() const
+{
+    return m_binId;
+}
+
 void TimeRemap::selectedClip(int cid)
 {
     if (cid == -1 && cid == m_cid) {
@@ -1146,9 +1148,11 @@ void TimeRemap::selectedClip(int cid)
     QObject::disconnect( m_seekConnection1 );
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
+    connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
     m_cid = cid;
     qDebug()<<"======\n\n!!!!!!!!!!  SELECTED CLIP: "<<m_cid<<"\n\n==========";
     if (cid == -1) {
+        m_binId.clear();
         m_view->setDuration(nullptr, 0);
         setEnabled(false);
         return;
@@ -1158,11 +1162,10 @@ void TimeRemap::selectedClip(int cid)
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
     model->requestClipTimeRemap(cid);
     m_splitId = model->m_groups->getSplitPartner(cid);
-    const QString binId = pCore->getTimelineClipBinId(cid);
+    m_binId = model->getClipBinId(cid);
     int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     int max = min + m_lastLength;
-    pCore->selectBinClip(binId, true, min, {min,max});
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
     m_in->setRange(min, max - 1);
     m_out->setRange(min, INT_MAX);
@@ -1202,11 +1205,17 @@ void TimeRemap::selectedClip(int cid)
             }
         }
     }
-    m_seekConnection3 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, [this](int pos) {
-        m_view->slotSetPosition(pos);
-    });
+    if (!m_binId.isEmpty() && pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == m_binId) {
+        connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, Qt::UniqueConnection);
+    }
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int topPos, int bottomPos) {
         if (topPos > -1 && source_seek->isChecked()) {
+            if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != m_binId) {
+                int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
+                int lastLength = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+                int max = min + lastLength;
+                pCore->selectBinClip(m_binId, true, min, {min,max});
+            }
             pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(topPos);
         }
         if (bottomPos > -1 && output_seek->isChecked()) {
@@ -1228,6 +1237,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     m_cid = -1;
+    m_binId.clear();
     if (clip == nullptr || !clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         m_view->setDuration(nullptr, 0);
         setEnabled(false);

@@ -69,7 +69,7 @@ protected:
 public slots:
     void updateInPos(int pos);
     void updateOutPos(int pos);
-    void slotSetPosition(int pos, bool force = false);
+    void slotSetPosition(int pos);
     void addKeyframe();
     void goNext();
     void goPrev();
@@ -139,6 +139,8 @@ public:
     ~TimeRemap() override;
     void selectedClip(int cid);
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
+    /** @brief the bin id of the clip currently active in remap widget */
+    const QString &currentClip() const;
 
 private slots:
     void updateKeyframes();
@@ -151,6 +153,7 @@ private:
     int m_lastLength;
     int m_cid;
     int m_splitId;
+    QString m_binId;
     QMetaObject::Connection m_seekConnection1;
     QMetaObject::Connection m_seekConnection2;
     QMetaObject::Connection m_seekConnection3;
