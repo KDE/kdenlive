@@ -318,6 +318,11 @@ TimeRemap *Core::timeRemapWidget()
     return m_timeRemapWidget;
 }
 
+bool Core::currentRemap(const QString &clipId)
+{
+    return m_timeRemapWidget == nullptr ? false : m_timeRemapWidget->currentClip() == clipId;
+}
+
 SubtitleEdit *Core::subtitleWidget()
 {
     return m_subtitleWidget;
