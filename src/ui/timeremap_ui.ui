@@ -6,25 +6,51 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>428</width>
-    <height>394</height>
+    <width>399</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="3" column="0">
-    <widget class="QToolButton" name="button_prev">
+   <item row="4" column="0" colspan="5">
+    <widget class="QGroupBox" name="time_box">
+     <property name="title">
+      <string>Time</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Source time</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="inLayout"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Output time</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="outLayout"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="8" column="4">
+    <widget class="QToolButton" name="button_del">
      <property name="text">
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="go-previous">
-       <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
+      <iconset theme="edit-delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -41,44 +67,6 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Source clip</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Output</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QToolButton" name="button_next">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="go-next">
-       <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="4">
-    <widget class="QCheckBox" name="move_next">
-     <property name="text">
-      <string>Preserve speed of next keyframes</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="2">
     <widget class="QToolButton" name="button_add">
      <property name="text">
@@ -90,16 +78,6 @@
      </property>
      <property name="autoRaise">
       <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="4">
-    <widget class="QToolButton" name="button_del">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete"/>
      </property>
     </widget>
    </item>
@@ -140,33 +118,11 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="5">
-    <widget class="QGroupBox" name="time_box">
-     <property name="title">
-      <string>Time</string>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Output</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Source time</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="inLayout"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Output time</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="outLayout"/>
-      </item>
-     </layout>
     </widget>
    </item>
    <item row="3" column="3" colspan="2">
@@ -192,8 +148,53 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="0">
+    <widget class="QToolButton" name="button_prev">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="go-previous">
+       <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Source clip</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QToolButton" name="button_next">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="go-next">
+       <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0" colspan="5">
     <layout class="QVBoxLayout" name="remapLayout"/>
+   </item>
+   <item row="8" column="0" colspan="4">
+    <widget class="QCheckBox" name="move_next">
+     <property name="text">
+      <string>Preserve speed of next keyframes</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="0" column="2" colspan="3">
     <widget class="QCheckBox" name="source_seek">
@@ -202,6 +203,19 @@
      </property>
      <property name="checked">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="pitch_compensate">
+     <property name="text">
+      <string>Pitch compensation</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
