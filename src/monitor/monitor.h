@@ -334,6 +334,7 @@ public slots:
 signals:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
+    void seekRemap(int pos);
     void updateScene();
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);

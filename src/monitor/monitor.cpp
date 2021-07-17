@@ -1548,11 +1548,15 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
     }
+    disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        if (pCore->currentRemap(controller->clipId())) {
+            connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
+        }
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId()).arg(pCore->currentDoc()->uuid.toString()));

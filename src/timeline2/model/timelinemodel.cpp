@@ -2361,7 +2361,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 if (getTrackById_const(current_track_id)->hasStartMix(item.first)) {
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
-                if (!getTrackById_const(current_track_id)->isAvailable(target_position, current_in - target_position, subPlaylist)) {
+                if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime, subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
@@ -2403,7 +2403,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 break;
             }
         }
-
         sync_mix();
         PUSH_LAMBDA(sync_mix, local_redo);
         if (ok) {
@@ -2510,7 +2509,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
         int current_group = group_queue.front();
         bool isSelection = m_currentSelection == current_group;
         if (isSelection) {
-            m_currentSelection = -1;
+            requestClearSelection(true);
         }
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
@@ -4782,17 +4781,17 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
     return success;
 }
 
-bool TimelineModel::requestClipTimeRemap(int clipId)
+bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
 {
-    if (!m_allClips[clipId]->isChain()) {
+    if (!enable || !m_allClips[clipId]->isChain()) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         int splitId = m_groups->getSplitPartner(clipId);
         bool result = true;
         if (splitId > -1) {
-            result = requestClipTimeRemap(splitId, undo, redo);
+            result = requestClipTimeRemap(splitId, enable, undo, redo);
         }
-        result = result && requestClipTimeRemap(clipId, undo, redo);
+        result = result && requestClipTimeRemap(clipId, enable, undo, redo);
         if (result) {
             PUSH_UNDO(undo, redo, i18n("Enable time remap"));
             return true;
@@ -4808,7 +4807,7 @@ std::shared_ptr<Mlt::Producer> TimelineModel::getClipProducer(int clipId)
     return m_allClips[clipId]->getProducer();
 }
 
-bool TimelineModel::requestClipTimeRemap(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::function<bool(void)> local_undo = []() { return true; };
@@ -4821,8 +4820,7 @@ bool TimelineModel::requestClipTimeRemap(int clipId, Fun &undo, Fun &redo)
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
     if (success) {
-        qDebug()<<"==== REMAPING CLIP: "<<clipId;
-        success = m_allClips[clipId]->useTimeRemapProducer(local_undo, local_redo);
+        success = m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);

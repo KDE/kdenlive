@@ -54,6 +54,8 @@ public:
     int position() const;
     int getKeyframePosition() const;
     int remapDuration() const;
+    int remapMax() const;
+    bool movingKeyframe() const;
     void refreshOnDurationChanged(int remapDuration);
     QTimer timer;
 
@@ -64,12 +66,15 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     std::shared_ptr<Mlt::Link> m_remapLink;
+    /** @brief The position of the clip in timeline, used to seek to correct place */
     int m_startPos;
+    /** @brief The in frame of the clip in timeline, used to correctly offset keyframes */
+    int m_inFrame;
 
 public slots:
     void updateInPos(int pos);
     void updateOutPos(int pos);
-    void slotSetPosition(int pos, bool force = false);
+    void slotSetPosition(int pos);
     void addKeyframe();
     void goNext();
     void goPrev();
@@ -121,7 +126,7 @@ signals:
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
-    void updateKeyframes();
+    void updateKeyframes(bool resize);
     void updateMaxDuration(int duration);
 };
 
@@ -139,9 +144,12 @@ public:
     ~TimeRemap() override;
     void selectedClip(int cid);
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
+    /** @brief the bin id of the clip currently active in remap widget */
+    const QString &currentClip() const;
 
 private slots:
-    void updateKeyframes();
+    void updateKeyframes(bool resize = true);
+    void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
 
 private:
     std::shared_ptr<Mlt::Link> m_splitRemap;
@@ -151,6 +159,7 @@ private:
     int m_lastLength;
     int m_cid;
     int m_splitId;
+    QString m_binId;
     QMetaObject::Connection m_seekConnection1;
     QMetaObject::Connection m_seekConnection2;
     QMetaObject::Connection m_seekConnection3;
