@@ -692,8 +692,8 @@ public:
     /** @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
     bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
-    bool requestClipTimeRemap(int clipId);
-    bool requestClipTimeRemap(int clipId, Fun &undo, Fun &redo);
+    bool requestClipTimeRemap(int clipId, bool enable = true);
+    bool requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun &redo);
     std::shared_ptr<Mlt::Producer> getClipProducer(int clipId);
 
     void replugClip(int clipId);

@@ -1741,6 +1741,24 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             Xml::setXmlProperty(masterProducers.at(i).toElement(), QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
         }
     }
+    if (version < 1.01) {
+        // Upgrade wipe composition (replace old mlt geometry with mlt rect
+        // Warn about deprecated automask
+        // Some tracks were added, adjust compositions
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        int max = transitions.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = transitions.at(i).toElement();
+            if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("wipe")) {
+                QString animation = Xml::getXmlProperty(t, QStringLiteral("geometry"));
+                if (animation == QLatin1String("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0")) {
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 1;-1=0% 0% 100% 100% 0"));
+                } else if (animation == QLatin1String("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100")) {
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0;-1=0% 0% 100% 100% 1"));
+                }
+            }
+        }
+    }
     m_modified = true;
     return true;
 }
