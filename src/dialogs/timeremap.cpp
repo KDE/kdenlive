@@ -1184,15 +1184,11 @@ TimeRemap::TimeRemap(QWidget *parent)
     m_out = new TimecodeDisplay(pCore->timecode(), this);
     outLayout->addWidget(m_out);
     m_view = new RemapView(this);
-    time_box->setEnabled(false);
-    speed_box->setEnabled(false);
     speedBefore->setKeyboardTracking(false);
     speedAfter->setKeyboardTracking(false);
     remapLayout->addWidget(m_view);
     connect(m_view, &RemapView::selectedKf, [this](std::pair<int,int>selection, std::pair<double,double>speeds) {
-        qDebug()<<"=== SELECTED KFR SPEEDS: "<<speeds;
-        time_box->setEnabled(true);
-        speed_box->setEnabled(true);
+        info_frame->setEnabled(selection.first >= 0);
         QSignalBlocker bk(m_in);
         QSignalBlocker bk2(m_out);
         m_in->setEnabled(selection.first >= 0);
@@ -1234,6 +1230,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(button_prev, &QToolButton::clicked, m_view, &RemapView::goPrev);
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
     connect(pitch_compensate, &QCheckBox::toggled, this, &TimeRemap::switchPitch);
+    connect(frame_blending, &QCheckBox::toggled, this, &TimeRemap::switchBlending);
     connect(m_view, &RemapView::updateMaxDuration, [this](int duration) {
         int min = m_in->minimum();
         m_out->setRange(0, INT_MAX);
@@ -1330,6 +1327,7 @@ void TimeRemap::selectedClip(int cid)
                     QString mapData(fromLink->get("map"));
                     m_view->loadKeyframes(mapData);
                     pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
+                    frame_blending->setChecked(fromLink->get("image_mode") == QLatin1String("blend"));
                     keyframesLoaded = true;
                     setEnabled(true);
                     break;
@@ -1483,6 +1481,14 @@ void TimeRemap::updateKeyframes(bool resize)
                 model->requestItemResize(m_cid, m_lastLength, true, true, -1, false);
             }
         }
+    }
+}
+
+void TimeRemap::switchBlending()
+{
+    m_view->m_remapLink->set("image_mode", frame_blending->isChecked() ? "blend" : "");
+    if (m_splitRemap) {
+        m_splitRemap->set("image_mode", frame_blending->isChecked() ? "blend" : "");
     }
 }
 
