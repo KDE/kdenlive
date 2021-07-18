@@ -1184,21 +1184,17 @@ TimeRemap::TimeRemap(QWidget *parent)
     m_out = new TimecodeDisplay(pCore->timecode(), this);
     outLayout->addWidget(m_out);
     m_view = new RemapView(this);
-    time_box->setEnabled(false);
-    speed_box->setEnabled(false);
     speedBefore->setKeyboardTracking(false);
     speedAfter->setKeyboardTracking(false);
     remapLayout->addWidget(m_view);
     connect(m_view, &RemapView::selectedKf, [this](std::pair<int,int>selection, std::pair<double,double>speeds) {
-        qDebug()<<"=== SELECTED KFR SPEEDS: "<<speeds;
-        time_box->setEnabled(true);
-        speed_box->setEnabled(true);
+        info_frame->setEnabled(selection.first >= 0);
         QSignalBlocker bk(m_in);
         QSignalBlocker bk2(m_out);
         m_in->setEnabled(selection.first >= 0);
         m_out->setEnabled(selection.first >= 0);
-        m_in->setValue(selection.first);
-        m_out->setValue(selection.second);
+        m_in->setValue(selection.first - m_view->m_inFrame);
+        m_out->setValue(selection.second - m_view->m_inFrame);
         QSignalBlocker bk3(speedBefore);
         QSignalBlocker bk4(speedAfter);
         speedBefore->setEnabled(speeds.first > 0);
@@ -1208,10 +1204,10 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     connect(m_view, &RemapView::updateKeyframes, this, &TimeRemap::updateKeyframes);
     connect(m_in, &TimecodeDisplay::timeCodeUpdated, [this]() {
-        m_view->updateInPos(m_in->getValue());
+        m_view->updateInPos(m_in->getValue() + m_view->m_inFrame);
     });
     connect(m_out, &TimecodeDisplay::timeCodeUpdated, [this]() {
-        m_view->updateOutPos(m_out->getValue());
+        m_view->updateOutPos(m_out->getValue() + m_view->m_inFrame);
     });
     connect(m_view, &RemapView::atKeyframe, button_add, [&](bool atKeyframe) {
         button_add->setIcon(atKeyframe ? QIcon::fromTheme(QStringLiteral("list-remove")) : QIcon::fromTheme(QStringLiteral("list-add")));
@@ -1233,9 +1229,12 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(button_next, &QToolButton::clicked, m_view, &RemapView::goNext);
     connect(button_prev, &QToolButton::clicked, m_view, &RemapView::goPrev);
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
+    connect(pitch_compensate, &QCheckBox::toggled, this, &TimeRemap::switchPitch);
+    connect(frame_blending, &QCheckBox::toggled, this, &TimeRemap::switchBlending);
     connect(m_view, &RemapView::updateMaxDuration, [this](int duration) {
-        m_out->setRange(m_out->minimum(), INT_MAX);
-        m_in->setRange(m_in->minimum(), duration - 1);
+        int min = m_in->minimum();
+        m_out->setRange(0, INT_MAX);
+        m_in->setRange(0, duration - 1);
     });
     setEnabled(false);
 }
@@ -1255,8 +1254,8 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &b
         int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
         int max = min + m_lastLength;
         m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,m_cid});
-        m_in->setRange(min, max - 1);
-        m_out->setRange(min, INT_MAX);
+        m_in->setRange(0, m_lastLength - 1);
+        m_out->setRange(0, INT_MAX);
         m_view->setDuration(nullptr, m_lastLength);
         m_view->update();
     } else if (roles.contains(TimelineModel::StartRole) && m_cid == id && !m_view->movingKeyframe()) {
@@ -1296,8 +1295,8 @@ void TimeRemap::selectedClip(int cid)
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     int max = min + m_lastLength;
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
-    m_in->setRange(min, max - 1);
-    m_out->setRange(min, INT_MAX);
+    m_in->setRange(0, m_lastLength - 1);
+    m_out->setRange(0, INT_MAX);
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
     m_view->setDuration(prod, m_lastLength);
     qDebug()<<"===== GOT PRODUCER TYPE: "<<prod->parent().type();
@@ -1327,6 +1326,8 @@ void TimeRemap::selectedClip(int cid)
                     }
                     QString mapData(fromLink->get("map"));
                     m_view->loadKeyframes(mapData);
+                    pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
+                    frame_blending->setChecked(fromLink->get("image_mode") == QLatin1String("blend"));
                     keyframesLoaded = true;
                     setEnabled(true);
                     break;
@@ -1377,7 +1378,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     if (clip != nullptr) {
         int min = in == -1 ? 0 : in;
         int max = out == -1 ? clip->getFramePlaytime() : out;
-        m_in->setRange(min, max);
+        m_in->setRange(0, max - min);
         m_out->setRange(min, INT_MAX);
         m_view->m_startPos = 0;
         m_view->setBinClipDuration(clip, max - min);
@@ -1463,6 +1464,7 @@ void TimeRemap::updateKeyframes(bool resize)
     if (m_view->m_remapLink) {
         qDebug()<<"====== OK; PROCESSING REMAP UPDATE";
         m_view->m_remapLink->set("map", kfData.toUtf8().constData());
+        switchPitch();
         if (m_splitRemap) {
             m_splitRemap->set("map", kfData.toUtf8().constData());
         }
@@ -1479,6 +1481,22 @@ void TimeRemap::updateKeyframes(bool resize)
                 model->requestItemResize(m_cid, m_lastLength, true, true, -1, false);
             }
         }
+    }
+}
+
+void TimeRemap::switchBlending()
+{
+    m_view->m_remapLink->set("image_mode", frame_blending->isChecked() ? "blend" : "");
+    if (m_splitRemap) {
+        m_splitRemap->set("image_mode", frame_blending->isChecked() ? "blend" : "");
+    }
+}
+
+void TimeRemap::switchPitch()
+{
+    m_view->m_remapLink->set("pitch", pitch_compensate->isChecked() ? 1 : 0);
+    if (m_splitRemap) {
+        m_splitRemap->set("pitch", pitch_compensate->isChecked() ? 1 : 0);
     }
 }
 

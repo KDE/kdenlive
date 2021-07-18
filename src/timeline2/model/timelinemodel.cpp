@@ -2508,9 +2508,6 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
         bool isSelection = m_currentSelection == current_group;
-        if (isSelection) {
-            requestClearSelection(true);
-        }
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
         auto children = m_groups->getDirectChildren(current_group);
@@ -2545,6 +2542,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
                     return false;
                 }
             }
+        }
+        if (isSelection) {
+            requestClearSelection(true);
         }
     }
     for (int clip : all_items) {

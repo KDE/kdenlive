@@ -150,6 +150,8 @@ public:
 private slots:
     void updateKeyframes(bool resize = true);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
+    void switchBlending();
+    void switchPitch();
 
 private:
     std::shared_ptr<Mlt::Link> m_splitRemap;
