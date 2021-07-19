@@ -1054,3 +1054,8 @@ void Core::testProxies()
     QScopedPointer<ProxyTest> dialog(new ProxyTest(QApplication::activeWindow()));
     dialog->exec();
 }
+
+void Core::resizeMix(int duration, MixAlignment align)
+{
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(duration, align);
+}

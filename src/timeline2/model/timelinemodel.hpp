@@ -741,6 +741,7 @@ public:
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     bool mixClip(int idToMove = -1, int delta = 0);
     Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
+    void requestResizeMix(int cid, int duration, MixAlignment align);
     std::shared_ptr<SubtitleModel> getSubtitleModel();
 
 protected:

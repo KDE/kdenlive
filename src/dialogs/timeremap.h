@@ -24,7 +24,6 @@
 
 #include "definitions.h"
 #include "timecode.h"
-#include "timecodedisplay.h"
 
 #include <QWidget>
 #include <QTimer>
@@ -32,6 +31,7 @@
 #include "mlt++/Mlt.h"
 
 class ProjectClip;
+class TimecodeDisplay;
 
 
 /**

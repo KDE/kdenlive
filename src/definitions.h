@@ -53,6 +53,8 @@ GroupType groupTypeFromStr(const QString &s);
 enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
 
+enum class MixAlignment { AlignNone, AlignLeft, AlignRight, AlignCenter };
+
 enum OperationType {
     None = 0,
     WaitingForConfirm,
