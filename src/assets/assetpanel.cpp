@@ -183,7 +183,8 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         return;
     }
     clear();
-    m_switchAction->setVisible(true);
+    // There is only 1 audio composition, so hide switch combobox
+    m_switchAction->setVisible(transitionModel->getAssetId() != QLatin1String("mix"));
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
