@@ -2131,6 +2131,7 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
 {
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
     m_sameCompositions[cid]->getAsset()->set("kdenlive:mixcut", mixCut);
+    m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
 }
 
 void TrackModel::syncronizeMixes(bool finalMove)

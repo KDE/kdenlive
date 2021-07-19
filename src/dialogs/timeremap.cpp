@@ -21,6 +21,7 @@
 
 #include "core.h"
 #include "doc/kthumb.h"
+#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 #include "bin/projectclip.h"
 #include "project/projectmanager.h"

@@ -413,7 +413,7 @@ Rectangle {
                         onPressed: {
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
-                            mixOut.color = 'darkorchid'
+                            mixOut.color = 'red'
                             anchors.left = undefined
                             parent.anchors.right = undefined
                             mixCutPos.anchors.right = undefined
@@ -449,7 +449,7 @@ Rectangle {
                         }
                         onEntered: {
                             if (!pressed) {
-                                mixOut.color = 'darkorchid'
+                                mixOut.color = 'red'
                                 timeline.showToolTip(i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration)))
                             }
                         }
