@@ -1618,6 +1618,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     }
                 }
                 if (keys.isEmpty()) {
+                    pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
                     return false;
                 }
                 audioStream = keys.first();
@@ -1633,8 +1634,24 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     if (keys.count() > getTracksIds(true).count()) {
                         // Not enough audio tracks in the project
                         pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
+                        return false;
+                    } else if (!useTargets) {
+                        // Check if all audio tracks are locked. In that case allow inserting video only
+                        QList<int> audioTracks = getTracksIds(true);
+                        bool hasUnlockedAudio = false;
+                        for (int id : audioTracks) {
+                            if (!getTrackById_const(id)->isLocked()) {
+                                hasUnlockedAudio = true;
+                                break;
+                            }
+                        }
+                        if (hasUnlockedAudio) {
+                            pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+                            return false;
+                        } else {
+                            keys.clear();
+                        }
                     }
-                    return false;
                 }
             }
         } else if (audioDrop) {
@@ -1649,6 +1666,11 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
         res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
+        // Get mirror track
+        int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
+        if (mirror > -1 && getTrackById_const(mirror)->isLocked() && !useTargets) {
+            mirror = -1;
+        }
         QList <int> target_track;
         if (audioDrop) {
             if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked() && dropType != PlaylistState::AudioOnly) {
@@ -1663,11 +1685,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
             }
         }
-        // Get mirror track
-        int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
-        if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
-            mirror = -1;
-        }
         bool canMirrorDrop = !useTargets && ((mirror > -1 && (audioDrop || !keys.isEmpty())) || keys.count() > 1);
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
@@ -1677,8 +1694,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 QList <int> audioTids;
                 if (!audioDrop) {
                     // insert audio mirror track
-                    target_track << mirror;
-                    audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                    if (mirror > -1) {
+                        target_track << mirror;
+                        audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                    }
                 } else {
                     audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
                 }
@@ -1700,7 +1719,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     target_track << mirror;
                 }
             }
-            if (target_track.isEmpty()) {
+            if (target_track.isEmpty() && useTargets) {
                 // No available track for splitting, abort
                 pCore->displayMessage(i18n("No available track for split operation"), ErrorMessage);
                 res = false;
