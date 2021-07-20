@@ -1752,9 +1752,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("wipe")) {
                 QString animation = Xml::getXmlProperty(t, QStringLiteral("geometry"));
                 if (animation == QLatin1String("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0")) {
-                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 1;-1=0% 0% 100% 100% 0"));
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%"));
                 } else if (animation == QLatin1String("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100")) {
-                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0;-1=0% 0% 100% 100% 1"));
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%"));
                 }
             }
         }
