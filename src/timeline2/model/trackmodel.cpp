@@ -208,8 +208,8 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
         return false;
     };
-    if (!finalMove && !hasMix(clipId) && (!m_playlists[0].is_blank_at(position) || !m_playlists[1].is_blank_at(position))) {
-        qDebug()<<"==== WARNING INVALID MOVE";
+    if (!finalMove && !hasMix(clipId) && !m_playlists[0].is_blank_at(target_playlist)) {
+        qDebug()<<"==== WARNING INVALID MOVE FOR CLIP"<<clipId;
         return []() { return false; };
     }
     if (target_clip >= count && m_playlists[target_playlist].is_blank_at(position)) {
