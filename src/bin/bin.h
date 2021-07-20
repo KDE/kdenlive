@@ -515,6 +515,8 @@ private:
     QAction *m_locateAction;
     QAction *m_proxyAction;
     QAction *m_deleteAction;
+    QAction *m_addClip;
+    QAction *m_createFolderAction;
     QAction *m_renameAction;
     QMenu *m_jobsMenu;
     QAction *m_cancelJobs;

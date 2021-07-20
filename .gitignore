@@ -4,3 +4,6 @@ CMakeLists.txt.user*
 po
 *.patch
 packaging/flatpak/.flatpak-builder
+
+# Jetbrains IDE like CLion
+.idea

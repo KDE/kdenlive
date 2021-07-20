@@ -2409,13 +2409,26 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
     m_locateAction->setVisible(itemType == AbstractProjectItem::ClipItem && (isImported));
 
+    // New folder can be created from level of another folder.
+    if (isFolder) {
+        m_menu->insertAction(m_deleteAction, m_createFolderAction);
+    } else {
+        m_menu->removeAction(m_createFolderAction);
+    }
+
     // Show menu
     event->setAccepted(true);
     if (enableClipActions) {
         m_menu->exec(event->globalPos());
     } else {
-        // Clicked in empty area
+        // Clicked in empty area, will show main menu.
+        // Before that `createFolderAction` is inserted - it allows to distinguish between showing that item by clicking on empty area and by clicking on "Add Clip" menu.
+        m_addButton->menu()->insertAction(m_addClip, m_createFolderAction);
+
         m_addButton->menu()->exec(event->globalPos());
+
+        // Clear up this action to not show it on "Add Clip" menu from toolbar icon.
+        m_addButton->menu()->removeAction(m_createFolderAction);
     }
 }
 
@@ -2830,10 +2843,10 @@ void Bin::setupMenu()
 {
     auto *addClipMenu = new QMenu(this);
 
-    QAction *addClip =
+    m_addClip =
         addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
-    addClipMenu->addAction(addClip);
-    connect(addClip, &QAction::triggered, this, &Bin::slotAddClip);
+    addClipMenu->addAction(m_addClip);
+    connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
     setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
     setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
@@ -2895,22 +2908,23 @@ void Bin::setupMenu()
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
 
-    QAction *createFolder =
+    m_createFolderAction =
         addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
-    connect(createFolder, &QAction::triggered, this, &Bin::slotAddFolder);
+    connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
+
     m_upAction = KStandardAction::up(this, SLOT(slotBack()), pCore->window()->actionCollection());
 
     // Setup actions
     QAction *first = m_toolbar->actions().at(0);
     m_toolbar->insertAction(first, m_deleteAction);
-    m_toolbar->insertAction(m_deleteAction, createFolder);
-    m_toolbar->insertAction(createFolder, m_upAction);
+    m_toolbar->insertAction(m_deleteAction, m_createFolderAction);
+    m_toolbar->insertAction(m_createFolderAction, m_upAction);
 
     auto *m = new QMenu(this);
     m->addActions(addClipMenu->actions());
     m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
-    m_addButton->setDefaultAction(addClip);
+    m_addButton->setDefaultAction(m_addClip);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
