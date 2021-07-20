@@ -479,7 +479,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         } else if (transitionId == QLatin1String("composite") || transitionId == QLatin1String("slide")) {
             props->set("invert", 1);
         } else if (transitionId == QLatin1String("wipe")) {
-            props->set("geometry", "0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0");
+            props->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
         }
     }
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, std::move(props), id, logUndo)) {
