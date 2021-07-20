@@ -82,6 +82,7 @@ public slots:
     void updateAfterSpeed(double speed);
     void toggleMoveNext(bool moveNext);
     void reloadProducer();
+    void centerCurrentKeyframe();
 
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};

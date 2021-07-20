@@ -537,6 +537,21 @@ int RemapView::position() const
     return m_position;
 }
 
+void RemapView::centerCurrentKeyframe()
+{
+    if (m_currentKeyframe.first == -1) {
+        // No keyframe selected, abort
+        return;
+    }
+    m_currentKeyframe.second = m_position + m_inFrame;
+    m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
+    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
+    emit selectedKf(m_currentKeyframe, speeds);
+    emit atKeyframe(true);
+    updateKeyframes(true);
+    update();
+}
+
 int RemapView::getClosestKeyframe(int pos, bool bottomKeyframe) const
 {
     int deltaMin = -1;
@@ -1207,9 +1222,11 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(m_in, &TimecodeDisplay::timeCodeUpdated, [this]() {
         m_view->updateInPos(m_in->getValue() + m_view->m_inFrame);
     });
+    button_center->setToolTip(i18n("Move selected keyframe to cursor"));
     connect(m_out, &TimecodeDisplay::timeCodeUpdated, [this]() {
         m_view->updateOutPos(m_out->getValue() + m_view->m_inFrame);
     });
+    connect(button_center, &QToolButton::clicked, m_view, &RemapView::centerCurrentKeyframe);
     connect(m_view, &RemapView::atKeyframe, button_add, [&](bool atKeyframe) {
         button_add->setIcon(atKeyframe ? QIcon::fromTheme(QStringLiteral("list-remove")) : QIcon::fromTheme(QStringLiteral("list-add")));
     });
@@ -1340,7 +1357,7 @@ void TimeRemap::selectedClip(int cid)
         connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, Qt::UniqueConnection);
     }
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, [this](int topPos, int bottomPos) {
-        if (topPos > -1 && source_seek->isChecked()) {
+        if (topPos > -1) {
             if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != m_binId) {
                 int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
                 int lastLength = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
@@ -1349,7 +1366,7 @@ void TimeRemap::selectedClip(int cid)
             }
             pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(topPos);
         }
-        if (bottomPos > -1 && output_seek->isChecked()) {
+        if (bottomPos > -1) {
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
         }
     });
