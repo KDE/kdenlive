@@ -256,7 +256,9 @@ public:
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
     /** @brief Resize current mix item */
-    void resizeMix(int duration, MixAlignment align);
+    void resizeMix(int cid, int duration, MixAlignment align);
+    /** @brief Get alignment info for a mix item */
+    MixAlignment getMixAlign(int cid) const;
 
 private:
     explicit Core();

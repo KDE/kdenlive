@@ -742,6 +742,7 @@ public:
     bool mixClip(int idToMove = -1, int delta = 0);
     Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
     void requestResizeMix(int cid, int duration, MixAlignment align);
+    MixAlignment getMixAlign(int cid) const;
     std::shared_ptr<SubtitleModel> getSubtitleModel();
 
 protected:
