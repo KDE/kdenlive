@@ -323,6 +323,7 @@ const QString AssetPanel::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
+    QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
 
@@ -377,10 +378,6 @@ const QString AssetPanel::getStyleSheet()
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
                                      "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
-
-    // transparent qcombobox
-    stylesheet.append(QStringLiteral("QComboBox { background-color: transparent;} "));
-
     return stylesheet;
 }
 
