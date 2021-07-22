@@ -1197,7 +1197,7 @@ bool TimelineController::moveGuidesInRange(int start, int end, int offset, Fun &
     return pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
 }
 
-void TimelineController::switchGuide(int frame, bool deleteOnly)
+void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
 {
     bool markerFound = false;
     if (frame == -1) {
@@ -1210,7 +1210,12 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
-        pCore->currentDoc()->getGuideModel()->addMarker(pos, i18n("guide"));
+
+        if(showGui) {
+            pCore->currentDoc()->getGuideModel()->editMarkerGui(pos, qApp->activeWindow(), true);
+        } else {
+            pCore->currentDoc()->getGuideModel()->addMarker(pos, i18n("guide"));
+        }
     } else {
         pCore->currentDoc()->getGuideModel()->removeMarker(marker.time());
     }
@@ -3348,7 +3353,7 @@ void TimelineController::updateClipActions()
             enableAction = false;
         } else if (actionData == QLatin1Char('P')) {
             // Position actions should stay enabled in clip monitor
-            //enableAction = enablePositionActions;
+            enableAction = true;
         }
         act->setEnabled(enableAction);
     }
