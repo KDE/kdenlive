@@ -24,6 +24,7 @@
 
 #include "definitions.h"
 #include "undohelper.hpp"
+#include "trackmodel.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
 #include <cassert>
@@ -385,7 +386,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>());
+    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>(), std::pair<MixInfo, MixInfo>mixData = {});
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
