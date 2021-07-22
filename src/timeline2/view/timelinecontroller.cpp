@@ -3348,7 +3348,7 @@ void TimelineController::updateClipActions()
             enableAction = false;
         } else if (actionData == QLatin1Char('P')) {
             // Position actions should stay enabled in clip monitor
-            //enableAction = enablePositionActions;
+            enableAction = true;
         }
         act->setEnabled(enableAction);
     }
