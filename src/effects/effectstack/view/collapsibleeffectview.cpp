@@ -84,8 +84,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     collapseButton->setDefaultAction(m_collapse);
     m_collapse->setActive(m_model->isCollapsed());
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
+
     if (effectModel->rowCount() == 0) {
-        // Effect has no paramerter
+        // Effect has no parameter
         m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("tools-wizard")));
         collapseButton->setEnabled(false);
     } else {
@@ -200,6 +201,12 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
             emit activateEffect(m_model->row());
         }
     });
+
+    if (effectModel->rowCount() == 0) {
+        // Effect has no parameter
+        m_view->setVisible(false);
+    }
+
     connect(m_view, &AssetParameterView::updateHeight, this, &CollapsibleEffectView::updateHeight);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
     keyframesButton->setVisible(m_view->keyframesAllowed());
@@ -215,6 +222,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         }
         m_view->toggleKeyframes(toggle);
     });
+
     if (!effectParamModel->hasMoreThanOneKeyframe()) {
         // No keyframe or only one, allow hiding
         bool hideByDefault = effectParamModel->data(effectParamModel->index(0, 0), AssetParameterModel::HideKeyframesFirstRole).toBool();
@@ -231,17 +239,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     presetButton->setMenu(m_view->presetMenu());
     presetButton->setToolTip(i18n("Presets"));
 
-    // Main menu
-    m_menu = new QMenu(this);
-    if (effectModel->rowCount() == 0) {
-        collapseButton->setEnabled(false);
-        m_view->setVisible(false);
-    }
-    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
-    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save-all")), i18n("Save Effect Stack"), this, SIGNAL(saveStack()));
-
-    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
-    menuButton->setMenu(m_menu);
+    connect(saveEffectButton, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotSaveEffect);
+    saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
+    saveEffectButton->setToolTip(i18n("Save Effect"));
 
     if (!effectModel->isEnabled()) {
         title->setEnabled(false);
@@ -485,22 +485,28 @@ void CollapsibleEffectView::slotSaveEffect()
 {
     QDialog dialog(this);
     QFormLayout form(&dialog);
+
+    dialog.setWindowTitle(i18n("Save Effect"));
+
     auto *effectName = new QLineEdit(&dialog);
     auto *descriptionBox = new QTextEdit(&dialog);
     QString label_Name = QString("Name : ");
     form.addRow(label_Name, effectName);
     QString label = QString("Comments : ");
     form.addRow(label, descriptionBox);
+
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
+
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    if(dialog.exec() == QDialog::Accepted)
+    if (dialog.exec() == QDialog::Accepted)
     {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
         if (name.trimmed().isEmpty()) {
+            KMessageBox::sorry(this, i18n("No name provided, effect not saved."));
             return;
         }
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
@@ -567,6 +573,8 @@ void CollapsibleEffectView::slotSaveEffect()
         emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
 }
+
+
 QDomDocument CollapsibleEffectView::toXml() const
 {
     QDomDocument doc;
@@ -870,7 +878,7 @@ void CollapsibleEffectView::enableView(bool enabled)
     }
 }
 
-void CollapsibleEffectView::blockWheenEvent(bool block)
+void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
 }

@@ -81,6 +81,11 @@ public:
     void slotGoToKeyframe(bool next);
     void addRemoveKeyframe();
 
+public slots:
+    /** @brief Save current effect stack
+     */
+    void slotSaveStack();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
@@ -109,9 +114,6 @@ private slots:
     void loadEffects();
     void updateTreeHeight();
     void slotFocusEffect();
-    /** @brief Save current effect stack
-     */
-    void slotSaveStack();
     /** @brief Refresh the enabled state on widgets
      */
     void changeEnabledState();
@@ -127,7 +129,7 @@ signals:
     void reloadEffect(const QString &path);
     void updateEnabledState();
     void removeCurrentEffect();
-    void blockWheenEvent(bool block);
+    void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
 };

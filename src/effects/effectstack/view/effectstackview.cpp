@@ -263,19 +263,19 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
-        connect(view, &CollapsibleEffectView::saveStack, this, &EffectStackView::slotSaveStack);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) {
             m_model->setActiveEffect(row);
         });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
-        connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
+        connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
+
         connect(pCore.get(), &Core::updateEffectZone, view, [=](const QPoint p, bool withUndo) {
             // Update current effect zone
             if (view->isActive()) {
@@ -474,10 +474,16 @@ void EffectStackView::slotFocusEffect()
 
 void EffectStackView::slotSaveStack()
 {
-    QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
-    if (name.trimmed().isEmpty() || m_model->rowCount() <= 0) {
+    if (m_model->rowCount() <= 0) {
+        KMessageBox::sorry(this, i18n("No effect selected."));
         return;
     }
+    QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
+    if (name.trimmed().isEmpty()) {
+        KMessageBox::sorry(this, i18n("No name provided, effect stack not saved."));
+        return;
+    }
+
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));

@@ -99,6 +99,7 @@ protected:
 
 private:
     QToolButton *m_switchBuiltStack;
+    QToolButton *m_saveEffectStack;
     QComboBox *m_switchCompoButton;
     QAction *m_titleAction;
     QAction *m_switchAction;
@@ -123,6 +124,7 @@ signals:
     void seekToPos(int);
     void reloadEffect(const QString &path);
     void switchCurrentComposition(int tid, const QString &compoId);
+    void slotSaveStack();
 };
 
 #endif
