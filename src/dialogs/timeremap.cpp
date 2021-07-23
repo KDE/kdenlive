@@ -61,10 +61,15 @@ RemapView::RemapView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     int size = QFontInfo(font()).pixelSize() * 3;
     setFixedHeight(size * 4);
+    // Reference height of the rulers
     m_lineHeight = int(size / 2.);
+    // Height of the zoom bar
     m_zoomHeight = m_lineHeight * 0.5;
+    // Center of the view
+    m_centerPos = (size * 4 - m_zoomHeight - 2) / 2 - 1;
     m_offset = qCeil(m_lineHeight / 4);
-    m_bottomView = height() - m_zoomHeight - m_lineHeight - 5;
+    // Bottom of the view (just above zoombar)
+    m_bottomView = height() - m_zoomHeight - 2;
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     int maxWidth = width() - (2 * m_offset);
     m_scale = maxWidth / double(qMax(1, m_duration - 1));
@@ -156,6 +161,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_service = nullptr;
         m_inFrame = 0;
         m_duration = -1;
+        m_selectedKeyframes.clear();
         return;
     }
     if (service) {
@@ -281,14 +287,14 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
     GenTime position(pos, pCore->getCurrentFps());
     if (event->buttons() == Qt::NoButton) {
         bool hoverKeyframe = false;
-        if (event->y() > m_lineHeight && event->y() < 2 * m_lineHeight) {
-            // mouse click in top keyframes area
+        if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+            // mouse move in top keyframes area
             int keyframe = getClosestKeyframe(pos + m_inFrame);
             if (keyframe > -1 && qAbs(keyframe - pos - m_inFrame) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 hoverKeyframe = true;
             }
-        } else if (event->y() > m_bottomView - m_lineHeight && event->y() < m_bottomView) {
-            // click in bottom keyframe area
+        } else if (event->y() > m_bottomView - 2 * m_lineHeight && event->y() < m_bottomView - m_lineHeight) {
+            // move in bottom keyframe area
             int keyframe = getClosestKeyframe(pos + m_inFrame, true);
             if (keyframe > -1 && qAbs(keyframe - pos - m_inFrame) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 hoverKeyframe = true;
@@ -305,7 +311,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             if (m_hoverZoomIn) {
                 m_zoomHandle.setX(qMin(qMax(0., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
                 int maxWidth = width() - (2 * m_offset);
-                m_scale = maxWidth / double(qMax(1, m_duration - 1));
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
                 m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
@@ -314,7 +319,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             if (m_hoverZoomOut) {
                 m_zoomHandle.setY(qMax(qMin(1., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
                 int maxWidth = width() - (2 * m_offset);
-                m_scale = maxWidth / double(qMax(1, m_duration - 1));
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
                 m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
@@ -337,7 +341,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
                 m_zoomHandle = QPointF(newX, newY);
                 int maxWidth = width() - (2 * m_offset);
-                m_scale = maxWidth / double(qMax(1, m_duration - 1));
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
                 m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
@@ -456,13 +459,13 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             return;
         }
 
-        if (m_moveKeyframeMode == CursorMove || (event->y() < 2 * m_lineHeight)) {
+        if (m_moveKeyframeMode == CursorMove || (event->y() < m_centerPos)) {
             if (pos != m_position) {
                 slotSetPosition(pos + m_inFrame);
                 emit seekToPos(pos + m_inFrame, -1);
             }
         }
-        if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_bottomView)) {
+        if (m_moveKeyframeMode == CursorMoveBottom || (event->y() > m_centerPos)) {
             pos = GenTime(m_remapLink->anim_get_double("map", pos + m_inFrame)).frames(pCore->getCurrentFps());
             if (pos != getKeyframePosition() + m_inFrame) {
                 slotSetPosition(pos);
@@ -471,18 +474,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         }
         return;
     }
-    if (event->y() < m_lineHeight) {
-        int closest = getClosestKeyframe(pos + m_inFrame);
-        if (closest > -1 && qAbs(((pos - closest) * m_scale) * m_zoomFactor) < QApplication::startDragDistance()) {
-            m_hoverKeyframe = {closest, false};
-            setCursor(Qt::PointingHandCursor);
-            m_hoverZoomIn = false;
-            m_hoverZoomOut = false;
-            m_hoverZoom = false;
-            update();
-            return;
-        }
-    } else if (event->y() > m_bottomView + m_lineHeight) {
+    if (event->y() > m_bottomView) {
         // Moving in zoom area
         if (qAbs(event->x() - m_offset - (m_zoomHandle.x() * (width() - 2 * m_offset))) < QApplication::startDragDistance()) {
             setCursor(Qt::SizeHorCursor);
@@ -505,18 +497,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             m_hoverZoom = true;
             m_hoverZoomIn = false;
             m_hoverZoomOut = false;
-            update();
-            return;
-        }
-    } else if (event->y() > m_bottomView) {
-        // Bottom keyframes
-        int closest = getClosestKeyframe(pos + m_inFrame, true);
-        if (closest > -1 && qAbs(((pos - closest) * m_scale) * m_zoomFactor) < QApplication::startDragDistance()) {
-            m_hoverKeyframe = {closest, true};
-            setCursor(Qt::PointingHandCursor);
-            m_hoverZoomIn = false;
-            m_hoverZoomOut = false;
-            m_hoverZoom = false;
             update();
             return;
         }
@@ -618,123 +598,129 @@ void RemapView::mousePressEvent(QMouseEvent *event)
     m_moveKeyframeMode = NoMove;
     m_keyframesOrigin = m_keyframes;
     if (event->button() == Qt::LeftButton) {
-        if (event->y() > m_lineHeight && event->y() < 2 * m_lineHeight) {
-            // mouse click in top keyframes area
+        if (event->y() < m_centerPos) {
+            // mouse click in top area
             if (event->modifiers() & Qt::ShiftModifier) {
                 m_clickPoint = pos + m_inFrame;
                 return;
             }
-            int keyframe = getClosestKeyframe(pos + m_inFrame);
-            qDebug()<<"==== KEYFRAME AREA CLICK! CLOSEST KFR: "<<keyframe;
-            if (keyframe > -1 && qAbs(keyframe - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
-                m_currentKeyframeOriginal = {keyframe, m_keyframes.value(keyframe)};
-                if (event->modifiers() & Qt::ControlModifier) {
-                    if (m_selectedKeyframes.contains(m_currentKeyframeOriginal.first)) {
-                        m_selectedKeyframes.remove(m_currentKeyframeOriginal.first);
-                        m_currentKeyframeOriginal.first = -1;
-                    } else {
-                        m_selectedKeyframes.insert(m_currentKeyframeOriginal.first, m_currentKeyframeOriginal.second);
+            if (event->y() < 2 *m_lineHeight && event->y() > m_lineHeight) {
+                int keyframe = getClosestKeyframe(pos + m_inFrame);
+                if (keyframe > -1 && qAbs(keyframe - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                    // Clicked on a keyframe
+                    m_currentKeyframeOriginal = {keyframe, m_keyframes.value(keyframe)};
+                    if (event->modifiers() & Qt::ControlModifier) {
+                        if (m_selectedKeyframes.contains(m_currentKeyframeOriginal.first)) {
+                            m_selectedKeyframes.remove(m_currentKeyframeOriginal.first);
+                            m_currentKeyframeOriginal.first = -1;
+                        } else {
+                            m_selectedKeyframes.insert(m_currentKeyframeOriginal.first, m_currentKeyframeOriginal.second);
+                        }
+                    } else if (!m_selectedKeyframes.contains(m_currentKeyframeOriginal.first)) {
+                        m_selectedKeyframes = {m_currentKeyframeOriginal};
                     }
-                } else if (!m_selectedKeyframes.contains(m_currentKeyframeOriginal.first)) {
-                    m_selectedKeyframes = {m_currentKeyframeOriginal};
-                }
-                // Select and seek to keyframe
-                m_currentKeyframe = m_currentKeyframeOriginal;
-                // Calculate speeds
-                std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                emit selectedKf(m_currentKeyframe, speeds);
-                if (m_currentKeyframeOriginal.first > -1) {
-                    qDebug()<<"=== SETTING CURRENT KEYFRAME: "<<m_currentKeyframe.first;
-                    m_moveKeyframeMode = TopMove;
-                    if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
-                    } else {
-                        update();
-                    }
-                } else {
-                    update();
-                }
-                return;
-            }
-            // no keyframe next to mouse
-            m_selectedKeyframes.clear();
-            m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
-        } else if (event->y() > m_bottomView + m_lineHeight + 2) {
-            // click on zoom area
-            if (m_hoverZoom) {
-                m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
-            }
-            return;
-        } else if (event->y() > m_bottomView - m_lineHeight && event->y() < m_bottomView) {
-            // click in bottom keyframe area
-            if (event->modifiers() & Qt::ShiftModifier) {
-                m_clickPoint = pos + m_inFrame;
-                return;
-            }
-            int keyframe = getClosestKeyframe(pos + m_inFrame, true);
-            qDebug()<<"==== KEYFRAME AREA CLICK! CLOSEST KFR: "<<keyframe;
-            if (keyframe > -1 && qAbs(keyframe - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
-                m_currentKeyframeOriginal = {m_keyframes.key(keyframe),keyframe};
-                if (event->modifiers() & Qt::ControlModifier) {
-                    if (m_selectedKeyframes.values().contains(m_currentKeyframeOriginal.second)) {
-                        m_selectedKeyframes.remove(m_currentKeyframeOriginal.first);
-                        m_currentKeyframeOriginal.second = -1;
-                    } else {
-                        m_selectedKeyframes.insert(m_currentKeyframeOriginal.first, m_currentKeyframeOriginal.second);
-                    }
-                } else if (!m_selectedKeyframes.values().contains(m_currentKeyframeOriginal.second)) {
-                    m_selectedKeyframes = {m_currentKeyframeOriginal};
-                }
-                // Select and seek to keyframe
-                m_currentKeyframe = m_currentKeyframeOriginal;
-                std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                emit selectedKf(m_currentKeyframe, speeds);
-                if (m_currentKeyframeOriginal.second > -1) {
-                    m_moveKeyframeMode = BottomMove;
-                    if (KdenliveSettings::keyframeseek()) {
-                        slotSetPosition(m_currentKeyframeOriginal.first);
-                        emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
+                    // Select and seek to keyframe
+                    m_currentKeyframe = m_currentKeyframeOriginal;
+                    // Calculate speeds
+                    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
+                    emit selectedKf(m_currentKeyframe, speeds);
+                    if (m_currentKeyframeOriginal.first > -1) {
+                        m_moveKeyframeMode = TopMove;
+                        if (KdenliveSettings::keyframeseek()) {
+                            slotSetPosition(m_currentKeyframeOriginal.first);
+                            emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
+                        } else {
+                            update();
+                        }
                     } else {
                         update();
                     }
-                } else {
-                    update();
+                    return;
                 }
-                return;
             }
             // no keyframe next to mouse
-            m_selectedKeyframes.clear();
-            m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
-        } else if (event->y() <= m_lineHeight) {
-            qDebug()<<"=== PRESSED WITH Y: "<<event->y() <<" <  "<<(2 * m_lineHeight);
+            //m_selectedKeyframes.clear();
+            //m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
             if (pos != m_position) {
                 m_moveKeyframeMode = CursorMove;
                 slotSetPosition(pos + m_inFrame);
                 emit seekToPos(pos + m_inFrame, -1);
                 update();
             }
+            return;
         } else if (event->y() > m_bottomView) {
+            // click on zoom area
+            if (m_hoverZoom) {
+                m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
+            }
+            return;
+        } else if (event->y() > m_centerPos && event->y() < m_bottomView) {
+            // click in bottom area
+            if (event->modifiers() & Qt::ShiftModifier) {
+                m_clickPoint = pos + m_inFrame;
+                return;
+            }
+            if (event->y() > (m_bottomView - 2 * m_lineHeight) && (event->y() < m_bottomView - m_lineHeight)) {
+                int keyframe = getClosestKeyframe(pos + m_inFrame, true);
+                if (keyframe > -1 && qAbs(keyframe - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                    m_currentKeyframeOriginal = {m_keyframes.key(keyframe),keyframe};
+                    if (event->modifiers() & Qt::ControlModifier) {
+                        if (m_selectedKeyframes.values().contains(m_currentKeyframeOriginal.second)) {
+                            m_selectedKeyframes.remove(m_currentKeyframeOriginal.first);
+                            m_currentKeyframeOriginal.second = -1;
+                        } else {
+                            m_selectedKeyframes.insert(m_currentKeyframeOriginal.first, m_currentKeyframeOriginal.second);
+                        }
+                    } else if (!m_selectedKeyframes.values().contains(m_currentKeyframeOriginal.second)) {
+                        m_selectedKeyframes = {m_currentKeyframeOriginal};
+                    }
+                    // Select and seek to keyframe
+                    m_currentKeyframe = m_currentKeyframeOriginal;
+                    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
+                    emit selectedKf(m_currentKeyframe, speeds);
+                    if (m_currentKeyframeOriginal.second > -1) {
+                        m_moveKeyframeMode = BottomMove;
+                        if (KdenliveSettings::keyframeseek()) {
+                            slotSetPosition(m_currentKeyframeOriginal.first);
+                            emit seekToPos(m_currentKeyframeOriginal.first, getKeyframePosition());
+                        } else {
+                            update();
+                        }
+                    } else {
+                        update();
+                    }
+                    return;
+                }
+            }
+            // no keyframe next to mouse
+            //m_selectedKeyframes.clear();
+            //m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
             int topPos = GenTime(m_remapLink->anim_get_double("map", pos + m_inFrame)).frames(pCore->getCurrentFps());
-            qDebug()<<"==== TOPOS: "<<topPos<<", FOR: "<<pos;
             if (topPos != m_position + m_inFrame) {
                 m_moveKeyframeMode = CursorMoveBottom;
                 slotSetPosition(topPos);
                 emit seekToPos(-1, pos);
                 update();
             }
+            return;
         }
-    } else if (event->button() == Qt::RightButton && event->y() > m_bottomView + m_lineHeight) {
+    } else if (event->button() == Qt::RightButton && event->y() > m_bottomView) {
         // Right click on zoom, switch between no zoom and last zoom status
         if (m_zoomHandle == QPointF(0, 1)) {
             if (!m_lastZoomHandle.isNull()) {
                 m_zoomHandle = m_lastZoomHandle;
+                int maxWidth = width() - (2 * m_offset);
+                m_zoomStart = m_zoomHandle.x() * maxWidth;
+                m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
                 update();
                 return;
             }
         } else {
             m_lastZoomHandle = m_zoomHandle;
             m_zoomHandle = QPointF(0, 1);
+            int maxWidth = width() - (2 * m_offset);
+            m_zoomStart = m_zoomHandle.x() * maxWidth;
+            m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
             update();
             return;
         }
@@ -744,6 +730,72 @@ void RemapView::mousePressEvent(QMouseEvent *event)
         update();
     }
 }
+
+void RemapView::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::AltModifier) {
+        // Alt modifier seems to invert x/y axis
+        if (event->angleDelta().x() > 0) {
+            goPrev();
+        } else {
+            goNext();
+        }
+        return;
+    }
+    if (event->modifiers() & Qt::ControlModifier) {
+        int maxWidth = width() - 2 * m_offset;
+        double scaledPos = m_position * m_scale;
+        double zoomRange = (m_zoomHandle.y() - m_zoomHandle.x()) * maxWidth;
+        if (event->angleDelta().y() > 0) {
+            zoomRange /= 1.5;
+        } else {
+            zoomRange *= 1.5;
+        }
+        if (zoomRange < 5) {
+            // Don't allow too small zoombar
+            return;
+        }
+        double length = (scaledPos - zoomRange / 2) / maxWidth;
+        m_zoomHandle.setX(qMax(0., length));
+        if (length < 0) {
+            m_zoomHandle.setY(qMin(1.0, (scaledPos + zoomRange / 2) / maxWidth - length));
+        } else {
+            m_zoomHandle.setY(qMin(1.0, (scaledPos + zoomRange / 2) / maxWidth));
+        }
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+        update();
+        return;
+    }
+    int change = event->angleDelta().y() > 0 ? -1 : 1;
+    int pos = qBound(0, m_position + change, m_duration - 1);
+    if (event->y() < m_bottomView) {
+        emit seekToPos(pos + m_inFrame, -1);
+    } else {
+        // Wheel on zoom bar, scroll
+        double pos = m_zoomHandle.x();
+        double zoomWidth = m_zoomHandle.y() - pos;
+        int maxWidth = width() - 2 * m_offset;
+        if (event->angleDelta().y() > 0) {
+            if (zoomWidth / 2 > pos) {
+                pos = 0;
+            } else {
+                pos -= zoomWidth / 2;
+            }
+        } else {
+            if (pos + zoomWidth + zoomWidth / 2 > 1.) {
+                pos = 1. - zoomWidth;
+            } else {
+                pos += zoomWidth / 2;
+            }
+        }
+        m_zoomHandle = QPointF(pos, pos + zoomWidth);
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+        update();
+    }
+}
+
 
 void RemapView::slotSetPosition(int pos)
 {
@@ -1039,9 +1091,9 @@ void RemapView::paintEvent(QPaintEvent *event)
     int maxWidth = width() - (2 * m_offset);
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
     // Top timeline
-    p.fillRect(m_offset, 0, maxWidth + 1, m_lineHeight, bg);
+    p.fillRect(m_offset, 0, maxWidth + 1, m_centerPos, bg);
     // Bottom timeline
-    p.fillRect(m_offset, m_bottomView, maxWidth + 1, m_lineHeight, bg);
+    p.fillRect(m_offset, m_bottomView - m_centerPos, maxWidth + 1, m_centerPos, bg);
     /* ticks */
     double fps = pCore->getCurrentFps();
     int displayedLength = int(m_duration / m_zoomFactor / fps);
@@ -1087,7 +1139,7 @@ void RemapView::paintEvent(QPaintEvent *event)
             break;
         }
         p.drawLine(QPointF(scaledTick , m_lineHeight + 1), QPointF(scaledTick, m_lineHeight - 3));
-        p.drawLine(QPointF(scaledTick , m_bottomView + 1), QPointF(scaledTick, m_bottomView - 3));
+        p.drawLine(QPointF(scaledTick , m_bottomView - m_lineHeight + 1), QPointF(scaledTick, m_bottomView - m_lineHeight - 3));
     }
 
     p.setPen(palette().dark().color());
@@ -1103,9 +1155,9 @@ void RemapView::paintEvent(QPaintEvent *event)
     p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);
     p.drawLine(maxWidth + m_offset, m_lineHeight - m_lineHeight / 4, maxWidth + m_offset, m_lineHeight + m_lineHeight / 4);
     // Bottom timeline
-    p.drawLine(m_offset, m_bottomView, maxWidth + m_offset, m_bottomView);
-    p.drawLine(m_offset, m_bottomView - m_lineHeight / 4, m_offset, m_bottomView + m_lineHeight / 4);
-    p.drawLine(maxWidth + m_offset, m_bottomView - m_lineHeight / 4, maxWidth + m_offset, m_bottomView + m_lineHeight / 4);
+    p.drawLine(m_offset, m_bottomView - m_lineHeight, maxWidth + m_offset, m_bottomView - m_lineHeight);
+    p.drawLine(m_offset, m_bottomView  - m_lineHeight - m_lineHeight / 4, m_offset, m_bottomView  - m_lineHeight + m_lineHeight / 4);
+    p.drawLine(maxWidth + m_offset, m_bottomView - m_lineHeight - m_lineHeight / 4, maxWidth + m_offset, m_bottomView  - m_lineHeight + m_lineHeight / 4);
     /*
      * Keyframes
      */
@@ -1135,11 +1187,11 @@ void RemapView::paintEvent(QPaintEvent *event)
         outPos *= m_zoomFactor;
         outPos += m_offset;
 
-        p.drawLine(inPos, m_lineHeight + m_lineHeight * 0.75, outPos, m_bottomView - m_lineHeight * 0.75);
+        p.drawLine(inPos, m_lineHeight + m_lineHeight * 0.75, outPos, m_bottomView - m_lineHeight * 1.75);
         p.drawLine(inPos, m_lineHeight, inPos, m_lineHeight + m_lineHeight / 2);
-        p.drawLine(outPos, m_bottomView, outPos, m_bottomView - m_lineHeight / 2);
+        p.drawLine(outPos, m_bottomView - m_lineHeight, outPos, m_bottomView - m_lineHeight * 1.5);
         p.drawEllipse(QRectF(inPos - m_lineHeight / 4.0, m_lineHeight + m_lineHeight / 2, m_lineHeight / 2, m_lineHeight / 2));
-        p.drawEllipse(QRectF(outPos - m_lineHeight / 4.0, m_bottomView - m_lineHeight, m_lineHeight / 2, m_lineHeight / 2));
+        p.drawEllipse(QRectF(outPos - m_lineHeight / 4.0, m_bottomView - 2 * m_lineHeight, m_lineHeight / 2, m_lineHeight / 2));
     }
 
     /*
@@ -1166,22 +1218,22 @@ void RemapView::paintEvent(QPaintEvent *event)
         if (scaledPos2 >= m_offset && qFloor(scaledPos2) <= m_offset + maxWidth) {
             QPolygonF bottomCursor;
             bottomCursor << QPointF(-int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(0, 0);
-            bottomCursor.translate(scaledPos2, m_bottomView);
+            bottomCursor.translate(scaledPos2, m_bottomView - m_lineHeight);
             p.setBrush(m_colSelected);
             p.drawPolygon(bottomCursor  );
         }
-        p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 0.75));
+        p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 1.75));
         p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
-        p.drawLine(scaledPos2, m_bottomView, scaledPos2, m_bottomView - m_lineHeight * 0.75);
+        p.drawLine(scaledPos2, m_bottomView - m_lineHeight, scaledPos2, m_bottomView - m_lineHeight * 1.75);
     }
 
     // Zoom bar
     p.setPen(Qt::NoPen);
     p.setBrush(palette().mid());
-    p.drawRoundedRect(0, m_bottomView + m_lineHeight + 4, width() - 2 * 0, m_zoomHeight, m_lineHeight / 3, m_lineHeight / 3);
+    p.drawRoundedRect(0, m_bottomView + 2, width() - 2 * 0, m_zoomHeight, m_lineHeight / 3, m_lineHeight / 3);
     p.setBrush(palette().highlight());
     p.drawRoundedRect(int((width()) * m_zoomHandle.x()),
-                      m_bottomView + m_lineHeight + 4,
+                      m_bottomView + 2,
                       int((width()) * (m_zoomHandle.y() - m_zoomHandle.x())),
                       m_zoomHeight,
                       m_lineHeight / 3, m_lineHeight / 3);
@@ -1218,6 +1270,9 @@ TimeRemap::TimeRemap(QWidget *parent)
         speedAfter->setEnabled(speeds.second > 0);
         speedAfter->setValue(100. * speeds.second);
     });
+    button_add->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
+    button_next->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
+    button_prev->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
     connect(m_view, &RemapView::updateKeyframes, this, &TimeRemap::updateKeyframes);
     connect(m_in, &TimecodeDisplay::timeCodeUpdated, [this]() {
         m_view->updateInPos(m_in->getValue() + m_view->m_inFrame);
@@ -1228,7 +1283,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     connect(button_center, &QToolButton::clicked, m_view, &RemapView::centerCurrentKeyframe);
     connect(m_view, &RemapView::atKeyframe, button_add, [&](bool atKeyframe) {
-        button_add->setIcon(atKeyframe ? QIcon::fromTheme(QStringLiteral("list-remove")) : QIcon::fromTheme(QStringLiteral("list-add")));
+        button_add->setIcon(atKeyframe ? QIcon::fromTheme(QStringLiteral("keyframe-remove")) : QIcon::fromTheme(QStringLiteral("keyframe-add")));
     });
     connect(speedBefore, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) {
         m_view->updateBeforeSpeed(speed);

@@ -65,6 +65,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
     std::shared_ptr<Mlt::Link> m_remapLink;
     /** @brief The position of the clip in timeline, used to seek to correct place */
     int m_startPos;
@@ -92,6 +93,7 @@ private:
     QColor m_colSelected;
     QColor m_colKeyframe;
     int m_zoomHeight;
+    int m_centerPos;
     int m_lineHeight;
     double m_zoomFactor;
     double m_zoomStart;

@@ -1843,6 +1843,27 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             semaphore.release(1);
             return false;
         }
+        if (prod.hasAttribute(QStringLiteral("timemap"))) {
+            // This is a timeremap
+            timeline->m_allClips[newId]->useTimeRemapProducer(true, timeline_undo, timeline_redo);
+            if (timeline->m_allClips[newId]->m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(timeline->m_allClips[newId]->m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        fromLink->set("map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
+                        fromLink->set("pitch", prod.attribute(QStringLiteral("timepitch")).toInt());
+                        fromLink->set("image_mode", prod.attribute(QStringLiteral("timeblend")).toUtf8().constData());
+                        break;
+                    }
+                }
+            }
+        }
+            
+        }
         if (timeline->m_allClips[newId]->m_endlessResize) {
             out = out - in;
             in = 0;

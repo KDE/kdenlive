@@ -4750,6 +4750,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
         hasPitch = m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
     }
     int audioStream = m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
+    bool timeremap = m_allClips[clipId]->isChain();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
     bool refreshView = oldOut > int(binClip->frameDuration()) || forceDuration > -1;
@@ -4757,7 +4758,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
     }
     if (old_trackId != -1) {
-        m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1);
+        m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1, timeremap);
         if (forceDuration > -1) {
             m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
         }
