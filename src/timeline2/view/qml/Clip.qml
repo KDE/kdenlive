@@ -876,7 +876,6 @@ Rectangle {
                     color: '#fdbc4b'
                     width: labelRect.height
                     height: labelRect.height
-                    x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
                     visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
@@ -902,12 +901,11 @@ Rectangle {
                     color: '#cc0033'
                     width: labelRect.height
                     height: labelRect.height
-                    x: labelRect.x
                     anchors.top: labelRect.top
-                    anchors.left: labelRect.right
+                    anchors.left: proxyRect.visible ? proxyRect.right : labelRect.right
                     visible: clipRoot.timeremap
                     Text {
-                        // Proxy P
+                        // Remap R
                         id: remapLabel
                         text: "R"
                         font.pointSize: root.fontUnit +1

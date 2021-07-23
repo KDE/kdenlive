@@ -489,6 +489,29 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
     }
+    QString remapMap;
+    int remapPitch;
+    QString remapBlend;
+    if (m_hasTimeRemap) {
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        remapMap = fromLink->get("map");
+                        remapPitch = fromLink->get_int("pitch");
+                        remapBlend = fromLink->get("image_mode");
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
+    }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, timeremap);
     m_producer = std::move(binProducer);
@@ -498,6 +521,25 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         if (auto ptr = m_parent.lock()) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
             emit ptr->dataChanged(ix, ix, {TimelineModel::TimeRemapRole});
+        }
+    }
+    if (m_hasTimeRemap) {
+        // Restor timeremap parameters
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        fromLink->set("map", remapMap.toUtf8().constData());
+                        fromLink->set("pitch", remapPitch);
+                        fromLink->set("image_mode", remapBlend.toUtf8().constData());
+                        break;
+                    }
+                }
+            }
         }
     }
     if (hasPitch) {
@@ -908,6 +950,26 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
     if (!qFuzzyCompare(m_speed, 1.)) {
         container.setAttribute(QStringLiteral("warp_pitch"), getIntProperty(QStringLiteral("warp_pitch")));
+    }
+    if (m_hasTimeRemap) {
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        container.setAttribute(QStringLiteral("timemap"), fromLink->get("map"));
+                        container.setAttribute(QStringLiteral("timepitch"), fromLink->get_int("pitch"));
+                        container.setAttribute(QStringLiteral("timeblend"), fromLink->get("image_mode"));
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
     }
     container.appendChild(m_effectStack->toXml(document));
     return container;
