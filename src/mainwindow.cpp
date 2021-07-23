@@ -2741,7 +2741,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
 
 void MainWindow::slotAddGuide()
 {
-    getMainTimeline()->controller()->switchGuide();
+    getMainTimeline()->controller()->switchGuide(-1, false, true);
 }
 
 void MainWindow::slotInsertSpace()

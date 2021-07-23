@@ -326,7 +326,7 @@ public:
 
     /** @brief Add a timeline guide
      */
-    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
+    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false, bool showGui = false);
     /** @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();
