@@ -663,17 +663,30 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     Fun simple_move_mix = []() { return true; };
     Fun simple_restore_mix = []() { return true; };
     QList<int> allowedClipMixes;
+    if (!groupMove && old_trackId > -1) {
+        mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
+    }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
         bool mixGroupMove = false;
         if (mixData.first.firstClipId > 0) {
             allowedClipMixes << mixData.first.firstClipId;
+            if (moving_clips.contains(mixData.first.firstClipId)) {
+                allowedClipMixes << mixData.first.firstClipId;
+            } else if (finalMove) {
+                removeMixWithUndo(clipId, local_undo, local_redo);
+            }
         }
         if (mixData.second.firstClipId > 0) {
             allowedClipMixes << mixData.second.secondClipId;
+            if (moving_clips.contains(mixData.second.secondClipId)) {
+                allowedClipMixes << mixData.second.secondClipId;
+            } else if (finalMove) {
+                removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
+            }
         }
-        if (m_groups->isInGroup(clipId)) {
+        if (m_groups->isInGroup(clipId) && mixData.first.firstClipId > 0) {
             int parentGroup = m_groups->getRootId(clipId);
             if (parentGroup > -1) {
                 std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
@@ -684,19 +697,18 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixGroupMove) {
             // We are moving a group on another track, delete and re-add
+            // Get mix properties
             std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = getTrackById_const(previous_track)->getMixParams(mixData.first.secondClipId);
             simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
-                // Get mix properties
-                std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = getTrackById_const(previous_track)->getMixParams(mixData.first.secondClipId);
-                // Remove mix on old track
-                getTrackById_const(previous_track)->syncronizeMixes(finalMove);
                 // Insert mix on new track
                 bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, finalMove);
+                // Remove mix on old track
+                getTrackById_const(previous_track)->syncronizeMixes(finalMove);
                 return result;
             };
             simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
-                getTrackById_const(trackId)->syncronizeMixes(finalMove);
                 bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, finalMove);
+                getTrackById_const(trackId)->syncronizeMixes(finalMove);
                 return result;
             };
         }
@@ -705,14 +717,9 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (mixData.first.firstClipId > -1) {
             if (old_trackId == trackId) {
                 // We are moving a clip on same track
-                if (finalMove && position >= mixData.first.firstClipInOut.second) {
+                if (position >= mixData.first.firstClipInOut.second) {
                     position += m_allClips[clipId]->getMixDuration() - m_allClips[clipId]->getMixCutPosition();
                     removeMixWithUndo(clipId, local_undo, local_redo);
-                    if (mixData.first.firstClipId > 0) {
-                        if (moving_clips.contains(mixData.first.firstClipId)) {
-                            allowedClipMixes << mixData.first.firstClipId;
-                        }
-                    }
                 }
             } else {
                 // Clip moved to another track, delete mix
@@ -721,11 +728,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixData.second.firstClipId > -1) {
             // We have a mix at clip end
-            if (mixData.second.firstClipId > 0) {
-                if (moving_clips.contains(mixData.second.firstClipId)) {
-                    allowedClipMixes << mixData.second.secondClipId;
-                }
-            }
             int clipDuration = mixData.second.firstClipInOut.second - mixData.second.firstClipInOut.first;
             sync_mix = [this, old_trackId, finalMove]() {
                 getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
@@ -770,9 +772,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     }
-    if (finalMove) {
-        PUSH_LAMBDA(sync_mix, local_undo);
-    }
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
@@ -794,10 +793,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     sync_mix();
     update_model();
     simple_move_mix();
-    PUSH_LAMBDA(simple_restore_mix, local_undo);
-    PUSH_LAMBDA(simple_move_mix, local_redo);
     if (finalMove) {
-        PUSH_LAMBDA(sync_mix, local_redo);
+        PUSH_LAMBDA(simple_restore_mix, undo);
+        PUSH_LAMBDA(simple_move_mix, local_redo);
+        //PUSH_LAMBDA(sync_mix, local_redo);
     }
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_redo);

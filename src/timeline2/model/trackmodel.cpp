@@ -2060,6 +2060,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString,QVector<QPair<QString
 {
     if (m_sameCompositions.count(info.secondClipId) > 0) {
         // Clip already has a mix
+        Q_ASSERT(false);
         return false;
     }
     if (auto ptr = m_parent.lock()) {
@@ -2067,8 +2068,9 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString,QVector<QPair<QString
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(info.secondClipId));
         int in = movedClip->getPosition();
         //int out = in + info.firstClipInOut.second - info.secondClipInOut.first;
-        int out = in + movedClip->getMixDuration();
-        movedClip->setMixDuration(out - in);
+        int duration = info.firstClipInOut.second - info.secondClipInOut.first;
+        int out = in + duration;
+        movedClip->setMixDuration(duration);
         std::unique_ptr<Mlt::Transition> t;
         const QString assetId = params.first;
         t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), assetId.toUtf8().constData());
@@ -2098,6 +2100,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString,QVector<QPair<QString
         }
         return true;
     }
+    qDebug()<<"== COULD NOT PLANT MIX; TRACK UNAVAILABLE";
     return false;
 }
 
