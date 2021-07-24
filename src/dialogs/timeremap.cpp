@@ -46,6 +46,7 @@ RemapView::RemapView(QWidget *parent)
     : QWidget(parent)
     , m_duration(1)
     , m_position(0)
+    , m_bottomPosition(0)
     , m_scale(1.)
     , m_zoomFactor(1)
     , m_zoomStart(0)
@@ -1412,11 +1413,15 @@ void RemapView::paintEvent(QPaintEvent *event)
 
     if (m_bottomPosition >= 0 && m_bottomPosition < m_duration) {
         p.setBrush(m_colSelected);
-        int topPos = GenTime(m_remapLink->anim_get_double("map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
-        double scaledPos = topPos * m_scale;
-        scaledPos -= m_zoomStart;
-        scaledPos *= m_zoomFactor;
-        scaledPos += m_offset;
+        int topPos = -1;
+        double scaledPos = -1;
+        if (m_remapLink && !m_keyframes.isEmpty()) {
+            topPos = GenTime(m_remapLink->anim_get_double("map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
+            scaledPos = topPos * m_scale;
+            scaledPos -= m_zoomStart;
+            scaledPos *= m_zoomFactor;
+            scaledPos += m_offset;
+        }
         double scaledPos2 = m_bottomPosition * m_scale;
         scaledPos2 -= m_zoomStart;
         scaledPos2 *= m_zoomFactor;
@@ -1428,8 +1433,10 @@ void RemapView::paintEvent(QPaintEvent *event)
             p.setBrush(m_colSelected);
             p.drawPolygon(bottomCursor  );
         }
-        p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 1.75));
-        p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
+        if (scaledPos > -1) {
+            p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 1.75));
+            p.drawLine(scaledPos, m_lineHeight, scaledPos, m_lineHeight * 1.75);
+        }
         p.drawLine(scaledPos2, m_bottomView - m_lineHeight, scaledPos2, m_bottomView - m_lineHeight * 1.75);
     }
 

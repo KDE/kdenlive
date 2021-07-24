@@ -259,6 +259,8 @@ public:
     void resizeMix(int cid, int duration, MixAlignment align);
     /** @brief Get alignment info for a mix item */
     MixAlignment getMixAlign(int cid) const;
+    /** @brief Closing current document, do some cleanup */
+    void cleanup();
 
 private:
     explicit Core();

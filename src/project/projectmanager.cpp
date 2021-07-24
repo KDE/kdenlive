@@ -266,10 +266,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     ::mlt_pool_purge();
-    pCore->audioThumbCache.clear();
-    pCore->taskManager.slotCancelJobs();
-    disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    pCore->window()->getMainTimeline()->controller()->clipActions.clear();
+    pCore->cleanup();
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
