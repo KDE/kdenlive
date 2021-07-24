@@ -2897,8 +2897,10 @@ bool TimelineModel::removeMixWithUndo(int cid, Fun &undo, Fun &redo)
     int tid = getItemTrackId(cid);
     if (isTrack(tid)) {
         MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
-        bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
-        return res;
+        if (mixData.firstClipId > -1 && mixData.secondClipId > -1) {
+            bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
+            return res;
+        }
     }
     return true;
 }
