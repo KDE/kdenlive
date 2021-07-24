@@ -1064,3 +1064,12 @@ MixAlignment Core::getMixAlign(int cid) const
 {
     return m_mainWindow->getCurrentTimeline()->controller()->getMixAlign(cid);
 }
+
+void Core::cleanup()
+{
+    audioThumbCache.clear();
+    taskManager.slotCancelJobs();
+    timeRemapWidget()->selectedClip(-1);
+    disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
+    m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+}
