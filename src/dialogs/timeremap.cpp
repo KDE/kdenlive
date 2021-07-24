@@ -215,18 +215,11 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
             if (lastPos > lastKeyframePos) {
                 keyframeAdded = true;
                 std::pair<double,double>speeds = getSpeed({lastKeyframePos,lastKeyframeValue});
-                if (lastKeyframePos == m_inFrame + m_duration - 1) {
-                    // Move last keyframe
-                    //TODO: check we still have a keyframe at it pos
-                    it--;
-                    int updatedVal = it.value() + ((lastPos - it.key()) * speeds.first);
-                    m_keyframes.remove(lastKeyframePos);
-                    m_keyframes.insert(lastPos, updatedVal);
-                } else {
-                    // Add a keyframe at end
-                    int updatedVal = it.value() + (lastPos - it.key());
-                    m_keyframes.insert(lastPos, updatedVal);
-                }
+                // Move last keyframe
+                it--;
+                int updatedVal = it.value() + ((lastPos - it.key()) * speeds.first);
+                m_keyframes.remove(lastKeyframePos);
+                m_keyframes.insert(lastPos, updatedVal);
             }
         } else if (duration < m_duration) {
             keyframeAdded = true;
