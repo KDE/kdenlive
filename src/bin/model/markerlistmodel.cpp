@@ -650,7 +650,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     }
 
     if (!exists && createIfNotFound) {
-        marker = CommentedTime(pos, QString());
+        marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString());
     }
 
     QScopedPointer<MarkerDialog> dialog(

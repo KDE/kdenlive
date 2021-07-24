@@ -2895,9 +2895,12 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
 bool TimelineModel::removeMixWithUndo(int cid, Fun &undo, Fun &redo)
 {
     int tid = getItemTrackId(cid);
-    MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
-    bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
-    return res;
+    if (isTrack(tid)) {
+        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
+        bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
+        return res;
+    }
+    return true;
 }
 
 bool TimelineModel::removeMix(int cid)
