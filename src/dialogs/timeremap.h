@@ -76,6 +76,7 @@ public slots:
     void updateInPos(int pos);
     void updateOutPos(int pos);
     void slotSetPosition(int pos);
+    void slotSetBottomPosition(int pos);
     void addKeyframe();
     void goNext();
     void goPrev();
@@ -84,11 +85,13 @@ public slots:
     void toggleMoveNext(bool moveNext);
     void reloadProducer();
     void centerCurrentKeyframe();
+    void centerCurrentTopKeyframe();
 
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};
     int m_duration;
     int m_position;
+    int m_bottomPosition;
     double m_scale;
     QColor m_colSelected;
     QColor m_colKeyframe;
@@ -97,6 +100,7 @@ private:
     int m_lineHeight;
     double m_zoomFactor;
     double m_zoomStart;
+    /** @brief the keyframes for the remap effect. first value is output, second is source time */
     QMap<int, int>m_keyframes;
     QMap<int, int>m_keyframesOrigin;
     std::shared_ptr<ProjectClip> m_clip;
@@ -121,12 +125,15 @@ private:
     int m_clickEnd;
     int m_offset;
     QMap <int,int>m_selectedKeyframes;
-    int getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
+    QMap<int,int>m_previousSelection;
+    std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
+    std::pair<int,int> getRange(std::pair<int,int>kf);
 
 signals:
     void seekToPos(int, int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>);
+    void updateSpeeds(std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
     void updateKeyframes(bool resize);
