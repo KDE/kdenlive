@@ -140,6 +140,8 @@ public:
     void switchMix(int cid, const QString composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
+    /** @brief Remove a mix in the track (if its clip was removed) */
+    void removeMix(MixInfo info);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */

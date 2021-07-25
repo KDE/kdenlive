@@ -719,6 +719,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 }
                 return err == 0;
             };
+        } else {
         }
         blank = target_clip + 1;
     } else {
@@ -730,7 +731,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     }
     if (m_playlists[target_track].is_blank(blank)) {
         int blank_length = m_playlists[target_track].clip_length(blank);
-        if (blank_length + delta >= 0 && (hasMix || other_blank_end >= out)) {
+        if (blank_length + delta >= 0 && (hasMix || other_blank_end >= out - in)) {
             return [blank_length, blank, right, clipId, delta, update_snaps, this, in, out, target_clip, target_track]() {
                 if (isLocked()) return false;
                 int target_clip_mutable = target_clip;
@@ -2196,6 +2197,18 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
     m_sameCompositions[cid]->getAsset()->set("kdenlive:mixcut", mixCut);
     m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
+}
+
+void TrackModel::removeMix(MixInfo info)
+{
+    Q_ASSERT(m_sameCompositions.count(info.secondClipId) > 0);
+    Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[info.secondClipId]->getAsset());
+    QScopedPointer<Mlt::Field> field(m_track->field());
+    field->lock();
+    field->disconnect_service(transition);
+    field->unlock();
+    m_sameCompositions.erase(info.secondClipId);
+    m_mixList.remove(info.firstClipId);
 }
 
 void TrackModel::syncronizeMixes(bool finalMove)
