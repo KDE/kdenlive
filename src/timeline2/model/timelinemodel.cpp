@@ -703,12 +703,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 // Insert mix on new track
                 bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, finalMove);
                 // Remove mix on old track
-                getTrackById_const(previous_track)->syncronizeMixes(finalMove);
+                getTrackById_const(previous_track)->removeMix(mixData.first);
                 return result;
             };
             simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
                 bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, finalMove);
-                getTrackById_const(trackId)->syncronizeMixes(finalMove);
+                // Remove mix on old track
+                getTrackById_const(trackId)->removeMix(mixData.first);
                 return result;
             };
         }

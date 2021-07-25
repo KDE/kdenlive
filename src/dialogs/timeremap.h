@@ -52,7 +52,6 @@ public:
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData() const;
     int position() const;
-    int getKeyframePosition() const;
     int remapDuration() const;
     int remapMax() const;
     bool movingKeyframe() const;
@@ -114,7 +113,6 @@ private:
     bool m_hoverZoomOut;
     /** @brief Mouse is over the zoom bar */
     bool m_hoverZoom;
-    std::pair<int, bool> m_hoverKeyframe;
     int m_bottomView;
     std::pair<int, int> m_currentKeyframe;
     std::pair<int,int> m_currentKeyframeOriginal;
@@ -128,11 +126,10 @@ private:
     QMap<int,int>m_previousSelection;
     std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
-    std::pair<int,int> getRange(std::pair<int,int>kf);
 
 signals:
     void seekToPos(int,int);
-    void selectedKf(std::pair<int,int>, std::pair<double,double>);
+    void selectedKf(std::pair<int,int>, std::pair<double,double>, std::pair<bool,bool>atEnd = {true,true});
     void updateSpeeds(std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);

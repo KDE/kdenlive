@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
-    <height>324</height>
+    <width>342</width>
+    <height>264</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,8 +87,14 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="speedBefore">
+          <property name="minimum">
+           <double>-100000.000000000000000</double>
+          </property>
           <property name="maximum">
            <double>100000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>100.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -105,8 +111,14 @@
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="speedAfter">
+          <property name="minimum">
+           <double>-100000.000000000000000</double>
+          </property>
           <property name="maximum">
            <double>100000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>100.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -259,7 +271,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="align-horizontal-center"/>
+      <iconset theme="align-horizontal-center">
+       <normaloff>.</normaloff>.</iconset>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
