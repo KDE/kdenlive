@@ -696,7 +696,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     int targetPos = timeline->getItemPosition(itemId) + zone.x() - zone.y();
 
     if (timeline->m_groups->isInGroup(itemId)) {
-        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, allowedTracks);
+        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
     } else {
@@ -737,7 +737,7 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
     // TODO the three move functions should be unified in a "requestItemMove" function
     if (timeline->m_groups->isInGroup(itemId)) {
         result =
-            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, allowedTracks);
+            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo);
     } else {

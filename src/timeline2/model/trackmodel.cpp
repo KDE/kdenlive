@@ -507,7 +507,7 @@ int TrackModel::suggestCompositionLength(int position)
     int track = clip_loc.first;
     int index = clip_loc.second;
     int other_index; // index in the other track
-    int other_track = (track + 1) % 2;
+    int other_track = 1 - track;
     int end_pos = m_playlists[track].clip_start(index) + m_playlists[track].clip_length(index);
     other_index = m_playlists[other_track].get_clip_index_at(end_pos);
     if (other_index < m_playlists[other_track].count()) {
@@ -562,7 +562,7 @@ int TrackModel::getBlankSizeNearClip(int clipId, bool after)
     int track = clip_loc.first;
     int index = clip_loc.second;
     int other_index; // index in the other track
-    int other_track = (track + 1) % 2;
+    int other_track = 1 - track;
     if (after) {
         int first_pos = m_playlists[track].clip_start(index) + m_playlists[track].clip_length(index);
         other_index = m_playlists[other_track].get_clip_index_at(first_pos);
@@ -579,12 +579,16 @@ int TrackModel::getBlankSizeNearClip(int clipId, bool after)
             return 0;
         }
         length = std::min(length, m_playlists[track].clip_length(index));
+    } else if (!after) {
+        length = std::min(length, m_playlists[track].clip_start(clip_loc.second) - m_playlists[track].get_length());
     }
     if (other_index < m_playlists[other_track].count()) {
         if (!m_playlists[other_track].is_blank(other_index)) {
             return 0;
         }
         length = std::min(length, m_playlists[other_track].clip_length(other_index));
+    } else if (!after) {
+        length = std::min(length, m_playlists[track].clip_start(clip_loc.second) - m_playlists[other_track].get_length());
     }
     return length;
 }
@@ -1538,10 +1542,10 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
 {
     if (playlist == -1) {
         // Check on both playlists
-        for (auto &m_playlist : m_playlists) {
-            int start_clip = m_playlist.get_clip_index_at(position);
-            int end_clip = m_playlist.get_clip_index_at(position + duration - 1);
-            if (start_clip != end_clip || !m_playlist.is_blank(start_clip)) {
+        for (auto &playlist : m_playlists) {
+            int start_clip = playlist.get_clip_index_at(position);
+            int end_clip = playlist.get_clip_index_at(position + duration - 1);
+            if (start_clip != end_clip || !playlist.is_blank(start_clip)) {
                 return false;
             }
         }
@@ -2299,6 +2303,11 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     int cid1 = getClipByPosition(in, reverse ? 1 : 0);
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
     if (cid1 < 0 || cid2 < 0) {
+        qDebug()<<"INVALID CLIP MIX: "<<cid1<<" - "<<cid2;
+        QScopedPointer<Mlt::Field> field(m_track->field());
+        field->lock();
+        field->disconnect_service(*t);
+        field->unlock();
         return false;
     }
     QString assetId(t->get("kdenlive_id"));
@@ -2412,4 +2421,17 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
 QVariantList TrackModel::stackZones() const
 {
     return m_effectStack->getEffectZones();
+}
+
+bool TrackModel::hasClipStart(int pos)
+{
+    for (auto &m_playlist : m_playlists) {
+        if (m_playlist.is_blank_at(pos)) {
+            continue;
+        }
+        if (m_playlist.get_clip_index_at(pos) != m_playlist.get_clip_index_at(pos - 1)) {
+            return true;
+        }
+    }
+    return false;
 }

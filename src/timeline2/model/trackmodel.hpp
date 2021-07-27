@@ -152,6 +152,8 @@ public:
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
     /** @brief Get a list of current effect stack zones */
     QVariantList stackZones() const;
+    /** @brief Return true if a clip starts at pos in one of the trak playlists */
+    bool hasClipStart(int pos);
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
