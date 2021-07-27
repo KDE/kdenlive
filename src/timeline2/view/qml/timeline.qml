@@ -1687,7 +1687,7 @@ Rectangle {
                                                 controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
-                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false)
+                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false, true)
                                                     controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move

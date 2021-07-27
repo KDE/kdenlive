@@ -89,7 +89,10 @@ public slots:
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};
     int m_duration;
+    int m_lastMaxDuration;
     int m_position;
+    /** @brief the maximum duration of the parent (bin) clip */
+    int m_maxLength;
     int m_bottomPosition;
     double m_scale;
     QColor m_colSelected;
