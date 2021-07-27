@@ -2208,7 +2208,14 @@ void TimelineController::remapItemTime(int clipId, double speed)
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
-    pCore->remapClip(clipId);
+    if (m_model->m_allClips[clipId]->isChain()) {
+        // Remove remap effect
+        m_model->requestClipTimeRemap(clipId, false);
+        pCore->remapClip(-1);
+    } else {
+        // Add remap effect
+        pCore->remapClip(clipId);
+    }
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -3354,6 +3361,11 @@ void TimelineController::updateClipActions()
         } else if (actionData == QLatin1Char('P')) {
             // Position actions should stay enabled in clip monitor
             enableAction = true;
+        } else if (actionData == QLatin1Char('R')) {
+            enableAction = clip != nullptr;
+            if (enableAction) {
+                act->setChecked(clip->isChain());
+            }
         }
         act->setEnabled(enableAction);
     }

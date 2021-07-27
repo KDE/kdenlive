@@ -1655,6 +1655,9 @@ void MainWindow::setupActions()
     
     act = addAction(QStringLiteral("edit_item_remap"), i18n("Time Remap"), this, SLOT(slotRemapItemTime()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
+    // "C" as data means this action should only be available for clips - not for compositions
+    act->setData('R');
+    act->setCheckable(true);
     act->setEnabled(false);
 
     act = addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()),
