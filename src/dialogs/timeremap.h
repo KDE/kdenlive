@@ -50,7 +50,7 @@ public:
     void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
     void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
     void loadKeyframes(const QString &mapData);
-    const QString getKeyframesData() const;
+    const QString getKeyframesData(QMap<int,int> keyframes = {}) const;
     int position() const;
     int remapDuration() const;
     int remapMax() const;
@@ -70,6 +70,7 @@ protected:
     int m_startPos;
     /** @brief The in frame of the clip in timeline, used to correctly offset keyframes */
     int m_inFrame;
+    int m_oldInFrame;
 
 public slots:
     void updateInPos(int pos);
@@ -137,6 +138,7 @@ signals:
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
     void atKeyframe(bool);
     void updateKeyframes(bool resize);
+    void updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes);
     void updateMaxDuration(int duration);
 };
 
@@ -159,9 +161,9 @@ public:
 
 private slots:
     void updateKeyframes(bool resize = true);
+    void updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
-    void switchBlending();
-    void switchPitch();
+    void switchRemapParam();
 
 private:
     std::shared_ptr<Mlt::Link> m_splitRemap;
