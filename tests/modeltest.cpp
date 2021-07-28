@@ -2057,3 +2057,4 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+
