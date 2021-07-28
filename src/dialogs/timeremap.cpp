@@ -44,6 +44,7 @@
 
 RemapView::RemapView(QWidget *parent)
     : QWidget(parent)
+    , m_inFrame(0)
     , m_duration(1)
     , m_position(0)
     , m_bottomPosition(0)
@@ -51,9 +52,9 @@ RemapView::RemapView(QWidget *parent)
     , m_zoomFactor(1)
     , m_zoomStart(0)
     , m_zoomHandle(0,1)
-    , m_moveKeyframeMode(NoMove)
     , m_clip(nullptr)
     , m_service(nullptr)
+    , m_moveKeyframeMode(NoMove)
     , m_clickPoint(-1)
     , m_moveNext(true)
 {
@@ -73,7 +74,7 @@ RemapView::RemapView(QWidget *parent)
     m_bottomView = height() - m_zoomHeight - 2;
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     int maxWidth = width() - (2 * m_offset);
-    m_scale = maxWidth / double(qMax(1, remapMax()));
+    m_scale = 1.;
     m_zoomStart = m_zoomHandle.x() * maxWidth;
     m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
     timer.setInterval(500);
@@ -149,6 +150,9 @@ void RemapView::updateOutPos(int pos)
 int RemapView::remapDuration() const
 {
     int maxDuration = 0;
+    if (m_keyframes.isEmpty()) {
+        return 0;
+    }
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
@@ -162,6 +166,9 @@ int RemapView::remapDuration() const
 int RemapView::remapMax() const
 {
     int maxDuration = 0;
+    if (m_keyframes.isEmpty()) {
+        return 0;
+    }
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
@@ -199,10 +206,13 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_inFrame = 0;
         m_duration = -1;
         m_selectedKeyframes.clear();
+        m_keyframes.clear();
         return;
     }
     if (service) {
         m_service = service;
+        m_inFrame = 0;
+        m_duration = -1;
     }
     bool keyframeAdded = false;
     if (m_duration > 0 && m_service && !m_keyframes.isEmpty()) {
@@ -277,7 +287,7 @@ void RemapView::loadKeyframes(const QString &mapData)
         std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
         emit selectedKf(m_currentKeyframe, speeds, atEnd);
         emit atKeyframe(true);
-        updateKeyframes(true);
+        updateKeyframes(false);
     } else {
         QStringList str = mapData.split(QLatin1Char(';'));
         for (auto &s : str) {
@@ -287,11 +297,6 @@ void RemapView::loadKeyframes(const QString &mapData)
             m_duration = qMax(m_duration, pos - m_inFrame);
             m_duration = qMax(m_duration, val - m_inFrame);
         }
-        int maxWidth = width() - (2 * m_offset);
-        m_scale = maxWidth / double(qMax(1, remapMax()));
-        m_zoomStart = m_zoomHandle.x() * maxWidth;
-        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
-        emit updateMaxDuration(m_duration);
         if (m_keyframes.contains(m_currentKeyframe.first)) {
             emit atKeyframe(true);
             std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
@@ -303,6 +308,11 @@ void RemapView::loadKeyframes(const QString &mapData)
             emit selectedKf(m_currentKeyframe, {-1,-1} );
         }
     }
+    int maxWidth = width() - (2 * m_offset);
+    m_scale = maxWidth / double(qMax(1, remapMax()));
+    m_zoomStart = m_zoomHandle.x() * maxWidth;
+    m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+    emit updateMaxDuration(m_duration);
     update();
 }
 
@@ -1271,7 +1281,11 @@ void RemapView::paintEvent(QPaintEvent *event)
     p.fillRect(m_offset, m_bottomView - m_centerPos, maxWidth + 1, m_centerPos, bg);
     /* ticks */
     double fps = pCore->getCurrentFps();
-    int displayedLength = int(remapMax() / m_zoomFactor / fps);
+    int maxLength = remapMax();
+    if (maxLength == 0) {
+        return;
+    }
+    int displayedLength = int(maxLength / m_zoomFactor / fps);
     double factor = 1;
     if (displayedLength < 2) {
         // 1 frame tick
@@ -1753,7 +1767,7 @@ void TimeRemap::updateKeyframes(bool resize)
         if (m_cid == -1) {
             // This is a playlist clip
             m_view->timer.start();
-        } else if (m_lastLength != m_view->remapDuration() || resize) {
+        } else if (m_lastLength != m_view->remapDuration() && resize) {
             qDebug()<<"==== \n\nLENGTH COMPARE: "<<m_lastLength<<" = "<<m_view->remapDuration();
             // Resize timeline clip
             m_lastLength = m_view->remapDuration();

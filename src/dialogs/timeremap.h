@@ -102,13 +102,13 @@ private:
     int m_lineHeight;
     double m_zoomFactor;
     double m_zoomStart;
+    /** @brief The zoom factor (start, end - between 0 and 1) */
+    QPointF m_zoomHandle;
     /** @brief the keyframes for the remap effect. first value is output, second is source time */
     QMap<int, int>m_keyframes;
     QMap<int, int>m_keyframesOrigin;
     std::shared_ptr<ProjectClip> m_clip;
     std::shared_ptr<Mlt::Producer> m_service;
-    /** @brief The zoom factor (start, end - between 0 and 1) */
-    QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
     /** @brief Mouse is the zoom left handle */
     bool m_hoverZoomIn;
