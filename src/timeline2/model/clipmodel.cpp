@@ -376,6 +376,33 @@ bool ClipModel::isChain() const
     return m_producer->parent().type() == mlt_service_chain_type;
 }
 
+int ClipModel::getRemapInputDuration() const
+{
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                QString mapData = link->get("map");
+                int min = GenTime(link->anim_get_double("map", getIn())).frames(pCore->getCurrentFps());
+                QStringList str = mapData.split(QLatin1Char(';'));
+                int max = -1;
+                for (auto &s : str) {
+                    int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+                    if (val > max) {
+                        max = val;
+                    }
+                }
+                return max - min;
+            }
+        }
+    }
+    return 0;
+}
+
 std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
 {
     READ_LOCK();

@@ -87,6 +87,8 @@ public:
 
     /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
     bool isChain() const;
+    /** @brief Returns the duration of the input map */
+    int getRemapInputDuration() const;
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;

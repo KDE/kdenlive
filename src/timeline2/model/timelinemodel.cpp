@@ -4876,6 +4876,12 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
     // in order to make the producer change effective, we need to unplant / replant the clip in int track
     bool success = true;
     int trackId = getClipTrackId(clipId);
+    int previousDuration = 0;
+    qDebug()<<"=== REQUEST REMAP: "<<enable<<"\n\nWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
+    if (!enable && m_allClips[clipId]->isChain()) {
+        previousDuration = m_allClips[clipId]->getRemapInputDuration();
+        qDebug()<<"==== CALCULATED INPIUT DURATION: "<<previousDuration<<"\n\nHHHHHHHHHHHHHH";
+    }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
@@ -4884,6 +4890,10 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        if (success && !enable && previousDuration > 0) {
+            // Restore input duration
+            requestItemResize(clipId, previousDuration, true, true, local_undo, local_redo);
+        }
     }
     if (!success) {
         local_undo();
