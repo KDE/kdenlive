@@ -331,13 +331,13 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
             // mouse move in top keyframes area
             std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame);
-            if (keyframe.first > -1 && qAbs(keyframe.second - pos - m_inFrame) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+            if (keyframe.first > -1 && qAbs(keyframe.second - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                 hoverKeyframe = true;
             }
         } else if (event->y() > m_bottomView - 2 * m_lineHeight && event->y() < m_bottomView - m_lineHeight) {
             // move in bottom keyframe area
             std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
-            if (keyframe.first > -1 && qAbs(keyframe.first - pos - m_inFrame) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+            if (keyframe.first > -1 && qAbs(keyframe.first - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                 hoverKeyframe = true;
             }
         }
@@ -709,7 +709,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             }
             if (event->y() < 2 *m_lineHeight && event->y() > m_lineHeight) {
                 std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame);
-                if (keyframe.first > -1 && qAbs(keyframe.second - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                if (keyframe.first > -1 && qAbs(keyframe.second - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     // Clicked on a top keyframe
                     m_currentKeyframeOriginal = keyframe;
                     if (event->modifiers() & Qt::ControlModifier) {
@@ -778,7 +778,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             }
             if (event->y() > (m_bottomView - 2 * m_lineHeight) && (event->y() < m_bottomView - m_lineHeight)) {
                 std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
-                if (keyframe.first > -1 && qAbs(keyframe.first - (pos + m_inFrame)) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                if (keyframe.first > -1 && qAbs(keyframe.first - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     m_currentKeyframeOriginal = keyframe;
                     if (event->modifiers() & Qt::ControlModifier) {
                         if (m_selectedKeyframes.contains(m_currentKeyframeOriginal.first)) {
