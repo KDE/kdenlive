@@ -1998,6 +1998,7 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
                 startMix.firstClipInOut.second = startMix.firstClipInOut.first + clip1->getPlaytime();
                 startMix.secondClipInOut.first = clip2->getPosition();
                 startMix.secondClipInOut.second = startMix.secondClipInOut.first + clip2->getPlaytime();
+                startMix.mixOffset = clip2->getMixCutPosition();
             } else {
                 // Clip was deleted
                 startMix.firstClipId = -1;

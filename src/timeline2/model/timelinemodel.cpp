@@ -691,6 +691,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             if (moving_clips.contains(mixData.first.firstClipId)) {
                 allowedClipMixes << mixData.first.firstClipId;
             } else if (finalMove) {
+                position += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
                 removeMixWithUndo(clipId, local_undo, local_redo);
             }
         }
@@ -741,6 +742,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 }
             } else {
                 // Clip moved to another track, delete mix
+                position += (m_allClips[clipId]->getMixDuration() - m_allClips[clipId]->getMixCutPosition());
                 removeMixWithUndo(clipId, local_undo, local_redo);
             }
         }
