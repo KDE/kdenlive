@@ -92,6 +92,8 @@ private:
     int m_duration;
     int m_lastMaxDuration;
     int m_position;
+    /** @brief the original in/out of the clip when opening the remap widget, used to snap to ends */
+    std::pair<int,int> m_originalRange;
     /** @brief the maximum duration of the parent (bin) clip */
     int m_maxLength;
     int m_bottomPosition;
