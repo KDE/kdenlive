@@ -71,6 +71,8 @@ protected:
     /** @brief The in frame of the clip in timeline, used to correctly offset keyframes */
     int m_inFrame;
     int m_oldInFrame;
+    /** @brief the original in/out of the clip when opening the remap widget, used to snap to ends */
+    std::pair<int,int> m_originalRange;
 
 public slots:
     void updateInPos(int pos);
@@ -92,8 +94,6 @@ private:
     int m_duration;
     int m_lastMaxDuration;
     int m_position;
-    /** @brief the original in/out of the clip when opening the remap widget, used to snap to ends */
-    std::pair<int,int> m_originalRange;
     /** @brief the maximum duration of the parent (bin) clip */
     int m_maxLength;
     int m_bottomPosition;
@@ -138,7 +138,7 @@ signals:
     void selectedKf(std::pair<int,int>, std::pair<double,double>, std::pair<bool,bool>atEnd = {true,true});
     void updateSpeeds(std::pair<double,double>);
     /** When the cursor position changes inform parent if we are on a keyframe or not. */
-    void atKeyframe(bool);
+    void atKeyframe(bool isKeyframe, bool last);
     void updateKeyframes(bool resize);
     void updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes);
     void updateMaxDuration(int duration);
