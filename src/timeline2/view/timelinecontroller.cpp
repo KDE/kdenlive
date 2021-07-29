@@ -2205,7 +2205,7 @@ void TimelineController::remapItemTime(int clipId)
         clipId = getMainSelectedClip();
     }
     // Don't allow remaping a clip with speed effect
-    if (clipId == -1 || !m_model->isClip(clipId) || qFuzzyCompare(1., m_model->m_allClips[clipId]->getSpeed())) {
+    if (clipId == -1 || !m_model->isClip(clipId) || !qFuzzyCompare(1., m_model->m_allClips[clipId]->getSpeed())) {
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
