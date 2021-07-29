@@ -815,10 +815,14 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (m_timewarpProducers.count(clipId) > 0) {
         // remove in all cases, we add it unconditionally anyways
         m_effectStack->removeService(m_timewarpProducers[clipId]);
-        if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed) || timeremap) {
+        if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
-            qDebug() << "Reusing producer!";
+            qDebug() << "Reusing timewarp producer!";
+        } else if (timeremap && qFuzzyIsNull(m_timewarpProducers[clipId]->get_double("warp_speed"))) {
+            // the producer we have is good, use it !
+            qDebug() << "Reusing time remap producer!";
+            warpProducer = m_timewarpProducers[clipId];
         } else {
             m_timewarpProducers.erase(clipId);
         }

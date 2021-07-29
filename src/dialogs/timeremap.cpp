@@ -1633,7 +1633,6 @@ void TimeRemap::selectedClip(int cid)
     QObject::disconnect( m_seekConnection3 );
     connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
     m_cid = cid;
-    qDebug()<<"======\n\n!!!!!!!!!!  SELECTED CLIP: "<<m_cid<<"\n\n==========";
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
     disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     if (cid == -1) {
@@ -1695,6 +1694,8 @@ void TimeRemap::selectedClip(int cid)
                 }
             }
         }
+    } else {
+        qDebug()<<"/// PRODUCER IS NOT A CHAIN!!!!";
     }
     if (!m_binId.isEmpty() && pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == m_binId) {
         connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, Qt::UniqueConnection);
