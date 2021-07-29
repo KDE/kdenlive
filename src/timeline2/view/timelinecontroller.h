@@ -560,7 +560,7 @@ public:
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, double speed);
     /** @brief Activate time remap on the clip */
-    void remapItemTime(int clipId, double speed);
+    void remapItemTime(int clipId);
     /** @brief Delete selected zone and fill gap by moving following clips
      *  @param lift if true, the zone will simply be deleted but clips won't be moved
      */

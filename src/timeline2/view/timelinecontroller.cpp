@@ -2199,12 +2199,18 @@ void TimelineController::invalidateZone(int in, int out)
     m_timelinePreview->invalidatePreview(in, out == -1 ? m_duration : out);
 }
 
-void TimelineController::remapItemTime(int clipId, double speed)
+void TimelineController::remapItemTime(int clipId)
 {
     if (clipId == -1) {
         clipId = getMainSelectedClip();
     }
-    if (clipId == -1 || !m_model->isClip(clipId)) {
+    // Don't allow remaping a clip with speed effect
+    if (clipId == -1 || !m_model->isClip(clipId) || qFuzzyCompare(1., m_model->m_allClips[clipId]->getSpeed())) {
+        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
+        return;
+    }
+    ClipType::ProducerType type = m_model->m_allClips[clipId]->clipType();
+    if (type == ClipType::Color || type == ClipType::Image) {
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
@@ -3309,30 +3315,36 @@ void TimelineController::updateClipActions()
             pCore->remapClip(item);
         }
     }
+    bool isInGroup = m_model->m_groups->isInGroup(item);
+    PlaylistState::ClipState state = PlaylistState::ClipState::Unknown;
+    ClipType::ProducerType type = ClipType::Unknown;
+    if (clip) {
+        state = clip->clipState();
+        type = clip->clipType();
+    }
     for (QAction *act : qAsConst(clipActions)) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {
             enableAction = isInSelection(item) && selectionSize > 1;
         } else if (actionData == QLatin1Char('U')) {
-            enableAction = m_model->m_groups->isInGroup(item);
+            enableAction = isInGroup;
         } else if (actionData == QLatin1Char('A')) {
-            if (m_model->m_groups->isInGroup(item) && m_model->m_groups->getType(m_model->m_groups->getRootId(item)) == GroupType::AVSplit) {
+            if (isInGroup && m_model->m_groups->getType(m_model->m_groups->getRootId(item)) == GroupType::AVSplit) {
                 enableAction = true;
             } else {
-                enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
+                enableAction = state == PlaylistState::AudioOnly;
             }
         } else if (actionData == QLatin1Char('V')) {
-            enableAction = clip && clip->clipState() == PlaylistState::VideoOnly;
+            enableAction = state == PlaylistState::VideoOnly;
         } else if (actionData == QLatin1Char('D')) {
-            enableAction = clip && clip->clipState() == PlaylistState::Disabled;
+            enableAction = state == PlaylistState::Disabled;
         } else if (actionData == QLatin1Char('E')) {
-            enableAction = clip && clip->clipState() != PlaylistState::Disabled;
+            enableAction = state != PlaylistState::Disabled && state != PlaylistState::Unknown;
         } else if (actionData == QLatin1Char('X') || actionData == QLatin1Char('S')) {
             enableAction = clip && clip->canBeVideo() && clip->canBeAudio();
             if (enableAction && actionData == QLatin1Char('S')) {
-                PlaylistState::ClipState state = clip->clipState();
-                if (m_model->m_groups->isInGroup(item)) {
+                if (isInGroup) {
                     // Check if all clips in the group have have same state (audio or video)
                     int targetRoot = m_model->m_groups->getRootId(item);
                     if (m_model->isGroup(targetRoot)) {
@@ -3362,7 +3374,8 @@ void TimelineController::updateClipActions()
             // Position actions should stay enabled in clip monitor
             enableAction = true;
         } else if (actionData == QLatin1Char('R')) {
-            enableAction = clip != nullptr;
+            // Time remap action
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image;
             if (enableAction) {
                 act->setChecked(clip->isChain());
             }
