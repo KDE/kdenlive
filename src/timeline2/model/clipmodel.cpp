@@ -234,6 +234,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};
+    if (logUndo) {
+        roles.push_back(TimelineModel::FinalMoveRole);
+    }
     if (!right) {
         roles.push_back(TimelineModel::StartRole);
         roles.push_back(TimelineModel::InPointRole);

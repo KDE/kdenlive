@@ -134,6 +134,7 @@ public:
         TypeRole,    /// clip only
         KeyframesRole,
         DurationRole,
+        FinalMoveRole,
         MaxDurationRole,
         InPointRole,    /// clip only
         OutPointRole,   /// clip only
