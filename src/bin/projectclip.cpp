@@ -407,6 +407,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                     }
                 }
             }
+            m_audioThumbCreated = false;
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
