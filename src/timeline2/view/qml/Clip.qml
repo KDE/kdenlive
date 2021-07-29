@@ -787,6 +787,8 @@ Rectangle {
                     width: label.width + (2 * clipRoot.border.width)
                     height: label.height
                     visible: clipRoot.width > width / 2
+                    anchors.left: parent.left
+                    anchors.leftMargin: clipRoot.timeremap ? labelRect.width : 0
                     Text {
                         // Clip name text
                         id: label
@@ -877,7 +879,7 @@ Rectangle {
                     width: labelRect.height
                     height: labelRect.height
                     anchors.top: labelRect.top
-                    anchors.left: labelRect.right
+                    anchors.left: nameContainer.left
                     visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
