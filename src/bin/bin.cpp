@@ -3967,6 +3967,17 @@ void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 void Bin::slotRenameItem()
 {
     if (!hasFocus() && !m_itemView->hasFocus()) {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != pCore->window()) {
+            if (widget == pCore->bin()->clipPropertiesDock()) {
+                for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                    static_cast<ClipPropertiesController *>(w)->slotEditMarker();
+                    break;
+                }
+                return;
+            }
+            widget = widget->parentWidget();
+        }
         return;
     }
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
