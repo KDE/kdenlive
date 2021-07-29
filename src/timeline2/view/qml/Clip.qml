@@ -779,6 +779,7 @@ Rectangle {
                 // Clipping container for clip names
                 anchors.fill: parent
                 anchors.leftMargin: mixContainer.width
+                id: nameContainer
                 clip: true
                 Rectangle {
                     // Clip name background
@@ -788,7 +789,7 @@ Rectangle {
                     height: label.height
                     visible: clipRoot.width > width / 2
                     anchors.left: parent.left
-                    anchors.leftMargin: clipRoot.timeremap ? labelRect.width : 0
+                    anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
                         // Clip name text
                         id: label
@@ -879,7 +880,7 @@ Rectangle {
                     width: labelRect.height
                     height: labelRect.height
                     anchors.top: labelRect.top
-                    anchors.left: nameContainer.left
+                    anchors.left: labelRect.right
                     visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
@@ -898,13 +899,13 @@ Rectangle {
                     }
                 }
                 Rectangle{
-                    //proxy 
+                    //remap
                     id:remapRect
                     color: '#cc0033'
                     width: labelRect.height
                     height: labelRect.height
                     anchors.top: labelRect.top
-                    anchors.left: proxyRect.visible ? proxyRect.right : labelRect.right
+                    anchors.left: nameContainer.left
                     visible: clipRoot.timeremap
                     Text {
                         // Remap R
