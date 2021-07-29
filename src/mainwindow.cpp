@@ -4276,7 +4276,7 @@ void MainWindow::slotRemapItemTime()
 {
     TimelineWidget *current = getCurrentTimeline();
     if (current) {
-        current->controller()->remapItemTime(-1, -1);
+        current->controller()->remapItemTime(-1);
     }
 }
 

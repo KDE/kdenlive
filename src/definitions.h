@@ -80,7 +80,7 @@ enum OperationType {
 
 namespace PlaylistState {
 Q_NAMESPACE
-enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
+enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3, Unknown = 4 };
 Q_ENUM_NS(ClipState)
 } // namespace PlaylistState
 
