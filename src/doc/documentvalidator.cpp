@@ -1742,7 +1742,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
     if (version < 1.01) {
-        // Upgrade wipe composition (replace old mlt geometry with mlt rect
+        // Upgrade wipe composition replace old mlt geometry with mlt rect
+        // Upgrade affine effect and transition (geometry parameter renamed to rect)
         // Warn about deprecated automask
         // Some tracks were added, adjust compositions
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
@@ -1756,6 +1757,17 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 } else if (animation == QLatin1String("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100")) {
                     Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%"));
                 }
+            }
+            else if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("affine")) {
+                Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
+            }
+        }
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        max = effects.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("pan_zoom")) {
+                Xml::renameXmlProperty(t, QStringLiteral("transition.geometry"), QStringLiteral("transition.rect"));
             }
         }
     }
