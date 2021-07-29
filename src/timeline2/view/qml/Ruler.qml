@@ -111,24 +111,35 @@ Item {
         delegate:
         Item {
             id: guideRoot
-            z: proxy.position == model.frame ? 20 : 10
+            property bool activated : proxy.position == model.frame
+            z: activated ? 20 : 10
             Rectangle {
                 id: markerBase
                 width: 1
                 height: rulerRoot.height
                 x: model.frame * timeline.scaleFactor
-                color: model.color
+                color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
                     visible: timeline.showMarkers
                     width: mlabel.contentWidth + 4
                     height: guideLabelHeight
                     radius: timeline.guidesLocked ? 0 : height / 4
+                    color: markerBase.color
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
-                    color: model.color
+                    Rectangle {
+                        // Shadow delimiting marker start
+                        width: 1
+                        height: guideLabelHeight
+                        color: activePalette.dark
+                        anchors {
+                            right: parent.left
+                        }
+                    }
+
                     Text {
                         id: mlabel
                         text: model.comment
