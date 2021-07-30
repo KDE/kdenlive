@@ -204,7 +204,7 @@ protected:
     
     bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
-    Fun useTimeRemapProducer_lambda(bool enable, int audioStream);
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, QMap<QString,QString> remapProperties);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
