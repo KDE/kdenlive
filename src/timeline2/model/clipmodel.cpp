@@ -611,8 +611,30 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int audioStream = getIntProperty(QStringLiteral("audio_index"));
-    auto operation = useTimeRemapProducer_lambda(enable, audioStream);
-    auto reverse = useTimeRemapProducer_lambda(!enable, audioStream);
+    QMap<QString,QString> remapProperties;
+    if (!enable) {
+        // Store the remap properties
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        remapProperties.insert(QStringLiteral("map"), fromLink->get("map"));
+                        remapProperties.insert(QStringLiteral("pitch"), fromLink->get("pitch"));
+                        remapProperties.insert(QStringLiteral("image_mode"), fromLink->get("image_mode"));
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
+    }
+    auto operation = useTimeRemapProducer_lambda(enable, audioStream, remapProperties);
+    auto reverse = useTimeRemapProducer_lambda(!enable, audioStream, remapProperties);
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -621,11 +643,30 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     return false;
 }
 
-Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream)
+Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, QMap<QString,QString> remapProperties)
 {
     QWriteLocker locker(&m_lock);
-    return [enable, audioStream, this]() {
+    return [enable, audioStream, remapProperties,this]() {
         refreshProducerFromBin(m_currentTrackId, m_currentState, audioStream, 0, false, false, enable);
+        if (enable) {
+            QMapIterator<QString,QString> j(remapProperties);
+            if (m_producer->parent().type() == mlt_service_chain_type) {
+                Mlt::Chain fromChain(m_producer->parent());
+                int count = fromChain.link_count();
+                for (int i = 0; i < count; i++) {
+                    QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                    if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                        if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                            while (j.hasNext()) {
+                                j.next();
+                                fromLink->set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         return true;
     };
 }
