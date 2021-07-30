@@ -71,7 +71,7 @@ void FilterTask::run()
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
     std::unique_ptr<Mlt::Producer> producer;
-    std::unique_ptr<Mlt::Producer> wholeProducer;
+    //std::unique_ptr<Mlt::Producer> wholeProducer;
     Mlt::Profile profile(pCore->getCurrentProfilePath().toUtf8().constData());
     if (binClip) {
         // Filter applied on a timeline or bin clip
@@ -104,8 +104,9 @@ void FilterTask::run()
             m_inPoint = 0;
         }
         if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
-            std::swap(wholeProducer, producer);
-            producer.reset(wholeProducer->cut(m_inPoint, m_outPoint));
+            producer->set_in_and_out(m_inPoint, m_outPoint);
+            //std::swap(wholeProducer, producer);
+            //producer.reset(wholeProducer->cut(m_inPoint, m_outPoint));
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job
@@ -187,7 +188,7 @@ void FilterTask::run()
     consumer->run();
     consumer.reset();
     producer.reset();
-    wholeProducer.reset();
+    //wholeProducer.reset();
 
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::ReadOnly);
@@ -258,7 +259,11 @@ void FilterTask::run()
     }
 
     params.append({key,QVariant(resultData)});
-    qDebug()<<"= = = GOT FILTER RESULTS: "<<params;
+    if (m_inPoint > 0 && (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end())) {
+        // Motion tracker keyframes always start at master clip 0, so we need to set in/out points
+        params.append({QStringLiteral("in"), m_inPoint});
+        params.append({QStringLiteral("out"), m_outPoint});
+    }
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
         // Store a copy of the data in clip analysis
         QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname")) : QStringLiteral("data");
