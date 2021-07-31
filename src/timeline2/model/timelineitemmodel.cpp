@@ -136,6 +136,9 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
 
 void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
 {
+    if (m_closing) {
+        return;
+    }
     Q_ASSERT(m_subtitleModel != nullptr);
     Q_ASSERT(m_allSubtitles.count(subId) > 0);
     m_subtitleModel->updateSub(subId, roles);
