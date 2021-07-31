@@ -717,7 +717,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         qDebug() << "changing speed" << in << out << m_speed;
     }
     QString remapMap;
-    int remapPitch;
+    int remapPitch = 0;
     QString remapBlend;
     if (m_hasTimeRemap) {
         if (m_producer->parent().type() == mlt_service_chain_type) {

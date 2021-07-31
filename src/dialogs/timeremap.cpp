@@ -1592,7 +1592,6 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(pitch_compensate, &QCheckBox::toggled, this, &TimeRemap::switchRemapParam);
     connect(frame_blending, &QCheckBox::toggled, this, &TimeRemap::switchRemapParam);
     connect(m_view, &RemapView::updateMaxDuration, [this](int duration) {
-        int min = m_in->minimum();
         m_out->setRange(0, INT_MAX);
         //m_in->setRange(0, duration - 1);
     });
@@ -1604,7 +1603,7 @@ const QString &TimeRemap::currentClip() const
     return m_binId;
 }
 
-void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles)
+void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &, const QVector<int>& roles)
 {
     int id = int(topLeft.internalId());
     if (m_cid != id || !roles.contains(TimelineModel::FinalMoveRole)) {
@@ -1652,12 +1651,10 @@ void TimeRemap::selectedClip(int cid)
         return;
     }
     m_view->m_remapLink.reset();
-    bool keyframesLoaded = false;
     connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     model->requestClipTimeRemap(cid);
     m_splitId = model->m_groups->getSplitPartner(cid);
     m_binId = model->getClipBinId(cid);
-    int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
@@ -1697,7 +1694,6 @@ void TimeRemap::selectedClip(int cid)
                     QSignalBlocker bk2(frame_blending);
                     pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
                     frame_blending->setChecked(fromLink->get("image_mode") == QLatin1String("blend"));
-                    keyframesLoaded = true;
                     setEnabled(true);
                     break;
                 }

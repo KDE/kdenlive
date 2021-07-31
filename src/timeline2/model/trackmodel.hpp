@@ -44,11 +44,11 @@ public:
     int firstClipId = -1;
     int secondClipId = -1;
     /** @brief in and out of the first clip in the mix */
-    std::pair<int, int> firstClipInOut;
+    std::pair<int, int> firstClipInOut = {-1,-1};
     /** @brief in and out of the second clip in the mix */
-    std::pair<int, int> secondClipInOut;
+    std::pair<int, int> secondClipInOut = {-1,-1};
     /** @brief Distance between first clip out and cut pos */
-    int mixOffset;
+    int mixOffset = 0;
 };
 
 /** @brief This class represents a Track object, as viewed by the backend.
