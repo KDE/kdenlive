@@ -234,9 +234,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};
-    if (logUndo) {
-        roles.push_back(TimelineModel::FinalMoveRole);
-    }
     if (!right) {
         roles.push_back(TimelineModel::StartRole);
         roles.push_back(TimelineModel::InPointRole);
@@ -319,10 +316,16 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
             return false;
         };
-        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
-                << m_producer->get_playtime();
+        if (logUndo) {
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << "-"
+                <<outPoint<<", "<< m_producer->get_playtime();
+        }
 
-        if (!closing) {
+        if (!closing && logUndo) {
+            if (isChain()) {
+                // Add undo /redo ops to resize keyframes
+                requestRemapResize(in, out, old_in, old_out, reverse, operation);
+            }
             adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -379,6 +382,152 @@ bool ClipModel::isChain() const
     return m_producer->parent().type() == mlt_service_chain_type;
 }
 
+void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo)
+{
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                (void)link->anim_get_rect("map", 0);
+                Mlt::Animation anim = link->get_animation("map");
+                QString oldKfrData = anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length());
+                QStringList str = oldKfrData.split(QLatin1Char(';'));
+                QMap<int,int>keyframes;
+                for (auto &s : str) {
+                    int pos = m_producer->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
+                    int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+                    keyframes.insert(pos, val);
+                }
+                if (keyframes.contains(inPoint) && keyframes.lastKey() == outPoint) {
+                    // Nothing to do, abort
+                    return;
+                }
+                // Adjust start keyframes
+                QList<int> toDelete;
+                QMap<int,int> toAdd;
+                if (inPoint != oldIn && !keyframes.contains(inPoint)) {
+                    if (inPoint < oldIn) {
+                        // Move oldIn keyframe to new in
+                        if (keyframes.contains(oldIn)) {
+                            int delta = oldIn - inPoint;
+                            toAdd.insert(inPoint, qMax(0, keyframes.value(oldIn) - delta));
+                            toDelete << oldIn;
+                        } else {
+                            // Move first keyframe available
+                            bool found = false;
+                            QMapIterator<int,int> i(keyframes);
+                            while (i.hasNext()) {
+                                i.next();
+                                if (i.key() > oldIn) {
+                                    int delta = i.key() - inPoint;
+                                    toAdd.insert(inPoint, qMax(0, i.value() - delta));
+                                    toDelete << i.key();
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                // Add standard keyframe
+                                toAdd.insert(inPoint, inPoint);
+                            }
+                        }
+                    } else if (outPoint != oldOut && !keyframes.contains(outPoint)) {
+                        // inpoint moved forwards, delete previous
+                        if (keyframes.contains(oldIn)) {
+                            int delta =  inPoint - oldIn;
+                            toAdd.insert(inPoint, qMax(0, keyframes.value(oldIn) + delta));
+                        } else {
+                            toAdd.insert(inPoint, inPoint);
+                        }
+                        // Remove all keyframes before
+                        QMapIterator<int,int> i(keyframes);
+                        while (i.hasNext()) {
+                            i.next();
+                            if (i.key() == 0) {
+                                // Don't remove 0 keyframe
+                                continue;
+                            }
+                            if (i.key() < inPoint ) {
+                                toDelete << i.key();
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (outPoint != oldOut) {
+                    if (outPoint > oldOut) {
+                        if (keyframes.contains(oldOut)) {
+                            int delta = outPoint - oldOut;
+                            toAdd.insert(outPoint, keyframes.value(oldOut) + delta);
+                            toDelete << oldOut;
+                        } else {
+                            // Add defaut keyframe
+                            toAdd.insert(outPoint, outPoint);
+                        }
+                    } else {
+                        // Clip reduced
+                        if (keyframes.contains(oldOut)) {
+                            int delta = oldOut - outPoint;
+                            toAdd.insert(outPoint, keyframes.value(oldOut) - delta);
+                        } else {
+                            // Add defaut keyframe
+                            toAdd.insert(outPoint, outPoint);
+                        }
+                        // Delete all keyframes after outpoint
+                        QMapIterator<int,int> i(keyframes);
+                        while (i.hasNext()) {
+                            i.next();
+                            if (i.key() > outPoint) {
+                                toDelete << i.key();
+                            }
+                        }
+                    }
+                }
+                // Remove all requested keyframes
+                for (int d : toDelete) {
+                    keyframes.remove(d);
+                }
+                // Add replacement keyframes
+                QMapIterator<int,int> i(toAdd);
+                while (i.hasNext()) {
+                    i.next();
+                    keyframes.insert(i.key(), i.value());
+                }
+                QStringList result;
+                QMapIterator<int, int> j(keyframes);
+                while (j.hasNext()) {
+                    j.next();
+                    result << QString("%1=%2").arg(m_producer->frames_to_time(j.key(), mlt_time_clock)).arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
+                }
+                Fun operation = [this, kfrData = result.join(QLatin1Char(';'))]() {
+                    setRemapValue("map", kfrData.toUtf8().constData());
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, TimelineModel::FinalMoveRole);
+                    }
+                    return true;
+                };
+                Fun reverse = [this, oldKfrData]() {
+                    setRemapValue("map", oldKfrData.toUtf8().constData());
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, TimelineModel::FinalMoveRole);
+                    }
+                    return true;
+                };
+                operation();
+                PUSH_LAMBDA(operation, redo);
+                PUSH_FRONT_LAMBDA(reverse, undo);
+            }
+        }
+    }
+}
+
 int ClipModel::getRemapInputDuration() const
 {
     Mlt::Chain fromChain(m_producer->parent());
@@ -404,6 +553,54 @@ int ClipModel::getRemapInputDuration() const
         }
     }
     return 0;
+}
+
+void ClipModel::setRemapValue(const QString &name, const QString &value)
+{
+    if (m_producer->parent().type() != mlt_service_chain_type) {
+        return;
+    }
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                link->set(name.toUtf8().constData(), value.toUtf8().constData());
+                return;
+            }
+        }
+    }
+}
+
+QMap<QString,QString> ClipModel::getRemapValues() const
+{
+    QMap<QString,QString> result;
+    if (m_producer->parent().type() != mlt_service_chain_type) {
+        return result;
+    }
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                // Ensure animation uses time not frames
+                (void)link->anim_get_rect("map", 0);
+                Mlt::Animation anim = link->get_animation("map");
+                result.insert(QStringLiteral("map"), anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length()));
+                //result.insert(QStringLiteral("map"), link->get("map"));
+                result.insert(QStringLiteral("pitch"), link->get("pitch"));
+                result.insert(QStringLiteral("image_mode"), link->get("image_mode"));
+                break;
+            }
+        }
+    }
+    return result;
 }
 
 std::shared_ptr<Mlt::Producer> ClipModel::getProducer()

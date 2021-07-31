@@ -89,6 +89,9 @@ public:
     bool isChain() const;
     /** @brief Returns the duration of the input map */
     int getRemapInputDuration() const;
+    /** @brief Get the time remap effect parameters */
+    QMap<QString,QString> getRemapValues() const;
+    void setRemapValue(const QString &name, const QString &value);
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
@@ -235,6 +238,9 @@ protected:
 
     /** @brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
+
+    /** @brief Resize remap keyframes */
+    void requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo);
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;

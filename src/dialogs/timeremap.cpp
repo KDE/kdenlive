@@ -31,6 +31,7 @@
 #include "timeline2/view/timelinewidget.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/model/clipmodel.hpp"
 #include "macros.hpp"
 
 #include "kdenlive_debug.h"
@@ -561,6 +562,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             }
         }
         if (m_moveKeyframeMode == CursorMoveBottom) {
+            pos = qMin(pos, m_keyframes.lastKey() - m_inFrame);
             if (pos != m_bottomPosition) {
                 m_bottomPosition = pos;
                 bool isKfr = m_keyframes.contains(m_bottomPosition + m_inFrame);
@@ -873,6 +875,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             //m_selectedKeyframes.clear();
             //m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
             m_moveKeyframeMode = CursorMoveBottom;
+            pos = qMin(pos, m_keyframes.lastKey() - m_inFrame);
             if (pos != m_bottomPosition) {
                 m_bottomPosition = pos;
                 bool isKfr = m_keyframes.contains(m_bottomPosition + m_inFrame);
@@ -1608,18 +1611,25 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &b
         return;
     }
     // Don't resize view if we are moving a keyframe
-    if (roles.contains(TimelineModel::DurationRole) && !m_view->movingKeyframe()) {
-        m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+    if (!m_view->movingKeyframe()) {
+        int newDuration = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+        // Check if the keyframes were modified by an external resize operation
+        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+        std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
+        QMap<QString,QString> values = clip->getRemapValues();
+        if (values.value(QLatin1String("map")) == m_view->getKeyframesData()) {
+            // Resize was triggered by our keyframe move, nothing to do
+            return;
+        }
+        // Reload keyframes
+        m_lastLength = newDuration;
+        m_view->m_remapLink->set("map", values.value(QLatin1String("map")).toUtf8().constData());
         int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
         m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,m_cid});
         m_in->setRange(0, m_view->m_maxLength - min);
         m_out->setRange(0, INT_MAX);
-        m_view->setDuration(nullptr, m_lastLength);
+        m_view->loadKeyframes(values.value(QLatin1String("map")));
         m_view->update();
-    } else if (roles.contains(TimelineModel::StartRole) && !m_view->movingKeyframe()) {
-        m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,m_cid});
-        int duration = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
-        m_view->setDuration(nullptr, duration);
     }
 }
 
@@ -1649,7 +1659,6 @@ void TimeRemap::selectedClip(int cid)
     m_binId = model->getClipBinId(cid);
     int min = pCore->getItemIn({ObjectType::TimelineClip,cid});
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
-    int max = min + m_lastLength;
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
     m_view->m_maxLength = prod->get_length();
@@ -1916,7 +1925,7 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
         return true;
     };
     if (durationChanged) {
-        int length = updatedKeyframes.lastKey() - m_view->m_inFrame;
+        int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
         std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
         model->requestItemResize(m_cid, length, true, true, undo, redo);
         if (m_splitId > 0) {
