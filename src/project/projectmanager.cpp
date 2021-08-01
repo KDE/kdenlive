@@ -982,6 +982,9 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
     if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
+    } else {
+        // Subtitle model track was active
+        pCore->window()->getMainTimeline()->controller()->setActiveTrack(activeTrackPosition);
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 
