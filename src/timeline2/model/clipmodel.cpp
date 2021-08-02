@@ -745,10 +745,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     m_producer->set_in_and_out(in, out);
     if (m_hasTimeRemap != isChain()) {
         m_hasTimeRemap = !m_hasTimeRemap;
-        if (auto ptr = m_parent.lock()) {
-            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::TimeRemapRole});
-        }
+        // producer is not on a track, no data refresh needed
     }
     if (m_hasTimeRemap) {
         // Restor timeremap parameters
