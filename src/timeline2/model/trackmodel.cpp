@@ -60,7 +60,6 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
             }
         }
         // For now we never use the second playlist, only planned for same track transitions
-        //m_playlists[1].set("hide", 3);
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_track->set("kdenlive:timeline_active", 1);
         m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
@@ -907,10 +906,9 @@ void TrackModel::setProperty(const QString &name, const QString &value)
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
     // Hide property must be defined at playlist level or it won't be saved
     if (name == QLatin1String("kdenlive:audio_track") || name == QLatin1String("hide")) {
-        m_playlists[0].set(name.toUtf8().constData(), value.toInt());
-        /*for (auto &m_playlist : m_playlists) {
+        for (auto &m_playlist : m_playlists) {
             m_playlist.set(name.toUtf8().constData(), value.toInt());
-        }*/
+        }
     }
 }
 
