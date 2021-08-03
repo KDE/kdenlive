@@ -241,8 +241,6 @@ avfilter.shuffleframes
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
-mask_apply
-mask_start
 qtext
 rgblut
 timer

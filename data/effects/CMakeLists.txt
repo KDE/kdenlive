@@ -111,6 +111,8 @@ lightshow.xml
 loudness.xml
 luma.xml
 lumaliftgaingamma.xml
+mask_start.xml
+mask_apply.xml
 mirror.xml
 mono.xml
 movit_blur.xml
