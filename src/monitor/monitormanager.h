@@ -72,6 +72,8 @@ public:
     bool projectMonitorVisible() const;
     /** @brief Returns true if the clip monitor is visible (and not tabbed under another dock. */
     bool clipMonitorVisible() const;
+    /** @brief Refresh both monitors. */
+    void refreshMonitors();
     QTimer refreshTimer;
     static const double speedArray[6];
 
@@ -97,7 +99,7 @@ public slots:
     void slotSetInPoint();
     void slotSetOutPoint();
     void focusProjectMonitor();
-    void refreshProjectMonitor();
+    void refreshProjectMonitor(bool directUpdate = false);
     /** @brief Refresh project monitor if the timeline cursor is inside the range. */
     void refreshProjectRange(QPair<int, int>range);
     void refreshClipMonitor(bool directUpdate = false);

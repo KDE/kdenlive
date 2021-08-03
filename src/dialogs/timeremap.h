@@ -56,6 +56,8 @@ public:
     int remapMax() const;
     bool movingKeyframe() const;
     void refreshOnDurationChanged(int remapDuration);
+    /** @brief Returns true if timeline cursor is inside the remapped clip */
+    bool isInRange() const;
     QTimer timer;
 
 protected:
@@ -160,6 +162,8 @@ public:
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
     /** @brief the bin id of the clip currently active in remap widget */
     const QString &currentClip() const;
+    /** @brief Returns true if timeline cursor is inside the remapped clip */
+    bool isInRange() const;
 
 private slots:
     void updateKeyframes(bool resize = true);

@@ -400,6 +400,10 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                 for (auto &s : str) {
                     int pos = m_producer->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
                     int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+                    if (s == str.constLast()) {
+                        // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+                        pos--;
+                    }
                     keyframes.insert(pos, val);
                 }
                 if (keyframes.contains(inPoint) && keyframes.lastKey() == outPoint) {
@@ -500,9 +504,14 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                 }
                 QStringList result;
                 QMapIterator<int, int> j(keyframes);
+                int offset = 0;
                 while (j.hasNext()) {
                     j.next();
-                    result << QString("%1=%2").arg(m_producer->frames_to_time(j.key(), mlt_time_clock)).arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
+                    if (j.key() == keyframes.lastKey()) {
+                        // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+                        offset = 1;
+                    }
+                    result << QString("%1=%2").arg(m_producer->frames_to_time(j.key() + offset, mlt_time_clock)).arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
                 }
                 Fun operation = [this, kfrData = result.join(QLatin1Char(';'))]() {
                     setRemapValue("map", kfrData.toUtf8().constData());

@@ -142,7 +142,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
-    connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
+    //connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -1091,7 +1091,7 @@ int GLWidget::reconfigure()
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), audioBackend.toLatin1().constData()));
+            m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
             } else {
@@ -1103,7 +1103,7 @@ int GLWidget::reconfigure()
                         // Already tested
                         continue;
                     }
-                    m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), bk.toLatin1().constData()));
+                    m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), bk.toLatin1().constData()));
                     if (m_consumer->is_valid()) {
                         if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
                             // switch sdl audio backend
@@ -1883,6 +1883,8 @@ bool GLWidget::updateScaling()
         return false;
     }
     m_profileSize = profileSize;
+    pCore->getMonitorProfile().set_width(m_profileSize.width());
+    pCore->getMonitorProfile().set_height(m_profileSize.height());
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());

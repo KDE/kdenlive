@@ -217,10 +217,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         }
         emit m_monitorManager->scalingChanged();
         emit m_monitorManager->updatePreviewScaling();
+        m_monitorManager->refreshMonitors();
     });
 
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
-        bool scalingChanged = m_glMonitor->updateScaling();
+        m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
                 scalingAction->setCurrentIndex(1);
@@ -237,9 +238,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             default:
                 scalingAction->setCurrentIndex(0);
                 break;
-        }
-        if (scalingChanged) {
-            refreshMonitorIfActive();
         }
     });
     scalingAction->setFrame(false);
@@ -1398,7 +1396,7 @@ void Monitor::forceMonitorRefresh()
     m_glMonitor->refresh();
 }
 
-void Monitor::refreshMonitorIfActive(bool directUpdate)
+void Monitor::refreshMonitor(bool directUpdate)
 {
     if (!m_glMonitor->isReady()) {
         return;
@@ -1419,6 +1417,18 @@ void Monitor::refreshMonitorIfActive(bool directUpdate)
                 QObject::disconnect( m_switchConnection );
             });
         }
+    }
+}
+
+void Monitor::refreshMonitorIfActive(bool directUpdate)
+{
+    if (!m_glMonitor->isReady() || !isActive()) {
+        return;
+    }
+    if (directUpdate) {
+        m_glMonitor->refresh();
+    } else {
+        m_glMonitor->requestRefresh();
     }
 }
 

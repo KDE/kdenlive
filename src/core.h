@@ -27,6 +27,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <unordered_set>
 #include "timecode.h"
 
+#include "mlt++/MltProfile.h"
+
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
@@ -48,7 +50,6 @@ class TimeRemap;
 namespace Mlt {
     class Repository;
     class Producer;
-    class Profile;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -227,9 +228,11 @@ public:
     void processInvalidFilter(const QString service, const QString id, const QString message);
     /** @brief Update current project's tags */
     void updateProjectTags(QMap <QString, QString> tags);
-    /** @brief Returns the consumer profile, that will be scaled 
-     *  according to preview settings. Should only be used on the consumer */
+    /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
+    /** @brief Returns the consumer profile, that will be scaled
+     *  according to preview settings. Should only be used on the consumer */
+    Mlt::Profile &getMonitorProfile();
     /** @brief Returns a copy of current timeline's master playlist */
     std::unique_ptr<Mlt::Producer> getMasterProducerInstance();
     /** @brief Returns a copy of a track's playlist */
@@ -287,6 +290,8 @@ private:
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
+    Mlt::Profile m_monitorProfile;
+    /** @brief Mlt profile used to build the project's clips */
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
@@ -312,11 +317,13 @@ public slots:
     void updateMasterZones();
     /** @brief Open the proxies test dialog. */
     void testProxies();
+    /** @brief Refresh the monitor profile when project profile changes. */
+    void updateMonitorProfile();
 
 signals:
     void coreIsReady();
     void updateLibraryPath();
-    void updateMonitorProfile();
+    //void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);
