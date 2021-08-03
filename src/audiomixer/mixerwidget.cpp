@@ -130,6 +130,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
+    , m_balanceSpin(nullptr)
     , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
@@ -432,8 +433,10 @@ void MixerWidget::setMute(bool mute)
     m_volumeSlider->setEnabled(!mute);
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
-    m_balanceSpin->setEnabled(!mute);
-    m_balanceSlider->setEnabled(!mute);
+    if (m_balanceSlider) {
+        m_balanceSpin->setEnabled(!mute);
+        m_balanceSlider->setEnabled(!mute);
+    }
     updateLabel();
 }
 
@@ -519,15 +522,19 @@ void MixerWidget::setRecordState(bool recording)
     QSignalBlocker bk2(m_volumeSlider);
     if (m_recording) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
-        m_balanceSlider->setEnabled(false);
-        m_balanceSpin->setEnabled(false);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(false);
+            m_balanceSpin->setEnabled(false);
+        }
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
     } else {
-        m_balanceSlider->setEnabled(true);
-        m_balanceSpin->setEnabled(true);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(true);
+            m_balanceSpin->setEnabled(true);
+        }
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         m_volumeSpin->setRange(-100, 60);
