@@ -82,9 +82,9 @@ static inline int fromDB(double level)
     return value;
 }
 
-void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
+void MixerWidget::property_changed( mlt_service , MixerWidget *widget, mlt_event_data data )
 {
-    if (widget && !strcmp(name, "_position")) {
+    if (widget && !strcmp(Mlt::EventData(data).to_string(), "_position")) {
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
@@ -542,7 +542,7 @@ void MixerWidget::connectMixer(bool doConnect)
 {
     if (doConnect) {
         if (m_listener == nullptr) {
-            m_listener = m_monitorFilter->listen("property-changed", this, mlt_listener(property_changed));
+            m_listener = m_monitorFilter->listen("property-changed", this, reinterpret_cast<mlt_listener>(property_changed));
         }
     } else {
         delete m_listener;
