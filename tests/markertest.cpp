@@ -21,7 +21,7 @@ void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::v
     for (int i = 0; i < model->rowCount(); ++i) {
         Marker m;
         // Model markers and List do not necessarily use the same order
-        for (int j = 0; j < list.size(); j++) {
+        for (size_t j = 0; j < list.size(); j++) {
             if (qAbs(std::get<0>(list[j]).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps) {
                 m = list[j];
                 list.erase(std::remove(list.begin(), list.end(), m), list.end());

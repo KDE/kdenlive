@@ -965,6 +965,10 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
+    if (compositing == 1) {
+        // Composite transition is deprecated, switch to hq by default
+        compositing = 2;
+    }
     emit pCore->currentDoc()->updateCompositionMode(compositing);
     if (compositing < 2) {
         pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
