@@ -1107,20 +1107,12 @@ void MainWindow::setupActions()
         hqComposite->setData(2);
         m_compositeAction->addAction(hqComposite);
         m_compositeAction->setCurrentAction(hqComposite);
-    } else {
-        QAction *previewComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Preview"), this);
-        previewComposite->setCheckable(true);
-        previewComposite->setData(1);
-        m_compositeAction->addAction(previewComposite);
-        if (compose != QStringLiteral("composite")) {
-            QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
-            hqComposite->setData(2);
-            hqComposite->setCheckable(true);
-            m_compositeAction->addAction(hqComposite);
-            m_compositeAction->setCurrentAction(hqComposite);
-        } else {
-            m_compositeAction->setCurrentAction(previewComposite);
-        }
+    } else if (compose != QStringLiteral("composite")) {
+        QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
+        hqComposite->setData(2);
+        hqComposite->setCheckable(true);
+        m_compositeAction->addAction(hqComposite);
+        m_compositeAction->setCurrentAction(hqComposite);
     }
     connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
@@ -2166,9 +2158,7 @@ void MainWindow::slotRenderProject()
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
     if ( m_renderWidget && m_compositeAction && m_compositeAction->currentAction() ) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
-                                                                        ? i18n("Rendering using low quality track compositing")
-                                                                        : QString());
+        m_renderWidget->errorMessage(RenderWidget::CompositeError, QString());
     }
 
     slotCheckRenderStatus();

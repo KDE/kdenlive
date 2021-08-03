@@ -2289,9 +2289,6 @@ void TimelineController::switchCompositing(int mode)
         }
     }
     if (mode > 0) {
-        const QString compositeGeometry =
-            QStringLiteral("0 0 %1 %2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
-
         // Loop through tracks
         for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
@@ -2300,13 +2297,6 @@ void TimelineController::switchCompositing(int mode)
                                   mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
                 t.set_tracks(0, track + 1);
-                if (mode == 1) {
-                    t.set("valign", "middle");
-                    t.set("halign", "centre");
-                    t.set("fill", 1);
-                    t.set("aligned", 0);
-                    t.set("geometry", compositeGeometry.toUtf8().constData());
-                }
                 t.set("internal_added", 237);
                 field->plant_transition(t, 0, track + 1);
             }
