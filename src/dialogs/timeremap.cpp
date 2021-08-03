@@ -316,10 +316,15 @@ void RemapView::loadKeyframes(const QString &mapData)
         for (auto &s : str) {
             int pos = m_service->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
             int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+            // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+            if (s == str.constLast()) {
+                pos--;
+            }
             m_keyframes.insert(pos, val);
             m_duration = qMax(m_duration, pos - m_inFrame);
             m_duration = qMax(m_duration, val - m_inFrame);
         }
+
         if (m_keyframes.contains(m_currentKeyframe.first)) {
             bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
             emit atKeyframe(true, isLast);
@@ -357,7 +362,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             snapPos += m_offset;
             if (qAbs(snapPos - event->x()) < QApplication::startDragDistance()) {
                 pos = m_originalRange.second - m_inFrame;
-                qDebug()<<"///// FOUND A MATCH FOR OUT: "<<pos;
             }
         }
         if (pos == -1) {
@@ -1175,9 +1179,14 @@ const QString RemapView::getKeyframesData(QMap<int,int> keyframes) const
         keyframes = m_keyframes;
     }
     QMapIterator<int, int> i(keyframes);
+    int offset = 0;
     while (i.hasNext()) {
         i.next();
-        result << QString("%1=%2").arg(m_service->frames_to_time(i.key(), mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
+        if (i.key() == keyframes.lastKey()) {
+            // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+            offset = 1;
+        }
+        result << QString("%1=%2").arg(m_service->frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
 }
@@ -1700,10 +1709,15 @@ void TimeRemap::selectedClip(int cid)
                     }
                     QString mapData(fromLink->get("map"));
                     m_view->loadKeyframes(mapData);
+                    if (mapData.isEmpty()) {
+                        // We are just adding the remap effect, set default params
+                        fromLink->set("pitch", 1);
+                        fromLink->set("image_mode", "nearest");
+                    }
                     QSignalBlocker bk(pitch_compensate);
                     QSignalBlocker bk2(frame_blending);
                     pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
-                    frame_blending->setChecked(fromLink->get("image_mode") == QLatin1String("blend"));
+                    frame_blending->setChecked(fromLink->get("image_mode") != QLatin1String("nearest"));
                     setEnabled(true);
                     break;
                 }
@@ -1856,7 +1870,7 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
     bool usePitch = pitch_compensate->isChecked();
     bool useBlend = frame_blending->isChecked();
     bool hadPitch = m_view->m_remapLink->get_int("pitch") == 1;
-    bool hadBlend = m_view->m_remapLink->get("image_mode") == QLatin1String("blend");
+    bool hadBlend = m_view->m_remapLink->get("image_mode") != QLatin1String("nearest");
     bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn({ObjectType::TimelineClip,m_cid}) + 1 != pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -1871,13 +1885,13 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
             link->set("map", oldKfData.toUtf8().constData());
         }
         link->set("pitch", hadPitch ? 1 : 0);
-        link->set("image_mode", hadBlend ? "blend" : "");
+        link->set("image_mode", hadBlend ? "blend" : "nearest");
         if (splitLink) {
             if (keyframesChanged) {
                 splitLink->set("map", oldKfData.toUtf8().constData());
             }
             splitLink->set("pitch", hadPitch ? 1 : 0);
-            splitLink->set("image_mode", hadBlend ? "blend" : "");
+            splitLink->set("image_mode", hadBlend ? "blend" : "nearest");
         }
         if (cid == m_cid) {
             QSignalBlocker bk(pitch_compensate);
@@ -1906,13 +1920,13 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
             link->set("map", newKfData.toUtf8().constData());
         }
         link->set("pitch", usePitch ? 1 : 0);
-        link->set("image_mode", useBlend ? "blend" : "");
+        link->set("image_mode", useBlend ? "blend" : "nearest");
         if (splitLink) {
             if (keyframesChanged) {
                 splitLink->set("map", newKfData.toUtf8().constData());
             }
             splitLink->set("pitch", usePitch ? 1 : 0);
-            splitLink->set("image_mode", useBlend ? "blend" : "");
+            splitLink->set("image_mode", useBlend ? "blend" : "nearest");
         }
         if (cid == m_cid) {
             QSignalBlocker bk(pitch_compensate);
