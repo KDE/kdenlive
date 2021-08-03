@@ -31,6 +31,7 @@
 
 #include "kdenlive_debug.h"
 #include <QObject>
+#include <dialogs/timeremap.h>
 
 const double MonitorManager::speedArray[6] = {1. ,1.5, 2., 3., 5.5, 10.};
 
@@ -112,14 +113,14 @@ void MonitorManager::refreshProjectRange(QPair<int, int> range)
     }
 }
 
-void MonitorManager::refreshProjectMonitor()
+void MonitorManager::refreshProjectMonitor(bool directUpdate)
 {
-    m_projectMonitor->refreshMonitorIfActive();
+    m_projectMonitor->refreshMonitor(directUpdate);
 }
 
 void MonitorManager::refreshClipMonitor(bool directUpdate)
 {
-    m_clipMonitor->refreshMonitorIfActive(directUpdate);
+    m_clipMonitor->refreshMonitor(directUpdate);
 }
 
 void MonitorManager::forceProjectMonitorRefresh()
@@ -135,6 +136,24 @@ bool MonitorManager::projectMonitorVisible() const
 bool MonitorManager::clipMonitorVisible() const
 {
     return (m_clipMonitor->monitorIsFullScreen() || (m_clipMonitor->isVisible() && !m_clipMonitor->visibleRegion().isEmpty()));
+}
+
+void MonitorManager::refreshMonitors()
+{
+    if (m_activeMonitor) {
+        if (m_activeMonitor == m_clipMonitor) {
+            activateMonitor(Kdenlive::ProjectMonitor);
+            refreshProjectMonitor(true);
+            activateMonitor(Kdenlive::ClipMonitor);
+            refreshClipMonitor(true);
+        } else {
+            activateMonitor(Kdenlive::ClipMonitor);
+            refreshClipMonitor(true);
+            activateMonitor(Kdenlive::ProjectMonitor);
+            refreshProjectMonitor(true);
+        }
+
+    }
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)

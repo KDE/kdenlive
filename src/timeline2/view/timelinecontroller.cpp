@@ -2290,7 +2290,7 @@ void TimelineController::switchCompositing(int mode)
     }
     if (mode > 0) {
         const QString compositeGeometry =
-            QStringLiteral("0=0/0:%1x%2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
+            QStringLiteral("0 0 %1 %2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
 
         // Loop through tracks
         for (int track = 0; track < m_model->getTracksCount(); track++) {

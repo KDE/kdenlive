@@ -350,13 +350,32 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
+Mlt::Profile &Core::getMonitorProfile()
+{
+    return m_monitorProfile;
+}
+
 Mlt::Profile *Core::getProjectProfile()
 {
     if (!m_projectProfile) {
         m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         m_projectProfile->set_explicit(1);
+        updateMonitorProfile();
     }
     return m_projectProfile.get();
+}
+
+
+void Core::updateMonitorProfile()
+{
+    m_monitorProfile.set_colorspace(m_projectProfile->colorspace());
+    m_monitorProfile.set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
+    m_monitorProfile.set_width(m_projectProfile->width());
+    m_monitorProfile.set_height(m_projectProfile->height());
+    m_monitorProfile.set_progressive(m_projectProfile->progressive());
+    m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
+    m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
+    m_monitorProfile.set_explicit(true);
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -383,6 +402,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
             m_projectProfile->set_width(getCurrentProfile()->width());
             m_projectProfile->set_explicit(true);
+            updateMonitorProfile();
         }
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());

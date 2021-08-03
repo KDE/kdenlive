@@ -83,6 +83,11 @@ RemapView::RemapView(QWidget *parent)
     connect(&timer, &QTimer::timeout, this, &RemapView::reloadProducer);
 }
 
+bool RemapView::isInRange() const
+{
+    return m_bottomPosition != -1;
+}
+
 void RemapView::updateInPos(int pos)
 {
     if (m_currentKeyframe.second > -1) {
@@ -1015,14 +1020,19 @@ void RemapView::slotSetPosition(int pos)
 
 void RemapView::slotSetBottomPosition(int pos)
 {
-    qDebug()<<"=== SETTING BOTTOM POS: "<<pos;
+    if (pos < 0 || pos + m_inFrame > m_keyframes.lastKey()) {
+        pos = -1;
+    }
     if (pos != m_bottomPosition) {
         m_bottomPosition = pos;
-        qDebug()<<"==== CURRENT: "<<(m_bottomPosition + m_inFrame)<<" = "<<m_keyframes.keys();
-        bool isKfr = m_keyframes.contains(m_bottomPosition + m_inFrame);
-        if (isKfr) {
-            bool isLast = m_bottomPosition + m_inFrame == m_keyframes.firstKey() || m_bottomPosition + m_inFrame == m_keyframes.lastKey();
-            emit atKeyframe(isKfr, isLast);
+        if (m_bottomPosition > -1) {
+            bool isKfr = m_keyframes.contains(m_bottomPosition + m_inFrame);
+            if (isKfr) {
+                bool isLast = m_bottomPosition + m_inFrame == m_keyframes.firstKey() || m_bottomPosition + m_inFrame == m_keyframes.lastKey();
+                emit atKeyframe(isKfr, isLast);
+            } else {
+                emit atKeyframe(false, false);
+            }
         } else {
             emit atKeyframe(false, false);
         }
@@ -1720,7 +1730,6 @@ void TimeRemap::selectedClip(int cid)
         }
     });
     m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, [this](int pos) {
-        //qDebug()<<"=== PROJECT SEEK: "<<pos<<", START: "<<m_view->m_startPos<<", MAPPED: "<<GenTime(m_view->m_remapLink->anim_get_double("map", pos - m_view->m_startPos)).frames(pCore->getCurrentFps());
         m_view->slotSetBottomPosition(pos - m_view->m_startPos);
     });
 }
@@ -1936,6 +1945,11 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
 void TimeRemap::switchRemapParam()
 {
     updateKeyframesWithUndo(QMap<int,int>(),QMap<int,int>());
+}
+
+bool TimeRemap::isInRange() const
+{
+    return m_cid != -1 && m_view->isInRange();
 }
 
 TimeRemap::~TimeRemap()
