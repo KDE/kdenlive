@@ -84,7 +84,7 @@ void ClipSnapModel::addAllSnaps()
             }
         }
         if (m_mixPoint > 0) {
-            ptr->addPoint(int(ceil(m_position + m_mixPoint / m_speed)));
+            ptr->addPoint(int(ceil(m_position + m_mixPoint)));
         }
     }
 }
@@ -98,7 +98,7 @@ void ClipSnapModel::removeAllSnaps()
             }
         }
         if (m_mixPoint > 0) {
-            ptr->removePoint(int(ceil(m_position + m_mixPoint / m_speed)));
+            ptr->removePoint(int(ceil(m_position + m_mixPoint)));
         }
     }
 }
