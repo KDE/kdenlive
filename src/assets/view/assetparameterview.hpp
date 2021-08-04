@@ -104,6 +104,7 @@ private slots:
     */
     void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
     void commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo);
+    void disableCurrentFilter(bool disable);
 
 signals:
     void seekToPos(int);

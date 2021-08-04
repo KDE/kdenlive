@@ -112,6 +112,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
@@ -175,6 +176,11 @@ void AssetParameterView::resetValues()
     if (ac) {
         ac->setChecked(false);;
     }
+}
+
+void AssetParameterView::disableCurrentFilter(bool disable)
+{
+    m_model->setParameter(QStringLiteral("disable"), disable ? 1 : 0, true);
 }
 
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
