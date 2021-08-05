@@ -972,7 +972,8 @@ void RemapView::wheelEvent(QWheelEvent *event)
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
-    if (event->y() < m_bottomView) {
+
+    if (event->position().y() < m_bottomView) {
         emit seekToPos(pos + m_inFrame, -1);
     } else {
         // Wheel on zoom bar, scroll
