@@ -501,6 +501,11 @@ int TimelineController::insertComposition(int tid, int position, const QString &
 
 void TimelineController::deleteSelectedClips()
 {
+    if (dragOperationRunning()) {
+        // Don't allow timeline operation while drag in progress
+        pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
+        return;
+    }
     auto sel = m_model->getCurrentSelection();
     if (sel.empty()) {
         // Check if a mix is selected
