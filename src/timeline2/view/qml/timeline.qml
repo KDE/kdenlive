@@ -13,7 +13,7 @@ Rectangle {
     property bool validMenu: false
     property color textColor: activePalette.text
     property var groupTrimData
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
 
     signal clipClicked()
     signal mousePosChanged(int position)
