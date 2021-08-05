@@ -14,6 +14,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWheelEvent>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
 
 #include <KSharedConfig>
 #include <klocalizedstring.h>
@@ -64,13 +66,14 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     connect(arrowUp, &QAbstractButton::clicked, this, &UnicodeWidget::slotPrevUnicode);
     connect(arrowDown, &QAbstractButton::clicked, this, &UnicodeWidget::slotNextUnicode);
 
-    switch (m_inputMethod) {
-    case UnicodeDialog::InputHex:
+    if(m_inputMethod == UnicodeDialog::InputHex) {
         unicodeNumber->setMaxLength(MAX_LENGTH_HEX);
-        break;
+        QRegularExpression rx("([0-9]|[a-f])*", QRegularExpression::CaseInsensitiveOption);
+        QValidator *validator = new QRegularExpressionValidator(rx, this);
+        unicodeNumber->setValidator(validator);
 
-    case UnicodeDialog::InputDec:
-        break;
+    } else { // UnicodeDialog::InputDec
+        // TODO Validator
     }
 
     arrowUp->setShortcut(Qt::Key_Up);
@@ -215,29 +218,6 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     return infoText;
 }
 
-QString UnicodeWidget::validateText(const QString &text)
-{
-    QRegExp regex("([0-9]|[a-f])", Qt::CaseInsensitive, QRegExp::RegExp2);
-    QString newText;
-    int pos = 0;
-
-    switch (m_inputMethod) {
-    case UnicodeDialog::InputHex:
-        // Remove all characters we don't want
-        while ((pos = regex.indexIn(text, pos)) != -1) {
-            newText += regex.cap(1);
-            pos++;
-        }
-        break;
-
-    case UnicodeDialog::InputDec:
-        // TODO
-        break;
-    }
-
-    return newText;
-}
-
 void UnicodeWidget::updateOverviewChars(uint unicode)
 {
     QString left;
@@ -331,8 +311,8 @@ void UnicodeWidget::slotTextChanged(const QString &text)
 {
     unicodeNumber->blockSignals(true);
 
-    QString newText = validateText(text);
-    if (newText.isEmpty()) {
+    //QString newText = validateText(text);
+    if (text.isEmpty()) {
         unicodeChar->clear();
         unicodeNumber->clear();
         clearOverviewChars();
@@ -344,7 +324,7 @@ void UnicodeWidget::slotTextChanged(const QString &text)
 
         int cursorPos = unicodeNumber->cursorPosition();
 
-        unicodeNumber->setText(newText);
+        //unicodeNumber->setText(newText);
         unicodeNumber->setCursorPosition(cursorPos);
 
         // Get the decimal number as uint to create the QChar from
@@ -352,10 +332,10 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         uint value = 0;
         switch (m_inputMethod) {
         case UnicodeDialog::InputHex:
-            value = newText.toUInt(&ok, 16);
+            value = text.toUInt(&ok, 16);
             break;
         case UnicodeDialog::InputDec:
-            value = newText.toUInt(&ok, 10);
+            value = text.toUInt(&ok, 10);
             break;
         }
         updateOverviewChars(value);
@@ -366,14 +346,14 @@ void UnicodeWidget::slotTextChanged(const QString &text)
 
         // If an invalid character has been entered:
         // Reset the cursor position because the entered char has been deleted.
-        if (text != newText && newText == m_lastUnicodeNumber) {
+        if (text != text && text == m_lastUnicodeNumber) {
             unicodeNumber->setCursorPosition(m_lastCursorPos);
         }
 
         m_lastCursorPos = unicodeNumber->cursorPosition();
-        m_lastUnicodeNumber = newText;
+        m_lastUnicodeNumber = text;
 
-        labelInfoText->setText(unicodeInfo(newText));
+        labelInfoText->setText(unicodeInfo(text));
         unicodeChar->setText(QChar(value));
     }
 

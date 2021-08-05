@@ -403,7 +403,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 QString ext = filter.section(QLatin1Char('.'), -1);
                 filter = filter.section(QLatin1Char('%'), 0, -2);
                 QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-                QRegExp rx(regexp);
+                QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 QString directory = dir.absolutePath();
                 if (!directory.endsWith(QLatin1Char('/'))) {
@@ -411,7 +411,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 }
                 qint64 totalSize = 0;
                 for (const QString &path : qAsConst(result)) {
-                    if (rx.exactMatch(path)) {
+                    if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
                     }
@@ -498,11 +498,11 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QString ext = filter.section(QLatin1Char('.'), -1).section(QLatin1Char('?'), 0, 0);
                 filter = filter.section(QLatin1Char('%'), 0, -2);
                 QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-                QRegExp rx(regexp);
+                QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 qint64 totalSize = 0;
                 for (const QString &path : qAsConst(result)) {
-                    if (rx.exactMatch(path)) {
+                    if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
                     }

@@ -1568,7 +1568,8 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         // Image sequence, ensure we have a %0xd at file end
         QString extension = renderedFile.section(QLatin1Char('.'), -1);
         // format string for counter
-        if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(renderedFile)) {
+        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        if (!rx.match(renderedFile).hasMatch()) {
             renderedFile = renderedFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
         }
     }

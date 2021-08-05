@@ -684,11 +684,11 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
         QString ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('%'), 0, -2);
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        QRegExp rx(regexp);
+        QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
         for (const QString &p : result) {
-            if (rx.exactMatch(p)) {
+            if (rx.match(p).hasMatch()) {
                 count++;
             }
         }

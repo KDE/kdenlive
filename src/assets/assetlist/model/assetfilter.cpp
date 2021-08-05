@@ -60,10 +60,10 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
         return true;
     }
     QString itemId = item->dataColumn(AssetTreeModel::idCol).toString().toUtf8().constData();
-    itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
     QString itemText = i18n(item->dataColumn(AssetTreeModel::nameCol).toString().toUtf8().constData());
-    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
     return itemText.contains(patt, Qt::CaseInsensitive) || itemId.contains(patt, Qt::CaseInsensitive);
 }

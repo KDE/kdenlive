@@ -891,9 +891,9 @@ void MainWindow::updateActionsToolTip()
             if (tempAction == m_timeFormatButton) {
                 continue;
             }
-            // find the shortcut pattern and delete (note the preceding space in the RegEx)
+            // find the shortcut pattern and delete (note the preceding space in the QRegularExpression)
             QString toolTip = KLocalizedString::removeAcceleratorMarker(tempAction->toolTip());
-            QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+            QString strippedTooltip = toolTip.remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
             QKeySequence shortCut = tempAction->shortcut();
             if (shortCut == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
@@ -2487,7 +2487,7 @@ void MainWindow::slotPreferences(int page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    QRegExp ampEx("&{1,1}");
+    QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);

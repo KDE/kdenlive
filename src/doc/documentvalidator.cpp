@@ -1784,8 +1784,8 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
         auto fixTimecode = [decimalPoint] (QString &value) {
-            QRegExp reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
-            QRegExp reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
+            QRegularExpression reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
+            QRegularExpression reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
             value.replace(reTimecode, "\\1.\\2")
                     .replace(reValue, "\\1.\\2");
         };
@@ -1819,7 +1819,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                     QString value(originalValue);
                     if (propName == "resource") {
                         // Fix entries like <property name="resource">0,500000:/path/to/video
-                        value.replace(QRegExp("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
+                        value.replace(QRegularExpression("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
                     } else if (autoReplace) {
                         // Just replace decimal point
                         value.replace(decimalPoint, '.');
