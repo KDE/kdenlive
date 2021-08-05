@@ -669,10 +669,6 @@ void ClipLoadTask::run()
         }
         generateThumbnail(binClip, producer);
         emit taskDone();
-        if (pCore->projectItemModel()->clipsCount() == 1) {
-            // Always select first added clip
-            pCore->selectBinClip(QString::number(m_owner.second), false);
-        }
     }
     pCore->taskManager.taskDone(m_owner.second, this);
 }
