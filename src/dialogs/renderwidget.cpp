@@ -40,7 +40,6 @@
 #include <KRun>
 #include <kio_version.h>
 #include <knotifications_version.h>
-#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
@@ -805,25 +804,9 @@ void RenderWidget::slotCopyToFavorites()
 
 void RenderWidget::slotDownloadNewRenderProfiles()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
         reloadProfiles();
     }
-}
-
-int RenderWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 void RenderWidget::slotEditProfile()
@@ -1585,7 +1568,8 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         // Image sequence, ensure we have a %0xd at file end
         QString extension = renderedFile.section(QLatin1Char('.'), -1);
         // format string for counter
-        if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(renderedFile)) {
+        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        if (!rx.match(renderedFile).hasMatch()) {
             renderedFile = renderedFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
         }
     }

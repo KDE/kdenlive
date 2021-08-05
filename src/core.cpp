@@ -1093,3 +1093,8 @@ void Core::cleanup()
     disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
     m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
 }
+
+int Core::getNewStuff(const QString &config)
+{
+    return m_mainWindow->getNewStuff(config);
+}

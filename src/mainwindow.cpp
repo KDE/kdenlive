@@ -100,7 +100,12 @@
 #include <KToolBar>
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
+#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
+#else
+#include <kns3/qtquickdialogwrapper.h>
+#endif
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
@@ -886,9 +891,9 @@ void MainWindow::updateActionsToolTip()
             if (tempAction == m_timeFormatButton) {
                 continue;
             }
-            // find the shortcut pattern and delete (note the preceding space in the RegEx)
+            // find the shortcut pattern and delete (note the preceding space in the QRegularExpression)
             QString toolTip = KLocalizedString::removeAcceleratorMarker(tempAction->toolTip());
-            QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+            QString strippedTooltip = toolTip.remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
             QKeySequence shortCut = tempAction->shortcut();
             if (shortCut == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
@@ -2482,7 +2487,7 @@ void MainWindow::slotPreferences(int page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    QRegExp ampEx("&{1,1}");
+    QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);
@@ -3401,17 +3406,22 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
+    delete dialog;
+#else
+    KNS3::QtQuickDialogWrapper dialog(configFile );
+    const QList<KNSCore::EntryInternal> entries = dialog.exec();
+#endif
+    for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
     }
-    delete dialog;
     return entries.size();
 }
 

@@ -141,11 +141,11 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::KeyframeParam:
                 case ParamType::Position:
                     // Fix values like <position>=1,5
-                    value.replace(QRegExp(R"((=\d+),(\d+))"), "\\1.\\2");
+                    value.replace(QRegularExpression(R"((=\d+),(\d+))"), "\\1.\\2");
                     break;
                 case ParamType::AnimatedRect:
                     // Fix values like <position>=50 20 1920 1080 0,75
-                    value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                    value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
                     break;
                 case ParamType::ColorWheel:
                     // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
