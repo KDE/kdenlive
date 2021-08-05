@@ -69,7 +69,6 @@ private:
     void updateOverviewChars(uint unicode);
     void clearOverviewChars();
 
-    int m_lastCursorPos;
     QString m_lastUnicodeNumber;
 
     /** \brief Reads the last used unicode number from the config file. */

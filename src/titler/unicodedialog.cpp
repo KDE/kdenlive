@@ -56,7 +56,6 @@ void UnicodeDialog::slotAccept()
 UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
     : QWidget(parent)
     , m_inputMethod(inputMeth)
-    , m_lastCursorPos(0)
 {
     setupUi(this);
     readChoices();
@@ -311,20 +310,16 @@ void UnicodeWidget::slotTextChanged(const QString &text)
 {
     unicodeNumber->blockSignals(true);
 
-    //QString newText = validateText(text);
     if (text.isEmpty()) {
         unicodeChar->clear();
         unicodeNumber->clear();
         clearOverviewChars();
-        m_lastCursorPos = 0;
         m_lastUnicodeNumber = QString();
         labelInfoText->setText(unicodeInfo(QString()));
 
     } else {
 
         int cursorPos = unicodeNumber->cursorPosition();
-
-        //unicodeNumber->setText(newText);
         unicodeNumber->setCursorPosition(cursorPos);
 
         // Get the decimal number as uint to create the QChar from
@@ -343,14 +338,6 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         if (!ok) {
             // Impossible! validateText never fails!
         }
-
-        // If an invalid character has been entered:
-        // Reset the cursor position because the entered char has been deleted.
-        if (text != text && text == m_lastUnicodeNumber) {
-            unicodeNumber->setCursorPosition(m_lastCursorPos);
-        }
-
-        m_lastCursorPos = unicodeNumber->cursorPosition();
         m_lastUnicodeNumber = text;
 
         labelInfoText->setText(unicodeInfo(text));
