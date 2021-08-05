@@ -22,6 +22,7 @@
 
 #include "titlewidget.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "bin/bin.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
@@ -37,7 +38,12 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
+/*#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
+#else
+#include <kns3/qtquickdialogwrapper.h>
+#endif*/
 
 #include "kdenlive_debug.h"
 #include <QButtonGroup>
@@ -2212,26 +2218,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
 
 void TitleWidget::downloadTitleTemplates()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
         refreshTitleTemplates(m_projectTitlePath);
         refreshTemplateBoxContents();
     }
-}
-
-int TitleWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 QDomDocument TitleWidget::xml()

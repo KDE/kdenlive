@@ -23,13 +23,19 @@
 #include "../model/transitiontreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "dialogs/profilesdialog.h"
+#include "core.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
 
 #include <QQmlContext>
+#include <knewstuff_version.h>
+/*#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
+#else
+#include <kns3/qtquickdialogwrapper.h>
+#endif*/
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -80,25 +86,9 @@ void TransitionListWidget::setFilterType(const QString &type)
     }
 }
 
-int TransitionListWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
-}
-
 void TransitionListWidget::downloadNewLumas()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
         MltConnection::refreshLumas();
         // TODO: refresh currently displayed trans ?
     }

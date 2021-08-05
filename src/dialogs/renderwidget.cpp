@@ -805,25 +805,9 @@ void RenderWidget::slotCopyToFavorites()
 
 void RenderWidget::slotDownloadNewRenderProfiles()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
         reloadProfiles();
     }
-}
-
-int RenderWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 void RenderWidget::slotEditProfile()

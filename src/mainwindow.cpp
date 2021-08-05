@@ -100,7 +100,12 @@
 #include <KToolBar>
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
+#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
+#else
+#include <kns3/qtquickdialogwrapper.h>
+#endif
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
@@ -3401,17 +3406,22 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
+    delete dialog;
+#else
+    KNS3::QtQuickDialogWrapper dialog(configFile );
+    const QList<KNSCore::EntryInternal> entries = dialog.exec();
+#endif
+    for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
     }
-    delete dialog;
     return entries.size();
 }
 

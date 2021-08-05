@@ -25,7 +25,12 @@
 #include "mltconnection.h"
 #include "mainwindow.h"
 
+/*#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
+#else
+#include <kns3/qtquickdialogwrapper.h>
+#endif*/
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -209,22 +214,6 @@ void UrlListParamWidget::openFile()
     }
 }
 
-int UrlListParamWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
-}
-
 void UrlListParamWidget::downloadNewItems()
 {
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
@@ -233,7 +222,7 @@ void UrlListParamWidget::downloadNewItems()
         return;
     }
 
-    if (getNewStuff(configFile) > 0) {
+    if (pCore->getNewStuff(configFile) > 0) {
         if(configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
             MltConnection::refreshLumas();
         }

@@ -159,6 +159,11 @@ public:
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
 
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
+    int getNewStuff(const QString &configFile);
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -267,10 +272,6 @@ private:
     void saveOptions();
 
     void loadGenerators();
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void buildDynamicActions();
