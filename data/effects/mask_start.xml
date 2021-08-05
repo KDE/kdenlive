@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect LC_NUMERIC="C" tag="mask_start" id="mask_start">
+<effect LC_NUMERIC="C" tag="mask_start" id="mask_start" dependency="frei0r.alphaspot">
         <name>Setup a Filter Mask</name>
         <author>Dan Dennedy</author>
         <parameter type="list" name="filter.Shape" default="0" paramlist="0;0.38;0.62;1">
