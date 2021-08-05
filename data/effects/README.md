@@ -36,13 +36,14 @@ Line 1:
 
 Line 2:
 
-| tag name  | description    |
-| :---------| :------------- |
-| `tag`     | MLT ("mlt_service") name of the effect (see [MLT Docs](https://www.mltframework.org/docs/)) |
-| `id`      | internal kdenlive id, can be anything, but must be unique for each effect |
-| `type`    |  _(default = `"video"`)_ whether effect modifies video or audio (use `"audio"` then) |
-| `unique`  | _(default = `"0"`)_ this effect cannot be attached multiple times to one clip (speed, fades, ...) |
-| `version` | _(optional)_ minimum version of the effect required to be available (works only if the MLT filter provides the necessary metadata) |
+| tag name     | description    |
+| :------------| :------------- |
+| `tag`        | MLT ("mlt_service") name of the effect (see [MLT Docs](https://www.mltframework.org/docs/)) |
+| `id`         | internal kdenlive id, can be anything, but must be unique for each effect |
+| `type`       |  _(default = `"video"`)_ whether effect modifies video or audio (use `"audio"` then) |
+| `unique`     | _(default = `"0"`)_ this effect cannot be attached multiple times to one clip (speed, fades, ...) |
+| `version`    | _(optional)_ minimum version of the effect required to be available (works only if the MLT filter provides the necessary metadata) |
+| `dependency` | _(optional)_ ) MLT ("mlt_service") name of an effect or composition this asset depends on. If the dependency is not available this asset will not be available in Kdenlive too|
 
 Line 3:
 * name of the effect that will appear to the user
@@ -75,6 +76,7 @@ The rest:
 | `visualmin`    | the minimal value displayed in timeline keyframes (can be > than min) |
 | `visualmax`    | the maximal value displayed in timeline keyframes (can be < than max) |
 | `default`      | initial value, format depends on parameter type |
+| `value`        |  |
 | `optional`     | if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default |
 | `type`         | widget (GUI) to use. See section below for possible values
 
