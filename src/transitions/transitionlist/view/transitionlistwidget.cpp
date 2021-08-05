@@ -31,11 +31,6 @@
 
 #include <QQmlContext>
 #include <knewstuff_version.h>
-/*#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
-#include <kns3/downloaddialog.h>
-#else
-#include <kns3/qtquickdialogwrapper.h>
-#endif*/
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)

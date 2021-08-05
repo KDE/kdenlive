@@ -25,13 +25,6 @@
 #include "mltconnection.h"
 #include "mainwindow.h"
 
-/*#include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
-#include <kns3/downloaddialog.h>
-#else
-#include <kns3/qtquickdialogwrapper.h>
-#endif*/
-
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {

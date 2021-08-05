@@ -40,7 +40,6 @@
 #include <KRun>
 #include <kio_version.h>
 #include <knotifications_version.h>
-#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
