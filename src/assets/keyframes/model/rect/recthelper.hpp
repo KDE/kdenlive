@@ -19,12 +19,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KFRMONITORHELPER_H
-#define KFRMONITORHELPER_H
+#ifndef RECTHELPER_H
+#define RECTHELPER_H
 
-#include <QPersistentModelIndex>
+#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 
 #include <QObject>
+#include <QPersistentModelIndex>
 #include <QVariant>
 
 #include <memory>
@@ -32,11 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Monitor;
 class AssetParameterModel;
 
-/** @class KeyframeMonitorHelper
-    @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
-    the data and pass it to the model
-    */
-class KeyframeMonitorHelper : public QObject
+class RectHelper : public KeyframeMonitorHelper
 {
     Q_OBJECT
 
@@ -46,35 +43,19 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent = nullptr);
+    explicit RectHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    /** @brief Send data update to the monitor
+     */
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
-    virtual bool connectMonitor(bool activate);
+    bool connectMonitor(bool activate);
     /** @brief Send data update to the monitor
      */
-    virtual void refreshParams(int pos);
-
-protected:
-    Monitor *m_monitor;
-    std::shared_ptr<AssetParameterModel> m_model;
-    /** @brief List of indexes managed by this class
-     */
-    QList<QPersistentModelIndex> m_indexes;
-    bool m_active;
+    void refreshParams(int pos);
 
 private slots:
-    virtual void slotUpdateFromMonitorData(const QVariantList &v);
-
-public slots:
-    /** @brief For classes that manage several parameters, add a param index to the list
-     */
-    void addIndex(const QPersistentModelIndex &index);
-
-signals:
-    /** @brief Send updated keyframe data to the parameter \@index
-     */
-    void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);
+    void slotUpdateFromMonitorRect(const QRect &rect);
 };
 
 #endif

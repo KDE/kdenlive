@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   assets/keyframes/model/keyframemonitorhelper.cpp
   assets/keyframes/model/rotoscoping/rotohelper.cpp
   assets/keyframes/model/corners/cornershelper.cpp
+  assets/keyframes/model/rect/recthelper.cpp
   assets/keyframes/model/keyframemodel.cpp
   assets/keyframes/model/keyframemodellist.cpp
   assets/keyframes/view/keyframeview.cpp

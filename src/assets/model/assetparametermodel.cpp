@@ -807,12 +807,30 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         }
     }
 
+    QString x, y, w, h;
+    int rectIn, rectOut;
     for (const auto &param : m_params) {
         if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
             continue;
         }
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+
+        if(param.first.contains("Position X")) {
+            x = param.second.value.toString();
+            rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
+            rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+        }
+        if(param.first.contains("Position Y")) {
+            y = param.second.value.toString();
+        }
+        if(param.first.contains("Size X")) {
+            w = param.second.value.toString();
+        }
+        if(param.first.contains("Size Y")) {
+            h = param.second.value.toString();
+        }
+
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble()) : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
@@ -831,6 +849,32 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         currentParam.insert(QLatin1String("in"), QJsonValue(in));
         currentParam.insert(QLatin1String("out"), QJsonValue(out));
         list.push_back(currentParam);
+    }
+    if(!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
+        int size = x.split(";").length();
+        QString value;
+        for(int i = 0; i < size; i++) {
+            QSize frameSize = pCore->getCurrentFrameSize();
+            QString pos = x.split(";").at(i).split("=").at(0);
+            double xval = x.split(";").at(i).split("=").at(1).toDouble();
+            xval = xval * frameSize.width();
+            double yval = y.split(";").at(i).split("=").at(1).toDouble();
+            yval = yval * frameSize.height();
+            double wval = w.split(";").at(i).split("=").at(1).toDouble();
+            wval = wval * frameSize.width() * 2;
+            double hval = h.split(";").at(i).split("=").at(1).toDouble();
+            hval = hval * frameSize.height() * 2;
+            value.append(QString("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval/2)).arg(int(yval - hval/2)).arg(int(wval)).arg(int(hval)));
+        }
+        currentParam.insert(QLatin1String("value"), value);
+        currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
+        currentParam.insert(QLatin1String("min"), QJsonValue(0));
+        currentParam.insert(QLatin1String("max"), QJsonValue(0));
+        currentParam.insert(QLatin1String("in"), QJsonValue(rectIn));
+        currentParam.insert(QLatin1String("out"), QJsonValue(rectOut));
+        list.push_front(currentParam);
     }
     return QJsonDocument(list);
 }
@@ -866,13 +910,34 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         }
     }
 
+    double x, y, w, h;
+    int count = 0;
     for (const auto &param : m_params) {
         if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
             continue;
         }
+
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         auto value = m_keyframes->getInterpolatedValue(pos, ix);
+
+        if(param.first.contains("Position X")) {
+            x = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Position Y")) {
+            y = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Size X")) {
+            w = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Size Y")) {
+            h = value.toDouble();
+            count++;
+        }
+
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
@@ -889,6 +954,23 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         currentParam.insert(QLatin1String("in"), QJsonValue(0));
         currentParam.insert(QLatin1String("out"), QJsonValue(0));
         list.push_back(currentParam);
+    }
+
+    if(count == 4) {
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
+        QSize frameSize = pCore->getCurrentFrameSize();
+        x = x * frameSize.width();
+        y = y * frameSize.height();
+        w = w * frameSize.width() * 2;
+        h = h * frameSize.height() * 2;
+        currentParam.insert(QLatin1String("value"), QString("0=%1 %2 %3 %4 1;").arg(int(x - x/2)).arg(int(y - y/2)).arg(int(w)).arg(int(h)));
+        currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
+        currentParam.insert(QLatin1String("min"), QJsonValue(0));
+        currentParam.insert(QLatin1String("max"), QJsonValue(0));
+        currentParam.insert(QLatin1String("in"), 0);
+        currentParam.insert(QLatin1String("out"), 0);
+        list.push_front(currentParam);
     }
     return QJsonDocument(list);
 }
