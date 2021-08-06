@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "keyframewidget.hpp"
+#include "assets/keyframes/model/rect/recthelper.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
@@ -534,6 +535,21 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 if (type == ParamType::KeyframeParam) {
                     int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
                     if (paramName < 8) {
+                        emit addIndex(index);
+                    }
+                }
+            }
+        }
+        if(m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
+            if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
+                m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+                m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+                connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &RectHelper::addIndex);
+            } else {
+                if (type == ParamType::KeyframeParam) {
+                    QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
+                    if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
+                            paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
                         emit addIndex(index);
                     }
                 }
