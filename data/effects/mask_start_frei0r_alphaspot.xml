@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="mask_start" id="mask_start-frei0r.alphaspot" dependency="frei0r.alphaspot">
         <name>Alpha shapes (Mask)</name>
-        <description>This filter makes a snapshop of the frame before it draws simple shapes into the alpha channel. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
+        <description>This filter makes a snapshot of the frame before it draws simple shapes into the alpha channel. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
         <author>Marko Cebokli, Dan Dennedy</author>
         <parameter type="list" name="filter.Shape" default="0" paramlist="0;0.38;0.62;1">
                 <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>

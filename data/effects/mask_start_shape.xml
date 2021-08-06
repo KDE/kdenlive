@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="mask_start" id="mask_start-shape" dependency="shape">
         <name>Shape Alpha (Mask)</name>
-        <description>This filter makes a snapshop of the frame before an alpha channel (transparency) is created based on another resource. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
+        <description>This filter makes a snapshot of the frame before an alpha channel (transparency) is created based on another resource. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
         <author>Charles Yates, Dan Dennedy</author>
         <parameter type="fixed" name="filter" value="shape">
                 <name>Filter</name>
