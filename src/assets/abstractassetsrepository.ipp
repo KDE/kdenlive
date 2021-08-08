@@ -136,7 +136,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // Remove really invalid assets
     emptyMetaAssets << missingDependency;
     emptyMetaAssets.removeDuplicates();
-    for (const auto &invalid : emptyMetaAssets) {
+    for (const auto &invalid : qAsConst(emptyMetaAssets)) {
         m_assets.erase(invalid);
     }
 }

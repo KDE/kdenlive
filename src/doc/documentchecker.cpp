@@ -1025,13 +1025,11 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
 
 QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName)
 {
-    QString foundFileName;
     qApp->processEvents();
     if (m_abortSearch) {
         return QString();
     }
     emit showScanning(i18n("Scanning %1", dir.absolutePath()));
-    QDir searchDir(dir);
     QStringList filesAndDirs;
     QString fileName = QFileInfo(fullName).fileName();
     // Check main dir

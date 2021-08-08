@@ -67,6 +67,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent>
+#include <QRegularExpression>
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
@@ -1862,7 +1863,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
     checkVoskDependencies();
-    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, [this](int state) {
+    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {
             // Clear custom folder
@@ -1871,12 +1872,12 @@ void KdenliveSettingsDialog::initSpeechPage()
             slotParseVoskDictionaries();
         }
     });
-    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, [this](QUrl url) {
+    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](QUrl url) {
         KdenliveSettings::setVosk_folder_path(url.toLocalFile());
         slotParseVoskDictionaries();
     });
     m_configSpeech.models_url->setText(i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-    connect(m_configSpeech.models_url, &QLabel::linkActivated, [&](const QString &contents) {
+    connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
         qDebug()<<"=== LINK CLICKED: "<<contents;
 #if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
@@ -2013,7 +2014,6 @@ void KdenliveSettingsDialog::getDictionary(const QUrl sourceUrl)
     if (url.isEmpty()) {
         return;
     }
-    QString tmpFile;
     if (!url.isLocalFile()) {
         KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
         doShowSpeechMessage(i18n("Downloading model..."), KMessageWidget::Information);

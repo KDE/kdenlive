@@ -62,7 +62,6 @@ void RectHelper::slotUpdateFromMonitorRect(const QRect &rect) {
 
 void RectHelper::refreshParams(int pos)
 {
-    QVariantList points{QPointF(), QPointF(), QPointF(), QPointF()};
     int x = 0, y = 0, w = 500, h = 500;
     QSize frameSize = pCore->getCurrentFrameSize();
     for (const auto &ix : qAsConst(m_indexes)) {

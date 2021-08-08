@@ -272,9 +272,6 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
         QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if(!item.imageUrl.isEmpty()) {
             QUrl img(item.imageUrl);
-            if (img.isEmpty()) {
-                return;
-            }
             m_tmpThumbFile->close();
             if (m_tmpThumbFile->open()) {
                 KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);

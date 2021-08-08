@@ -337,7 +337,7 @@ const QString AssetPanel::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
-    QColor normal_bg = QApplication::palette().window().color();
+    //QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
 

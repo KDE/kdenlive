@@ -49,10 +49,10 @@ public:
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
-    bool connectMonitor(bool activate);
+    bool connectMonitor(bool activate) override;
     /** @brief Send data update to the monitor
      */
-    void refreshParams(int pos);
+    void refreshParams(int pos) override;
 
 private slots:
     void slotUpdateFromMonitorRect(const QRect &rect);

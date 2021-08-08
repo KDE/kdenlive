@@ -996,7 +996,6 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
 
     // process mlt transitions (for luma files)
     prods = mlt.elementsByTagName(QStringLiteral("transition"));
-    QString attribute;
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) {

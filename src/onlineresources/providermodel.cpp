@@ -122,14 +122,14 @@ ProviderModel::ProviderModel(const QString &path)
 
             });
 
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](QAbstractOAuth::Status status) {
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
                 if (status == QAbstractOAuth::Status::Granted ) {
                     emit authenticated(m_oauth2.token());
                 } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
                     KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
                 }
             });
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, [=](const QString &error, const QString &errorDescription) {
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
                 qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
                 emit authenticated(QString());
             });
@@ -405,7 +405,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
         }
         QNetworkReply *reply = manager->get(request);
 
-        connect(reply, &QNetworkReply::finished, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [=]() {
             if(reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QList<ResourceItemInfo>, const int> result = parseSearchResponse(response);
@@ -540,7 +540,7 @@ void ProviderModel::slotFetchFiles(const QString &id) {
         }
         QNetworkReply *reply = manager->get(request);
 
-        connect(reply, &QNetworkReply::finished, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [=]() {
             if(reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);

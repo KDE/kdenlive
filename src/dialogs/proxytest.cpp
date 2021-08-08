@@ -59,7 +59,7 @@ ProxyTest::ProxyTest(QWidget *parent)
             paramBox->setVisible(false);
         }
     });
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this]() {
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this]() {
         infoWidget->setText(i18n("Starting process"));
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);

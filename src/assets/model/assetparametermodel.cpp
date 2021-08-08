@@ -30,6 +30,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
+#include <QRegularExpression>
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
 
@@ -808,7 +809,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     }
 
     QString x, y, w, h;
-    int rectIn, rectOut;
+    int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
         if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
             continue;

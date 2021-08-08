@@ -369,7 +369,7 @@ void MainWindow::init(const QString &mltPath)
     // Online resources widget
     auto *onlineResources = new ResourceWidget(this);
     m_onlineResourcesDock = addDock(i18n("Online Resources"), QStringLiteral("onlineresources"), onlineResources);
-    connect(onlineResources, &ResourceWidget::previewClip, [&](const QString &path, const QString &title) {
+    connect(onlineResources, &ResourceWidget::previewClip, this, [&](const QString &path, const QString &title) {
         m_clipMonitor->slotPreviewResource(path, title);
         m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
@@ -828,7 +828,7 @@ void MainWindow::init(const QString &mltPath)
 #endif
     getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu , timelineSubtitleMenu);
     scmanager->slotCheckActiveScopes();
-    connect(qApp, &QGuiApplication::applicationStateChanged, [&](Qt::ApplicationState state) {
+    connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
         if (state == Qt::ApplicationActive) {
             getMainTimeline()->regainFocus();
         }
@@ -1186,7 +1186,7 @@ void MainWindow::setupActions()
     m_buttonSubtitleEditTool->setCheckable(true);
     m_buttonSubtitleEditTool->setChecked(false);
     addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
-    connect(m_buttonSubtitleEditTool, &QAction::triggered, [this]() {
+    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, [this]() {
         slotEditSubtitle();
     });
 
@@ -1217,7 +1217,7 @@ void MainWindow::setupActions()
     
     QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
     addAction(QStringLiteral("mix_clip"), sameTrack, Qt::Key_U);
-    connect(sameTrack, &QAction::triggered, [this]() {
+    connect(sameTrack, &QAction::triggered, this, [this]() {
        getCurrentTimeline()->controller()->mixClip(); 
     });
     
@@ -1691,7 +1691,7 @@ void MainWindow::setupActions()
     delEffects->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
     delEffects->setData('C');
-    connect(delEffects, &QAction::triggered, [this]() {
+    connect(delEffects, &QAction::triggered, this, [this]() {
         getMainTimeline()->controller()->deleteEffects();
     });
     
@@ -3557,14 +3557,14 @@ void MainWindow::buildDynamicActions()
     if ((filter != nullptr) && filter->is_valid()) {
         QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, [this]() {
+        connect(action, &QAction::triggered, this, [this]() {
             StabilizeTask::start(this);
         });
     }
 
     QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
-    connect(action, &QAction::triggered, [&]() {
+    connect(action, &QAction::triggered, this, [&]() {
         SceneSplitTask::start(this);
     });
 

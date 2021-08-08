@@ -597,7 +597,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
         });
     }
     if (generateProxy) {
-        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool,true), Q_ARG(QList<std::shared_ptr<ProjectClip>>,clipList), Q_ARG(bool,false));
+        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool,true), Q_ARG(QList<std::shared_ptr<ProjectClip> >,clipList), Q_ARG(bool,false));
     }
     return true;
 }
@@ -1260,7 +1260,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
-            int id;
             if (pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB)) {
                 // The proxy clip is being created, abort
                 pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB);
@@ -1618,9 +1617,9 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
     if (offset == 0) {
         return data;
     }
-    auto &profile = pCore->getCurrentProfile();
     // TODO MLT7: port to Mlt::Animation
-    /*Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
+    /*auto &profile = pCore->getCurrentProfile();
+    Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
     int pos = 0;

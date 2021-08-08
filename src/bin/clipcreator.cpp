@@ -263,7 +263,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
-    for (const QUrl &file : cleanList) {
+    for (const QUrl &file : qAsConst(cleanList)) {
         if (!QFile::exists(file.toLocalFile())) {
             continue;
         }
