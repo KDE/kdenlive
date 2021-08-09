@@ -898,7 +898,7 @@ void MainWindow::updateActionsToolTip()
             if (shortCut == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(QString("%1 (%2)").arg(strippedTooltip).arg(shortCut.toString()));
+                tempAction->setToolTip(QString("%1 (%2)").arg(strippedTooltip, shortCut.toString()));
             }
         }
     }
@@ -2830,7 +2830,7 @@ void MainWindow::slotEditGuide()
 void MainWindow::slotLockGuides(bool lock)
 {
     KdenliveSettings::setLockedGuides(lock);
-    getCurrentTimeline()->controller()->guidesLockedChanged();
+    emit getCurrentTimeline()->controller()->guidesLockedChanged();
 }
 
 void MainWindow::slotDeleteGuide()
@@ -3572,7 +3572,7 @@ void MainWindow::buildDynamicActions()
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                [&]() { SpeedTask::start(this); });
+                this, [&]() { SpeedTask::start(this); });
     }
 
     if (true /* TODO: check if timeremap link is available */) {
@@ -3620,7 +3620,7 @@ void MainWindow::buildDynamicActions()
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
-            for (QString id : ids) {
+            for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
                 TranscodeTask::start({ObjectType::BinClip,id.toInt()}, transcodeData.first(), -1, -1, false, clip.get());
             }
@@ -4394,8 +4394,8 @@ void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
         if (!subProperties.isEmpty()) {
             subtitleModel->loadProperties(subProperties);
             // Load the disabled / locked state of the subtitle
-            getMainTimeline()->controller()->subtitlesLockedChanged();
-            getMainTimeline()->controller()->subtitlesDisabledChanged();
+            emit getMainTimeline()->controller()->subtitlesLockedChanged();
+            emit getMainTimeline()->controller()->subtitlesDisabledChanged();
         }
         KdenliveSettings::setShowSubtitles(true);
         m_buttonSubtitleEditTool->setChecked(true);
@@ -4456,10 +4456,10 @@ void MainWindow::slotSpeechRecognition()
 void MainWindow::slotCopyDebugInfo() {
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
-    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion())).arg(QT_VERSION_STR).arg(QSysInfo::buildAbi()));
+    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion())).arg(QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));
-    debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion()));
+    debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType(), QSysInfo::kernelVersion()));
     debuginfo.append(QStringLiteral("CPU: %1\n").arg(QSysInfo::currentCpuArchitecture()));
     debuginfo.append(QStringLiteral("Windowing System: %1\n").arg(QGuiApplication::platformName()));
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));

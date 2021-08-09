@@ -222,7 +222,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    modelChanged();
+    emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()

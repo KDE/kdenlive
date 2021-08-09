@@ -919,7 +919,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(m_searchLine, &QLineEdit::textChanged, [this] (const QString &str) {
+    connect(m_searchLine, &QLineEdit::textChanged, this, [this] (const QString &str) {
         m_proxyModel->slotSetSearchString(str);
         if (str.isEmpty()) {
             // focus last selected item when clearing search line
@@ -2169,7 +2169,7 @@ void Bin::slotInitView(QAction *action)
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotDataChanged);
-    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, [&] (const QModelIndex &ix, uint rating) {
+    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, this, [&] (const QModelIndex &ix, uint rating) {
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
         if (item) {
@@ -2239,7 +2239,7 @@ void Bin::slotInitView(QAction *action)
         }
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
-        connect(view->header(), &QHeaderView::sortIndicatorChanged, [this] (int ix, Qt::SortOrder order) {
+        connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this] (int ix, Qt::SortOrder order) {
             QSignalBlocker bk(m_sortDescend);
             QSignalBlocker bk2(m_sortGroup);
             m_sortDescend->setChecked(order == Qt::DescendingOrder);
@@ -3021,7 +3021,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setWordWrap(text.length() > 35);
     QAction *ac = new QAction(i18n("Show log"), this);
     m_infoMessage->addAction(ac);
-    connect(ac, &QAction::triggered, [this, logInfo](bool) {
+    connect(ac, &QAction::triggered, this, [this, logInfo](bool) {
         KMessageBox::sorry(this, logInfo, i18n("Detailed log"));
         slotMessageActionTriggered();
     });
@@ -3151,7 +3151,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
         if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
             // effect not supported on folder items
-            displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
+            emit displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
             return;
         }
         int row = 0;
@@ -4011,7 +4011,7 @@ void Bin::refreshProxySettings()
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
     for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-        static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+        emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
     }
     if (!m_doc->useProxy()) {
         // Disable all proxies
@@ -4535,7 +4535,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
             qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
             //pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
             std::vector<QString> ids = m_transcodingDialog->ids();
-            for (QString id : ids) {
+            for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
                 TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get());
             }
@@ -4594,10 +4594,10 @@ void Bin::remapCurrent()
         QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
         fName.append("-remap");
         int ix = 1;
-        QString renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix).rightJustified(4, '0'));
+        QString renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
         while (dir.exists(renderName)) {
             ix++;
-            renderName = QString("%1%2.mlt").arg(fName).arg(QString::number(ix).rightJustified(4, '0'));
+            renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
         }
         Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
         consumer.set("terminate_on_pause", 1);

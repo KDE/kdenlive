@@ -478,7 +478,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     fileWidget->setFilter(dialogFilter);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
         fileWidget->slotOk();
-        fileWidget->accepted();
+        emit fileWidget->accepted();
         fileWidget->accept();
         QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;

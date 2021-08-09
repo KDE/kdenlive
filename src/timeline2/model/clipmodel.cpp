@@ -493,7 +493,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                     }
                 }
                 // Remove all requested keyframes
-                for (int d : toDelete) {
+                for (int d : qAsConst(toDelete)) {
                     keyframes.remove(d);
                 }
                 // Add replacement keyframes

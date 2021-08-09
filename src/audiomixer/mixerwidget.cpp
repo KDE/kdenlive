@@ -423,7 +423,7 @@ void MixerWidget::setTrackName(const QString &name) {
     if (name.isEmpty() || m_tid == -1) {
         m_trackLabel->setText(m_trackTag);
     } else {
-        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag).arg(name));
+        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag, name));
     }
 }
 

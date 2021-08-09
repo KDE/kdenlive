@@ -388,7 +388,7 @@ bool DocumentChecker::hasErrorInClips()
             // MLT 7 now generates lumas on the fly for files named luma01.pgm to luma22.pgm, so don't detect these as missing
             if (lumaName.length() == 10 && lumaName.startsWith(QLatin1String("luma")) && lumaName.endsWith(QLatin1String(".pgm"))) {
                 bool ok;
-                int lumaNumber = lumaName.mid(4, 2).toInt(&ok);
+                int lumaNumber = lumaName.midRef(4, 2).toInt(&ok);
                 if (ok && lumaNumber > 0 && lumaNumber < 23) {
                     continue;
                 }
@@ -765,7 +765,7 @@ bool DocumentChecker::hasErrorInClips()
     connect(m_ui.removeSelected, &QAbstractButton::pressed, this, &DocumentChecker::slotDeleteSelected);
     connect(m_ui.treeWidget, &QTreeWidget::itemDoubleClicked, this, &DocumentChecker::slotEditItem);
     connect(m_ui.treeWidget, &QTreeWidget::itemSelectionChanged, this, &DocumentChecker::slotCheckButtons);
-    connect(m_ui.manualSearch, &QAbstractButton::clicked, [this] () {
+    connect(m_ui.manualSearch, &QAbstractButton::clicked, this, [this] () {
         slotEditItem(m_ui.treeWidget->currentItem(), 0);
     });
     // adjustSize();
@@ -1420,7 +1420,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
                 QStringList fonts = TitleWidget::extractFontList(xml);
                 bool updated = false;
-                for (const auto &f : fonts) {
+                for (const auto &f : qAsConst(fonts)) {
                     if (m_missingFonts.contains(f)) {
                         updated = true;
                         QString replacementFont = QFontInfo(QFont(f)).family();

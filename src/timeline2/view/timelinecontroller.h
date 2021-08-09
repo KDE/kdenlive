@@ -643,6 +643,8 @@ public:
     void updateMasterZones(QVariantList zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
+    /** @brief Get align info for a mix. */
+    MixAlignment getMixAlign(int cid) const;
 
 public slots:
     void resetView();
@@ -667,8 +669,6 @@ public slots:
     void setScrollPos(int pos);
     /** @brief Request resizing currently selected mix. */
     void resizeMix(int cid, int duration, MixAlignment align);
-    /** @brief Get align info for a mix. */
-    MixAlignment getMixAlign(int cid) const;
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);

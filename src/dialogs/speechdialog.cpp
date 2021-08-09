@@ -228,7 +228,7 @@ void SpeechDialog::parseVoskDictionaries()
         dir = QDir(modelDirectory);
         if (!dir.cd(QStringLiteral("speechmodels"))) {
             qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            pCore->voskModelUpdate({});
+            emit pCore->voskModelUpdate({});
             return;
         }
     } else {
@@ -242,5 +242,5 @@ void SpeechDialog::parseVoskDictionaries()
             final << d;
         }
     }
-    pCore->voskModelUpdate(final);
+    emit pCore->voskModelUpdate(final);
 }

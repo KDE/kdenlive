@@ -504,9 +504,9 @@ void AssetPanel::slotAddRemoveKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->addRemoveKeyframe();
     } else if (m_transitionWidget->isVisible()) {
-        m_transitionWidget->addRemoveKeyframe();
+        emit m_transitionWidget->addRemoveKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        m_mixWidget->addRemoveKeyframe();
+        emit m_mixWidget->addRemoveKeyframe();
     }
 }
 
@@ -515,9 +515,9 @@ void AssetPanel::slotNextKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(true);
     } else if (m_transitionWidget->isVisible()) {
-        m_transitionWidget->nextKeyframe();
+        emit m_transitionWidget->nextKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        m_mixWidget->nextKeyframe();
+        emit m_mixWidget->nextKeyframe();
     }
 }
 
@@ -526,8 +526,8 @@ void AssetPanel::slotPreviousKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(false);
     } else if (m_transitionWidget->isVisible()) {
-        m_transitionWidget->previousKeyframe();
+        emit m_transitionWidget->previousKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        m_mixWidget->previousKeyframe();
+        emit m_mixWidget->previousKeyframe();
     }
 }

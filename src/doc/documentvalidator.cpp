@@ -860,14 +860,14 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             profileWidth = profile.attribute(QStringLiteral("width")).toInt();
             profileHeight = profile.attribute(QStringLiteral("height")).toInt();
         }
-        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        //TODO MLT7: port?
+        /*QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
         max = transitions.count();
         for (int i = 0; i < max; ++i) {
+
             QDomElement trans = transitions.at(i).toElement();
             int out = trans.attribute(QStringLiteral("out")).toInt() - trans.attribute(QStringLiteral("in")).toInt();
             QString geom = Xml::getXmlProperty(trans, QStringLiteral("geometry"));
-            //TODO MLT7: port?
-            /*
             Mlt::Geometry *g = new Mlt::Geometry(geom.toUtf8().data(), out, profileWidth, profileHeight);
             Mlt::GeometryItem item;
             if (g->next_key(&item, out) == 0) {
@@ -880,8 +880,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
             delete g;
-            */
-        }
+
+        }*/
     }
 
     if (version <= 0.87) {

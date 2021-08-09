@@ -1819,7 +1819,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.speech_info->setWordWrap(true);
     m_configSpeech.check_vosk->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_configSpeech.check_vosk->setToolTip(i18n("Check VOSK installation"));
-    connect(m_configSpeech.check_vosk, &QPushButton::clicked, [this]() {
+    connect(m_configSpeech.check_vosk, &QPushButton::clicked, this, [this]() {
         m_configSpeech.check_vosk->setEnabled(false);
         KdenliveSettings::setVosk_found(false);
         KdenliveSettings::setVosk_srt_found(false);
@@ -1827,7 +1827,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.check_vosk->setEnabled(true);
     });
     connect(this, &KdenliveSettingsDialog::showSpeechMessage, this, &KdenliveSettingsDialog::doShowSpeechMessage);
-    connect(m_voskAction, &QAction::triggered, [this]() {
+    connect(m_voskAction, &QAction::triggered, this, [this]() {
 #ifdef Q_OS_WIN
         QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
 #else
@@ -1954,7 +1954,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
                     QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
                 }
             }
-            pCore->updateVoskAvailability();
+            emit pCore->updateVoskAvailability();
         }
     } else {
         if (m_speechListWidget->count() == 0) {
@@ -2127,7 +2127,7 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
         dir = QDir(modelDirectory);
         if (!dir.cd(QStringLiteral("speechmodels"))) {
             qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            pCore->voskModelUpdate({});
+            emit pCore->voskModelUpdate({});
             return;
         }
     } else {
@@ -2151,6 +2151,6 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     } else if (final.isEmpty()) {
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
     }
-    pCore->voskModelUpdate(final);
+    emit pCore->voskModelUpdate(final);
 }
 

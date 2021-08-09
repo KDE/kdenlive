@@ -255,7 +255,7 @@ void SceneSplitTask::processLogInfo()
         bool ok;
         QStringList output = buffer.split("[Parsed_showinfo");
         output.removeFirst();
-        for (const QString &o : output) {
+        for (const QString &o : qAsConst(output)) {
             if (o.contains(timeMarker)) {
                 double res = o.section(timeMarker, 1).section(QLatin1Char(' '), 0, 0).toDouble(&ok);
                 if (ok) {

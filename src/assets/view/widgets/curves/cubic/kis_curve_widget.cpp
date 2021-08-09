@@ -263,7 +263,7 @@ int KisCurveWidget::sp2io(double x) const
 
 bool KisCurveWidget::jumpOverExistingPoints(QPointF &pt, int skipIndex)
 {
-    for (const QPointF &it : m_curve.points()) {
+    for (QPointF &it : m_curve.points()) {
         if (m_curve.points().indexOf(it) == skipIndex) {
             continue;
         }
@@ -278,7 +278,7 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
     int nearestIndex = -1;
     int i = 0;
 
-    for (const QPointF &point : m_curve.points()) {
+    for (QPointF &point : m_curve.points()) {
         double distanceSquared = (pt.x() - point.x()) * (pt.x() - point.x()) + (pt.y() - point.y()) * (pt.y() - point.y());
 
         if (distanceSquared < nearestDistanceSquared) {

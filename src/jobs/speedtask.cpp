@@ -215,9 +215,9 @@ void SpeedTask::run()
     for (const auto &it : m_filterParams) {
         qDebug()<<". . ."<<it.first<<" = "<<it.second;
         if (it.second.type() == QVariant::Double) {
-            producerArgs << QString("%1=%2").arg(it.first).arg(it.second.toDouble());
+            producerArgs << QString("%1=%2").arg(it.first, it.second.toDouble());
         } else {
-            producerArgs << QString("%1=%2").arg(it.first).arg(it.second.toString());
+            producerArgs << QString("%1=%2").arg(it.first, it.second.toString());
         }
     }
 

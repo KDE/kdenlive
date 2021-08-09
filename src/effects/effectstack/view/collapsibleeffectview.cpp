@@ -948,16 +948,16 @@ void CollapsibleEffectView::updateEffectZone()
 
 void CollapsibleEffectView::slotNextKeyframe()
 {
-    m_view->nextKeyframe();
+    emit m_view->nextKeyframe();
 }
 
 void CollapsibleEffectView::slotPreviousKeyframe()
 {
-    m_view->previousKeyframe();
+    emit m_view->previousKeyframe();
 }
 
 void CollapsibleEffectView::addRemoveKeyframe()
 {
-    m_view->addRemoveKeyframe();
+    emit m_view->addRemoveKeyframe();
 }
 

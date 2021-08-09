@@ -1629,7 +1629,6 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
                 movedClip->setMixDuration(mixDuration, mixCutPos);
                 // Insert mix transition
-                QString assetName;
                 std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(assetId);
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", mixCutPos);
@@ -2199,7 +2198,7 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
 {
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
     m_sameCompositions[cid]->getAsset()->set("kdenlive:mixcut", mixCut);
-    m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
+    emit m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
 }
 
 void TrackModel::removeMix(MixInfo info)

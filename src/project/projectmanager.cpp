@@ -305,7 +305,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     // Sync document properties
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
-        pCore->window()->updateProjectPath(outputFileName);
+        emit pCore->window()->updateProjectPath(outputFileName);
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
@@ -1119,7 +1119,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
                 QJsonArray updatedList;
                 if (json.isArray()) {
                     auto list = json.array();
-                    for (auto entry : list) {
+                    for (const auto &entry : qAsConst(list)) {
                         if (!entry.isObject()) {
                             qDebug() << "Warning : Skipping invalid marker data";
                             continue;

@@ -1670,7 +1670,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         // Check if all audio tracks are locked. In that case allow inserting video only
                         QList<int> audioTracks = getTracksIds(true);
                         bool hasUnlockedAudio = false;
-                        for (int id : audioTracks) {
+                        for (int id : qAsConst(audioTracks)) {
                             if (!getTrackById_const(id)->isLocked()) {
                                 hasUnlockedAudio = true;
                                 break;
@@ -3900,7 +3900,7 @@ void TimelineModel::updateDuration()
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
         emit durationUpdated();
         if (m_masterStack) {
-            m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+            emit m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
         }
     }
 }

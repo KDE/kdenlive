@@ -525,7 +525,6 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 
     QString path = KRecentDirs::dir(QStringLiteral(":KdenliveOnlineResourceFolder"));
     QString ext;
-    QString sFileExt;
 
     if (path.isEmpty()) {
         path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);

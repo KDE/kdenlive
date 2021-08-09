@@ -145,7 +145,7 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
             // Audio only
             ui.extra_params->setPlainText(QString("-vn -c:a %1").arg(ui.acodec->currentData().toString()));
         } else {
-            ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString()).arg(ui.vcodec->currentData().toString()));
+            ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString(), ui.vcodec->currentData().toString()));
         }
         QString path = ui.file_url->url().toLocalFile();
         QString fileName = path.section(QLatin1Char('.'), 0, -2);

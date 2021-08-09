@@ -312,7 +312,7 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
         m_model->requestAddToSelection(currentClip, !addToCurrent);
         if (grouped) {
             // If part of a group, ensure the effect/composition stack displays the selected item's properties
-            emit showAsset(currentClip);
+            showAsset(currentClip);
         }
     }
 }
@@ -1488,7 +1488,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
 void TimelineController::updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo)
 {
     Q_UNUSED(oldZone)
-    pCore->updateEffectZone(newZone, withUndo);
+    emit pCore->updateEffectZone(newZone, withUndo);
 }
 
 void TimelineController::setZoneIn(int inPoint)
@@ -2222,10 +2222,10 @@ void TimelineController::remapItemTime(int clipId)
     if (m_model->m_allClips[clipId]->isChain()) {
         // Remove remap effect
         m_model->requestClipTimeRemap(clipId, false);
-        pCore->remapClip(-1);
+        emit pCore->remapClip(-1);
     } else {
         // Add remap effect
-        pCore->remapClip(clipId);
+        emit pCore->remapClip(clipId);
     }
 }
 
@@ -3307,7 +3307,7 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
         if (clip->isChain()) {
-            pCore->remapClip(item);
+            emit pCore->remapClip(item);
         }
     }
     bool isInGroup = m_model->m_groups->isInGroup(item);

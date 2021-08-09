@@ -113,7 +113,7 @@ void TaskManager::updateJobCount()
 {
     QReadLocker lk(&m_tasksListLock);
     int count = 0;
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         count += task.second.size();
     }
     // Set jobs count
@@ -138,7 +138,7 @@ void TaskManager::slotCancelJobs()
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         for (AbstractTask* t : task.second) {
             // If so, then just add ourselves to be notified upon completion.
             t->cancelJob();
