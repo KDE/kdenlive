@@ -680,11 +680,11 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         m_previewTrack->consolidate_blanks();
         emit m_controller->renderedChunksChanged();
         emit m_controller->dirtyChunksChanged();
-        m_previewGatherTimer.start();
     }
     if (stopPreview) {
         startPreviewRender();
     }
+    m_previewGatherTimer.start();
 }
 
 void PreviewManager::reloadChunks(const QVariantList chunks)
