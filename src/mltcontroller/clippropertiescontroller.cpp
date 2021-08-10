@@ -1342,6 +1342,9 @@ void ClipPropertiesController::fillProperties()
             property = codecInfo + QStringLiteral("colorspace");
             int colorspace = m_sourceProperties.get_int(property.toUtf8().constData());
             propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
+
+            int b_frames = m_sourceProperties.get_int("meta.media.has_b_frames");
+            propertyMap.append({i18n("B frames"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
         }
         if (default_audio > -1) {
             propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioStreamsCount())});
