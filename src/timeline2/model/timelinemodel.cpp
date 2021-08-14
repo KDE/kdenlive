@@ -64,15 +64,15 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
         .method("setTrackLockedState", &TimelineModel::setTrackLockedState)(parameter_names("trackId", "lock"))
-        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool, bool)>(&TimelineModel::requestClipMove))(
-            parameter_names("clipId", "trackId", "position", "moveMirrorTracks", "updateView", "logUndo", "invalidateTimeline"))
+        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool, bool, bool)>(&TimelineModel::requestClipMove))(
+            parameter_names("clipId", "trackId", "position", "moveMirrorTracks", "updateView", "logUndo", "invalidateTimeline", "revertMove"))
         .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))(
             parameter_names("compoId", "trackId", "position", "updateView", "logUndo"))
         .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))(
             parameter_names("binClipId", "trackId", "position", "id", "logUndo", "refreshView", "useTargets"))
         .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))(parameter_names("clipId", "logUndo"))
-        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool, bool)>(&TimelineModel::requestGroupMove))(
-            parameter_names("itemId", "groupId", "delta_track", "delta_pos", "moveMirrorTracks", "updateView", "logUndo"))
+        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool, bool, bool)>(&TimelineModel::requestGroupMove))(
+            parameter_names("itemId", "groupId", "delta_track", "delta_pos", "moveMirrorTracks", "updateView", "logUndo", "revertMove"))
         .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))(parameter_names("clipId", "logUndo"))
         .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))(
             parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
