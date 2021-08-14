@@ -1022,6 +1022,11 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
     return current()->commandStack();
 }
 
+QDir ProjectManager::cacheDir(bool audio, bool *ok)
+{
+    return current()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
+}
+
 void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended

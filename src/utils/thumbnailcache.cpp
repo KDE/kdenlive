@@ -23,6 +23,7 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
 #include <QDir>
 #include <QMutexLocker>
@@ -312,5 +313,5 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 // static
 QDir ThumbnailCache::getDir(bool audio, bool *ok)
 {
-    return pCore->currentDoc()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
+    return pCore->projectManager()->cacheDir(audio ? CacheAudio : CacheThumbs, ok);
 }

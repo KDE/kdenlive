@@ -71,10 +71,10 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
         connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
             QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
         });
+        pCore->taskManager.startTask(owner.second, task);
     }
 }
 
@@ -237,7 +237,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
 {
-        // Fetch thumbnail
+    // Fetch thumbnail
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (binClip->clipType() != ClipType::Audio && producer->get_int("video_index") > -1) {

@@ -35,6 +35,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;

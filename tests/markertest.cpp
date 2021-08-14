@@ -73,6 +73,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, getGuideModel)).AlwaysReturn(model);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
