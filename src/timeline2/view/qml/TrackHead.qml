@@ -415,7 +415,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
-                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle stack effects");
+                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
                     }
                 }
             }
