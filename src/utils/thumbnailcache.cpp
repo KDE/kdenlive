@@ -313,5 +313,5 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 // static
 QDir ThumbnailCache::getDir(bool audio, bool *ok)
 {
-    return pCore->projectManager()->cacheDir(audio ? CacheAudio : CacheThumbs, ok);
+    return pCore->projectManager()->cacheDir(audio, ok);
 }
