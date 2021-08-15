@@ -1741,6 +1741,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             Xml::setXmlProperty(masterProducers.at(i).toElement(), QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
         }
     }
+
+    // Doc 1.01: Kdenlive 21.08.0
     if (version < 1.01) {
         // Upgrade wipe composition replace old mlt geometry with mlt rect
         // Upgrade affine effect and transition (geometry parameter renamed to rect)
@@ -1771,6 +1773,75 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+
+    // Doc 1.02: Kdenlive 21.08.1
+    if (version < 1.02) {
+        // Custom affine effects: replace old mlt geometry with mlt rect
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (Xml::getXmlProperty(t, QStringLiteral("mlt_service")) == QLatin1String("affine") &&  kdenliveId != QLatin1String("pan_zoom")) {
+                QDomElement effect = EffectsRepository::get()->getXml(kdenliveId);
+
+                // check wether the effect already uses mlt rect
+                if (!Xml::hasXmlProperty(t, QStringLiteral("transition.rect"))) {
+                    QString newId = kdenliveId.append(" mlt7");
+
+                    Xml::renameXmlProperty(t, QStringLiteral("transition.geometry"), QStringLiteral("transition.rect"));
+                    Xml::setXmlProperty(t, QStringLiteral("kdenlive_id"), newId);
+
+                    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+
+                    if (!dir.exists(newId + QStringLiteral(".xml")))
+                    {
+                        // update the custom effect xml too (create a new fixed xml with "(mlt7)" appendix)
+                        QDomDocument doc;
+                        doc.appendChild(doc.importNode(effect, true));
+
+                        if (!dir.exists()) {
+                            dir.mkpath(QStringLiteral("."));
+                        }
+                        QFile file(dir.absoluteFilePath(newId + QStringLiteral(".xml")));
+
+                        QDomElement root = doc.documentElement();
+                        QDomElement nodelist = root.firstChildElement("name");
+                        QDomElement newNodeTag = doc.createElement(QString("name"));
+                        QDomText text = doc.createTextNode(newId);
+                        newNodeTag.appendChild(text);
+                        root.replaceChild(newNodeTag, nodelist);
+
+                        QDomElement e = doc.documentElement();
+                        e.setAttribute("id", newId);
+
+                        auto params = doc.elementsByTagName(QStringLiteral("parameter"));
+                        for (int i = 0; i < params.count(); i++) {
+                            QString paramName = params.at(i).attributes().namedItem("name").nodeValue();
+                            if(paramName == QStringLiteral("transition.geometry")) {
+                                QDomElement e = params.at(i).toElement();
+                                e.setAttribute("name", QStringLiteral("transition.rect"));
+                            }
+                        }
+
+                        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+                            QTextStream out(&file);
+                            out << doc.toString();
+                        }
+                        file.close();
+
+                        changedEffects << dir.absoluteFilePath(newId + QStringLiteral(".xml"));
+                    }
+                }
+            }
+        }
+        if(!changedEffects.isEmpty()) {
+            KMessageBox::informationList(nullptr, "changedEffects", changedEffects);
+            pCore->window()->slotReloadEffects(changedEffects);
+        }
+    }
+
     m_modified = true;
     return true;
 }
