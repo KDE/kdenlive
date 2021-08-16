@@ -1882,9 +1882,6 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("start", -1);
                 t->set("accepts_blanks", 1);
-                if (dest_track == 0) {
-                    t->set("reverse", 1);
-                }
                 m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("mix");
             } else {
@@ -1892,13 +1889,16 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
+                m_track->plant_transition(*t.get(), 0, 1);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
-                m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("luma");
             }
             QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+            if (dest_track == 0 && Xml::hasXmlParameter(xml, QStringLiteral("reverse"))) {
+                Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+            }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
             m_sameCompositions[clipIds.second] = asset;
             m_mixList.insert(clipIds.first, clipIds.second);
