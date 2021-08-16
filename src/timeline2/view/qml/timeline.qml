@@ -14,6 +14,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
+    property int trimmingOffset: 0
 
     signal clipClicked()
     signal mousePosChanged(int position)

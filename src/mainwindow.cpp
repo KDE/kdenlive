@@ -3232,11 +3232,7 @@ void MainWindow::slotSetTool(ToolType::ProjectTool tool)
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
-        if(tool == ToolType::RippleTool) {
-            m_projectMonitor->slotShowEffectScene(MonitorSceneRipple);
-        } else {
-            m_projectMonitor->slotShowEffectScene(MonitorSceneDefault);
-        }
+        getMainTimeline()->controller()->updateTrimmingMode();
     }
 }
 

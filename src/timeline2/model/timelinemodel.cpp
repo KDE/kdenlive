@@ -3260,6 +3260,39 @@ void TimelineModel::trimmingPosChanged(int pos, int offset, int frames1, int fra
     pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos, offset, frames1, frames2);
 }
 
+int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
+    QWriteLocker locker(&m_lock);
+    TRACE(offset, logUndo)
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+    int slipCount = 0;
+    for (auto id: getCurrentSelection()) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        if (!isClip(id)) {
+            continue;
+        }
+        result = result && requestClipSlip(id, offset, logUndo, undo, redo);
+        slipCount++;
+    }
+    if (!result || slipCount == 0) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1)
+        return -1;
+    }
+    if(result && logUndo) {
+        PUSH_UNDO(undo, redo, i18np("Slip clip", "Slip clips", slipCount));
+    }
+    int res = result ? offset : 0;
+    TRACE_RES(res)
+    return res;
+}
+
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);

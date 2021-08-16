@@ -48,6 +48,7 @@ public:
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
     void setTool(ToolType::ProjectTool tool);
+    ToolType::ProjectTool activeTool();
     QPair<int, int>getTracksCount() const;
     /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;

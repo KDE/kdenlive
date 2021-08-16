@@ -404,32 +404,6 @@ Item{
                 }
                 root.groupTrimData = undefined
             }
-            onSlipBegin: {
-                timeline.requestSlipStartOperation(clip.clipId, shiftSlip);
-                console.log("onSlipBegin. maxDuration: " +clip.maxDuration+ " clipDuration: " +clip.clipDuration +" timeScale: "+clip.timeScale)
-                slipControler.visible = true
-                slipControler.width = (clip.maxDuration > 0 ? clip.maxDuration : clip.clipDuration) * clip.timeScale - 2 * clip.border.width
-                slipStart = clip.x - (clip.inPoint * clip.timeScale) + clip.border.width
-                slipControler.x = slipStart
-                slipControler.inPoint = clip.inPoint
-                slipControler.outPoint = clip.outPoint
-                currentRegionMoved.width = clip.clipDuration * clip.timeScale - 2 * clip.border.width
-                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, clip.inPoint, clip.outPoint)
-                //proxy.position = clip.inPoint - clip.slipOffset
-            }
-            onSlipMove: {
-                slipControler.x = slipStart + (clip.slipOffset * clip.timeScale)
-                console.log(clip.inPoint + "-" + (clip.slipOffset) + ": " + (clip.inPoint - clip.slipOffset))
-                //proxy.position = clip.inPoint - clip.slipOffset
-                controller.trimmingPosChanged(clip.inPoint - clip.slipOffset, clip.slipOffset, clip.inPoint - clip.slipOffset, clip.outPoint- clip.slipOffset)
-            }
-            onSlipEnd: {
-                timeline.requestTrimmingEndOperation();
-                slipControler.visible = false
-                console.log(clip.slipOffset)
-                console.log("requestslip: " + shiftSlip)
-                controller.requestClipSlip(clip.clipId, clip.slipOffset, true, shiftSlip)
-            }
         }
     }
     Component {
@@ -498,48 +472,6 @@ Item{
         transitions: [ Transition {
             NumberAnimation { property: "opacity"; duration: 300}
         } ]
-    }
-    Rectangle {
-        id: currentRegion
-        color: activePalette.highlight
-        x: slipStart + slipControler.inPoint * timeScale
-        anchors.top: slipControler.top
-        width: currentRegionMoved.width
-        height: trackRoot.height / 2
-        opacity: 0.7
-        visible: slipControler.visible
-    }
-    Item {
-        id: slipControler
-        anchors.bottom: parent.bottom
-        height: trackRoot.height //root.baseUnit * 1.5
-        visible: false
-        property int inPoint: 0
-        property int outPoint: 0
-        Rectangle {
-            id: slipBackground
-            anchors.fill: parent
-            color: activePalette.highlight
-            opacity: 0.3
-        }
-        Rectangle {
-            id: currentRegionMoved
-            color: activePalette.highlight
-            x: slipBackground.x + slipControler.inPoint * timeScale
-            anchors.bottom: parent.bottom
-            height: parent.height / 2
-            opacity: 0.7
-        }
-        Text {
-            id: slipLable
-            text: i18n("Slip Clip")
-            font: miniFont
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: activePalette.highlightedText
-            opacity: 1
-        }
     }
     Repeater {
         model: effectZones

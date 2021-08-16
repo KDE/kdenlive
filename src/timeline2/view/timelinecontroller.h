@@ -528,9 +528,8 @@ public:
      */
     void removeSplitOverlay();
 
-    Q_INVOKABLE bool requestSlipStartOperation(int clipId, bool onlyCurrent);
-    bool requestTrimmingStartOperation(ToolType::ProjectTool mode, int clipId, bool onlyCurrent);
-    Q_INVOKABLE void requestTrimmingEndOperation();
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
+    Q_INVOKABLE void requestEndTrimmingMode();
 
     /** @brief Add current timeline zone to preview rendering
      */
@@ -677,6 +676,7 @@ public slots:
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
+    void updateTrimmingMode();
 
 private slots:
     void updateClipActions();

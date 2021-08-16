@@ -131,6 +131,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
         }
     });
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
@@ -1261,6 +1262,10 @@ void TimelineController::requestRefresh()
 
 void TimelineController::showAsset(int id)
 {
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+
+    }
+
     if (m_model->isComposition(id)) {
         emit showTransitionModel(id, m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
@@ -1910,24 +1915,51 @@ void TimelineController::removeSplitOverlay()
     m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
 }
 
-bool TimelineController::requestSlipStartOperation(int clipId, bool onlyCurrent) {
-    return requestTrimmingStartOperation(ToolType::SlipTool, clipId, onlyCurrent);
+void TimelineController::updateTrimmingMode() {
+    if (!(pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool)) {
+        requestEndTrimmingMode();
+    } else {
+        requestStartTrimmingMode(-1, false);
+    }
 }
 
-bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mode, int mainClipId, bool onlyCurrent)
+bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurrent)
 {  
+    std::unordered_set<int> sel = m_model->getCurrentSelection();
+
+    if (sel.empty() && mainClipId != -1) {
+        m_model->requestAddToSelection(mainClipId, true);
+        return false;
+    }
+
+    Q_ASSERT(!sel.empty());
+
+    if (!isInSelection(mainClipId)) {
+        mainClipId = -1;
+    }
+
     if (mainClipId == -1) {
-        std::unordered_set<int> sel = m_model->getCurrentSelection();
-        for (int i : sel) {
-            if (m_model->isClip(i)) {
+        for (auto i : sel) {
+            if (m_model->isClip(i) && positionIsInItem(i)) {
                 mainClipId = i;
                 break;
             }
         }
         if (mainClipId == -1) {
-            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            // no clip in selection under cursor so select the first one
+            for (auto i: sel) {
+                if (m_model->isClip(i)) {
+                    mainClipId = i;
+                    break;
+                }
+            }
             return false;
         }
+    }
+
+    if (mainClipId == -1) {
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+        return false;
     }
 
     /*if(isClip(itemId)) {
@@ -1941,13 +1973,17 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
 
     std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
-    if(mainClip->isAudioOnly() && (!m_model->m_groups->isInGroup(mainClipId) || onlyCurrent)) {
+    int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
+    if (mainClip->isAudioOnly() && (!m_model->m_groups->isInGroup(mainClipId) || onlyCurrent)) {
         return true;
+    }
+    if (mainClip->isAudioOnly() && partnerId != -1) {
+        mainClip = m_model->getClipPtr(partnerId);
     }
 
     const int previousClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() - 1);
     std::shared_ptr<Mlt::Producer> previousFrame;
-    if(previousClipId > -1) {
+    if (previousClipId > -1) {
         std::shared_ptr<ClipModel> previousClip = m_model->getClipPtr(previousClipId);
         previousFrame = std::shared_ptr<Mlt::Producer>(previousClip->getProducer()->cut(0));
         Mlt::Filter filter(*m_model->m_tractor->profile(), "freeze");
@@ -1960,7 +1996,7 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
 
     const int nextClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() + mainClip->getPlaytime());
     std::shared_ptr<Mlt::Producer> nextFrame;
-    if(nextClipId > -1) {
+    if (nextClipId > -1) {
         std::shared_ptr<ClipModel> nextClip = m_model->getClipPtr(nextClipId);
         nextFrame = std::shared_ptr<Mlt::Producer>(nextClip->getProducer()->cut(0));
         qDebug() << "clip: " << nextClip->getIn() << "frame: " << nextFrame->get_in();
@@ -1973,7 +2009,7 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
     }
 
     int previewLength = 0;
-    switch(mode) {
+    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
     case ToolType::SlipTool:
         // Get copy of timeline producer
         /* This is an example using a playlist. This does not work with switch -> use if else instead
@@ -2026,7 +2062,7 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
         //transition.set("internal_added", 200);
 
         QString geometry;
-        switch (mode) {
+        switch (pCore->window()->getCurrentTimeline()->activeTool()) {
         case ToolType::RollTool:
         case ToolType::RippleTool:
             switch (i) {
@@ -2083,10 +2119,23 @@ bool TimelineController::requestTrimmingStartOperation(ToolType::ProjectTool mod
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);
 
+    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+    case ToolType::RollTool:
+    case ToolType::RippleTool:
+        break;
+    case ToolType::SlipTool:
+        m_model->trimmingPosChanged(mainClip->getIn(), 0, mainClip->getIn(), mainClip->getOut());
+        break;
+    case ToolType::SlideTool:
+        break;
+    default:
+        break;
+    }
+
     return true;
 }
 
-void TimelineController::requestTrimmingEndOperation() {
+void TimelineController::requestEndTrimmingMode() {
     pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
 }

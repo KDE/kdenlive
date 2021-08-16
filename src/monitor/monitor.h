@@ -302,6 +302,7 @@ public slots:
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
     void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
+    void slotTrimmingPos(int offset);
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd();

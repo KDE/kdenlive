@@ -458,16 +458,24 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     QAction *fiveLess = new QAction(i18n("-5"), this);
     m_trimmingbar->addAction(fiveLess);
-    //connect(fiveLess, &QAction::triggered, this, &Monitor::slotRewind);
+    connect(fiveLess, &QAction::triggered, this, [&](){
+        slotTrimmingPos(pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-5, true));
+    });
     QAction *oneLess = new QAction(i18n("-1"), this);
     m_trimmingbar->addAction(oneLess);
-    //connect(oneLess, &QAction::triggered, this, &Monitor::slotRewind);
+    connect(oneLess, &QAction::triggered, this, [&](){
+        slotTrimmingPos(pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true));
+    });
     QAction *oneMore = new QAction(i18n("+1"), this);
     m_trimmingbar->addAction(oneMore);
-    //connect(oneMore, &QAction::triggered, this, &Monitor::slotRewind);
+    connect(oneMore, &QAction::triggered, this, [&](){
+        slotTrimmingPos(pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true));
+    });
     QAction *fiveMore = new QAction(i18n("+5"), this);
     m_trimmingbar->addAction(fiveMore);
-    //connect(fiveMore, &QAction::triggered, this, &Monitor::slotRewind);
+    connect(fiveMore, &QAction::triggered, this, [&](){
+        slotTrimmingPos(pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(5, true));
+    });
 
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
@@ -2474,6 +2482,18 @@ void Monitor::slotTrimmingPos(int pos, int offset, int frames1, int frames2)
     }
     //m_glMonitor->switchPlay(false);
     m_glMonitor->requestSeek(pos);*/
+}
+
+void Monitor::slotTrimmingPos(int offset) {
+    if (m_glMonitor->producer() != pCore->window()->getCurrentTimeline()->model()->producer().get()) {
+        processSeek(m_glMonitor->producer()->position() + offset);
+    }
+    QString tc(pCore->timecode().getDisplayTimecodeFromFrames(offset, KdenliveSettings::frametimecode()));
+    m_trimmingOffset->setText(tc);
+
+    m_glMonitor->getControllerProxy()->setTrimmingTC1(10+offset);
+    m_glMonitor->getControllerProxy()->setTrimmingTC1(20+offset);
+
 }
 
 void Monitor::slotEnd()

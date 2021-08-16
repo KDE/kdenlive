@@ -80,8 +80,9 @@ Rectangle {
     property bool isComposition: false
     property bool hideClipViews: false
     property int slipFrame: -1
-    property int slipOffset: 0
+    property int slipOffset: trimmingOffset < 0 ? (outPoint < (maxDuration + trimmingOffset) ? trimmingOffset : -(maxDuration - 1 - outPoint)) : (inPoint - trimmingOffset >= 0 ? trimmingOffset : inPoint) //TODO: find out why this -1 is necessary
     property int slipClickFrame: -1
+    property int slipStart: -1
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
@@ -92,9 +93,6 @@ Rectangle {
     signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
-    signal slipBegin(var clip, bool shiftSlip)
-    signal slipMove(var clip, bool shiftSlip)
-    signal slipEnd(var clip, bool shiftSlip)
 
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
@@ -277,9 +275,10 @@ Rectangle {
                     shiftSlip = mouse.modifiers & Qt.ShiftModifier;
                     console.log("is shift modifier: " + shiftSlip);
                     grabItem()
-                    slipOffset = 0
-                    slipBegin(clipRoot, shiftSlip)
-                    slipClickFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                    if (timeline.requestStartTrimmingMode(clipRoot.clip, shiftSlip)) {
+
+                        slipClickFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                    }
                 }
                 //mouse.accepted = false
                 return
@@ -300,7 +299,8 @@ Rectangle {
             console.log("is shift modifier RELEASE: " + shiftSlip);
             if(mouse.button == Qt.LeftButton) {
                 if (root.activeTool === ProjectTool.SlipTool) {
-                    slipEnd(clipRoot, shiftSlip)
+                    controller.requestSlipSelection(clipRoot.slipOffset, true)
+                    trimmingOffset = 0;
                 }
                 mouse.accepted = false
                 return
@@ -358,26 +358,10 @@ Rectangle {
                     return;
                 }
                 var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
-                var offset = frame - slipClickFrame
-                if(offset >= 0) {
-                    console.log("In: " + inPoint + " Diff: " + slipOffset)
-                    if(inPoint - offset >=0){
-                        slipOffset = offset
-                    } else {
-                        slipOffset = inPoint
-                    }
-                }
-                if(offset < 0) {
-                    console.log("Duration: " + maxDuration +" In: " + inPoint + " Out: " + (outPoint) + " < " + (maxDuration + offset))
-                    if(outPoint < (maxDuration + offset)) {
-                        slipOffset = offset
-                    } else {
-                        slipOffset = -(maxDuration - 1 - outPoint) //TODO: find out why this -1 is necessary
-                    }
-                }
+                trimmingOffset = frame - slipClickFrame
                 var s = i18n("In:%1, Out:%2 (%3%4)", timeline.simplifiedTC(clipRoot.inPoint - slipOffset), timeline.simplifiedTC(clipRoot.outPoint - slipOffset), (slipOffset < 0 ? "-" : "+"), timeline.simplifiedTC(Math.abs(slipOffset)))
                 timeline.showToolTip(s)
-                slipMove(clipRoot, shiftSlip)
+                controller.trimmingPosChanged(clipRoot.inPoint - clipRoot.slipOffset, clipRoot.slipOffset, clipRoot.inPoint - clipRoot.slipOffset, clipRoot.outPoint - clipRoot.slipOffset)
             }
         }
         onEntered: {
@@ -1297,6 +1281,54 @@ Rectangle {
                     width: 1
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
                 }
+            }
+        }
+
+        Rectangle {
+            id: currentRegion
+            color: activePalette.highlight
+            anchors {
+                right: container.right
+                left: container.left
+                top: slipControler.top
+            }
+            height: container.height / 2
+            opacity: 0.7
+            visible: slipControler.visible
+        }
+        Item {
+            id: slipControler
+            anchors.bottom: container.bottom
+            height: container.height
+            width: (clipRoot.maxDuration > 0 ? clipRoot.maxDuration : clipRoot.clipDuration) * clipRoot.timeScale - 2 * clipRoot.border.width
+            x: - (clipRoot.inPoint - clipRoot.clipDuration) * clipRoot.timeScale + clipRoot.border.width
+            visible: root.activeTool === ProjectTool.SlipTool && selected
+            property int inPoint: clipRoot.inPoint
+            property int outPoint: clipRoot.outPoint
+            Rectangle {
+                id: slipBackground
+                anchors.fill: parent
+                color: activePalette.highlight
+                opacity: 0.3
+            }
+            Rectangle {
+                id: currentRegionMoved
+                color: activePalette.highlight
+                x: slipBackground.x + slipControler.inPoint * timeScale
+                anchors.bottom: parent.bottom
+                height: parent.height / 2
+                width: container.width
+                opacity: 0.7
+            }
+            Text {
+                id: slipLable
+                text: i18n("Slip Clip")
+                font: miniFont
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                color: activePalette.highlightedText
+                opacity: 1
             }
         }
     }

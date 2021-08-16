@@ -525,8 +525,11 @@ public:
     */
     Q_INVOKABLE int requestClipSlip(int itemId, int offset, bool logUndo = true, bool allowSingleResize = false);
 
-    /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
+    /** @brief @todo TODO Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestSlipSelection(int offset, bool logUndo);
 
     Q_INVOKABLE void trimmingPosChanged(int pos, int offset, int frames1, int frames2);
 
