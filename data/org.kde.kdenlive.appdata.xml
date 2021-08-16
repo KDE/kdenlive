@@ -103,7 +103,7 @@
     <p xml:lang="tr">Kdenlive doğrusal olmayan bir video düzenleyicisidir. MLT çalışma çerçevesi tabanlıdır ve birçok ses ile video biçimini destekleyerek; efektler ve geçişler eklemenizi ve istediğiniz biçime dönüştürmenizi sağlar.</p>
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
     <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
-    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为您想要的格式。</p>
+    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为任意格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
@@ -137,7 +137,7 @@
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
-    <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
@@ -237,15 +237,85 @@
       <li xml:lang="tr">Renk kapsamları</li>
       <li xml:lang="uk">Контексти кольорів</li>
       <li xml:lang="x-test">xxColor scopesxx</li>
-      <li xml:lang="zh-CN">颜色范围</li>
+      <li xml:lang="zh-CN">颜色示波器</li>
       <li xml:lang="zh-TW">顏色範圍</li>
     </ul>
   </description>
   <releases>
-    <release version="21.04.1" date="2021-05-13"/>
-    <release version="21.04.0" date="2021-04-22"/>
-    <release version="20.12.3" date="2021-03-04"/>
-    <release version="20.12.2" date="2021-02-04"/>
+    <release version="21.08.0" date="2021-08-12"/>
+    <release version="21.04.3" date="2021-07-08">
+      <url type="details">https://kdenlive.org/en/2021/07/kdenlive-21-04-3</url>
+      <description>
+        <p>The last maintenance release of the 21.04 series is out with improvements to same track transitions, improved Wayland support, as well as  fixing issues with rotoscoping and the speech to text module. This version also adds support for the WebP image format.</p>
+        <ul>
+          <li>Fix crash closing project with a mix on a clip with keyframable effect.</li>
+          <li>Fix speech to text after recent VOSK api change.</li>
+          <li>Cleanup font setting for qml timeline.</li>
+          <li>Add webp mime type to clip creation dialog.</li>
+          <li>Fix startup crash on Wayland, thanks to login.kde@unrelenting.technology.</li>
+          <li>Mix: Fix first clip out not correctly reset on second clip deletion.</li>
+          <li>Fix crash on exit when a mix is selected.</li>
+          <li>Resolved Bug 436895 - “Rotoscoping not working right”.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="21.04.2" date="2021-06-10">
+      <url type="details">https://kdenlive.org/en/2021/06/kdenlive-21-04-2-released/</url>
+      <description>
+        <p>The second maintenance release of the 21.04 series is out bringing</p>
+        <ul>
+          <li>Patch to solve “white” rendering issues.</li>
+          <li>Fix clip thumbs disappearing on timeline resize.</li>
+          <li>Fix timeline thumbnails not saved with project.</li>
+          <li>Don’t discard subtitle files on project fps change.</li>
+          <li>Update guides position on project’s fps change.</li>
+          <li>Fix Chroma Key: Advanced edge mode normal was reset to hard.</li>
+          <li>Fix various frei0r effects losing parameter settings.</li>
+          <li>Fix keyframeview position in mixes.</li>
+          <li>Make effects keyframable: scratchlines, tcolor, lumaliftgaingamma, charcoal, dust, oldfilm, threshold, glitch0r. See bug 393668</li>
+          <li>Fix profile repository not properly refreshed after change.</li>
+          <li>Fix marker monitor overlayer flickers on hover.</li>
+          <li>Ensure timeline zoombar right handle is always visible.</li>
+          <li>Fix issue with duplicated title clips.</li>
+          <li>Fix effect sliders on right to left (rtl) layouts. Fixes bug 434981</li>
+          <li>Fix alignment of statusbar message label. Fixes bug 437113</li>
+          <li>Fix crash using filter with missing MLT metadata (vidstab in MLT 6.26.1)</li>
+          <li>Try to fix wrongly set color in titler.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="21.04.1" date="2021-05-13">
+      <url type="details">https://kdenlive.org/en/2021/05/kdenlive-21-04-1-is-out/</url>
+      <description>
+        <p>
+                The first maintenance release of the 21.04 series is out with many bug fixes and improvements.
+            </p>
+        <p>
+                The video stabilization function (Vidstab) for clips in the project bin will be working again with upcoming version 21.04.2.
+            </p>
+        <p>
+                Full list of fixes:
+            </p>
+        <ul>
+          <li>Invalidate preview render on subtitle actions.</li>
+          <li>Fix timecode validation on settings dialog.</li>
+          <li>Fix proxied clip cannot be dragged from monitor to timeline.</li>
+          <li>Fix incorrect speed cycling with j/l keys.</li>
+          <li>Ensure render widget is displayed again after being minimized.</li>
+          <li>Fix playback speed not reset on pause.</li>
+          <li>Update effect zones on effect deletion.</li>
+          <li>Render presets: load default values properly to ui.</li>
+          <li>Fix spacer tool not workin on single clips (without groups).</li>
+          <li>Improve naming of newely created profile.</li>
+          <li>Archiver: Fix more bugs and crashes.</li>
+          <li>Archiver: Block UI while job is running.</li>
+          <li>Archiver: Don’t miss lumas,… on “timline only” mode, prettify code.</li>
+          <li>Fix several archiving issues with mlt files.</li>
+          <li>Archive LUT files too.</li>
+          <li>Appimage: use mlt v6 branch.</li>
+        </ul>
+      </description>
+    </release>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
@@ -344,7 +414,7 @@
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
-      <caption xml:lang="zh-CN">Kdenlive 特效</caption>
+      <caption xml:lang="zh-CN">Kdenlive 效果控制</caption>
       <caption xml:lang="zh-TW">Kdenlive 特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>

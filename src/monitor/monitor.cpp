@@ -218,10 +218,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         }
         emit m_monitorManager->scalingChanged();
         emit m_monitorManager->updatePreviewScaling();
+        m_monitorManager->refreshMonitors();
     });
 
     connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
-        bool scalingChanged = m_glMonitor->updateScaling();
+        m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
                 scalingAction->setCurrentIndex(1);
@@ -238,9 +239,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             default:
                 scalingAction->setCurrentIndex(0);
                 break;
-        }
-        if (scalingChanged) {
-            refreshMonitorIfActive();
         }
     });
     scalingAction->setFrame(false);
@@ -341,7 +339,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     m_playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
 
-    QString strippedTooltip = m_playAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+    QString strippedTooltip = m_playAction->toolTip().remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
     // append shortcut if it exists for action
     if (originalPlayAction->shortcut() == QKeySequence(0)) {
         m_playAction->setToolTip(strippedTooltip);
@@ -515,8 +513,6 @@ void Monitor::setOffsetY(int y)
 void Monitor::slotGetCurrentImage(bool request)
 {
     m_glMonitor->sendFrameForAnalysis = request;
-    Kdenlive::MonitorId id = m_monitorManager->activeMonitor()->id();
-    m_monitorManager->activateMonitor(m_id);
     refreshMonitorIfActive(true);
     if (request) {
         // Update analysis state
@@ -524,7 +520,6 @@ void Monitor::slotGetCurrentImage(bool request)
     } else {
         m_glMonitor->releaseAnalyse();
     }
-    m_monitorManager->activateMonitor(id);
 }
 
 void Monitor::slotAddEffect(const QStringList &effect)
@@ -1424,7 +1419,7 @@ void Monitor::forceMonitorRefresh()
     m_glMonitor->refresh();
 }
 
-void Monitor::refreshMonitorIfActive(bool directUpdate)
+void Monitor::refreshMonitor(bool directUpdate)
 {
     if (!m_glMonitor->isReady()) {
         return;
@@ -1445,6 +1440,18 @@ void Monitor::refreshMonitorIfActive(bool directUpdate)
                 QObject::disconnect( m_switchConnection );
             });
         }
+    }
+}
+
+void Monitor::refreshMonitorIfActive(bool directUpdate)
+{
+    if (!m_glMonitor->isReady() || !isActive()) {
+        return;
+    }
+    if (directUpdate) {
+        m_glMonitor->refresh();
+    } else {
+        m_glMonitor->requestRefresh();
     }
 }
 
@@ -1577,14 +1584,18 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
     }
+    disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        if (pCore->currentRemap(controller->clipId())) {
+            connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
+        }
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
-            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId()).arg(pCore->currentDoc()->uuid.toString()));
+            m_glMonitor->rootObject()->setProperty("baseThumbPath", QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid.toString()));
         } else  {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }
@@ -2559,4 +2570,10 @@ void Monitor::slotSwitchRecTimecode(bool enable)
         qDebug()<<"=== GOT TIMECODE OFFSET: "<<m_controller->getRecordTime();
         m_timePos->setOffset(m_controller->getRecordTime());
     }
+}
+
+void Monitor::focusTimecode()
+{
+    m_timePos->setFocus();
+    m_timePos->selectAll();
 }

@@ -70,7 +70,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
     time = time.left(time.size() - 1);
     QString key;
     if (hash.isEmpty()) {
-        key = QString("%1 %2 %3").arg(service).arg(resource, time);
+        key = QString("%1 %2 %3").arg(service, resource, time);
         QCryptographicHash hash2(QCryptographicHash::Sha1);
         hash2.addData(key.toUtf8());
         key = hash2.result().toHex();

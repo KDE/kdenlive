@@ -75,13 +75,13 @@ QStringList ClipCreationDialog::getExtensions()
     mimeTypes << QStringLiteral("audio/AMR") << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4")
               << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav")
               << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
-              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
+              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3") << QStringLiteral("audio/aac");
 
     // Image MIMEs
     mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
               << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
               << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
-              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
+              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita") << QStringLiteral("image/webp");
 
     QMimeDatabase db;
     QStringList allExtensions;
@@ -478,7 +478,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     fileWidget->setFilter(dialogFilter);
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
         fileWidget->slotOk();
-        fileWidget->accepted();
+        emit fileWidget->accepted();
         fileWidget->accept();
         QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;

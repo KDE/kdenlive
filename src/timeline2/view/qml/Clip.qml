@@ -41,6 +41,7 @@ Rectangle {
     property int clipDuration: 0
     property int maxDuration: 0
     property bool isAudio: false
+    property bool timeremap: false
     property int audioChannels
     property int audioStream: -1
     property bool multiStream: false
@@ -86,10 +87,10 @@ Rectangle {
     width : clipDuration * timeScale
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
-    signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
+    signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
     signal initGroupTrim(var clip)
-    signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
+    signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
     signal slipBegin(var clip, bool shiftSlip)
     signal slipMove(var clip, bool shiftSlip)
@@ -475,11 +476,11 @@ Rectangle {
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
                         property bool sizeChanged: false
-                        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
-                            mixOut.color = 'darkorchid'
+                            mixOut.color = 'red'
                             anchors.left = undefined
                             parent.anchors.right = undefined
                             mixCutPos.anchors.right = undefined
@@ -515,7 +516,7 @@ Rectangle {
                         }
                         onEntered: {
                             if (!pressed) {
-                                mixOut.color = 'darkorchid'
+                                mixOut.color = 'red'
                                 timeline.showToolTip(i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration)))
                             }
                         }
@@ -605,7 +606,7 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
-                cursorShape: (containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: {
                     root.autoScrolling = false
                     clipRoot.originalX = clipRoot.x
@@ -646,7 +647,7 @@ Rectangle {
                             }
                             var newDuration =  clipDuration - delta
                             sizeChanged = true
-                            clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                            clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
                     }
                 }
@@ -715,7 +716,7 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
-                cursorShape: (containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
@@ -757,7 +758,7 @@ Rectangle {
                         }
                         if (newDuration != clipDuration) {
                             sizeChanged = true
-                            clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                            clipRoot.trimmingOut(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
                     }
                 }
@@ -845,6 +846,7 @@ Rectangle {
                 // Clipping container for clip names
                 anchors.fill: parent
                 anchors.leftMargin: mixContainer.width
+                id: nameContainer
                 clip: true
                 Rectangle {
                     // Clip name background
@@ -853,6 +855,8 @@ Rectangle {
                     width: label.width + (2 * clipRoot.border.width)
                     height: label.height
                     visible: clipRoot.width > width / 2
+                    anchors.left: parent.left
+                    anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
                         // Clip name text
                         id: label
@@ -942,7 +946,6 @@ Rectangle {
                     color: '#fdbc4b'
                     width: labelRect.height
                     height: labelRect.height
-                    x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
                     visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
@@ -962,13 +965,38 @@ Rectangle {
                         styleColor: 'black'
                     }
                 }
+                Rectangle{
+                    //remap
+                    id:remapRect
+                    color: '#cc0033'
+                    width: labelRect.height
+                    height: labelRect.height
+                    anchors.top: labelRect.top
+                    anchors.left: nameContainer.left
+                    visible: clipRoot.timeremap
+                    Text {
+                        // Remap R
+                        id: remapLabel
+                        text: "R"
+                        font.pointSize: root.fontUnit +1
+                        visible: remapRect.visible
+                        anchors {
+                            top: remapRect.top
+                            left: remapRect.left
+                            leftMargin: (labelRect.height-proxyLabel.width)/2
+                            topMargin: (labelRect.height-proxyLabel.height)/2
+                        }
+                        color: 'white'
+                        styleColor: 'white'
+                    }
+                }
             }
 
             KeyframeView {
                 id: effectRow
                 clip: true
                 anchors.fill: parent
-                visible: clipRoot.showKeyframes && clipRoot.keyframeModel
+                visible: clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
                 selected: clipRoot.selected
                 inPoint: clipRoot.inPoint
                 outPoint: clipRoot.outPoint

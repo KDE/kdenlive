@@ -285,11 +285,11 @@ void SlideshowClip::parseFolder()
         }
         // qCDebug(KDENLIVE_LOG) << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        QRegExp rx(regexp);
+        QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
         int ix;
         for (const QString &p : qAsConst(result)) {
-            if (rx.exactMatch(p)) {
+            if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
                     ix = p.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();

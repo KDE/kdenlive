@@ -44,10 +44,12 @@ public:
     bool useProxy() const;
     bool useExternalProxy() const;
     bool generateProxy() const;
+    bool docFolderAsStorageFolder() const;
     int proxyMinSize() const;
     bool generateImageProxy() const;
     int proxyImageMinSize() const;
     int proxyImageSize() const;
+    int proxyResize() const;
     QString externalProxyParams() const;
     QString proxyParams() const;
     QString proxyExtension() const;

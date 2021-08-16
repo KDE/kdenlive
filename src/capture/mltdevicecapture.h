@@ -25,7 +25,7 @@
 #include <QMutex>
 #include <QTimer>
 
-// include after QTimer to have C++ phtreads defined
+// include after QTimer to have C++ pthreads defined
 #include <mlt/framework/mlt_types.h>
 
 namespace Mlt {

@@ -30,6 +30,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
+#include <QRegularExpression>
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
 
@@ -141,11 +142,11 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::KeyframeParam:
                 case ParamType::Position:
                     // Fix values like <position>=1,5
-                    value.replace(QRegExp(R"((=\d+),(\d+))"), "\\1.\\2");
+                    value.replace(QRegularExpression(R"((=\d+),(\d+))"), "\\1.\\2");
                     break;
                 case ParamType::AnimatedRect:
                     // Fix values like <position>=50 20 1920 1080 0,75
-                    value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                    value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
                     break;
                 case ParamType::ColorWheel:
                     // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
@@ -221,7 +222,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    modelChanged();
+    emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
@@ -279,7 +280,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
-    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+    } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
         emit replugEffect(shared_from_this());
     }
@@ -369,7 +370,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
         emit replugEffect(shared_from_this());
         updateChildRequired = false;
-    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+    } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
         emit replugEffect(shared_from_this());
         updateChildRequired = false;
@@ -807,12 +808,30 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         }
     }
 
+    QString x, y, w, h;
+    int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
         if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
             continue;
         }
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+
+        if(param.first.contains("Position X")) {
+            x = param.second.value.toString();
+            rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
+            rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+        }
+        if(param.first.contains("Position Y")) {
+            y = param.second.value.toString();
+        }
+        if(param.first.contains("Size X")) {
+            w = param.second.value.toString();
+        }
+        if(param.first.contains("Size Y")) {
+            h = param.second.value.toString();
+        }
+
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble()) : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
@@ -831,6 +850,128 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         currentParam.insert(QLatin1String("in"), QJsonValue(in));
         currentParam.insert(QLatin1String("out"), QJsonValue(out));
         list.push_back(currentParam);
+    }
+    if(!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
+        int size = x.split(";").length();
+        QString value;
+        for(int i = 0; i < size; i++) {
+            QSize frameSize = pCore->getCurrentFrameSize();
+            QString pos = x.split(";").at(i).split("=").at(0);
+            double xval = x.split(";").at(i).split("=").at(1).toDouble();
+            xval = xval * frameSize.width();
+            double yval = y.split(";").at(i).split("=").at(1).toDouble();
+            yval = yval * frameSize.height();
+            double wval = w.split(";").at(i).split("=").at(1).toDouble();
+            wval = wval * frameSize.width() * 2;
+            double hval = h.split(";").at(i).split("=").at(1).toDouble();
+            hval = hval * frameSize.height() * 2;
+            value.append(QString("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval/2)).arg(int(yval - hval/2)).arg(int(wval)).arg(int(hval)));
+        }
+        currentParam.insert(QLatin1String("value"), value);
+        currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
+        currentParam.insert(QLatin1String("min"), QJsonValue(0));
+        currentParam.insert(QLatin1String("max"), QJsonValue(0));
+        currentParam.insert(QLatin1String("in"), QJsonValue(rectIn));
+        currentParam.insert(QLatin1String("out"), QJsonValue(rectOut));
+        list.push_front(currentParam);
+    }
+    return QJsonDocument(list);
+}
+
+QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
+{
+    QJsonArray list;
+    if(!m_keyframes) {
+        return QJsonDocument(list);
+    }
+
+    if (includeFixed) {
+        for (const auto &fixed : m_fixedParams) {
+            QJsonObject currentParam;
+            QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
+            auto value = m_keyframes->getInterpolatedValue(pos, ix);
+            currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
+            currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+            int type = data(ix, AssetParameterModel::TypeRole).toInt();
+            double min = data(ix, AssetParameterModel::MinRole).toDouble();
+            double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+            double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+            if (factor > 0) {
+                min /= factor;
+                max /= factor;
+            }
+            currentParam.insert(QLatin1String("type"), QJsonValue(type));
+            currentParam.insert(QLatin1String("min"), QJsonValue(min));
+            currentParam.insert(QLatin1String("max"), QJsonValue(max));
+            currentParam.insert(QLatin1String("in"), QJsonValue(0));
+            currentParam.insert(QLatin1String("out"), QJsonValue(0));
+            list.push_back(currentParam);
+        }
+    }
+
+    double x, y, w, h;
+    int count = 0;
+    for (const auto &param : m_params) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+            continue;
+        }
+
+        QJsonObject currentParam;
+        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        auto value = m_keyframes->getInterpolatedValue(pos, ix);
+
+        if(param.first.contains("Position X")) {
+            x = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Position Y")) {
+            y = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Size X")) {
+            w = value.toDouble();
+            count++;
+        }
+        if(param.first.contains("Size Y")) {
+            h = value.toDouble();
+            count++;
+        }
+
+        currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
+        currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+        int type = data(ix, AssetParameterModel::TypeRole).toInt();
+        double min = data(ix, AssetParameterModel::MinRole).toDouble();
+        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+        if (factor > 0) {
+            min /= factor;
+            max /= factor;
+        }
+        currentParam.insert(QLatin1String("type"), QJsonValue(type));
+        currentParam.insert(QLatin1String("min"), QJsonValue(min));
+        currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        currentParam.insert(QLatin1String("in"), QJsonValue(0));
+        currentParam.insert(QLatin1String("out"), QJsonValue(0));
+        list.push_back(currentParam);
+    }
+
+    if(count == 4) {
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
+        QSize frameSize = pCore->getCurrentFrameSize();
+        x = x * frameSize.width();
+        y = y * frameSize.height();
+        w = w * frameSize.width() * 2;
+        h = h * frameSize.height() * 2;
+        currentParam.insert(QLatin1String("value"), QString("0=%1 %2 %3 %4 1;").arg(int(x - x/2)).arg(int(y - y/2)).arg(int(w)).arg(int(h)));
+        currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
+        currentParam.insert(QLatin1String("min"), QJsonValue(0));
+        currentParam.insert(QLatin1String("max"), QJsonValue(0));
+        currentParam.insert(QLatin1String("in"), 0);
+        currentParam.insert(QLatin1String("out"), 0);
+        list.push_front(currentParam);
     }
     return QJsonDocument(list);
 }

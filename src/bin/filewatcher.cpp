@@ -115,3 +115,8 @@ void FileWatcher::clear()
     m_binClipPaths.clear();
     m_fileWatcher->startScan();
 }
+
+bool FileWatcher::contains(const QString &path) const
+{
+    return m_fileWatcher->contains(path);
+}

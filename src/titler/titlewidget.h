@@ -238,9 +238,8 @@ private:
     void loadGradients();
     void storeGradient(const QString &gradientData);
 
-    /** Open title download dialog */
+    /** @brief Open title download dialog */
     void downloadTitleTemplates();
-    int getNewStuff(const QString &configFile);
 
     /** @brief Read patterns from config file
      */

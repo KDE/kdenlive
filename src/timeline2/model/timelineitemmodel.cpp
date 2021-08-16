@@ -136,6 +136,9 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
 
 void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
 {
+    if (m_closing) {
+        return;
+    }
     Q_ASSERT(m_subtitleModel != nullptr);
     Q_ASSERT(m_allSubtitles.count(subId) > 0);
     m_subtitleModel->updateSub(subId, roles);
@@ -233,6 +236,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[FadeOutRole] = "fadeOut";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
+    roles[TimeRemapRole] = "timeremap";
     roles[HeightRole] = "trackHeight";
     roles[TrackTagRole] = "trackTag";
     roles[ItemIdRole] = "item";
@@ -363,6 +367,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->selected;
         case TagRole:
             return clip->clipTag();
+        case TimeRemapRole:
+            return clip->isChain();
         default:
             break;
         }
@@ -646,7 +652,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     // Make sure all previous track compositing is removed
     if (rebuild) {
         while (service != nullptr && service->is_valid()) {
-            if (service->type() == transition_type) {
+            if (service->type() == mlt_service_transition_type) {
                 Mlt::Transition t(mlt_transition(service->get_service()));
                 service.reset(service->producer());
                 if (t.get_int("internal_added") == 237) {

@@ -118,7 +118,7 @@ public:
             }
         });
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
-            m_audioMax = KdenliveSettings::normalizechannels() ? 0 : pCore->projectItemModel()->getAudioMaxLevel(m_binId);
+            m_audioMax = KdenliveSettings::normalizechannels() ? pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream) : 0;
             update();
         });
     }
@@ -145,10 +145,10 @@ public:
         }
         if (m_audioLevels.isEmpty() && m_stream >= 0) {
             m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
-            m_audioMax = KdenliveSettings::normalizechannels() ? 0 : pCore->projectItemModel()->getAudioMaxLevel(m_binId);
             if (m_audioLevels.isEmpty()) {
                 return;
             }
+            m_audioMax = KdenliveSettings::normalizechannels() ? pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream) : 0;
         }
 
         if (m_outPoint == m_inPoint) {
@@ -172,7 +172,7 @@ public:
         painter->setPen(pen);
         double scaleFactor = 255;
         if (m_audioMax > 1) {
-            scaleFactor *= m_audioMax;
+            scaleFactor = m_audioMax;
         }
         int startPos = int(m_inPoint / indicesPrPixel);
         if (!KdenliveSettings::displayallchannels()) {

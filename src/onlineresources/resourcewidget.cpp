@@ -272,9 +272,6 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
         QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if(!item.imageUrl.isEmpty()) {
             QUrl img(item.imageUrl);
-            if (img.isEmpty()) {
-                return;
-            }
             m_tmpThumbFile->close();
             if (m_tmpThumbFile->open()) {
                 KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
@@ -382,7 +379,7 @@ void ResourceWidget::slotUpdateCurrentItem()
 /**
  * @brief ResourceWidget::licenseNameFromUrl
  * @param licenseUrl
- * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-NC-SA 3.0" should be returned
  * @return the license name "Unnamed License" if url is not known.
  */
 QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)
@@ -401,7 +398,7 @@ QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND");
         } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial-ShareAlike");
-            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND-SA");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-NC-SA");
         } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-ShareAlike");
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-SA");
@@ -487,7 +484,8 @@ void ResourceWidget::slotPreviewItem()
  * @param urls list of download urls pointing to the certain file version
  * @param labels list of labels for the certain file version (needs to have the same order than urls)
  * @param accessToken access token to pass through to slotSaveItem
- * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there a multiple versions avaible
+ * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there are multiple versions
+ * available
  */
 void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken) {
     if(urls.isEmpty() || labels.isEmpty()) {
@@ -527,7 +525,6 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 
     QString path = KRecentDirs::dir(QStringLiteral(":KdenliveOnlineResourceFolder"));
     QString ext;
-    QString sFileExt;
 
     if (path.isEmpty()) {
         path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
@@ -597,7 +594,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 /**
  * @brief ResourceWidget::slotGotFile
  * @param job
- * Finish the download by emiting addClip and if necessary addLicenseInfo
+ * Finish the download by emitting addClip and if necessary addLicenseInfo
  * Enables the import button
  */
 void ResourceWidget::slotGotFile(KJob *job)

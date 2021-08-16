@@ -41,11 +41,14 @@ class AssetParameterModel;
 class MixInfo
 {
 public:
-    int firstClipId;
-    int secondClipId;
-    std::pair<int, int> firstClipInOut;
-    std::pair<int, int> secondClipInOut;
-    std::pair<int, int> mixInOut;
+    int firstClipId = -1;
+    int secondClipId = -1;
+    /** @brief in and out of the first clip in the mix */
+    std::pair<int, int> firstClipInOut = {-1,-1};
+    /** @brief in and out of the second clip in the mix */
+    std::pair<int, int> secondClipInOut = {-1,-1};
+    /** @brief Distance between first clip out and cut pos */
+    int mixOffset = 0;
 };
 
 /** @brief This class represents a Track object, as viewed by the backend.
@@ -130,13 +133,18 @@ public:
     bool deleteMix(int clipId, bool final, bool notify = true);
     /** @brief Create a mix composition using clip ids */
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
+    bool createMix(MixInfo info, std::pair<QString,QVector<QPair<QString, QVariant>>> params, bool finalMove);
     /** @brief Create a mix composition using mix info */
     bool createMix(MixInfo info, bool isAudio);
     /** @brief Change id of first clip in a mix (in case of clip cut) */
     bool reAssignEndMix(int currentId, int newId);
+    /** @brief Get all necessary infos to clone a mix */
+    std::pair<QString,QVector<QPair<QString, QVariant>>> getMixParams(int cid);
     void switchMix(int cid, const QString composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
+    /** @brief Remove a mix in the track (if its clip was removed) */
+    void removeMix(MixInfo info);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
@@ -147,6 +155,8 @@ public:
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
     /** @brief Get a list of current effect stack zones */
     QVariantList stackZones() const;
+    /** @brief Return true if a clip starts at pos in one of the trak playlists */
+    bool hasClipStart(int pos);
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -176,9 +186,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QList<int> allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false);
+    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, QList<int> allowedClipMixes = {});
 
     /** @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -191,7 +201,7 @@ protected:
        @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, QList<int> allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 

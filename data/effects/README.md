@@ -36,13 +36,14 @@ Line 1:
 
 Line 2:
 
-| tag name  | description    |
-| :---------| :------------- |
-| `tag`     | MLT ("mlt_service") name of the effect (see [MLT Docs](https://www.mltframework.org/docs/)) |
-| `id`      | internal kdenlive id, can be anything, but must be unique for each effect |
-| `type`    |  _(default = `"video"`)_ whether effect modifies video or audio (use `"audio"` then) |
-| `unique`  | _(default = `"0"`)_ this effect cannot be attached multiple times to one clip (speed, fades, ...) |
-| `version` | _(optional)_ minimum version of the effect required to be available (works only if the MLT filter provides the necessary metadata) |
+| tag name     | description    |
+| :------------| :------------- |
+| `tag`        | MLT ("mlt_service") name of the effect (see [MLT Docs](https://www.mltframework.org/docs/)) |
+| `id`         | internal kdenlive id, can be anything, but must be unique for each effect |
+| `type`       |  _(default = `"video"`)_ whether effect modifies video or audio (use `"audio"` then) |
+| `unique`     | _(default = `"0"`)_ this effect cannot be attached multiple times to one clip (speed, fades, ...) |
+| `version`    | _(optional)_ minimum version of the effect required to be available (works only if the MLT filter provides the necessary metadata) |
+| `dependency` | _(optional)_ ) MLT ("mlt_service") name of an effect or composition this asset depends on. If the dependency is not available this asset will not be available in Kdenlive too|
 
 Line 3:
 * name of the effect that will appear to the user
@@ -75,10 +76,11 @@ The rest:
 | `visualmin`    | the minimal value displayed in timeline keyframes (can be > than min) |
 | `visualmax`    | the maximal value displayed in timeline keyframes (can be < than max) |
 | `default`      | initial value, format depends on parameter type |
+| `value`        |  |
 | `optional`     | if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default |
 | `type`         | widget (GUI) to use. See section below for possible values
 
-For double values these placeholders are avaible:
+For double values these placeholders are available:
 
 | placeholder    | Header Two     |
 | :------------- | :------------- |
@@ -129,7 +131,7 @@ For double values these placeholders are avaible:
 * ###### additional parameter attributes:
 | attribute name | description    |
 | :------------- | :------------- |
-| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keyword `%lumaPaths` avaible to show files in the applications luma directories |
+| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keyword `%lumaPaths` available to show files in the applications luma directories |
 * ###### additional tags:
 | tag name           | description    |
 | :----------------- | :------------- |
@@ -202,7 +204,7 @@ You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame s
 | :------------- | :------------- |
 | `filter`       | Filter for file extensions. Example : `"Source Files (*.cpp *.cc *.C);;Header files (*.h *.H)"` (warning: this format is different to `url`!) |
 | `newstuff` | _(optional)_ KNewStuff config file (usually placed in `kdenlive/data` and added to to `kdenlive/src/uiresources.qrc` so the value looks like `":data/kdenlive_wipes.knsrc"`). If this is empty no download button is shown|
-| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keywords `%lumaPaths` and `%lutPaths` are avaible to show files in the applications luma/lut directories |
+| `paramlist`    | list of possible values separated by semicolon (no whitespaces!). Special keywords `%lumaPaths` and `%lutPaths` are available to show files in the applications luma/lut directories |
 * ###### additional tags:
 | tag name         | description    |
 | :--------------- | :------------- |

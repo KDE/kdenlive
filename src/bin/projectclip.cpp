@@ -407,6 +407,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                     }
                 }
             }
+            m_audioThumbCreated = false;
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
@@ -486,9 +487,8 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer)
+bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
 {
-    Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
@@ -532,7 +532,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     pCore->bin()->reloadMonitorIfActive(clipId());
     for (auto &p : m_audioProducers) {
@@ -598,7 +597,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         });
     }
     if (generateProxy) {
-        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool,true), Q_ARG(QList<std::shared_ptr<ProjectClip>>,clipList), Q_ARG(bool,false));
+        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool,true), Q_ARG(QList<std::shared_ptr<ProjectClip> >,clipList), Q_ARG(bool,false));
     }
     return true;
 }
@@ -724,12 +723,12 @@ int ProjectClip::getRecordTime()
     return 0;
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist)
+std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist, bool timeremap)
 {
     if (!m_masterProducer) {
         return nullptr;
     }
-    if (qFuzzyCompare(speed, 1.0)) {
+    if (qFuzzyCompare(speed, 1.0) && !timeremap) {
         // we are requesting a normal speed producer
         bool byPassTrackProducer = false;
         if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
@@ -819,7 +818,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (qFuzzyCompare(m_timewarpProducers[clipId]->get_double("warp_speed"), speed)) {
             // the producer we have is good, use it !
             warpProducer = m_timewarpProducers[clipId];
-            qDebug() << "Reusing producer!";
+            qDebug() << "Reusing timewarp producer!";
+        } else if (timeremap && qFuzzyIsNull(m_timewarpProducers[clipId]->get_double("warp_speed"))) {
+            // the producer we have is good, use it !
+            qDebug() << "Reusing time remap producer!";
+            warpProducer = m_timewarpProducers[clipId];
         } else {
             m_timewarpProducers.erase(clipId);
         }
@@ -829,16 +832,23 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
         }
-        QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
-        warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
-        qDebug() << "new producer: " << url;
-        qDebug() << "warp LENGTH before" << warpProducer->get_length();
-        int original_length = originalProducer()->get_length();
+        if (timeremap) {
+            Mlt::Chain *chain = new Mlt::Chain(*originalProducer()->profile(), resource.toUtf8().constData());
+            Mlt::Link link("timeremap");
+            chain->attach(link);
+            warpProducer.reset(chain);
+        } else {
+            QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+            warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
+            int original_length = originalProducer()->get_length();
+            warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
+            qDebug() << "new producer: " << url;
+            qDebug() << "warp LENGTH before" << warpProducer->get_length();
+        }
         // this is a workaround to cope with Mlt erroneous rounding
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
         warpProducer->set("audio_index", audioStream);
     }
 
@@ -875,6 +885,8 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         bool timeWarp = false;
         if (QString::fromUtf8(master->parent().get("mlt_service")) == QLatin1String("timewarp")) {
             speed = master->parent().get_double("warp_speed");
+            timeWarp = true;
+        } else if (master->parent().type() == mlt_service_chain_type) {
             timeWarp = true;
         }
         if (master->parent().get_int("_loaded") == 1) {
@@ -954,7 +966,19 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
-    Mlt::Service s(m_masterProducer->get_service());
+    Mlt::Service s;
+    bool playlistChain = false;
+    QScopedPointer<Mlt::Service> serv;
+    if (m_clipType == ClipType::Playlist) {
+        serv.reset(m_masterProducer->producer());
+        if (serv != nullptr) {
+            s = Mlt::Service(serv->get_service());
+            playlistChain = true;
+        }
+    }
+    if (!playlistChain) {
+        s = Mlt::Service(m_masterProducer->get_service());
+    }
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -972,6 +996,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     }
     const QByteArray clipXml = c.get("string");
     std::shared_ptr<Mlt::Producer> prod;
+    qDebug()<<"============= CLONED CLIP: \n\n"<<clipXml<<"\n\n======================";
     prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
 
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
@@ -1219,13 +1244,13 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // Clip source was changed, update important stuff
         refreshPanel = true;
         reload = true;
+        resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
             updateRoles << TimelineModel::ResourceRole;
         } else if (!properties.contains("kdenlive:proxy")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
-            resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
             getInfoForProducer();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
@@ -1235,7 +1260,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
-            int id;
             if (pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB)) {
                 // The proxy clip is being created, abort
                 pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::PROXYJOB);
@@ -1554,7 +1578,8 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
         if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")),
                                        KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
             // Merge data
-            auto &profile = pCore->getCurrentProfile();
+            //TODO MLT7: convert to Mlt::Animation
+            /*auto &profile = pCore->getCurrentProfile();
             Mlt::Geometry geometry(current.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::GeometryItem item;
@@ -1565,7 +1590,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 pos++;
                 geometry.insert(item);
             }
-            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
+            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();*/
             // m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
         }
         // Add data with another name
@@ -1592,7 +1617,8 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
     if (offset == 0) {
         return data;
     }
-    auto &profile = pCore->getCurrentProfile();
+    // TODO MLT7: port to Mlt::Animation
+    /*auto &profile = pCore->getCurrentProfile();
     Mlt::Geometry geometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::Geometry newgeometry(nullptr, duration().frames(profile->fps()), profile->width(), profile->height());
     Mlt::GeometryItem item;
@@ -1604,6 +1630,8 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
         newgeometry.insert(item);
     }
     return newgeometry.serialise();
+    */
+    return QString();
 }
 
 bool ProjectClip::isSplittable() const
@@ -1796,6 +1824,26 @@ void ProjectClip::setRating(uint rating)
     pCore->currentDoc()->setModified(true);
 }
 
+int ProjectClip::getAudioMax(int stream)
+{
+    const QString key = QString("kdenlive:audio_max%1").arg(stream);
+    if (m_masterProducer->property_exists(key.toUtf8().constData())) {
+        return m_masterProducer->get_int(key.toUtf8().constData());
+    }
+    // Process audio max for the stream
+    const QString key2 = QString("_kdenlive:audio%1").arg(stream);
+    if (!m_masterProducer->property_exists(key2.toUtf8().constData())) {
+        return 0;
+    }
+    const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key2.toUtf8().constData()));
+    if (audioData.isEmpty()) {
+        return 0;
+    }
+    uint max = *std::max_element(audioData.constBegin(), audioData.constEnd());
+    m_masterProducer->set(key.toUtf8().constData(), int(max));
+    return int(max);
+}
+
 const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
 {
     QVector <uint8_t> audioLevels;
@@ -1806,7 +1854,7 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
-    QString key = QString("_kdenlive:audio%1").arg(stream);
+    const QString key = QString("_kdenlive:audio%1").arg(stream);
     if (m_masterProducer->get_data(key.toUtf8().constData())) {
         const QVector <uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
@@ -2058,6 +2106,7 @@ void ProjectClip::updateJobProgress()
 void ProjectClip::setInvalid()
 {
     m_isInvalid = true;
+    m_producerLock.unlock();
 }
 
 void ProjectClip::updateProxyProducer(const QString &path)
@@ -2065,4 +2114,9 @@ void ProjectClip::updateProxyProducer(const QString &path)
     setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
     setProducerProperty(QStringLiteral("resource"), path);
     reloadProducer(false, true);
+}
+
+void ProjectClip::importJsonMarkers(const QString &json)
+{
+    getMarkerModel()->importFromJson(json, true);
 }

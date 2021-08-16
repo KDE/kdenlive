@@ -50,7 +50,7 @@ public:
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
-    bool connectMonitor(bool activate);
+    virtual bool connectMonitor(bool activate);
     /** @brief Send data update to the monitor
      */
     virtual void refreshParams(int pos);

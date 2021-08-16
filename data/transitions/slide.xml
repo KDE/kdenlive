@@ -3,7 +3,7 @@
         <name context="Slide Transition Name">Slide</name>
         <description>Slide image from one side to another.</description>
         <author>Dan Dennedy</author>
-        <parameter tag="geometry" type="wipe" default="-100%,0%:100%x100%;-1=0%,0%:100%x100%" name="geometry">
+        <parameter tag="geometry" type="wipe" default="0=-100% 0% 100% 100%;-1=0% 0% 100% 100%" name="geometry">
             <name>Direction</name>
         </parameter>
         <parameter tag="aligned" default="0" type="bool" name="aligned" >

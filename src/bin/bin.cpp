@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/timeremap.h"
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -918,7 +919,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(m_searchLine, &QLineEdit::textChanged, [this] (const QString &str) {
+    connect(m_searchLine, &QLineEdit::textChanged, this, [this] (const QString &str) {
         m_proxyModel->slotSetSearchString(str);
         if (str.isEmpty()) {
             // focus last selected item when clearing search line
@@ -1990,7 +1991,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
     if (activateMonitor) {
         if (frame > -1) {
             m_monitor->slotSeek(frame);
-            m_monitor->refreshMonitorIfActive();
+            m_monitor->refreshMonitor();
         } else {
             m_monitor->slotActivateMonitor();
         }
@@ -2022,6 +2023,12 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
+                //TODO: testing only, we should check clip type...
+                if (type == ClipType::Playlist) {
+                    pCore->timeRemapWidget()->setClip(clip);
+                } else {
+                    pCore->timeRemapWidget()->setClip(nullptr);
+                }
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
@@ -2162,7 +2169,7 @@ void Bin::slotInitView(QAction *action)
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotDataChanged);
-    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, [&] (const QModelIndex &ix, uint rating) {
+    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, this, [&] (const QModelIndex &ix, uint rating) {
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
         if (item) {
@@ -2232,7 +2239,7 @@ void Bin::slotInitView(QAction *action)
         }
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
-        connect(view->header(), &QHeaderView::sortIndicatorChanged, [this] (int ix, Qt::SortOrder order) {
+        connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this] (int ix, Qt::SortOrder order) {
             QSignalBlocker bk(m_sortDescend);
             QSignalBlocker bk2(m_sortGroup);
             m_sortDescend->setChecked(order == Qt::DescendingOrder);
@@ -2402,13 +2409,26 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
     m_locateAction->setVisible(itemType == AbstractProjectItem::ClipItem && (isImported));
 
+    // New folder can be created from level of another folder.
+    if (isFolder) {
+        m_menu->insertAction(m_deleteAction, m_createFolderAction);
+    } else {
+        m_menu->removeAction(m_createFolderAction);
+    }
+
     // Show menu
     event->setAccepted(true);
     if (enableClipActions) {
         m_menu->exec(event->globalPos());
     } else {
-        // Clicked in empty area
+        // Clicked in empty area, will show main menu.
+        // Before that `createFolderAction` is inserted - it allows to distinguish between showing that item by clicking on empty area and by clicking on "Add Clip" menu.
+        m_addButton->menu()->insertAction(m_addClip, m_createFolderAction);
+
         m_addButton->menu()->exec(event->globalPos());
+
+        // Clear up this action to not show it on "Add Clip" menu from toolbar icon.
+        m_addButton->menu()->removeAction(m_createFolderAction);
     }
 }
 
@@ -2823,10 +2843,10 @@ void Bin::setupMenu()
 {
     auto *addClipMenu = new QMenu(this);
 
-    QAction *addClip =
+    m_addClip =
         addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
-    addClipMenu->addAction(addClip);
-    connect(addClip, &QAction::triggered, this, &Bin::slotAddClip);
+    addClipMenu->addAction(m_addClip);
+    connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
     setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
     setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
@@ -2888,22 +2908,23 @@ void Bin::setupMenu()
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
 
-    QAction *createFolder =
+    m_createFolderAction =
         addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
-    connect(createFolder, &QAction::triggered, this, &Bin::slotAddFolder);
+    connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
+
     m_upAction = KStandardAction::up(this, SLOT(slotBack()), pCore->window()->actionCollection());
 
     // Setup actions
     QAction *first = m_toolbar->actions().at(0);
     m_toolbar->insertAction(first, m_deleteAction);
-    m_toolbar->insertAction(m_deleteAction, createFolder);
-    m_toolbar->insertAction(createFolder, m_upAction);
+    m_toolbar->insertAction(m_deleteAction, m_createFolderAction);
+    m_toolbar->insertAction(m_createFolderAction, m_upAction);
 
     auto *m = new QMenu(this);
     m->addActions(addClipMenu->actions());
     m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
-    m_addButton->setDefaultAction(addClip);
+    m_addButton->setDefaultAction(m_addClip);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
@@ -3000,7 +3021,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setWordWrap(text.length() > 35);
     QAction *ac = new QAction(i18n("Show log"), this);
     m_infoMessage->addAction(ac);
-    connect(ac, &QAction::triggered, [this, logInfo](bool) {
+    connect(ac, &QAction::triggered, this, [this, logInfo](bool) {
         KMessageBox::sorry(this, logInfo, i18n("Detailed log"));
         slotMessageActionTriggered();
     });
@@ -3013,9 +3034,8 @@ void Bin::refreshClip(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
         if (pCore->monitorManager()->clipMonitorVisible()) {
-            m_monitor->slotActivateMonitor();
+            m_monitor->refreshMonitor(true);
         }
-        m_monitor->refreshMonitorIfActive(true);
     }
 }
 
@@ -3131,7 +3151,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
         if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
             // effect not supported on folder items
-            displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
+            emit displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
             return;
         }
         int row = 0;
@@ -3793,7 +3813,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
             }
         }
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
-        // when edit is triggered from the timeline, project monitor refresh is neccesary after an edit is made
+        // when edit is triggered from the timeline, project monitor refresh is necessary after an edit is made
         pCore->requestMonitorRefresh();
     } else {
         pCore->temporaryUnplug(clips, false);
@@ -3960,6 +3980,17 @@ void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 void Bin::slotRenameItem()
 {
     if (!hasFocus() && !m_itemView->hasFocus()) {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != pCore->window()) {
+            if (widget == pCore->bin()->clipPropertiesDock()) {
+                for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                    static_cast<ClipPropertiesController *>(w)->slotEditMarker();
+                    break;
+                }
+                return;
+            }
+            widget = widget->parentWidget();
+        }
         return;
     }
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
@@ -3980,7 +4011,7 @@ void Bin::refreshProxySettings()
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
     for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-        static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+        emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
     }
     if (!m_doc->useProxy()) {
         // Disable all proxies
@@ -4504,7 +4535,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
             qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
             //pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
             std::vector<QString> ids = m_transcodingDialog->ids();
-            for (QString id : ids) {
+            for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
                 TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get());
             }
@@ -4552,4 +4583,42 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
         pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
     }
     return ok;
+}
+
+void Bin::remapCurrent()
+{
+    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
+    if (clip) {
+        QFileInfo info(clip->url());
+        QDir dir =info.absoluteDir();
+        QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
+        fName.append("-remap");
+        int ix = 1;
+        QString renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
+        while (dir.exists(renderName)) {
+            ix++;
+            renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
+        }
+        Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
+        consumer.set("terminate_on_pause", 1);
+        consumer.set("title", "Time remap");
+        consumer.set("real_time", -1);
+        Mlt::Tractor t(pCore->getCurrentProfile()->profile());
+        Mlt::Chain chain(pCore->getCurrentProfile()->profile(), nullptr, clip->url().toUtf8().constData());
+        Mlt::Link link("timeremap");
+        chain.attach(link);
+        t.set_track(chain, 0);
+        consumer.connect(t);
+        consumer.run();
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+
+        std::function<void(const QString &)> callBack = [this](const QString &binId) {
+            selectClipById(binId);
+        };
+
+        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo, callBack);
+        pCore->pushUndo(undo, redo, i18n("Add clip remap"));
+
+    }
 }

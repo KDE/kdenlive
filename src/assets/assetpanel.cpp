@@ -95,6 +95,15 @@ AssetPanel::AssetPanel(QWidget *parent)
     // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
     buttonToolbar->addWidget(m_switchBuiltStack);
 
+    m_saveEffectStack = new QToolButton(this);
+    m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
+    m_saveEffectStack->setToolTip(i18n("Save Effect Stack"));
+    // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
+    // See https://stackoverflow.com/a/17645563/5172513
+    m_saveEffectStack->setEnabled(false);
+    connect(m_saveEffectStack, &QToolButton::released, this, &AssetPanel::slotSaveStack);
+    buttonToolbar->addWidget(m_saveEffectStack);
+
     m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
@@ -150,6 +159,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
+
+    connect(this, &AssetPanel::slotSaveStack, m_effectStackWidget, &EffectStackView::slotSaveStack);
 }
 
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
@@ -183,7 +194,8 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         return;
     }
     clear();
-    m_switchAction->setVisible(true);
+    // There is only 1 audio composition, so hide switch combobox
+    m_switchAction->setVisible(transitionModel->getAssetId() != QLatin1String("mix"));
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
@@ -200,6 +212,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         // Item is not ready
         m_splitButton->setVisible(false);
         m_enableStackButton->setVisible(false);
+        m_saveEffectStack->setEnabled(false);
         clear();
         return;
     }
@@ -243,6 +256,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_assetTitle->setText(title);
     m_titleAction->setVisible(true);
     m_splitButton->setVisible(showSplit);
+    m_saveEffectStack->setEnabled(true);
     m_enableStackButton->setVisible(id.first != ObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -298,6 +312,7 @@ void AssetPanel::clear()
     m_mixWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
+    m_saveEffectStack->setEnabled(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
@@ -322,6 +337,7 @@ const QString AssetPanel::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
+    //QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
 
@@ -376,10 +392,6 @@ const QString AssetPanel::getStyleSheet()
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
                                      "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
-
-    // transparent qcombobox
-    stylesheet.append(QStringLiteral("QComboBox { background-color: transparent;} "));
-
     return stylesheet;
 }
 
@@ -424,6 +436,7 @@ bool AssetPanel::addEffect(const QString &effectId)
     return m_effectStackWidget->addEffect(effectId);
 }
 
+
 void AssetPanel::enableStack(bool enable)
 {
     if (!m_effectStackWidget->isVisible()) {
@@ -466,7 +479,7 @@ void AssetPanel::slotCheckWheelEventFilter()
         // widget has scroll bar,
         blockWheel = true;
     }
-    emit m_effectStackWidget->blockWheenEvent(blockWheel);
+    emit m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
 void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)
@@ -484,4 +497,37 @@ void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, 
     m_infoMessage->setCloseButtonVisible(true);
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->animatedShow();
+}
+
+void AssetPanel::slotAddRemoveKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->addRemoveKeyframe();
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->addRemoveKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->addRemoveKeyframe();
+    }
+}
+
+void AssetPanel::slotNextKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(true);
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->nextKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->nextKeyframe();
+    }
+}
+
+void AssetPanel::slotPreviousKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(false);
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->previousKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->previousKeyframe();
+    }
 }

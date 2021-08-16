@@ -59,7 +59,7 @@ public:
     void reset();
     /** @brief discard stored audio values */
     void clear();
-    static void property_changed( mlt_service , MixerWidget *self, char *name );
+    static void property_changed( mlt_service , MixerWidget *self, mlt_event_data data );
     void setTrackName(const QString &name);
     void setMute(bool mute);
     /** @brief Returns true if track is muted

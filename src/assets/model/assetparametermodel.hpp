@@ -39,7 +39,7 @@ typedef QVector<QPair<QString, QVariant>> paramVector;
 enum class ParamType {
     Double,
     List, // Value can be chosen from a list of pre-defined ones
-    UrlList, // File can be choosen from a list of pre-defined ones or a custom file can be used (like url)
+    UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
     RestrictedAnim, // animated 1 dimensional param with linear support only
@@ -160,6 +160,9 @@ public:
     QVector<QPair<QString, QVariant>> getAllParameters() const;
     /** @brief Returns a json definition of the effect with all param values */
     QJsonDocument toJson(bool includeFixed = true) const;
+    /** @brief Returns the interpolated value at the given position with all param values as json*/
+    QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
+
     void savePreset(const QString &presetFile, const QString &presetName);
     void deletePreset(const QString &presetFile, const QString &presetName);
     const QStringList getPresetList(const QString &presetFile) const;

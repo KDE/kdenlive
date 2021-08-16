@@ -36,6 +36,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -242,6 +243,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -393,6 +395,7 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -469,6 +472,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -960,6 +964,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;

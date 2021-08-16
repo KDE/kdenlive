@@ -5,7 +5,7 @@
 	    <description>Display and manipulation of the alpha channel</description>
 	    <author>Marko Cebokli</author>
 
-	    <parameter type="list" name="Display" default="0.0" paramlist="0.0;0.21;0.36;0.50;0.64;0.79;1.0">
+	    <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
 		  <paramlistdisplay>Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers</paramlistdisplay>
 		  <name>Display</name>
 	    </parameter>
@@ -14,7 +14,7 @@
 		    <name>Display input alpha</name>
 	    </parameter>
 
-	    <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.21;0.36;0.50;0.64;0.79;1.0">
+	    <parameter type="list" name="Operation" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
 		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold</paramlistdisplay>
 		    <name>Operation</name>
 	    </parameter>
@@ -37,7 +37,7 @@
 	    <description>Display and manipulation of the alpha channel</description>
 	    <author>Marko Cebokli</author>
 
-	    <parameter type="list" name="Display" default="0.0" paramlist="0.0;0.21;0.36;0.50;0.64;0.79;1.0">
+	    <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
 		  <paramlistdisplay>Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers</paramlistdisplay>
 		  <name>Display</name>
 	    </parameter>
@@ -46,7 +46,7 @@
 		    <name>Display input alpha</name>
 	    </parameter>
 
-	    <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.2;0.3;0.4;0.6;0.7;0.8;1.0">
+	    <parameter type="list" name="Operation" default="0" paramlist="0;0.2;0.3;0.4;0.6;0.7;0.8;1">
 		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur</paramlistdisplay>
 		    <name>Operation</name>
 	    </parameter>

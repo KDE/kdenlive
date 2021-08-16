@@ -21,6 +21,7 @@
 
 #include "xml/xml.hpp"
 #include "kdenlivesettings.h"
+#include "core.h"
 
 #include <QDir>
 #include <QFile>
@@ -94,6 +95,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     }
 
     // We add the custom assets
+    QStringList missingDependency;
     for (const auto &custom : customAssets) {
         // Custom assets should override default ones
         if (emptyMetaAssets.contains(custom.second.mltId)) {
@@ -101,9 +103,40 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             emptyMetaAssets.removeAll(custom.second.mltId);
         }
         m_assets[custom.first] = custom.second;
+
+        QString dependency = custom.second.xml.attribute(QStringLiteral("dependency"), QString());
+        if(!dependency.isEmpty()) {
+            bool found = false;
+            QScopedPointer<Mlt::Properties> effects(pCore->getMltRepository()->filters());
+            for(int i = 0; i < effects->count(); ++i) {
+                if(effects->get_name(i) == dependency) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found) {
+                QScopedPointer<Mlt::Properties> transitions(pCore->getMltRepository()->transitions());
+                for(int i = 0; i < transitions->count(); ++i) {
+                    if(transitions->get_name(i) == dependency) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!found) {
+                // asset depends on another asset that is invalid so remove this asset too
+                missingDependency << custom.first;
+                qDebug() << "Asset" << custom.first << "has invalid dependency" << dependency << "and is going to be removed";
+            }
+        }
+
     }
     // Remove really invalid assets
-    for (const auto &invalid : emptyMetaAssets) {
+    emptyMetaAssets << missingDependency;
+    emptyMetaAssets.removeDuplicates();
+    for (const auto &invalid : qAsConst(emptyMetaAssets)) {
         m_assets.erase(invalid);
     }
 }

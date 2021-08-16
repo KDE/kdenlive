@@ -345,7 +345,7 @@ void LayoutManagement::slotManageLayouts()
     QToolButton tb2(&d);
     tb2.setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
     tb2.setAutoRaise(true);
-    connect(&tb2, &QToolButton::clicked, [&list]() {
+    connect(&tb2, &QToolButton::clicked, this, [&list]() {
         if (list.currentItem() && list.currentRow() > 0) {
             int updatedRow = list.currentRow() - 1;
             QListWidgetItem *item = list.takeItem(list.currentRow());
@@ -359,7 +359,7 @@ void LayoutManagement::slotManageLayouts()
     QToolButton tb3(&d);
     tb3.setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     tb3.setAutoRaise(true);
-    connect(&tb3, &QToolButton::clicked, [&list]() {
+    connect(&tb3, &QToolButton::clicked, this, [&list]() {
         if (list.currentItem() && list.currentRow() < list.count() - 1) {
             int updatedRow = list.currentRow() + 1;
             QListWidgetItem *item = list.takeItem(list.currentRow());
@@ -374,7 +374,7 @@ void LayoutManagement::slotManageLayouts()
     tb4.setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     tb4.setAutoRaise(true);
     tb4.setToolTip(i18n("Reset"));
-    connect(&tb4, &QToolButton::clicked, [this, &config, &list, &layouts, current]() {
+    connect(&tb4, &QToolButton::clicked, this, [this, &config, &list, &layouts, current]() {
         // Load default base layouts
         KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup defaultOrder(&defaultConfig, "Order");
@@ -419,7 +419,7 @@ void LayoutManagement::slotManageLayouts()
     tb5.setIcon(QIcon::fromTheme(QStringLiteral("document-import")));
     tb5.setAutoRaise(true);
     tb5.setToolTip(i18n("Import"));
-    connect(&tb5, &QToolButton::clicked, [this, &d, &list](){
+    connect(&tb5, &QToolButton::clicked, this, [this, &d, &list](){
         QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18n("Load Layout")));
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
         fd->setFileMode(QFileDialog::ExistingFile);
@@ -460,7 +460,7 @@ void LayoutManagement::slotManageLayouts()
     tb6.setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     tb6.setAutoRaise(true);
     tb6.setToolTip(i18n("Export selected"));
-    connect(&tb6, &QToolButton::clicked, [ &d, &list](){
+    connect(&tb6, &QToolButton::clicked, this, [ &d, &list](){
 
         if (!list.currentItem()) {
             // Error, no layout selected
@@ -506,7 +506,7 @@ void LayoutManagement::slotManageLayouts()
     });
     l2->addWidget(&tb6);
 
-    connect(&list, &QListWidget::currentRowChanged, [&list, &tb2, &tb3] (int row) {
+    connect(&list, &QListWidget::currentRowChanged, this, [&list, &tb2, &tb3] (int row) {
         tb2.setEnabled(row > 0);
         tb3.setEnabled(row < list.count() - 1);
     });

@@ -86,6 +86,9 @@ public:
     /** @brief Update monitor scene depending on effect enabled state. */
     void updateScene();
     void updateInOut(QPair<int, int> inOut, bool withUndo);
+    void slotNextKeyframe();
+    void slotPreviousKeyframe();
+    void addRemoveKeyframe();
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -98,7 +101,7 @@ public slots:
     void slotActivateEffect(bool active);
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
-    void blockWheenEvent(bool block);
+    void blockWheelEvent(bool block);
     /** @brief Switch between collapsed/expanded state */
     void switchCollapsed(int row);
 
@@ -174,8 +177,6 @@ signals:
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void refresh();
-    /** @brief Requests saving the full effect stack. */
-    void saveStack();
 };
 
 #endif

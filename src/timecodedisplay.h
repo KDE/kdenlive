@@ -94,6 +94,9 @@ public:
      * @param offset the offset in msecs */
     void setOffset(int offset);
 
+    /** @brief Select all timecode text */
+    void selectAll();
+
 private:
     /** timecode for widget */
     Timecode m_timecode;

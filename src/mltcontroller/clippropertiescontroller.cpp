@@ -68,6 +68,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QButtonGroup>
 #include <QVBoxLayout>
 #include <QResizeEvent>
+#include <QSortFilterProxyModel>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)
@@ -262,9 +263,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_markerTree->setAlternatingRowColors(true);
     m_markerTree->setHeaderHidden(true);
     m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    m_markerTree->setModel(controller->getMarkerModel().get());
     m_markerTree->setObjectName("markers_list");
     mBox->addWidget(m_markerTree);
+    m_sortMarkers = std::make_unique<QSortFilterProxyModel>(this);
+    m_sortMarkers->setSourceModel(controller->getMarkerModel().get());
+    m_sortMarkers->setSortRole(MarkerListModel::PosRole);
+    m_sortMarkers->sort(0, Qt::AscendingOrder);
+    m_markerTree->setModel(m_sortMarkers.get());
     auto *bar = new QToolBar;
     bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
     bar->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
@@ -274,7 +279,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     mBox->addWidget(bar);
 
     m_markersPage->setLayout(mBox);
-    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::activated, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::clicked, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotEditMarker);
 
     // metadata
     auto *m2Box = new QVBoxLayout;
@@ -1335,6 +1342,9 @@ void ClipPropertiesController::fillProperties()
             property = codecInfo + QStringLiteral("colorspace");
             int colorspace = m_sourceProperties.get_int(property.toUtf8().constData());
             propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
+
+            int b_frames = m_sourceProperties.get_int("meta.media.has_b_frames");
+            propertyMap.append({i18n("B frames"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
         }
         if (default_audio > -1) {
             propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioStreamsCount())});
@@ -1378,7 +1388,7 @@ void ClipPropertiesController::fillProperties()
 void ClipPropertiesController::slotSeekToMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    auto current = m_markerTree->currentIndex();
+    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
     emit seekToFrame(pos.frames(pCore->getCurrentFps()));
@@ -1387,7 +1397,7 @@ void ClipPropertiesController::slotSeekToMarker()
 void ClipPropertiesController::slotEditMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    auto current = m_markerTree->currentIndex();
+    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
     markerModel->editMarkerGui(pos, this, false, m_controller);
@@ -1397,8 +1407,12 @@ void ClipPropertiesController::slotDeleteMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
     QModelIndexList indexes = m_markerTree->selectionModel()->selectedIndexes();
-    QList <GenTime> positions;
+    QModelIndexList mapped;
     for (auto &ix : indexes) {
+        mapped << m_sortMarkers->mapToSource(ix);
+    }
+    QList <GenTime> positions;
+    for (auto &ix : mapped) {
         if (ix.isValid()) {
             positions << GenTime(markerModel->data(ix, MarkerListModel::PosRole).toDouble());
         }

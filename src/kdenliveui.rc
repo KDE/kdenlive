@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="201" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="202" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -240,6 +240,7 @@
           <Action name="mlt_mute" />
       </Menu>
       <Action name="switch_monitor" />
+      <Action name="focus_timecode" />
     </Menu>
     <Menu name="view" noMerge="1" ><text>View</text>
     <Action name="fullscreen" />

@@ -20,7 +20,7 @@
                 <name>Length</name>
         </parameter>
         
-        <parameter type="list" name="Channel" default="0.5" paramlist="0.0;0.2;0.4;0.5;0.6;0.8;1.0">
+        <parameter type="list" name="Channel" default="0.5" paramlist="0;0.2;0.4;0.5;0.6;0.8;1">
                 <paramlistdisplay>R,G,B,Y',Pr,Pb,Alpha</paramlistdisplay>
                 <name>Channel</name>
         </parameter>
@@ -81,7 +81,7 @@
                 <name>256 scale</name>
         </parameter>
         
-        <parameter type="list" name="Color" default="0.0" paramlist="0.0;1.0">
+        <parameter type="list" name="Color" default="0" paramlist="0;1">
                 <paramlistdisplay>CCIR rec. 601,CCIR rec. 709</paramlistdisplay>
                 <name>Color</name>
         </parameter>

@@ -156,6 +156,8 @@ public:
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
     void updateDocumentUuid();
+    /** @brief Focus the timecode to alllow editing*/
+    void focusTimecode();
     
 
 protected:
@@ -330,6 +332,7 @@ public slots:
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;
+    void refreshMonitor(bool directUpdate = false);
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
@@ -337,6 +340,7 @@ public slots:
 signals:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
+    void seekRemap(int pos);
     void updateScene();
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);

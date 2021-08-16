@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -60,7 +61,9 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<TimelineFunctions>("TimelineFunctions")
         .method("requestClipCut", select_overload<bool(std::shared_ptr<TimelineItemModel>, int, int)>(&TimelineFunctions::requestClipCut))(
-            parameter_names("timeline", "clipId", "position"));
+            parameter_names("timeline", "clipId", "position"))
+        .method("requestDeleteBlankAt", select_overload<bool(const std::shared_ptr<TimelineItemModel>&, int, int, bool)>(&TimelineFunctions::requestDeleteBlankAt))(
+            parameter_names("timeline", "trackId", "position", "affectAllTracks"));
 }
 #else
 #define TRACE_STATIC(...)
@@ -434,8 +437,8 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     if (moveGuides) {
         GenTime fromPos(startPosition, pCore->getCurrentFps());
         GenTime toPos(endPosition, pCore->getCurrentFps());
-        QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getMarkersInRange(startPosition, -1);
-        pCore->currentDoc()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel()->getMarkersInRange(startPosition, -1);
+        pCore->projectManager()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
     }
 
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
@@ -693,7 +696,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     int targetPos = timeline->getItemPosition(itemId) + zone.x() - zone.y();
 
     if (timeline->m_groups->isInGroup(itemId)) {
-        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, allowedTracks);
+        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
     } else {
@@ -734,7 +737,7 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
     // TODO the three move functions should be unified in a "requestItemMove" function
     if (timeline->m_groups->isInGroup(itemId)) {
         result =
-            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, allowedTracks);
+            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo);
     } else {
@@ -1072,7 +1075,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     Mlt::Field *field = timeline->m_tractor->field();
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
@@ -1840,6 +1843,27 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             semaphore.release(1);
             return false;
         }
+        if (prod.hasAttribute(QStringLiteral("timemap"))) {
+            // This is a timeremap
+            timeline->m_allClips[newId]->useTimeRemapProducer(true, timeline_undo, timeline_redo);
+            if (timeline->m_allClips[newId]->m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(timeline->m_allClips[newId]->m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        fromLink->set("map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
+                        fromLink->set("pitch", prod.attribute(QStringLiteral("timepitch")).toInt());
+                        fromLink->set("image_mode", prod.attribute(QStringLiteral("timeblend")).toUtf8().constData());
+                        break;
+                    }
+                }
+            }
+        }
+            
+        }
         if (timeline->m_allClips[newId]->m_endlessResize) {
             out = out - in;
             in = 0;
@@ -1925,14 +1949,31 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
 bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks)
 {
     // find blank duration
-    int spaceDuration;
-    if (trackId == -2) {
-        // Subtitle track
-        spaceDuration = timeline->getSubtitleModel()->getBlankSizeAtPos(position);
+    int spaceStart = 0;
+    if (affectAllTracks) {
+        int lastFrame = 0;
+        for (const auto &track: timeline->m_allTracks) {
+            lastFrame = track->getBlankStart(position);
+            if (lastFrame > spaceStart) {
+                spaceStart = lastFrame;
+            }
+        }
+        // check subtitle track
+        if (timeline->getSubtitleModel()) {
+            lastFrame = timeline->getSubtitleModel()->getBlankStart(position);
+            if (lastFrame > spaceStart) {
+                spaceStart = lastFrame;
+            }
+        }
     } else {
-        spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
+        if (trackId == -2) {
+            // Subtitle track
+            spaceStart = timeline->getSubtitleModel()->getBlankStart(position);
+        } else {
+            spaceStart = timeline->getTrackById_const(trackId)->getBlankStart(position);
+        }
     }
-    if (spaceDuration <= 0) {
+    if (spaceStart == position) {
         return false;
     }
     int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
@@ -1943,7 +1984,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
+    requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
     return true;
 }
 

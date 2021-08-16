@@ -32,6 +32,8 @@
 #include <QTime>
 #include <QFile>
 #include <QElapsedTimer>
+#include <klocalizedstring.h>
+#include <KMessageWidget>
 
 static QList<AudioLevelsTask*> tasksList;
 static QMutex tasksListMutex;
@@ -82,9 +84,8 @@ void AudioLevelsTask::run()
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
     if ((producer == nullptr) || !producer->is_valid()) {
-        /*m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
-        m_done = true;
-        m_successful = false;*/
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", binClip->url())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
@@ -144,7 +145,8 @@ void AudioLevelsTask::run()
         }
         QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
         if (!audioProducer->is_valid()) {
-            //m_errorMessage.append(i18n("Audio thumbs: cannot open file %1", producer->get("resource")));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -214,9 +216,11 @@ void AudioLevelsTask::run()
             QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
             producer->lock();
             QString key = QString("_kdenlive:audio%1").arg(stream);
+            QString key2 = QString("kdenlive:audio_max%1").arg(stream);
+            producer->set(key2.toUtf8().constData(), int(maxLevel));
             producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
             producer->unlock();
-            qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
+            //qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
@@ -241,7 +245,6 @@ void AudioLevelsTask::run()
             image.save(cachePath);
         }
     }
-    qDebug()<<"============= TASK WAS CANCELED: "<<m_isCanceled<<"\n\n===================";
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
 }

@@ -27,6 +27,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <unordered_set>
 #include "timecode.h"
 
+#include "mlt++/MltProfile.h"
+
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
@@ -43,11 +45,11 @@ class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
+class TimeRemap;
 
 namespace Mlt {
     class Repository;
     class Producer;
-    class Profile;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -121,6 +123,10 @@ public:
     SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the text based editing widget. */
     TextBasedEdit *textEditWidget();
+    /** @brief Returns a pointer to the time remapping widget. */
+    TimeRemap *timeRemapWidget();
+    /** @brief Returns true if clip displayed in remap widget is the bin clip with id clipId. */
+    bool currentRemap(const QString &clipId);
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -222,9 +228,11 @@ public:
     void processInvalidFilter(const QString service, const QString id, const QString message);
     /** @brief Update current project's tags */
     void updateProjectTags(QMap <QString, QString> tags);
-    /** @brief Returns the consumer profile, that will be scaled 
-     *  according to preview settings. Should only be used on the consumer */
+    /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
+    /** @brief Returns the consumer profile, that will be scaled
+     *  according to preview settings. Should only be used on the consumer */
+    Mlt::Profile &getMonitorProfile();
     /** @brief Returns a copy of current timeline's master playlist */
     std::unique_ptr<Mlt::Producer> getMasterProducerInstance();
     /** @brief Returns a copy of a track's playlist */
@@ -250,6 +258,16 @@ public:
     TaskManager taskManager;
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
+    /** @brief Resize current mix item */
+    void resizeMix(int cid, int duration, MixAlignment align);
+    /** @brief Get alignment info for a mix item */
+    MixAlignment getMixAlign(int cid) const;
+    /** @brief Closing current document, do some cleanup */
+    void cleanup();
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
+    int getNewStuff(const QString &configFile);
 
 private:
     explicit Core();
@@ -266,6 +284,7 @@ private:
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
+    TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
 
     /** @brief Current project's profile path */
@@ -275,6 +294,8 @@ private:
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
+    Mlt::Profile m_monitorProfile;
+    /** @brief Mlt profile used to build the project's clips */
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
@@ -298,11 +319,15 @@ public slots:
     /** @brief Show currently selected effect zone in timeline ruler. */
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void updateMasterZones();
+    /** @brief Open the proxies test dialog. */
+    void testProxies();
+    /** @brief Refresh the monitor profile when project profile changes. */
+    void updateMonitorProfile();
 
 signals:
     void coreIsReady();
     void updateLibraryPath();
-    void updateMonitorProfile();
+    //void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);
@@ -319,6 +344,9 @@ signals:
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */
     void disconnectEffectStack();
+    /** @brief Add a time remap effect to clip and show keyframes dialog */
+    void remapClip(int cid);
+
 };
 
 #endif

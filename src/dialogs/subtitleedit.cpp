@@ -73,12 +73,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
-    connect(subText, &KTextEdit::textChanged, [this]() {
+    connect(subText, &KTextEdit::textChanged, this, [this]() {
         if (m_activeSub > -1) {
             buttonApply->setEnabled(true);
         }
     });
-    connect(subText, &KTextEdit::cursorPositionChanged, [this]() {
+    connect(subText, &KTextEdit::cursorPositionChanged, this, [this]() {
         if (m_activeSub > -1) {
             buttonCut->setEnabled(true);
         }
@@ -99,7 +99,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     duration_box->addWidget(m_duration);
     spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     duration_box->addSpacerItem(spacer);
-    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -109,7 +109,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
         }
     });
-    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -119,7 +119,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
         }
     });
-    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
@@ -163,7 +163,7 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
         QSignalBlocker bk(subText);
         subText->clear();
     } else {
-        connect(m_model.get(), &SubtitleModel::dataChanged, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
+        connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
             if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
                 if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) || roles.contains(SubtitleModel::EndFrameRole)) {
                     setActiveSubtitle(m_activeSub);

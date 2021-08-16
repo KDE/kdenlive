@@ -404,6 +404,20 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
+                ToolTip {
+                    visible: effectButton.hovered
+                    font: miniFont
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
+                    }
+                }
             }
             ToolButton {
                 id: muteButton

@@ -77,11 +77,6 @@ public:
 private:
     QStringList m_fileExt;
 
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile = QString());
-
 public slots:
     /** @brief Toggle the comments on or off
      */

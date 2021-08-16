@@ -81,6 +81,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
 
+    connect(custom_folder, &QCheckBox::toggled, this, [this](bool checked) {
+        same_folder->setEnabled(!checked);
+    });
+    connect(same_folder, &QCheckBox::toggled, this, [this](bool checked) {
+        custom_folder->setEnabled(!checked);
+        project_folder->setEnabled(!checked && custom_folder->isChecked());
+    });
+
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     // buttonOk->setEnabled(false);
     audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -93,6 +101,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         audio_channels->setCurrentIndex(2);
     }
     connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
+    connect(checkProxy, &QToolButton::clicked, pCore.get(), &Core::testProxies);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
@@ -118,12 +127,15 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         proxy_imagesize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimagesize")).toInt());
+        proxy_resize->setValue(doc->getDocumentProperty(QStringLiteral("proxyresize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
         external_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() != 0);
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
-        if (!storageFolder.isEmpty()) {
+        if(doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
+            same_folder->setChecked(true);
+        } else if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
         }
         project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
@@ -148,7 +160,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewextension = KdenliveSettings::previewextension();
         custom_folder->setChecked(KdenliveSettings::customprojectfolder());
         project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        same_folder->setChecked(KdenliveSettings::sameprojectfolder());
     }
+
     // Select profile
     m_pw->loadProfile(currentProf);
 
@@ -164,6 +178,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
     proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
+    checkProxy->setIcon(QIcon::fromTheme(QStringLiteral("run-build")));
+    checkProxy->setToolTip(i18n("Compare proxy profiles efficiency"));
 
     connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
     proxy_profile->setToolTip(i18n("Select default proxy profile"));
@@ -252,7 +268,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
 
-    if (doc != nullptr) {
+    if (!m_newProject) {
         slotUpdateFiles();
         connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {
@@ -261,8 +277,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     }
     connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
     connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);
-    // Delete unused files is not implemented
-    delete_unused->setVisible(false);
 }
 
 void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
@@ -273,39 +287,28 @@ void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
-    // TODO
-    /*
-    QList<DocClipBase*> list = m_projectList->documentClipList();
-    for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
-        if (clip->numReferences() == 0 && clip->clipType() != SlideShow) {
-            QUrl url = clip->fileURL();
+    QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if(!clip->isIncludedInTimeline()) {
+            QUrl url(clip->getOriginalUrl());
             if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
-
     // make sure our urls are not used in another clip
-    for (int i = 0; i < list.count(); ++i) {
-        DocClipBase *clip = list.at(i);
-        if (clip->numReferences() > 0) {
-            QUrl url = clip->fileURL();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if(clip->isIncludedInTimeline()) {
+            QUrl url(clip->getOriginalUrl());
             if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
         }
     }
-
-    if (toDelete.count() == 0) {
-        // No physical url to delete, we only remove unused clips from project (color clips for example have no physical url)
-        if (KMessageBox::warningContinueCancel(this, i18n("This will remove all unused clips from your project."), i18n("Clean up project")) ==
-    KMessageBox::Cancel) return;
-        m_projectList->cleanup();
-        slotUpdateFiles();
+    if(toDelete.count() == 0) {
         return;
     }
-    if (KMessageBox::warningYesNoList(this, i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know
-    what you are doing.\nAre you sure you want to continue?"), toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
-    m_projectList->trashUnusedClips();
+    if (KMessageBox::warningYesNoList(this,
+                                      i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"),
+                                      toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
+    pCore->projectItemModel()->requestTrashClips(toDelete);
     slotUpdateFiles();
-    */
 }
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
@@ -525,6 +528,11 @@ bool ProjectSettings::generateImageProxy() const
     return generate_imageproxy->isChecked();
 }
 
+bool ProjectSettings::docFolderAsStorageFolder() const
+{
+    return same_folder->isChecked();
+}
+
 int ProjectSettings::proxyMinSize() const
 {
     return proxy_minsize->value();
@@ -538,6 +546,11 @@ int ProjectSettings::proxyImageMinSize() const
 int ProjectSettings::proxyImageSize() const
 {
     return proxy_imagesize->value();
+}
+
+int ProjectSettings::proxyResize() const
+{
+    return proxy_resize->value();
 }
 
 QString ProjectSettings::externalProxyParams() const
@@ -671,11 +684,11 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
         QString ext = filter.section(QLatin1Char('.'), -1);
         filter = filter.section(QLatin1Char('%'), 0, -2);
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        QRegExp rx(regexp);
+        QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         int count = 0;
         const QStringList result = dir.entryList(QDir::Files);
         for (const QString &p : result) {
-            if (rx.exactMatch(p)) {
+            if (rx.match(p).hasMatch()) {
                 count++;
             }
         }

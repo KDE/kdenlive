@@ -16,6 +16,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -544,6 +545,8 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -716,6 +719,7 @@ TEST_CASE("Copy/paste", "[CP]")
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
@@ -1069,3 +1073,5 @@ TEST_CASE("Copy/paste", "[CP]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+
+

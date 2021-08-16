@@ -39,13 +39,17 @@ TaskManager::TaskManager(QObject *parent)
 {
     int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
     m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
-    // TODO: make configurable for user to adjust to GPU
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 TaskManager::~TaskManager()
 {
     slotCancelJobs();
+}
+
+void TaskManager::updateConcurrency()
+{
+    m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete)
@@ -109,7 +113,7 @@ void TaskManager::updateJobCount()
 {
     QReadLocker lk(&m_tasksListLock);
     int count = 0;
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         count += task.second.size();
     }
     // Set jobs count
@@ -134,7 +138,7 @@ void TaskManager::slotCancelJobs()
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         for (AbstractTask* t : task.second) {
             // If so, then just add ourselves to be notified upon completion.
             t->cancelJob();

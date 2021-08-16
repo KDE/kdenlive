@@ -30,6 +30,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/view/timelinewidget.h"
 #include "dialogs/subtitleedit.h"
 #include "dialogs/textbasededit.h"
+#include "dialogs/proxytest.h"
+#include "dialogs/timeremap.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -135,6 +137,7 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     m_textEditWidget = new TextBasedEdit(m_mainWindow);
+    m_timeRemapWidget = new TimeRemap(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
@@ -310,6 +313,16 @@ TextBasedEdit *Core::textEditWidget()
     return m_textEditWidget;
 }
 
+TimeRemap *Core::timeRemapWidget()
+{
+    return m_timeRemapWidget;
+}
+
+bool Core::currentRemap(const QString &clipId)
+{
+    return m_timeRemapWidget == nullptr ? false : m_timeRemapWidget->currentClip() == clipId;
+}
+
 SubtitleEdit *Core::subtitleWidget()
 {
     return m_subtitleWidget;
@@ -337,13 +350,32 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
+Mlt::Profile &Core::getMonitorProfile()
+{
+    return m_monitorProfile;
+}
+
 Mlt::Profile *Core::getProjectProfile()
 {
     if (!m_projectProfile) {
         m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         m_projectProfile->set_explicit(1);
+        updateMonitorProfile();
     }
     return m_projectProfile.get();
+}
+
+
+void Core::updateMonitorProfile()
+{
+    m_monitorProfile.set_colorspace(m_projectProfile->colorspace());
+    m_monitorProfile.set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
+    m_monitorProfile.set_width(m_projectProfile->width());
+    m_monitorProfile.set_height(m_projectProfile->height());
+    m_monitorProfile.set_progressive(m_projectProfile->progressive());
+    m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
+    m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
+    m_monitorProfile.set_explicit(true);
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -370,6 +402,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
             m_projectProfile->set_width(getCurrentProfile()->width());
             m_projectProfile->set_explicit(true);
+            updateMonitorProfile();
         }
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
@@ -1034,4 +1067,34 @@ void Core::updateMasterZones()
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
+}
+
+void Core::testProxies()
+{
+    QScopedPointer<ProxyTest> dialog(new ProxyTest(QApplication::activeWindow()));
+    dialog->exec();
+}
+
+void Core::resizeMix(int cid, int duration, MixAlignment align)
+{
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align);
+}
+
+MixAlignment Core::getMixAlign(int cid) const
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->getMixAlign(cid);
+}
+
+void Core::cleanup()
+{
+    audioThumbCache.clear();
+    taskManager.slotCancelJobs();
+    timeRemapWidget()->selectedClip(-1);
+    disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
+    m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+}
+
+int Core::getNewStuff(const QString &config)
+{
+    return m_mainWindow->getNewStuff(config);
 }

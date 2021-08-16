@@ -113,7 +113,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
     for (size_t i = 0; i < max; ++i) {
         std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame(int(i)));
         qint64 position = mlt_frame_get_position(frame->get_frame());
-        int samples = mlt_sample_calculator(float(m_producer->get_fps()), samplingRate, position);
+        int samples = mlt_audio_calculate_frame_samples(float(m_producer->get_fps()), samplingRate, position);
         auto *data = static_cast<qint16 *>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
         summary.audioAmplitudes[i] = 0;

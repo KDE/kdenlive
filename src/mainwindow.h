@@ -159,6 +159,11 @@ public:
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
 
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
+    int getNewStuff(const QString &configFile);
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -271,10 +276,6 @@ private:
     void saveOptions();
 
     void loadGenerators();
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void buildDynamicActions();
@@ -472,6 +473,8 @@ private slots:
     void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
+    /** @brief Focus the timecode widget of current monitor. */
+    void slotFocusTimecode();
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
@@ -519,6 +522,7 @@ private slots:
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();
+    void slotRemapItemTime();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */

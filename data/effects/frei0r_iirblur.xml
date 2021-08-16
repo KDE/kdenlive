@@ -9,7 +9,7 @@
             <comment>Amount of blur</comment>
         </parameter>
 
-        <parameter type="list" name="Type" default="0.5" paramlist="0.0;0.5;0.999">
+        <parameter type="list" name="Type" default="0.5" paramlist="0;0.5;0.999">
             <paramlistdisplay>Exponential,Lowpass,Gaussian</paramlistdisplay>
             <name>Type</name>
             <comment>Select blurring algorithm</comment>

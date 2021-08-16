@@ -24,13 +24,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
-    <widget class="QSpinBox" name="kcfg_audiotracks"/>
-   </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="kcfg_videotracks"/>
-   </item>
-   <item row="5" column="0" colspan="7">
+   <item row="7" column="0" colspan="7">
     <widget class="QPlainTextEdit" name="previewparams">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -43,32 +37,45 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_7">
+   <item row="1" column="3">
+    <widget class="QSpinBox" name="kcfg_audiotracks"/>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Audio tracks</string>
+      <string>Audio channels</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="7">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item row="1" column="5">
+    <widget class="QComboBox" name="kcfg_audio_channels">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <item>
-      <widget class="QCheckBox" name="kcfg_customprojectfolder">
-       <property name="text">
-        <string>Custom project folder</string>
-       </property>
-      </widget>
+      <property name="text">
+       <string>2 channels (stereo)</string>
+      </property>
      </item>
      <item>
-      <widget class="KUrlRequester" name="projecturl" native="true">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
+      <property name="text">
+       <string>4 channels</string>
+      </property>
      </item>
-    </layout>
+     <item>
+      <property name="text">
+       <string>6 channels</string>
+      </property>
+     </item>
+    </widget>
    </item>
-   <item row="4" column="0" colspan="7">
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="kcfg_videotracks"/>
+   </item>
+   <item row="6" column="0" colspan="7">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_25">
@@ -112,6 +119,13 @@
      </item>
     </layout>
    </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Audio tracks</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
@@ -119,7 +133,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="8" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -132,36 +146,29 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Audio channels</string>
-     </property>
-    </widget>
+   <item row="2" column="0" colspan="6">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QCheckBox" name="kcfg_customprojectfolder">
+       <property name="text">
+        <string>Custom project folder</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlRequester" name="projecturl" native="true">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="1" column="5">
-    <widget class="QComboBox" name="kcfg_audio_channels">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="3" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_sameprojectfolder">
+     <property name="text">
+      <string>Use parent folder of the project file as project folder</string>
      </property>
-     <item>
-      <property name="text">
-       <string>2 channels (stereo)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>4 channels</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>6 channels</string>
-      </property>
-     </item>
     </widget>
    </item>
   </layout>

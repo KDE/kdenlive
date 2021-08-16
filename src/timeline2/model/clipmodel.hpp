@@ -85,6 +85,14 @@ public:
     /** @brief Returns true if the clip can be converted to an audio clip */
     bool canBeAudio() const;
 
+    /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
+    bool isChain() const;
+    /** @brief Returns the duration of the input map */
+    int getRemapInputDuration() const;
+    /** @brief Get the time remap effect parameters */
+    QMap<QString,QString> getRemapValues() const;
+    void setRemapValue(const QString &name, const QString &value);
+
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
@@ -197,7 +205,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false, bool timeremap = false);
     void refreshProducerFromBin(int trackId);
 
     /** @brief This functions replaces the current producer with a slowmotion one
@@ -206,6 +214,10 @@ protected:
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
+    
+    bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
+    /** @brief Lambda that merely changes the speed (in and out are untouched) */
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, QMap<QString,QString> remapProperties);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
@@ -236,6 +248,9 @@ protected:
 
     /** @brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
+
+    /** @brief Resize remap keyframes */
+    void requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo);
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
@@ -273,6 +288,8 @@ protected:
     int m_mixDuration;
     /** @brief Position of the original cut, relative to mix right side */
     int m_mixCutPos;
+    /** @brief True if the clip has a timeremap effect */
+    bool m_hasTimeRemap;
 };
 
 #endif

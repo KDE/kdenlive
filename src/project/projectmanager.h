@@ -85,6 +85,8 @@ public:
     */
     virtual std::shared_ptr<DocUndoStack> undoStack();
 
+    virtual QDir cacheDir(bool audio, bool *ok);
+
     /** @brief This will create a backup file with fps appended to project name,
      *  and save the project with an updated profile info, then reopen it.
      */

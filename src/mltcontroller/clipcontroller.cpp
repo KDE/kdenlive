@@ -400,7 +400,7 @@ int ClipController::getProducerDuration() const
     if (m_masterProducer) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime <= 0) {
-            return playtime = m_masterProducer->get_length();
+            return m_masterProducer->get_length();
         }
         return playtime;
     }

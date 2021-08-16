@@ -22,6 +22,7 @@
 
 #include "titlewidget.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "bin/bin.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
@@ -37,7 +38,6 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
-#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QButtonGroup>
@@ -195,16 +195,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(tw_rd_line, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     connect(tw_rd_custom, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     tw_rd_custom->setEnabled(false);
-    if (mlt_version_get_int() < 0x061900) {
-        typewriterBox->setEnabled(false);
-
-        auto *twinfo = new KMessageWidget(typewriterBox);
-        twinfo->setText(i18n("Typewriter requires MLT-6.26.0 or newer."));
-        twinfo->setMessageType(KMessageWidget::Warning);
-        twinfo->setCloseButtonVisible(false);
-        twinfo->setEnabled(true);
-        gridLayout_12->addWidget(twinfo, 3, 0, 1, 4);
-    }
 
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
@@ -411,9 +401,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonEllipse->setShortcut(Qt::ALT + Qt::Key_E);
     m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString());
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
-    if (mlt_version_get_int() < 0x061900) {
-        m_buttonEllipse->setVisible(false);
-    }
 
     m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
@@ -2225,26 +2212,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
 
 void TitleWidget::downloadTitleTemplates()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
         refreshTitleTemplates(m_projectTitlePath);
         refreshTemplateBoxContents();
     }
-}
-
-int TitleWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 QDomDocument TitleWidget::xml()

@@ -122,7 +122,7 @@ private:
     * @returns the doc's content with replaced urls
     */
     QString processMltFile(QDomDocument doc, const QString &destPrefix = QString());
-    /** @brief If the given element cointains the property its content (url) will be converted to a relativ file path
+    /** @brief If the given element contains the property its content (url) will be converted to a relative file path
      *  @param e the dom element  that might contains the property
      *  @param propertyName name of the property that should be checked
      *  @param root rootpath of the parent mlt document

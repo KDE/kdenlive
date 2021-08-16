@@ -82,9 +82,9 @@ static inline int fromDB(double level)
     return value;
 }
 
-void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
+void MixerWidget::property_changed( mlt_service , MixerWidget *widget, mlt_event_data data )
 {
-    if (widget && !strcmp(name, "_position")) {
+    if (widget && !strcmp(Mlt::EventData(data).to_string(), "_position")) {
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
@@ -130,6 +130,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
+    , m_balanceSpin(nullptr)
     , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
@@ -422,7 +423,7 @@ void MixerWidget::setTrackName(const QString &name) {
     if (name.isEmpty() || m_tid == -1) {
         m_trackLabel->setText(m_trackTag);
     } else {
-        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag).arg(name));
+        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag, name));
     }
 }
 
@@ -432,8 +433,10 @@ void MixerWidget::setMute(bool mute)
     m_volumeSlider->setEnabled(!mute);
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
-    m_balanceSpin->setEnabled(!mute);
-    m_balanceSlider->setEnabled(!mute);
+    if (m_balanceSlider) {
+        m_balanceSpin->setEnabled(!mute);
+        m_balanceSlider->setEnabled(!mute);
+    }
     updateLabel();
 }
 
@@ -519,15 +522,19 @@ void MixerWidget::setRecordState(bool recording)
     QSignalBlocker bk2(m_volumeSlider);
     if (m_recording) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
-        m_balanceSlider->setEnabled(false);
-        m_balanceSpin->setEnabled(false);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(false);
+            m_balanceSpin->setEnabled(false);
+        }
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
     } else {
-        m_balanceSlider->setEnabled(true);
-        m_balanceSpin->setEnabled(true);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(true);
+            m_balanceSpin->setEnabled(true);
+        }
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         m_volumeSpin->setRange(-100, 60);
@@ -542,7 +549,7 @@ void MixerWidget::connectMixer(bool doConnect)
 {
     if (doConnect) {
         if (m_listener == nullptr) {
-            m_listener = m_monitorFilter->listen("property-changed", this, mlt_listener(property_changed));
+            m_listener = m_monitorFilter->listen("property-changed", this, reinterpret_cast<mlt_listener>(property_changed));
         }
     } else {
         delete m_listener;

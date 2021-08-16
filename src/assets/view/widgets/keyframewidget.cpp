@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "keyframewidget.hpp"
+#include "assets/keyframes/model/rect/recthelper.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
@@ -30,11 +31,11 @@
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
 #include <KSelectAction>
+#include <KActionCategory>
 #include <QApplication>
 #include <QClipboard>
 #include <QJsonDocument>
@@ -68,20 +69,30 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_keyframes = m_model->getKeyframeModel();
     m_keyframeview = new KeyframeView(m_keyframes, duration, in, this);
 
+
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
+
+    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
+    connect(this, &KeyframeWidget::addRemove, m_keyframeview, &KeyframeView::slotAddRemove);
+
     m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
     m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
-    m_buttonPrevious = new QToolButton(this);
-    m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
-    m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
 
-    m_buttonNext = new QToolButton(this);
-    m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
-    m_buttonNext->setToolTip(i18n("Go to next keyframe"));
+    QToolButton *buttonPrevious = new QToolButton(this);
+    buttonPrevious->setAutoRaise(true);
+    buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
+    buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
+    connect(buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
+    connect(this, &KeyframeWidget::goToPrevious, m_keyframeview, &KeyframeView::slotGoToPrev);
+
+    QToolButton *buttonNext = new QToolButton(this);
+    buttonNext->setAutoRaise(true);
+    buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
+    buttonNext->setToolTip(i18n("Go to next keyframe"));
+    connect(buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
+    connect(this, &KeyframeWidget::goToNext, m_keyframeview, &KeyframeView::slotGoToNext);
     
     // Move keyframe to cursor
     m_buttonCenter = new QToolButton(this);
@@ -132,9 +143,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
 
-    m_toolbar->addWidget(m_buttonPrevious);
+    m_toolbar->addWidget(buttonPrevious);
     m_toolbar->addWidget(m_buttonAddDelete);
-    m_toolbar->addWidget(m_buttonNext);
+    m_toolbar->addWidget(buttonNext);
     m_toolbar->addWidget(m_buttonCenter);
     m_toolbar->addWidget(m_buttonCopy);
     m_toolbar->addWidget(m_buttonApply);
@@ -149,6 +160,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // copy/paste keyframes from clipboard
     QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
+    QAction *copyValue = new QAction(i18n("Copy value at cursor position to clipboard"), this);
+    connect(copyValue, &QAction::triggered, this, &KeyframeWidget::slotCopyValueAtCursorPos);
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
     // Remove keyframes
@@ -185,6 +198,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     auto *container = new QMenu(this);
     container->addAction(seekKeyframe);
     container->addAction(copy);
+    container->addAction(copyValue);
     container->addAction(paste);
     container->addSeparator();
     container->addAction(kfType);
@@ -229,9 +243,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
 
-    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
-    connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
-    connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
     connect(m_buttonApply, &QAbstractButton::pressed, this, [this]() {
@@ -322,8 +333,6 @@ KeyframeWidget::~KeyframeWidget()
 {
     delete m_keyframeview;
     delete m_buttonAddDelete;
-    delete m_buttonPrevious;
-    delete m_buttonNext;
     delete m_time;
 }
 
@@ -531,6 +540,21 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 }
             }
         }
+        if(m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
+            if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
+                m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+                m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+                connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &RectHelper::addIndex);
+            } else {
+                if (type == ParamType::KeyframeParam) {
+                    QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
+                    if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
+                            paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
+                        emit addIndex(index);
+                    }
+                }
+            }
+        }
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
         double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
         double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
@@ -646,6 +670,16 @@ void KeyframeWidget::showKeyframes(bool enable)
 void KeyframeWidget::slotCopyKeyframes()
 {
     QJsonDocument effectDoc = m_model->toJson(false);
+    if (effectDoc.isEmpty()) {
+        return;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString(effectDoc.toJson()));
+}
+
+void KeyframeWidget::slotCopyValueAtCursorPos()
+{
+    QJsonDocument effectDoc = m_model->valueAsJson(getPosition(), false);
     if (effectDoc.isEmpty()) {
         return;
     }

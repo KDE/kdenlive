@@ -69,7 +69,10 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->bin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -81,7 +84,10 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"));
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->bin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -177,7 +183,10 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->bin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -210,7 +219,10 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     }
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->bin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -229,11 +241,29 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         progressDialog->repaint();
         qApp->processEvents();
     }*/
-    qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
+    // Check for duplicates
+    QList<QUrl> cleanList;
+    QStringList duplicates;
+    bool firstClip = topLevel;
+    for (const QUrl &url : list) {
+        if (!pCore->projectItemModel()->urlExists(url.toLocalFile())) {
+            cleanList << url;
+        } else {
+            duplicates << url.toLocalFile();
+        }
+    }
+    if (!duplicates.isEmpty()) {
+        if (KMessageBox::warningYesNoList(QApplication::activeWindow(), i18n("The following clips are already inserted in the project. Do you want to duplicate them?"), duplicates) ==
+                KMessageBox::Yes) {
+                cleanList = list;
+            }
+    }
+
+    qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
-    for (const QUrl &file : list) {
+    for (const QUrl &file : qAsConst(cleanList)) {
         if (!QFile::exists(file.toLocalFile())) {
             continue;
         }
@@ -314,7 +344,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
 
                 if (answer == KMessageBox::Cancel) continue;
             }
-            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
+            std::function<void(const QString &)> callBack = [](const QString &) {};
+            if (firstClip) {
+                callBack = [](const QString &binId) {
+                    pCore->bin()->selectClipById(binId);
+                };
+                firstClip = false;
+            }
+            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                 createdItem = clipId;
             }

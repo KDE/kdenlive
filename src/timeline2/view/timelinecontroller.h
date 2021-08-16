@@ -326,7 +326,7 @@ public:
 
     /** @brief Add a timeline guide
      */
-    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
+    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false, bool showGui = false);
     /** @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();
@@ -564,6 +564,8 @@ public:
 
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, double speed);
+    /** @brief Activate time remap on the clip */
+    void remapItemTime(int clipId);
     /** @brief Delete selected zone and fill gap by moving following clips
      *  @param lift if true, the zone will simply be deleted but clips won't be moved
      */
@@ -646,6 +648,8 @@ public:
     void updateMasterZones(QVariantList zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
+    /** @brief Get align info for a mix. */
+    MixAlignment getMixAlign(int cid) const;
 
 public slots:
     void resetView();
@@ -668,6 +672,8 @@ public slots:
     void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
+    /** @brief Request resizing currently selected mix. */
+    void resizeMix(int cid, int duration, MixAlignment align);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);

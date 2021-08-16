@@ -77,6 +77,7 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     void slotCopyKeyframes();
+    void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
     void slotSeekToKeyframe(int ix);
@@ -90,8 +91,6 @@ private:
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
     QToolButton *m_buttonAddDelete;
-    QToolButton *m_buttonPrevious;
-    QToolButton *m_buttonNext;
     QToolButton *m_buttonCenter;
     QToolButton *m_buttonCopy;
     QToolButton *m_buttonApply;
@@ -108,6 +107,9 @@ signals:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
     void updateEffectKeyframe(bool);
+    void goToNext();
+    void goToPrevious();
+    void addRemove();
 };
 
 #endif

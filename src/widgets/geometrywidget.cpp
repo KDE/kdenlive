@@ -361,7 +361,7 @@ void GeometryWidget::adjustSizeValue()
 void GeometryWidget::slotAdjustRectKeyframeValue()
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-    updateMonitorGeometry(rect);
+    emit updateMonitorGeometry(rect);
     emit valueChanged(getValue());
 }
 
@@ -382,7 +382,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    updateMonitorGeometry(r);
+    emit updateMonitorGeometry(r);
     adjustSizeValue();
     emit valueChanged(getValue());
 }
@@ -413,7 +413,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     adjustSizeValue();
-    updateMonitorGeometry(r);
+    emit updateMonitorGeometry(r);
 }
 
 const QString GeometryWidget::getValue() const
@@ -438,7 +438,7 @@ void GeometryWidget::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-        updateMonitorGeometry(rect);
+        emit updateMonitorGeometry(rect);
     } else {
         m_monitor->setEffectKeyframe(false);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);

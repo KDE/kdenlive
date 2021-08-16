@@ -73,9 +73,18 @@ public:
      */
     void enableStack(bool enable);
     bool isStackEnabled() const;
-    /** @brief Collaps / expand current effect
+    /** @brief Collapse / expand current effect
      */
     void switchCollapsed();
+    /** @brief Go to next keyframe in current effect
+     */
+    void slotGoToKeyframe(bool next);
+    void addRemoveKeyframe();
+
+public slots:
+    /** @brief Save current effect stack
+     */
+    void slotSaveStack();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -105,9 +114,6 @@ private slots:
     void loadEffects();
     void updateTreeHeight();
     void slotFocusEffect();
-    /** @brief Save current effect stack
-     */
-    void slotSaveStack();
     /** @brief Refresh the enabled state on widgets
      */
     void changeEnabledState();
@@ -123,7 +129,7 @@ signals:
     void reloadEffect(const QString &path);
     void updateEnabledState();
     void removeCurrentEffect();
-    void blockWheenEvent(bool block);
+    void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
 };

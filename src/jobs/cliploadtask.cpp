@@ -47,14 +47,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KMessageWidget>
 
 
-ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, std::function<void()> readyCallBack)
+ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object)
     : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_in(in)
     , m_out(out)
     , m_thumbOnly(thumbOnly)
-    , m_readyCallBack(std::move(readyCallBack))
 {
+    QObject::connect(this, &ClipLoadTask::proposeTranscode, this, &ClipLoadTask::doProposeTranscode, Qt::QueuedConnection);
 }
 
 ClipLoadTask::~ClipLoadTask()
@@ -63,7 +63,7 @@ ClipLoadTask::~ClipLoadTask()
 
 void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, std::function<void()> readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object, readyCallBack);
+    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
         task = 0;
@@ -71,6 +71,9 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
+        connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
+            QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
+        });
         pCore->taskManager.startTask(owner.second, task);
     }
 }
@@ -131,13 +134,13 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
         //resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
-        if (!pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
-            m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+        if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
             QString loader = resource;
             loader.prepend(QStringLiteral("consumer:"));
             return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
         } else {
-            m_errorMessage.append(i18n("No matching profile"));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Playlist has a different framerate (%1/%2fps), not supported.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             return nullptr;
         }
     }
@@ -234,7 +237,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
 {
-        // Fetch thumbnail
+    // Fetch thumbnail
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (binClip->clipType() != ClipType::Audio && producer->get_int("video_index") > -1) {
@@ -451,10 +454,6 @@ void ClipLoadTask::run()
     }
     case ClipType::Playlist: {
         producer = loadPlaylist(resource);
-        if (!m_errorMessage.isEmpty()) {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString,m_errorMessage),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
-        }
         if (producer && resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(resource);
             QDomDocument doc;
@@ -512,7 +511,6 @@ void ClipLoadTask::run()
         }
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", resource)),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
         abort();
         return;
     }
@@ -521,16 +519,8 @@ void ClipLoadTask::run()
         if (producer) {
             producer.reset();
         }
-        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60);
-        QAction *ac = new QAction(i18n("Transcode"), m_object);
-        QObject::connect(ac, &QAction::triggered, [&]() {
-            pCore->transcodeFile(resource);
-        });
-        QList<QAction*>actions = {ac};
-        
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
-        m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", resource));
+        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60)<<"; RES: "<<resource;
+        emit proposeTranscode(resource);
         abort();
         return;
     }
@@ -671,19 +661,14 @@ void ClipLoadTask::run()
     if (!m_isCanceled) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer),
-                                  Q_ARG(bool , true));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer));
             if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1) {
                 checkProfile(producer);
             }
 
         }
         generateThumbnail(binClip, producer);
-        m_readyCallBack();
-        if (pCore->projectItemModel()->clipsCount() == 1) {
-            // Always select first added clip
-            pCore->selectBinClip(QString::number(m_owner.second), false);
-        }
+        emit taskDone();
     }
     pCore->taskManager.taskDone(m_owner.second, this);
 }
@@ -692,12 +677,31 @@ void ClipLoadTask::abort()
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    m_progress = 100;
+    pCore->taskManager.taskDone(m_owner.second, this);
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            binClip->setInvalid();
-            pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
+            if (binClip->hash().isEmpty()) {
+                // User tried to add an invalid clip, remove it.
+                pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+            } else {
+                // An existing clip just became invalid, mark it as missing.
+                binClip->setClipStatus(FileStatus::StatusMissing);
+                
+            }
         }
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
+}
+
+void ClipLoadTask::doProposeTranscode(const QString &resource)
+{
+    QAction *ac = new QAction(i18n("Transcode"), m_object);
+    QObject::connect(ac, &QAction::triggered, [resource]() {
+        pCore->transcodeFile(resource);
+    });
+    QList<QAction*>actions = {ac};
+    QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
 }

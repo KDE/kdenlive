@@ -408,14 +408,16 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
     return QVector<uint8_t>();
 }
 
-double ProjectItemModel::getAudioMaxLevel(const QString &binId)
+double ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
 {
     READ_LOCK();
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            int volume = std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
-            return volume > 1 ? qSqrt(volume) : volume;
+            auto clip = std::static_pointer_cast<ProjectClip>(c);
+            if (clip) {
+                return clip->getAudioMax(stream);
+            }
         }
     }
     return 0;
@@ -729,12 +731,12 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText)
+bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText, const std::function<void(const QString &)> &readyCallBack)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestAddBinClip(id, description, parentId, undo, redo);
+    bool res = requestAddBinClip(id, description, parentId, undo, redo, readyCallBack);
     if (res) {
         pCore->pushUndo(undo, redo, undoText.isEmpty() ? i18n("Add bin clip") : undoText);
     }
@@ -870,6 +872,38 @@ bool ProjectItemModel::requestCleanupUnused()
     return true;
 }
 
+bool ProjectItemModel::requestTrashClips(QStringList &urls)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = true;
+    std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
+    // Iterate to find clips that are not in timeline
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && urls.contains(std::static_pointer_cast<ProjectClip>(c)->getOriginalUrl())) {
+            to_delete.push_back(c);
+        }
+    }
+
+    // it is important to execute deletion in a separate loop, because otherwise
+    // the iterators of m_allItems get messed up
+    for (const auto &c : to_delete) {
+        res = requestBinClipDeletion(c, undo, redo);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    for (const auto &url : urls) {
+        QFile::remove(url);
+    }
+    // don't push undo/redo: the files are deleted we can't redo/undo
+    return true;
+}
+
 std::vector<QString> ProjectItemModel::getAllClipIds() const
 {
     READ_LOCK();
@@ -986,7 +1020,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
     Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
     if (retainList.is_valid()) {
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
-        if (playlist.is_valid() && playlist.type() == playlist_type) {
+        if (playlist.is_valid() && playlist.type() == mlt_service_playlist_type) {
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
                 emit pCore->loadingMessageUpdated(i18n("Loading project clips..."));
@@ -1016,11 +1050,12 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     emit pCore->loadingMessageUpdated(QString(), 1);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
-                if (prod->is_blank() || !prod->is_valid()) {
+                if (prod->is_blank() || !prod->is_valid() || prod->parent().property_exists("kdenlive:remove")) {
+                    qDebug()<<"==== IGNORING BIN PRODUCER: "<<prod->parent().get("kdenlive:id");
                     continue;
                 }
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
-                int id = producer->get_int("kdenlive:id");
+                int id = producer->parent().get_int("kdenlive:id");
                 if (!id) id = getFreeClipId();
                 binProducers.insert(id, producer);
             }
@@ -1133,4 +1168,9 @@ QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QS
         return folder->childByHash(clipHash);
     }
     return QString();
+}
+
+bool ProjectItemModel::urlExists(const QString &path) const
+{
+    return m_fileWatcher->contains(path);
 }

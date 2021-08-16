@@ -6,7 +6,6 @@ audiopan.xml
 audiospectrum.xml
 audiowave.xml
 audiowaveform.xml
-automask.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
@@ -112,6 +111,10 @@ lightshow.xml
 loudness.xml
 luma.xml
 lumaliftgaingamma.xml
+mask_start_frei0r_alphaspot.xml
+mask_start_rotoscoping.xml
+mask_start_shape.xml
+mask_apply.xml
 mirror.xml
 mono.xml
 movit_blur.xml

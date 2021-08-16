@@ -506,7 +506,6 @@ void PreviewManager::abortRendering()
     if (m_previewProcess.state() == QProcess::NotRunning) {
         return;
     }
-    qDebug() << "/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
     emit abortPreview();
     m_previewProcess.waitForFinished();
     if (m_previewProcess.state() != QProcess::NotRunning) {
@@ -531,7 +530,6 @@ void PreviewManager::startPreviewRender()
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
-        pCore->currentDoc()->saveMltPlaylist(sceneList);
         m_previewTimer.stop();
         doPreviewRender(sceneList);
     }
@@ -541,7 +539,6 @@ void PreviewManager::receivedStderr()
 {
     QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
     for (auto &result : resultList) {
-        qDebug() << "GOT PROCESS RESULT: " << result;
         if (result.startsWith(QLatin1String("START:"))) {
             workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
             qDebug() << "// GOT START INFO: " << workingPreview;
@@ -594,11 +591,9 @@ void PreviewManager::doPreviewRender(const QString &scene)
 
 void PreviewManager::processEnded(int, QProcess::ExitStatus status)
 {
-    qDebug() << "// PROCESS IS FINISHED!!!";
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
     if (status == QProcess::QProcess::CrashExit) {
-        qDebug() << "// PROCESS CRASHED!!!!!!";
         pCore->currentDoc()->previewProgress(-1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -654,7 +649,14 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
     std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     m_previewGatherTimer.stop();
-    abortRendering();
+    bool stopPreview = m_previewProcess.state() == QProcess::Running;
+    if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) && (end < m_renderedChunks.first().toInt() || start > m_renderedChunks.last().toInt()))) {
+        // invalidated zone is not in the preview zone, don't stop process
+        stopPreview = false;
+    }
+    if (stopPreview) {
+        abortRendering();
+    }
     m_tractor->lock();
     bool chunksChanged = false;
     for (int i = start; i <= end; i += chunkSize) {
@@ -678,6 +680,9 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         m_previewTrack->consolidate_blanks();
         emit m_controller->renderedChunksChanged();
         emit m_controller->dirtyChunksChanged();
+    }
+    if (stopPreview) {
+        startPreviewRender();
     }
     m_previewGatherTimer.start();
 }

@@ -71,7 +71,7 @@ public:
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
-    double getAudioMaxLevel(const QString &binId);
+    double getAudioMaxLevel(const QString &binId, int stream);
 
     /** @brief Returns a list of clips using the given url */
     QStringList getClipByUrl(const QFileInfo &url) const;
@@ -163,7 +163,7 @@ public:
     */
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
                            const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
-    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
+    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString(), const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
     /** @brief This is the addition function when we already have a producer for the clip*/
     bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
@@ -188,6 +188,9 @@ public:
 
     /** @brief Request that the unused clips are deleted */
     bool requestCleanupUnused();
+
+    /** @brief Request that all clips using one of the given urls are removed from the project and deleted from the hard disk*/
+    bool requestTrashClips(QStringList &urls);
 
     /** @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();
@@ -215,6 +218,8 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    /** @brief Check if  a file is already in Bin */
+    bool urlExists(const QString &path) const;
 
 protected:
     /** @brief Register the existence of a new element

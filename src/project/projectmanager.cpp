@@ -159,6 +159,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
+    bool sameProjectFolder = KdenliveSettings::sameprojectfolder();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
@@ -210,6 +211,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
+        sameProjectFolder = w->docFolderAsStorageFolder();
         documentMetadata = w->metadata();
         delete w;
     }
@@ -218,6 +220,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->bin()->cleanDocument();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
+    doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
     m_project = doc;
@@ -263,10 +266,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     ::mlt_pool_purge();
-    pCore->audioThumbCache.clear();
-    pCore->taskManager.slotCancelJobs();
-    disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    pCore->window()->getMainTimeline()->controller()->clipActions.clear();
+    pCore->cleanup();
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
@@ -297,10 +297,15 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
 {
     pCore->monitorManager()->pauseActiveMonitor();
+    QString oldProjectFolder = m_project->url().isEmpty()
+            ? QString()
+            : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
+            // this was the old project folder in case the "save in project file location" setting was active
+
     // Sync document properties
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
-        pCore->window()->updateProjectPath(outputFileName);
+        emit pCore->window()->updateProjectPath(outputFileName);
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
@@ -346,6 +351,32 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     if (!saveACopy) {
         m_fileRevert->setEnabled(true);
         pCore->window()->m_undoView->stack()->setClean();
+        QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
+        if(((oldProjectFolder.isEmpty() && m_project->m_sameProjectFolder) || m_project->projectTempFolder() == oldProjectFolder) && newProjectFolder != m_project->projectTempFolder()) {
+            KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
+                pCore->window(), i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
+                           "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
+                           m_project->projectTempFolder(), newProjectFolder));
+
+            if (answer == KMessageBox::Continue) {
+                // Proceed with move
+                QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
+                bool ok;
+                documentId.toLongLong(&ok, 10);
+                if (!ok || documentId.isEmpty()) {
+                    KMessageBox::sorry(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
+                } else {
+                    QDir newDir(newProjectFolder);
+                    QDir oldDir(m_project->projectTempFolder());
+                    if (newDir.exists(documentId)) {
+                        KMessageBox::sorry(pCore->window(), i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                    } else {
+                        // Proceed with the move
+                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                    }
+                }
+            }
+        }
     }
 
     return true;
@@ -934,6 +965,10 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
+    if (compositing == 1) {
+        // Composite transition is deprecated, switch to hq by default
+        compositing = 2;
+    }
     emit pCore->currentDoc()->updateCompositionMode(compositing);
     if (compositing < 2) {
         pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
@@ -951,6 +986,9 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
     if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
+    } else {
+        // Subtitle model track was active
+        pCore->window()->getMainTimeline()->controller()->setActiveTrack(activeTrackPosition);
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 
@@ -982,6 +1020,11 @@ std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
 std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 {
     return current()->commandStack();
+}
+
+QDir ProjectManager::cacheDir(bool audio, bool *ok)
+{
+    return current()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
 }
 
 void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
@@ -1018,6 +1061,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
+    double fpsRatio = newProfile->fps() / pCore->getCurrentFps();
     convertedFile.append(QString("-%1.kdenlive").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename |   QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
@@ -1071,16 +1115,52 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QDomElement e = playlists.at(i).toElement();
         if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.profile"), updatedProfile);
+            // Update guides
+            const QString &guidesData = Xml::getXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"));
+            if (!guidesData.isEmpty()) {
+                // Update guides position
+                auto json = QJsonDocument::fromJson(guidesData.toUtf8());
+
+                QJsonArray updatedList;
+                if (json.isArray()) {
+                    auto list = json.array();
+                    for (const auto &entry : qAsConst(list)) {
+                        if (!entry.isObject()) {
+                            qDebug() << "Warning : Skipping invalid marker data";
+                            continue;
+                        }
+                        auto entryObj = entry.toObject();
+                        if (!entryObj.contains(QLatin1String("pos"))) {
+                            qDebug() << "Warning : Skipping invalid marker data (does not contain position)";
+                            continue;
+                        }
+                        int pos = qRound(double(entryObj[QLatin1String("pos")].toInt()) * fpsRatio);
+                        QJsonObject currentMarker;
+                        currentMarker.insert(QLatin1String("pos"), QJsonValue(pos));
+                        currentMarker.insert(QLatin1String("comment"), entryObj[QLatin1String("comment")]);
+                        currentMarker.insert(QLatin1String("type"), entryObj[QLatin1String("type")]);
+                        updatedList.push_back(currentMarker);
+                    }
+                    QJsonDocument updatedJSon(updatedList);
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.guides"), QString::fromUtf8(updatedJSon.toJson()));
+                }
+            }
             break;
         }
     }
     QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
-        int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt();
-        if (length > 0) {
+        bool ok;
+        int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
+        if (ok && length > 0) {
             // calculate updated length
             Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getMainTimeline()->controller()->framesToClock(length));
+        }
+    }
+    if (QFile::exists(convertedFile)) {
+        if (KMessageBox::warningYesNo(qApp->activeWindow(), i18n("Output file %1 already exists.\nDo you want to overwrite it?", convertedFile)) != KMessageBox::Yes) {
+            return;
         }
     }
     QFile file(convertedFile);
@@ -1095,6 +1175,10 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     file.close();
+    // Copy subtitle file if any
+    if (QFile::exists(currentFile + QStringLiteral(".srt"))) {
+        QFile(currentFile + QStringLiteral(".srt")).copy(convertedFile + QStringLiteral(".srt"));
+    }
     openFile(QUrl::fromLocalFile(convertedFile));
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }

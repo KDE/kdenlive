@@ -122,7 +122,10 @@ GLWidget::GLWidget(int id, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-    m_offscreenSurface.setFormat(QOpenGLContext::globalShareContext()->format());
+    auto fmt = QOpenGLContext::globalShareContext()->format();
+    fmt.setDepthBufferSize(format().depthBufferSize());
+    fmt.setStencilBufferSize(format().stencilBufferSize());
+    m_offscreenSurface.setFormat(fmt);
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
@@ -139,7 +142,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
-    connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
+    //connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -417,7 +420,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_glsl_texture)));
+            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_opengl_texture)));
         }
     }
 
@@ -653,7 +656,11 @@ bool GLWidget::isReady() const
 
 void GLWidget::requestSeek(int position)
 {
-    m_consumer->set("scrub_audio", 1);
+    if(KdenliveSettings::audio_scrub()){
+        m_consumer->set("scrub_audio", 1);
+    } else {
+        m_consumer->set("scrub_audio", 0);
+    }
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
@@ -1086,7 +1093,7 @@ int GLWidget::reconfigure()
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), audioBackend.toLatin1().constData()));
+            m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
             } else {
@@ -1098,7 +1105,7 @@ int GLWidget::reconfigure()
                         // Already tested
                         continue;
                     }
-                    m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), bk.toLatin1().constData()));
+                    m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), bk.toLatin1().constData()));
                     if (m_consumer->is_valid()) {
                         if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
                             // switch sdl audio backend
@@ -1132,7 +1139,7 @@ int GLWidget::reconfigure()
 
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
-        if (m_consumer) {
+        if (m_glslManager) {
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, mlt_listener(onThreadCreate));
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, mlt_listener(onThreadJoin));
         }
@@ -1207,7 +1214,11 @@ int GLWidget::reconfigure()
         m_consumer->set("buffer", qMax(25, fps));
         m_consumer->set("prefill", qMax(1, fps / 25));
         m_consumer->set("drop_max", fps / 4);
-        m_consumer->set("scrub_audio", 1);
+        if (KdenliveSettings::audio_scrub()) {
+            m_consumer->set("scrub_audio", 1);
+        } else {
+            m_consumer->set("scrub_audio", 0);
+        }
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         } else {
@@ -1637,7 +1648,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         m_proxy->setSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
-        } else {
+        } else if (KdenliveSettings::audio_scrub()){
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {
@@ -1848,7 +1859,6 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 
 bool GLWidget::updateScaling()
 {
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
@@ -1875,26 +1885,13 @@ bool GLWidget::updateScaling()
         return false;
     }
     m_profileSize = profileSize;
+    pCore->getMonitorProfile().set_width(m_profileSize.width());
+    pCore->getMonitorProfile().set_height(m_profileSize.height());
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());
         resizeGL(width(), height());
     }
-#else
-    int previewHeight = pCore->getCurrentFrameSize().height();
-    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-    if (pWidth% 2 > 0) {
-        pWidth ++;
-    }
-    QSize profileSize(pWidth, previewHeight);
-    if (profileSize == m_profileSize) {
-        return false;
-    }
-    m_profileSize = profileSize;
-    if (m_consumer) {
-        resizeGL(width(), height());
-    }
-#endif
     return true;
 }
 

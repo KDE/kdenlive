@@ -337,8 +337,8 @@ void WheelContainer::resizeEvent(QResizeEvent *event)
 
 const QString WheelContainer::getParamValues() const
 {
-    return QString::number(m_color.redF() * m_sizeFactor, 'g', 3) + QLatin1Char(',') + QString::number(m_color.greenF() * m_sizeFactor, 'g', 3) +
-           QLatin1Char(',') + QString::number(m_color.blueF() * m_sizeFactor, 'g', 3);
+    return QString::number(m_color.redF() * m_sizeFactor, 'f', 3) + QLatin1Char(',') + QString::number(m_color.greenF() * m_sizeFactor, 'f', 3) +
+           QLatin1Char(',') + QString::number(m_color.blueF() * m_sizeFactor, 'f', 3);
 }
 
 const QList <double> WheelContainer::getNiceParamValues() const

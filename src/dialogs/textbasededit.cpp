@@ -583,12 +583,12 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     l->addWidget(m_visualEditor);
     text_frame->setLayout(l);
     m_visualEditor->setDocument(&m_document);
-    connect(&m_document, &QTextDocument::blockCountChanged, [this](int ct) {
+    connect(&m_document, &QTextDocument::blockCountChanged, this, [this](int ct) {
         m_visualEditor->repaintLines();
         qDebug()<<"++++++++++++++++++++\n\nGOT BLOCKS: "<<ct<<"\n\n+++++++++++++++++++++";
     });
 
-    connect(m_visualEditor, &VideoTextEdit::selectionChanged, [this]() {
+    connect(m_visualEditor, &VideoTextEdit::selectionChanged, this, [this]() {
         bool hasSelection = m_visualEditor->textCursor().selectedText().simplified().isEmpty() == false;
         m_visualEditor->bookmarkAction->setEnabled(hasSelection);
         m_visualEditor->deleteAction->setEnabled(hasSelection);
@@ -598,14 +598,14 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-    connect(button_abort, &QToolButton::clicked, [this]() {
+    connect(button_abort, &QToolButton::clicked, this, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
         } else if (m_tCodeJob && m_tCodeJob->state() == QProcess::Running) {
             m_tCodeJob->kill();
         }
     });
-    connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
+    connect(pCore.get(), &Core::voskModelUpdate, this, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
         if (models.isEmpty()) {
@@ -619,13 +619,13 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             }
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
         KdenliveSettings::setVosk_text_model(language_box->currentText());
     });
     info_message->hide();
 
     m_logAction = new QAction(i18n("Show log"), this);
-    connect(m_logAction, &QAction::triggered, [this]() {
+    connect(m_logAction, &QAction::triggered, this, [this]() {
         KMessageBox::sorry(this, m_errorString, i18n("Detailed log"));
     });
 
@@ -640,7 +640,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_add->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
     button_add->setToolTip(i18n("Save edited text in a new playlist"));
     button_add->setEnabled(false);
-    connect(button_add, &QToolButton::clicked, [this]() {
+    connect(button_add, &QToolButton::clicked, this, [this]() {
         previewPlaylist();
     });
     
@@ -667,7 +667,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         search_frame->setVisible(toggled);
         search_line->setFocus();
     });
-    connect(search_line, &QLineEdit::textChanged, [this](const QString &searchText) {
+    connect(search_line, &QLineEdit::textChanged, this, [this](const QString &searchText) {
         QPalette palette = this->palette();
         QColor col = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
@@ -686,7 +686,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
         search_line->setPalette(palette);   
     });
-    connect(search_next, &QToolButton::clicked, [this]() {
+    connect(search_next, &QToolButton::clicked, this, [this]() {
         const QString searchText = search_line->text();
         QPalette palette = this->palette();
         QColor col = palette.color(QPalette::Base);
@@ -706,7 +706,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
         search_line->setPalette(palette);  
     });
-    connect(search_prev, &QToolButton::clicked, [this]() {
+    connect(search_prev, &QToolButton::clicked, this, [this]() {
         const QString searchText = search_line->text();
                 QPalette palette = this->palette();
         QColor col = palette.color(QPalette::Base);
@@ -862,7 +862,7 @@ void TextBasedEdit::startRecognition()
         m_tCodeJob = std::make_unique<QProcess>(this);
         m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-                [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+                this, [this, language, pyExec, speechScript, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
             Q_UNUSED(code)
             qDebug()<<"++++++++++++++++++++++ TCODE JOB FINISHED\n";
             if (status == QProcess::CrashExit) {
@@ -876,7 +876,7 @@ void TextBasedEdit::startRecognition()
             qApp->processEvents();
             connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
-            connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this](int code, QProcess::ExitStatus status) {
+            connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, [this](int code, QProcess::ExitStatus status) {
                 m_playlistWav.remove();
                 slotProcessSpeechStatus(code, status);
             });
@@ -884,9 +884,9 @@ void TextBasedEdit::startRecognition()
             speech_progress->setValue(0);
             frame_progress->setVisible(true);
         });
-        connect(m_tCodeJob.get(), &QProcess::readyReadStandardOutput, [this]() {
+        connect(m_tCodeJob.get(), &QProcess::readyReadStandardOutput, this, [this]() {
             QString saveData = QString::fromUtf8(m_tCodeJob->readAllStandardOutput());
-            qDebug()<<"+GOT OUTUT: "<<saveData;
+            qDebug()<<"+GOT OUTPUT: "<<saveData;
             saveData = saveData.section(QStringLiteral("percentage:"), 1).simplified();
             int percent = saveData.section(QLatin1Char(' '), 0, 0).toInt();
             speech_progress->setValue(percent);
@@ -1009,7 +1009,7 @@ void TextBasedEdit::slotProcessSpeech()
             }
         }
     } else if (loadDoc.isEmpty()) {
-        qDebug()<<"==== EMPTY OBJEC DOC";
+        qDebug()<<"==== EMPTY OBJECT DOC";
     }
     qDebug()<<"==== GOT BLOCKS: "<<m_document.blockCount();
     qDebug()<<"=== LINES: "<<m_document.firstBlock().lineCount();
@@ -1025,7 +1025,7 @@ void TextBasedEdit::parseVoskDictionaries()
         dir = QDir(modelDirectory);
         if (!dir.cd(QStringLiteral("speechmodels"))) {
             qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            pCore->voskModelUpdate({});
+            emit pCore->voskModelUpdate({});
             return;
         }
     } else {
@@ -1039,7 +1039,7 @@ void TextBasedEdit::parseVoskDictionaries()
             final << d;
         }
     }
-    pCore->voskModelUpdate(final);
+    emit pCore->voskModelUpdate(final);
 }
 
 void TextBasedEdit::deleteItem()

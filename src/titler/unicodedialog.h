@@ -55,8 +55,6 @@ private:
     /** Selected input method */
     UnicodeDialog::InputMethod m_inputMethod;
 
-    /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
-    QString validateText(const QString &text);
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
@@ -71,7 +69,6 @@ private:
     void updateOverviewChars(uint unicode);
     void clearOverviewChars();
 
-    int m_lastCursorPos;
     QString m_lastUnicodeNumber;
 
     /** \brief Reads the last used unicode number from the config file. */

@@ -47,7 +47,6 @@ public:
     void editCustomAsset(const QModelIndex &index) override;
 private:
     TransitionListWidgetProxy *m_proxy;
-    int getNewStuff(const QString &configFile);
 
 signals:
     void reloadFavorites();

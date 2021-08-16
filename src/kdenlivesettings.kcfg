@@ -30,7 +30,20 @@
       <default>false</default>
     </entry>
   </group>
-
+  <group name="jobs">
+    <entry name="scenesplitthreshold" type="Int">
+      <label>Scene split detection threshold.</label>
+      <default>30</default>
+    </entry>
+    <entry name="scenesplitmarkers" type="Bool">
+      <label>Add markers on Scene split.</label>
+      <default>true</default>
+    </entry>
+    <entry name="scenesplitsubclips" type="Bool">
+      <label>Add subclips on Scene split.</label>
+      <default>false</default>
+    </entry>
+  </group>
   <group name="misc">
     <entry name="cleanCacheMonths" type="Int">
       <label>Number of months to discard cache data.</label>
@@ -210,6 +223,10 @@
       <label>Rescale size for image proxy creation.</label>
       <default>800</default>
     </entry>
+    <entry name="proxyscale" type="Int">
+      <label>Default frame width for proxy clips.</label>
+      <default>640</default>
+    </entry>
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
       <default></default>
@@ -252,6 +269,10 @@
 
     <entry name="vaapiEnabled" type="Bool">
       <label>Enables vaapi hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
+    <entry name="vaapiScalingEnabled" type="Bool">
+      <label>Enables scale_vaapi hw accel in encoders.</label>
       <default>false</default>
     </entry>
     <entry name="nvencEnabled" type="Bool">
@@ -378,6 +399,10 @@
     <entry name="gpu_accel" type="Bool">
       <label>Use Movit for GPU accelerated display and effects.</label>
       <default>false</default>
+    </entry>
+    <entry name="audio_scrub" type="Bool">
+    <label>Enable Audio Scrubbing</label>
+    <default>true</default>
     </entry>
     <entry name="sdlAudioBackend" type="String">
       <label>Detected audio backed.</label>
@@ -506,6 +531,11 @@
 
     <entry name="customprojectfolder" type="Bool">
       <label>Don't use default XDG folders to store project files.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="sameprojectfolder" type="Bool">
+      <label>Use the parent folder of the *.kdenlive file to store project files.</label>
       <default>false</default>
     </entry>
 

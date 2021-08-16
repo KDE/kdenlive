@@ -51,7 +51,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
-    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, [&](QStringList models) {
+    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](QStringList models) {
         language_box->clear();
         language_box->addItems(models);
         if (models.isEmpty()) {
@@ -68,16 +68,16 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             }
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this]() {
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
         KdenliveSettings::setVosk_srt_model(language_box->currentText());
     });
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, [this, zone]() {
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this, zone]() {
         slotProcessSpeech(zone);
     });
     parseVoskDictionaries();
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-    connect(button_abort, &QToolButton::clicked, [this]() {
+    connect(button_abort, &QToolButton::clicked, this, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
         }
@@ -181,7 +181,7 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
     m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
-    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [this, speech, zone](int, QProcess::ExitStatus status) {
+    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, [this, speech, zone](int, QProcess::ExitStatus status) {
        slotProcessSpeechStatus(status, speech, zone);
     });
     m_speechJob->start(pyExec, {speechScript, modelDirectory, language, audio, speech});
@@ -228,7 +228,7 @@ void SpeechDialog::parseVoskDictionaries()
         dir = QDir(modelDirectory);
         if (!dir.cd(QStringLiteral("speechmodels"))) {
             qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            pCore->voskModelUpdate({});
+            emit pCore->voskModelUpdate({});
             return;
         }
     } else {
@@ -242,5 +242,5 @@ void SpeechDialog::parseVoskDictionaries()
             final << d;
         }
     }
-    pCore->voskModelUpdate(final);
+    emit pCore->voskModelUpdate(final);
 }

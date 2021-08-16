@@ -112,6 +112,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
@@ -121,6 +122,9 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_lay->addWidget(w);
                 if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                    connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+                    connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+                    connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 } else {
                     minHeight += w->minimumHeight();
                 }
@@ -172,6 +176,11 @@ void AssetParameterView::resetValues()
     if (ac) {
         ac->setChecked(false);;
     }
+}
+
+void AssetParameterView::disableCurrentFilter(bool disable)
+{
+    m_model->setParameter(QStringLiteral("disable"), disable ? 1 : 0, true);
 }
 
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)

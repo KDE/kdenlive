@@ -13,7 +13,7 @@ Rectangle {
     property bool validMenu: false
     property color textColor: activePalette.text
     property var groupTrimData
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -88,6 +88,7 @@ Rectangle {
         root.color = activePalette.window
         root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
+        ruler.dimmedColor = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
         ruler.repaintRuler()
         // Disable caching for track header icons
         root.paletteUnchanged = false
@@ -295,7 +296,7 @@ Rectangle {
     function regainFocus(mousePos) {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
-        //console.log('checking item on TK: ', currentMouseTrack, ' AT: XPOS', (mousePos.x - trackHeaders.width), ', SCOLL:', scrollView.contentX, ', RES: ', ((mousePos.x - trackHeaders.width + scrollView.contentX) / timeline.scaleFactor), ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
+        //console.log('checking item on TK: ', currentMouseTrack, ' AT: XPOS', (mousePos.x - trackHeaders.width), ', SCROLL:', scrollView.contentX, ', RES: ', ((mousePos.x - trackHeaders.width + scrollView.contentX) / timeline.scaleFactor), ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
         var tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, dragProxy.isComposition)
         if (tentativeClip && tentativeClip.clipId) {
             dragProxy.draggedItem = tentativeClip.clipId
@@ -1421,11 +1422,29 @@ Rectangle {
                         height: parent.height
                         TimelinePlayhead {
                             id: playhead
-                            height: root.baseUnit * .8
-                            width: root.baseUnit * 1.2
+                            height: Math.round(root.baseUnit * .8)
+                            width: Math.round(root.baseUnit * 1.2)
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
+                            anchors.bottomMargin: ruler.zoneHeight - 1
                             x: cursor.x - (width / 2)
+                            // bottom line on zoom
+                            Rectangle {
+                                color: ruler.dimmedColor
+                                width: Math.max(1, timeline.scaleFactor)
+                                height: 1
+                                visible: width > playhead.width
+                                x: playhead.width / 2
+                                y: playhead.height - 1
+                            }
+                        }
+                        Rectangle {
+                            // Vertical line over ruler zone
+                            color: root.textColor
+                            width: 1
+                            height: ruler.zoneHeight - 1
+                            x: cursor.x
+                            anchors.bottom: parent.bottom
                         }
                     }
                 }
@@ -1682,7 +1701,7 @@ Rectangle {
                                                 controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
-                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false)
+                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false, true)
                                                     controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move
@@ -1742,15 +1761,6 @@ Rectangle {
                             opacity: 1
                             height: tracksContainerArea.height
                             x: root.consumerPosition * timeline.scaleFactor
-                            Rectangle {
-                                color: root.textColor
-                                width: Math.max(0, 1 * timeline.scaleFactor - 1)
-                                visible: width > 1
-                                opacity: 0.2
-                                anchors.left:parent.right
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                            }
                         }
                     }
                     ZoomBar {

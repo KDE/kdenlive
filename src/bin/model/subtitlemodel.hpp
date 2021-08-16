@@ -144,6 +144,8 @@ public:
     QDomElement toXml(int sid, QDomDocument &document);
     /** @brief Returns the size of the space between subtitles */
     int getBlankSizeAtPos(int pos) const;
+    /** @brief Returns the position of the first blank frame before a position */
+    int getBlankStart(int pos) const;
     /** @brief Switch a subtitle's grab state */
     void switchGrab(int sid);
     /** @brief Ungrab all items */

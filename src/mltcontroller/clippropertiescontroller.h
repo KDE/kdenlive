@@ -40,6 +40,7 @@ class QGroupBox;
 class QCheckBox;
 class QButtonGroup;
 class QSpinBox;
+class QSortFilterProxyModel;
 
 class ElidedLinkLabel : public QLabel
 {
@@ -93,6 +94,7 @@ public slots:
     void slotDeleteSelectedMarkers();
     void slotSelectAllMarkers();
     void updateStreamInfo(int streamIndex);
+    void slotEditMarker();
 
 private slots:
     void slotColorModified(const QColor &newcolor);
@@ -100,7 +102,6 @@ private slots:
     void slotEnableForce(int state);
     void slotValueChanged(double);
     void slotSeekToMarker();
-    void slotEditMarker();
     void slotDeleteMarker();
     void slotAddMarker();
     void slotLoadMarkers();
@@ -135,6 +136,7 @@ private:
     QWidget *m_analysisPage;
     QComboBox *m_audioStream;
     QTreeView *m_markerTree;
+    std::unique_ptr<QSortFilterProxyModel>m_sortMarkers;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     QListWidget *m_audioStreamsView;

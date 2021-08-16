@@ -37,6 +37,8 @@ Row {
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: enableCache
+            //sourceSize.width: width
+            //sourceSize.height: height
             property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
             source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
@@ -47,26 +49,16 @@ Row {
                     }
                 }
             }
-            BusyIndicator {
-                running: parent.status != Image.Ready
+            Image {
+                id: thumbPlaceholder
+                visible: parent.status != Image.Ready
                 anchors.left: parent.left
                 anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
-                implicitWidth: thumbRepeater.imageWidth
-                implicitHeight: container.height
-                hoverEnabled: false
-                visible: running
-                contentItem:
-                Image {
-                    id: thumbPlaceholder
-                    visible: parent.running
-                    width: parent.width
-                    height: parent.height
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    horizontalAlignment: Image.AlignLeft
-                    fillMode: Image.PreserveAspectFit
-                    asynchronous: true
-                }
+                width: parent.width
+                height: parent.height
+                horizontalAlignment: Image.AlignLeft
+                fillMode: Image.PreserveAspectFit
+                asynchronous: true
             }
             Rectangle {
                 visible: thumbRepeater.count < 3

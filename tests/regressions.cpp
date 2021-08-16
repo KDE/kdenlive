@@ -13,6 +13,7 @@ TEST_CASE("Regression")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -77,6 +78,7 @@ TEST_CASE("Regression2")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -423,6 +425,7 @@ TEST_CASE("FuzzBug1")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -563,6 +566,7 @@ TEST_CASE("FuzzBug2")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -645,6 +649,7 @@ TEST_CASE("FuzzBug3")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -693,6 +698,7 @@ TEST_CASE("FuzzBug4")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -767,6 +773,7 @@ TEST_CASE("FuzzBug5")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -910,6 +917,7 @@ TEST_CASE("FuzzBug6")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -977,6 +985,7 @@ TEST_CASE("FuzzBug7")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -1094,6 +1103,7 @@ TEST_CASE("FuzzBug8")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -1155,6 +1165,7 @@ TEST_CASE("FuzzBug9")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -1207,6 +1218,7 @@ TEST_CASE("FuzzBug10")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);
@@ -1253,6 +1265,7 @@ TEST_CASE("FuzzBug11")
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
         TimelineItemModel tim_0(&reg_profile, undoStack);

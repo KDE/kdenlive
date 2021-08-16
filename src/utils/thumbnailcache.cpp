@@ -23,6 +23,7 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
 #include <QDir>
 #include <QMutexLocker>
@@ -239,7 +240,7 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     bool ok = false;
     // Video thumbs
     QDir thumbFolder = getDir(false, &ok);
-    QDir audioThumbFolder = getDir(true, &ok);
+    //QDir audioThumbFolder = getDir(true, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {
@@ -312,5 +313,5 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 // static
 QDir ThumbnailCache::getDir(bool audio, bool *ok)
 {
-    return pCore->currentDoc()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
+    return pCore->projectManager()->cacheDir(audio, ok);
 }

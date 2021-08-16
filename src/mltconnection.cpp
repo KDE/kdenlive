@@ -106,6 +106,15 @@ std::unique_ptr<MltConnection> &MltConnection::self()
 void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 {
     QString profilePath = mltPath;
+    QString appName;
+    QString libName;
+#ifdef Q_OS_WIN
+    appName = QStringLiteral("melt");
+    libName = QStringLiteral("mlt");
+#else
+    appName = QStringLiteral("melt-7");
+    libName = QStringLiteral("mlt-7");
+#endif
     // environment variables should override other settings
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PROFILES_PATH")) {
         profilePath = qgetenv("MLT_PROFILES_PATH");
@@ -114,7 +123,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         profilePath = qgetenv("MLT_DATA") + QStringLiteral("/profiles");
     }
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PREFIX")) {
-        profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/mlt/profiles");
+        profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/%1/profiles").arg(libName);
     }
 #ifndef Q_OS_WIN
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
@@ -122,7 +131,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 #endif
     // try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) {
-        profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../share/mlt/profiles"));
+        profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../share/%1/profiles").arg(libName));
     }
     // fallback to build-time definition
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) {
@@ -137,14 +146,14 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 #endif
     QString meltPath;
     if (qEnvironmentVariableIsSet("MLT_PREFIX")) {
-        meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt") + exeSuffix;
+        meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/%1").arg(appName) + exeSuffix;
     } else {
         meltPath = KdenliveSettings::rendererpath();
     }
     if (!QFile::exists(meltPath)) {
-        meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/melt")) + exeSuffix;
+        meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/%1").arg(appName)) + exeSuffix;
         if (!QFile::exists(meltPath)) {
-            meltPath = QStandardPaths::findExecutable("melt");
+            meltPath = QStandardPaths::findExecutable(appName);
             if (meltPath.isEmpty()) {
                 meltPath = QStandardPaths::findExecutable("mlt-melt");
             }
@@ -168,7 +177,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         }
     }
     if (profilePath.isEmpty()) {
-        profilePath = QDir::cleanPath(meltPath + QStringLiteral("/../../share/mlt/profiles"));
+        profilePath = QDir::cleanPath(meltPath + QStringLiteral("/../../share/%1/profiles").arg(libName));
         KdenliveSettings::setMltpath(profilePath);
     }
     QStringList profilesFilter;
@@ -178,11 +187,11 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         // Cannot find MLT path, try finding melt
         if (!meltPath.isEmpty()) {
             if (meltPath.contains(QLatin1Char('/'))) {
-                profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + QStringLiteral("/share/mlt/profiles");
+                profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + QStringLiteral("/share/%1/profiles").arg(libName);
             } else {
-                profilePath = qApp->applicationDirPath() + QStringLiteral("/share/mlt/profiles");
+                profilePath = qApp->applicationDirPath() + QStringLiteral("/share/%1/profiles").arg(libName);
             }
-            profilePath = QStringLiteral("/usr/local/share/mlt/profiles");
+            profilePath = QStringLiteral("/usr/local/share/%1/profiles").arg(libName);
             KdenliveSettings::setMltpath(profilePath);
             profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
         }
@@ -228,6 +237,8 @@ void MltConnection::refreshLumas()
 #endif
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     customLumas.removeDuplicates();
+    QStringList hdLumas;
+    QStringList sdLumas;
     QStringList allImagefiles;
     for (const QString &folder : qAsConst(customLumas)) {
         QDir topDir(folder);
@@ -236,11 +247,6 @@ void MltConnection::refreshLumas()
         for (const QString &f : qAsConst(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
-            if (f == QLatin1String("HD")) {
-                format = QStringLiteral("16_9");
-            } else {
-                format = f;
-            }
             QStringList filesnames;
             QDirIterator it(dir.absolutePath(), fileFilters, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
@@ -252,10 +258,21 @@ void MltConnection::refreshLumas()
             for (const QString &fname : qAsConst(filesnames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
-            MainWindow::m_lumaFiles.insert(format, imagefiles);
+            if (f == QLatin1String("HD")) {
+                hdLumas << imagefiles;
+            } else {
+                sdLumas << imagefiles;
+            }
             allImagefiles << imagefiles;
         }
     }
+    // Insert MLT builtin lumas (created on the fly)
+    for (int i = 1; i < 23; i++) {
+        QString imageName = QStringLiteral("luma%1.pgm").arg(i, 2, 10, QLatin1Char('0'));
+        hdLumas << imageName;
+    }
+    MainWindow::m_lumaFiles.insert(QStringLiteral("16_9"), hdLumas);
+    MainWindow::m_lumaFiles.insert(QStringLiteral("PAL"), sdLumas);
     allImagefiles.removeDuplicates();
     QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
 }

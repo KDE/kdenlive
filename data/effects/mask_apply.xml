@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="mask_apply" id="mask_apply" dependency="frei0r.composition">
+	<name context="Mask Apply Effect Name">Mask Apply</name>
+	<description>Apply the previous effects in the zone defined by a Mask Start effect.</description>
+	<author>Dan Dennedy</author>
+</effect>

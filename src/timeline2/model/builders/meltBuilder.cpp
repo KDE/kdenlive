@@ -88,10 +88,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             continue;
         }
         switch (track->type()) {
-        case producer_type:
+        case mlt_service_producer_type:
             // TODO check that it is the black track, and otherwise log an error
             break;
-        case tractor_type: {
+        case mlt_service_tractor_type: {
             // that is a double track
             int tid;
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
@@ -109,7 +109,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
             break;
         }
-        case playlist_type: {
+        case mlt_service_playlist_type: {
             // that is a single track
             int tid;
             Mlt::Playlist local_playlist(*track);
@@ -143,7 +143,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     QScopedPointer<Mlt::Service> service(tractor.producer());
     QList<Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             if (t.get_b_track() >= timeline->tractor()->count()) {
                 // Composition outside of available track, maybe because of a preview track
@@ -225,7 +225,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     QScopedPointer<Mlt::Service> service(track.field());
     QList<Mlt::Transition *> compositions;
     while ((service != nullptr) && service->is_valid()) {
-        if (service->type() == transition_type) {
+        if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             QString id(t.get("kdenlive_id"));
             compositions << new Mlt::Transition(t);
@@ -238,7 +238,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     for (int i = 0; i < track.count(); i++) {
         std::unique_ptr<Mlt::Producer> sub_track(track.track(i));
-        if (sub_track->type() != playlist_type) {
+        if (sub_track->type() != mlt_service_playlist_type) {
             qWarning() << "subtrack must be playlist";
             return false;
         }
@@ -322,8 +322,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         std::shared_ptr<Mlt::Producer> clip(track.get_clip(i));
         int position = track.clip_start(i);
         switch (clip->type()) {
-        case unknown_type:
-        case producer_type: {
+        case mlt_service_unknown_type:
+        case mlt_service_producer_type: {
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id
@@ -337,6 +337,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     clipId = clip->get("kdenlive:id");
                 }
                 if (binIdCorresp.count(clipId) == 0) {
+                    if (clip->property_exists("kdenlive:remove")) {
+                        // Clip was marked for deletion
+                        continue;
+                    }
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
@@ -345,6 +349,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         m_errorMessage << i18n("Invalid clip %1 (%2) not found in project bin, recovered.", clip->parent().get("id"), clipId);
                     } else {
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
+                        // Do not try to insert clip
+                        continue;
                     }
                 } else {
                     binId = binIdCorresp.at(clipId);
@@ -369,7 +375,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
             break;
         }
-        case tractor_type: {
+        case mlt_service_tractor_type: {
             // TODO This is a nested timeline
             qWarning() << "nested timelines not yet implemented";
             break;

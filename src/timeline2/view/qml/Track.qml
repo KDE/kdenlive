@@ -232,6 +232,12 @@ Item{
                     value: model.binId
                     when: loader.status == Loader.Ready && clipItem
                 }
+                Binding {
+                    target: loader.item
+                    property: "timeremap"
+                    value: model.timeremap
+                    when: loader.status == Loader.Ready && clipItem
+                }
                 sourceComponent: {
                     if (clipItem) {
                         return clipDelegate
@@ -298,10 +304,16 @@ Item{
                     clip.x += clip.width - (newDuration * trackRoot.timeScale)
                     clip.width = newDuration * root.timeScale
                     speedController.x = clip.x + clip.border.width
-                    speedController.width = clip.width - 2 * clip.border.width
+                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1:%2, %3:%4'.arg(i18n("Speed"))
+                        .arg(clip.speed)
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(newDuration))
+                    timeline.showToolTip(s)
                     return
                 }
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
@@ -348,10 +360,15 @@ Item{
                     speedController.x = clip.x + clip.border.width
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
                     clip.width = newDuration * trackRoot.timeScale
-                    speedController.width = clip.width - 2 * clip.border.width
+                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
+                    var s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
+                        .arg(Math.round(clip.speed*100))
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(newDuration))
+                    timeline.showToolTip(s)
                     return
                 }
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
@@ -465,6 +482,7 @@ Item{
         anchors.bottom: parent.bottom
         color: activePalette.highlight //'#cccc0000'
         visible: false
+        clip: true
         height: root.baseUnit * 1.5
         property int lastValidDuration: 0
         property real originalSpeed: 1

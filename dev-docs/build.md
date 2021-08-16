@@ -47,7 +47,7 @@ dnf builddep mlt kdenlive
 # OpenSUSE
 zypper source-install --build-deps-only mlt kdenlive
 ```
-Or install the dependencies explicitely:
+Or install the dependencies explicitly:
 
 ```bash
 # KDE Frameworks 5, based on Qt5
@@ -55,7 +55,7 @@ sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev libk
 libkf5configwidgets-dev libkf5dbusaddons-dev libkf5kio-dev libkf5widgetsaddons-dev \
 libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
 libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev libkf5purpose-dev \
-libkf5iconthemes-dev kdoctools-dev libkf5crash-dev libkf5filemetadata-dev kio \
+libkf5iconthemes-dev libkf5crash-dev libkf5filemetadata-dev kio \
 kinit qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick-controls libqt5networkauth5-dev \
 qtmultimedia5-dev qtquickcontrols2-5-dev breeze-icon-theme breeze
 
@@ -103,7 +103,9 @@ JOBS=4
 
 # Only if you want to compile MLT manually
 cd mlt
-./configure --enable-gpl --enable-gpl3 --prefix=$INSTALL_PREFIX
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 make -j$JOBS
 make install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable
@@ -143,8 +145,7 @@ kdenlive
 ### Debugging
 
 Having debug symbols helps getting much more useful information from crash logs or analyzers outputs; this is enabled at configure stage.
-- in MLT, append `--enable-debug` to `./configure` line
-- in Kdenlive, append `-DCMAKE_BUILD_TYPE=Debug` to `cmake` line
+- append `-DCMAKE_BUILD_TYPE=Debug` to `cmake` line of kdenlive and/or mlt
 
 
 ### Running tests
@@ -196,7 +197,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
   -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_LIST=tracking -DOPENCV_BUILD_3RDPARTY_LIBS=OFF
 ```
 
-Then you will have to rebuild MLT appending `--enable-opencv` to `configure` line!
+Then you will have to rebuild MLT appending `-DMOD_OPENCV=ON` to `cmake` line!
 
 ### Building frei0r
 
