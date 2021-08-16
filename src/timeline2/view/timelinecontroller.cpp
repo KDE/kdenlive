@@ -1953,7 +1953,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
                     break;
                 }
             }
-            return false;
         }
     }
 

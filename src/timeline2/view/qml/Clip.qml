@@ -1301,7 +1301,7 @@ Rectangle {
             anchors.bottom: container.bottom
             height: container.height
             width: (clipRoot.maxDuration > 0 ? clipRoot.maxDuration : clipRoot.clipDuration) * clipRoot.timeScale - 2 * clipRoot.border.width
-            x: - (clipRoot.inPoint - clipRoot.clipDuration) * clipRoot.timeScale + clipRoot.border.width
+            x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale + clipRoot.border.width
             visible: root.activeTool === ProjectTool.SlipTool && selected
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint

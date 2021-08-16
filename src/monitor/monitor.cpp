@@ -2309,7 +2309,6 @@ void Monitor::slotSwitchTrimming(bool enable)
         m_trimmingbar->setVisible(false);
         m_toolbar->setVisible(true);
         m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & 0x01);
-
     }
 }
 
