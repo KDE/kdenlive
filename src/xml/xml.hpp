@@ -64,6 +64,7 @@ QString getXmlParameter(const QDomElement &element, const QString &propertyName,
 /** @brief Returns true if the element contains a named property
 */
 bool hasXmlProperty(QDomElement element, const QString &propertyName);
+bool hasXmlParameter(QDomElement element, const QString &propertyName);
 
 /** @brief Add properties to the given xml element
    For each element (n, v) in the properties map, it creates a sub element of the form : <property name="n">v</property>
@@ -75,6 +76,7 @@ void addXmlProperties(QDomElement &producer, const QMap<QString, QString> &prope
 /** @brief Edit or add a property
  */
 void setXmlProperty(QDomElement element, const QString &propertyName, const QString &value);
+void setXmlParameter(QDomElement element, const QString &propertyName, const QString &value);
 /** @brief Remove a property
  */
 void removeXmlProperty(QDomElement effect, const QString &name);
