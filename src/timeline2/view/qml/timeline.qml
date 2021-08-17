@@ -1097,7 +1097,7 @@ Rectangle {
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     zoomByWheel(wheel)
-                } else {
+                } else if (root.activeTool !== ProjectTool.SlipTool) {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
                 }
@@ -1273,7 +1273,7 @@ Rectangle {
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
-                    if (root.activeTool === ProjectTool.SelectTool || mouse.y < ruler.height) {
+                    if (root.activeTool === ProjectTool.SelectTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool)) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group

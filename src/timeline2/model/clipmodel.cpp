@@ -337,37 +337,19 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
 bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length();
-    /*if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
-        return false;
-    }*/
     if (offset == 0) {
         return true;
     }
     int in = m_producer->get_in();
     int out = m_producer->get_out();
     int old_in = in, old_out = out;
-    // check if there is enough space on the chosen side
-    /*if (!m_endlessResize) {
-        if (!right && in + delta < 0) {
-            return false;
-        }
-        if (right && (out - delta >= m_producer->get_length())) {
-            return false;
-        }
-    }*/
-    /*if (right) {
-        out -= delta;
-    } else {
-        in += delta;
-    }*/
-    // qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
-    //std::function<bool(void)> track_operation = []() { return true; };
-    //std::function<bool(void)> track_reverse = []() { return true; };
-    int outPoint = qMin(out - offset, m_producer->get_length() - 1);
-    int inPoint = qMax(0, in - offset);
-    //int offset = 0;
+    int outPoint = qBound(m_producer->get_playtime(), out - offset, m_producer->get_length() - 1);
+    int inPoint = qBound(0, in - offset, m_producer->get_length() - m_producer->get_playtime());
+    Q_ASSERT(outPoint >= m_producer->get_playtime());
+    Q_ASSERT(outPoint < m_producer->get_length());
+    Q_ASSERT(inPoint >= 0);
+    Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
+    Q_ASSERT(inPoint < outPoint);
     int trackDuration = 0;
     /*if (m_endlessResize) {
         offset = inPoint;

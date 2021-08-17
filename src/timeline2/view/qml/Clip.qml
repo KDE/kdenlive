@@ -275,8 +275,7 @@ Rectangle {
                     shiftSlip = mouse.modifiers & Qt.ShiftModifier;
                     console.log("is shift modifier: " + shiftSlip);
                     grabItem()
-                    if (timeline.requestStartTrimmingMode(clipRoot.clip, shiftSlip)) {
-
+                    if (timeline.requestStartTrimmingMode(clipRoot.clipId, shiftSlip)) {
                         slipClickFrame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                     }
                 }
