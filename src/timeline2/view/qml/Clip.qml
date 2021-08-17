@@ -307,28 +307,20 @@ Rectangle {
             }
             root.autoScrolling = timeline.autoScroll
         }
-        Keys.onShortcutOverride: event.accepted = (clipRoot.isGrabbed || (root.activeTool === ProjectTool.SlipTool && (pressed || clipRoot.selected))) && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
+        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
-            if (root.activeTool === ProjectTool.SlipTool) {
-
-            } else {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
-                    offset++;
-                }
-                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
+                offset++;
             }
+            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: {
-            if (root.activeTool === ProjectTool.SlipTool) {
-
-            } else {
-                var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
-                    offset++;
-                }
-                timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
+                offset++;
             }
+            timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
             if (root.activeTool !== ProjectTool.SlipTool) {
