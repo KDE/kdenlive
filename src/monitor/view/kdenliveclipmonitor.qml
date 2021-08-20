@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0

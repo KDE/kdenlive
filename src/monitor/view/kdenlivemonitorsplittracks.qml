@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
