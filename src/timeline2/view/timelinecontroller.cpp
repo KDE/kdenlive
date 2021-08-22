@@ -1980,6 +1980,9 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
         mainClip = m_model->getClipPtr(partnerId);
     }
 
+    m_trimmingMainClip = mainClip->getId();
+    emit trimmingMainClipChanged();
+
     const int previousClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() - 1);
     std::shared_ptr<Mlt::Producer> previousFrame;
     if (previousClipId > -1) {

@@ -91,6 +91,9 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
+    Q_PROPERTY(int trimmingMainClip READ trimmingMainClip /*WRITE setActiveTrack*/ NOTIFY trimmingMainClipChanged)
+
+
 
 public:
     TimelineController(QObject *parent);
@@ -173,6 +176,7 @@ public:
     Q_INVOKABLE bool hasVideoTarget() const;
     bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
+    Q_INVOKABLE int trimmingMainClip() const { return m_trimmingMainClip; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
@@ -721,6 +725,7 @@ private:
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
     QVariantList m_masterEffectZones;
+    int m_trimmingMainClip;
 
     void initializePreview();
     bool darkBackground() const;
@@ -744,6 +749,7 @@ signals:
     void autoScrollChanged();
     void lastVideoTargetChanged();
     void activeTrackChanged();
+    void trimmingMainClipChanged();
     void colorsChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();

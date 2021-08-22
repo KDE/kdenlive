@@ -1277,7 +1277,7 @@ Rectangle {
 
         Rectangle {
             id: currentRegion
-            color: activePalette.highlight
+            color: slipControler.color
             anchors {
                 right: container.right
                 left: container.left
@@ -1289,6 +1289,7 @@ Rectangle {
         }
         Item {
             id: slipControler
+            property color color: timeline.trimmingMainClip === clipId ? root.selectionColor : activePalette.highlight
             anchors.bottom: container.bottom
             height: container.height
             width: (clipRoot.maxDuration > 0 ? clipRoot.maxDuration : clipRoot.clipDuration) * clipRoot.timeScale - 2 * clipRoot.border.width
@@ -1299,12 +1300,14 @@ Rectangle {
             Rectangle {
                 id: slipBackground
                 anchors.fill: parent
-                color: activePalette.highlight
+                color: parent.color
+                border.width: 2
+                border.color: activePalette.highlightedText
                 opacity: 0.3
             }
             Rectangle {
                 id: currentRegionMoved
-                color: activePalette.highlight
+                color: parent.color
                 x: slipBackground.x + slipControler.inPoint * timeScale
                 anchors.bottom: parent.bottom
                 height: parent.height / 2
