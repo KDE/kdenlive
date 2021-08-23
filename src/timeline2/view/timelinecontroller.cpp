@@ -872,6 +872,12 @@ bool TimelineController::dragOperationRunning()
     return returnedValue.toBool();
 }
 
+bool TimelineController::trimmingActive()
+{
+    ToolType::ProjectTool tool = pCore->window()->getCurrentTimeline()->activeTool();
+    return tool == ToolType::SlideTool || tool == ToolType::SlipTool || tool == ToolType::RippleTool || tool == ToolType::RollTool;
+}
+
 void TimelineController::setInPoint()
 {
     if (dragOperationRunning()) {
@@ -1262,10 +1268,6 @@ void TimelineController::requestRefresh()
 
 void TimelineController::showAsset(int id)
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
-
-    }
-
     if (m_model->isComposition(id)) {
         emit showTransitionModel(id, m_model->getCompositionParameterModel(id));
     } else if (m_model->isClip(id)) {
@@ -1916,11 +1918,22 @@ void TimelineController::removeSplitOverlay()
 }
 
 void TimelineController::updateTrimmingMode() {
-    if (!(pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool)) {
-        requestEndTrimmingMode();
-    } else {
+    if (trimmingActive()) {
         requestStartTrimmingMode(-1, false);
+    } else {
+        requestEndTrimmingMode();
     }
+}
+
+void TimelineController::slipPosChanged(int offset) {
+    std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
+    offset = qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());
+    int outPoint = mainClip->getOut() - offset;
+    int inPoint = mainClip->getIn() - offset;
+
+    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(inPoint, offset, inPoint, outPoint);
+    QString info = i18n("In:%1, Out:%2 (%3%4)", simplifiedTC(inPoint), simplifiedTC(outPoint), (offset < 0 ? "-" : "+"), simplifiedTC(qFabs(offset)));
+    pCore->displayMessage(info, DirectMessage);
 }
 
 bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurrent)
@@ -1929,46 +1942,31 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 
     if (sel.empty() && mainClipId != -1) {
         m_model->requestAddToSelection(mainClipId, true);
+        m_trimmingMainClip = mainClipId;
+        emit trimmingMainClipChanged();
+        return false;
+    } else if (sel.empty()) {
         return false;
     }
 
     Q_ASSERT(!sel.empty());
 
     if (!isInSelection(mainClipId)) {
-        mainClipId = -1;
+        if (isInSelection(m_trimmingMainClip)) {
+            mainClipId = m_trimmingMainClip;
+        } else {
+            mainClipId = -1;
+        }
     }
 
     if (mainClipId == -1) {
-        for (auto i : sel) {
-            if (m_model->isClip(i) && positionIsInItem(i)) {
-                mainClipId = i;
-                break;
-            }
-        }
-        if (mainClipId == -1) {
-            // no clip in selection under cursor so select the first one
-            for (auto i: sel) {
-                if (m_model->isClip(i)) {
-                    mainClipId = i;
-                    break;
-                }
-            }
-        }
+        mainClipId = getMainSelectedClip();
     }
 
     if (mainClipId == -1) {
         pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return false;
     }
-
-    /*if(isClip(itemId)) {
-        all_items.insert(itemId);
-    } else if (m_currentSelection != -1 && !isClip(m_currentSelection) && !isGroup(m_currentSelection)) {
-        qWarning() << "Selection is in inconsistent state";
-        return false;
-    } else {
-        all_items.insert(m_currentSelection);
-    }*/
 
     std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
@@ -2126,7 +2124,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     case ToolType::RippleTool:
         break;
     case ToolType::SlipTool:
-        m_model->trimmingPosChanged(mainClip->getIn(), 0, mainClip->getIn(), mainClip->getOut());
+        slipPosChanged(0);
         break;
     case ToolType::SlideTool:
         break;
@@ -3620,6 +3618,9 @@ const QString TimelineController::getAssetName(const QString &assetId, bool isTr
 
 void TimelineController::grabCurrent()
 {
+    if (trimmingActive()) {
+        return;
+    }
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
     int mainId = -1;

@@ -531,8 +531,6 @@ public:
     /** @brief @todo TODO */
     Q_INVOKABLE int requestSlipSelection(int offset, bool logUndo);
 
-    Q_INVOKABLE void trimmingPosChanged(int pos, int offset, int frames1, int frames2);
-
     /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
     /** @brief Returns a list of {id, position duration} for all elements in the group*/

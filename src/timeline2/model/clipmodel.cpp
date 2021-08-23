@@ -337,34 +337,44 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
 bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    if (offset == 0) {
+    if (offset == 0 || m_endlessResize) {
         return true;
     }
-    int in = m_producer->get_in();
-    int out = m_producer->get_out();
-    int old_in = in, old_out = out;
-    int outPoint = qBound(m_producer->get_playtime(), out - offset, m_producer->get_length() - 1);
-    int inPoint = qBound(0, in - offset, m_producer->get_length() - m_producer->get_playtime());
-    Q_ASSERT(outPoint >= m_producer->get_playtime());
-    Q_ASSERT(outPoint < m_producer->get_length());
-    Q_ASSERT(inPoint >= 0);
-    Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
-    Q_ASSERT(inPoint < outPoint);
-    int trackDuration = 0;
+    // TODO
     /*if (m_endlessResize) {
         offset = inPoint;
         outPoint = out - in;
         inPoint = 0;
     }*/
+    int in = m_producer->get_in();
+    int out = m_producer->get_out();
+    int old_in = in, old_out = out;
+    offset = qBound(out - m_producer->get_length() + 1, offset, in);
+    int inPoint = in - offset;
+    int outPoint = out - offset;
+    //int outPoint = qBound(m_producer->get_playtime() - 1, out - offset, m_producer->get_length() - 1);
+    //int inPoint = qBound(0, in - offset, m_producer->get_length() - m_producer->get_playtime());
+    qDebug() << " ????????????????? BEFORE  1 Q_ASSERT" << "offset" << offset << "length" << m_producer->get_length() << "playtime" << m_producer->get_playtime();
+    qDebug() << " ????????????????? BEFORE  2 Q_ASSERT" << out << "-" << in << "=" << out - in << outPoint << "-" << inPoint << "=" << outPoint - inPoint;
+
+    qDebug() << "Q_ASSERT:" << outPoint << ">=" << m_producer->get_playtime() - 1;
+    Q_ASSERT(outPoint >= m_producer->get_playtime() - 1);
+    qDebug() << "Q_ASSERT:" << outPoint << "<" << m_producer->get_length();
+    Q_ASSERT(outPoint < m_producer->get_length());
+    qDebug() << "Q_ASSERT:" << inPoint << ">= 0";
+    Q_ASSERT(inPoint >= 0);
+    qDebug() << "Q_ASSERT:" << inPoint << "<=" << m_producer->get_length() - m_producer->get_playtime();
+    Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
+    qDebug() << "Q_ASSERT:" << inPoint << "<" << outPoint;
+    Q_ASSERT(inPoint < outPoint);
+    Q_ASSERT(out - in == outPoint - inPoint);
+    int trackDuration = 0;
+
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
                 return false;
             }
-            /*if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
-                trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
-            }
-            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right, hasMix);*/
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -380,23 +390,23 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     roles.push_back(TimelineModel::InPointRole);
     roles.push_back(TimelineModel::OutPointRole);
     Fun operation = [this, inPoint, outPoint, roles, logUndo]() {
-        //if (track_operation()) {
-            setInOut(inPoint, outPoint);
-            if (m_currentTrackId > -1) {
-                if (auto ptr = m_parent.lock()) {
-                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                    ptr->notifyChange(ix, ix, roles);
-                    pCore->requestMonitorRefresh();
-                    // invalidate timeline preview
-                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                        emit ptr->invalidateZone(m_position, m_position + getPlaytime());
-                    }
+        setInOut(inPoint, outPoint);
+        if (m_currentTrackId > -1) {
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->notifyChange(ix, ix, roles);
+                pCore->requestMonitorRefresh();
+                // invalidate timeline preview
+                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                    emit ptr->invalidateZone(m_position, m_position + getPlaytime());
                 }
             }
-            return true;
-        //}
-        //return false;
+        }
+        return true;
     };
+
+    qDebug() << "=== SLIP CLIP" << "pos" << m_position << "offset" << offset << "old_in" << old_in << "old_out" << old_out << "inPoint" << inPoint << "outPoint" << outPoint << "endless" << m_endlessResize << "playtime" << getPlaytime() << "fulllength" << m_producer->get_length();;
+
     if (operation()) {
         Fun reverse = []() { return true; };
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
@@ -414,27 +424,23 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 }
         }
         reverse = [this, old_in, old_out, logUndo, roles]() {
-           // if (track_reverse()) {
-                setInOut(old_in, old_out);
-                if (m_currentTrackId > -1) {
-                    if (auto ptr = m_parent.lock()) {
-                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                        ptr->notifyChange(ix, ix, roles);
-                        pCore->requestMonitorRefresh();
-                        if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                            emit ptr->invalidateZone(m_position, m_position + getPlaytime());
-                        }
+            setInOut(old_in, old_out);
+            if (m_currentTrackId > -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                    pCore->requestMonitorRefresh();
+                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                        emit ptr->invalidateZone(m_position, m_position + getPlaytime());
                     }
                 }
-                return true;
-            //}
-            //qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
-            //return false;
+            }
+            return true;
         };
         qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
                 << m_producer->get_playtime();
 
-        //adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        adjustEffectLength(true, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -727,6 +733,7 @@ std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
 int ClipModel::getPlaytime() const
 {
     READ_LOCK();
+    qDebug() << "Clip getPlaytime" << m_producer->get_playtime();
     return m_producer->get_playtime();
 }
 

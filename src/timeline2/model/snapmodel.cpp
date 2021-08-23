@@ -40,6 +40,7 @@ void SnapModel::addPoint(int position)
 
 void SnapModel::removePoint(int position)
 {
+    qDebug() << "pos" << position << "snaps" << m_snaps;
     Q_ASSERT(m_snaps.count(position) > 0);
     if (m_snaps[position] == 1) {
         m_snaps.erase(position);
@@ -97,6 +98,7 @@ int SnapModel::getPreviousPoint(int position)
 
 void SnapModel::ignore(const std::vector<int> &pts)
 {
+    qDebug() << "ignore" << pts;
     for (int pt : pts) {
         removePoint(pt);
         m_ignore.push_back(pt);

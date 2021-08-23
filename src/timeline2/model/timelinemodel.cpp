@@ -2766,6 +2766,7 @@ const std::vector<int> TimelineModel::getBoundaries(int itemId)
         if (isItem(id)) {
             int pos = getItemPosition(id);
             boundaries.push_back(pos);
+            qDebug() << "boundaries for" << id << "pos" << pos << "playtime" << getItemPlaytime(id) << "pos+playtime" << pos + getItemPlaytime(id);
             pos += getItemPlaytime(id);
             boundaries.push_back(pos);
         }
@@ -2876,10 +2877,15 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
                 size = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
             }
         }
+        qDebug() << "before snaps" << m_snaps->_snaps();
         int timelinePos = pCore->getTimelinePosition();
+        qDebug() << "add point at timeline pos" << timelinePos;
         m_snaps->addPoint(timelinePos);
+        qDebug() << "beetween 1 snaps" << m_snaps->_snaps();
         int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
+        qDebug() << "beetween 2 snaps" << m_snaps->_snaps();
         m_snaps->removePoint(timelinePos);
+        qDebug() << "after snaps" << m_snaps->_snaps();
         if (proposed_size > 0) {
             // only test move if proposed_size is valid
             bool success = false;
@@ -3253,11 +3259,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return result;
-}
-
-void TimelineModel::trimmingPosChanged(int pos, int offset, int frames1, int frames2)
-{
-    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos, offset, frames1, frames2);
 }
 
 int TimelineModel::requestSlipSelection(int offset, bool logUndo) {

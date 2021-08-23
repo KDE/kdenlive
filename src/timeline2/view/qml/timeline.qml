@@ -15,6 +15,7 @@ Rectangle {
     property var groupTrimData
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
     property int trimmingOffset: 0
+    property int trimmingClickFrame: -1
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -1103,7 +1104,6 @@ Rectangle {
                 }
             }
             onPressed: {
-                console.log("Here I am, pressed")
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
                 if (mouse.buttons === Qt.MidButton || (root.activeTool === ProjectTool.SelectTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
@@ -1122,7 +1122,6 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
-                    console.log("Left Button, yes!!!")
                     if (root.activeTool === ProjectTool.RazorTool) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
@@ -1134,9 +1133,16 @@ Rectangle {
                     }
                     if(root.activeTool === ProjectTool.SlipTool) {
                         //slip tool
-                        console.log("Here I am, but is it all?")
-                        //mouse.accepted = false
-                        return
+                        var tk = getMouseTrack()
+                        if (tk < 0) {
+                            return
+                        }
+                        var pos = getMousePos() * timeline.scaleFactor
+                        var sourceTrack = Logic.getTrackById(tk)
+                        var mainClip = undefined
+                        mainClip = getItemAtPos(tk, pos, false)
+                        trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / timeline.scaleFactor)
+                        timeline.requestStartTrimmingMode(mainClip.clipId, false)
                     }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
@@ -1236,6 +1242,11 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
+                if (root.activeTool === ProjectTool.SlipTool && pressed) {
+                    var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                    trimmingOffset = frame - trimmingClickFrame
+                    timeline.slipPosChanged(trimmingOffset);
+                }
                 if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
                     cutLine.x = Math.floor((scrollView.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
@@ -1300,10 +1311,11 @@ Rectangle {
             }
             onReleased: {
                 if((mouse.button & Qt.LeftButton) && root.activeTool === ProjectTool.SlipTool) {
-                    //slip tool
-                    console.log("Slip Tool Release timeline")
+                    // slip tool
+                    controller.requestSlipSelection(trimmingOffset, true)
+                    trimmingOffset = 0;
                     mouse.accepted = false
-                    return
+                    //return
                 }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false

@@ -534,6 +534,7 @@ public:
 
     Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
     Q_INVOKABLE void requestEndTrimmingMode();
+    Q_INVOKABLE void slipPosChanged(int offset);
 
     /** @brief Add current timeline zone to preview rendering
      */
@@ -597,6 +598,8 @@ public:
     QStringList getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
+    /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
+    bool trimmingActive();
     /** @brief Disconnect some stuff before closing project */
     void prepareClose();
     /** @brief Check that we don't keep a deleted track id */
