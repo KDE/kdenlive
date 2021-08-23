@@ -532,6 +532,9 @@ public:
      */
     void removeSplitOverlay();
 
+    /** @brief @todo TODO
+     */
+    int trimmingBoundOffset(int offset);
     Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
     Q_INVOKABLE void requestEndTrimmingMode();
     Q_INVOKABLE void slipPosChanged(int offset);

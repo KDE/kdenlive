@@ -1925,6 +1925,11 @@ void TimelineController::updateTrimmingMode() {
     }
 }
 
+int TimelineController::trimmingBoundOffset(int offset) {
+    std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
+    return qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());
+}
+
 void TimelineController::slipPosChanged(int offset) {
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
     offset = qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());

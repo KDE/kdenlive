@@ -118,8 +118,8 @@ public:
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
-    void setTrimmingTC1(int frames);
-    void setTrimmingTC2(int frames);
+    void setTrimmingTC1(int frames, bool isRelativ = false);
+    void setTrimmingTC2(int frames, bool isRelativ = false);
     /** @brief When the producer changes, ensure we reset the stored position*/
     void resetPosition();
     /** @brief Used to display qml info about speed*/

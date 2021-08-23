@@ -402,15 +402,23 @@ void MonitorProxy::setTimeCode(TimecodeDisplay *td)
     connect(m_td, &TimecodeDisplay::timeCodeUpdated, this, &MonitorProxy::timecodeChanged);
 }
 
-void MonitorProxy::setTrimmingTC1(int frames)
+void MonitorProxy::setTrimmingTC1(int frames, bool isRelativ)
 {
-    m_trimmingFrames1 = frames;
+    if (isRelativ) {
+        m_trimmingFrames1 -= frames;
+    } else {
+        m_trimmingFrames1 = frames;
+    }
     emit trimmingTC1Changed();
 }
 
-void MonitorProxy::setTrimmingTC2(int frames)
+void MonitorProxy::setTrimmingTC2(int frames, bool isRelativ)
 {
-    m_trimmingFrames2 = frames;
+    if (isRelativ) {
+        m_trimmingFrames2 -= frames;
+    } else {
+        m_trimmingFrames2 = frames;
+    }
     emit trimmingTC2Changed();
 }
 
