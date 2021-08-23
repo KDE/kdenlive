@@ -1315,7 +1315,6 @@ Rectangle {
                     controller.requestSlipSelection(trimmingOffset, true)
                     trimmingOffset = 0;
                     mouse.accepted = false
-                    //return
                 }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false

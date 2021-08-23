@@ -352,20 +352,11 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     offset = qBound(out - m_producer->get_length() + 1, offset, in);
     int inPoint = in - offset;
     int outPoint = out - offset;
-    //int outPoint = qBound(m_producer->get_playtime() - 1, out - offset, m_producer->get_length() - 1);
-    //int inPoint = qBound(0, in - offset, m_producer->get_length() - m_producer->get_playtime());
-    qDebug() << " ????????????????? BEFORE  1 Q_ASSERT" << "offset" << offset << "length" << m_producer->get_length() << "playtime" << m_producer->get_playtime();
-    qDebug() << " ????????????????? BEFORE  2 Q_ASSERT" << out << "-" << in << "=" << out - in << outPoint << "-" << inPoint << "=" << outPoint - inPoint;
 
-    qDebug() << "Q_ASSERT:" << outPoint << ">=" << m_producer->get_playtime() - 1;
     Q_ASSERT(outPoint >= m_producer->get_playtime() - 1);
-    qDebug() << "Q_ASSERT:" << outPoint << "<" << m_producer->get_length();
     Q_ASSERT(outPoint < m_producer->get_length());
-    qDebug() << "Q_ASSERT:" << inPoint << ">= 0";
     Q_ASSERT(inPoint >= 0);
-    qDebug() << "Q_ASSERT:" << inPoint << "<=" << m_producer->get_length() - m_producer->get_playtime();
     Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
-    qDebug() << "Q_ASSERT:" << inPoint << "<" << outPoint;
     Q_ASSERT(inPoint < outPoint);
     Q_ASSERT(out - in == outPoint - inPoint);
     int trackDuration = 0;
@@ -733,7 +724,6 @@ std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
 int ClipModel::getPlaytime() const
 {
     READ_LOCK();
-    qDebug() << "Clip getPlaytime" << m_producer->get_playtime();
     return m_producer->get_playtime();
 }
 
