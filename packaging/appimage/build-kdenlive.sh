@@ -45,8 +45,8 @@ cd $BUILD_PREFIX/deps-build/
 
 cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_PREFIX -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR -DEXT_BUILD_DIR=$BUILD_PREFIX
 
-export CC=/usr/bin/gcc-6
-export CXX=/usr/bin/g++-6
+export CC=/usr/bin/gcc-9
+export CXX=/usr/bin/g++-9
 
 cmake --build . --target ext_mlt
 
