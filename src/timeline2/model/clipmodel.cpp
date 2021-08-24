@@ -367,14 +367,8 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 return false;
             }
         } else {
-            qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
+            qDebug() << "Error : Slipping clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
-        }
-    } else {
-        // Ensure producer is long enough
-        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
-            m_producer->set("length", outPoint + 1);
-            m_producer->set("out", outPoint);
         }
     }
     QVector<int> roles{TimelineModel::StartRole};
