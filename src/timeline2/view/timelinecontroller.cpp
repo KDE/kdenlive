@@ -1931,7 +1931,7 @@ int TimelineController::trimmingBoundOffset(int offset) {
 }
 
 void TimelineController::slipPosChanged(int offset) {
-    if(m_model->isClip(m_trimmingMainClip)) {
+    if (!m_model->isClip(m_trimmingMainClip)) {
         return;
     }
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
