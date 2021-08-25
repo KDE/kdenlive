@@ -2480,12 +2480,6 @@ void Monitor::slotTrimmingPos(int pos, int offset, int frames1, int frames2)
     m_trimmingOffset->setText(tc);
     m_glMonitor->getControllerProxy()->setTrimmingTC1(frames1);
     m_glMonitor->getControllerProxy()->setTrimmingTC2(frames2);
-
-    /*if (!slotActivateMonitor()) {
-        return;
-    }
-    //m_glMonitor->switchPlay(false);
-    m_glMonitor->requestSeek(pos);*/
 }
 
 void Monitor::slotTrimmingPos(int offset) {
@@ -2498,7 +2492,6 @@ void Monitor::slotTrimmingPos(int offset) {
 
     m_glMonitor->getControllerProxy()->setTrimmingTC1(offset, true);
     m_glMonitor->getControllerProxy()->setTrimmingTC2(offset, true);
-
 }
 
 void Monitor::slotEnd()

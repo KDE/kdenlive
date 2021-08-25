@@ -1931,7 +1931,13 @@ int TimelineController::trimmingBoundOffset(int offset) {
 }
 
 void TimelineController::slipPosChanged(int offset) {
+    if(m_model->isClip(m_trimmingMainClip)) {
+        return;
+    }
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
+    if (mainClip->getMaxDuration() == -1) {
+        return;
+    }
     offset = qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());
     int outPoint = mainClip->getOut() - offset;
     int inPoint = mainClip->getIn() - offset;
@@ -1975,10 +1981,22 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 
     std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
-    int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
-    if (mainClip->isAudioOnly() && (!m_model->m_groups->isInGroup(mainClipId) || onlyCurrent)) {
-        return true;
+
+    if (mainClip->getMaxDuration() == -1) {
+        for (int i : sel) {
+            if (i != mainClipId && m_model->isClip(i) && m_model->getClipPtr(i)->getMaxDuration() != -1) {
+                mainClip = m_model->getClipPtr(i);
+                break;
+            }
+        }
     }
+
+    if (mainClip->getMaxDuration() == -1) {
+        return false;
+    }
+
+    int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
+
     if (mainClip->isAudioOnly() && partnerId != -1) {
         mainClip = m_model->getClipPtr(partnerId);
     }
@@ -2048,77 +2066,81 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     trac.set_track(*black.get(), 0);
     //trac.set_track( 1);
 
-    int count = 1; // 0 is background track so we start at 1
-    for (auto const &producer : producers) {
-        trac.set_track(*producer.get(), count);
-        count++;
-    }
 
-    // Add "composite" transitions for multi track view
-    for (int i = 0; i < int(producers.size()); i++) {
-        // Construct transition
-        Mlt::Transition transition(*trac.profile(), "composite");
-        transition.set("mlt_service", "composite");
-        transition.set("a_track", 0);
-        transition.set("b_track", i + 1);
-        transition.set("distort", 0);
-        transition.set("aligned", 0);
-        // 200 is an arbitrary number so we can easily remove these transition later
-        //transition.set("internal_added", 200);
-
-        QString geometry;
-        switch (pCore->window()->getCurrentTimeline()->activeTool()) {
-        case ToolType::RollTool:
-        case ToolType::RippleTool:
-            switch (i) {
-            case 0:
-                geometry = QStringLiteral("0 0 50% 100%");
-                break;
-            case 1:
-                geometry = QStringLiteral("50% 0 50% 100%");
-                break;
-            }
-            break;
-        case ToolType::SlipTool:
-            switch (i) {
-            case 0:
-                geometry = QStringLiteral("0 0 25% 25%");
-                break;
-            case 1:
-                geometry = QStringLiteral("0 25% 50% 50%");
-                break;
-            case 2:
-                geometry = QStringLiteral("50% 25% 50% 50%");
-                break;
-            case 3:
-                geometry = QStringLiteral("75% 75% 25% 25%");
-                break;
-            }
-            break;
-        case ToolType::SlideTool:
-            switch (i) {
-            case 0:
-                geometry = QStringLiteral("0 0 25% 25%");
-                break;
-            case 1:
-                geometry = QStringLiteral("50% 25% 50% 50%");
-                break;
-            case 2:
-                geometry = QStringLiteral("0 25% 50% 50%");
-                break;
-            case 3:
-                geometry = QStringLiteral("50% 75% 25% 25%");
-                break;
-            }
-            break;
-        default:
-            break;
+    if (!(mainClip->isAudioOnly() && (partnerId == -1 || onlyCurrent))) {
+        int count = 1; // 0 is background track so we start at 1
+        for (auto const &producer : producers) {
+            trac.set_track(*producer.get(), count);
+            count++;
         }
 
-        // Add transition to track:
-        transition.set("geometry", geometry.toUtf8().constData());
-        transition.set("always_active", 1);
-        trac.plant_transition(transition, 0, i + 1);
+        // Add "composite" transitions for multi clip view
+        for (int i = 0; i < int(producers.size()); i++) {
+            // Construct transition
+            Mlt::Transition transition(*trac.profile(), "composite");
+            transition.set("mlt_service", "composite");
+            transition.set("a_track", 0);
+            transition.set("b_track", i + 1);
+            transition.set("distort", 0);
+            transition.set("aligned", 0);
+            // 200 is an arbitrary number so we can easily remove these transition later
+            //transition.set("internal_added", 200);
+
+            QString geometry;
+            switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+            case ToolType::RollTool:
+            case ToolType::RippleTool:
+                switch (i) {
+                case 0:
+                    geometry = QStringLiteral("0 0 50% 100%");
+                    break;
+                case 1:
+                    geometry = QStringLiteral("50% 0 50% 100%");
+                    break;
+                }
+                break;
+            case ToolType::SlipTool:
+                switch (i) {
+                case 0:
+                    geometry = QStringLiteral("0 0 25% 25%");
+                    break;
+                case 1:
+                    geometry = QStringLiteral("0 25% 50% 50%");
+                    break;
+                case 2:
+                    geometry = QStringLiteral("50% 25% 50% 50%");
+                    break;
+                case 3:
+                    geometry = QStringLiteral("75% 75% 25% 25%");
+                    break;
+                }
+                break;
+            case ToolType::SlideTool:
+                switch (i) {
+                case 0:
+                    geometry = QStringLiteral("0 0 25% 25%");
+                    break;
+                case 1:
+                    geometry = QStringLiteral("50% 25% 50% 50%");
+                    break;
+                case 2:
+                    geometry = QStringLiteral("0 25% 50% 50%");
+                    break;
+                case 3:
+                    geometry = QStringLiteral("50% 75% 25% 25%");
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+
+            // Add transition to track:
+            transition.set("geometry", geometry.toUtf8().constData());
+            transition.set("always_active", 1);
+            trac.plant_transition(transition, 0, i + 1);
+        }
+
     }
 
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
