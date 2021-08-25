@@ -4,7 +4,7 @@
 using namespace fakeit;
 Mlt::Profile profile_trimming;
 
-TEST_CASE("Advanced trimming operations", "[Trimming]")
+TEST_CASE("Simple trimming operations", "[Trimming]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
@@ -1074,4 +1074,139 @@ TEST_CASE("Copy/paste", "[CP]")
     pCore->m_projectManager = nullptr;
 }
 
+TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock)
+
+    QString binId = createProducer(profile_trimming, "red", binModel);
+    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+    QString binId3 = createProducerWithSound(profile_trimming, binModel);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int tid1 = TrackModel::construct(timeline);
+    /*int tid2 = TrackModel::construct(timeline);
+    int tid3 = TrackModel::construct(timeline);
+
+    // Add an audio track
+    int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid7 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    int audio2 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    int audio3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);*/
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    /*timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+    timeline->m_allClips[cid4]->m_endlessResize = false;
+    timeline->m_allClips[cid5]->m_endlessResize = false;
+    timeline->m_allClips[cid6]->m_endlessResize = false;
+    timeline->m_allClips[cid7]->m_endlessResize = false;*/
+
+    // sliping a fullsized clips should not to anything
+    SECTION("Slip single fullsized clip")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+        };
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, 3) == 3);
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, -3) == -3);
+        state();
+
+        undoStack->undo();
+        state();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state();
+        undoStack->redo();
+        state();
+    }
+
+    // slipping a downsized clip should only change the in and out point
+    SECTION("Slip single cutted clip")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->requestItemResize(cid1, l - 5, true) == l - 5);
+        REQUIRE(timeline->getClipPlaytime(cid1) == l - 5);
+        REQUIRE(timeline->requestItemResize(cid1, l - 11, false) == l - 11);
+        REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+        };
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, 3) == 3);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 9);
+        };
+        state2();
+
+        REQUIRE(timeline->requestClipSlip(cid1, -3) == -3);
+        state();
+
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state();
+
+    }
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
 
