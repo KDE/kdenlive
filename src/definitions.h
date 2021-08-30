@@ -153,7 +153,6 @@ enum MonitorSceneType {
     MonitorSceneRoto,
     MonitorSceneSplit,
     MonitorSceneTrimming,
-    MonitorSceneRipple,
     MonitorSplitTrack
 };
 

@@ -10,7 +10,6 @@
         <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
         <file alias="kdenlivemonitorsplit.qml">monitor/view/kdenlivemonitorsplit.qml</file>
         <file alias="kdenlivemonitorsplittracks.qml">monitor/view/kdenlivemonitorsplittracks.qml</file>
-        <file alias="kdenlivemonitorripple.qml">monitor/view/kdenlivemonitorripple.qml</file>
         <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
         <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
         <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>

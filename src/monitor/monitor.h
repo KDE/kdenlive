@@ -371,8 +371,6 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
-    void acceptRipple(bool);
-    void switchTrimMode(int);
     void activateTrack(int);
     void autoKeyframeChanged();
 };

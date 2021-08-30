@@ -2450,9 +2450,6 @@ void MainWindow::connectDocument()
     // Update guides info in render widget
     // slotGuidesUpdated();
 
-    // set tool to select tool
-    setTrimMode(QString());
-
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -4268,27 +4265,6 @@ void MainWindow::forceIconSet(bool force)
         KMessageBox::Continue) {
         slotRestart();
     }
-}
-
-void MainWindow::slotSwitchTrimMode()
-{
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->switchTrimMode();
-    }
-    */
-}
-
-void MainWindow::setTrimMode(const QString &mode){
-    Q_UNUSED(mode)
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        m_trimLabel->setText(mode);
-        m_trimLabel->setVisible(!mode.isEmpty());
-    }
-    */
 }
 
 TimelineWidget *MainWindow::getMainTimeline() const
