@@ -314,6 +314,12 @@ public slots:
     void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
+    /** @brief Try to find a display name for the given filename.
+     *  This is espacally helpfull for mlt's dynamically created luma files without thumb (luma01.pgm, luma02.pgm,...),
+     *  but also for others as the visible name translatable.
+     *  @return The name that fits to the filename or if none is found the filename it self
+     */
+    const QString nameForLumaFile(const QString filename);
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */

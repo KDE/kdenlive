@@ -242,6 +242,53 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
+const QString Core::nameForLumaFile(const QString filename) {
+    static QMap<QString, QString> names;
+    names.insert("square2-bars.pgm", i18nc("Luma transition name", "Square 2 Bars"));
+    names.insert("checkerboard_small.pgm", i18nc("Luma transition name", "Checkerboard Small"));
+    names.insert("horizontal_blinds.pgm", i18nc("Luma transition name", "Horizontal Blinds"));
+    names.insert("radial.pgm", i18nc("Luma transition name", "Radial"));
+    names.insert("linear_x.pgm", i18nc("Luma transition name", "Linear X"));
+    names.insert("bi-linear_x.pgm", i18nc("Luma transition name", "Bi-Linear X"));
+    names.insert("linear_y.pgm", i18nc("Luma transition name", "Linear Y"));
+    names.insert("bi-linear_y.pgm", i18nc("Luma transition name", "Bi-Linear Y"));
+    names.insert("square.pgm", i18nc("Luma transition name", "Square"));
+    names.insert("square2.pgm", i18nc("Luma transition name", "Square 2"));
+    names.insert("cloud.pgm", i18nc("Luma transition name", "Cloud"));
+    names.insert("symmetric_clock.pgm", i18nc("Luma transition name", "Symmetric Clock"));
+    names.insert("radial-bars.pgm", i18nc("Luma transition name", "Radial Bars"));
+    names.insert("spiral.pgm", i18nc("Luma transition name", "Spiral"));
+    names.insert("spiral2.pgm", i18nc("Luma transition name", "Spiral 2"));
+    names.insert("curtain.pgm", i18nc("Luma transition name", "Curtain"));
+    names.insert("burst.pgm", i18nc("Luma transition name", "Burst"));
+    names.insert("clock.pgm", i18nc("Luma transition name", "Clock"));
+
+    names.insert("luma01.pgm", i18nc("Luma transition name", "Bar Horizontal"));
+    names.insert("luma02.pgm", i18nc("Luma transition name", "Bar Vertical"));
+    names.insert("luma03.pgm", i18nc("Luma transition name", "Barn Door Horizontal"));
+    names.insert("luma04.pgm", i18nc("Luma transition name", "Barn Door Vertical"));
+    names.insert("luma05.pgm", i18nc("Luma transition name", "Barn Door Diagonal SW-NE"));
+    names.insert("luma06.pgm", i18nc("Luma transition name", "Barn Door Diagonal NW-SE"));
+    names.insert("luma07.pgm", i18nc("Luma transition name", "Diagonal Top Left"));
+    names.insert("luma08.pgm", i18nc("Luma transition name", "Diagonal Top Right"));
+    names.insert("luma09.pgm", i18nc("Luma transition name", "Matrix Waterfall Horizontal"));
+    names.insert("luma10.pgm", i18nc("Luma transition name", "Matrix Waterfall Vertical"));
+    names.insert("luma11.pgm", i18nc("Luma transition name", "Matrix Snake Horizontal"));
+    names.insert("luma12.pgm", i18nc("Luma transition name", "Matrix Snake Parallel Horizontal"));
+    names.insert("luma13.pgm", i18nc("Luma transition name", "Matrix Snake Vertical"));
+    names.insert("luma14.pgm", i18nc("Luma transition name", "Matrix Snake Parallel Vertical"));
+    names.insert("luma15.pgm", i18nc("Luma transition name", "Barn V Up"));
+    names.insert("luma16.pgm", i18nc("Luma transition name", "Iris Circle"));
+    names.insert("luma17.pgm", i18nc("Luma transition name", "Double Iris"));
+    names.insert("luma18.pgm", i18nc("Luma transition name", "Iris Box"));
+    names.insert("luma19.pgm", i18nc("Luma transition name", "Box Bottom Right"));
+    names.insert("luma20.pgm", i18nc("Luma transition name", "Box Bottom Left"));
+    names.insert("luma21.pgm", i18nc("Luma transition name", "Box Right Center"));
+    names.insert("luma22.pgm", i18nc("Luma transition name", "Clock Top"));
+
+    return names.contains(filename) ? names.constFind(filename).value() : filename;
+}
+
 std::unique_ptr<Core> &Core::self()
 {
     if (!m_self) {

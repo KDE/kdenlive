@@ -160,7 +160,7 @@ void UrlListParamWidget::slotRefresh()
 
     // build ui list
     for (const QString &value : qAsConst(values)) {
-        names.append(QUrl(value).fileName());
+        names.append(pCore->nameForLumaFile(QUrl(value).fileName()));
     }
     for (int i = 0; i < values.count(); i++) {
         const QString &entry = values.at(i);
