@@ -242,6 +242,7 @@
     </ul>
   </description>
   <releases>
+    <release version="21.08.1" date="2021-09-02"/>
     <release version="21.08.0" date="2021-08-12"/>
     <release version="21.04.3" date="2021-07-08">
       <url type="details">https://kdenlive.org/en/2021/07/kdenlive-21-04-3</url>
@@ -281,38 +282,6 @@
           <li>Fix alignment of statusbar message label. Fixes bug 437113</li>
           <li>Fix crash using filter with missing MLT metadata (vidstab in MLT 6.26.1)</li>
           <li>Try to fix wrongly set color in titler.</li>
-        </ul>
-      </description>
-    </release>
-    <release version="21.04.1" date="2021-05-13">
-      <url type="details">https://kdenlive.org/en/2021/05/kdenlive-21-04-1-is-out/</url>
-      <description>
-        <p>
-                The first maintenance release of the 21.04 series is out with many bug fixes and improvements.
-            </p>
-        <p>
-                The video stabilization function (Vidstab) for clips in the project bin will be working again with upcoming version 21.04.2.
-            </p>
-        <p>
-                Full list of fixes:
-            </p>
-        <ul>
-          <li>Invalidate preview render on subtitle actions.</li>
-          <li>Fix timecode validation on settings dialog.</li>
-          <li>Fix proxied clip cannot be dragged from monitor to timeline.</li>
-          <li>Fix incorrect speed cycling with j/l keys.</li>
-          <li>Ensure render widget is displayed again after being minimized.</li>
-          <li>Fix playback speed not reset on pause.</li>
-          <li>Update effect zones on effect deletion.</li>
-          <li>Render presets: load default values properly to ui.</li>
-          <li>Fix spacer tool not workin on single clips (without groups).</li>
-          <li>Improve naming of newely created profile.</li>
-          <li>Archiver: Fix more bugs and crashes.</li>
-          <li>Archiver: Block UI while job is running.</li>
-          <li>Archiver: Don’t miss lumas,… on “timline only” mode, prettify code.</li>
-          <li>Fix several archiving issues with mlt files.</li>
-          <li>Archive LUT files too.</li>
-          <li>Appimage: use mlt v6 branch.</li>
         </ul>
       </description>
     </release>
