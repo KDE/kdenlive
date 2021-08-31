@@ -250,6 +250,10 @@ private:
     QAction *m_buttonSelectTool;
     QAction *m_buttonRazorTool;
     QAction *m_buttonSpacerTool;
+    QAction *m_buttonRippleTool;
+    QAction *m_buttonRollTool;
+    QAction *m_buttonSlipTool;
+    QAction *m_buttonSlideTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
@@ -395,7 +399,7 @@ private slots:
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
-    void slotSetTool(ProjectTool tool);
+    void slotSetTool(ToolType::ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
     void slotGuideForward();
@@ -512,9 +516,6 @@ private slots:
     void slotUpdateCompositing(QAction *compose);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
-    /** @brief Cycle through the different timeline trim modes. */
-    void slotSwitchTrimMode();
-    void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();

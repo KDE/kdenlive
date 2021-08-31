@@ -91,6 +91,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
+    Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -173,6 +174,7 @@ public:
     Q_INVOKABLE bool hasVideoTarget() const;
     bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
+    Q_INVOKABLE int trimmingMainClip() const { return m_trimmingMainClip; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
@@ -527,6 +529,15 @@ public:
     /** @brief Delete the split clip view to compare effect
      */
     void removeSplitOverlay();
+
+    /** @brief Limit the given offset to the max/min possible offset of the main trimming clip
+     *  @returns The bounded offset
+     */
+    int trimmingBoundOffset(int offset);
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
+    Q_INVOKABLE void requestEndTrimmingMode();
+    Q_INVOKABLE void slipPosChanged(int offset);
+
     /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);
@@ -589,6 +600,8 @@ public:
     QStringList getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
+    /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
+    bool trimmingActive();
     /** @brief Disconnect some stuff before closing project */
     void prepareClose();
     /** @brief Check that we don't keep a deleted track id */
@@ -672,6 +685,7 @@ public slots:
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
+    void updateTrimmingMode();
 
 private slots:
     void updateClipActions();
@@ -716,6 +730,8 @@ private:
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
     QVariantList m_masterEffectZones;
+    /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
+    int m_trimmingMainClip;
 
     void initializePreview();
     bool darkBackground() const;
@@ -739,6 +755,7 @@ signals:
     void autoScrollChanged();
     void lastVideoTargetChanged();
     void activeTrackChanged();
+    void trimmingMainClipChanged();
     void colorsChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();

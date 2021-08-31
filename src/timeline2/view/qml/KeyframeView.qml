@@ -22,6 +22,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQml.Models 2.11
+import com.enums 1.0
 
 Rectangle
 {
@@ -38,6 +39,14 @@ Rectangle
     property var kfrModel
 
     onKfrCountChanged: {
+        keyframecanvas.requestPaint()
+    }
+
+    onInPointChanged: {
+        keyframecanvas.requestPaint()
+    }
+
+    onOutPointChanged: {
         keyframecanvas.requestPaint()
     }
 
@@ -96,6 +105,7 @@ Rectangle
             model: kfrModel
             Rectangle {
                 id: keyframe
+                visible: root.activeTool === ProjectTool.SelectTool
                 property int frame : model.frame
                 property int frameType : model.type
                 property string realValue: model.value

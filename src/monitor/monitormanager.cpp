@@ -22,6 +22,7 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
 
@@ -286,37 +287,57 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame();
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame();
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-qRound(pCore->getCurrentFps()), true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(qRound(pCore->getCurrentFps()), true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
 }
 
@@ -693,6 +714,14 @@ bool MonitorManager::isMultiTrack() const
 {
     if (m_multiTrack) {
         return m_multiTrack->isChecked();
+    }
+    return false;
+}
+
+bool MonitorManager::isTrimming() const
+{
+    if (m_projectMonitor && m_projectMonitor->m_trimmingbar) {
+        return m_projectMonitor->m_trimmingbar->isVisible();
     }
     return false;
 }

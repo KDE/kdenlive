@@ -953,7 +953,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         m_proxy->resetPosition();
     }
     m_consumer->set("scrub_audio", 0);
-    m_proxy->setPosition(position > 0 ? position : m_producer->position());
+    if(position != -2) {
+        m_proxy->setPosition(position > 0 ? position : m_producer->position());
+    }
     return error;
 }
 

@@ -1205,10 +1205,41 @@ void MainWindow::setupActions()
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
+
+    /* TODO Implement Ripple
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
+    m_buttonRippleTool->setCheckable(true);
+    m_buttonRippleTool->setChecked(false);*/
+
+    /* TODO Implement Roll
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll tool"), this);
+
+    m_buttonRollTool->setCheckable(true);
+    m_buttonRollTool->setChecked(false);*/
+
+    // TODO icon available (and properly working) in KF 5.86
+    //m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
+    m_buttonSlipTool->setCheckable(true);
+    m_buttonSlipTool->setChecked(false);
+
+    /* TODO Implement Slide
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide tool"), this);
+    m_buttonSlideTool->setCheckable(true);
+    m_buttonSlideTool->setChecked(false);*/
+
     auto *toolGroup = new QActionGroup(this);
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
+    //toolGroup->addAction(m_buttonRippleTool);
+    //toolGroup->addAction(m_buttonRollTool);
+    toolGroup->addAction(m_buttonSlipTool);
+    //toolGroup->addAction(m_buttonSlideTool);
+
     toolGroup->setExclusive(true);
     
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
@@ -1349,6 +1380,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
+    //addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
+    //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
+    addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
+    //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
@@ -2312,8 +2347,6 @@ void MainWindow::connectDocument()
     connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
     connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
     connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
-    connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
-    connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
     connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
 
     connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotTrackSelected(int, TrackInfo)));
@@ -2419,9 +2452,6 @@ void MainWindow::connectDocument()
 
     // Update guides info in render widget
     // slotGuidesUpdated();
-
-    // set tool to select tool
-    setTrimMode(QString());
 
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -3152,11 +3182,19 @@ void MainWindow::slotClipEnd()
 void MainWindow::slotChangeTool(QAction *action)
 {
     if (action == m_buttonSelectTool) {
-        slotSetTool(SelectTool);
+        slotSetTool(ToolType::SelectTool);
     } else if (action == m_buttonRazorTool) {
-        slotSetTool(RazorTool);
+        slotSetTool(ToolType::RazorTool);
     } else if (action == m_buttonSpacerTool) {
-        slotSetTool(SpacerTool);
+        slotSetTool(ToolType::SpacerTool);
+    } if (action == m_buttonRippleTool) {
+        slotSetTool(ToolType::RippleTool);
+    } if (action == m_buttonRollTool) {
+        slotSetTool(ToolType::RollTool);
+    } if (action == m_buttonSlipTool) {
+        slotSetTool(ToolType::SlipTool);
+    } if (action == m_buttonSlideTool) {
+        slotSetTool(ToolType::SlideTool);
     }
 }
 
@@ -3180,7 +3218,7 @@ void MainWindow::slotChangeEdit(QAction *action)
         // Disable spacer tool in insert mode
         if (m_buttonSpacerTool->isChecked()) {
             m_buttonSelectTool->setChecked(true);
-            slotSetTool(SelectTool);
+            slotSetTool(ToolType::SelectTool);
         }
         m_buttonSpacerTool->setEnabled(false);
     } else {
@@ -3188,11 +3226,12 @@ void MainWindow::slotChangeEdit(QAction *action)
     }
 }
 
-void MainWindow::slotSetTool(ProjectTool tool)
+void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
+        getMainTimeline()->controller()->updateTrimmingMode();
     }
 }
 
@@ -3200,11 +3239,13 @@ void MainWindow::showToolMessage()
 {
     QString message;
     if (m_buttonSelectTool->isChecked()) {
-        message = i18n("<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for multiple selection, <b>Ctrl drag</b> to pan");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
     } else if (m_buttonRazorTool->isChecked()) {
-        message = i18n("<b>Shift</b> to preview cut frame");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
     } else if (m_buttonSpacerTool->isChecked()) {
-        message = i18n("<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move guides. You can combine both modifiers.");
+        message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
+    } else if (m_buttonSlipTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
     }
     m_messageLabel->setKeyMap(message);
 }
@@ -4226,27 +4267,6 @@ void MainWindow::forceIconSet(bool force)
         KMessageBox::Continue) {
         slotRestart();
     }
-}
-
-void MainWindow::slotSwitchTrimMode()
-{
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->switchTrimMode();
-    }
-    */
-}
-
-void MainWindow::setTrimMode(const QString &mode){
-    Q_UNUSED(mode)
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        m_trimLabel->setText(mode);
-        m_trimLabel->setVisible(!mode.isEmpty());
-    }
-    */
 }
 
 TimelineWidget *MainWindow::getMainTimeline() const

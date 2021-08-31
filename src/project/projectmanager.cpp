@@ -739,11 +739,15 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     bool hasPreview = pCore->window()->getMainTimeline()->controller()->hasPreviewTrack();
+    bool isTrimming = pCore->monitorManager()->isTrimming();
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(false, false);
     }
     if (hasPreview) {
         pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
+    }
+    if (isTrimming) {
+        pCore->window()->getMainTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder, QString(), overlayData);
@@ -753,6 +757,9 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     }
     if (hasPreview) {
         pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(true);
+    }
+    if (isTrimming) {
+        pCore->window()->getMainTimeline()->controller()->requestStartTrimmingMode(-1, false);
     }
     return scene;
 }

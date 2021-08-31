@@ -10,7 +10,6 @@
         <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
         <file alias="kdenlivemonitorsplit.qml">monitor/view/kdenlivemonitorsplit.qml</file>
         <file alias="kdenlivemonitorsplittracks.qml">monitor/view/kdenlivemonitorsplittracks.qml</file>
-        <file alias="kdenlivemonitorripple.qml">monitor/view/kdenlivemonitorripple.qml</file>
         <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
         <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
         <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>
@@ -45,6 +44,7 @@
         <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
         <file alias="splash.qml">qml/splash.qml</file>
         <file alias="ZoomBar.qml">timeline2/view/qml/ZoomBar.qml</file>
+        <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file alias="blacklisted_effects.txt">../data/blacklisted_effects.txt</file>

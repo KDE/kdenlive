@@ -235,9 +235,9 @@ int main(int argc, char *argv[])
                                      "ClipState",                     // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(FileStatus::staticMetaObject, // static meta object
-                                     "com.enums",                     // import statement
-                                     1, 0,                            // major and minor version of the import
-                                     "ClipStatus",                     // name in QML
+                                     "com.enums",                  // import statement
+                                     1, 0,                         // major and minor version of the import
+                                     "ClipStatus",                 // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement
@@ -245,9 +245,14 @@ int main(int argc, char *argv[])
                                      "ProducerType",             // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(AssetListType::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "AssetType",                     // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(ToolType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement
                                      1, 0,                       // major and minor version of the import
-                                     "AssetType",             // name in QML
+                                     "ProjectTool",              // name in QML
                                      "Error: only enums");
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);

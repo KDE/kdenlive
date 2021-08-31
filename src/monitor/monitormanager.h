@@ -68,6 +68,8 @@ public:
     QDir getCacheFolder(CacheType type);
     /** @brief Returns true if multitrack view is enabled in project monitor. */
     bool isMultiTrack() const;
+    /** @brief Returns true if the project monitor shows a trimming preview. */
+    bool isTrimming() const;
     /** @brief Returns true if the project monitor is visible (and not tabbed under another dock. */
     bool projectMonitorVisible() const;
     /** @brief Returns true if the clip monitor is visible (and not tabbed under another dock. */

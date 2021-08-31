@@ -14,6 +14,8 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
+    property int trimmingOffset: 0
+    property int trimmingClickFrame: -1
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -64,12 +66,12 @@ Rectangle {
             subtitleTrack.height = 5 * root.baseUnit
         }
     }
-    
+
     function highlightSub(ix) {
         var currentSub = subtitlesRepeater.itemAt(ix)
         currentSub.editText()
     }
-    
+
     function checkDeletion(itemId) {
         if (dragProxy.draggedItem === itemId) {
             endDrag()
@@ -292,7 +294,7 @@ Rectangle {
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
     }
-    
+
     function regainFocus(mousePos) {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
@@ -353,7 +355,7 @@ Rectangle {
         root.moveSelectedTrack(-1)
     }
 
-    property int activeTool: 0
+    property int activeTool: ProjectTool.SelectTool
     property real baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     property real fontUnit: fontMetrics.font.pointSize
     property int collapsedHeight: Math.max(28, baseUnit * 1.8)
@@ -463,10 +465,10 @@ Rectangle {
     }
 
     onActiveToolChanged: {
-        if (root.activeTool == 2) {
+        if (root.activeTool === ProjectTool.SpacerTool) {
             // Spacer activated
             endDrag()
-        } else if (root.activeTool == 0) {
+        } else if (root.activeTool === ProjectTool.SelectTool) {
             var tk = getMouseTrack()
             if (tk < 0) {
                 return
@@ -1092,11 +1094,11 @@ Rectangle {
             hoverEnabled: true
             preventStealing: true
             acceptedButtons: Qt.AllButtons
-            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
+            cursorShape: root.activeTool === ProjectTool.SelectTool ? Qt.ArrowCursor : root.activeTool === ProjectTool.RazorTool ? Qt.IBeamCursor : root.activeTool === ProjectTool.RippleTool ? Qt.SplitHCursor : Qt.SizeHorCursor
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     zoomByWheel(wheel)
-                } else {
+                } else if (root.activeTool !== ProjectTool.SlipTool) {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
                 }
@@ -1104,12 +1106,12 @@ Rectangle {
             onPressed: {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
+                if (mouse.buttons === Qt.MidButton || (root.activeTool === ProjectTool.SelectTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
-                if (root.activeTool === 0 && shiftPress && mouse.y > ruler.height) {
+                if (root.activeTool === ProjectTool.SelectTool && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.clickX = mouse.x + scrollView.contentX
                         rubberSelect.clickY = mouse.y + scrollView.contentY
@@ -1120,7 +1122,7 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
-                    if (root.activeTool === 1) {
+                    if (root.activeTool === ProjectTool.RazorTool) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
@@ -1129,11 +1131,24 @@ Rectangle {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, -2)
                         }
                     }
+                    if(root.activeTool === ProjectTool.SlipTool) {
+                        //slip tool
+                        var tk = getMouseTrack()
+                        if (tk < 0) {
+                            return
+                        }
+                        var pos = getMousePos() * timeline.scaleFactor
+                        var sourceTrack = Logic.getTrackById(tk)
+                        var mainClip = undefined
+                        mainClip = getItemAtPos(tk, pos, false)
+                        trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / timeline.scaleFactor)
+                        timeline.requestStartTrimmingMode(mainClip.clipId, false)
+                    }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
                         return
                     }
-                    if (root.activeTool === 2 && mouse.y > ruler.height) {
+                    if (root.activeTool === ProjectTool.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
                         var frame = (scrollView.contentX + mouse.x) / timeline.scaleFactor
@@ -1177,18 +1192,18 @@ Rectangle {
                                 }
                             }
                         }
-                    } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
+                    } else if (root.activeTool === ProjectTool.SelectTool || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
                             proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                         } else if (mouse.y > ruler.guideLabelHeight) {
                             proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                         }
-                        
+
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     if (mouse.y > ruler.height) {
-                        if (mouse.y > ruler.height + subtitleTrack.height) {    
+                        if (mouse.y > ruler.height + subtitleTrack.height) {
                             timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                         } else {
                             timeline.activeTrack = -2
@@ -1210,14 +1225,14 @@ Rectangle {
                 timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: {
-                if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
+                if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
                     timeline.addSubtitle((scrollView.contentX + mouseX) / timeline.scaleFactor)
                 } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / timeline.scaleFactor, false)
                 }
             }
             onPositionChanged: {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
                     var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
@@ -1227,7 +1242,12 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
-                if (!pressed && !rubberSelect.visible && root.activeTool === 1) {
+                if (root.activeTool === ProjectTool.SlipTool && pressed) {
+                    var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                    trimmingOffset = frame - trimmingClickFrame
+                    timeline.slipPosChanged(trimmingOffset);
+                }
+                if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
                     cutLine.x = Math.floor((scrollView.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
@@ -1237,7 +1257,7 @@ Rectangle {
                 var mousePos = Math.max(0, Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor))
                 root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
+                if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - (mouseY + scrollView.contentY)
@@ -1264,9 +1284,9 @@ Rectangle {
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
-                    if (root.activeTool === 0 || mouse.y < ruler.height) {
+                    if (root.activeTool === ProjectTool.SelectTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool)) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
-                    } else if (root.activeTool === 2 && spacerGroup > -1) {
+                    } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var lastPos = controller.getItemPosition(spacerGroup)
@@ -1290,6 +1310,12 @@ Rectangle {
                 }
             }
             onReleased: {
+                if((mouse.button & Qt.LeftButton) && root.activeTool === ProjectTool.SlipTool) {
+                    // slip tool
+                    controller.requestSlipSelection(trimmingOffset, true)
+                    trimmingOffset = 0;
+                    mouse.accepted = false
+                }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
                     var y = rubberSelect.y - ruler.height + scrollView.contentY
@@ -1327,7 +1353,7 @@ Rectangle {
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress && !spacerGuides) {
-                    if (root.activeTool == 1) {
+                    if (root.activeTool === ProjectTool.RazorTool) {
                         // Shift click, process seek
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
@@ -1516,7 +1542,7 @@ Rectangle {
                                     timeline.showKeyBinding()
                                 }
                             }
-                            
+
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                         }
                         Item {
@@ -1550,8 +1576,8 @@ Rectangle {
                                     property int dragFrame
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
-                                    cursorShape: root.activeTool == 0 ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
-                                    enabled: root.activeTool == 0
+                                    cursorShape: root.activeTool === ProjectTool.SelectTool ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
+                                    enabled: root.activeTool === ProjectTool.SelectTool
                                     onPressed: {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
@@ -1761,7 +1787,7 @@ Rectangle {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool == 1 && tracksArea.mouseY > ruler.height
+                visible: root.activeTool === ProjectTool.RazorTool && tracksArea.mouseY > ruler.height
                 color: 'red'
                 width: 1
                 opacity: 1
@@ -1902,7 +1928,7 @@ Rectangle {
 
     Connections {
         target: timeline
-        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once 
+        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once
         // we require Qt >= 5.15
         onFrameFormatChanged: {
             ruler.adjustFormat()

@@ -35,6 +35,8 @@
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 
+#include "monitor/monitormanager.h"
+
 #include <QDebug>
 #include <QThread>
 #include <QModelIndex>
@@ -660,6 +662,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         };
     }
     Fun sync_mix = []() { return true; };
+
     Fun simple_move_mix = []() { return true; };
     Fun simple_restore_mix = []() { return true; };
     QList<int> allowedClipMixes;
@@ -685,6 +688,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
+
         bool mixGroupMove = false;
         if (mixData.first.firstClipId > 0) {
             allowedClipMixes << mixData.first.firstClipId;
@@ -727,11 +731,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, finalMove);
                 // Remove mix on old track
                 getTrackById_const(trackId)->removeMix(mixData.first);
+
                 return result;
             };
         }
     } else if (finalMove && !groupMove && isTrack(old_trackId) && hadMix) {
         // Clip has a mix
+
         if (mixData.first.firstClipId > -1) {
             if (old_trackId == trackId) {
                 int mixCut = m_allClips[clipId]->getMixCutPosition();
@@ -748,6 +754,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixData.second.firstClipId > -1) {
             // We have a mix at clip end
+
             sync_mix = [this, old_trackId, finalMove]() {
                 getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                 return true;
@@ -757,6 +764,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 if (finalMove && mixEnd > position + m_allClips[clipId]->getPlaytime()) {
                     // Moved outside mix zone
                     removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
+
                 }
             } else {
                 // Clip moved to another track, delete mix
@@ -766,6 +774,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     } else if (finalMove && groupMove && isTrack(old_trackId) && hadMix && old_trackId == trackId) {
+
         if (mixData.first.firstClipId > -1) {
             // Mix on clip start, check if mix is still in range
             if (!moving_clips.contains(mixData.first.firstClipId)) {
@@ -793,6 +802,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     }
+
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
@@ -805,15 +815,18 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     }
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, allowedClipMixes);
+
     if (!ok) {
         qWarning() << "clip insertion failed";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
     }
+
     sync_mix();
     update_model();
     simple_move_mix();
+
     if (finalMove) {
         PUSH_LAMBDA(simple_restore_mix, undo);
         PUSH_LAMBDA(simple_move_mix, local_redo);
@@ -829,6 +842,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::mixClip(int idToMove, int delta)
 {
     int selectedTrack = -1;
+
     std::unordered_set<int> initialSelection = getCurrentSelection();
     if (idToMove == -1 && initialSelection.empty()) {
         pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
@@ -1716,6 +1730,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
             }
         }
+
         bool canMirrorDrop = !useTargets && ((mirror > -1 && (audioDrop || !keys.isEmpty())) || keys.count() > 1);
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
@@ -2192,6 +2207,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_track_id = getClipTrackId(affectedItemId);
             // Check if we have a mix in the group
             if (getTrackById_const(current_track_id)->hasMix(affectedItemId)) {
+
                 std::pair<MixInfo, MixInfo> mixData = getTrackById_const(current_track_id)->getMixInfo(affectedItemId);
                 mixDataArray.insert(affectedItemId, mixData);
                 if (delta_track != 0) {
@@ -2214,6 +2230,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_subtitles.emplace_back(affectedItemId, m_allSubtitles.at(affectedItemId));
         }
     }
+
     if (!sorted_subtitles.empty() && m_subtitleModel->isLocked()) {
         // Group with a locked subtitle, abort
         return false;
@@ -2345,6 +2362,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
         }
     }
+
     // First, remove clips
     if (delta_track != 0) {
         // We delete our clips only if changing track
@@ -2460,6 +2478,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         if (ok) {
             sync_mix();
             PUSH_LAMBDA(sync_mix, local_redo);
+
             for (const std::pair<int, std::pair<int, int>> &item : sorted_compositions) {
                 int current_track_id = getItemTrackId(item.first);
                 if (!allowedTracks.isEmpty() && !allowedTracks.contains(current_track_id)) {
@@ -2562,6 +2581,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
         bool isSelection = m_currentSelection == current_group;
+
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
         auto children = m_groups->getDirectChildren(current_group);
@@ -3228,6 +3248,91 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else if (isSubTitle(itemId)) {
         result = m_subtitleModel->requestResize(itemId, size, right, local_undo, local_redo, logUndo);
+    }
+    if (result) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return result;
+}
+
+int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
+    QWriteLocker locker(&m_lock);
+    TRACE(offset, logUndo)
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+    int slipCount = 0;
+    for (auto id: getCurrentSelection()) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        if (!isClip(id)) {
+            continue;
+        }
+        result = result && requestClipSlip(id, offset, logUndo, undo, redo);
+        slipCount++;
+    }
+    if (!result || slipCount == 0) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1)
+        return -1;
+    }
+    if(result && logUndo) {
+        PUSH_UNDO(undo, redo, i18np("Slip clip", "Slip clips", slipCount));
+    }
+    int res = result ? offset : 0;
+    TRACE_RES(res)
+    return res;
+}
+
+int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    Q_ASSERT(isClip(itemId));
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::unordered_set<int> all_items;
+    all_items.insert(itemId);
+    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        all_items = m_groups->getLeaves(groupId);
+    }
+    bool result = true;
+    int slipCount = 0;
+    for (int id : all_items) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        result = result && requestClipSlip(id, offset, logUndo, undo, redo);
+        slipCount++;
+    }
+    if (!result || slipCount == 0) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1)
+        return -1;
+    }
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Slip clip"))
+    }
+    int res = result ? offset : 0;
+    TRACE_RES(res)
+    return res;
+}
+
+bool TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+{
+    Q_UNUSED(blockUndo)
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = false;
+    if (isClip(itemId)) {
+        result = m_allClips[itemId]->requestSlip(offset, local_undo, local_redo, logUndo);
     }
     if (result) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
