@@ -1950,13 +1950,30 @@ void TimelineController::slipPosChanged(int offset) {
 bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurrent)
 {  
     std::unordered_set<int> sel = m_model->getCurrentSelection();
+    std::unordered_set<int> newSel;
 
-    if (sel.empty() && mainClipId != -1) {
-        m_model->requestAddToSelection(mainClipId, true);
+    for (int i : sel) {
+        if (m_model->isClip(i) && m_model->getClipPtr(i)->getMaxDuration() != -1) {
+            newSel.insert(i);
+        }
+    }
+
+    if (mainClipId != -1 && !m_model->isClip(mainClipId) && m_model->getClipPtr(mainClipId)->getMaxDuration() == -1) {
+        mainClipId = -1;
+    }
+
+    if (newSel.empty() && mainClipId != -1) {
+        newSel.insert(mainClipId);
         m_trimmingMainClip = mainClipId;
         emit trimmingMainClipChanged();
+    }
+
+    if (newSel != sel) {
+        m_model->requestSetSelection(newSel);
         return false;
-    } else if (sel.empty()) {
+    }
+
+    if (sel.empty()) {
         return false;
     }
 
@@ -1981,15 +1998,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 
     std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
-
-    if (mainClip->getMaxDuration() == -1) {
-        for (int i : sel) {
-            if (i != mainClipId && m_model->isClip(i) && m_model->getClipPtr(i)->getMaxDuration() != -1) {
-                mainClip = m_model->getClipPtr(i);
-                break;
-            }
-        }
-    }
 
     if (mainClip->getMaxDuration() == -1) {
         return false;
