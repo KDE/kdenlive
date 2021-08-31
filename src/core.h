@@ -316,7 +316,7 @@ public slots:
     void buildLumaThumbs(const QStringList &values);
     /** @brief Try to find a display name for the given filename.
      *  This is espacally helpfull for mlt's dynamically created luma files without thumb (luma01.pgm, luma02.pgm,...),
-     *  but also for others as the visible name translatable.
+     *  but also for others as it makes the visible name translatable.
      *  @return The name that fits to the filename or if none is found the filename it self
      */
     const QString nameForLumaFile(const QString filename);
