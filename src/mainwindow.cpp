@@ -4476,7 +4476,7 @@ void MainWindow::slotSpeechRecognition()
 void MainWindow::slotCopyDebugInfo() {
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
-    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion())).arg(QT_VERSION_STR, QSysInfo::buildAbi()));
+    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));
     debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType(), QSysInfo::kernelVersion()));

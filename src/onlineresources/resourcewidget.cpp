@@ -78,8 +78,8 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     }
     connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeProvider()));
     loadConfig();
-    connect(provider_info, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
-    connect(label_license, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
+    connect(provider_info, SIGNAL(leftClickedUrl(QString&)), this, SLOT(slotOpenUrl(QString&)));
+    connect(label_license, SIGNAL(leftClickedUrl(QString&)), this, SLOT(slotOpenUrl(QString&)));
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&](){

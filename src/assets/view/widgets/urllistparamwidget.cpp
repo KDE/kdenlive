@@ -200,7 +200,6 @@ void UrlListParamWidget::openFile()
     QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
-        QString path = QUrl(urlString).adjusted(QUrl::RemoveFilename).toString();
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         emit valueChanged(m_index, urlString, true);
         slotRefresh();

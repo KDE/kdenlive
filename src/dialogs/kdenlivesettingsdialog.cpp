@@ -1127,7 +1127,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
         emit pCore->window()->getMainTimeline()->controller()->colorsChanged();
-        emit pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
@@ -1142,7 +1142,7 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
         KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
         emit audioThumbFormatChanged();
-        emit pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_modified) {
