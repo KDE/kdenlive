@@ -271,6 +271,21 @@ else
 	VERSION=$KDENLIVE_VERSION
 fi
 
+# Check that important libraries are in
+RequiredLibs=("$APPDIR/usr/lib/mlt-7/libmltfrei0r.so" "$APPDIR/usr/lib/mlt-7/libmltavformat.so" "$APPDIR/usr/lib/mlt-7/libmltvidstab.so" "$APPDIR/usr/lib/mlt-7/libmltrubberband.so")
+RecommendedLibs=("$APPDIR/usr/lib/mlt-7/libmltopencv.so" "$APPDIR/usr/share/locale/fr/LC_MESSAGES/kdenlive.mo")
+
+set +x
+
+for val1 in ${RequiredLibs[*]}; do
+    if [ ! -f $val1 ]; then
+        printf  "+++++++++++++++++++\n\n MISSING: $val1\n\n+++++++++++++++++++++++"
+        exit 1
+    fi
+done
+
+set -x
+
 # Return to our build root
 cd $BUILD_PREFIX
 
@@ -279,3 +294,11 @@ appimagetool $APPDIR
 # Generate a new name for the Appimage file and rename it accordingly
 APPIMAGE=kdenlive-"$VERSION"-x86_64.appimage
 mv Kdenlive-x86_64.AppImage $APPIMAGE
+
+set +x
+
+for val2 in ${RecommendedLibs[*]}; do
+    if [ ! -f $val2 ]; then
+        printf  "+++++++++++++++++++\n\nMISSING: $val2\n\n+++++++++++++++++++++++"
+    fi
+done
