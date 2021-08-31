@@ -58,14 +58,14 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
-    /** @brief: Returns true if current clip in monitor has Audio and Video
+    /** @brief Returns true if current clip in monitor has Audio and Video
      * */
     Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
-    /** @brief: Contains the name of clip currently displayed in monitor
+    /** @brief Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
     Q_PROPERTY(QString clipStream MEMBER m_clipStream NOTIFY clipStreamChanged)
-    /** @brief: Contains the name of clip currently displayed in monitor
+    /** @brief Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
     Q_PROPERTY(int clipId MEMBER m_clipId NOTIFY clipIdChanged)
@@ -81,7 +81,7 @@ public:
     const QString trimmingTC2() const;
     const QString timecode() const;
     int getPosition() const;
-    /** @brief: update position and end seeking if we reached the requested seek position.
+    /** @brief update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
      * */
     Q_INVOKABLE bool setPosition(int pos);
@@ -118,7 +118,14 @@ public:
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
+    /** @brief Set position in frames to be displayed in the monitor overlay for preview tile one
+     *  @param frames Position in frames
+     *  @param isRelative Whether @p frames is the absoulute position (overwrite current) or an offset position (subtract from current)
+     */
     void setTrimmingTC1(int frames, bool isRelativ = false);
+    /** @brief Set position in frames to be displayed in the monitor overlay for preview tile two
+     *  @see setTrimmingTC1
+     */
     void setTrimmingTC2(int frames, bool isRelativ = false);
     /** @brief When the producer changes, ensure we reset the stored position*/
     void resetPosition();

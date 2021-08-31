@@ -30,7 +30,6 @@ Item{
     property int trackInternalId : -42
     property int trackThumbsFormat
     property int itemType: 0
-    property int slipStart: -1
     property var effectZones
     opacity: model.disabled ? 0.4 : 1
 

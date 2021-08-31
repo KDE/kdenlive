@@ -91,9 +91,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
-    Q_PROPERTY(int trimmingMainClip READ trimmingMainClip /*WRITE setActiveTrack*/ NOTIFY trimmingMainClipChanged)
-
-
+    Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -532,7 +530,8 @@ public:
      */
     void removeSplitOverlay();
 
-    /** @brief @todo TODO
+    /** @brief Limit the given offset to the max/min possible offset of the main trimming clip
+     *  @returns The bounded offset
      */
     int trimmingBoundOffset(int offset);
     Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
@@ -731,6 +730,7 @@ private:
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
     QVariantList m_masterEffectZones;
+    /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
     int m_trimmingMainClip;
 
     void initializePreview();

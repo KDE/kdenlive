@@ -60,9 +60,9 @@ Item {
         onWheel: {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
-        onEntered: {
+        /*onEntered: {
             controller.setWidgetKeyBinding(i18n("TODO: This is the wonderful new trimming monitor overlay!"));
-        }
+        }*/
         onExited: {
             controller.setWidgetKeyBinding();
         }
@@ -155,68 +155,6 @@ Item {
                     }
                 }
             }
-            /*Rectangle {
-                width: parent.width / 4
-                height: parent.height / 4
-                x: 0
-                y: 0
-                color: "transparent"
-                border.color: "#ff0000"
-                border.width: 2
-                Label {
-                    text: "Previous"
-                    color: "#ffffff"
-                    padding: 4
-                    background: Rectangle {
-                        color: "#009900"
-                    }
-                }
-            }
-            Rectangle {
-                width: parent.width / 4
-                height: parent.height / 4
-                x: (parent.width / 4) * 3
-                y: (parent.height / 4) * 3
-                color: "transparent"
-                border.color: "#ff0000"
-                border.width: 2
-                Label {
-                    text: "Next"
-                    color: "#ffffff"
-                    padding: 4
-                    background: Rectangle {
-                        color: "#009900"
-                    }
-                }
-            }*/
-            /*Repeater {
-                id: trackSeparators
-                model: tracks
-                property int rows: trackSeparators.count < 2 ? 1 : trackSeparators.count < 5 ? 2 : 3
-                property int columns: trackSeparators.count < 2 ? 1 : trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
-                Rectangle {
-                    width: parent.width / trackSeparators.rows
-                    height: parent.height / trackSeparators.columns
-                    x: width * (index % trackSeparators.rows)
-                    y: height * (Math.floor(index / trackSeparators.rows))
-                    color: "transparent"
-                    border.color: index == root.activeTrack ? "#ff0000" : "#00000000"
-                    border.width: 2
-                    Label {
-                        text: modelData
-                        color: "#ffffff"
-                        padding :4
-                        background: Rectangle {
-                            color: index == root.activeTrack ? "#990000" : "#000066"
-                        }
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: root.activateTrack(index);
-                    }
-                }
-            }*/
         }
     }
 }

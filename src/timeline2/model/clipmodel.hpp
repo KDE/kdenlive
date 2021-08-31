@@ -172,23 +172,22 @@ protected:
     Mlt::Producer *service() const override;
 
     /** @brief Performs a resize of the given clip.
-       Returns true if the operation succeeded, and otherwise nothing is modified
-       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       If a snap point is within reach, the operation will be coerced to use it.
-       @param size is the new size of the clip
-       @param right is true if we change the right side of the clip, false otherwise
-       @param undo Lambda function containing the current undo stack. Will be updated with current operation
-       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
+     *  If a snap point is within reach, the operation will be coerced to use it.
+     *  @param size is the new size of the clip
+     *  @param right is true if we change the right side of the clip, false otherwise
+     *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
+     *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  @return Returns true if the operation succeeded, and otherwise nothing is modified
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) override;
 
-    /** @brief TODO Performs a resize of the given clip.
-       Returns true if the operation succeeded, and otherwise nothing is modified
-       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       If a snap point is within reach, the operation will be coerced to use it.
-       @param size is the new size of the clip
-       @param undo Lambda function containing the current undo stack. Will be updated with current operation
-       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+    /** @brief Performs a slip of the given clip
+     *  This moves the in and out point of the clip without changing its size or position.
+     *  @param offset How many frames in and out point should be moved
+     *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
+     *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  @return Returns true if the operation succeeded, and otherwise nothing is modified
     */
     bool requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo = true);
 

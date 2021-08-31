@@ -53,7 +53,8 @@ class MonitorProxy;
 
 using thread_function_t = void *(*)(void *);
 
-/* QQuickView that renders an .
+/** @class GLWidget
+ *  @brief QQuickView that renders an .
  *
  * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
  *

@@ -3293,29 +3293,14 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isClip(itemId));
-    /*if (size <= 0) {
-        TRACE_RES(-1)
-        return -1;
-    }*/
-    //int in = 0;
-    //int offset = getItemPlaytime(itemId);
-    //int tid = getItemTrackId(itemId);
-    //int out = offset;
-    //offset -= size;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
-    //QList <int> tracksWithMixes;
     all_items.insert(itemId);
     qDebug() << "allowSingleResize " << allowSingleResize;
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
-        qDebug() << "inside check";
         int groupId = m_groups->getRootId(itemId);
-        //std::unordered_set<int> items = m_groups->getLeaves(groupId);
-        //if (m_groups->getType(groupId) == GroupType::AVSplit) {
-            // Only resize group elements if it is an avsplit
-            all_items = m_groups->getLeaves(groupId);
-        //}
+        all_items = m_groups->getLeaves(groupId);
     }
     bool result = true;
     int slipCount = 0;
@@ -3328,7 +3313,6 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
         slipCount++;
     }
     if (!result || slipCount == 0) {
-        qDebug() << "slip aborted" << result;
         bool undone = undo();
         Q_ASSERT(undone);
         TRACE_RES(-1)
@@ -3337,7 +3321,7 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Slip clip"))
     }
-    int res = result ? offset : -1;
+    int res = result ? offset : 0;
     TRACE_RES(res)
     return res;
 }

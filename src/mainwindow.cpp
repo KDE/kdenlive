@@ -1206,33 +1206,39 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Ripple tool"), this);
-    // toolbar->addAction(m_buttonRippleTool);
+    /* TODO Implement Ripple
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
     m_buttonRippleTool->setCheckable(true);
-    m_buttonRippleTool->setChecked(false);
+    m_buttonRippleTool->setChecked(false);*/
 
-    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Roll tool"), this);
-    // toolbar->addAction(m_buttonRoleTool);
+    /* TODO Implement Roll
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll tool"), this);
+
     m_buttonRollTool->setCheckable(true);
-    m_buttonRollTool->setChecked(false);
+    m_buttonRollTool->setChecked(false);*/
 
+    // TODO icon available (and properly working) in KF 5.86
+    //m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
-    // toolbar->addAction(m_buttonSlideTool);
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
-    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slide tool"), this);
-    // toolbar->addAction(m_buttonSlideTool);
+    /* TODO Implement Slide
+    // TODO icon available (and properly working) in KF 5.86
+    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide tool"), this);
     m_buttonSlideTool->setCheckable(true);
-    m_buttonSlideTool->setChecked(false);
+    m_buttonSlideTool->setChecked(false);*/
+
     auto *toolGroup = new QActionGroup(this);
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
-    toolGroup->addAction(m_buttonRippleTool);
-    toolGroup->addAction(m_buttonRollTool);
+    //toolGroup->addAction(m_buttonRippleTool);
+    //toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
-    toolGroup->addAction(m_buttonSlideTool);
+    //toolGroup->addAction(m_buttonSlideTool);
 
     toolGroup->setExclusive(true);
     
@@ -1374,10 +1380,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
-    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
-    addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
+    //addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
+    //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
-    addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
+    //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
@@ -2325,7 +2331,6 @@ void MainWindow::connectDocument()
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
     // TODO REFAC: reconnect to new timeline
-    //TimelineModel *timeline = pCore->window()->getCurrentTimeline()->model().get();
     /*
     Timeline *trackView = pCore->projectManager()->currentTimeline();
     connect(trackView, &Timeline::configTrack, this, &MainWindow::slotConfigTrack);
@@ -2341,10 +2346,8 @@ void MainWindow::connectDocument()
 
     connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
     connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
-    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);*/
-    //connect(m_projectMonitor, SIGNAL(acceptRipple(bool)), trackView->projectView(), SLOT(slotAcceptRipple(bool)));
-    //connect(m_projectMonitor, SIGNAL(switchTrimMode(int)), trackView->projectView(), SLOT(switchTrimMode(int)));
-    /*connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
+    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
+    connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
 
     connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotTrackSelected(int, TrackInfo)));
 
@@ -3190,7 +3193,6 @@ void MainWindow::slotChangeTool(QAction *action)
         slotSetTool(ToolType::RollTool);
     } if (action == m_buttonSlipTool) {
         slotSetTool(ToolType::SlipTool);
-        //getCurrentTimeline()->controller()->requestSlipStartOperation(-1, false);
     } if (action == m_buttonSlideTool) {
         slotSetTool(ToolType::SlideTool);
     }
@@ -3243,7 +3245,7 @@ void MainWindow::showToolMessage()
     } else if (m_buttonSpacerTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
     } else if (m_buttonSlipTool->isChecked()) {
-        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group");
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
     }
     m_messageLabel->setKeyMap(message);
 }
