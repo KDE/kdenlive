@@ -2142,6 +2142,18 @@ void MainWindow::slotStopRenderProject()
     }
 }
 
+void MainWindow::updateProjectPath(const QString &path)
+{
+    if (m_renderWidget) {
+        m_renderWidget->resetRenderPath(path);
+    } else {
+        // Clear render name as project url changed
+        QMap<QString, QString> renderProps;
+        renderProps.insert(QStringLiteral("renderurl"), QString());
+        slotSetDocumentRenderProfile(renderProps);
+    }
+}
+
 void MainWindow::slotRenderProject()
 {
     KdenliveDoc *project = pCore->currentDoc();
@@ -2152,7 +2164,6 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-        connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());

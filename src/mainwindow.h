@@ -320,6 +320,8 @@ public slots:
     void slotAddSubtitle(const QString &text = QString());
     /** @brief Ensure subtitle track is displayed */
     void showSubtitleTrack();
+    /** @brief The path of the current document changed (save as), update render settings */
+    void updateProjectPath(const QString &path);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -566,7 +568,6 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
-    void updateProjectPath(const QString &path);
 };
 
 #endif
