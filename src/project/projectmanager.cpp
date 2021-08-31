@@ -243,6 +243,8 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 {
+    // Disable autosave
+    m_autoSaveTimer.stop();
     if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
         QString message;
         if (m_project->url().fileName().isEmpty()) {
@@ -268,7 +270,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     ::mlt_pool_purge();
     pCore->cleanup();
     if (!quit && !qApp->isSavingSession()) {
-        m_autoSaveTimer.stop();
         if (m_project) {
             pCore->bin()->abortOperations();
         }

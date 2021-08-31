@@ -271,6 +271,27 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         if (info.isDir()) {
             // user dropped a folder, import its files
             QDir dir(file.toLocalFile());
+            bool ok = false;
+            QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CachePreview, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
             QString folderId;
             Fun local_undo = []() { return true; };
             Fun local_redo = []() { return true; };
