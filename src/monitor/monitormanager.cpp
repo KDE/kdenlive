@@ -718,6 +718,14 @@ bool MonitorManager::isMultiTrack() const
     return false;
 }
 
+bool MonitorManager::isTrimming() const
+{
+    if (m_projectMonitor && m_projectMonitor->m_trimmingbar) {
+        return m_projectMonitor->m_trimmingbar->isVisible();
+    }
+    return false;
+}
+
 void MonitorManager::updateBgColor()
 {
     if (m_projectMonitor) {
