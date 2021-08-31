@@ -144,13 +144,7 @@ void SceneSplitTask::run()
     m_jobDuration = int(binClip->duration().seconds());
     int producerDuration = binClip->frameDuration();
     //QStringList parameters = {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
-    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-r"),QStringLiteral("50")};
-#ifdef Q_OS_WIN
-        parameters << QStringLiteral("-");
-#else
-        //parameters << QStringLiteral("-");
-#endif
-        parameters << QStringLiteral("/tmp/res.mp4");
+    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
 
     m_jobProcess.reset(new QProcess);
     //m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
