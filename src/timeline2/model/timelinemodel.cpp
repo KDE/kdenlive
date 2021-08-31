@@ -3297,7 +3297,6 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
     all_items.insert(itemId);
-    qDebug() << "allowSingleResize " << allowSingleResize;
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         all_items = m_groups->getLeaves(groupId);

@@ -2022,7 +2022,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     if (nextClipId > -1) {
         std::shared_ptr<ClipModel> nextClip = m_model->getClipPtr(nextClipId);
         nextFrame = std::shared_ptr<Mlt::Producer>(nextClip->getProducer()->cut(0));
-        qDebug() << "clip: " << nextClip->getIn() << "frame: " << nextFrame->get_in();
         Mlt::Filter filter(*m_model->m_tractor->profile(), "freeze");
         filter.set("mlt_service", "freeze");
         filter.set("frame", nextClip->getIn());
@@ -2061,7 +2060,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 
     // Now that we know the length of the preview create and add black background producer
     std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
-    qDebug() << "length: " << trac.get_length();
     black->set_in_and_out(0, previewLength);
     trac.set_track(*black.get(), 0);
     //trac.set_track( 1);
