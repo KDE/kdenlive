@@ -2423,7 +2423,7 @@ void Monitor::panView(QPoint diff)
     }
 }
 
-void Monitor::processSeek(int pos)
+void Monitor::processSeek(int pos, bool noAudioScrub)
 {
     if (!slotActivateMonitor()) {
         return;
@@ -2431,7 +2431,8 @@ void Monitor::processSeek(int pos)
     if (KdenliveSettings::pauseonseek()) {
         pause();
     }
-    m_glMonitor->requestSeek(pos);
+    //noAudioScrub = noAudioScrub || pCore->window()->getCurrentTimeline()->controller()->trimmingActive();
+    m_glMonitor->requestSeek(pos, noAudioScrub);
     emit m_monitorManager->cleanMixer();
 }
 

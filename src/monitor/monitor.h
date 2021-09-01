@@ -271,7 +271,7 @@ private slots:
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
     /** @brief Process seek and optionally pause monitor */
-    void processSeek(int pos);
+    void processSeek(int pos, bool noAudioScrub = false);
     /** @brief Check and display dropped frames */
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
