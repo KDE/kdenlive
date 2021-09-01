@@ -1931,13 +1931,10 @@ int TimelineController::trimmingBoundOffset(int offset) {
 }
 
 void TimelineController::slipPosChanged(int offset) {
-    if (!m_model->isClip(m_trimmingMainClip)) {
+    if (!m_model->isClip(m_trimmingMainClip) || !pCore->monitorManager()->isTrimming()) {
         return;
     }
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
-    if (mainClip->getMaxDuration() == -1) {
-        return;
-    }
     offset = qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());
     int outPoint = mainClip->getOut() - offset;
     int inPoint = mainClip->getIn() - offset;
@@ -1991,6 +1988,22 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
         mainClipId = getMainSelectedClip();
     }
 
+    if (m_model->getTrackById(m_model->getClipTrackId(mainClipId))->isLocked()) {
+        int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
+        if (partnerId == -1 || m_model->getTrackById(m_model->getClipTrackId(partnerId))->isLocked()) {
+            mainClipId = -1;
+            for (int i : sel) {
+                if (i != mainClipId && !m_model->getTrackById(m_model->getClipTrackId(i))->isLocked()) {
+                    mainClipId = i;
+                    break;
+                }
+            }
+        } else {
+            mainClipId = partnerId;
+        }
+    }
+
+
     if (mainClipId == -1) {
         pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return false;
@@ -2005,7 +2018,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 
     int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
 
-    if (mainClip->isAudioOnly() && partnerId != -1) {
+    if (mainClip->isAudioOnly() && partnerId != -1 && !m_model->getTrackById(m_model->getClipTrackId(partnerId))->isLocked()) {
         mainClip = m_model->getClipPtr(partnerId);
     }
 
@@ -2073,7 +2086,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     //trac.set_track( 1);
 
 
-    if (!(mainClip->isAudioOnly() && (partnerId == -1 || onlyCurrent))) {
+    if (!mainClip->isAudioOnly()) {
         int count = 1; // 0 is background track so we start at 1
         for (auto const &producer : producers) {
             trac.set_track(*producer.get(), count);

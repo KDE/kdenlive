@@ -1259,7 +1259,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === ProjectTool.SlipTool && selected && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: root.activeTool === ProjectTool.SlipTool && selected && !isLocked && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {
