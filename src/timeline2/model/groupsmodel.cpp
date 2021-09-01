@@ -723,7 +723,7 @@ QJsonObject GroupsModel::toJson(int gid) const
         if (auto ptr = m_parent.lock()) {
             Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid) || ptr->isSubTitle(gid));
             currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
-            int track = ptr->isSubTitle(gid) ? -1 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
+            int track = ptr->isSubTitle(gid) ? -2 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
             currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
         } else {
@@ -861,7 +861,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject
                 QString cur_data = child.value(QLatin1String("data")).toString();
                 int trackId = cur_data.section(":", 0, 0).toInt();
                 int pos = cur_data.section(":", 1, 1).toInt();
-                int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
+                int trackPos = trackId == -2 ? -2 : ptr->getTrackPosition(trackMap.value(trackId));
                 pos += offset;
                 child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
                 updatedNodes.append(QJsonValue(child));

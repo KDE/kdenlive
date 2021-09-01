@@ -210,7 +210,11 @@ Rectangle {
             return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) / timeline.scaleFactor
         }
         if (tracksArea.containsMouse) {
-            return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+            if (subtitleMouseArea.containsMouse) {
+                return (subtitleMouseArea.mouseX) / timeline.scaleFactor
+            } else {
+                return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+            }
         } else {
             return -1;
         }
@@ -1531,6 +1535,7 @@ Rectangle {
                             width: tracksContainerArea.width
                             height: 0
                             MouseArea {
+                                id: subtitleMouseArea
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
                                 hoverEnabled: true
