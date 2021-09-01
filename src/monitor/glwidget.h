@@ -152,7 +152,7 @@ protected:
     QString frameToTime(int frames) const;
 
 public slots:
-    void requestSeek(int position);
+    void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);

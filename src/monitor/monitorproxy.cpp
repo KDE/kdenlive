@@ -88,11 +88,16 @@ void MonitorProxy::setOverlayType(int ix)
 
 bool MonitorProxy::setPosition(int pos)
 {
+    return setPositionAdvanced(pos, false);
+}
+
+bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
+{
     if (m_position == pos) {
         return true;
     }
     m_position = pos;
-    emit requestSeek(pos);
+    emit requestSeek(pos, noAudioScrub);
     if (m_seekFinished) {
         m_seekFinished = false;
         emit seekFinishedChanged();
