@@ -1810,6 +1810,36 @@ Rectangle {
                     anchors.bottom: parent.bottom
                 }
             }
+            Rectangle {
+                id: multicamLine
+                visible: root.activeTool === ProjectTool.MulticamTool && timeline.multicamIn > -1
+                color: 'purple'
+                width: 3
+                opacity: 1
+                height: tracksContainerArea.height
+                x: timeline.multicamIn * timeline.scaleFactor - scrollView.contentX
+                y: ruler.height
+                Rectangle {
+                    // multicam in label
+                    width: multilabel.contentWidth + 4
+                    height: multilabel.contentHeight + 2
+                    radius: height / 4
+                    color: 'purple'
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                    Text {
+                        id: multilabel
+                        text: i18n("Multicam In")
+                        bottomPadding: 2
+                        leftPadding: 2
+                        rightPadding: 2
+                        font: miniFont
+                        color: '#FFF'
+                    }
+                }
+            }
         }
     }
 

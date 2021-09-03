@@ -254,6 +254,7 @@ private:
     QAction *m_buttonRollTool;
     QAction *m_buttonSlipTool;
     QAction *m_buttonSlideTool;
+    QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
@@ -270,6 +271,7 @@ private:
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
+    ToolType::ProjectTool m_activeTool;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();

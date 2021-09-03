@@ -92,6 +92,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
     Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
+    Q_PROPERTY(int multicamIn MEMBER multicamIn NOTIFY multicamInChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -658,6 +659,8 @@ public:
     int clipMaxDuration(int cid);
     /** @brief Get align info for a mix. */
     MixAlignment getMixAlign(int cid) const;
+    /** @brief Process a lift operation for multitrack operation. */
+    void processMultitrackOperation(int tid, int in);
 
 public slots:
     void resetView();
@@ -697,6 +700,10 @@ private slots:
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
     QList<QAction *> clipActions;
+    /** @brief The in point for a multicam operation */
+    int multicamIn;
+    /** @brief Set the in point for a multicam operation and trigger necessary signals */
+    void setMulticamIn(int pos);
 
 private:
     QQuickItem *m_root;
@@ -762,6 +769,7 @@ signals:
     void showMarkersChanged();
     void rippleChanged();
     void scrubChanged();
+    void multicamInChanged();
     void seeked(int position);
     void zoneChanged();
     void zoneMoved(const QPoint &zone);

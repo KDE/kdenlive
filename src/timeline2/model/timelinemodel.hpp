@@ -697,6 +697,7 @@ public:
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
+    TimelineMode::EditMode editMode() const;
     Q_INVOKABLE bool normalEdit() const;
 
     /** @brief Returns the effectstack of a given clip. */

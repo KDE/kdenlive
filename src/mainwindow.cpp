@@ -149,6 +149,7 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
+    , m_activeTool(ToolType::SelectTool)
 {
 }
 
@@ -1225,6 +1226,10 @@ void MainWindow::setupActions()
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
+    m_buttonMulticamTool = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multicam tool"), this);
+    m_buttonMulticamTool->setCheckable(true);
+    m_buttonMulticamTool->setChecked(false);
+
     /* TODO Implement Slide
     // TODO icon available (and properly working) in KF 5.86
     m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide tool"), this);
@@ -1239,6 +1244,7 @@ void MainWindow::setupActions()
     //toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     //toolGroup->addAction(m_buttonSlideTool);
+    toolGroup->addAction(m_buttonMulticamTool);
 
     toolGroup->setExclusive(true);
     
@@ -1347,7 +1353,8 @@ void MainWindow::setupActions()
     m_trimLabel = new QLabel(QString(), this);
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
-    //m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; }"));
+    m_trimLabel->setFixedWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
+    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
 
 
     toolbar->addWidget(m_trimLabel);
@@ -1383,6 +1390,7 @@ void MainWindow::setupActions()
     //addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
     //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
+    addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool);
     //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
@@ -3192,20 +3200,34 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotChangeTool(QAction *action)
 {
+
+    if (m_activeTool == ToolType::MulticamTool) {
+        // End multicam operation
+        pCore->monitorManager()->switchMultiTrackView(false);
+        pCore->monitorManager()->slotStopMultiTrackMode();
+    }
     if (action == m_buttonSelectTool) {
-        slotSetTool(ToolType::SelectTool);
+        m_activeTool = ToolType::SelectTool;
     } else if (action == m_buttonRazorTool) {
-        slotSetTool(ToolType::RazorTool);
+        m_activeTool = ToolType::RazorTool;
     } else if (action == m_buttonSpacerTool) {
-        slotSetTool(ToolType::SpacerTool);
+        m_activeTool = ToolType::SpacerTool;
     } if (action == m_buttonRippleTool) {
-        slotSetTool(ToolType::RippleTool);
+        m_activeTool = ToolType::RippleTool;
     } if (action == m_buttonRollTool) {
-        slotSetTool(ToolType::RollTool);
+        m_activeTool = ToolType::RollTool;
     } if (action == m_buttonSlipTool) {
-        slotSetTool(ToolType::SlipTool);
+        m_activeTool = ToolType::SlipTool;
     } if (action == m_buttonSlideTool) {
-        slotSetTool(ToolType::SlideTool);
+        m_activeTool = ToolType::SlideTool;
+    } if (action == m_buttonMulticamTool) {
+        m_activeTool = ToolType::MulticamTool;
+    };
+    slotSetTool(m_activeTool);
+    if (m_activeTool == ToolType::MulticamTool) {
+        // Start multicam operation
+        pCore->monitorManager()->switchMultiTrackView(true);
+        pCore->monitorManager()->slotStartMultiTrackMode();
     }
 }
 
@@ -3214,17 +3236,11 @@ void MainWindow::slotChangeEdit(QAction *action)
     TimelineMode::EditMode mode = TimelineMode::NormalEdit;
     if (action == m_overwriteEditTool) {
         mode = TimelineMode::OverwriteEdit;
-        m_trimLabel->setText(i18n("Overwrite"));
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
     } else if (action == m_insertEditTool) {
         mode = TimelineMode::InsertEdit;
-        m_trimLabel->setText(i18n("Insert"));
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
-    } else {
-        m_trimLabel->setText(QString());
-        m_trimLabel->setStyleSheet(QString());
     }
     getMainTimeline()->controller()->getModel()->setEditMode(mode);
+    showToolMessage();
     if (mode == TimelineMode::InsertEdit) {
         // Disable spacer tool in insert mode
         if (m_buttonSpacerTool->isChecked()) {
@@ -3249,15 +3265,38 @@ void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 void MainWindow::showToolMessage()
 {
     QString message;
+    QString toolLabel;
     if (m_buttonSelectTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
     } else if (m_buttonRazorTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
+        toolLabel = i18n("Razor");
     } else if (m_buttonSpacerTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
+        toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
+        toolLabel = i18n("Slip");
+    }  else if (m_buttonMulticamTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
+        toolLabel = i18n("Multicam");
     }
+    TimelineMode::EditMode mode = getMainTimeline()->controller()->getModel()->editMode();
+    if (mode != TimelineMode::NormalEdit) {
+        if (!toolLabel.isEmpty()) {
+            toolLabel.append(QStringLiteral(" | "));
+        }
+        if (mode == TimelineMode::InsertEdit) {
+            toolLabel.append(i18n("Insert"));
+            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
+        } else if (mode == TimelineMode::OverwriteEdit) {
+            toolLabel.append(i18n("Overwrite"));
+            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
+        }
+    } else {
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
+    }
+    m_trimLabel->setText(toolLabel);
     m_messageLabel->setKeyMap(message);
 }
 

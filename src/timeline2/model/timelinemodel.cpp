@@ -585,6 +585,11 @@ void TimelineModel::setEditMode(TimelineMode::EditMode mode)
     m_editMode = mode;
 }
 
+TimelineMode::EditMode TimelineModel::editMode() const
+{
+    return m_editMode;
+}
+
 bool TimelineModel::normalEdit() const
 {
     return m_editMode == TimelineMode::NormalEdit;

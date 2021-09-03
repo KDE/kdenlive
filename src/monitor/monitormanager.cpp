@@ -33,11 +33,13 @@
 #include "kdenlive_debug.h"
 #include <QObject>
 #include <dialogs/timeremap.h>
+#include <timeline2/view/timelinecontroller.h>
 
 const double MonitorManager::speedArray[6] = {1. ,1.5, 2., 3., 5.5, 10.};
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)
+    , m_activeMultiTrack(-1)
 
 {
     setupActions();
@@ -341,6 +343,31 @@ void MonitorManager::slotForwardOneSecond()
     }
 }
 
+void MonitorManager::slotStartMultiTrackMode()
+{
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
+}
+
+void MonitorManager::slotStopMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(-1);
+    m_activeMultiTrack = -1;
+}
+
+void MonitorManager::slotPerformMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    pCore->window()->getCurrentTimeline()->controller()->processMultitrackOperation(m_activeMultiTrack, pCore->window()->getCurrentTimeline()->controller()->multicamIn);
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
+}
+
 void MonitorManager::slotStart()
 {
     if (m_activeMonitor == m_clipMonitor) {
@@ -478,6 +505,10 @@ void MonitorManager::setupActions()
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
+
+    QAction *performMultiTrackOperation = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-pause")), i18n("Perform Multitrack Operation"), this);
+    connect(performMultiTrackOperation, &QAction::triggered, this, &MonitorManager::slotPerformMultiTrackMode);
+    pCore->window()->addAction(QStringLiteral("perform_multitrack_mode"), performMultiTrackOperation);
 
     QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
     enableEditmode->setCheckable(true);
@@ -716,6 +747,17 @@ bool MonitorManager::isMultiTrack() const
         return m_multiTrack->isChecked();
     }
     return false;
+}
+
+void MonitorManager::switchMultiTrackView(bool enable)
+{
+    if (isMultiTrack()) {
+        if (!enable) {
+            m_multiTrack->trigger();
+        }
+    } else if (enable) {
+        m_multiTrack->trigger();
+    }
 }
 
 bool MonitorManager::isTrimming() const

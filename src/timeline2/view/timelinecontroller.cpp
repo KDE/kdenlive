@@ -69,6 +69,7 @@ int TimelineController::m_duration = 0;
 
 TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
+    , multicamIn(-1)
     , m_root(nullptr)
     , m_usePreview(false)
     , m_audioRef(-1)
@@ -696,7 +697,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true,m_activeTrack);
+    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
     if (tid == -1) {
         tid = m_activeTrack;
     }
@@ -3952,6 +3953,20 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
             }
             pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
         });
+        int ix = 0;
+        auto it = m_model->m_allTracks.cbegin();
+        while (it != m_model->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            ++it;
+            if (target_track == m_activeTrack) {
+                break;
+            }
+            if (m_model->getTrackById_const(target_track)->isAudioTrack() || m_model->getTrackById_const(target_track)->isHidden()) {
+                continue;
+            }
+            ++ix;
+        }
+        pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
     } else {
         disconnect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack);
     }
@@ -4684,4 +4699,38 @@ void TimelineController::resizeMix(int cid, int duration, MixAlignment align)
 MixAlignment TimelineController::getMixAlign(int cid) const
 {
     return m_model->getMixAlign(cid);
+}
+
+void TimelineController::processMultitrackOperation(int tid, int in)
+{
+    int out = pCore->getTimelinePosition();
+    if (out == in) {
+        // Simply change the reference track, nothing to do here
+        return;
+    }
+    QVector<int> tracks;
+    auto it = m_model->m_allTracks.cbegin();
+    // Lift all tracks except tid
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (target_track != tid && m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            tracks << target_track;
+        }
+        ++it;
+    }
+    if (tracks.isEmpty()) {
+        pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
+    }
+    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), true);
+}
+
+void TimelineController::setMulticamIn(int pos)
+{
+    if (multicamIn != -1) {
+        // remove previous snap
+        m_model->removeSnap(multicamIn);
+    }
+    multicamIn = pos;
+    m_model->addSnap(multicamIn);
+    emit multicamInChanged();
 }
