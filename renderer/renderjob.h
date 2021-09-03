@@ -20,7 +20,11 @@
 #ifndef RENDERJOB_H
 #define RENDERJOB_H
 
+#ifdef USE_DBUS
 #include <QDBusInterface>
+#else
+#include <QLocalSocket>
+#endif
 #include <QObject>
 #include <QProcess>
 #include <QDateTime>
@@ -52,8 +56,12 @@ private:
     int m_progress;
     QString m_prog;
     QString m_player;
+#ifdef USE_DBUS
     QDBusInterface *m_jobUiserver;
     QDBusInterface *m_kdenliveinterface;
+#else
+    QLocalSocket* m_kdenlivesocket;
+#endif
     bool m_usekuiserver;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
@@ -72,7 +80,13 @@ private:
     QStringList m_args;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
+#ifdef USE_DBUS
     void initKdenliveDbusInterface();
+#else
+    void fromServer();
+#endif
+    void sendFinish(int status, QString error);
+    void sendProgress();
 
 signals:
     void renderingFinished();

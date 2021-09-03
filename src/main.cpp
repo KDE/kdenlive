@@ -43,7 +43,9 @@
 
 #include "definitions.h"
 #include "kdenlive_debug.h"
+#ifdef USE_DBUS
 #include <KDBusService>
+#endif
 #include <KIconTheme>
 #include <kiconthemes_version.h>
 #include <QResource>
@@ -158,8 +160,10 @@ int main(int argc, char *argv[])
     qputenv("XDG_CURRENT_DESKTOP","KDE");
 #endif
 
+#ifdef USE_DBUS
     // Init DBus services
-    KDBusService programDBusService(KDBusService::NoExitOnFailure);
+    KDBusService programDBusService();
+#endif
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();

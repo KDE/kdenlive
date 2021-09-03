@@ -46,7 +46,11 @@
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "audiomixer/mixermanager.hpp"
+#ifdef USE_DBUS
 #include "mainwindowadaptor.h"
+#else
+#include "render/renderserver.h"
+#endif
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
@@ -211,7 +215,9 @@ void MainWindow::init(const QString &mltPath)
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 
+#ifdef USE_DBUS
     new RenderingAdaptor(this);
+#endif
     QString defaultProfile = KdenliveSettings::default_profile();
     
     // Initialise MLT connection
@@ -835,6 +841,9 @@ void MainWindow::init(const QString &mltPath)
         }
     });
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
+#ifndef USE_DBUS
+    new RenderServer(this);
+#endif
 }
 
 void MainWindow::slotThemeChanged(const QString &name)
@@ -2283,10 +2292,12 @@ void MainWindow::scriptRender(const QString &url)
     m_renderWidget->slotPrepareExport(true, url);
 }
 
+#ifdef USE_DBUS
 void MainWindow::exitApp()
 {
     QApplication::exit(0);
 }
+#endif
 
 void MainWindow::slotCleanProject()
 {
@@ -3821,6 +3832,7 @@ void MainWindow::slotShutdown()
 {
     pCore->currentDoc()->setModified(false);
     // Call shutdown
+#ifdef USE_DBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
         QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
@@ -3830,6 +3842,7 @@ void MainWindow::slotShutdown()
                                 QStringLiteral("org.gnome.SessionManager"));
         smserver.call(QStringLiteral("Shutdown"));
     }
+#endif
 }
 
 void MainWindow::slotSwitchMonitors()

@@ -77,7 +77,11 @@ list(APPEND kdenlive_SRCS ${top_SRCS})
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
-qt5_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+if(USE_DBUS)
+    qt5_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+else()
+    add_subdirectory(render)
+endif()
 ## UI's
 file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
@@ -125,7 +129,6 @@ target_link_libraries(kdenliveLib
     KF5::KIOWidgets
     KF5::NotifyConfig
     KF5::NewStuff
-    KF5::DBusAddons
     KF5::XmlGui
     KF5::GuiAddons
     KF5::Notifications
@@ -147,6 +150,9 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
+if(USE_DBUS)
+  target_link_libraries(kdenliveLib KF5::DBusAddons)
+endif()
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
 endif()
@@ -202,6 +208,10 @@ endif()
 if(HAVE_LINUX_INPUT_H)
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_JOGSHUTTLE)
     target_link_libraries(kdenliveLib media_ctrl)
+endif()
+
+if (USE_DBUS)
+    target_compile_definitions(kdenliveLib PRIVATE -DUSE_DBUS)
 endif()
 
 if (BUILD_QCH)

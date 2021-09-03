@@ -24,6 +24,7 @@ option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
+option(USE_DBUS "Build with DBus IPC" ON)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
@@ -48,12 +49,16 @@ include(ECMEnableSanitizers)
 include(ECMAddQch)
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
-                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
+                            KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 # Qt
 set(QT_MIN_VERSION 5.11.0)
 find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
+if(USE_DBUS)
+    find_package(KF5 REQUIRED COMPONENTS DBusAddons)
+    find_package(Qt5 REQUIRED COMPONENTS DBus)
+endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 

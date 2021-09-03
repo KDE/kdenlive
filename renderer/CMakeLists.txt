@@ -1,6 +1,7 @@
 set(QT_DONT_USE_QTGUI 1)
+if(USE_DBUS)
 set(QT_USE_QTDBUS 1)
-
+endif()
 include_directories(
     ${MLT_INCLUDE_DIR}
     ${MLTPP_INCLUDE_DIR}
@@ -18,6 +19,11 @@ ecm_mark_nongui_executable(kdenlive_render)
 target_link_libraries(kdenlive_render Qt5::Core Qt5::Widgets Qt5::DBus Qt5::Xml
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES})
-
+if(USE_DBUS)
+    target_link_libraries(kdenlive_render Qt5::DBus)
+    target_compile_definitions(kdenlive_render PRIVATE USE_DBUS)
+else()
+    target_link_libraries(kdenlive_render Qt5::Network)
+endif()
 
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})
