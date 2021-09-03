@@ -91,6 +91,7 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
+                    acceptedButtons: Qt.LeftButton
                     onClicked: {
                         root.activateTrack(index)
                         controller.triggerAction('perform_multitrack_mode')

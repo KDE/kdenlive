@@ -3997,7 +3997,9 @@ void TimelineController::activateTrackAndSelect(int trackPosition)
     if (tid > -1) {
         m_activeTrack = tid;
         emit activeTrackChanged();
-        selectCurrentItem(ObjectType::TimelineClip, true);
+        if (pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
+            selectCurrentItem(ObjectType::TimelineClip, true);
+        }
     }
 }
 
@@ -4713,7 +4715,7 @@ void TimelineController::processMultitrackOperation(int tid, int in)
     // Lift all tracks except tid
     while (it != m_model->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (target_track != tid && m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+        if (target_track != tid && !(*it)->isAudioTrack() && m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
             tracks << target_track;
         }
         ++it;
