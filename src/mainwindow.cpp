@@ -1572,9 +1572,6 @@ void MainWindow::setupActions()
 #endif
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
-    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
-    // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
-
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
               QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
 
