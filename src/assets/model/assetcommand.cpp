@@ -40,8 +40,7 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
-    QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
-    m_oldValue = previousVal.type() == previousVal.toString();
+    m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
 
 void AssetCommand::undo()
