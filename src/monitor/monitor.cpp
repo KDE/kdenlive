@@ -2431,7 +2431,6 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
     if (KdenliveSettings::pauseonseek()) {
         pause();
     }
-    //noAudioScrub = noAudioScrub || pCore->window()->getCurrentTimeline()->controller()->trimmingActive();
     m_glMonitor->requestSeek(pos, noAudioScrub);
     emit m_monitorManager->cleanMixer();
 }

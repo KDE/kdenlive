@@ -2183,8 +2183,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 }
 
 void TimelineController::requestEndTrimmingMode() {
-    pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
-    pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    if (pCore->monitorManager()->isTrimming()) {
+        pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    }
 }
 
 void TimelineController::addPreviewRange(bool add)
