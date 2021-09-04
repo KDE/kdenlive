@@ -1,5 +1,5 @@
 set(QT_DONT_USE_QTGUI 1)
-if(USE_DBUS)
+if(NOT NODBUS)
 set(QT_USE_QTDBUS 1)
 endif()
 include_directories(
@@ -16,14 +16,14 @@ set(kdenlive_render_SRCS
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 ecm_mark_nongui_executable(kdenlive_render)
 
-target_link_libraries(kdenlive_render Qt5::Core Qt5::Widgets Qt5::DBus Qt5::Xml
+target_link_libraries(kdenlive_render Qt5::Core Qt5::Widgets Qt5::Xml
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES})
-if(USE_DBUS)
-    target_link_libraries(kdenlive_render Qt5::DBus)
-    target_compile_definitions(kdenlive_render PRIVATE USE_DBUS)
-else()
+if(NODBUS)
+    target_compile_definitions(kdenlive_render PRIVATE NODBUS)
     target_link_libraries(kdenlive_render Qt5::Network)
+else()
+    target_link_libraries(kdenlive_render Qt5::DBus)
 endif()
 
 install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})

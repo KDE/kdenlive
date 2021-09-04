@@ -24,7 +24,7 @@ option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
-option(USE_DBUS "Build with DBus IPC" ON)
+option(NODBUS "Build without DBus IPC" OFF)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
@@ -54,8 +54,8 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
 
 # Qt
 set(QT_MIN_VERSION 5.11.0)
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
-if(USE_DBUS)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
+if(NOT NODBUS)
     find_package(KF5 REQUIRED COMPONENTS DBusAddons)
     find_package(Qt5 REQUIRED COMPONENTS DBus)
 endif()

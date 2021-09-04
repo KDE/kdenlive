@@ -21,6 +21,7 @@ RenderServer::RenderServer(QObject *parent)
     } else {
         pCore->displayMessage(i18n("Can't open communication with render job %1").arg(servername), ErrorMessage);
     }
+    connect(pCore->window(), &MainWindow::abortRenderJob, this, &RenderServer::abortJob);
 }
 
 RenderServer::~RenderServer() {}
@@ -58,7 +59,7 @@ void RenderServer::jobSent() {
     }
 }
 
-void RenderServer::abortJob(QString job) {
+void RenderServer::abortJob(const QString &job) {
     if (m_jobSocket.contains(job)) {
         m_jobSocket[job]->write("abort");
         m_jobSocket[job]->flush();

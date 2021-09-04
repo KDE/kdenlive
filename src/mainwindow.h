@@ -21,7 +21,7 @@
 #define MAINWINDOW_H
 
 #include <QComboBox>
-#ifdef USE_DBUS
+#ifndef NODBUS
 #include <QDBusAbstractAdaptor>
 #endif
 #include <QDockWidget>
@@ -302,7 +302,7 @@ public slots:
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
-#ifdef USE_DBUS
+#ifndef NODBUS
     Q_NOREPLY void exitApp();
 #endif
 

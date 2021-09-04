@@ -20,7 +20,7 @@ public:
     ~RenderServer() override;
 
 public slots:
-    void abortJob(QString job);
+    void abortJob(const QString &job);
 
 private slots:
     void jobConnected();

@@ -43,7 +43,7 @@
 
 #include "definitions.h"
 #include "kdenlive_debug.h"
-#ifdef USE_DBUS
+#ifndef NODBUS
 #include <KDBusService>
 #endif
 #include <KIconTheme>
@@ -160,9 +160,9 @@ int main(int argc, char *argv[])
     qputenv("XDG_CURRENT_DESKTOP","KDE");
 #endif
 
-#ifdef USE_DBUS
+#ifndef NODBUS
     // Init DBus services
-    KDBusService programDBusService();
+    KDBusService programDBusService;
 #endif
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
