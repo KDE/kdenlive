@@ -2,7 +2,7 @@
 SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 #include "temporarydata.h"

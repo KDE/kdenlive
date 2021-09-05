@@ -1,7 +1,7 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2012 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #ifndef ABSTRACTCOLLAPSIBLEWIDGET_H

@@ -1,7 +1,7 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2016 Nicolas Carion *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #include "abstractparamwidget.hpp"

@@ -2,7 +2,7 @@
 SPDX-FileCopyrightText: 2019 Akhil K Gangadharan <akhilam512@gmail.com>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef MEDIACAPTURE_H
