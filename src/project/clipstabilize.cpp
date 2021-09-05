@@ -1,8 +1,8 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   SPDX-FileCopyrightText: 2011 Marco Gittler (marco@gitma.de)                  *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #include "clipstabilize.h"

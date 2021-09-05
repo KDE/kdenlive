@@ -1,4 +1,4 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2017 Nicolas Carion *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *

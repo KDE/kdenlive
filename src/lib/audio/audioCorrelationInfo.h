@@ -1,8 +1,8 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2012 Simon Andreas Eugster (simon.eu@gmail.com)      *
  *   This file is part of kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #ifndef AUDIOCORRELATIONINFO_H

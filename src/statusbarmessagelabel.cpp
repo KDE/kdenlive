@@ -1,11 +1,11 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2006 Peter Penz *
  *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
  *   peter.penz@gmx.at                                                     *
  *   Code borrowed from Dolphin, adapted (2008) to Kdenlive by             *
  *   Jean-Baptiste Mardelle, jb@kdenlive.org                               *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #include "statusbarmessagelabel.h"

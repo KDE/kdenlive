@@ -1,7 +1,7 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2010 Marco Gittler (g.marco@freenet.de)              *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #include "audiosignal.h"

@@ -1,4 +1,4 @@
-/***************************************************************************
+/*
                           project/transitionsettings.h  -  Transitions widget
                              -------------------
     begin                : Mar 15 2008
@@ -6,9 +6,9 @@
     email                : g.marco@freenet.de
  ***************************************************************************/
 
-/***************************************************************************
+/*
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  *                                                                         *
  ***************************************************************************/
 #ifndef TRANSITIONSETTINGS_H

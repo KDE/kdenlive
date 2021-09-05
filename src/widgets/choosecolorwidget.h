@@ -1,7 +1,7 @@
-/***************************************************************************
+/*
  *   SPDX-FileCopyrightText: 2010 Till Theato (root@ttill.de)                     *
  *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
 #ifndef CHOOSECOLORWIDGET_H
