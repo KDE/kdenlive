@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2004, Mark Borgerding (Mark@Borgerding.net)
+SPDX-FileCopyrightText: 2003-2004 Mark Borgerding (Mark@Borgerding.net)
 
 All rights reserved.
 

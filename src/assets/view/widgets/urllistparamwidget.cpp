@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
+ *   SPDX-FileCopyrightText: 2021 Julius Künzel (jk.kdedev@smartlab.uber.space)   *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

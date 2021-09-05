@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2020  Julius Künzel <jk.kdedev@smartlab.uber.space>
+SPDX-FileCopyrightText: 2020 Julius Künzel <jk.kdedev@smartlab.uber.space>
 This file is part of Kdenlive. See www.kdenlive.org.
 
 This program is free software: you can redistribute it and/or modify

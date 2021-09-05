@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2020 by Sashmita Raghav                                 *
+ *   SPDX-FileCopyrightText: 2020 Sashmita Raghav *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
 This file is part of kdenlive. See www.kdenlive.org.
 
 This program is free software: you can redistribute it and/or modify

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle                          *
+ *   SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

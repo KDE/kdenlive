@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Till Theato (root@ttill.de)                     *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)                     *
+ *   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *   This file is part of Kdenlive (www.kdenlive.org).                     *
  *                                                                         *
  *   Kdenlive is free software: you can redistribute it and/or modify      *
