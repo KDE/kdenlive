@@ -654,9 +654,9 @@ bool GLWidget::isReady() const
     return m_consumer != nullptr;
 }
 
-void GLWidget::requestSeek(int position)
+void GLWidget::requestSeek(int position, bool noAudioScrub)
 {
-    if(KdenliveSettings::audio_scrub()){
+    if(KdenliveSettings::audio_scrub() && !noAudioScrub){
         m_consumer->set("scrub_audio", 1);
     } else {
         m_consumer->set("scrub_audio", 0);
@@ -953,7 +953,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         m_proxy->resetPosition();
     }
     m_consumer->set("scrub_audio", 0);
-    m_proxy->setPosition(position > 0 ? position : m_producer->position());
+    if(position != -2) {
+        m_proxy->setPositionAdvanced(position > 0 ? position : m_producer->position(), true);
+    }
     return error;
 }
 

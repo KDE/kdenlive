@@ -22,6 +22,7 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
 
@@ -32,11 +33,13 @@
 #include "kdenlive_debug.h"
 #include <QObject>
 #include <dialogs/timeremap.h>
+#include <timeline2/view/timelinecontroller.h>
 
 const double MonitorManager::speedArray[6] = {1. ,1.5, 2., 3., 5.5, 10.};
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)
+    , m_activeMultiTrack(-1)
 
 {
     setupActions();
@@ -286,38 +289,83 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame();
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame();
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-qRound(pCore->getCurrentFps()), true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(qRound(pCore->getCurrentFps()), true);
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
+}
+
+void MonitorManager::slotStartMultiTrackMode()
+{
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
+}
+
+void MonitorManager::slotStopMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(-1);
+    m_activeMultiTrack = -1;
+}
+
+void MonitorManager::slotPerformMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    pCore->window()->getCurrentTimeline()->controller()->processMultitrackOperation(m_activeMultiTrack, pCore->window()->getCurrentTimeline()->controller()->multicamIn);
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
 }
 
 void MonitorManager::slotStart()
@@ -457,6 +505,10 @@ void MonitorManager::setupActions()
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
+
+    QAction *performMultiTrackOperation = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-pause")), i18n("Perform Multitrack Operation"), this);
+    connect(performMultiTrackOperation, &QAction::triggered, this, &MonitorManager::slotPerformMultiTrackMode);
+    pCore->window()->addAction(QStringLiteral("perform_multitrack_mode"), performMultiTrackOperation);
 
     QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
     enableEditmode->setCheckable(true);
@@ -693,6 +745,25 @@ bool MonitorManager::isMultiTrack() const
 {
     if (m_multiTrack) {
         return m_multiTrack->isChecked();
+    }
+    return false;
+}
+
+void MonitorManager::switchMultiTrackView(bool enable)
+{
+    if (isMultiTrack()) {
+        if (!enable) {
+            m_multiTrack->trigger();
+        }
+    } else if (enable) {
+        m_multiTrack->trigger();
+    }
+}
+
+bool MonitorManager::isTrimming() const
+{
+    if (m_projectMonitor && m_projectMonitor->m_trimmingbar) {
+        return m_projectMonitor->m_trimmingbar->isVisible();
     }
     return false;
 }

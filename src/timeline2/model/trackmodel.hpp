@@ -71,7 +71,7 @@ public:
     friend class TimelineModel;
 
 private:
-    /* This constructor is private, call the static construct instead */
+    /** This constructor is private, call the static construct instead */
     TrackModel(const std::weak_ptr<TimelineModel> &parent, int id = -1, const QString &trackName = QString(), bool audioTrack = false);
     TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1);
 
@@ -332,34 +332,37 @@ protected:
     bool hasEndMix(int cid) const;
 
 public slots:
-    /*Delete the current track and all its associated clips */
+    /** Delete the current track and all its associated clips */
     void slotDelete();
 
 private:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; // this is the creation id of the track, used for book-keeping
+    /// this is the creation id of the track, used for book-keeping
+    int m_id;
 
     // We fake two playlists to allow same track transitions.
     std::shared_ptr<Mlt::Tractor> m_track;
     std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
-    // A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
+    /// A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
     QMap <int, int> m_mixList;
 
-    std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
-                                                                            ordered structure to store the clips, since we use their ids order as row order*/
-    std::map<int, std::shared_ptr<CompositionModel>>
-        m_allCompositions; /*this is important to keep an
-                                   ordered structure to store the clips, since we use their ids order as row order*/
+    /** This is important to keep an ordered structure to store the clips, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<ClipModel>> m_allClips;
+    /** This is important to keep an ordered structure to store the compositions, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<CompositionModel>> m_allCompositions;
 
-    std::map<int, int> m_compoPos; // We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
-                                   // those positions here to check for moves and resize
+    /** We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
+     *  those positions here to check for moves and resize
+     */
+    std::map<int, int> m_compoPos;
 
-    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+    /// This is a lock that ensures safety in case of concurrent access
+    mutable QReadWriteLock m_lock;
 
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
-    // A list of same track transitions for this track, in the form: {second_clip_id, transition}
+    /// A list of same track transitions for this track, in the form: {second_clip_id, transition}
     std::unordered_map<int, std::shared_ptr<AssetParameterModel>> m_sameCompositions;
 };
 

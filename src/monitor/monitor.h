@@ -218,6 +218,8 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
+    QToolBar *m_trimmingbar;
+    QLabel *m_trimmingOffset;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
@@ -269,7 +271,7 @@ private slots:
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
     /** @brief Process seek and optionally pause monitor */
-    void processSeek(int pos);
+    void processSeek(int pos, bool noAudioScrub = false);
     /** @brief Check and display dropped frames */
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
@@ -299,6 +301,18 @@ public slots:
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
+    /** @brief Set position and information for the trimming preview
+    * @param pos Absolute position in frames
+    * @param offset Difference in frames beetween @p pos and the current position (to be displayed in the monitor toolbar)
+    * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
+    * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
+    */
+    void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
+    /** @brief Move the position for the trimming preview by the given offset
+    * @param offset How many frames the position should be moved
+    * @see slotTrimmingPos
+    */
+    void slotTrimmingPos(int offset);
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd();
@@ -318,6 +332,8 @@ public slots:
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
+    /** @brief Display or hide the trimming toolbar and monitor scene*/
+    void slotSwitchTrimming(bool enable);
     /** @brief Request QImage of current frame */
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
@@ -365,8 +381,6 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
-    void acceptRipple(bool);
-    void switchTrimMode(int);
     void activateTrack(int);
     void autoKeyframeChanged();
 };

@@ -88,11 +88,16 @@ void MonitorProxy::setOverlayType(int ix)
 
 bool MonitorProxy::setPosition(int pos)
 {
+    return setPositionAdvanced(pos, false);
+}
+
+bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
+{
     if (m_position == pos) {
         return true;
     }
     m_position = pos;
-    emit requestSeek(pos);
+    emit requestSeek(pos, noAudioScrub);
     if (m_seekFinished) {
         m_seekFinished = false;
         emit seekFinishedChanged();
@@ -386,10 +391,40 @@ const QString MonitorProxy::timecode() const
     return QString();
 }
 
+const QString MonitorProxy::trimmingTC1() const
+{
+    return toTimecode(m_trimmingFrames1);
+}
+
+const QString MonitorProxy::trimmingTC2() const
+{
+    return toTimecode(m_trimmingFrames2);
+}
+
 void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 {
     m_td = td;
     connect(m_td, &TimecodeDisplay::timeCodeUpdated, this, &MonitorProxy::timecodeChanged);
+}
+
+void MonitorProxy::setTrimmingTC1(int frames, bool isRelativ)
+{
+    if (isRelativ) {
+        m_trimmingFrames1 -= frames;
+    } else {
+        m_trimmingFrames1 = frames;
+    }
+    emit trimmingTC1Changed();
+}
+
+void MonitorProxy::setTrimmingTC2(int frames, bool isRelativ)
+{
+    if (isRelativ) {
+        m_trimmingFrames2 -= frames;
+    } else {
+        m_trimmingFrames2 = frames;
+    }
+    emit trimmingTC2Changed();
 }
 
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const

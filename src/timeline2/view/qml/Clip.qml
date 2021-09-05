@@ -79,6 +79,7 @@ Rectangle {
     property bool forceReloadThumb
     property bool isComposition: false
     property bool hideClipViews: false
+    property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
@@ -101,6 +102,10 @@ Rectangle {
             timeline.showToolTip()
             mouseArea.focus = false
         }
+    }
+
+    function boundValue(min, val, max) {
+        return Math.max(min, Math.min(val, max))
     }
 
     function grabItem() {
@@ -258,11 +263,13 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === 0
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === 0
+        hoverEnabled: root.activeTool === ProjectTool.SelectTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
+        property bool shiftSlip: false
+        property bool controlSlip: false
         onPressed: {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
@@ -401,7 +408,7 @@ Rectangle {
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
                         width: root.baseUnit / 2
-                        visible: root.activeTool === 0
+                        visible: root.activeTool === ProjectTool.SelectTool
                         property int previousMix
                         enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                         hoverEnabled: true
@@ -466,7 +473,7 @@ Rectangle {
                             color: clipRoot.border.color
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
-                            visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                            visible: trimInMixArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
                         }
                     }
                 }
@@ -530,7 +537,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === 0
+                visible: root.activeTool === ProjectTool.SelectTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -616,7 +623,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -644,7 +651,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: root.activeTool === 0
+                visible: root.activeTool === ProjectTool.SelectTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -748,7 +755,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
                 }
             }
 
@@ -1230,6 +1237,57 @@ Rectangle {
                     width: 1
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
                 }
+            }
+        }
+
+        Rectangle {
+            id: currentRegion
+            color: slipControler.color
+            anchors {
+                right: container.right
+                left: container.left
+                top: slipControler.top
+            }
+            height: container.height / 2
+            opacity: 0.7
+            visible: slipControler.visible
+        }
+        Item {
+            id: slipControler
+            property color color: timeline.trimmingMainClip === clipId ? root.selectionColor : activePalette.highlight
+            anchors.bottom: container.bottom
+            height: container.height
+            width: clipRoot.maxDuration * clipRoot.timeScale
+            x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
+            visible: root.activeTool === ProjectTool.SlipTool && selected && !isLocked && clipRoot.maxDuration > 0 // don't show for endless clips
+            property int inPoint: clipRoot.inPoint
+            property int outPoint: clipRoot.outPoint
+            Rectangle {
+                id: slipBackground
+                anchors.fill: parent
+                color: parent.color
+                border.width: 2
+                border.color: activePalette.highlightedText
+                opacity: 0.3
+            }
+            Rectangle {
+                id: currentRegionMoved
+                color: parent.color
+                x: slipBackground.x + slipControler.inPoint * timeScale + clipRoot.border.width
+                anchors.bottom: parent.bottom
+                height: parent.height / 2
+                width: container.width
+                opacity: 0.7
+            }
+            Text {
+                id: slipLable
+                text: i18n("Slip Clip")
+                font: miniFont
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                color: activePalette.highlightedText
+                opacity: 1
             }
         }
     }

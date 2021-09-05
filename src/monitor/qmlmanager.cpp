@@ -107,8 +107,8 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
         break;
-    case MonitorSceneRipple:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
+    case MonitorSceneTrimming:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
         root = m_view->rootObject();
         break;
     default:         

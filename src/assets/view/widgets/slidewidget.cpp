@@ -220,5 +220,5 @@ const QString SlideWidget::getWipeString(wipeInfo info)
         break;
     }
     end.append(QString(" %1%").arg(info.endTransparency));
-    return QString("0=%1;-1=%2").arg(start).arg(end);
+    return QString("0=%1;-1=%2").arg(start, end);
 }

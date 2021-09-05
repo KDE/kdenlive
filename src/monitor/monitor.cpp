@@ -39,6 +39,8 @@
 #include "jobs/cuttask.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thumbnailcache.hpp"
 
@@ -448,11 +450,45 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
     }
 
+    // Trimming tool bar buttons
+    m_trimmingbar = new QToolBar(this);
+    m_trimmingbar->setIconSize(iconSize);
+
+    m_trimmingOffset = new QLabel();
+    m_trimmingbar->addWidget(m_trimmingOffset);
+
+    QAction *fiveLess = new QAction(i18n("-5"), this);
+    m_trimmingbar->addAction(fiveLess);
+    connect(fiveLess, &QAction::triggered, this, [&](){
+        slotTrimmingPos(-5);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-5, true);
+    });
+    QAction *oneLess = new QAction(i18n("-1"), this);
+    m_trimmingbar->addAction(oneLess);
+    connect(oneLess, &QAction::triggered, this, [&](){
+        slotTrimmingPos(-1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
+    });
+    QAction *oneMore = new QAction(i18n("+1"), this);
+    m_trimmingbar->addAction(oneMore);
+    connect(oneMore, &QAction::triggered, this, [&](){
+        slotTrimmingPos(1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
+    });
+    QAction *fiveMore = new QAction(i18n("+5"), this);
+    m_trimmingbar->addAction(fiveMore);
+    connect(fiveMore, &QAction::triggered, this, [&](){
+        slotTrimmingPos(5);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(5, true);
+    });
+
     connect(m_timePos, SIGNAL(timeCodeEditingFinished()), this, SLOT(slotSeek()));
     layout->addWidget(m_toolbar);
     if (m_recManager) {
         layout->addWidget(m_recManager->toolbar());
     }
+    layout->addWidget(m_trimmingbar);
+    m_trimmingbar->setVisible(false);
 
     // Load monitor overlay qml
     loadQmlScene(MonitorSceneDefault);
@@ -1268,7 +1304,7 @@ void Monitor::slotZoneEnd()
 
 void Monitor::slotRewind(double speed)
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (qFuzzyIsNull(speed)) {
@@ -1291,7 +1327,7 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (qFuzzyIsNull(speed)) {
@@ -1442,6 +1478,9 @@ void Monitor::pause()
 
 void Monitor::switchPlay(bool play)
 {
+    if(m_trimmingbar->isVisible()) {
+        return;
+    }
     m_speedIndex = 0;
     m_playAction->setActive(play);
     if (!KdenliveSettings::autoscroll()) {
@@ -1460,7 +1499,7 @@ void Monitor::updatePlayAction(bool play)
 
 void Monitor::slotSwitchPlay()
 {
-    if (!slotActivateMonitor()) {
+    if (!slotActivateMonitor() || m_trimmingbar->isVisible()) {
         return;
     }
     if (!KdenliveSettings::autoscroll()) {
@@ -2197,13 +2236,10 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
     case MonitorSceneSplit:
         QObject::connect(root, SIGNAL(qmlMoveSplit()), this, SLOT(slotAdjustEffectCompare()), Qt::UniqueConnection);
         break;
+    case MonitorSceneTrimming:
     case MonitorSceneGeometry:
     case MonitorSceneCorners:
     case MonitorSceneRoto:
-        break;
-    case MonitorSceneRipple:
-        QObject::connect(root, SIGNAL(doAcceptRipple(bool)), this, SIGNAL(acceptRipple(bool)), Qt::UniqueConnection);
-        QObject::connect(root, SIGNAL(switchTrimMode(int)), this, SIGNAL(switchTrimMode(int)), Qt::UniqueConnection);
         break;
     case MonitorSceneDefault:
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
@@ -2256,6 +2292,24 @@ void Monitor::slotSwitchRec(bool enable)
         m_recManager->stop();
         m_toolbar->setVisible(true);
         emit refreshCurrentClip();
+    }
+}
+
+void Monitor::slotSwitchTrimming(bool enable)
+{
+    if (!m_trimmingbar) {
+        return;
+    }
+    if (enable) {
+        loadQmlScene(MonitorSceneTrimming);
+        m_toolbar->setVisible(false);
+        m_trimmingbar->setVisible(true);
+        m_glMonitor->switchRuler(false);
+    } else if (m_trimmingbar->isVisible()) {
+        loadQmlScene(MonitorSceneDefault);
+        m_trimmingbar->setVisible(false);
+        m_toolbar->setVisible(true);
+        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & 0x01);
     }
 }
 
@@ -2369,7 +2423,7 @@ void Monitor::panView(QPoint diff)
     }
 }
 
-void Monitor::processSeek(int pos)
+void Monitor::processSeek(int pos, bool noAudioScrub)
 {
     if (!slotActivateMonitor()) {
         return;
@@ -2377,7 +2431,7 @@ void Monitor::processSeek(int pos)
     if (KdenliveSettings::pauseonseek()) {
         pause();
     }
-    m_glMonitor->requestSeek(pos);
+    m_glMonitor->requestSeek(pos, noAudioScrub);
     emit m_monitorManager->cleanMixer();
 }
 
@@ -2411,6 +2465,29 @@ void Monitor::slotStart()
     }
     m_glMonitor->switchPlay(false);
     m_glMonitor->getControllerProxy()->setPosition(0);
+}
+
+void Monitor::slotTrimmingPos(int pos, int offset, int frames1, int frames2)
+{
+    if(m_glMonitor->producer() != pCore->window()->getCurrentTimeline()->model()->producer().get()) {
+        processSeek(pos);
+    }
+    QString tc(pCore->timecode().getDisplayTimecodeFromFrames(offset, KdenliveSettings::frametimecode()));
+    m_trimmingOffset->setText(tc);
+    m_glMonitor->getControllerProxy()->setTrimmingTC1(frames1);
+    m_glMonitor->getControllerProxy()->setTrimmingTC2(frames2);
+}
+
+void Monitor::slotTrimmingPos(int offset) {
+    offset = pCore->window()->getCurrentTimeline()->controller()->trimmingBoundOffset(offset);
+    if (m_glMonitor->producer() != pCore->window()->getCurrentTimeline()->model()->producer().get()) {
+        processSeek(m_glMonitor->producer()->position() + offset);
+    }
+    QString tc(pCore->timecode().getDisplayTimecodeFromFrames(offset, KdenliveSettings::frametimecode()));
+    m_trimmingOffset->setText(tc);
+
+    m_glMonitor->getControllerProxy()->setTrimmingTC1(offset, true);
+    m_glMonitor->getControllerProxy()->setTrimmingTC2(offset, true);
 }
 
 void Monitor::slotEnd()

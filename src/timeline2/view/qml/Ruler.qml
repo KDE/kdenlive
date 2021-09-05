@@ -18,6 +18,7 @@
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import com.enums 1.0
 
 Item {
     id: rulerRoot
@@ -185,7 +186,9 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: {
-                            proxy.position = model.frame
+                            if (root.activeTool !== ProjectTool.SlipTool) {
+                                proxy.position = model.frame
+                            }
                         }
                         onEntered: {
                             rulerRoot.hoverGuide = true

@@ -113,7 +113,8 @@ void ListParamWidget::slotRefresh()
         m_list->addItem(i18n("None (Dissolve)"));
         for (int j = 0; j < values.count(); ++j) {
             const QString &entry = values.at(j);
-            m_list->addItem(values.at(j).section(QLatin1Char('/'), -1), entry);
+            const QString name = values.at(j).section(QLatin1Char('/'), -1);
+            m_list->addItem(pCore->nameForLumaFile(name), entry);
             if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
                 if (MainWindow::m_lumacache.contains(entry)) {
                     m_list->setItemIcon(j + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));

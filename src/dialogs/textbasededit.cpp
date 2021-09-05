@@ -52,7 +52,7 @@ VideoTextEdit::VideoTextEdit(QWidget *parent)
     connect(this, &VideoTextEdit::cursorPositionChanged, [this]() {
         lineNumberArea->update();
     });
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, [this]() {
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this]() {
         lineNumberArea->update();
     });
     QRect rect =  this->contentsRect();

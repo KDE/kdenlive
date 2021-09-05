@@ -53,7 +53,8 @@ class MonitorProxy;
 
 using thread_function_t = void *(*)(void *);
 
-/* QQuickView that renders an .
+/** @class GLWidget
+ *  @brief QQuickView that renders an .
  *
  * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
  *
@@ -146,13 +147,19 @@ public:
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
-    /** @brief Update producer, should ONLY be called from monitor */
+    /** @brief Update producer, should ONLY be called from monitor
+    * @param producer
+    * @param isActive
+    * @param position If == 0 producer position will be used.
+    * If == -1 consumer position will be used if possible.
+    * If == -2 position will not be set.
+    */
     int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position);
     int setProducer(const QString &file);
     QString frameToTime(int frames) const;
 
 public slots:
-    void requestSeek(int position);
+    void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);

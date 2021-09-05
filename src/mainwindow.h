@@ -250,6 +250,11 @@ private:
     QAction *m_buttonSelectTool;
     QAction *m_buttonRazorTool;
     QAction *m_buttonSpacerTool;
+    QAction *m_buttonRippleTool;
+    QAction *m_buttonRollTool;
+    QAction *m_buttonSlipTool;
+    QAction *m_buttonSlideTool;
+    QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
@@ -266,6 +271,7 @@ private:
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
+    ToolType::ProjectTool m_activeTool;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -321,6 +327,8 @@ public slots:
     void slotAddSubtitle(const QString &text = QString());
     /** @brief Ensure subtitle track is displayed */
     void showSubtitleTrack();
+    /** @brief The path of the current document changed (save as), update render settings */
+    void updateProjectPath(const QString &path);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -395,7 +403,7 @@ private slots:
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
-    void slotSetTool(ProjectTool tool);
+    void slotSetTool(ToolType::ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
     void slotGuideForward();
@@ -512,9 +520,6 @@ private slots:
     void slotUpdateCompositing(QAction *compose);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
-    /** @brief Cycle through the different timeline trim modes. */
-    void slotSwitchTrimMode();
-    void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();
@@ -567,7 +572,6 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
-    void updateProjectPath(const QString &path);
 };
 
 #endif
