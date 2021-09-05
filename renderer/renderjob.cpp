@@ -251,6 +251,13 @@ void RenderJob::start()
     connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this](){
         m_kdenlivesocket->write(QJsonDocument({{"url", m_dest}}).toJson());
         m_kdenlivesocket->flush();
+        QJsonObject method, args;
+        args["url"] = m_dest;
+        args["progress"] = 0;
+        args["frame"] = 0;
+        method["setRenderingProgress"] = args;
+        m_kdenlivesocket->write(QJsonDocument(method).toJson());
+        m_kdenlivesocket->flush();
     });
     connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this](){
         QByteArray msg = m_kdenlivesocket->readAll();

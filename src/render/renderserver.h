@@ -19,6 +19,10 @@ public:
     RenderServer(QObject *parent);
     ~RenderServer() override;
 
+signals:
+    void setRenderingProgress(const QString &url, int progress, int frame);
+    void setRenderingFinished(const QString &url, int status, const QString &error);
+
 public slots:
     void abortJob(const QString &job);
 
