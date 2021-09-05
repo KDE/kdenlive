@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Jean-Baptiste Mardelle                          *
+ *   SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

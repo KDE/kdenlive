@@ -1,6 +1,6 @@
 /*
-Copyright (C) 2012  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2014  Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2012 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 This file is part of Kdenlive. See www.kdenlive.org.
 
 This program is free software: you can redistribute it and/or modify
