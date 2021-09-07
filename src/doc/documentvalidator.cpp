@@ -838,8 +838,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // keyframe to real end of transition
 
         // Get profile info (width / height)
-        int profileWidth;
-        int profileHeight;
         QDomElement profile = m_doc.firstChildElement(QStringLiteral("profile"));
         if (profile.isNull()) {
             profile = infoXml.firstChildElement(QStringLiteral("profileinfo"));
@@ -852,6 +850,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 mlt.insertBefore(pr, firstProd);
             }
         }
+        //TODO MLT7: port?
+        /*int profileWidth;
+        int profileHeight;
         if (profile.isNull()) {
             // could not find profile info, set PAL
             profileWidth = 720;
@@ -860,8 +861,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             profileWidth = profile.attribute(QStringLiteral("width")).toInt();
             profileHeight = profile.attribute(QStringLiteral("height")).toInt();
         }
-        //TODO MLT7: port?
-        /*QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
         max = transitions.count();
         for (int i = 0; i < max; ++i) {
 

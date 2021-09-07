@@ -54,6 +54,7 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
 
 void SceneSplitTask::start(QObject* object, bool force)
 {
+    Q_UNUSED(object)
     QPointer<QDialog> d = new QDialog;
     Ui::SceneCutDialog_UI view;
     view.setupUi(d);
