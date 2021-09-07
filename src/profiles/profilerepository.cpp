@@ -21,7 +21,6 @@ std::vector<std::pair<int, QString>> ProfileRepository::colorProfiles{
 
 ProfileRepository::ProfileRepository()
 {
-    qDebug()<<"=================BUILDING PROFILE REPOSITORY\n\n========================";
     refresh();
 }
 
