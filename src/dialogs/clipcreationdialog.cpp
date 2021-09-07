@@ -479,14 +479,14 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
     fileWidget->setOperationMode(KFileWidget::Saving);
-    QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq, b]() {
+    QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq]() {
         if (importseq->isChecked()) {
             // We are importing an image sequence, abort
             return;
         }
         fileWidget->accept();
         QList <QUrl> urls = fileWidget->selectedUrls();
-        pCore->bin()->droppedUrls(urls, QString());
+        pCore->bin()->droppedUrls(urls);
     });
     fileWidget->setFilter(dialogFilter);
     QObject::connect(b, &QCheckBox::toggled , [](bool checked) {
