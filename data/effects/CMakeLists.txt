@@ -111,6 +111,7 @@ lightshow.xml
 loudness.xml
 luma.xml
 lumaliftgaingamma.xml
+mask_start.xml
 mask_start_frei0r_alphaspot.xml
 mask_start_frei0r_select0r.xml
 mask_start_rotoscoping.xml
