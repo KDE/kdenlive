@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="mask_start" id="mask_start-frei0r.select0r" dependency="frei0r.select0r">
-        <name>Chroma Key: Advanced (Color Selection) (Mask)</name>
+        <name>Secondary Color Correction Area Selection (Mask)</name>
         <description>This filter makes a snapshot of the frame before a keyframable Chroma Key selection with more advanced options (e.g. different color models) is applied. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
         <author>Marko Cebokli, Dan Dennedy</author>
         <parameter type="fixed" name="filter" value="frei0r.select0r">
