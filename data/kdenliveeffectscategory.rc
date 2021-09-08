@@ -16,7 +16,7 @@
 <group list="frei0r.pr0be,frei0r.pr0file,frei0r.rgbparade,frei0r.timeout,frei0r.vectorscope,avfilter.ciescope,avfilter.oscilloscope,avfilter.vectorscope,avfilter.waveform,avfilter.histogram,avfilter.field,frei0r.d90stairsteppingfix,avfilter.datascope">
     <text>Utility</text>
   </group>
-<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r">
+<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r,gpstext">
     <text>Generate</text>
   </group>
 <group list="audiowave,dance,lightshow,audiospectrum">
