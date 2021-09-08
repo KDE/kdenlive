@@ -104,6 +104,7 @@ frei0r_vertigo.xml
 frei0r_vignette.xml
 gain.xml
 gamma.xml
+gpstext.xml
 grain.xml
 greyscale.xml
 invert.xml
