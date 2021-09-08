@@ -368,7 +368,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
-    QCheckBox *bf = new QCheckBox(i18n("Ignore subfolder structur"));
+    QCheckBox *bf = new QCheckBox(i18n("Ignore subfolder structure"));
     bf->setChecked(KdenliveSettings::ignoresubdirstructure());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
@@ -467,7 +467,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
     importseq->setCheckable(true);
-    QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structur"));
+    QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structure"));
     b->setChecked(KdenliveSettings::ignoresubdirstructure());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);

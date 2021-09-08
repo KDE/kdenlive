@@ -5536,9 +5536,9 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                 };
             if (align == MixAlignment::AlignLeft) {
                 int updatedDuration = cutPos + duration - m_allClips.at(clipToResize)->getPosition();
-                int result = requestItemResize(clipToResize, updatedDuration, true, true, undo, redo);
+                requestItemResize(clipToResize, updatedDuration, true, true, undo, redo);
                 updatedDuration = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - cutPos;
-                result = requestItemResize(cid, updatedDuration, false, true, undo, redo);
+                requestItemResize(cid, updatedDuration, false, true, undo, redo);
                 Fun adjust_mix = [this, tid, cid, duration]() {
                     getTrackById_const(tid)->setMixDuration(cid, duration, duration);
                     QModelIndex ix = makeClipIndexFromID(cid);
@@ -5549,9 +5549,9 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                 UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
             } else if (align == MixAlignment::AlignRight) {
                 int updatedDuration = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - cutPos + duration;
-                int result = requestItemResize(cid, updatedDuration, false, true, undo, redo);
+                requestItemResize(cid, updatedDuration, false, true, undo, redo);
                 updatedDuration = cutPos - m_allClips.at(clipToResize)->getPosition();
-                result = requestItemResize(clipToResize, updatedDuration, true, true, undo, redo);
+                requestItemResize(clipToResize, updatedDuration, true, true, undo, redo);
                 Fun adjust_mix = [this, tid, cid, duration]() {
                     getTrackById_const(tid)->setMixDuration(cid, duration, 0);
                     QModelIndex ix = makeClipIndexFromID(cid);
