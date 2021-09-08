@@ -1,0 +1,27 @@
+<!DOCTYPE kpartgui>
+<effect tag="gpstext" id="gpstext">
+        <name>GPS Text</name>
+        <description>Overlay GPS-related text onto the video.</description>
+        <author>Daniel F</author>
+        <parameter type="keywords" name="argument" default="#timecode#" paramlist="#gps_lat#;#gps_lon#;#gps_elev#;#gps_speed#;#gps_dist#;#gps_datetime_now#;#file_datetime_now#;#hr#;#gps_bearing#;#gps_compass#;#gps_vdist_up#;#gps_vdist_down#;#gps_dist_uphill#;#gps_dist_downhill#;#gps_dist_flat#">
+            <name>Text</name>
+            <paramlistdisplay>GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and time of current gps point,date and time of current frame in video file,heart rate,current GPS bearing,current GPS direction,GPS altitude gain so far,GPS altitude loss so far,distance travelled uphill so far,distance travelled downhill so far,distance travelled on flat area so far</paramlistdisplay>
+        </parameter>
+        <parameter type="url" name="gps.file" filter="*.gpx *.tcx |GPS files">
+              <name>GPS File</name>
+        </parameter>
+        <parameter type="constant" name="time_offset" max="86400" min="-86400" defalut="0">
+            <name>Time offset in seconds</name>
+        </parameter>
+        <parameter type="constant" name="smoothing_value" max="10" min="0" default="5">
+            <name>Smoothing level</name>
+        </parameter>
+        <parameter type="fixed" name="gps_processing_start_time" default="yyyy-MM-dd hh:mm:ss">
+            <name>GPS processing start time</name>
+        </parameter>
+        <parameter type="double" name="updates_per_second" max="60" min="0" default="1">
+            <name>Updates per second</name>
+        </parameter>
+</effect>
+
+
