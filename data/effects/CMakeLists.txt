@@ -6,6 +6,7 @@ audiopan.xml
 audiospectrum.xml
 audiowave.xml
 audiowaveform.xml
+avfilter_loudnorm.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
