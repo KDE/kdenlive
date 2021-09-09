@@ -206,14 +206,18 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
             // subclip zone
             QStringList clipData = ids.constFirst().split(QLatin1Char('/'));
             if (clipData.length() >= 3) {
-                QString id;
-                std::shared_ptr<ProjectClip> masterClip = getClipByBinID(clipData.at(0));
+                QString bid = clipData.at(0);
+                if (bid.startsWith(QLatin1Char('A')) || bid.startsWith(QLatin1Char('V'))) {
+                    bid.remove(0, 1);
+                }
+                std::shared_ptr<ProjectClip> masterClip = getClipByBinID(bid);
                 std::shared_ptr<ProjectSubClip> sub = masterClip->getSubClip(clipData.at(1).toInt(), clipData.at(2).toInt());
                 if (sub != nullptr) {
                     // This zone already exists
                     return false;
                 }
-                return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), {}, clipData.at(0));
+                QString id;
+                return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), {}, bid);
             } else {
                 // error, malformed clip zone, abort
                 return false;

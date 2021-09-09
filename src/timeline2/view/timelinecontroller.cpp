@@ -1920,7 +1920,7 @@ void TimelineController::removeSplitOverlay()
 
 void TimelineController::updateTrimmingMode() {
     if (trimmingActive()) {
-        requestStartTrimmingMode(-1, false);
+        requestStartTrimmingMode();
     } else {
         requestEndTrimmingMode();
     }
@@ -1945,7 +1945,7 @@ void TimelineController::slipPosChanged(int offset) {
     pCore->displayMessage(info, DirectMessage);
 }
 
-bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurrent)
+bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection)
 {  
     std::unordered_set<int> sel = m_model->getCurrentSelection();
     std::unordered_set<int> newSel;
@@ -1960,10 +1960,13 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
         mainClipId = -1;
     }
 
-    if (newSel.empty() && mainClipId != -1) {
-        newSel.insert(mainClipId);
+    if ((newSel.empty() || !isInSelection(mainClipId)) && mainClipId != -1) {
         m_trimmingMainClip = mainClipId;
         emit trimmingMainClipChanged();
+        if (!addToSelection) {
+            newSel.clear();
+        }
+        newSel.insert(mainClipId);
     }
 
     if (newSel != sel) {
@@ -1976,14 +1979,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     }
 
     Q_ASSERT(!sel.empty());
-
-    if (!isInSelection(mainClipId)) {
-        if (isInSelection(m_trimmingMainClip)) {
-            mainClipId = m_trimmingMainClip;
-        } else {
-            mainClipId = -1;
-        }
-    }
 
     if (mainClipId == -1) {
         mainClipId = getMainSelectedClip();
@@ -2183,8 +2178,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 }
 
 void TimelineController::requestEndTrimmingMode() {
-    pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
-    pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    if (pCore->monitorManager()->isTrimming()) {
+        pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    }
 }
 
 void TimelineController::addPreviewRange(bool add)

@@ -535,7 +535,7 @@ public:
      *  @returns The bounded offset
      */
     int trimmingBoundOffset(int offset);
-    Q_INVOKABLE bool requestStartTrimmingMode(int clipId, bool onlyCurrent);
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false);
     Q_INVOKABLE void requestEndTrimmingMode();
     Q_INVOKABLE void slipPosChanged(int offset);
 

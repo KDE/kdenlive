@@ -1,0 +1,37 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.loudnorm" type="audio">
+	<name>Loudness normalization</name>
+	<description>EBU R128 loudness normalization</description>
+	<author>libavfilter</author>
+	<parameter type="float" name="av.l" max="-5" min="-70" default="-24" decimals="1">
+		<name>Integrated loudness target</name>
+	</parameter>
+    <parameter type="float" name="av.LRA" max="20" min="1" default="7" decimals="1">
+		<name>Loudness range target</name>
+	</parameter>
+    <parameter type="float" name="av.TP" max="1" min="-20" default="2" decimals="1">
+		<name>Maximum true peak</name>
+	</parameter>
+    <parameter type="float" name="av.measured_I" max="0" min="-99" default="0" decimals="1">
+		<name>Measured IL of input file</name>
+	</parameter>
+    <parameter type="float" name="av.measured_LRA" max="99" min="0" default="0" decimals="1">
+		<name>Measured LRA of input file</name>
+	</parameter>
+    <parameter type="float" name="av.measured_TP" max="99" min="-99" default="99" decimals="1">
+		<name>Measured true peak of input file</name>
+	</parameter>
+    <parameter type="float" name="av.measured_thresh" max="0" min="-99" default="-70" decimals="1">
+		<name>Measured threshold of input file</name>
+	</parameter>
+    <parameter type="float" name="av.offset" max="99" min="-99" default="0" decimals="1">
+		<name>Offset gain</name>
+	</parameter>
+        <parameter type="bool" name="av.linear" default="true">
+		<name>Normalize by linearly scaling</name>
+	</parameter>
+        <parameter type="bool" name="av.dual_mono" default="false">
+		<name>Treat mono input files as "dual-mono"</name>
+	</parameter>
+</effect>
+

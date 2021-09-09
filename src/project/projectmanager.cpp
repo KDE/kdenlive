@@ -759,7 +759,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(true);
     }
     if (isTrimming) {
-        pCore->window()->getMainTimeline()->controller()->requestStartTrimmingMode(-1, false);
+        pCore->window()->getMainTimeline()->controller()->requestStartTrimmingMode();
     }
     return scene;
 }

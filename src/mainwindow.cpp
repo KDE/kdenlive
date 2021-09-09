@@ -46,7 +46,11 @@
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "audiomixer/mixermanager.hpp"
+#ifdef NODBUS
+#include "render/renderserver.h"
+#else
 #include "mainwindowadaptor.h"
+#endif
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
@@ -210,8 +214,11 @@ void MainWindow::init(const QString &mltPath)
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
-
+#ifdef NODBUS
+    new RenderServer(this);
+#else
     new RenderingAdaptor(this);
+#endif
     QString defaultProfile = KdenliveSettings::default_profile();
     
     // Initialise MLT connection
@@ -1572,9 +1579,6 @@ void MainWindow::setupActions()
 #endif
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
-    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
-    // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
-
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
               QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
 
@@ -1706,13 +1710,13 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     act->setData('C');
 
-    act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::CTRL + Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
+    addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
@@ -2283,10 +2287,12 @@ void MainWindow::scriptRender(const QString &url)
     m_renderWidget->slotPrepareExport(true, url);
 }
 
+#ifndef NODBUS
 void MainWindow::exitApp()
 {
     QApplication::exit(0);
 }
+#endif
 
 void MainWindow::slotCleanProject()
 {
@@ -3275,7 +3281,7 @@ void MainWindow::showToolMessage()
         message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
         toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
-        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</shortcut> for multiple selection");
         toolLabel = i18n("Slip");
     }  else if (m_buttonMulticamTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
@@ -3821,6 +3827,7 @@ void MainWindow::slotShutdown()
 {
     pCore->currentDoc()->setModified(false);
     // Call shutdown
+#ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
         QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
@@ -3830,6 +3837,7 @@ void MainWindow::slotShutdown()
                                 QStringLiteral("org.gnome.SessionManager"));
         smserver.call(QStringLiteral("Shutdown"));
     }
+#endif
 }
 
 void MainWindow::slotSwitchMonitors()

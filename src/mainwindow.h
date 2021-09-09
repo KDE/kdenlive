@@ -21,7 +21,9 @@
 #define MAINWINDOW_H
 
 #include <QComboBox>
+#ifndef NODBUS
 #include <QDBusAbstractAdaptor>
+#endif
 #include <QDockWidget>
 #include <QEvent>
 #include <QImage>
@@ -300,7 +302,9 @@ public slots:
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
+#ifndef NODBUS
     Q_NOREPLY void exitApp();
+#endif
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();

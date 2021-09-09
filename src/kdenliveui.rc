@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="204" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="205" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -245,6 +245,7 @@
     </Menu>
     <Menu name="view" noMerge="1" ><text>View</text>
     <Action name="fullscreen" />
+    <Action name="open_kcommand_bar" />
     <Separator />
     <Action name="load_layouts" />
     <Action name="save_layout" />
