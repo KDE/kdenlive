@@ -1841,6 +1841,38 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             pCore->window()->slotReloadEffects(changedEffects);
         }
     }
+    // Doc 1.03: Kdenlive 21.08.2
+    if (version < 1.03) {
+        // Fades: replace deprecated syntax (using start/end properties and alpha=-1) with level and alpha animated properties
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId.startsWith(QLatin1String("fade_"))) {
+                bool fadeIn = kdenliveId == QLatin1String("fade_from_black");
+                bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() ==  -1;
+                // Clear unused properties
+                Xml::removeXmlProperty(t, QStringLiteral("start"));
+                Xml::removeXmlProperty(t, QStringLiteral("end"));
+                Xml::removeXmlProperty(t, QStringLiteral("alpha"));
+                QString params;
+                if (fadeIn) {
+                    params = QStringLiteral("0=0;-1=1");
+                } else {
+                    params = QStringLiteral("0=1;-1=0");
+                }
+                if (isAlpha) {
+                    Xml::setXmlProperty(t, QStringLiteral("level"), QStringLiteral("1"));
+                    Xml::setXmlProperty(t, QStringLiteral("alpha"), params);
+                } else {
+                    Xml::setXmlProperty(t, QStringLiteral("level"), params);
+                    Xml::setXmlProperty(t, QStringLiteral("alpha"), QStringLiteral("1"));
+                }
+            }
+        }
+    }
 
     m_modified = true;
     return true;
