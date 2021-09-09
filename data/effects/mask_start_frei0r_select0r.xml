@@ -6,11 +6,11 @@
         <parameter type="fixed" name="filter" value="frei0r.select0r">
                 <name>Filter</name>
         </parameter>
-        <parameter type="color" name="filter.Color to select" default="0x00ff00ff">
+        <parameter type="color" name="filter.Color to select">
                 <name>Color to select</name>
         </parameter>
 
-        <parameter type="bool" name="filter.Invert selection" default="1">
+        <parameter type="bool" name="filter.Invert selection" default="0">
                 <name>Invert selection</name>
         </parameter>
 
@@ -45,7 +45,7 @@
                 <name>Soften</name>
         </parameter>
 
-        <parameter type="list" name="filter.Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
+        <parameter type="list" name="filter.Operation" default="0.0" paramlist="0;0.3;0.5;0.7;1">
                 <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                 <name>Operation</name>
         </parameter>
