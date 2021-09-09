@@ -174,6 +174,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::Curve:
                 case ParamType::Geometry:
                 case ParamType::Switch:
+                case ParamType::MultiSwitch:
                 case ParamType::Wipe:
                     // Pretty sure that those are fine
                     converted = false;
@@ -194,7 +195,12 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
-
+        if (!isFixed) {
+            currentRow.value = value;
+            QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
+            currentRow.name = title.isEmpty() ? name : title;
+            m_params[name] = currentRow;
+        }
         if (!name.isEmpty()) {
             internalSetParameter(name, value);
             // Keep track of param order
@@ -205,10 +211,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             // fixed parameters are not displayed so we don't store them.
             continue;
         }
-        currentRow.value = value;
-        QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
-        currentRow.name = title.isEmpty() ? name : title;
-        m_params[name] = currentRow;
         m_rows.push_back(name);
     }
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
@@ -301,29 +303,42 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
 {
     Q_ASSERT(m_asset->is_valid());
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
-    if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
+    if (m_params.count(name) > 0) {
+        ParamType type = m_params.at(name).type;
+        if (type == ParamType::Curve) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
+            QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
 #else
-        QStringList vals = paramValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+            QStringList vals = paramValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
 #endif
-        int points = vals.size();
-        m_asset->set("3", points / 10.);
-        m_params[QStringLiteral("3")].value = points / 10.;
-        // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
-        // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
-        for (int i = 0; i < points; i++) {
-            const QString &pointVal = vals.at(i);
-            int idx = 2 * i + 6;
-            QString pName = QString::number(idx);
-            double val = pointVal.section(QLatin1Char('/'), 0, 0).toDouble();
-            m_asset->set(pName.toLatin1().constData(), val);
-            m_params[pName].value = val;
-            idx++;
-            pName = QString::number(idx);
-            val = pointVal.section(QLatin1Char('/'), 1, 1).toDouble();
-            m_asset->set(pName.toLatin1().constData(), val);
-            m_params[pName].value = val;
+            int points = vals.size();
+            m_asset->set("3", points / 10.);
+            m_params[QStringLiteral("3")].value = points / 10.;
+            // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
+            // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
+            for (int i = 0; i < points; i++) {
+                const QString &pointVal = vals.at(i);
+                int idx = 2 * i + 6;
+                QString pName = QString::number(idx);
+                double val = pointVal.section(QLatin1Char('/'), 0, 0).toDouble();
+                m_asset->set(pName.toLatin1().constData(), val);
+                m_params[pName].value = val;
+                idx++;
+                pName = QString::number(idx);
+                val = pointVal.section(QLatin1Char('/'), 1, 1).toDouble();
+                m_asset->set(pName.toLatin1().constData(), val);
+                m_params[pName].value = val;
+            }
+        } else if (type == ParamType::MultiSwitch) {
+            QStringList names = name.split(QLatin1Char('\n'));
+            QStringList values = paramValue.split(QLatin1Char('\n'));
+            if (names.count() == values.count()) {
+                for (int i = 0; i < names.count(); i++) {
+                    m_asset->set(names.at(i).toLatin1().constData(), values.at(i).toLatin1().constData());
+                }
+                m_params[name].value = paramValue;
+            }
+            return;
         }
     }
     bool conversionSuccess = true;
@@ -350,6 +365,24 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
             }
         } else {
             m_fixedParams[name] = paramValue;
+        }
+    }
+    // Fades need to have their alpha or level param synced to in/out
+    if (m_assetId.startsWith(QLatin1String("fade_")) && (name == QLatin1String("in") || name == QLatin1String("out"))) {
+        if (m_assetId.startsWith(QLatin1String("fade_from"))) {
+            if (getAsset()->get("alpha") == QLatin1String("1")) {
+                // Adjust level value to match filter end
+                getAsset()->set("level", "0=0;-1=1");
+            } else if (getAsset()->get("level") == QLatin1String("1")) {
+                getAsset()->set("alpha", "0=0;-1=1");
+            }
+        } else {
+            if (getAsset()->get("alpha") == QLatin1String("1")) {
+                // Adjust level value to match filter end
+                getAsset()->set("level", "0=1;-1=0");
+            } else if (getAsset()->get("level") == QLatin1String("1")) {
+                getAsset()->set("alpha", "0=1;-1=0");
+            }
         }
     }
     qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
@@ -490,6 +523,23 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case AlphaRole:
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case ValueRole: {
+        if (m_params.at(paramName).type == ParamType::MultiSwitch) {
+            // Multi params concatenate param names with a '\n' and param values with a space
+            QStringList paramNames = paramName.split(QLatin1Char('\n'));
+            QStringList values;
+            bool valueFound = false;
+            for (auto &p : paramNames) {
+                const QString val = m_asset->get(p.toUtf8().constData());
+                if (!val.isEmpty()) {
+                    valueFound = true;
+                }
+                values << val;
+            }
+            if (!valueFound) {
+                return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element) : element.attribute(QStringLiteral("value")));
+            }
+            return values.join(QLatin1Char('\n'));
+        }
         QString value(m_asset->get(paramName.toUtf8().constData()));
         return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
                                                                                       : element.attribute(QStringLiteral("value")))
@@ -543,6 +593,12 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+const QString AssetParameterModel::framesToTime(int t) const
+{
+    return m_asset->frames_to_time(t, mlt_time_clock);
+}
+
+
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
     //qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
@@ -567,6 +623,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
+    }
+    if (type == QLatin1String("multiswitch")) {
+        return ParamType::MultiSwitch;
     } else if (type == QLatin1String("simplekeyframe")) {
         return ParamType::KeyframeParam;
     } else if (type == QLatin1String("animatedrect") || type == QLatin1String("rect")) {
