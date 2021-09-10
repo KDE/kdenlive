@@ -3,7 +3,7 @@
         <name>GPS Text</name>
         <description>Overlay GPS-related text onto the video.</description>
         <author>Daniel F</author>
-        <parameter type="keywords" name="argument" default="#timecode#" paramlist="#gps_lat#;#gps_lon#;#gps_elev#;#gps_speed#;#gps_dist#;#gps_datetime_now#;#file_datetime_now#;#hr#;#gps_bearing#;#gps_compass#;#gps_vdist_up#;#gps_vdist_down#;#gps_dist_uphill#;#gps_dist_downhill#;#gps_dist_flat#">
+        <parameter type="keywords" name="argument" default="#gps_lat# #gps_lon#" paramlist="#gps_lat#;#gps_lon#;#gps_elev#;#gps_speed#;#gps_dist#;#gps_datetime_now#;#file_datetime_now#;#hr#;#gps_bearing#;#gps_compass#;#gps_vdist_up#;#gps_vdist_down#;#gps_dist_uphill#;#gps_dist_downhill#;#gps_dist_flat#">
             <name>Text</name>
             <paramlistdisplay>GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and time of current gps point,date and time of current frame in video file,heart rate,current GPS bearing,current GPS direction,GPS altitude gain so far,GPS altitude loss so far,distance travelled uphill so far,distance travelled downhill so far,distance travelled on flat area so far</paramlistdisplay>
         </parameter>
