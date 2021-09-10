@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2015-2016 Meltytech LLC
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 #ifndef _TIMELINEITEMS_H

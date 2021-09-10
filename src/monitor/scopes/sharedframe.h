@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2015 Meltytech LLC
  * Author: Brian Matherly <code@brianmatherly.com>
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 #ifndef SHAREDFRAME_H

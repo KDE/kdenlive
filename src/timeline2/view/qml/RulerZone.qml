@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 import QtQuick 2.11

@@ -4,7 +4,7 @@
  * Author: Brian Matherly <pez4brian@yahoo.com>
  * Author: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 #ifndef COLORWHEELITEM_H
