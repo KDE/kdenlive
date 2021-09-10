@@ -173,6 +173,7 @@ protected:
      *     true otherwise */
     bool queryClose() override;
     void closeEvent(QCloseEvent *) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
     void customEvent(QEvent *e) override;
