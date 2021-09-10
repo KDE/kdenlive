@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
  * Author: Dan Dennedy <dan@dennedy.org>
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 #ifndef AUDIOLEVELSTASK_H

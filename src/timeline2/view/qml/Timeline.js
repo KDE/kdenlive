@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2013-2015 Meltytech LLC
  * Author: Dan Dennedy <dan@dennedy.org>
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 function scrollIfNeeded() {

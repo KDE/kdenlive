@@ -6,7 +6,7 @@
  * GL shader based on BSD licensed code from Peter Bengtsson:
  * https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
  *
- * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 
 #include <KDeclarative/KDeclarative>

@@ -1,7 +1,7 @@
 /* This file is part of the KDE project
    SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-   SPDX-License-Identifier: LGPL-2.0-or-later
+   SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
 */
 
 #ifndef TIMECODEDISPLAY_H
