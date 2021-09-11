@@ -323,7 +323,7 @@ void MainWindow::init(const QString &mltPath)
         QPoint inOut = getMainTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
-
+    installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
@@ -3206,35 +3206,25 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotChangeTool(QAction *action)
 {
-
-    if (m_activeTool == ToolType::MulticamTool) {
-        // End multicam operation
-        pCore->monitorManager()->switchMultiTrackView(false);
-        pCore->monitorManager()->slotStopMultiTrackMode();
-    }
+    ToolType::ProjectTool activeTool;
     if (action == m_buttonSelectTool) {
-        m_activeTool = ToolType::SelectTool;
+        activeTool = ToolType::SelectTool;
     } else if (action == m_buttonRazorTool) {
-        m_activeTool = ToolType::RazorTool;
+        activeTool = ToolType::RazorTool;
     } else if (action == m_buttonSpacerTool) {
-        m_activeTool = ToolType::SpacerTool;
+        activeTool = ToolType::SpacerTool;
     } if (action == m_buttonRippleTool) {
-        m_activeTool = ToolType::RippleTool;
+        activeTool = ToolType::RippleTool;
     } if (action == m_buttonRollTool) {
-        m_activeTool = ToolType::RollTool;
+        activeTool = ToolType::RollTool;
     } if (action == m_buttonSlipTool) {
-        m_activeTool = ToolType::SlipTool;
+        activeTool = ToolType::SlipTool;
     } if (action == m_buttonSlideTool) {
-        m_activeTool = ToolType::SlideTool;
+        activeTool = ToolType::SlideTool;
     } if (action == m_buttonMulticamTool) {
-        m_activeTool = ToolType::MulticamTool;
+        activeTool = ToolType::MulticamTool;
     };
-    slotSetTool(m_activeTool);
-    if (m_activeTool == ToolType::MulticamTool) {
-        // Start multicam operation
-        pCore->monitorManager()->switchMultiTrackView(true);
-        pCore->monitorManager()->slotStartMultiTrackMode();
-    }
+    slotSetTool(activeTool);
 }
 
 void MainWindow::slotChangeEdit(QAction *action)
@@ -3261,10 +3251,21 @@ void MainWindow::slotChangeEdit(QAction *action)
 
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
+    if (m_activeTool == ToolType::MulticamTool) {
+        // End multicam operation
+        pCore->monitorManager()->switchMultiTrackView(false);
+        pCore->monitorManager()->slotStopMultiTrackMode();
+    }
+    m_activeTool = tool;
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
         getMainTimeline()->controller()->updateTrimmingMode();
+    }
+    if (m_activeTool == ToolType::MulticamTool) {
+        // Start multicam operation
+        pCore->monitorManager()->switchMultiTrackView(true);
+        pCore->monitorManager()->slotStartMultiTrackMode();
     }
 }
 
@@ -3274,6 +3275,7 @@ void MainWindow::showToolMessage()
     QString toolLabel;
     if (m_buttonSelectTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
+        toolLabel = i18n("Select");
     } else if (m_buttonRazorTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
         toolLabel = i18n("Razor");
@@ -4543,6 +4545,26 @@ void MainWindow::slotCopyDebugInfo() {
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(debuginfo);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    switch (event->type()) {
+        case QEvent::ShortcutOverride:
+            if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+                if (m_activeTool != ToolType::SelectTool) {
+                    m_buttonSelectTool->trigger();
+                    return true;
+                } else {
+                    getCurrentTimeline()->model()->requestClearSelection();
+                    return true;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return QObject::eventFilter(object, event);
 }
 
 #ifdef DEBUG_MAINW
