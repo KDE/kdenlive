@@ -110,7 +110,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonApply = new QToolButton(this);
     m_buttonApply->setAutoRaise(true);
     m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
-    m_buttonApply->setToolTip(i18n("Apply value to selected keyframes"));
+    m_buttonApply->setToolTip(i18n("Apply current position value to selected keyframes"));
     m_buttonApply->setFocusPolicy(Qt::StrongFocus);
     
     // Keyframe type widget
@@ -292,6 +292,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         }
         paramList.clear();
         QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
+        QMap<QPersistentModelIndex, QStringList> params;
         for (auto c : qAsConst(cbs)) {
             //qDebug()<<"=== FOUND CBS: "<<KLocalizedString::removeAcceleratorMarker(c->text());
             if (c->isChecked()) {
@@ -299,25 +300,47 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
                 if (rectParams.contains(ix)) {
                     // Check param name
                     QString cbName = KLocalizedString::removeAcceleratorMarker(c->text());
-                    QString paramName;
                     if (cbName == i18n("Opacity")) {
-                        paramName = QStringLiteral("spinO");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinO");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinO")});
+                        }
                     } else if (cbName == i18n("Height")) {
-                        paramName = QStringLiteral("spinH");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinH");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinH")});
+                        }
                     } else if (cbName == i18n("Width")) {
-                        paramName = QStringLiteral("spinW");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinW");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinW")});
+                        }
                     } else if (cbName == i18n("X position")) {
-                        paramName = QStringLiteral("spinX");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinX");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinX")});
+                        }
                     } else if (cbName == i18n("Y position")) {
-                        paramName = QStringLiteral("spinY");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinY");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinY")});
+                        }
                     }
-                    if (!paramName.isEmpty()) {
-                        m_keyframeview->copyCurrentValue(ix, paramName);
+                    if (!params.contains(ix)) {
+                        params.insert(ix, {});
                     }
-                } else {
-                    m_keyframeview->copyCurrentValue(ix, QString());
                 }
             }
+        }
+        QMapIterator<QPersistentModelIndex, QStringList> p(params);
+        while (p.hasNext()) {
+            p.next();
+            m_keyframeview->copyCurrentValue(p.key(), p.value().join(QLatin1Char(' ')));
         }
         return;
     });
