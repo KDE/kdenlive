@@ -1,6 +1,6 @@
 /*
- *   SPDX-FileCopyrightText: 2007 Marco Gittler (g.marco@freenet.de)              *
- *   SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>       *
+ *   SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org> *
  *                                                                         *
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/

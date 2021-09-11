@@ -1,10 +1,6 @@
 /*
-                          timecode  -  description
-                             -------------------
-    begin                : Wed Dec 17 2003
-    SPDX-FileCopyrightText: 2003 Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- *   SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+ *   SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle <jb@kdenlive.org>
  ***************************************************************************/
 
 /*

@@ -2,8 +2,7 @@
                         timecode  -  description
                            -------------------
   begin                : Wed Dec 17 2003
-  SPDX-FileCopyrightText: 2003 Jason Wood
-  email                : jasonwood@blueyonder.co.uk
+  SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
 ***************************************************************************/
 
 /*
