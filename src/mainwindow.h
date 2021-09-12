@@ -21,7 +21,9 @@
 #define MAINWINDOW_H
 
 #include <QComboBox>
+#ifndef NODBUS
 #include <QDBusAbstractAdaptor>
+#endif
 #include <QDockWidget>
 #include <QEvent>
 #include <QImage>
@@ -171,6 +173,7 @@ protected:
      *     true otherwise */
     bool queryClose() override;
     void closeEvent(QCloseEvent *) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
     void customEvent(QEvent *e) override;
@@ -254,6 +257,7 @@ private:
     QAction *m_buttonRollTool;
     QAction *m_buttonSlipTool;
     QAction *m_buttonSlideTool;
+    QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
@@ -270,6 +274,7 @@ private:
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
+    ToolType::ProjectTool m_activeTool;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -298,7 +303,9 @@ public slots:
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
+#ifndef NODBUS
     Q_NOREPLY void exitApp();
+#endif
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
@@ -325,6 +332,8 @@ public slots:
     void slotAddSubtitle(const QString &text = QString());
     /** @brief Ensure subtitle track is displayed */
     void showSubtitleTrack();
+    /** @brief The path of the current document changed (save as), update render settings */
+    void updateProjectPath(const QString &path);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -568,7 +577,6 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
-    void updateProjectPath(const QString &path);
 };
 
 #endif

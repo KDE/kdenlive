@@ -515,7 +515,6 @@ public:
     /** @brief @todo TODO */
     Q_INVOKABLE int requestFakeClipResize(int clipId, int size, bool right, int snapDistance, bool allowSingleResize);
 
-
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable
        @param itemId is the ID of the clip
@@ -702,6 +701,7 @@ public:
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
+    TimelineMode::EditMode editMode() const;
     Q_INVOKABLE bool normalEdit() const;
 
     /** @brief Returns the effectstack of a given clip. */

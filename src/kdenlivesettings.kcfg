@@ -108,6 +108,10 @@
       <label>Automatically import image sequences.</label>
       <default>false</default>
     </entry>
+    <entry name="ignoresubdirstructure" type="Bool">
+      <label>Ignore the subfolder structure (all clips in subfolders are added to the toplevel folder)</label>
+      <default>false</default>
+    </entry>
     <entry name="disableimagescaling" type="Bool">
       <label>Add a filter to disable default image scaling.</label>
       <default>false</default>

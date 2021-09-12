@@ -48,7 +48,7 @@ Item{
         delegate: Item {
             property var itemModel : model
             property bool clipItem: isClip(model.clipType)
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
+            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : root.activeTool === ProjectTool.SlipTool && model.selected ? model.item === timeline.trimmingMainClip ? 2 : 1 : 0
             Loader {
                 id: loader
                 Binding {

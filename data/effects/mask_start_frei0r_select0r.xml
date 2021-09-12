@@ -1,0 +1,52 @@
+<!DOCTYPE kpartgui>
+<effect tag="mask_start" id="mask_start-frei0r.select0r" dependency="frei0r.select0r">
+        <name>Secondary Color Correction Area Selection (Mask)</name>
+        <description>This filter makes a snapshot of the frame before a keyframable Chroma Key selection with more advanced options (e.g. different color models) is applied. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
+        <author>Marko Cebokli, Dan Dennedy</author>
+        <parameter type="fixed" name="filter" value="frei0r.select0r">
+                <name>Filter</name>
+        </parameter>
+        <parameter type="color" name="filter.Color to select">
+                <name>Color to select</name>
+        </parameter>
+
+        <parameter type="bool" name="filter.Invert selection" default="0">
+                <name>Invert selection</name>
+        </parameter>
+
+        <parameter type="list" name="filter.Selection subspace" default="0" paramlist="0;0.5;1">
+                <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
+                <name>Color Model</name>
+        </parameter>
+
+        <parameter type="list" name="filter.Subspace shape" default="0.5" paramlist="0;0.5;1">
+                <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
+                <name>Shape</name>
+        </parameter>
+
+        <parameter type="list" name="filter.Edge mode" default="0.9" paramlist="0;0.35;0.6;0.7;0.9">
+                <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
+                <name>Edge mode</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
+                <name>Red / Hue Delta</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
+                <name>Green / Chroma Delta</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
+                <name>Blue / Intensity Delta</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Slope" default="0" min="0" max="1000" factor="1000">
+                <name>Soften</name>
+        </parameter>
+
+        <parameter type="list" name="filter.Operation" default="0.0" paramlist="0;0.3;0.5;0.7;1">
+                <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                <name>Operation</name>
+        </parameter>
+</effect>

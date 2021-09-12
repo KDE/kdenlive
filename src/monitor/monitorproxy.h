@@ -85,6 +85,7 @@ public:
      *  returns true if the position was unchanged, false otherwise
      * */
     Q_INVOKABLE bool setPosition(int pos);
+    bool setPositionAdvanced(int pos, bool noAudioScrub);
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
@@ -135,7 +136,7 @@ public:
 signals:
     void positionChanged(int);
     void seekFinishedChanged();
-    void requestSeek(int pos);
+    void requestSeek(int pos, bool noAudioScrub);
     void zoneChanged();
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);

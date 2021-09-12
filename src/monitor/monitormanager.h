@@ -68,6 +68,8 @@ public:
     QDir getCacheFolder(CacheType type);
     /** @brief Returns true if multitrack view is enabled in project monitor. */
     bool isMultiTrack() const;
+    /** @brief Enable/disable multitrack view in project monitor. */
+    void switchMultiTrackView(bool enable);
     /** @brief Returns true if the project monitor shows a trimming preview. */
     bool isTrimming() const;
     /** @brief Returns true if the project monitor is visible (and not tabbed under another dock. */
@@ -120,6 +122,12 @@ public slots:
     void slotExtractCurrentFrameToProject();
     /** @brief Refresh monitor background color */
     void updateBgColor();
+    /** @brief Start multitrack operation */
+    void slotStartMultiTrackMode();
+    /** @brief Stop multitrack operation */
+    void slotStopMultiTrackMode();
+    void slotPerformMultiTrackMode();
+
 
 private slots:
     /** @brief Set MLT's consumer deinterlace method */
@@ -149,6 +157,8 @@ private:
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
     QAction *m_multiTrack{nullptr};
+    /** @brief The currently active track for multitrack mode */
+    int m_activeMultiTrack;
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */

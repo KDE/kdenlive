@@ -140,7 +140,8 @@ enum ProjectTool {
     RippleTool = 3,
     RollTool = 4,
     SlipTool = 5,
-    SlideTool = 6
+    SlideTool = 6,
+    MulticamTool = 7
 };
 Q_ENUM_NS(ProjectTool)
 }

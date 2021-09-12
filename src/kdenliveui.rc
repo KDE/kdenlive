@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="202" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="205" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -57,6 +57,7 @@
       <Action name="razor_tool" />
       <Action name="spacer_tool" />
       <Action name="slip_tool" />
+      <Action name="multicam_tool" />
     </Menu>
 
     <Menu name="clip" ><text>&amp;Clip</text>
@@ -244,6 +245,7 @@
     </Menu>
     <Menu name="view" noMerge="1" ><text>View</text>
     <Action name="fullscreen" />
+    <Action name="open_kcommand_bar" />
     <Separator />
     <Action name="load_layouts" />
     <Action name="save_layout" />

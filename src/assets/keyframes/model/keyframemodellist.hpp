@@ -148,7 +148,7 @@ public:
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
     
     /** @brief Parent item size change, update keyframes*/
-    void moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo);
+    void moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo);
     
     /** @brief Return position of the nth keyframe (ix = nth)*/
     GenTime getPosAtIndex(int ix);

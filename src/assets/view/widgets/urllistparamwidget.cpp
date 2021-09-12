@@ -160,7 +160,7 @@ void UrlListParamWidget::slotRefresh()
 
     // build ui list
     for (const QString &value : qAsConst(values)) {
-        names.append(QUrl(value).fileName());
+        names.append(pCore->nameForLumaFile(QUrl(value).fileName()));
     }
     for (int i = 0; i < values.count(); i++) {
         const QString &entry = values.at(i);
@@ -200,7 +200,6 @@ void UrlListParamWidget::openFile()
     QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
-        QString path = QUrl(urlString).adjusted(QUrl::RemoveFilename).toString();
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         emit valueChanged(m_index, urlString, true);
         slotRefresh();

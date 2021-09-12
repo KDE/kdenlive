@@ -40,17 +40,45 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
-    QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
-    m_oldValue = previousVal.type() == previousVal.toString();
+    m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
 
 void AssetCommand::undo()
 {
+    if (m_name.contains(QLatin1Char('\n'))) {
+        // Check if it is a multi param
+        auto type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::MultiSwitch) {
+            QStringList names = m_name.split(QLatin1Char('\n'));
+            QStringList oldValues = m_oldValue.split(QLatin1Char('\n'));
+            if (names.count() == oldValues.count()) {
+                for (int i = 0; i < names.count(); i++) {
+                    m_model->setParameter(names.at(i), oldValues.at(i), true, m_index);
+                }
+                return;
+            }
+        }
+    }
     m_model->setParameter(m_name, m_oldValue, true, m_index);
 }
 
 void AssetCommand::redo()
 {
+    if (m_name.contains(QLatin1Char('\n'))) {
+        // Check if it is a multi param
+        auto type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::MultiSwitch) {
+            QStringList names = m_name.split(QLatin1Char('\n'));
+            QStringList values = m_value.split(QLatin1Char('\n'));
+            if (names.count() == values.count()) {
+                for (int i = 0; i < names.count(); i++) {
+                    m_model->setParameter(names.at(i), values.at(i), m_updateView, m_index);
+                }
+                m_updateView = true;
+                return;
+            }
+        }
+    }
     m_model->setParameter(m_name, m_value, m_updateView, m_index);
     m_updateView = true;
 }

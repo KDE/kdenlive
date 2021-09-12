@@ -6,6 +6,7 @@ audiopan.xml
 audiospectrum.xml
 audiowave.xml
 audiowaveform.xml
+avfilter_loudnorm.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
@@ -103,6 +104,7 @@ frei0r_vertigo.xml
 frei0r_vignette.xml
 gain.xml
 gamma.xml
+gpstext.xml
 grain.xml
 greyscale.xml
 invert.xml
@@ -111,7 +113,9 @@ lightshow.xml
 loudness.xml
 luma.xml
 lumaliftgaingamma.xml
+mask_start.xml
 mask_start_frei0r_alphaspot.xml
+mask_start_frei0r_select0r.xml
 mask_start_rotoscoping.xml
 mask_start_shape.xml
 mask_apply.xml

@@ -1,6 +1,7 @@
 *~
-build/*
+build/
 CMakeLists.txt.user*
+*.kdev4
 po
 *.patch
 packaging/flatpak/.flatpak-builder

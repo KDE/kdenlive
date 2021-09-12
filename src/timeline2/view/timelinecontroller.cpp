@@ -69,6 +69,7 @@ int TimelineController::m_duration = 0;
 
 TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
+    , multicamIn(-1)
     , m_root(nullptr)
     , m_usePreview(false)
     , m_audioRef(-1)
@@ -696,7 +697,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true,m_activeTrack);
+    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
     if (tid == -1) {
         tid = m_activeTrack;
     }
@@ -1919,7 +1920,7 @@ void TimelineController::removeSplitOverlay()
 
 void TimelineController::updateTrimmingMode() {
     if (trimmingActive()) {
-        requestStartTrimmingMode(-1, false);
+        requestStartTrimmingMode();
     } else {
         requestEndTrimmingMode();
     }
@@ -1931,13 +1932,10 @@ int TimelineController::trimmingBoundOffset(int offset) {
 }
 
 void TimelineController::slipPosChanged(int offset) {
-    if (!m_model->isClip(m_trimmingMainClip)) {
+    if (!m_model->isClip(m_trimmingMainClip) || !pCore->monitorManager()->isTrimming()) {
         return;
     }
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
-    if (mainClip->getMaxDuration() == -1) {
-        return;
-    }
     offset = qBound(mainClip->getOut() - mainClip->getMaxDuration() + 1, offset, mainClip->getIn());
     int outPoint = mainClip->getOut() - offset;
     int inPoint = mainClip->getIn() - offset;
@@ -1947,31 +1945,58 @@ void TimelineController::slipPosChanged(int offset) {
     pCore->displayMessage(info, DirectMessage);
 }
 
-bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurrent)
+bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection)
 {  
     std::unordered_set<int> sel = m_model->getCurrentSelection();
+    std::unordered_set<int> newSel;
 
-    if (sel.empty() && mainClipId != -1) {
-        m_model->requestAddToSelection(mainClipId, true);
+    for (int i : sel) {
+        if (m_model->isClip(i) && m_model->getClipPtr(i)->getMaxDuration() != -1) {
+            newSel.insert(i);
+        }
+    }
+
+    if (mainClipId != -1 && !m_model->isClip(mainClipId) && m_model->getClipPtr(mainClipId)->getMaxDuration() == -1) {
+        mainClipId = -1;
+    }
+
+    if ((newSel.empty() || !isInSelection(mainClipId)) && mainClipId != -1) {
         m_trimmingMainClip = mainClipId;
         emit trimmingMainClipChanged();
+        if (!addToSelection) {
+            newSel.clear();
+        }
+        newSel.insert(mainClipId);
+    }
+
+    if (newSel != sel) {
+        m_model->requestSetSelection(newSel);
         return false;
-    } else if (sel.empty()) {
+    }
+
+    if (sel.empty()) {
         return false;
     }
 
     Q_ASSERT(!sel.empty());
 
-    if (!isInSelection(mainClipId)) {
-        if (isInSelection(m_trimmingMainClip)) {
-            mainClipId = m_trimmingMainClip;
-        } else {
-            mainClipId = -1;
-        }
-    }
-
     if (mainClipId == -1) {
         mainClipId = getMainSelectedClip();
+    }
+
+    if (m_model->getTrackById(m_model->getClipTrackId(mainClipId))->isLocked()) {
+        int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
+        if (partnerId == -1 || m_model->getTrackById(m_model->getClipTrackId(partnerId))->isLocked()) {
+            mainClipId = -1;
+            for (int i : sel) {
+                if (i != mainClipId && !m_model->getTrackById(m_model->getClipTrackId(i))->isLocked()) {
+                    mainClipId = i;
+                    break;
+                }
+            }
+        } else {
+            mainClipId = partnerId;
+        }
     }
 
     if (mainClipId == -1) {
@@ -1983,21 +2008,12 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
 
     if (mainClip->getMaxDuration() == -1) {
-        for (int i : sel) {
-            if (i != mainClipId && m_model->isClip(i) && m_model->getClipPtr(i)->getMaxDuration() != -1) {
-                mainClip = m_model->getClipPtr(i);
-                break;
-            }
-        }
-    }
-
-    if (mainClip->getMaxDuration() == -1) {
         return false;
     }
 
     int partnerId = m_model->m_groups->getSplitPartner(mainClipId);
 
-    if (mainClip->isAudioOnly() && partnerId != -1) {
+    if (mainClip->isAudioOnly() && partnerId != -1 && !m_model->getTrackById(m_model->getClipTrackId(partnerId))->isLocked()) {
         mainClip = m_model->getClipPtr(partnerId);
     }
 
@@ -2065,7 +2081,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
     //trac.set_track( 1);
 
 
-    if (!(mainClip->isAudioOnly() && (partnerId == -1 || onlyCurrent))) {
+    if (!mainClip->isAudioOnly()) {
         int count = 1; // 0 is background track so we start at 1
         for (auto const &producer : producers) {
             trac.set_track(*producer.get(), count);
@@ -2161,8 +2177,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool onlyCurre
 }
 
 void TimelineController::requestEndTrimmingMode() {
-    pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
-    pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    if (pCore->monitorManager()->isTrimming()) {
+        pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
+    }
 }
 
 void TimelineController::addPreviewRange(bool add)
@@ -3931,6 +3949,20 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
             }
             pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
         });
+        int ix = 0;
+        auto it = m_model->m_allTracks.cbegin();
+        while (it != m_model->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            ++it;
+            if (target_track == m_activeTrack) {
+                break;
+            }
+            if (m_model->getTrackById_const(target_track)->isAudioTrack() || m_model->getTrackById_const(target_track)->isHidden()) {
+                continue;
+            }
+            ++ix;
+        }
+        pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
     } else {
         disconnect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack);
     }
@@ -3961,7 +3993,9 @@ void TimelineController::activateTrackAndSelect(int trackPosition)
     if (tid > -1) {
         m_activeTrack = tid;
         emit activeTrackChanged();
-        selectCurrentItem(ObjectType::TimelineClip, true);
+        if (pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
+            selectCurrentItem(ObjectType::TimelineClip, true);
+        }
     }
 }
 
@@ -4663,4 +4697,38 @@ void TimelineController::resizeMix(int cid, int duration, MixAlignment align)
 MixAlignment TimelineController::getMixAlign(int cid) const
 {
     return m_model->getMixAlign(cid);
+}
+
+void TimelineController::processMultitrackOperation(int tid, int in)
+{
+    int out = pCore->getTimelinePosition();
+    if (out == in) {
+        // Simply change the reference track, nothing to do here
+        return;
+    }
+    QVector<int> tracks;
+    auto it = m_model->m_allTracks.cbegin();
+    // Lift all tracks except tid
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (target_track != tid && !(*it)->isAudioTrack() && m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            tracks << target_track;
+        }
+        ++it;
+    }
+    if (tracks.isEmpty()) {
+        pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
+    }
+    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), true);
+}
+
+void TimelineController::setMulticamIn(int pos)
+{
+    if (multicamIn != -1) {
+        // remove previous snap
+        m_model->removeSnap(multicamIn);
+    }
+    multicamIn = pos;
+    m_model->addSnap(multicamIn);
+    emit multicamInChanged();
 }

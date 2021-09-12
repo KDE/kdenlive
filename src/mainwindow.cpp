@@ -46,7 +46,11 @@
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "audiomixer/mixermanager.hpp"
+#ifdef NODBUS
+#include "render/renderserver.h"
+#else
 #include "mainwindowadaptor.h"
+#endif
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
@@ -149,6 +153,7 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
+    , m_activeTool(ToolType::SelectTool)
 {
 }
 
@@ -209,8 +214,11 @@ void MainWindow::init(const QString &mltPath)
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
-
+#ifdef NODBUS
+    new RenderServer(this);
+#else
     new RenderingAdaptor(this);
+#endif
     QString defaultProfile = KdenliveSettings::default_profile();
     
     // Initialise MLT connection
@@ -315,7 +323,7 @@ void MainWindow::init(const QString &mltPath)
         QPoint inOut = getMainTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
-
+    installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
@@ -1224,6 +1232,10 @@ void MainWindow::setupActions()
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
+    m_buttonMulticamTool = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multicam tool"), this);
+    m_buttonMulticamTool->setCheckable(true);
+    m_buttonMulticamTool->setChecked(false);
+
     /* TODO Implement Slide
     // TODO icon available (and properly working) in KF 5.86
     m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide tool"), this);
@@ -1238,6 +1250,7 @@ void MainWindow::setupActions()
     //toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     //toolGroup->addAction(m_buttonSlideTool);
+    toolGroup->addAction(m_buttonMulticamTool);
 
     toolGroup->setExclusive(true);
     
@@ -1346,7 +1359,8 @@ void MainWindow::setupActions()
     m_trimLabel = new QLabel(QString(), this);
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
-    //m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; }"));
+    m_trimLabel->setFixedWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
+    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
 
 
     toolbar->addWidget(m_trimLabel);
@@ -1382,6 +1396,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
     //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
+    addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool);
     //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
@@ -1563,9 +1578,6 @@ void MainWindow::setupActions()
 #endif
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
-    addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
-    // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
-
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
               QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
 
@@ -1697,13 +1709,13 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     act->setData('C');
 
-    act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::CTRL + Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
+    addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
@@ -2181,6 +2193,18 @@ void MainWindow::slotStopRenderProject()
     }
 }
 
+void MainWindow::updateProjectPath(const QString &path)
+{
+    if (m_renderWidget) {
+        m_renderWidget->resetRenderPath(path);
+    } else {
+        // Clear render name as project url changed
+        QMap<QString, QString> renderProps;
+        renderProps.insert(QStringLiteral("renderurl"), QString());
+        slotSetDocumentRenderProfile(renderProps);
+    }
+}
+
 void MainWindow::slotRenderProject()
 {
     KdenliveDoc *project = pCore->currentDoc();
@@ -2191,7 +2215,6 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-        connect(this, &MainWindow::updateProjectPath, m_renderWidget, &RenderWidget::resetRenderPath);
         m_renderWidget->setGuides(project->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
@@ -2263,10 +2286,12 @@ void MainWindow::scriptRender(const QString &url)
     m_renderWidget->slotPrepareExport(true, url);
 }
 
+#ifndef NODBUS
 void MainWindow::exitApp()
 {
     QApplication::exit(0);
 }
+#endif
 
 void MainWindow::slotCleanProject()
 {
@@ -3180,21 +3205,25 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotChangeTool(QAction *action)
 {
+    ToolType::ProjectTool activeTool;
     if (action == m_buttonSelectTool) {
-        slotSetTool(ToolType::SelectTool);
+        activeTool = ToolType::SelectTool;
     } else if (action == m_buttonRazorTool) {
-        slotSetTool(ToolType::RazorTool);
+        activeTool = ToolType::RazorTool;
     } else if (action == m_buttonSpacerTool) {
-        slotSetTool(ToolType::SpacerTool);
+        activeTool = ToolType::SpacerTool;
     } if (action == m_buttonRippleTool) {
-        slotSetTool(ToolType::RippleTool);
+        activeTool = ToolType::RippleTool;
     } if (action == m_buttonRollTool) {
-        slotSetTool(ToolType::RollTool);
+        activeTool = ToolType::RollTool;
     } if (action == m_buttonSlipTool) {
-        slotSetTool(ToolType::SlipTool);
+        activeTool = ToolType::SlipTool;
     } if (action == m_buttonSlideTool) {
-        slotSetTool(ToolType::SlideTool);
-    }
+        activeTool = ToolType::SlideTool;
+    } if (action == m_buttonMulticamTool) {
+        activeTool = ToolType::MulticamTool;
+    };
+    slotSetTool(activeTool);
 }
 
 void MainWindow::slotChangeEdit(QAction *action)
@@ -3202,17 +3231,11 @@ void MainWindow::slotChangeEdit(QAction *action)
     TimelineMode::EditMode mode = TimelineMode::NormalEdit;
     if (action == m_overwriteEditTool) {
         mode = TimelineMode::OverwriteEdit;
-        m_trimLabel->setText(i18n("Overwrite"));
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
     } else if (action == m_insertEditTool) {
         mode = TimelineMode::InsertEdit;
-        m_trimLabel->setText(i18n("Insert"));
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
-    } else {
-        m_trimLabel->setText(QString());
-        m_trimLabel->setStyleSheet(QString());
     }
     getMainTimeline()->controller()->getModel()->setEditMode(mode);
+    showToolMessage();
     if (mode == TimelineMode::InsertEdit) {
         // Disable spacer tool in insert mode
         if (m_buttonSpacerTool->isChecked()) {
@@ -3227,25 +3250,60 @@ void MainWindow::slotChangeEdit(QAction *action)
 
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
+    if (m_activeTool == ToolType::MulticamTool) {
+        // End multicam operation
+        pCore->monitorManager()->switchMultiTrackView(false);
+        pCore->monitorManager()->slotStopMultiTrackMode();
+    }
+    m_activeTool = tool;
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
         getMainTimeline()->controller()->updateTrimmingMode();
+    }
+    if (m_activeTool == ToolType::MulticamTool) {
+        // Start multicam operation
+        pCore->monitorManager()->switchMultiTrackView(true);
+        pCore->monitorManager()->slotStartMultiTrackMode();
     }
 }
 
 void MainWindow::showToolMessage()
 {
     QString message;
+    QString toolLabel;
     if (m_buttonSelectTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
+        toolLabel = i18n("Select");
     } else if (m_buttonRazorTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
+        toolLabel = i18n("Razor");
     } else if (m_buttonSpacerTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
+        toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
-        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</shortcut> for multiple selection");
+        toolLabel = i18n("Slip");
+    }  else if (m_buttonMulticamTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
+        toolLabel = i18n("Multicam");
     }
+    TimelineMode::EditMode mode = getMainTimeline()->controller()->getModel()->editMode();
+    if (mode != TimelineMode::NormalEdit) {
+        if (!toolLabel.isEmpty()) {
+            toolLabel.append(QStringLiteral(" | "));
+        }
+        if (mode == TimelineMode::InsertEdit) {
+            toolLabel.append(i18n("Insert"));
+            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
+        } else if (mode == TimelineMode::OverwriteEdit) {
+            toolLabel.append(i18n("Overwrite"));
+            m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
+        }
+    } else {
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
+    }
+    m_trimLabel->setText(toolLabel);
     m_messageLabel->setKeyMap(message);
 }
 
@@ -3770,6 +3828,7 @@ void MainWindow::slotShutdown()
 {
     pCore->currentDoc()->setModified(false);
     // Call shutdown
+#ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
         QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
@@ -3779,6 +3838,7 @@ void MainWindow::slotShutdown()
                                 QStringLiteral("org.gnome.SessionManager"));
         smserver.call(QStringLiteral("Shutdown"));
     }
+#endif
 }
 
 void MainWindow::slotSwitchMonitors()
@@ -4475,7 +4535,7 @@ void MainWindow::slotSpeechRecognition()
 void MainWindow::slotCopyDebugInfo() {
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
-    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion())).arg(QT_VERSION_STR, QSysInfo::buildAbi()));
+    debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
     debuginfo.append(QStringLiteral("System: %1\n").arg(QSysInfo::prettyProductName()));
     debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType(), QSysInfo::kernelVersion()));
@@ -4484,6 +4544,26 @@ void MainWindow::slotCopyDebugInfo() {
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(debuginfo);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    switch (event->type()) {
+        case QEvent::ShortcutOverride:
+            if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+                if (m_activeTool != ToolType::SelectTool) {
+                    m_buttonSelectTool->trigger();
+                    return true;
+                } else {
+                    getCurrentTimeline()->model()->requestClearSelection();
+                    return true;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return QObject::eventFilter(object, event);
 }
 
 #ifdef DEBUG_MAINW

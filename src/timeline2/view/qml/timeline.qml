@@ -210,7 +210,11 @@ Rectangle {
             return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) / timeline.scaleFactor
         }
         if (tracksArea.containsMouse) {
-            return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+            if (subtitleMouseArea.containsMouse) {
+                return (subtitleMouseArea.mouseX) / timeline.scaleFactor
+            } else {
+                return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+            }
         } else {
             return -1;
         }
@@ -1142,7 +1146,7 @@ Rectangle {
                         var mainClip = undefined
                         mainClip = getItemAtPos(tk, pos, false)
                         trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / timeline.scaleFactor)
-                        timeline.requestStartTrimmingMode(mainClip.clipId, false)
+                        timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
@@ -1531,6 +1535,7 @@ Rectangle {
                             width: tracksContainerArea.width
                             height: 0
                             MouseArea {
+                                id: subtitleMouseArea
                                 anchors.fill: parent
                                 acceptedButtons: Qt.NoButton
                                 hoverEnabled: true
@@ -1803,6 +1808,36 @@ Rectangle {
                     anchors.left:parent.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                }
+            }
+            Rectangle {
+                id: multicamLine
+                visible: root.activeTool === ProjectTool.MulticamTool && timeline.multicamIn > -1
+                color: 'purple'
+                width: 3
+                opacity: 1
+                height: tracksContainerArea.height
+                x: timeline.multicamIn * timeline.scaleFactor - scrollView.contentX
+                y: ruler.height
+                Rectangle {
+                    // multicam in label
+                    width: multilabel.contentWidth + 4
+                    height: multilabel.contentHeight + 2
+                    radius: height / 4
+                    color: 'purple'
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                    Text {
+                        id: multilabel
+                        text: i18n("Multicam In")
+                        bottomPadding: 2
+                        leftPadding: 2
+                        rightPadding: 2
+                        font: miniFont
+                        color: '#FFF'
+                    }
                 }
             }
         }

@@ -91,12 +91,16 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: root.activateTrack(index);
+                    acceptedButtons: Qt.LeftButton
+                    onClicked: {
+                        root.activateTrack(index)
+                        controller.triggerAction('perform_multitrack_mode')
+                    }
                 }
             }
         }
     }
-    SceneToolBar {
+    MultiScreenToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right

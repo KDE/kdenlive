@@ -2005,6 +2005,15 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
     for (auto &p : m_audioProducers) {
         int stream = p.first / 100;
         if (stream == streamIndex) {
+            // Remove existing effects with same name
+            int max = p.second->filter_count();
+            for (int i = 0; i < max; i++) {
+                QScopedPointer<Mlt::Filter> f(p.second->filter(i));
+                if (f->get("mlt_service") == addedEffectName) {
+                    p.second->detach(*f.get());
+                    break;
+                }
+            }
             Mlt::Filter filt(*p.second->profile(), addedEffectName.toUtf8().constData());
             if (filt.is_valid()) {
                 // Add stream effect markup

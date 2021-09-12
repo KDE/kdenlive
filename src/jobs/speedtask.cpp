@@ -49,6 +49,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
 
 void SpeedTask::start(QObject* object, bool force)
 {
+    Q_UNUSED(object)
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     // Show config dialog
     QDialog d(qApp->activeWindow());
