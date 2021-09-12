@@ -128,6 +128,7 @@ public:
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,
+        FakeDurationRole,
         MarkersRole, /// clip only
         PlaylistStateRole,  /// clip only
         StatusRole,  /// clip only
@@ -510,6 +511,10 @@ public:
 
     /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestFakeClipResize(int clipId, int size, bool right, int snapDistance, bool allowSingleResize);
+
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable

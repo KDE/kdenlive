@@ -3255,6 +3255,33 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     return result;
 }
 
+int TimelineModel::requestFakeClipResize(int clipId, int size, bool right, int snapDistance, bool allowSingleResize)
+{
+    //TODO snapping, single/group resize
+    Q_ASSERT(isClip(clipId));
+    if (m_allClips[clipId]->getMaxDuration() != -1) {
+        size = qMax(size, m_allClips[clipId]->getMaxDuration());
+    }
+    m_allClips[clipId]->setFakeDuration(size);
+    bool posChanged = false;
+    if (!right) {
+        int pos = m_allClips[clipId]->getPosition() - (size - m_allClips[clipId]->getPlaytime());
+        m_allClips[clipId]->setFakePosition(pos);
+        posChanged = true;
+    }
+
+    QModelIndex modelIndex = makeClipIndexFromID(clipId);
+    if (modelIndex.isValid()) {
+        QVector<int> roles{FakeDurationRole};
+        if (posChanged) {
+            roles << FakePositionRole;
+        }
+        notifyChange(modelIndex, modelIndex, roles);
+        return size;
+    }
+    return 0;
+}
+
 int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
     QWriteLocker locker(&m_lock);
     TRACE(offset, logUndo)

@@ -1206,11 +1206,10 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-    /* TODO Implement Ripple
     // TODO icon available (and properly working) in KF 5.86
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
     m_buttonRippleTool->setCheckable(true);
-    m_buttonRippleTool->setChecked(false);*/
+    m_buttonRippleTool->setChecked(false);
 
     /* TODO Implement Roll
     // TODO icon available (and properly working) in KF 5.86
@@ -1235,7 +1234,7 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
-    //toolGroup->addAction(m_buttonRippleTool);
+    toolGroup->addAction(m_buttonRippleTool);
     //toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     //toolGroup->addAction(m_buttonSlideTool);
@@ -1380,7 +1379,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
-    //addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
+    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
     //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
     //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);

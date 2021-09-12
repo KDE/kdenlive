@@ -64,6 +64,7 @@ Rectangle {
     property int trackId: -1 // Id of the parent track in the model
     property int fakeTid: -1
     property int fakePosition: 0
+    property int fakeDuration: 0
     property int originalTrackId: -1
     property int originalX: x
     property int originalDuration: clipDuration
@@ -92,6 +93,7 @@ Rectangle {
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onScrollStartChanged: {
+        //TODO handle fakeDuration
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
     }
 
@@ -134,6 +136,14 @@ Rectangle {
 
     onClipDurationChanged: {
         width = clipDuration * timeScale
+        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
+            // Duration changed, we may need a different number of repeaters
+            thumbsLoader.item.reload(1)
+        }
+    }
+
+    onFakeDurationChanged: {
+        width = fakeDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
             thumbsLoader.item.reload(1)
@@ -537,7 +547,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === ProjectTool.SelectTool
+                visible: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -623,7 +633,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -651,7 +661,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: root.activeTool === ProjectTool.SelectTool
+                visible: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -755,7 +765,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !mouseArea.drag.active && parent.enabled)
                 }
             }
 
@@ -961,7 +971,7 @@ Rectangle {
                 when: clipRoot.selected === false
                 PropertyChanges {
                     target: clipRoot
-                    color: Qt.darker(getColor(), 1.5)
+                    color: Qt.darker(getColor(), 2)
                     z: 0
                 }
             },

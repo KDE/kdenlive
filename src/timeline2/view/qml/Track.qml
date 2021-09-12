@@ -77,6 +77,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "fakeDuration"
+                    value: model.fakeDuration
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "mixDuration"
                     value: model.mixDuration
                     when: loader.status == Loader.Ready && loader.item && clipItem
@@ -315,7 +321,14 @@ Item{
                     timeline.showToolTip(s)
                     return
                 }
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                var new_duration = 0;
+                if (root.activeTool === ProjectTool.RippleTool) {
+                    new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
+                    console.log("In: Fake Resize to " + new_duration)
+                } else {
+                    new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                }
+
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     clip.originalX = clip.draggedX
@@ -370,7 +383,13 @@ Item{
                     timeline.showToolTip(s)
                     return
                 }
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                var new_duration = 0;
+                if (root.activeTool === ProjectTool.RippleTool) {
+                    new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
+                    console.log("Out: Fake Resize to " + new_duration)
+                } else {
+                    new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                }
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     // Show amount trimmed as a time in a "bubble" help.
