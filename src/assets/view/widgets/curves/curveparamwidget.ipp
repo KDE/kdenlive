@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2016 by Nicolas Carion                                  *
+ * SPDX-FileCopyrightText: 2016 Nicolas Carion
  * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  */
 

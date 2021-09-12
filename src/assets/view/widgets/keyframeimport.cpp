@@ -1,7 +1,5 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
+ *   SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
  *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
  ***************************************************************************/
 
