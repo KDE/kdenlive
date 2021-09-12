@@ -3289,7 +3289,10 @@ void MainWindow::showToolMessage()
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
         toolLabel = i18n("Multicam");
     }
-    TimelineMode::EditMode mode = getMainTimeline()->controller()->getModel()->editMode();
+    TimelineMode::EditMode mode = TimelineMode::NormalEdit;
+    if (getMainTimeline()->controller() && getMainTimeline()->controller()->getModel()) {
+        mode = getMainTimeline()->controller()->getModel()->editMode();
+    }
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
             toolLabel.append(QStringLiteral(" | "));
