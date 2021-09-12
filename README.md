@@ -16,7 +16,7 @@
 
 # Building from source
 
-[Instructions to build Kdenlive](dev-docs/build.md) are available on the KDE wiki.
+[Instructions to build Kdenlive](dev-docs/build.md) are available in the dev-docs folder.
 
 # Testing Kdenlive via Nightly Builds
 
