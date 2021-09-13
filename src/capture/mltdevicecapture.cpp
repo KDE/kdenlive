@@ -1,16 +1,7 @@
 /*
-                        mltdevicecapture.cpp  -  description
-                           -------------------
-   begin                : Sun May 21 2011
    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
-
-***************************************************************************/
-
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "mltdevicecapture.h"
 

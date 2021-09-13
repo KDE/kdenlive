@@ -1,16 +1,7 @@
 /*
-                          time.h  -  description
-                             -------------------
-    begin                : Sat Sep 14 2002
-    SPDX-FileCopyrightText: 2002 Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- ***************************************************************************/
-
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+   SPDX-FileCopyrightText: 2002 Jason Wood <jasonwood@blueyonder.co.uk>
+   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GENTIME_H
 #define GENTIME_H

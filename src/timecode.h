@@ -1,15 +1,7 @@
 /*
-    timecode  -  description
-    -------------------
-    begin                : Wed Dec 17 2003
-    SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+   SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
-
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
 #ifndef TIMECODE_H
 #define TIMECODE_H
 

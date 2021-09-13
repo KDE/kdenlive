@@ -1,13 +1,9 @@
 /*
-    SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
-    SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle <jb@kdenlive.org>
-*/
+   SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+   SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 /*
 
