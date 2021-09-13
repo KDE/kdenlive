@@ -1,0 +1,41 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.cairogradient" id="frei0r.cairogradient" type="video">
+	<name>Cairogradient</name>
+	<description>Draws a gradient on top of image. Filter is given gradient start and end points, colors and opacities.</description>
+	<author>Janne Liljeblad</author>
+    <parameter type="list" name="0" default="gradient_linear" paramlist="gradient_linear;gradient_radial">
+                <paramlistdisplay>Linear,Radial</paramlistdisplay>
+                <name>Pattern</name>
+	</parameter>
+	<parameter type="color" name="1" default="#000000">
+		<name>Start Color</name>
+	</parameter>
+	<parameter type="animated"  name="2" max="1" min="0" default="0.5" decimals="3">
+		<name>Start Opacity</name>
+	</parameter>
+    <parameter type="color"  name="3" default="#ffffff">
+		<name>End Color</name>
+	</parameter>
+    <parameter type="animated"  name="4" max="1" min="0" default="0.5" decimals="3">
+		<name>End Opacity</name>
+	</parameter>
+    <parameter type="animated"  name="5" max="1" min="0" default="0.5" decimals="3">
+		<name>Start X</name>
+	</parameter>
+        <parameter type="animated"  name="6" max="1" min="0" default="0.5" decimals="3">
+		<name>Start Y</name>
+	</parameter>
+        <parameter type="animated"  name="7" max="1" min="0" default="0.5" decimals="3">
+		<name>End X</name>
+	</parameter>
+    <parameter type="animated"  name="8" max="1" min="0" default="0.5" decimals="3">
+		<name>End Y</name>
+	</parameter>
+    <parameter type="animated"  name="9" max="1" min="0" default="0" decimals="3">
+		<name>Offset</name>
+	</parameter>
+    <parameter type="list"  name="10" default="1" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity">
+                <paramlistdisplay>normal,add,saturate,multiply,screen,overlay,darken,lighten,colordodge,colorburn,hardlight,softlight,difference,exclusion,hslhue,hslsaturation,hslcolor,hslluminosity</paramlistdisplay>
+                <name>Blend Mode</name>
+    </parameter>
+</effect>
