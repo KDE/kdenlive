@@ -34,6 +34,11 @@
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
+// TODO
+#include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/model/timelinefunctions.hpp"
 
 #include "monitor/monitormanager.h"
 
@@ -3217,6 +3222,106 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     return res;
 }
 
+int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    requestItemRippleResize(itemId, size, right, logUndo, undo, redo);
+    PUSH_UNDO(undo, redo, i18n("Ripple resize clip"));
+    return size; //TODO
+}
+
+bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+{
+    Q_UNUSED(blockUndo)
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = false;
+    if (isClip(itemId)) {
+        bool hasMix = false;
+        /*if (!logUndo) {
+            int tid = m_allClips[itemId]->getCurrentTrackId();
+            if (tid > -1) {
+                if (right) {
+                    if (getTrackById_const(tid)->hasEndMix(itemId)) {
+                        hasMix = true;
+                    }
+                } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
+                    hasMix = true;
+                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                    // We have a mix at clip start
+                    int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
+                    getTrackById_const(tid)->setMixDuration(itemId, qMax(1, mixDuration), m_allClips[itemId]->getMixCutPosition());
+                    QModelIndex ix = makeClipIndexFromID(itemId);
+                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                }
+            }
+        } else {
+            int tid = m_allClips[itemId]->getCurrentTrackId();
+            if (tid > -1 && getTrackById_const(tid)->hasMix(itemId)) {
+                hasMix = true;
+            }
+        }*/
+        bool affectAllTracks = false;
+        size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
+        int delta = size - m_allClips[itemId]->getPlaytime();
+        auto spacerOperation = [this, itemId, affectAllTracks, &undo, &redo, delta, right](int position) {
+            int trackId = getItemTrackId(itemId);
+            if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
+                return true;
+            }
+            int cid = TimelineFunctions::requestSpacerStartOperation(pCore->window()->getCurrentTimeline()->model(), affectAllTracks ? -1 : trackId, position);
+            if (cid == -1) {
+                return false;
+            }
+            int endPos = getItemPosition(cid) + delta;
+            // Start undoable command
+            TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
+            return true;
+        };
+        if(delta > 0) {
+            if(right) {
+                int position = getItemPosition(itemId) + getItemPlaytime(itemId);
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            } else {
+                int position = getItemPosition(itemId);
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            }
+        }
+
+        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo, hasMix);
+        if (delta < 0) {
+            if(right) {
+                int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            } else {
+                int position = getItemPosition(itemId) + delta;
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            }
+        }
+
+    } else if (isComposition(itemId)) {
+        return false;
+        // TODO? Does it make sense?
+        // result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
+    } else if (isSubTitle(itemId)) {
+        return false;
+        // TODO
+        // result = m_subtitleModel->requestResize(itemId, size, right, local_undo, local_redo, logUndo);
+    }
+    if (result) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return result;
+}
+
 bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
@@ -3265,7 +3370,9 @@ int TimelineModel::requestFakeClipResize(int clipId, int size, bool right, int s
     //TODO snapping, single/group resize
     Q_ASSERT(isClip(clipId));
     if (m_allClips[clipId]->getMaxDuration() != -1) {
-        size = qMax(size, m_allClips[clipId]->getMaxDuration());
+        size = qBound(1, size, m_allClips[clipId]->getMaxDuration());
+    } else {
+        size = qMax(1, size);
     }
     m_allClips[clipId]->setFakeDuration(size);
     bool posChanged = false;

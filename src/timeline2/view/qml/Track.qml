@@ -48,7 +48,25 @@ Item{
         delegate: Item {
             property var itemModel : model
             property bool clipItem: isClip(model.clipType)
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : root.activeTool === ProjectTool.SlipTool && model.selected ? model.item === timeline.trimmingMainClip ? 2 : 1 : 0
+            function calculateZIndex() {
+                if (model.clipType == ProducerType.Composition) {
+                    return 5;
+                }
+
+                if (model.mixDuration > 0) {
+                    return model.start / 25;
+                }
+
+                if (root.activeTool === ProjectTool.SlipTool && model.selected) {
+                    return model.item === timeline.trimmingMainClip ? 2 : 1;
+                }
+
+                if (root.activeTool === ProjectTool.RippleTool && model.item === timeline.trimmingMainClip) {
+                    return 1;
+                }
+                return 0;
+            }
+            z: calculateZIndex()
             Loader {
                 id: loader
                 Binding {
@@ -324,6 +342,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
+                    timeline.requestStartTrimmingMode(clip.clipId, false);
                     console.log("In: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
@@ -355,7 +374,11 @@ Item{
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                         speedController.originalSpeed = 1
                     } else {
-                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                        } else {
+                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                        }
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
@@ -386,6 +409,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
+                    timeline.requestStartTrimmingMode(clip.clipId, false);
                     console.log("Out: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
@@ -414,7 +438,11 @@ Item{
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                         speedController.originalSpeed = 1
                     } else {
-                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                        } else {
+                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                        }
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
