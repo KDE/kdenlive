@@ -7,7 +7,7 @@ MouseArea {
     property bool rightSide: true
     property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
-    width: fullscreenButton.width + root.baseUnit
+    width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
     onEntered: {
         animator.stop()
@@ -20,7 +20,7 @@ MouseArea {
     Rectangle {
         id: effecttoolbar
         objectName: "effecttoolbar"
-        width: fullscreenButton.width
+        width: barZone.width
         anchors.right: barZone.right
         anchors.verticalCenter: parent.verticalCenter
         height: childrenRect.height
@@ -51,9 +51,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/view-fullscreen"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -66,9 +70,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/view-grid"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocusv
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -88,9 +96,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/keyframe-next"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -103,9 +115,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/keyframe-previous"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -118,9 +134,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/keyframe-add"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -132,9 +152,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/keyframe-record"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 ToolTip.visible: hovered
                 focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -149,9 +173,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/zoom-in"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -163,9 +191,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/zoom-out"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -178,9 +210,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/transform-move-horizontal"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval

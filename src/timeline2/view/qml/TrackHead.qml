@@ -239,7 +239,7 @@ Rectangle {
                     source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
                     anchors.centerIn: parent
                     width: root.collapsedHeight - 4
-                    height: root.collapsedHeight - 4
+                    height: width
                     cache: root.paletteUnchanged
                 }
             }
@@ -390,7 +390,7 @@ Rectangle {
                         source: "image://icon/tools-wizard"
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                         opacity: effectButton.enabled ? 1 : 0.5
                     }
@@ -427,7 +427,7 @@ Rectangle {
                         source: isAudio ? (isDisabled ? "image://icon/kdenlive-hide-audio" : "image://icon/kdenlive-show-audio") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                     }
                 }
@@ -460,7 +460,7 @@ Rectangle {
                         source: trackHeadRoot.isLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                     }
                 }

@@ -7,7 +7,7 @@ MouseArea {
     hoverEnabled: true
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
-    width: fullscreenButton.width + root.baseUnit
+    width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
     onEntered: {
         animator.stop()
@@ -20,7 +20,7 @@ MouseArea {
     Rectangle {
         id: scenetoolbar
         objectName: "scenetoolbar"
-        width: fullscreenButton.width
+        width: barZone.width
         height: childrenRect.height
         anchors.right: barZone.right
         SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
@@ -43,8 +43,6 @@ MouseArea {
             animator.start()
         }
 
-    
-        
         Column {
             ToolButton {
                 id: fullscreenButton
@@ -52,9 +50,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/view-fullscreen"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -70,9 +72,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/view-grid"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -91,9 +97,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/zoom-in"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -108,9 +118,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/zoom-out"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -126,9 +140,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/list-add"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -144,9 +162,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/list-remove"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -162,9 +184,13 @@ MouseArea {
                 contentItem: Item {
                     Image {
                         source: "image://icon/transform-move-horizontal"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
                     }
                 }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
