@@ -49,7 +49,12 @@ MouseArea {
             ToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
-                icon.name: "view-fullscreen"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-fullscreen"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -61,7 +66,12 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-in"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-in"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -73,7 +83,12 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-out"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-out"
+                        anchors.fill: parent
+                    }
+                }
                 ToolTip.visible: hovered
                 focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -86,7 +101,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "moveBar"
-                icon.name: "transform-move-horizontal"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/transform-move-horizontal"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval

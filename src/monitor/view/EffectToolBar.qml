@@ -48,7 +48,12 @@ MouseArea {
             ToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
-                icon.name: "view-fullscreen"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-fullscreen"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -58,7 +63,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "switchOverlay"
-                icon.name: "view-grid"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-grid"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocusv
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -75,7 +85,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "nextKeyframe"
-                icon.name: "keyframe-next"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-next"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -85,7 +100,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "prevKeyframe"
-                icon.name: "keyframe-previous"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-previous"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -95,7 +115,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "addKeyframe"
-                icon.name: "keyframe-add"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-add"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -104,7 +129,12 @@ MouseArea {
                 onClicked: controller.addRemoveKeyframe()
             }
             ToolButton {
-                icon.name: "keyframe-record"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-record"
+                        anchors.fill: parent
+                    }
+                }
                 ToolTip.visible: hovered
                 focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -116,7 +146,12 @@ MouseArea {
                 visible: barZone.showAutoKeyframe
             }
             ToolButton {
-                icon.name: "zoom-in"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-in"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -125,7 +160,12 @@ MouseArea {
                 onClicked: controller.triggerAction('monitor_zoomin')
             }
             ToolButton {
-                icon.name: "zoom-out"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-out"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -135,7 +175,12 @@ MouseArea {
             }
             ToolButton {
                 objectName: "moveBar"
-                icon.name: "transform-move-horizontal"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/transform-move-horizontal"
+                        anchors.fill: parent
+                    }
+                }
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
