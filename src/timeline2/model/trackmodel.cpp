@@ -2077,7 +2077,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString,QVector<QPair<QString
         std::unique_ptr<Mlt::Transition> t;
         const QString assetId = params.first;
         t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), assetId.toUtf8().constData());
-        int mixCutPos = movedClip->getMixCutPosition();
+        int mixCutPos = info.mixOffset; //movedClip->getMixCutPosition();
         t->set_in_and_out(in, out);
         t->set("kdenlive:mixcut", mixCutPos);
         t->set("kdenlive_id", assetId.toUtf8().constData());
@@ -2291,6 +2291,34 @@ bool TrackModel::hasStartMix(int cid) const
 bool TrackModel::hasEndMix(int cid) const
 {
     return m_mixList.contains(cid);
+}
+
+QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
+{
+    QDomElement container = document.createElement(QStringLiteral("mix"));
+    int firstClipId = m_mixList.key(cid);
+    container.setAttribute(QStringLiteral("firstClip"), firstClipId);
+    container.setAttribute(QStringLiteral("secondClip"), cid);
+    if (auto ptr = m_parent.lock()) {
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(firstClipId);
+        container.setAttribute(QStringLiteral("firstClipPosition"), clip->getPosition());
+    }
+    std::shared_ptr<AssetParameterModel> asset = m_sameCompositions.at(cid);
+    const QString assetId = m_sameCompositions.at(cid)->getAssetId();
+    QVector<QPair<QString, QVariant>> params = m_sameCompositions.at(cid)->getAllParameters();
+    container.setAttribute(QStringLiteral("asset"), assetId);
+    for (const auto &p : qAsConst(params)) {
+        QDomElement para = document.createElement(QStringLiteral("param"));
+        para.setAttribute(QStringLiteral("name"), p.first);
+        QDomText val = document.createTextNode(p.second.toString());
+        para.appendChild(val);
+        container.appendChild(para);
+    }
+    std::pair<MixInfo, MixInfo> mixData = getMixInfo(cid);
+    container.setAttribute(QStringLiteral("mixStart"), mixData.first.secondClipInOut.first);
+    container.setAttribute(QStringLiteral("mixEnd"), mixData.first.firstClipInOut.second);
+    container.setAttribute(QStringLiteral("mixOffset"), mixData.first.mixOffset);
+    return container;
 }
 
 bool TrackModel::loadMix(Mlt::Transition *t)

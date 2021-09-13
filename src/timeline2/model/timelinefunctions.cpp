@@ -1453,10 +1453,16 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
             offset = timeline->getItemPosition(id);
         }
         if (timeline->isClip(id)) {
-            container.appendChild(timeline->m_allClips[id]->toXml(copiedItems));
+            QDomElement clipXml = timeline->m_allClips[id]->toXml(copiedItems);
+            container.appendChild(clipXml);
             const QString bid = timeline->m_allClips[id]->binId();
             if (!binIds.contains(bid)) {
                 binIds << bid;
+            }
+            int tid = timeline->getItemTrackId(id);
+            if (timeline->getTrackById_const(tid)->hasStartMix(id)) {
+                QDomElement mix = timeline->getTrackById_const(tid)->mixXml(copiedItems, id);
+                clipXml.appendChild(mix);
             }
         } else if (timeline->isComposition(id)) {
             container.appendChild(timeline->m_allCompositions[id]->toXml(copiedItems));
@@ -1810,6 +1816,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
     bool res = true;
     std::unordered_map<int, int> correspondingIds;
+    QDomElement documentMixes = copiedItems.createElement(QStringLiteral("mixes"));
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
         QString originalId = prod.attribute(QStringLiteral("binid"));
@@ -1847,21 +1854,21 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             // This is a timeremap
             timeline->m_allClips[newId]->useTimeRemapProducer(true, timeline_undo, timeline_redo);
             if (timeline->m_allClips[newId]->m_producer->parent().type() == mlt_service_chain_type) {
-            Mlt::Chain fromChain(timeline->m_allClips[newId]->m_producer->parent());
-            int count = fromChain.link_count();
-            for (int i = 0; i < count; i++) {
-                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
-                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                        // Found a timeremap effect, read params
-                        fromLink->set("map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
-                        fromLink->set("pitch", prod.attribute(QStringLiteral("timepitch")).toInt());
-                        fromLink->set("image_mode", prod.attribute(QStringLiteral("timeblend")).toUtf8().constData());
-                        break;
+                Mlt::Chain fromChain(timeline->m_allClips[newId]->m_producer->parent());
+                int count = fromChain.link_count();
+                for (int i = 0; i < count; i++) {
+                    QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                    if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                        if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                            // Found a timeremap effect, read params
+                            fromLink->set("map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
+                            fromLink->set("pitch", prod.attribute(QStringLiteral("timepitch")).toInt());
+                            fromLink->set("image_mode", prod.attribute(QStringLiteral("timeblend")).toUtf8().constData());
+                            break;
+                        }
                     }
                 }
             }
-        }
             
         }
         if (timeline->m_allClips[newId]->m_endlessResize) {
@@ -1872,6 +1879,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         }
         timeline->m_allClips[newId]->setInOut(in, out);
         int targetId = prod.attribute(QStringLiteral("id")).toInt();
+        int targetPlaylist = prod.attribute(QStringLiteral("playlist")).toInt();
+        if (targetPlaylist > 0) {
+            timeline->m_allClips[newId]->setSubPlaylistIndex(targetPlaylist, curTrackId);
+        }
         correspondingIds[targetId] = newId;
         res = res && timeline->getTrackById(curTrackId)->requestClipInsertion(newId, position + pos, true, true, timeline_undo, timeline_redo);
         // paste effects
@@ -1881,6 +1892,40 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         } else {
             qDebug()<<"=== COULD NOT PASTE CLIP: "<<newId<<" ON TRACK: "<<curTrackId<<" AT: "<<position;
             break;
+        }
+        // Mixes (same track transitions)
+        if (prod.hasChildNodes()) {
+            QDomNodeList mixes = prod.elementsByTagName(QLatin1String("mix"));
+            if (!mixes.isEmpty()) {
+                QDomElement mix = mixes.at(0).toElement();
+                if (mix.tagName() == QLatin1String("mix")) {
+                    mix.setAttribute(QStringLiteral("tid"), curTrackId);
+                    documentMixes.appendChild(mix);
+                }
+            }
+        }
+    }
+    // Process mix insertion
+    QDomNodeList mixes = documentMixes.childNodes();
+    for (int k = 0; k < mixes.count(); k++) {
+        QDomElement mix = mixes.at(k).toElement();
+        int originalFirstClipId = mix.attribute(QLatin1String("firstClip")).toInt();
+        int originalSecondClipId = mix.attribute(QLatin1String("secondClip")).toInt();
+        if (correspondingIds.count(originalFirstClipId) > 0 && correspondingIds.count(originalSecondClipId) > 0) {
+            QVector<QPair<QString, QVariant>> params;
+            QDomNodeList paramsXml = mix.elementsByTagName(QLatin1String("param"));
+            for (int j = 0; j < paramsXml.count(); j++) {
+                QDomElement e = paramsXml.at(j).toElement();
+                params.append({e.attribute(QLatin1String("name")), e.text()});
+            }
+            std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = {mix.attribute(QLatin1String("asset")),params};
+            MixInfo mixData;
+            mixData.firstClipId = correspondingIds[originalFirstClipId];
+            mixData.secondClipId = correspondingIds[originalSecondClipId];
+            mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt();
+            mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt();
+            mixData.mixOffset =  mix.attribute(QLatin1String("mixOffset")).toInt();
+            timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, true);
         }
     }
     // Compositions

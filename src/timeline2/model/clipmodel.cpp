@@ -1300,6 +1300,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
     container.setAttribute(QStringLiteral("state"), m_currentState);
+    container.setAttribute(QStringLiteral("playlist"), m_subPlaylistIndex);
     if (auto ptr = m_parent.lock()) {
         int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);

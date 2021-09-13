@@ -330,6 +330,8 @@ protected:
     bool hasStartMix(int cid) const;
     /** @brief Returns true if this clip has a mix at end */
     bool hasEndMix(int cid) const;
+    /** @brief Returns all mix info as xml */
+    QDomElement mixXml(QDomDocument &document, int cid) const;
 
 public slots:
     /** Delete the current track and all its associated clips */
