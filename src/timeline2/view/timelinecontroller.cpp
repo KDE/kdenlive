@@ -2047,7 +2047,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     }
 
     int previewLength = 0;
-    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+    switch (pCore->activeTool()) {
     case ToolType::SlipTool:
         // Get copy of timeline producer
         /* This is an example using a playlist. This does not work with switch -> use if else instead
@@ -2101,7 +2101,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
             //transition.set("internal_added", 200);
 
             QString geometry;
-            switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+            switch (pCore->activeTool()) {
             case ToolType::RollTool:
             case ToolType::RippleTool:
                 switch (i) {
@@ -2160,7 +2160,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);
 
-    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+    switch (pCore->activeTool()) {
     case ToolType::RollTool:
     case ToolType::RippleTool:
         break;
@@ -3993,7 +3993,7 @@ void TimelineController::activateTrackAndSelect(int trackPosition)
     if (tid > -1) {
         m_activeTrack = tid;
         emit activeTrackChanged();
-        if (pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
+        if (pCore->activeTool() != ToolType::MulticamTool) {
             selectCurrentItem(ObjectType::TimelineClip, true);
         }
     }

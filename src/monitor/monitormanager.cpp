@@ -289,7 +289,7 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
     } else {
@@ -303,7 +303,7 @@ void MonitorManager::slotRewindOneFrame()
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
     } else {
@@ -317,7 +317,7 @@ void MonitorManager::slotForwardOneFrame()
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-qRound(pCore->getCurrentFps()));
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-qRound(pCore->getCurrentFps()), true);
     } else {
@@ -331,7 +331,7 @@ void MonitorManager::slotRewindOneSecond()
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(qRound(pCore->getCurrentFps()));
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(qRound(pCore->getCurrentFps()), true);
     } else {
