@@ -63,6 +63,7 @@ MouseArea {
             ToolButton {
                 objectName: "switchOverlay"
                 icon.name: "view-grid"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Change Overlay")
@@ -78,6 +79,7 @@ MouseArea {
             }
             ToolButton {
                 icon.name: "zoom-in"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -89,6 +91,7 @@ MouseArea {
             }
             ToolButton {
                 icon.name: "zoom-out"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
@@ -101,6 +104,7 @@ MouseArea {
             ToolButton {
                 objectName: "addMarker"
                 icon.name: "list-add"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
@@ -113,6 +117,7 @@ MouseArea {
             ToolButton {
                 objectName: "removeMarker"
                 icon.name: "list-remove"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
@@ -125,6 +130,7 @@ MouseArea {
             ToolButton {
                 objectName: "moveBar"
                 icon.name: "transform-move-horizontal"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")

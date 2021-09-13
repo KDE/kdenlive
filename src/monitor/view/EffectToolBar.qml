@@ -49,6 +49,7 @@ MouseArea {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 icon.name: "view-fullscreen"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Switch Full Screen")
@@ -58,6 +59,7 @@ MouseArea {
             ToolButton {
                 objectName: "switchOverlay"
                 icon.name: "view-grid"
+                focusPolicy: Qt.NoFocusv
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Change Overlay")
@@ -74,6 +76,7 @@ MouseArea {
             ToolButton {
                 objectName: "nextKeyframe"
                 icon.name: "keyframe-next"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Next Keyframe")
@@ -83,6 +86,7 @@ MouseArea {
             ToolButton {
                 objectName: "prevKeyframe"
                 icon.name: "keyframe-previous"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Previous Keyframe")
@@ -92,6 +96,7 @@ MouseArea {
             ToolButton {
                 objectName: "addKeyframe"
                 icon.name: "keyframe-add"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Add/Remove Keyframe")
@@ -101,6 +106,7 @@ MouseArea {
             ToolButton {
                 icon.name: "keyframe-record"
                 ToolTip.visible: hovered
+                focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Automatic Keyframes")
                 ToolTip.timeout: 3000
@@ -111,6 +117,7 @@ MouseArea {
             }
             ToolButton {
                 icon.name: "zoom-in"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -119,6 +126,7 @@ MouseArea {
             }
             ToolButton {
                 icon.name: "zoom-out"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
@@ -128,6 +136,7 @@ MouseArea {
             ToolButton {
                 objectName: "moveBar"
                 icon.name: "transform-move-horizontal"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")

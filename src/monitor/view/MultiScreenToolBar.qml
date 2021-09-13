@@ -62,6 +62,7 @@ MouseArea {
             }
             ToolButton {
                 icon.name: "zoom-in"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -74,6 +75,7 @@ MouseArea {
             ToolButton {
                 icon.name: "zoom-out"
                 ToolTip.visible: hovered
+                focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
                 ToolTip.timeout: 3000
@@ -85,6 +87,7 @@ MouseArea {
             ToolButton {
                 objectName: "moveBar"
                 icon.name: "transform-move-horizontal"
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")
