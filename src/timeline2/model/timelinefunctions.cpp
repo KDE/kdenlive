@@ -427,7 +427,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     int track = timeline->getItemTrackId(itemId);
     bool isClip = timeline->isClip(itemId);
     if (isClip) {
-        timeline->requestClipMove(itemId, track, startPosition, true, false, false);
+        timeline->requestClipMove(itemId, track, startPosition, true, false, false, false, true);
     } else if (timeline->isComposition(itemId)) {
         timeline->requestCompositionMove(itemId, track, startPosition, false, false);
     } else {
