@@ -1945,8 +1945,7 @@ void TimelineController::slipPosChanged(int offset) {
     pCore->displayMessage(info, DirectMessage);
 }
 
-bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection)
-{  
+bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelection) {
     std::unordered_set<int> sel = m_model->getCurrentSelection();
     std::unordered_set<int> newSel;
 
@@ -2004,7 +2003,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         return false;
     }
 
-    std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
 
     if (mainClip->getMaxDuration() == -1) {
@@ -2019,6 +2017,26 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 
     m_trimmingMainClip = mainClip->getId();
     emit trimmingMainClipChanged();
+    return true;
+}
+
+bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection)
+{
+
+    if (pCore->activeTool() == ToolType::SlipTool && !slipProcessSelection(mainClipId, addToSelection)) {
+        return false;
+    } else {
+    //if (pCore->activeTool() == ToolType::SlipTool && m_model.get()->isClip(mainClipId)) {
+        if (m_model.get()->isClip(mainClipId)) {
+            m_trimmingMainClip = mainClipId;
+            emit trimmingMainClipChanged();
+            return true; //TODO: JUST FOR THE MOMENT
+        } else {
+            return false;
+        }
+    }
+
+    std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
 
     const int previousClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() - 1);
     std::shared_ptr<Mlt::Producer> previousFrame;
@@ -2046,6 +2064,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         nextFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
     }
 
+    std::vector<std::shared_ptr<Mlt::Producer>> producers;
     int previewLength = 0;
     switch (pCore->activeTool()) {
     case ToolType::SlipTool:
