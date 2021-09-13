@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2013 Meltytech LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- * Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
- * and Steinar Gunderson's Movit demo app.
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2013 Meltytech LLC
+    Author: Dan Dennedy <dan@dennedy.org>
+    Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
+    and Steinar Gunderson's Movit demo app.
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "colorwheel.h"
 

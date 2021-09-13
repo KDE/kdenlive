@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef LUMALIFTGAINPARAMWIDGET_H
 #define LUMALIFTGAINPARAMWIDGET_H

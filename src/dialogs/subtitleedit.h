@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef SUBTITLEEDIT_H
 #define SUBTITLEEDIT_H

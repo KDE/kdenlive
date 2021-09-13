@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "profilerepository.hpp"
 #include "kdenlive_debug.h"

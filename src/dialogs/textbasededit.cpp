@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "textbasededit.h"
 #include "bin/bin.h"

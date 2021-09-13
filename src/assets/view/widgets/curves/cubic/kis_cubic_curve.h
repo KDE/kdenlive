@@ -1,8 +1,8 @@
 /*
- *  SPDX-FileCopyrightText: 2010 Cyrille Berger <cberger@cberger.net>
- *
- *  SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2010 Cyrille Berger <cberger@cberger.net>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KIS_CUBIC_CURVE_H
 #define KIS_CUBIC_CURVE_H

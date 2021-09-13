@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2013-2021 Meltytech LLC
- * SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2013-2021 Meltytech LLC
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "audiolevelstask.h"
 #include "core.h"

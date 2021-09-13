@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2020 Sashmita Raghav *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "subtitlemodel.hpp"
 #include "bin/bin.h"

@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2008 Marco Gittler (g.marco@freenet.de)                                  *
- *   SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2008 Marco Gittler (g.marco@freenet.de)
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef GRAPHICSSCENERECTMOVE_H
 #define GRAPHICSSCENERECTMOVE_H

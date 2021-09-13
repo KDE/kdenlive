@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TEXTBASEDEDIT_H
 #define TEXTBASEDEDIT_H

@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    Author: Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 import QtQml.Models 2.11

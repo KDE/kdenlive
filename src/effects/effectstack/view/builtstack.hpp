@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef BUILTSTACK_H
 #define BUILTSTACK_H

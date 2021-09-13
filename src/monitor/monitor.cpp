@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #include "monitor.h"
 #include "bin/bin.h"

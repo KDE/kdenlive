@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "urlparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"

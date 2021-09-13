@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2013-2015 Meltytech LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2013-2015 Meltytech LLC
+    Author: Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 function scrollIfNeeded() {
     if (!scrollView) return;

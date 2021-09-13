@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *               2013 by Jean-Nicolas Artaud (jeannicolasartaud@gmail.com) *
- *                                                                         *
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    2013 by Jean-Nicolas Artaud (jeannicolasartaud@gmail.com)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef INVALIDDIALOG_H
 #define INVALIDDIALOG_H

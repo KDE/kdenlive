@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2012 Simon A. Eugster <simon.eu@gmail.com>           *
- *                                                                         *
+    SPDX-FileCopyrightText: 2012 Simon A. Eugster <simon.eu@gmail.com>
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #include "qtimerWithTime.h"
 

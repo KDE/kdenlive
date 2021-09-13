@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef EFFECTBASKET_H
 #define EFFECTBASKET_H

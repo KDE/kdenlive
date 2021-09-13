@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef NOTESWIDGET_H
 #define NOTESWIDGET_H

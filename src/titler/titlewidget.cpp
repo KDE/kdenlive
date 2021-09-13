@@ -1,10 +1,10 @@
 /*
-                          titlewidget.cpp  -  description
-                             -------------------
+    titlewidget.cpp  -  description
+    -------------------
     begin                : Feb 28 2008
     SPDX-FileCopyrightText: 2008 Marco Gittler
     email                : g.marco@freenet.de
- ***************************************************************************/
+*/
 
 /*
  *                                                                         *

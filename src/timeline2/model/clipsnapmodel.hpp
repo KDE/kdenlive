@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef CLIPSNAPMODEL_H
 #define CLIPSNAPMODEL_H

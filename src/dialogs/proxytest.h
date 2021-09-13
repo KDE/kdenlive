@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef PROXYTEST_H
 #define PROXYTEST_H

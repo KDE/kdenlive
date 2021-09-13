@@ -1,9 +1,9 @@
 /*
-                        timecode  -  description
-                           -------------------
-  begin                : Wed Dec 17 2003
-  SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
-***************************************************************************/
+    timecode  -  description
+    -------------------
+    begin                : Wed Dec 17 2003
+    SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+*/
 
 /*
  *                                                                         *

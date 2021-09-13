@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2010 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef V4LCAPTURE_H
 #define V4LCAPTURE_H

@@ -1,10 +1,10 @@
 /*
-                          titledocument.h  -  description
-                             -------------------
+    titledocument.h  -  description
+    -------------------
     begin                : Feb 28 2008
     SPDX-FileCopyrightText: 2008 Marco Gittler
     email                : g.marco@freenet.de
- ***************************************************************************/
+*/
 
 /*
  *                                                                         *

@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef COMPOSITIONMODEL_H
 #define COMPOSITIONMODEL_H

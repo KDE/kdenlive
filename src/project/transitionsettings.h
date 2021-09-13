@@ -1,10 +1,10 @@
 /*
-                          project/transitionsettings.h  -  Transitions widget
-                             -------------------
+    project/transitionsettings.h  -  Transitions widget
+    -------------------
     begin                : Mar 15 2008
     SPDX-FileCopyrightText: 2008 Marco Gittler
     email                : g.marco@freenet.de
- ***************************************************************************/
+*/
 
 /*
  *                                                                         *

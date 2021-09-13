@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2018 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2018 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #pragma once
 

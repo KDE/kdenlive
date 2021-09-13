@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef URLPARAMWIDGET_H
 #define URLPARAMWIDGET_H

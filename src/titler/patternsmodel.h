@@ -1,9 +1,9 @@
 /*
- * Kdenlive TitleClip Pattern
- * SPDX-FileCopyrightText: 2020 Rafał Lalik <rafallalik@gmail.com>
- * 
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    Kdenlive TitleClip Pattern
+    SPDX-FileCopyrightText: 2020 Rafał Lalik <rafallalik@gmail.com>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef PATTERNSMODEL_H
 #define PATTERNSMODEL_H

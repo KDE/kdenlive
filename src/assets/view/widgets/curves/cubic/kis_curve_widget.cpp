@@ -1,9 +1,9 @@
 /*
- *  SPDX-FileCopyrightText: 2005 C. Boemann <cbo@boemann.dk>
- *  SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
- *
- *  SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2005 C. Boemann <cbo@boemann.dk>
+    SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 // Local includes.
 

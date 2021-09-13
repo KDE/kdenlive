@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *                                                                         *
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #include "bincommands.h"
 #include "bin.h"

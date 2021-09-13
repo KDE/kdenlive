@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   SPDX-FileCopyrightText: 2021 Julius Künzel (jk.kdedev@smartalb.uber.space)   *
- *                                                                         *
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-FileCopyrightText: 2021 Julius Künzel (jk.kdedev@smartalb.uber.space)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef ARCHIVEWIDGET_H
 #define ARCHIVEWIDGET_H

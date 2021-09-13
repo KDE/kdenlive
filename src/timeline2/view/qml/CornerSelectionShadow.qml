@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2015 Meltytech LLC
- * Author: Harald Hvaal <harald.hvaal@gmail.com>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2015 Meltytech LLC
+    Author: Harald Hvaal <harald.hvaal@gmail.com>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 

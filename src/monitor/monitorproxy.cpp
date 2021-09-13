@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "monitorproxy.h"
 #include "core.h"

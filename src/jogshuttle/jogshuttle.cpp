@@ -1,9 +1,9 @@
 /*
- *   SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Based on code by Arendt David <admin@prnet.org>                       *
- *                                                                         *
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    Based on code by Arendt David <admin@prnet.org>
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #include "jogshuttle.h"
 

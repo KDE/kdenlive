@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)                     *
- SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef SIMPLEKEYFRAMEWIDGET_H
 #define SIMPLEKEYFRAMEWIDGET_H

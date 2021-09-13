@@ -1,10 +1,10 @@
 /*
-                          effecstackedit.cpp  -  description
-                             -------------------
+    effecstackedit.cpp  -  description
+    -------------------
     begin                : Mar 15 2008
     SPDX-FileCopyrightText: 2008 Marco Gittler
     email                : g.marco@freenet.de
- ***************************************************************************/
+*/
 
 /*
  *                                                                         *

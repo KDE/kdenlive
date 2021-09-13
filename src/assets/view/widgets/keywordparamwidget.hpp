@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2016 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYWORDPARAMWIDGET_H
 #define KEYWORDPARAMWIDGET_H

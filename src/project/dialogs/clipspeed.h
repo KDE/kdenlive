@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef CLIPSPEED_H
 #define CLIPSPEED_H

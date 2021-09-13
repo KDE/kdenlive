@@ -1,9 +1,9 @@
 /*
- * mediactrl.c -- Jog Shuttle device support
- * SPDX-FileCopyrightText: 2001-2007 Dan Dennedy <dan@dennedy.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    mediactrl.c -- Jog Shuttle device support
+    SPDX-FileCopyrightText: 2001-2007 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include <asm/types.h>
 #include <errno.h>

@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "geometrywidget.h"
 #include "core.h"

@@ -1,9 +1,9 @@
 /*
- *  SPDX-FileCopyrightText: 2005 Casper Boemann <cbr@boemann.dk>
- *  SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
- *
- *  SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2005 Casper Boemann <cbr@boemann.dk>
+    SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 #ifndef KIS_CURVE_WIDGET_H
 #define KIS_CURVE_WIDGET_H
 

@@ -1,9 +1,9 @@
 /*
- * this file is part of Kdenlive, the Libre Video Editor by KDE
- * SPDX-FileCopyrightText: 2019 Vincent Pinon <vpinon@kde.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    this file is part of Kdenlive, the Libre Video Editor by KDE
+    SPDX-FileCopyrightText: 2019 Vincent Pinon <vpinon@kde.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 #include <KLocalizedString>
 #include "otioconvertions.h"
 

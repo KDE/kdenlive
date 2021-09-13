@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef PREVIEWMANAGER_H
 #define PREVIEWMANAGER_H

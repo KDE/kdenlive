@@ -1,9 +1,9 @@
 /*
- *                                                                         *
- *   SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
+
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef SPEEDTASK_H
 #define SPEEDTASK_H

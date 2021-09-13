@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+
+*/
 
 #include "positioneditwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"

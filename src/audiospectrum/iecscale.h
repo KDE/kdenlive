@@ -1,8 +1,8 @@
 /*
- * SPDX-FileCopyrightText: 2015 Meltytech LLC
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2015 Meltytech LLC
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef IECSCALE_H
 #define IECSCALE_H

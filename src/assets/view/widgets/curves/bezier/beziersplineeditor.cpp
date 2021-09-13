@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2010 Till Theato <root@ttill.de>
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2010 Till Theato <root@ttill.de>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "beziersplineeditor.h"
 #include "cubicbezierspline.h"

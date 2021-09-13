@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Nicolas Carion *
- *                                                                         *
+    SPDX-FileCopyrightText: 2016 Nicolas Carion
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"

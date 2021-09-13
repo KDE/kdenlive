@@ -1,9 +1,9 @@
-/***********
- * This file is part of KDevPlatform                                                 *
- * SPDX-FileCopyrightText: 2016 Zhigalin Alexander <alexander@zhigalin.tk>                         *
- *                                                                                   *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
- *************************************************************************************/
+/*
+    This file is part of KDevPlatform
+    SPDX-FileCopyrightText: 2016 Zhigalin Alexander <alexander@zhigalin.tk>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
+*/
 
 #ifndef THEMEMANAGER_H
 #define THEMEMANAGER_H

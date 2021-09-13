@@ -1,10 +1,10 @@
 /*
-                          positionedit.cpp  -  description
-                             -------------------
+    positionedit.cpp  -  description
+    -------------------
     begin                : 03 Aug 2008
     SPDX-FileCopyrightText: 2008 Marco Gittler
     email                : g.marco@freenet.de
- ***************************************************************************/
+*/
 
 /*
  *                                                                         *

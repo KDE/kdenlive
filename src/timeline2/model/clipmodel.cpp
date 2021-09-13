@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 #include "clipmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"

@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)                     *
- *   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "dragvalue.h"
 

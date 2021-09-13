@@ -1,12 +1,12 @@
 /*
- *   SPDX-FileCopyrightText: 2006 Peter Penz *
- *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
- *   peter.penz@gmx.at                                                     *
- *   Code borrowed from Dolphin, adapted (2008) to Kdenlive by             *
- *   Jean-Baptiste Mardelle, jb@kdenlive.org                               *
- *                                                                         *
+    SPDX-FileCopyrightText: 2006 Peter Penz
+    2012    Simon A. Eugster <simon.eu@gmail.com>
+    peter.penz@gmx.at
+    Code borrowed from Dolphin, adapted (2008) to Kdenlive by
+    Jean-Baptiste Mardelle, jb@kdenlive.org
+
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+*/
 
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H

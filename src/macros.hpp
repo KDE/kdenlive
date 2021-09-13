@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MACROS_H
 #define MACROS_H

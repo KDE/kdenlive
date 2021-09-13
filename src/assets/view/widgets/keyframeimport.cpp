@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "klocalizedstring.h"
 #include <QCheckBox>

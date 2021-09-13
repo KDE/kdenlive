@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "effectstackview.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"

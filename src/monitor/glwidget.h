@@ -1,9 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2011-2014 Meltytech LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2011-2014 Meltytech LLC
+    Author: Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GLWIDGET_H
 #define GLWIDGET_H

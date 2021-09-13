@@ -1,8 +1,8 @@
 /*
- *   SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
- *   SPDX-FileCopyrightText: 2017 Nicolas Carion
- *   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYFRAMEVIEW2_H
 #define KEYFRAMEVIEW2_H

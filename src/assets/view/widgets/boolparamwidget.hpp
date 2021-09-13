@@ -1,7 +1,7 @@
 /*
- *   SPDX-FileCopyrightText: 2016 Nicolas Carion *
- * SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- */
+    SPDX-FileCopyrightText: 2016 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef BOOLPARAMWIDGET_H
 #define BOOLPARAMWIDGET_H
