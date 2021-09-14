@@ -4432,6 +4432,9 @@ void MainWindow::slotActivateVideoTrackSequence()
     int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
     int tid = trackIds.at(trackIds.count() - 1 - trackPos);
     getCurrentTimeline()->controller()->setActiveTrack(tid);
+    if (m_activeTool == ToolType::MulticamTool) {
+        pCore->monitorManager()->slotPerformMultiTrackMode();
+    }
 }
 
 void MainWindow::slotActivateTarget()
