@@ -69,6 +69,8 @@ private:
     QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
+    QSpinBox m_offsetX;
+    QSpinBox m_offsetY;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
     QMap<QString, QModelIndex> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/

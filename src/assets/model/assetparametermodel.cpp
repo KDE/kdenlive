@@ -731,7 +731,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%height"), QString::number(height))
             .replace(QLatin1String("%out"), QString::number(out))
             .replace(QLatin1String("%fade"), QString::number(frame_duration));
-        if (type == ParamType::AnimatedRect && attribute == QLatin1String("default")) {
+        if ((type == ParamType::AnimatedRect || type == ParamType::Geometry) && attribute == QLatin1String("default")) {
             if (content.contains(QLatin1Char('%'))) {
                 // This is a generic default like: "25% 0% 50% 100%". Parse values
                 QStringList numbers = content.split(QLatin1Char(' '));

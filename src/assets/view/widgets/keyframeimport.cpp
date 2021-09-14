@@ -136,6 +136,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     m_previewLabel->setMinimumSize(100, 150);
     m_previewLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_previewLabel->setScaledContents(true);
+
     lay->addWidget(m_previewLabel);
     // Zone in / out
     in = qMax(0, in);
@@ -148,6 +149,11 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     m_outPoint = new PositionWidget(i18n("Out"), out, in, out, pCore->currentDoc()->timecode(), QString(), this);
     connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
+
+    // Output offset
+    int clipIn = parentIn;
+    m_offsetPoint = new PositionWidget(i18n("Time offset"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
+    lay->addWidget(m_offsetPoint);
 
     int count = 0;
     // Check what kind of parameters are in our target
@@ -192,9 +198,25 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }*/
     connect(m_sourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRange()));
     m_alignSourceCombo = new QComboBox(this);
-    m_alignSourceCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
+    m_alignSourceCombo->addItem(i18n("Top left"), 0);
+    m_alignSourceCombo->addItem(i18n("Top center"), 1);
+    m_alignSourceCombo->addItem(i18n("Top right"), 2);
+    m_alignSourceCombo->addItem(i18n("Left center"), 3);
+    m_alignSourceCombo->addItem(i18n("Center"), 4);
+    m_alignSourceCombo->addItem(i18n("Right center"), 5);
+    m_alignSourceCombo->addItem(i18n("Bottom right"), 6);
+    m_alignSourceCombo->addItem(i18n("Bottom center"), 7);
+    m_alignSourceCombo->addItem(i18n("Bottom left"), 8);
     m_alignTargetCombo = new QComboBox(this);
-    m_alignTargetCombo->addItems(QStringList() << i18n("Top left") << i18n("Center") << i18n("Bottom right"));
+    m_alignTargetCombo->addItem(i18n("Top left"), 0);
+    m_alignTargetCombo->addItem(i18n("Top center"), 1);
+    m_alignTargetCombo->addItem(i18n("Top right"), 2);
+    m_alignTargetCombo->addItem(i18n("Left center"), 3);
+    m_alignTargetCombo->addItem(i18n("Center"), 4);
+    m_alignTargetCombo->addItem(i18n("Right center"), 5);
+    m_alignTargetCombo->addItem(i18n("Bottom right"), 6);
+    m_alignTargetCombo->addItem(i18n("Bottom center"), 7);
+    m_alignTargetCombo->addItem(i18n("Bottom left"), 8);
     lab = new QLabel(i18n("Map "), this);
     QLabel *lab2 = new QLabel(i18n(" to "), this);
     l1->addWidget(lab);
@@ -229,10 +251,17 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     lay->addLayout(l1);
 
-    // Output offset
-    int clipIn = parentIn;
-    m_offsetPoint = new PositionWidget(i18n("Offset"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
-    lay->addWidget(m_offsetPoint);
+    m_offsetX.setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
+    m_offsetY.setRange(-pCore->getCurrentProfile()->height(), pCore->getCurrentProfile()->height());
+
+    // Destination range
+    l1 = new QHBoxLayout;
+    lab = new QLabel(i18n("Position offset"), this);
+    l1->addWidget(lab);
+    l1->addWidget(&m_offsetX);
+    l1->addWidget(&m_offsetY);
+    lay->addLayout(l1);
+
 
     // Source range
     m_sourceRangeLabel = new QLabel(i18n("Source range %1 to %2", 0, 100), this);
@@ -767,8 +796,8 @@ void KeyframeImport::importSelectedData()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Geometry target
-    int sourceAlign = m_alignSourceCombo->currentIndex();
-    int targetAlign = m_alignTargetCombo->currentIndex();
+    int sourceAlign = m_alignSourceCombo->currentData().toInt();
+    int targetAlign = m_alignTargetCombo->currentData().toInt();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : qAsConst(m_indexes)) {
@@ -830,11 +859,37 @@ void KeyframeImport::importSelectedData()
                 if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
                     switch (sourceAlign) {
                     case 1:
+                        // Align top center
+                        rect.x += rect.w / 2;
+                        break;
+                    case 2:
+                        // Align top right
+                        rect.x += rect.w;
+                        break;
+                    case 3:
+                        // Align left center
+                        rect.y += rect.h / 2;
+                        break;
+                    case 4:
                         // Align center
                         rect.x += rect.w / 2;
                         rect.y += rect.h / 2;
                         break;
-                    case 2:
+                    case 5:
+                        // Align right center
+                        rect.x += rect.w;
+                        rect.y += rect.h / 2;
+                        break;
+                    case 6:
+                        // Align bottom left
+                        rect.y += rect.h;
+                        break;
+                    case 7:
+                        // Align bottom center
+                        rect.x += rect.w / 2;
+                        rect.y += rect.h;
+                        break;
+                    case 8:
                         // Align bottom right
                         rect.x += rect.w;
                         rect.y += rect.h;
@@ -843,12 +898,38 @@ void KeyframeImport::importSelectedData()
                         break;
                     }
                     switch (targetAlign) {
-                    case 1:
+                        case 1:
+                        // Align top center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        break;
+                    case 2:
+                        // Align top right
+                        rect.x -= kfrData[2].toInt();
+                        break;
+                    case 3:
+                        // Align left center
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 4:
                         // Align center
                         rect.x -= kfrData[2].toInt() / 2;
                         rect.y -= kfrData[3].toInt() / 2;
                         break;
-                    case 2:
+                    case 5:
+                        // Align right center
+                        rect.x -= kfrData[2].toInt();
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 6:
+                        // Align bottom left
+                        rect.y -= kfrData[3].toInt();
+                        break;
+                    case 7:
+                        // Align bottom center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        rect.y -= kfrData[3].toInt();
+                        break;
+                    case 8:
                         // Align bottom right
                         rect.x -= kfrData[2].toInt();
                         rect.y -= kfrData[3].toInt();
@@ -857,6 +938,8 @@ void KeyframeImport::importSelectedData()
                         break;
                     }
                 }
+                rect.x += m_offsetX.value();
+                rect.y += m_offsetY.value();
                 switch (convertMode) {
                     case ImportRoles::FullGeometry:
                         kfrData[0] = locale.toString(int(rect.x));
@@ -942,3 +1025,4 @@ int KeyframeImport::getImportType() const
     }
     return m_sourceCombo->currentData().toInt();
 }
+
