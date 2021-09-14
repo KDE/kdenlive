@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2015 Meltytech LLC
-    Author: Harald Hvaal <harald.hvaal@gmail.com>
+    SPDX-FileCopyrightText: 2015 Harald Hvaal <harald.hvaal@gmail.com>
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

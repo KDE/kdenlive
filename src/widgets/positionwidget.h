@@ -1,16 +1,8 @@
 /*
-    positionedit.h  -  description
-    -------------------
-    begin                : 03 Aug 2008
-    SPDX-FileCopyrightText: 2008 Marco Gittler
-    email                : g.marco@freenet.de
-*/
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
 
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef POSITIONWIDGET_H
 #define POSITIONWIDGET_H

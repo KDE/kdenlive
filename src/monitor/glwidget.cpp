@@ -1,12 +1,16 @@
 /*
     SPDX-FileCopyrightText: 2011-2016 Meltytech LLC
-    Original author: Dan Dennedy <dan@dennedy.org>
-    Modified for Kdenlive: Jean-Baptiste Mardelle
-
-    GL shader based on BSD licensed code from Peter Bengtsson:
-    https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
+    SPDX-FileCopyrightText: Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    
+    GL shader based on BSD licensed code from Peter Bengtsson:
+    https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
+    SPDX-FileCopyrightText: 2004 Peter Bengtsson
+
+    SPDX-License-Identifier: BSD-3-Clause
+
 */
 
 #include <KDeclarative/KDeclarative>

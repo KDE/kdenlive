@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
-    Author: Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: Dan Dennedy <dan@dennedy.org>
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

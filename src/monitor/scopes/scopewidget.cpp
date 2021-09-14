@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2015 Meltytech LLC
-    Author: Brian Matherly <code@brianmatherly.com>
+    SPDX-FileCopyrightText: 2015 Brian Matherly <code@brianmatherly.com>
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

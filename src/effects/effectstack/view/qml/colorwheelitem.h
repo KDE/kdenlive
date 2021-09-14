@@ -1,8 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2013-2014 Meltytech LLC
-    Author: Dan Dennedy <dan@dennedy.org>
-    Author: Brian Matherly <pez4brian@yahoo.com>
-    Author: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
+    SPDX-FileCopyrightText: 2013-2014 Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: 2013-2014 Brian Matherly <pez4brian@yahoo.com>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

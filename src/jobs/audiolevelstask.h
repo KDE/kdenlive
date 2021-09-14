@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2013-2018 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2018 Dan Dennedy <dan@dennedy.org>
     SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
-    Author: Dan Dennedy <dan@dennedy.org>
 
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

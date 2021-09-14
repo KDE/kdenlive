@@ -1,16 +1,8 @@
 /*
-    effecstackedit.cpp  -  description
-    -------------------
-    begin                : Mar 15 2008
-    SPDX-FileCopyrightText: 2008 Marco Gittler
-    email                : g.marco@freenet.de
-*/
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
 
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "transitionsettings.h"
 #include "core.h"

@@ -1,16 +1,10 @@
 /*
-    titledocument.h  -  description
-    -------------------
-    begin                : Feb 28 2008
-    SPDX-FileCopyrightText: 2008 Marco Gittler
-    email                : g.marco@freenet.de
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: Rafał Lalik
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
-/*
- *                                                                         *
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
- *                                                                         *
- ***************************************************************************/
 
 /*
  *                                                                         *

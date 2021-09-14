@@ -1,8 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle (jb@kdenlive.org)
-    2013 by Jean-Nicolas Artaud (jeannicolasartaud@gmail.com)
+    SPDX-FileCopyrightText: 2013 Jean-Nicolas Artaud (jeannicolasartaud@gmail.com)
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 // Self
