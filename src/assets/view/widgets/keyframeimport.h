@@ -51,6 +51,7 @@ public:
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
+    QMap <QPersistentModelIndex, QString> m_originalParams;
     QList<QPersistentModelIndex> m_indexes;
     bool m_supportsAnim;
     QComboBox *m_dataCombo;
@@ -98,6 +99,14 @@ private slots:
     void updateDisplay();
     void updateRange();
     void updateDestinationRange();
+    void updateView();
+
+public slots:
+    virtual void accept() override;
+    virtual void reject() override;
+
+signals:
+    void updateQmlView();
 };
 
 #endif

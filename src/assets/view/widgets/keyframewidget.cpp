@@ -719,17 +719,8 @@ void KeyframeWidget::slotImportKeyframes()
         indexes << w.first;
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(), m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
-    if (import->exec() != QDialog::Accepted) {
-        delete import;
-        return;
-    }
-    import->importSelectedData();
-
-    /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());*/
-    /*m_model->modelChanged();
-    qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
-    pCore->updateItemKeyframes(m_model->getOwnerId());*/
-    delete import;
+    import->show();
+    connect(import, &KeyframeImport::updateQmlView, this, &KeyframeWidget::slotRefreshParams);
 }
 
 void KeyframeWidget::slotRemoveNextKeyframes()
