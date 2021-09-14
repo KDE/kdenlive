@@ -1104,7 +1104,7 @@ void EffectStackModel::setActiveEffect(int ix)
         ptr->set("kdenlive:activeeffect", ix);
     }
     // Desactivate previous effect
-    if (current > -1 && current != ix) {
+    if (current > -1 && current != ix && current < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
         if (effect) {
             effect->setActive(false);
