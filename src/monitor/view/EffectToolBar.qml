@@ -77,7 +77,7 @@ MouseArea {
                 }
                 width: barZone.width
                 height: barZone.width
-                focusPolicy: Qt.NoFocusv
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Change Overlay")
