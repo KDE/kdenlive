@@ -123,7 +123,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         // Generate clip thumbnail
         ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
-        AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+        if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist || m_clipType == ClipType::Unknown) {
+            AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+        }
     }
 }
 
@@ -532,7 +534,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
-    AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist || m_clipType == ClipType::Unknown) {
+        AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
+    }
     pCore->bin()->reloadMonitorIfActive(clipId());
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
