@@ -121,7 +121,7 @@ avfilter.owdenoise
 avfilter.removegrain
 avfilter.sr
 deshake
-fieldorder
+# fieldorder
 frei0r.bgsubtract0r
 frei0r.colorhalftone
 frei0r.delaygrab
