@@ -93,6 +93,7 @@ void AudioLevelsTask::run()
     QMap <int, QString> streams = binClip->audioInfo()->streams();
     QMap <int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
+    bool audioCreated = false;
     while (st.hasNext() && !m_isCanceled) {
         st.next();
         int stream = st.key();
@@ -102,7 +103,6 @@ void AudioLevelsTask::run()
         // Generate one thumb per stream
         QString cachePath = binClip->getAudioThumbPath(stream);
         QVector <uint8_t> mltLevels;
-        qDebug()<<" TESTING AUDIO CACHE : "<<cachePath;
         if (!m_isForce && QFile::exists(cachePath)) {
             // Audio thumb already exists
             QImage image(cachePath);
@@ -212,7 +212,6 @@ void AudioLevelsTask::run()
             //qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
             // Put into an image for caching.
             int count = mltLevels.size();
             QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
@@ -232,7 +231,13 @@ void AudioLevelsTask::run()
                 image.setPixel(i / 2, i % channels, p);
             }
             image.save(cachePath);
+            audioCreated = true;
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
         }
+    }
+    if (!audioCreated) {
+        // Audio was cached, ensure the bin thumbnail is loaded
+        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");

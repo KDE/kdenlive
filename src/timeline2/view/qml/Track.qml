@@ -37,7 +37,8 @@ Item{
         delegate: Item {
             property var itemModel : model
             property bool clipItem: isClip(model.clipType)
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : root.activeTool === ProjectTool.SlipTool && model.selected ? model.item === timeline.trimmingMainClip ? 2 : 1 : 0
+            // Z order indicates the items that will be drawn on top. Compositions should be top, then clips. Clips with mix should be ordered related to their position so that the right clip of a clip mix is always on top (the mix UI is drawn over the right clip)
+            z: model.clipType == ProducerType.Composition ? 50000 : model.mixDuration > 0 ? model.start / 25 : root.activeTool === ProjectTool.SlipTool && model.selected ? model.item === timeline.trimmingMainClip ? 2 : 1 : 0
             Loader {
                 id: loader
                 Binding {

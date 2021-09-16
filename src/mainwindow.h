@@ -8,7 +8,9 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #define MAINWINDOW_H
 
 #include <QComboBox>
+#ifndef NODBUS
 #include <QDBusAbstractAdaptor>
+#endif
 #include <QDockWidget>
 #include <QEvent>
 #include <QImage>
@@ -158,6 +160,7 @@ protected:
      *     true otherwise */
     bool queryClose() override;
     void closeEvent(QCloseEvent *) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
     void customEvent(QEvent *e) override;
@@ -287,7 +290,9 @@ public slots:
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
+#ifndef NODBUS
     Q_NOREPLY void exitApp();
+#endif
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();

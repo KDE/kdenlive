@@ -33,7 +33,11 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "audiomixer/mixermanager.hpp"
+#ifdef NODBUS
+#include "render/renderserver.h"
+#else
 #include "mainwindowadaptor.h"
+#endif
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
@@ -197,8 +201,11 @@ void MainWindow::init(const QString &mltPath)
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
-
+#ifdef NODBUS
+    new RenderServer(this);
+#else
     new RenderingAdaptor(this);
+#endif
     QString defaultProfile = KdenliveSettings::default_profile();
     
     // Initialise MLT connection
@@ -303,7 +310,7 @@ void MainWindow::init(const QString &mltPath)
         QPoint inOut = getMainTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
-
+    installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
@@ -1690,13 +1697,13 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     act->setData('C');
 
-    act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+    addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::CTRL + Qt::SHIFT + Qt::Key_R);
 
-    act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
+    addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
@@ -2267,10 +2274,12 @@ void MainWindow::scriptRender(const QString &url)
     m_renderWidget->slotPrepareExport(true, url);
 }
 
+#ifndef NODBUS
 void MainWindow::exitApp()
 {
     QApplication::exit(0);
 }
+#endif
 
 void MainWindow::slotCleanProject()
 {
@@ -3184,35 +3193,25 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotChangeTool(QAction *action)
 {
-
-    if (m_activeTool == ToolType::MulticamTool) {
-        // End multicam operation
-        pCore->monitorManager()->switchMultiTrackView(false);
-        pCore->monitorManager()->slotStopMultiTrackMode();
-    }
+    ToolType::ProjectTool activeTool;
     if (action == m_buttonSelectTool) {
-        m_activeTool = ToolType::SelectTool;
+        activeTool = ToolType::SelectTool;
     } else if (action == m_buttonRazorTool) {
-        m_activeTool = ToolType::RazorTool;
+        activeTool = ToolType::RazorTool;
     } else if (action == m_buttonSpacerTool) {
-        m_activeTool = ToolType::SpacerTool;
+        activeTool = ToolType::SpacerTool;
     } if (action == m_buttonRippleTool) {
-        m_activeTool = ToolType::RippleTool;
+        activeTool = ToolType::RippleTool;
     } if (action == m_buttonRollTool) {
-        m_activeTool = ToolType::RollTool;
+        activeTool = ToolType::RollTool;
     } if (action == m_buttonSlipTool) {
-        m_activeTool = ToolType::SlipTool;
+        activeTool = ToolType::SlipTool;
     } if (action == m_buttonSlideTool) {
-        m_activeTool = ToolType::SlideTool;
+        activeTool = ToolType::SlideTool;
     } if (action == m_buttonMulticamTool) {
-        m_activeTool = ToolType::MulticamTool;
+        activeTool = ToolType::MulticamTool;
     };
-    slotSetTool(m_activeTool);
-    if (m_activeTool == ToolType::MulticamTool) {
-        // Start multicam operation
-        pCore->monitorManager()->switchMultiTrackView(true);
-        pCore->monitorManager()->slotStartMultiTrackMode();
-    }
+    slotSetTool(activeTool);
 }
 
 void MainWindow::slotChangeEdit(QAction *action)
@@ -3239,10 +3238,21 @@ void MainWindow::slotChangeEdit(QAction *action)
 
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
+    if (m_activeTool == ToolType::MulticamTool) {
+        // End multicam operation
+        pCore->monitorManager()->switchMultiTrackView(false);
+        pCore->monitorManager()->slotStopMultiTrackMode();
+    }
+    m_activeTool = tool;
     if (pCore->currentDoc()) {
         showToolMessage();
         getMainTimeline()->setTool(tool);
         getMainTimeline()->controller()->updateTrimmingMode();
+    }
+    if (m_activeTool == ToolType::MulticamTool) {
+        // Start multicam operation
+        pCore->monitorManager()->switchMultiTrackView(true);
+        pCore->monitorManager()->slotStartMultiTrackMode();
     }
 }
 
@@ -3252,6 +3262,7 @@ void MainWindow::showToolMessage()
     QString toolLabel;
     if (m_buttonSelectTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
+        toolLabel = i18n("Select");
     } else if (m_buttonRazorTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift</shortcut> to preview cut frame");
         toolLabel = i18n("Razor");
@@ -3259,13 +3270,16 @@ void MainWindow::showToolMessage()
         message = xi18nc("@info:whatsthis", "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</shortcut> to also move guides. You can combine both modifiers.");
         toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
-        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift</shortcut> to slip only current item of the group"); //TODO
+        message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</shortcut> for multiple selection");
         toolLabel = i18n("Slip");
     }  else if (m_buttonMulticamTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
         toolLabel = i18n("Multicam");
     }
-    TimelineMode::EditMode mode = getMainTimeline()->controller()->getModel()->editMode();
+    TimelineMode::EditMode mode = TimelineMode::NormalEdit;
+    if (getMainTimeline()->controller() && getMainTimeline()->controller()->getModel()) {
+        mode = getMainTimeline()->controller()->getModel()->editMode();
+    }
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
             toolLabel.append(QStringLiteral(" | "));
@@ -3805,6 +3819,7 @@ void MainWindow::slotShutdown()
 {
     pCore->currentDoc()->setModified(false);
     // Call shutdown
+#ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
         QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
@@ -3814,6 +3829,7 @@ void MainWindow::slotShutdown()
                                 QStringLiteral("org.gnome.SessionManager"));
         smserver.call(QStringLiteral("Shutdown"));
     }
+#endif
 }
 
 void MainWindow::slotSwitchMonitors()
@@ -4403,6 +4419,9 @@ void MainWindow::slotActivateVideoTrackSequence()
     int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
     int tid = trackIds.at(trackIds.count() - 1 - trackPos);
     getCurrentTimeline()->controller()->setActiveTrack(tid);
+    if (m_activeTool == ToolType::MulticamTool) {
+        pCore->monitorManager()->slotPerformMultiTrackMode();
+    }
 }
 
 void MainWindow::slotActivateTarget()
@@ -4519,6 +4538,26 @@ void MainWindow::slotCopyDebugInfo() {
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(debuginfo);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    switch (event->type()) {
+        case QEvent::ShortcutOverride:
+            if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+                if (m_activeTool != ToolType::SelectTool) {
+                    m_buttonSelectTool->trigger();
+                    return true;
+                } else {
+                    getCurrentTimeline()->model()->requestClearSelection();
+                    return true;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return QObject::eventFilter(object, event);
 }
 
 #ifdef DEBUG_MAINW

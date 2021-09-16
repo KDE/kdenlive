@@ -388,7 +388,7 @@ KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index
     return nullptr;
 }
 
-void KeyframeModelList::moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo)
+void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
 {
     // Get list of keyframes positions
     QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();

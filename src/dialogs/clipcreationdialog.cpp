@@ -354,10 +354,13 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
+    QCheckBox *bf = new QCheckBox(i18n("Ignore subfolder structure"));
+    bf->setChecked(KdenliveSettings::ignoresubdirstructure());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
     auto *l = new QHBoxLayout;
     l->addWidget(b);
+    l->addWidget(bf);
     l->addStretch(5);
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
@@ -384,6 +387,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     int result = dlg->exec();
     if (result == QDialog::Accepted) {
         KdenliveSettings::setAutoimagesequence(b->isChecked());
+        KdenliveSettings::setIgnoresubdirstructure(bf->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
@@ -449,7 +453,16 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
     importseq->setCheckable(true);
-    fileWidget->setCustomWidget(importseq);
+    QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structure"));
+    b->setChecked(KdenliveSettings::ignoresubdirstructure());
+    QFrame *f = new QFrame();
+    f->setFrameShape(QFrame::NoFrame);
+    auto *l = new QHBoxLayout;
+    l->addWidget(b);
+    l->addStretch(5);
+    l->addWidget(importseq);
+    f->setLayout(l);
+    fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
     fileWidget->setOperationMode(KFileWidget::Saving);
     QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq]() {
@@ -462,6 +475,9 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
         pCore->bin()->droppedUrls(urls);
     });
     fileWidget->setFilter(dialogFilter);
+    QObject::connect(b, &QCheckBox::toggled , [](bool checked) {
+        KdenliveSettings::setIgnoresubdirstructure(checked);
+    });
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
         fileWidget->slotOk();
         emit fileWidget->accepted();

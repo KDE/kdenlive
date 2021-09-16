@@ -332,6 +332,7 @@ void MonitorManager::slotForwardOneSecond()
 
 void MonitorManager::slotStartMultiTrackMode()
 {
+    getAction(QStringLiteral("monitor_multitrack"))->setEnabled(false);
     m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
     pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
 }
@@ -341,6 +342,7 @@ void MonitorManager::slotStopMultiTrackMode()
     if (m_activeMultiTrack == -1) {
         return;
     }
+    getAction(QStringLiteral("monitor_multitrack"))->setEnabled(true);
     pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(-1);
     m_activeMultiTrack = -1;
 }

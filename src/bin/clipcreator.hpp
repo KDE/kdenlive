@@ -74,6 +74,9 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
    @param checkRemovable: if true, it will check if files are on removable devices, and warn the user if so
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
+   @param undo
+   @param redo
+   @param topLevel
  */
 const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
                          Fun &redo, bool topLevel = true);

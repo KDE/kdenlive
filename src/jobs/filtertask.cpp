@@ -279,7 +279,7 @@ void FilterTask::run()
         QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
         return true;
     };
-    bool ok = operation();
+    operation();
     return;
 }
 

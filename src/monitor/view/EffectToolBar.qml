@@ -13,7 +13,7 @@ MouseArea {
     property bool rightSide: true
     property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
-    width: fullscreenButton.width + root.baseUnit
+    width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
     onEntered: {
         animator.stop()
@@ -26,7 +26,7 @@ MouseArea {
     Rectangle {
         id: effecttoolbar
         objectName: "effecttoolbar"
-        width: fullscreenButton.width
+        width: barZone.width
         anchors.right: barZone.right
         anchors.verticalCenter: parent.verticalCenter
         height: childrenRect.height
@@ -54,7 +54,17 @@ MouseArea {
             ToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
-                icon.name: "view-fullscreen"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-fullscreen"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Switch Full Screen")
@@ -63,7 +73,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "switchOverlay"
-                icon.name: "view-grid"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-grid"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Change Overlay")
@@ -79,7 +99,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "nextKeyframe"
-                icon.name: "keyframe-next"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-next"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Next Keyframe")
@@ -88,7 +118,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "prevKeyframe"
-                icon.name: "keyframe-previous"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-previous"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Go to Previous Keyframe")
@@ -97,7 +137,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "addKeyframe"
-                icon.name: "keyframe-add"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-add"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Add/Remove Keyframe")
@@ -105,8 +155,18 @@ MouseArea {
                 onClicked: controller.addRemoveKeyframe()
             }
             ToolButton {
-                icon.name: "keyframe-record"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/keyframe-record"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
                 ToolTip.visible: hovered
+                focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Automatic Keyframes")
                 ToolTip.timeout: 3000
@@ -116,7 +176,17 @@ MouseArea {
                 visible: barZone.showAutoKeyframe
             }
             ToolButton {
-                icon.name: "zoom-in"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-in"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -124,7 +194,17 @@ MouseArea {
                 onClicked: controller.triggerAction('monitor_zoomin')
             }
             ToolButton {
-                icon.name: "zoom-out"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-out"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
@@ -133,7 +213,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "moveBar"
-                icon.name: "transform-move-horizontal"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/transform-move-horizontal"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")

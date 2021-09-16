@@ -296,11 +296,16 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
                 if (!sublist.isEmpty()) {
-                    // Create main folder
-                    bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-                    if (!folderCreated) {
-                        continue;
+                    if (!KdenliveSettings::ignoresubdirstructure() || topLevel) {
+                        // Create main folder
+                        bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                        if (!folderCreated) {
+                            continue;
+                        }
+                    } else {
+                        folderId = parentFolder;
                     }
+
                     createdItem = folderId;
                     // load subfolders
                     const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
@@ -309,10 +314,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
             } else {
-                // Create main folder
-                bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-                if (!folderCreated) {
-                    continue;
+                if (!KdenliveSettings::ignoresubdirstructure() || topLevel) {
+                    // Create main folder
+                    bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                    if (!folderCreated) {
+                        continue;
+                    }
+                } else {
+                    folderId = parentFolder;
                 }
                 createdItem = folderId;
                 const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);

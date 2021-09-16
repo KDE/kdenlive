@@ -26,6 +26,7 @@ enum class ParamType {
     UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
+    MultiSwitch,
     RestrictedAnim, // animated 1 dimensional param with linear support only
     Animated,
     AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
@@ -181,6 +182,8 @@ public:
     const QString getParam(const QString &paramName);
     /** @brief Returns the current asset */
     Mlt::Properties *getAsset();
+    /** @brief Returns a frame time as click time (00:00:00.000) */
+    const QString framesToTime(int t) const;
 
 public slots:
     /** @brief Sets the value of a list of parameters

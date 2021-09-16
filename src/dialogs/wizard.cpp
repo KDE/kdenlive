@@ -427,7 +427,7 @@ void Wizard::checkMltComponents()
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
 
-#ifndef Q_OS_WIN
+#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
         // Check that we have the breeze icon theme installed
         const QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;

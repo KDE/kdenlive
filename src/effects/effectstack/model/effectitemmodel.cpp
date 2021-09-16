@@ -63,6 +63,17 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
     for (int i = 0; i < params.count(); ++i) {
         QDomElement currentParameter = params.item(i).toElement();
         QString paramName = currentParameter.attribute(QStringLiteral("name"));
+        QString paramType = currentParameter.attribute(QStringLiteral("type"));
+        if (paramType == QLatin1String("multiswitch")) {
+            // multiswitch params have a composited param name, skip
+            QStringList names = paramName.split(QLatin1Char('\n'));
+            QStringList paramValues;
+            for (const QString &n : names) {
+                paramValues << effect->get(n.toUtf8().constData());
+            }
+            currentParameter.setAttribute(QStringLiteral("value"), paramValues.join(QLatin1Char('\n')));
+            continue;
+        }
         QString paramValue = effect->get(paramName.toUtf8().constData());
         qDebug() << effectId << ": Setting parameter " << paramName << " to " << paramValue;
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);

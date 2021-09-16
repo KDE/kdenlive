@@ -35,6 +35,7 @@ public:
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
+    QMap <QPersistentModelIndex, QString> m_originalParams;
     QList<QPersistentModelIndex> m_indexes;
     bool m_supportsAnim;
     QComboBox *m_dataCombo;
@@ -53,6 +54,8 @@ private:
     QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
+    QSpinBox m_offsetX;
+    QSpinBox m_offsetY;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
     QMap<QString, QModelIndex> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/
@@ -80,6 +83,14 @@ private slots:
     void updateDisplay();
     void updateRange();
     void updateDestinationRange();
+    void updateView();
+
+public slots:
+    virtual void accept() override;
+    virtual void reject() override;
+
+signals:
+    void updateQmlView();
 };
 
 #endif

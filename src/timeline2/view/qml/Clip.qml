@@ -415,9 +415,9 @@ Rectangle {
                             mixCutPos.anchors.right = undefined
                         }
                         onReleased: {
-                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                             root.autoScrolling = timeline.autoScroll
                             if (sizeChanged) {
+                                controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                                 sizeChanged = false
                             }
                             anchors.left = parent.left
@@ -432,8 +432,6 @@ Rectangle {
                                 if (currentFrame != previousMix) {
                                     parent.width = currentFrame * clipRoot.timeScale
                                     sizeChanged = true
-                                    //TODO: resize mix's other clip
-                                    //clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                                 }
                                 if (x < mixCutPos.x) {
                                     // This will delete the mix

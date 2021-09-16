@@ -25,6 +25,7 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
+#include "multiswitchparamwidget.hpp"
 #include "urllistparamwidget.h"
 #include "urlparamwidget.hpp"
 
@@ -102,6 +103,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Switch:
         widget = new SwitchParamWidget(model, index, parent);
+        break;
+    case ParamType::MultiSwitch:
+        widget = new MultiSwitchParamWidget(model, index, parent);
         break;
     case ParamType::Url:
         widget = new UrlParamWidget(model, index, parent);

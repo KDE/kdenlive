@@ -363,12 +363,28 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             int duration = effect->filter().get_length() - 1;
             effect->filter().set("in", currentIn);
             effect->filter().set("out", currentIn + duration);
+            if (effectId.startsWith(QLatin1String("fade_"))) {
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=0;-1=1");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=0;-1=1");
+                }
+            }
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             m_fadeOuts.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
             int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
             effect->filter().set("in", filterOut - duration);
             effect->filter().set("out", filterOut);
+            if (effectId.startsWith(QLatin1String("fade_"))) {
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=1;-1=0");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=1;-1=0");
+                }
+            }
         }
         local_redo();
         effectAdded = true;
@@ -713,6 +729,12 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 duration = qMin(pCore->getItemDuration(m_ownerId), duration);
                 effect->filter().set("out", in + duration);
                 indexes << getIndexFromItem(effect);
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=0;-1=1");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=0;-1=1");
+                }
             }
         }
         if (!indexes.isEmpty()) {
@@ -756,6 +778,12 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 duration = qMin(itemDuration, duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=1;-1=0");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=1;-1=0");
+                }
             }
         }
         if (!indexes.isEmpty()) {
@@ -1060,7 +1088,7 @@ void EffectStackModel::setActiveEffect(int ix)
         ptr->set("kdenlive:activeeffect", ix);
     }
     // Desactivate previous effect
-    if (current > -1 && current != ix) {
+    if (current > -1 && current != ix && current < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
         if (effect) {
             effect->setActive(false);
