@@ -63,6 +63,7 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout->addWidget(m_alignRight);
     m_durationLayout->addWidget(m_alignCenter);
     m_durationLayout->addWidget(m_alignLeft);
+    connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
 }
 
 void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
@@ -82,11 +83,15 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 
     if (m_model->rowCount() > 0) {
+        QSignalBlocker bk0(m_duration);
         m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
         connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
     }
     int mainClipId = stackOwner().second;
     MixAlignment align = pCore->getMixAlign(mainClipId);
+    QSignalBlocker bk1(m_alignLeft);
+    QSignalBlocker bk2(m_alignRight);
+    QSignalBlocker bk3(m_alignCenter);
     m_alignLeft->setChecked(false);
     m_alignRight->setChecked(false);
     m_alignCenter->setChecked(false);
@@ -105,16 +110,15 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
             break;
     }
     m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
-    connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
     m_lay->addLayout(m_durationLayout);
     m_lay->addStretch(10);
-
     slotRefresh();
 }
 
 void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles)
 {
     if (roles.contains(AssetParameterModel::ParentDurationRole)) {
+        QSignalBlocker bk1(m_duration);
         m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
     }
 }
