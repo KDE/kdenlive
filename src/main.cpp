@@ -15,6 +15,7 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
+#include "kcoreaddons_version.h"
 #include "mainwindow.h"
 
 #include <KAboutData>
@@ -183,12 +184,12 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5,87,0)
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,87,0)
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
 #endif
 
-#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(5,84,0)
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,84,0)
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(), QStringLiteral("https://mltframework.org")/*, KAboutLicense::LGPL_V2_1*/);
     aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(), QStringLiteral("https://ffmpeg.org"));
 #endif
