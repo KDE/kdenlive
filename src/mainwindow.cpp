@@ -378,6 +378,7 @@ void MainWindow::init(const QString &mltPath)
     libraryDock->close();
     subtitlesDock->close();
     textEditingDock->close();
+    timeRemapDock->close();
     spectrumDock->close();
     clipDockWidget->close();
     m_onlineResourcesDock->close();
