@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2003-2010 Mark Borgerding (Mark@Borgerding.net)
+    SPDX-FileCopyrightText: 2003-2010 Mark Borgerding <Mark@Borgerding.net>
     SPDX-License-Identifier: BSD-3-Clause
 */
 
