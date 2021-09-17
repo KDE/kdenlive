@@ -51,9 +51,10 @@
     <parameter type="geometry" name="rect" default="50% 50% 25% 25%" fixed="1" opacity="false" conditional="1">
         <name>Rectangle</name>
     </parameter>
-    <parameter type="list" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;BOOSTING;TLD" conditional="1">
-        <paramlistdisplay>KCF,CSRT,MOSSE,MIL,Boosting,TLD</paramlistdisplay>
+    <parameter type="listdependency" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;BOOSTING;MEDIANFLOW;DaSIAM" conditional="1">
+        <paramlistdisplay>KCF,CSRT,MOSSE,MIL,Boosting,MedianFlow,DaSIAM</paramlistdisplay>
         <name>Tracker algorithm</name>
+        <paramdependencies value="DaSIAM" files="dasiamrpn_model.onnx;dasiamrpn_kernel_r1.onnx;dasiamrpn_kernel_cls1.onnx" folder="/opencvmodels">Required model files for DaSiam Tracker not found in &lt;a href="file://%folder"&gt;models folder&lt;/a&gt;. Check our &lt;a href="https://kdenlive.org"&gt;wiki&lt;/a&gt; for instructions.</paramdependencies>
     </parameter>
     <parameter type="constant" name="steps" default="5" min="0" max="120">
         <name>Keyframes spacing</name>
@@ -75,6 +76,8 @@
     <parameter type="list" name="blur_type" default="0" paramlist="0;1">
         <paramlistdisplay>Median Blur,Gaussian Blur</paramlistdisplay>
         <name>Blur type</name>
+    </parameter>
+    <parameter type="hidden" name="modelsfolder" default="">
     </parameter>
     <parameter type="readonly" name="results" value="">
         <name>Tracking data</name>

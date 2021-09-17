@@ -112,7 +112,6 @@ void FilterTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    
     length = producer->get_playtime();
     if (length == 0) {
         length = producer->get_length();
@@ -156,6 +155,9 @@ void FilterTask::run()
         qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
         for (const auto &it : m_filterParams) {
             qDebug()<<". . ."<<it.first<<" = "<<it.second;
+            if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
+                continue;
+            }
             if (it.second.type() == QVariant::Double) {
                 filter.set(it.first.toUtf8().constData(), it.second.toDouble());
             } else {
@@ -205,7 +207,6 @@ void FilterTask::run()
     dom.clear();
 
     // Step 2: process the xml file and save in another .mlt file
-    QProcess filterProcess;
     QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

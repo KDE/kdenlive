@@ -21,6 +21,7 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #include "hideparamwidget.hpp"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
+#include "listdependencyparamwidget.h"
 #include "lumaliftgainparam.hpp"
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
@@ -71,6 +72,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     switch (type) {
     case ParamType::Double:
         widget = new DoubleParamWidget(model, index, parent);
+        break;
+    case ParamType::ListWithDependency:
+        widget = new ListDependencyParamWidget(model, index, parent);
         break;
     case ParamType::List:
         widget = new ListParamWidget(model, index, parent);
