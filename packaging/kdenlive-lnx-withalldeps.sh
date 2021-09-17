@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2018 V. Pinon <vpinon@kde.org>
+# SPDX-FileCopyrightText: 2018 V. Pinon <vpinon@kde.org>
 # License: GPLv2+
 # Tested in Debian sid x86_64
 

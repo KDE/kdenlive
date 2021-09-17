@@ -1,6 +1,6 @@
 /*
-   SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
-   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 #ifndef TIMECODE_H
 #define TIMECODE_H

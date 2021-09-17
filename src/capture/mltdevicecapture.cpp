@@ -1,6 +1,6 @@
 /*
-   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
-   SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 #include "mltdevicecapture.h"
