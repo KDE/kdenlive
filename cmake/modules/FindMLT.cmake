@@ -1,7 +1,7 @@
 # Find the MLT includes and libraries
 #
-# Copyright (c) 2007-2012 Jean-Baptiste Mardell (jb@kdenlive.org)
-# Copyright (c) 2012 Alberto Villa <avilla@FreeBSD.org>
+# SPDX-FileCopyrightText: 2007-2012 Jean-Baptiste Mardell (jb@kdenlive.org)
+# SPDX-FileCopyrightText: 2012 Alberto Villa <avilla@FreeBSD.org>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 
