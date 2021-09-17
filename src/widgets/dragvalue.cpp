@@ -1,6 +1,6 @@
 /*
-    SPDX-FileCopyrightText: 2011 Till Theato (root@ttill.de)
-    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
     SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 

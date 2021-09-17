@@ -1,6 +1,6 @@
 /*
-    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle (jb@kdenlive.org)
-    SPDX-FileCopyrightText: 2014 Vincent Pinon (vpinon@april.org)
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2014 Vincent Pinon <vpinon@april.org>
 
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

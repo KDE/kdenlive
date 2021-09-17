@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2011 Simon Andreas Eugster (simon.eu@gmail.com)
+    SPDX-FileCopyrightText: 2011 Simon Andreas Eugster <simon.eu@gmail.com>
     This file is part of kdenlive. See www.kdenlive.org.
 
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL

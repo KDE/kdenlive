@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008 Simon Andreas Eugster (simon.eu@gmail.com)
+    SPDX-FileCopyrightText: 2008 Simon Andreas Eugster <simon.eu@gmail.com>
 
 SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */

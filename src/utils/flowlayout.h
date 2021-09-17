@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2013 Digia Plc and /or its subsidiary(-ies). Contact: http://www.qt-project.org/legal
+    SPDX-FileCopyrightText: 2013 Digia Plc and /or its subsidiary(-ies) <http://www.qt-project.org/legal>
     SPDX-License-Identifier: BSD-3-Clause
     This file is part of the examples of the Qt Toolkit.
 */
