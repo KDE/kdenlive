@@ -70,7 +70,6 @@
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-//#include "utils/resourcewidget_old.h" //TODO
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
 #include "lib/localeHandling.h"
@@ -105,7 +104,8 @@
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 #include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
+// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
 #include <kns3/downloaddialog.h>
 #else
 #include <kns3/qtquickdialogwrapper.h>
@@ -3508,7 +3508,9 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
+
+// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec() != 0) {
@@ -3516,7 +3518,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     }
     delete dialog;
 #else
-    KNS3::QtQuickDialogWrapper dialog(configFile );
+    KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
 #endif
     for (const auto &entry : qAsConst(entries)) {
