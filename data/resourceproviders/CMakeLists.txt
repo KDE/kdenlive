@@ -6,4 +6,4 @@ pexels_photo.json
 pexels_video.json
 pixabay_photo.json
 
-DESTINATION ${DATA_INSTALL_DIR}/kdenlive/resourceproviders)
+DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/resourceproviders)

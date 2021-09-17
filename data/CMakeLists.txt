@@ -25,7 +25,7 @@ install(FILES
   kdenlivetranscodingrc
   kdenlivedefaultlayouts.rc
 
-  DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
+  DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX})
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 if(KF5NewStuff_VERSION VERSION_GREATER "5.56.0")
   install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc kdenlive_luts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
@@ -33,7 +33,7 @@ else()
   install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc kdenlive_luts.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
 endif()
 
-install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
+install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/export)
 install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
