@@ -10,7 +10,6 @@
     SPDX-FileCopyrightText: 2004 Peter Bengtsson
 
     SPDX-License-Identifier: BSD-3-Clause
-
 */
 
 #include <KDeclarative/KDeclarative>

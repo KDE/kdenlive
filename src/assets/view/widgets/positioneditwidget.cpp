@@ -1,7 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
-
 */
 
 #include "positioneditwidget.hpp"
