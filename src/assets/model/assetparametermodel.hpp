@@ -39,6 +39,7 @@ typedef QVector<QPair<QString, QVariant>> paramVector;
 enum class ParamType {
     Double,
     List, // Value can be chosen from a list of pre-defined ones
+    ListWithDependency,  // Value can be chosen from a list of pre-defined ones. Some values might not be available due to missing dependencies
     UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
@@ -106,7 +107,9 @@ public:
         ValueRole,
         AlphaRole,
         ListValuesRole,
+        InstalledValuesRole,
         ListNamesRole,
+        ListDependenciesRole,
         NewStuffRole,
         ModeRole,
         FactorRole,

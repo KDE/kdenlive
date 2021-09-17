@@ -153,6 +153,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::Double:
                 case ParamType::Hidden:
                 case ParamType::List:
+                case ParamType::ListWithDependency:
                     // Despite its name, a list type parameter is a single value *chosen from* a list.
                     // If it contains a non-“.” decimal separator, it is very likely wrong.
                     // Fall-through, treat like Double
@@ -548,9 +549,24 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
+    case InstalledValuesRole:
+        return m_asset->get("kdenlive:paramlist");
     case ListNamesRole: {
         QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
         return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));
+    }
+    case ListDependenciesRole: {
+        QDomNodeList dependencies = element.elementsByTagName(QStringLiteral("paramdependencies"));
+        if (!dependencies.isEmpty()) {
+            QDomDocument doc;
+            QDomElement d = doc.createElement(QStringLiteral("deps"));
+            doc.appendChild(d);
+            for (int i = 0; i < dependencies.count(); i++) {
+                d.appendChild(doc.importNode(dependencies.at(i), true));
+            }
+            return doc.toString();
+        }
+        return QVariant();
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
@@ -615,6 +631,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("list")) {
         return ParamType::List;
+    }
+    if (type == QLatin1String("listdependency")) {
+        return ParamType::ListWithDependency;
     }
     if (type == QLatin1String("urllist")) {
         return ParamType::UrlList;
