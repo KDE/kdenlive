@@ -80,6 +80,13 @@ else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
 endif()
 
+# macOS
+if(APPLE)
+    set(DATA_INSTALL_PREFIX "")
+else()
+    set(DATA_INSTALL_PREFIX "/kdenlive")
+endif()
+
 if(KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
   set(KF5_FILEMETADATA TRUE)
