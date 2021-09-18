@@ -148,7 +148,8 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
     }
 
     if (m_filterActive) {
-        m_grabRect = QRect(event->globalPos(), QSize(1, 1));
+        m_clickPoint = event->globalPos();
+        m_grabRect = QRect(m_clickPoint, QSize(1, 1));
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
     }
@@ -162,6 +163,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
         m_grabRect = m_grabRect.normalized();
+        m_clickPoint = QPoint();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
             emit colorPicked(m_mouseColor);
@@ -171,7 +173,6 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
             m_grabRectFrame->hide();
         }
-        return;
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -181,7 +182,7 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
     // Draw live rectangle of current color under mouse
     m_mouseColor = grabColor(QCursor::pos(), true);
     update();
-    if (m_filterActive) {
+    if (m_filterActive && !m_clickPoint.isNull()) {
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
         m_grabRectFrame->setGeometry(m_grabRect.normalized());
