@@ -21,6 +21,7 @@
 #define COLORPICKERWIDGET_H
 
 #include <QFrame>
+#include <QPoint>
 #include <QWidget>
 
 class QFrame;
@@ -75,6 +76,7 @@ private:
 
     bool m_filterActive{false};
     QRect m_grabRect;
+    QPoint m_clickPoint;
     QFrame *m_grabRectFrame;
     QColor m_mouseColor;
 #ifdef Q_WS_X11
