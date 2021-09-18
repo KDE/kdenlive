@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2002 Jason Wood <jasonwood@blueyonder.co.uk>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef GENTIME_H

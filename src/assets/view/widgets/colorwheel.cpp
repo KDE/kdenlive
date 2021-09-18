@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2013 Meltytech LLC
     SPDX-FileCopyrightText: 2013 Dan Dennedy <dan@dennedy.org>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
     Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
     and Steinar Gunderson's Movit demo app.

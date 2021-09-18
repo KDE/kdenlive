@@ -70,6 +70,9 @@
     <parameter type="color" name="shape_color" default="0xff0000ff">
         <name>Shape color</name>
     </parameter>
+    <parameter type="constant" name="pixelate" max="200" min="0" default="0">
+        <name>Pixelate</name>
+    </parameter>
     <parameter type="constant" name="blur" max="200" min="0" default="0">
         <name>Blur</name>
     </parameter>

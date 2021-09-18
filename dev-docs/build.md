@@ -103,17 +103,15 @@ JOBS=4
 
 # Only if you want to compile MLT manually
 cd mlt
-mkdir build
-cd build
+mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 make -j$JOBS
 make install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable
 
 # Kdenlive
-cd ../kdenlive
-mkdir build
-cd build
+cd ../../kdenlive
+mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
 ```
 

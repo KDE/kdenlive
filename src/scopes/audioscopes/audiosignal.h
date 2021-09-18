@@ -1,7 +1,7 @@
 /*
-    SPDX-FileCopyrightText: 2010 Marco Gittler (g.marco@freenet.de)
+    SPDX-FileCopyrightText: 2010 Marco Gittler <g.marco@freenet.de>
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef AUDIOSIGNAL_H

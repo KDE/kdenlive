@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"

@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2005 Casper Boemann <cbr@boemann.dk>
     SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #ifndef KIS_CURVE_WIDGET_H
 #define KIS_CURVE_WIDGET_H

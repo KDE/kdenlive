@@ -1,13 +1,14 @@
 /*
-    SPDX-FileCopyrightText: 2010 Till Theato (root@ttill.de)
+    SPDX-FileCopyrightText: 2010 Till Theato <root@ttill.de>
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
 #include <QFrame>
+#include <QPoint>
 #include <QWidget>
 
 class QFrame;
@@ -62,6 +63,7 @@ private:
 
     bool m_filterActive{false};
     QRect m_grabRect;
+    QPoint m_clickPoint;
     QFrame *m_grabRectFrame;
     QColor m_mouseColor;
 #ifdef Q_WS_X11

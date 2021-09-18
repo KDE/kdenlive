@@ -4,7 +4,7 @@
     SPDX-FileCopyrightText: 2013-2014 Brian Matherly <pez4brian@yahoo.com>
     SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef COLORWHEELITEM_H

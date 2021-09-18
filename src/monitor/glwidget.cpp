@@ -3,14 +3,13 @@
     SPDX-FileCopyrightText: Dan Dennedy <dan@dennedy.org>
     SPDX-FileCopyrightText: Jean-Baptiste Mardelle
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     
     GL shader based on BSD licensed code from Peter Bengtsson:
     https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
     SPDX-FileCopyrightText: 2004 Peter Bengtsson
 
     SPDX-License-Identifier: BSD-3-Clause
-
 */
 
 #include <KDeclarative/KDeclarative>
