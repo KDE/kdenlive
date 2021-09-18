@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "mainwindow.h"
@@ -378,6 +378,7 @@ void MainWindow::init(const QString &mltPath)
     libraryDock->close();
     subtitlesDock->close();
     textEditingDock->close();
+    timeRemapDock->close();
     spectrumDock->close();
     clipDockWidget->close();
     m_onlineResourcesDock->close();

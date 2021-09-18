@@ -1,7 +1,7 @@
 /*  This file is part of the KDE project
     SPDX-FileCopyrightText: 2007 Matthias Kretz <kretz@kde.org>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-LGPL
+    SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
 #ifndef KDENLIVECORE_EXPORT_H

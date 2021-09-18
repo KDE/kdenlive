@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
@@ -15,6 +15,7 @@ SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 #include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
+#include "kcoreaddons_version.h"
 #include "mainwindow.h"
 
 #include <KAboutData>
@@ -183,8 +184,16 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,87,0)
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+#endif
+
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,84,0)
+    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(), QStringLiteral("https://mltframework.org")/*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(), QStringLiteral("https://ffmpeg.org"));
+#endif
+
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data

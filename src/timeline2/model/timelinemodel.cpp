@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2017 Nicolas Carion
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "timelinemodel.hpp"
@@ -3270,7 +3270,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
         return -1;
     }
     if(result && logUndo) {
-        PUSH_UNDO(undo, redo, i18np("Slip clip", "Slip clips", slipCount));
+        PUSH_UNDO(undo, redo, i18ncp("Undo/Redo menu text", "Slip clip", "Slip clips", slipCount));
     }
     int res = result ? offset : 0;
     TRACE_RES(res)

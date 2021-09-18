@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
     SPDX-FileCopyrightText: 2021 Julius Künzel (jk.kdedev@smartalb.uber.space)
 
-SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "archivewidget.h"

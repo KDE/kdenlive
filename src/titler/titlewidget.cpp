@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
     SPDX-FileCopyrightText: Rafał Lalik
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 /*

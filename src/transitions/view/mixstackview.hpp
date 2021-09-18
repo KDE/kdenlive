@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef MIXSTACKVIEW_H

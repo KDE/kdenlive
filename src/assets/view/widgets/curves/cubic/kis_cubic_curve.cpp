@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
     SPDX-FileCopyrightText: 2010 Cyrille Berger <cberger@cberger.net>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "kis_cubic_curve.h"
