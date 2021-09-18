@@ -129,6 +129,8 @@ public:
         FakeTrackIdRole,
         FakePositionRole,
         FakeDurationRole,
+        FakeInRole,
+        FakeOutRole,
         MarkersRole, /// clip only
         PlaylistStateRole,  /// clip only
         StatusRole,  /// clip only
@@ -518,7 +520,9 @@ public:
     bool requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief @todo TODO */
-    Q_INVOKABLE int requestFakeClipResize(int clipId, int size, bool right, int snapDistance, bool allowSingleResize);
+    Q_INVOKABLE int requestFakeItemResize(int clipId, int size, bool right, int snapDistance = -1, bool allowSingleResize = false);
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestFakeClipResize(int clipId, int size, bool right, int snapDistance = -1, bool allowSingleResize = false);
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable
@@ -545,6 +549,8 @@ public:
     /** @brief Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
     Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);
+    /** @brief @todo TODO**/
+    Q_INVOKABLE void processGroupRippleResize(QVariantList startPos, QVariantList endPos, bool right);
 
     Q_INVOKABLE int requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed);
 

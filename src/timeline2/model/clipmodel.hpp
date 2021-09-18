@@ -115,6 +115,10 @@ public:
     void setFakePosition(int fpos);
     int getFakeDuration() const;
     void setFakeDuration(int fduration);
+    int getFakeIn() const;
+    void setFakeIn(int fin);
+    int getFakeOut() const;
+    void setFakeOut(int fin);
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
@@ -278,6 +282,8 @@ protected:
     int m_fakeTrack;
     int m_fakePosition;
     int m_fakeDuration;
+    int m_fakeIn = -1;
+    int m_fakeOut = -1;
     /** @brief Temporary val to store offset between two clips with same bin id. */
     int m_positionOffset;
     /** @brief Tracks have two sub playlists to enable same track transitions, we store in which one this clip is. */

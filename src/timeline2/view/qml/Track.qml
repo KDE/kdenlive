@@ -209,6 +209,18 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "fakeInPoint"
+                    value: model.fakeIn
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
+                    property: "fakeOutPoint"
+                    value: model.fakeOut
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
                     property: "outPoint"
                     value: model.out
                     when: loader.status == Loader.Ready && loader.item
@@ -341,7 +353,8 @@ Item{
                 }
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
-                    new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
+                    console.log("In: Request for " + newDuration)
+                    new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false);
                     console.log("In: Fake Resize to " + new_duration)
                 } else {
@@ -365,7 +378,7 @@ Item{
             onTrimmedIn: {
                 //bubbleHelp.hide()
                 timeline.showToolTip();
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     if (controlTrim) {
@@ -408,7 +421,8 @@ Item{
                 }
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
-                    new_duration = controller.requestFakeClipResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
+                    console.log("Out: Request for " + newDuration)
+                    new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false);
                     console.log("Out: Fake Resize to " + new_duration)
                 } else {
@@ -430,7 +444,7 @@ Item{
             onTrimmedOut: {
                 timeline.showToolTip();
                 //bubbleHelp.hide()
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     if (controlTrim) {
                         speedController.visible = false

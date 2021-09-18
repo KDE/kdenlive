@@ -37,8 +37,16 @@ Rectangle {
     property int mixCut: 0
     property real scrollX: 0
     property int inPoint: 0
+    property int fakeInPoint: 0
+    property int switchedInPoint: useFakeInOut ? fakeInPoint : inPoint
     property int outPoint: 0
+    property int fakeOutPoint: 0
+    property int switchedOutPoint: useFakeInOut ? fakeOutPoint : outPoint
+    property bool useFakeInOut: false
     property int clipDuration: 0
+    property int fakeDuration: 0
+    property bool useFakeDuration: false
+    property int switchedDuration: useFakeDuration ? fakeDuration : clipDuration
     property int maxDuration: 0
     property bool isAudio: false
     property bool timeremap: false
@@ -64,7 +72,6 @@ Rectangle {
     property int trackId: -1 // Id of the parent track in the model
     property int fakeTid: -1
     property int fakePosition: 0
-    property int fakeDuration: 0
     property int originalTrackId: -1
     property int originalX: x
     property int originalDuration: clipDuration
@@ -135,6 +142,7 @@ Rectangle {
     }
 
     onClipDurationChanged: {
+        useFakeDuration = false;
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
@@ -143,12 +151,21 @@ Rectangle {
     }
 
     onFakeDurationChanged: {
+        useFakeDuration = true;
         width = fakeDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
             thumbsLoader.item.reload(1)
         }
     }
+
+    onInPointChanged: useFakeInOut = false;
+
+    onFakeInPointChanged: useFakeInOut = true;
+
+    onOutPointChanged: useFakeInOut = false;
+
+    onFakeOutPointChanged: useFakeInOut = true;
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -500,7 +517,9 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: container.height
-                        x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
+                        x: clipRoot.speed < 0
+                           ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width
+                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -519,7 +538,9 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
-                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
+                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
+                                                                               ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
+                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint))
                         }
                     }
                     TextMetrics {
@@ -706,7 +727,7 @@ Rectangle {
                         if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = maxDuration - inPoint
                         }
-                        if (newDuration != clipDuration) {
+                        if (newDuration != switchedDuration) {
                             sizeChanged = true
                             clipRoot.trimmingOut(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
@@ -948,7 +969,7 @@ Rectangle {
                 anchors.fill: parent
                 visible: clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
                 selected: clipRoot.selected
-                inPoint: clipRoot.inPoint
+                inPoint: clipRoot.switchedInPoint
                 outPoint: clipRoot.outPoint
                 masterObject: clipRoot
                 kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel

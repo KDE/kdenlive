@@ -327,7 +327,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     return count > 0;
 }
 
-int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
+int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
@@ -349,6 +349,8 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
                     if (pos + timeline->getItemPlaytime(l) < position) {
+                        leavesToRemove.insert(l);
+                    } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
                         leavesToRemove.insert(l);
                     } else {
                         leavesToKeep.insert(l);
