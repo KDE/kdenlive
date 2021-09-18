@@ -1,5 +1,5 @@
 #!/bin/bash
-# (C) 2018 V. Pinon <vpinon@kde.org>
+# SPDX-FileCopyrightText: 2018 V. Pinon <vpinon@kde.org>
 # License: GPLv2+
 # Uses msys2 package management, download from msys2.org
 

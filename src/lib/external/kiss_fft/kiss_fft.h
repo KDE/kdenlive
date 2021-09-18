@@ -1,6 +1,6 @@
 /*
-   SPDX-FileCopyrightText: 2003-2010 Mark Borgerding (Mark@Borgerding.net)
-   SPDX-License-Identifier: BSD-3-Clause
+    SPDX-FileCopyrightText: 2003-2010 Mark Borgerding <Mark@Borgerding.net>
+    SPDX-License-Identifier: BSD-3-Clause
 */
 
 #ifndef KISS_FFT_H

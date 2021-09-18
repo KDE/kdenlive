@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010 Pascal Fleury (fleury@users.sourceforge.net)
+    SPDX-FileCopyrightText: 2010 Pascal Fleury <fleury@users.sourceforge.net>
 
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */

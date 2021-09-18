@@ -1,6 +1,6 @@
 # cmake macro to find LibV4L2
 #
-# Copyright (c) 2009, Jaroslav Reznik <jreznik@redhat.com>
+# SPDX-FileCopyrightText: 2009 Jaroslav Reznik <jreznik@redhat.com>
 #
 # Once done this will define:
 #
