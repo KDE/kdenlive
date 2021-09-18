@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
     SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "thumbnailprovider.h"

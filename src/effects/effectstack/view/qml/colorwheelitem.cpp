@@ -6,7 +6,7 @@
     Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
     and Steinar Gunderson's Movit demo app.
 
-    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "colorwheelitem.h"
