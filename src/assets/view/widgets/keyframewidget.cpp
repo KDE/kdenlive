@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Till Theato (root@ttill.de)                     *
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive (www.kdenlive.org).                     *
- *                                                                         *
- *   Kdenlive is free software: you can redistribute it and/or modify      *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Kdenlive is distributed in the hope that it will be useful,           *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "keyframewidget.hpp"
 #include "assets/keyframes/model/rect/recthelper.hpp"
@@ -110,7 +97,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonApply = new QToolButton(this);
     m_buttonApply->setAutoRaise(true);
     m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
-    m_buttonApply->setToolTip(i18n("Apply value to selected keyframes"));
+    m_buttonApply->setToolTip(i18n("Apply current position value to selected keyframes"));
     m_buttonApply->setFocusPolicy(Qt::StrongFocus);
     
     // Keyframe type widget
@@ -292,6 +279,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         }
         paramList.clear();
         QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
+        QMap<QPersistentModelIndex, QStringList> params;
         for (auto c : qAsConst(cbs)) {
             //qDebug()<<"=== FOUND CBS: "<<KLocalizedString::removeAcceleratorMarker(c->text());
             if (c->isChecked()) {
@@ -299,25 +287,47 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
                 if (rectParams.contains(ix)) {
                     // Check param name
                     QString cbName = KLocalizedString::removeAcceleratorMarker(c->text());
-                    QString paramName;
                     if (cbName == i18n("Opacity")) {
-                        paramName = QStringLiteral("spinO");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinO");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinO")});
+                        }
                     } else if (cbName == i18n("Height")) {
-                        paramName = QStringLiteral("spinH");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinH");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinH")});
+                        }
                     } else if (cbName == i18n("Width")) {
-                        paramName = QStringLiteral("spinW");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinW");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinW")});
+                        }
                     } else if (cbName == i18n("X position")) {
-                        paramName = QStringLiteral("spinX");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinX");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinX")});
+                        }
                     } else if (cbName == i18n("Y position")) {
-                        paramName = QStringLiteral("spinY");
+                        if (params.contains(ix)) {
+                            params[ix] << QStringLiteral("spinY");
+                        } else {
+                            params.insert(ix, {QStringLiteral("spinY")});
+                        }
                     }
-                    if (!paramName.isEmpty()) {
-                        m_keyframeview->copyCurrentValue(ix, paramName);
+                    if (!params.contains(ix)) {
+                        params.insert(ix, {});
                     }
-                } else {
-                    m_keyframeview->copyCurrentValue(ix, QString());
                 }
             }
+        }
+        QMapIterator<QPersistentModelIndex, QStringList> p(params);
+        while (p.hasNext()) {
+            p.next();
+            m_keyframeview->copyCurrentValue(p.key(), p.value().join(QLatin1Char(' ')));
         }
         return;
     });
@@ -696,17 +706,8 @@ void KeyframeWidget::slotImportKeyframes()
         indexes << w.first;
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(), m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
-    if (import->exec() != QDialog::Accepted) {
-        delete import;
-        return;
-    }
-    import->importSelectedData();
-
-    /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());*/
-    /*m_model->modelChanged();
-    qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
-    pCore->updateItemKeyframes(m_model->getOwnerId());*/
-    delete import;
+    import->show();
+    connect(import, &KeyframeImport::updateQmlView, this, &KeyframeWidget::slotRefreshParams);
 }
 
 void KeyframeWidget::slotRemoveNextKeyframes()

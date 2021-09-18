@@ -1,20 +1,9 @@
 /*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -453,9 +442,9 @@ Rectangle {
                             mixCutPos.anchors.right = undefined
                         }
                         onReleased: {
-                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                             root.autoScrolling = timeline.autoScroll
                             if (sizeChanged) {
+                                controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                                 sizeChanged = false
                             }
                             anchors.left = parent.left
@@ -470,8 +459,6 @@ Rectangle {
                                 if (currentFrame != previousMix) {
                                     parent.width = currentFrame * clipRoot.timeScale
                                     sizeChanged = true
-                                    //TODO: resize mix's other clip
-                                    //clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                                 }
                                 if (x < mixCutPos.x) {
                                     // This will delete the mix

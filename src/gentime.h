@@ -1,19 +1,8 @@
-/***************************************************************************
-                          time.h  -  description
-                             -------------------
-    begin                : Sat Sep 14 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2002 Jason Wood <jasonwood@blueyonder.co.uk>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GENTIME_H
 #define GENTIME_H

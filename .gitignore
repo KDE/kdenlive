@@ -8,3 +8,8 @@ packaging/flatpak/.flatpak-builder
 
 # Jetbrains IDE like CLion
 .idea
+
+# clangd tooling
+.cache
+.clangd
+compile_commands.json

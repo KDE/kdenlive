@@ -80,6 +80,13 @@ else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
 endif()
 
+# macOS
+if(APPLE)
+    set(DATA_INSTALL_PREFIX "")
+else()
+    set(DATA_INSTALL_PREFIX "/kdenlive")
+endif()
+
 if(KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
   set(KF5_FILEMETADATA TRUE)
@@ -152,7 +159,8 @@ if (BUILD_QCH)
 endif()
 
 include(GNUInstallDirs)
-install(FILES AUTHORS COPYING README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
+install(FILES AUTHORS README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
+install(DIRECTORY LICENSES DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 if (ECM_VERSION VERSION_LESS "5.59.0")
     install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="audiowaveform" id="audiowaveform" type="audio">
+<effect tag="audiowaveform" id="audiowaveform" type="video">
 	<name>Audio Waveform Filter</name>
 	<author>Brian Matherly</author>
 	<parameter type="color" name="bgcolor" default="0x00000000" alpha="1">

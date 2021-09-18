@@ -87,4 +87,4 @@ avfilter_weave.xml
 avfilter_xbr.xml
 avfilter_yadif.xml
 avfilter_zoompan.xml
-DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
+DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)

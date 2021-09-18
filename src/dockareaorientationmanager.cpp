@@ -1,11 +1,9 @@
 /*
-Copyright (C) 2020  Julius Künzel <jk.kdedev@smartlab.uber.space>
-This file is part of Kdenlive. See www.kdenlive.org.
+    SPDX-FileCopyrightText: 2020 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+
+This file is part of Kdenlive. See www.kdenlive.org.
 */
 
 #include "dockareaorientationmanager.h"

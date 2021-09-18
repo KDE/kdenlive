@@ -1,21 +1,12 @@
-/***************************************************************************
-                          titledocument.h  -  description
-                             -------------------
-    begin                : Feb 28 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: Rafał Lalik
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
-/***************************************************************************
+
+/*
  *                                                                         *
  *   Modifications by Rafał Lalik to implement Patterns mechanism          *
  *                                                                         *

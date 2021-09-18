@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "mainwindow.h"
 #include "assets/assetpanel.hpp"
@@ -70,7 +57,6 @@
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-//#include "utils/resourcewidget_old.h" //TODO
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
 #include "lib/localeHandling.h"
@@ -105,7 +91,8 @@
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 #include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
+// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
 #include <kns3/downloaddialog.h>
 #else
 #include <kns3/qtquickdialogwrapper.h>
@@ -391,6 +378,7 @@ void MainWindow::init(const QString &mltPath)
     libraryDock->close();
     subtitlesDock->close();
     textEditingDock->close();
+    timeRemapDock->close();
     spectrumDock->close();
     clipDockWidget->close();
     m_onlineResourcesDock->close();
@@ -3288,7 +3276,10 @@ void MainWindow::showToolMessage()
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
         toolLabel = i18n("Multicam");
     }
-    TimelineMode::EditMode mode = getMainTimeline()->controller()->getModel()->editMode();
+    TimelineMode::EditMode mode = TimelineMode::NormalEdit;
+    if (getMainTimeline()->controller() && getMainTimeline()->controller()->getModel()) {
+        mode = getMainTimeline()->controller()->getModel()->editMode();
+    }
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
             toolLabel.append(QStringLiteral(" | "));
@@ -3504,7 +3495,9 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
+
+// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec() != 0) {
@@ -3512,7 +3505,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     }
     delete dialog;
 #else
-    KNS3::QtQuickDialogWrapper dialog(configFile );
+    KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
 #endif
     for (const auto &entry : qAsConst(entries)) {
@@ -4428,6 +4421,9 @@ void MainWindow::slotActivateVideoTrackSequence()
     int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
     int tid = trackIds.at(trackIds.count() - 1 - trackPos);
     getCurrentTimeline()->controller()->setActiveTrack(tid);
+    if (m_activeTool == ToolType::MulticamTool) {
+        pCore->monitorManager()->slotPerformMultiTrackMode();
+    }
 }
 
 void MainWindow::slotActivateTarget()

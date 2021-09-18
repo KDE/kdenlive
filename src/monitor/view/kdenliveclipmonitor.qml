@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
@@ -38,7 +43,7 @@ Item {
     property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10

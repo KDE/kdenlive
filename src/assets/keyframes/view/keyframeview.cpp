@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Till Theato (root@ttill.de)                     *
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive (www.kdenlive.org).                     *
- *                                                                         *
- *   Kdenlive is free software: you can redistribute it and/or modify      *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Kdenlive is distributed in the hope that it will be useful,           *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "keyframeview.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -189,6 +176,16 @@ void KeyframeView::setDuration(int dur, int inPoint)
     m_inPoint = inPoint;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    // Unselect keyframes that are outside range if any
+    QVector<int> toDelete;
+    for (auto &p : m_selectedKeyframes) {
+        if (p < m_inPoint || p >= m_inPoint + m_duration) {
+            toDelete << p;
+        }
+    }
+    for (auto &p : toDelete) {
+        m_selectedKeyframes.removeAll(p);
+    }
     update();
 }
 
@@ -791,37 +788,61 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 
 void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
 {
-    const QString val = m_model->getInterpolatedValue(m_position, ix).toString();
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    const QString val = m_model->getInterpolatedValue(m_position + offset, ix).toString();
     QString newVal;
     const QStringList vals = val.split(QLatin1Char(' '));
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    qDebug()<<"=== COPYING VALS: "<<val<<", PARAM NAME_ "<<paramName;
+    qDebug()<<"=== COPYING VALS: "<<val<<" AT POS: "<<m_position<<", PARAM NAME_ "<<paramName;
     auto *parentCommand = new QUndoCommand();
+    bool multiParams = paramName.contains(QLatin1Char(' '));
     for (int kf : qAsConst(m_selectedKeyframes)) {
         QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));
-        if (paramName == QLatin1String("spinX")) {
+        bool found = false;
+        if (paramName.contains(QLatin1String("spinX"))) {
             oldVals[0] = vals.at(0);
             newVal = oldVals.join(QLatin1Char(' '));
-            parentCommand->setText(i18n("Update keyframes X position"));
-        } else if (paramName == QLatin1String("spinY")) {
+            found = true;
+            if (!multiParams) {
+                parentCommand->setText(i18n("Update keyframes X position"));
+            }
+        }
+        if (paramName.contains(QLatin1String("spinY"))) {
             oldVals[1] = vals.at(1);
             newVal = oldVals.join(QLatin1Char(' '));
-            parentCommand->setText(i18n("Update keyframes Y position"));
-        } else if (paramName == QLatin1String("spinW")) {
+            found = true;
+            if (!multiParams) {
+                parentCommand->setText(i18n("Update keyframes Y position"));
+            }
+        }
+        if (paramName.contains(QLatin1String("spinW"))) {
             oldVals[2] = vals.at(2);
             newVal = oldVals.join(QLatin1Char(' '));
-            parentCommand->setText(i18n("Update keyframes width"));
-        } else if (paramName == QLatin1String("spinH")) {
+            found = true;
+            if (!multiParams) {
+                parentCommand->setText(i18n("Update keyframes width"));
+            }
+        }
+        if (paramName.contains(QLatin1String("spinH"))) {
             oldVals[3] = vals.at(3);
             newVal = oldVals.join(QLatin1Char(' '));
-            parentCommand->setText(i18n("Update keyframes height"));
-        } else if (paramName == QLatin1String("spinO")) {
+            found = true;
+            if (!multiParams) {
+                parentCommand->setText(i18n("Update keyframes height"));
+            }
+        }
+        if (paramName.contains(QLatin1String("spinO"))) {
             oldVals[4] = vals.at(4);
             newVal = oldVals.join(QLatin1Char(' '));
-            parentCommand->setText(i18n("Update keyframes opacity"));
-        } else {
+            found = true;
+            if (!multiParams) {
+                parentCommand->setText(i18n("Update keyframes opacity"));
+            }
+        }
+        if (!found) {
             newVal = val;
+            parentCommand->setText(i18n("Update keyframes value"));
+        } else if (multiParams) {
             parentCommand->setText(i18n("Update keyframes value"));
         }
         bool result = m_model->updateKeyframe(GenTime(kf + offset, pCore->getCurrentFps()), newVal, ix, parentCommand);

@@ -1,22 +1,9 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle (jb@kdenlive.org)
+
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "filtertask.h"
 #include "bin/bin.h"
@@ -125,7 +112,6 @@ void FilterTask::run()
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    
     length = producer->get_playtime();
     if (length == 0) {
         length = producer->get_length();
@@ -169,6 +155,9 @@ void FilterTask::run()
         qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
         for (const auto &it : m_filterParams) {
             qDebug()<<". . ."<<it.first<<" = "<<it.second;
+            if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
+                continue;
+            }
             if (it.second.type() == QVariant::Double) {
                 filter.set(it.first.toUtf8().constData(), it.second.toDouble());
             } else {
@@ -218,7 +207,6 @@ void FilterTask::run()
     dom.clear();
 
     // Step 2: process the xml file and save in another .mlt file
-    QProcess filterProcess;
     QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

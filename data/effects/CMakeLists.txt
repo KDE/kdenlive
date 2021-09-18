@@ -38,6 +38,7 @@ frei0r_bigsh0t_stabilize_360.xml
 frei0r_bigsh0t_transform_360.xml
 frei0r_brightness.xml
 frei0r_c0rners.xml
+frei0r_cairogradient.xml
 frei0r_cairoimagegrid.xml
 frei0r_cartoon.xml
 frei0r_cluster.xml
@@ -167,7 +168,7 @@ vignette.xml
 volume.xml
 wave.xml
 
-DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
+DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)
 
 add_subdirectory(update)
 add_subdirectory(avfilter)

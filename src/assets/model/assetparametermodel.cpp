@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -153,6 +137,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 case ParamType::Double:
                 case ParamType::Hidden:
                 case ParamType::List:
+                case ParamType::ListWithDependency:
                     // Despite its name, a list type parameter is a single value *chosen from* a list.
                     // If it contains a non-“.” decimal separator, it is very likely wrong.
                     // Fall-through, treat like Double
@@ -548,9 +533,24 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
+    case InstalledValuesRole:
+        return m_asset->get("kdenlive:paramlist");
     case ListNamesRole: {
         QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
         return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));
+    }
+    case ListDependenciesRole: {
+        QDomNodeList dependencies = element.elementsByTagName(QStringLiteral("paramdependencies"));
+        if (!dependencies.isEmpty()) {
+            QDomDocument doc;
+            QDomElement d = doc.createElement(QStringLiteral("deps"));
+            doc.appendChild(d);
+            for (int i = 0; i < dependencies.count(); i++) {
+                d.appendChild(doc.importNode(dependencies.at(i), true));
+            }
+            return doc.toString();
+        }
+        return QVariant();
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
@@ -615,6 +615,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("list")) {
         return ParamType::List;
+    }
+    if (type == QLatin1String("listdependency")) {
+        return ParamType::ListWithDependency;
     }
     if (type == QLatin1String("urllist")) {
         return ParamType::UrlList;
@@ -731,7 +734,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%height"), QString::number(height))
             .replace(QLatin1String("%out"), QString::number(out))
             .replace(QLatin1String("%fade"), QString::number(frame_duration));
-        if (type == ParamType::AnimatedRect && attribute == QLatin1String("default")) {
+        if ((type == ParamType::AnimatedRect || type == ParamType::Geometry) && attribute == QLatin1String("default")) {
             if (content.contains(QLatin1Char('%'))) {
                 // This is a generic default like: "25% 0% 50% 100%". Parse values
                 QStringList numbers = content.split(QLatin1Char(' '));

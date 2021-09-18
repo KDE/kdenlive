@@ -1,22 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Marco Gittler (g.marco@freenet.de)              *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "core.h"
 #ifdef CRASH_AUTO_TEST
@@ -28,6 +15,7 @@
 #include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
+#include "kcoreaddons_version.h"
 #include "mainwindow.h"
 
 #include <KAboutData>
@@ -196,8 +184,16 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,87,0)
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+#endif
+
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,84,0)
+    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(), QStringLiteral("https://mltframework.org")/*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(), QStringLiteral("https://ffmpeg.org"));
+#endif
+
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data

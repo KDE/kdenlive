@@ -1,13 +1,8 @@
 /*
-Copyright (C) 2012  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2014  Till Theato <root@ttill.de>
-Copyright (C) 2020  Julius Künzel <jk.kdedev@smartlab.uber.space>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2012 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2020 Julius Künzel <jk.kdedev@smartlab.uber.space>
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 #include "layoutmanagement.h"

@@ -7,7 +7,7 @@ MouseArea {
     hoverEnabled: true
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
-    width: fullscreenButton.width + root.baseUnit
+    width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
     onEntered: {
         animator.stop()
@@ -20,7 +20,7 @@ MouseArea {
     Rectangle {
         id: scenetoolbar
         objectName: "scenetoolbar"
-        width: fullscreenButton.width
+        width: barZone.width
         height: childrenRect.height
         anchors.right: barZone.right
         SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
@@ -49,7 +49,16 @@ MouseArea {
             ToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
-                icon.name: "view-fullscreen"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-fullscreen"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -61,7 +70,17 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-in"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-in"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -72,8 +91,18 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-out"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-out"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
                 ToolTip.visible: hovered
+                focusPolicy: Qt.NoFocus
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
                 ToolTip.timeout: 3000
@@ -84,7 +113,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "moveBar"
-                icon.name: "transform-move-horizontal"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/transform-move-horizontal"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")

@@ -1,20 +1,9 @@
 /*
- * Copyright (c) 2013-2021 Meltytech, LLC
- * Copyright (c) 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2021 Meltytech LLC
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "audiolevelstask.h"
 #include "core.h"
@@ -104,6 +93,7 @@ void AudioLevelsTask::run()
     QMap <int, QString> streams = binClip->audioInfo()->streams();
     QMap <int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
+    bool audioCreated = false;
     while (st.hasNext() && !m_isCanceled) {
         st.next();
         int stream = st.key();
@@ -113,7 +103,6 @@ void AudioLevelsTask::run()
         // Generate one thumb per stream
         QString cachePath = binClip->getAudioThumbPath(stream);
         QVector <uint8_t> mltLevels;
-        qDebug()<<" TESTING AUDIO CACHE : "<<cachePath;
         if (!m_isForce && QFile::exists(cachePath)) {
             // Audio thumb already exists
             QImage image(cachePath);
@@ -223,7 +212,6 @@ void AudioLevelsTask::run()
             //qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
             // Put into an image for caching.
             int count = mltLevels.size();
             QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
@@ -243,7 +231,13 @@ void AudioLevelsTask::run()
                 image.setPixel(i / 2, i % channels, p);
             }
             image.save(cachePath);
+            audioCreated = true;
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
         }
+    }
+    if (!audioCreated) {
+        // Audio was cached, ensure the bin thumbnail is loaded
+        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");

@@ -1,12 +1,7 @@
 /*
-Copyright (C) 2007  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2014  Till Theato <root@ttill.de>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
+SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
 */
 
 #include "mltconnection.h"
@@ -108,7 +103,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     QString profilePath = mltPath;
     QString appName;
     QString libName;
-#ifdef Q_OS_WIN
+#if(defined(Q_OS_WIN)||defined(Q_OS_MAC))
     appName = QStringLiteral("melt");
     libName = QStringLiteral("mlt");
 #else
@@ -118,24 +113,45 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     // environment variables should override other settings
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PROFILES_PATH")) {
         profilePath = qgetenv("MLT_PROFILES_PATH");
+        qWarning() << "profilePath from $MLT_PROFILES_PATH: " << profilePath;
     }
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_DATA")) {
         profilePath = qgetenv("MLT_DATA") + QStringLiteral("/profiles");
+        qWarning() << "profilePath from $MLT_DATA: " << profilePath;
     }
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PREFIX")) {
         profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/%1/profiles").arg(libName);
+        qWarning() << "profilePath from $MLT_PREFIX/share: " << profilePath;
     }
-#ifndef Q_OS_WIN
+#ifdef Q_OS_MAC
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PREFIX")) {
+        profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/Resources/%1/profiles").arg(libName);
+        qWarning() << "profilePath from $MLT_PREFIX/Resources: " << profilePath;
+    }
+#endif
+#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !KdenliveSettings::mltpath().isEmpty()) profilePath = KdenliveSettings::mltpath();
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !KdenliveSettings::mltpath().isEmpty()) {
+        profilePath = KdenliveSettings::mltpath();
+        qWarning() << "profilePath from KdenliveSetting::mltPath: " << profilePath;
+    }
 #endif
     // try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
     if (profilePath.isEmpty() || !QFile::exists(profilePath)) {
         profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../share/%1/profiles").arg(libName));
+        qWarning() << "profilePath from appDir/../share: " << profilePath;
     }
+#ifdef Q_OS_MAC
+    // try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
+    if (profilePath.isEmpty() || !QFile::exists(profilePath)) {
+        profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../Resources/%1/profiles").arg(libName));
+        qWarning() << "profilePath from appDir/../Resources: " << profilePath;
+    }
+#endif
     // fallback to build-time definition
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty()) {
         profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles");
+        qWarning() << "profilePath from build-time MLT_DATADIR: " << profilePath;
     }
     KdenliveSettings::setMltpath(profilePath);
 
@@ -147,17 +163,38 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     QString meltPath;
     if (qEnvironmentVariableIsSet("MLT_PREFIX")) {
         meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/%1").arg(appName) + exeSuffix;
-    } else {
-        meltPath = KdenliveSettings::rendererpath();
+        qWarning() << "meltPath from $MLT_PREFIX/bin: " << meltPath;
     }
-    if (!QFile::exists(meltPath)) {
+#ifdef Q_OS_MAC
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath)) && qEnvironmentVariableIsSet("MLT_PREFIX")) {
+        meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/MacOS/%1").arg(appName);
+        qWarning() << "meltPath from MLT_PREFIX/MacOS: " << meltPath;
+    }
+#endif
+#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
+    // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+        meltPath = KdenliveSettings::rendererpath();
+        qWarning() << "meltPath from KdenliveSetting::rendererPath: " << profilePath;
+    }
+#endif
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
         meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/%1").arg(appName)) + exeSuffix;
-        if (!QFile::exists(meltPath)) {
-            meltPath = QStandardPaths::findExecutable(appName);
-            if (meltPath.isEmpty()) {
-                meltPath = QStandardPaths::findExecutable("mlt-melt");
-            }
-        }
+        qWarning() << "meltPath from profilePath/.../bin: " << profilePath;
+    }
+#ifdef Q_OS_MAC
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+        meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../MacOS/%1").arg(appName));
+        qWarning() << "meltPath from profilePath/.../MacOS: " << profilePath;
+    }
+#endif
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+        meltPath = QStandardPaths::findExecutable(appName);
+        qWarning() << "meltPath from findExe: " << profilePath;
+    }
+    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+        meltPath = QStandardPaths::findExecutable("mlt-melt");
+        qWarning() << "meltPath from findExe: " << profilePath;
     }
     KdenliveSettings::setRendererpath(meltPath);
 

@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick.Controls 2.4
 import QtQuick 2.11
 
@@ -7,7 +12,7 @@ MouseArea {
     hoverEnabled: true
     property bool rightSide: true
     acceptedButtons: Qt.NoButton
-    width: fullscreenButton.width + root.baseUnit
+    width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
     onEntered: {
         animator.stop()
@@ -20,7 +25,7 @@ MouseArea {
     Rectangle {
         id: scenetoolbar
         objectName: "scenetoolbar"
-        width: fullscreenButton.width
+        width: barZone.width
         height: childrenRect.height
         anchors.right: barZone.right
         SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
@@ -43,13 +48,20 @@ MouseArea {
             animator.start()
         }
 
-    
-        
         Column {
             ToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
-                icon.name: "view-fullscreen"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-fullscreen"
+                        anchors.centerIn: parent
+                        width: barZone.width - 4
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
                 focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
@@ -62,7 +74,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "switchOverlay"
-                icon.name: "view-grid"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/view-grid"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Change Overlay")
@@ -77,7 +99,17 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-in"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-in"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom in")
@@ -88,7 +120,17 @@ MouseArea {
                 }
             }
             ToolButton {
-                icon.name: "zoom-out"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/zoom-out"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Zoom out")
@@ -100,7 +142,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "addMarker"
-                icon.name: "list-add"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/list-add"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
@@ -112,7 +164,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "removeMarker"
-                icon.name: "list-remove"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/list-remove"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
@@ -124,7 +186,17 @@ MouseArea {
             }
             ToolButton {
                 objectName: "moveBar"
-                icon.name: "transform-move-horizontal"
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/transform-move-horizontal"
+                        anchors.centerIn: parent
+                        width: barZone.width - 6
+                        height: width
+                    }
+                }
+                width: barZone.width
+                height: barZone.width
+                focusPolicy: Qt.NoFocus
                 ToolTip.visible: hovered
                 ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
                 ToolTip.text: i18n("Move Toolbar")

@@ -1,19 +1,7 @@
-/***************************************************************************
-                          positionedit.h  -  description
-                             -------------------
-    begin                : 03 Aug 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-License-Identifier: LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef POSITIONEDITWIDGET_H
 #define POSITIONEDITWIDGET_H
