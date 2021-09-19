@@ -511,6 +511,11 @@ void Core::refreshProjectRange(QPair<int, int> range)
     m_monitorManager->refreshProjectRange(range);
 }
 
+const QSize Core::getCompositionSizeOnTrack(const ObjectId &id)
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionSizeOnTrack(id);
+}
+
 int Core::getItemPosition(const ObjectId &id)
 {
     if (!m_guiConstructed) return 0;
