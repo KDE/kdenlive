@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009 Jean-Baptiste Mardelle (jb@kdenlive.org)
+    SPDX-FileCopyrightText: 2009 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */

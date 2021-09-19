@@ -2,7 +2,7 @@
    SPDX-FileCopyrightText: 2019 Nicolas Carion
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
-   This file is part of Kdenlive. See www.kdenlive.org.
+    This file is part of Kdenlive. See www.kdenlive.org.
 */
 
 #pragma once

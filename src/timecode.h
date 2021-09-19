@@ -2,6 +2,7 @@
    SPDX-FileCopyrightText: 2003 Jason Wood <jasonwood@blueyonder.co.uk>
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+
 #ifndef TIMECODE_H
 #define TIMECODE_H
 

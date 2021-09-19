@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2006 Peter Penz <peter.penz@gmx.at>
-    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle, jb@kdenlive.org
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
     SPDX-FileCopyrightText: 2012 Simon A. Eugster <simon.eu@gmail.com>
 
     Some code borrowed from Dolphin, adapted (2008) to Kdenlive
