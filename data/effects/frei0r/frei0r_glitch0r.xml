@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.glitch0r" id="frei0r.glitch0r" type="video">
+        <name>Glitch0r</name>
+        <description>Adds glitches and block shifting</description>
+        <author>IDENT Software</author>
+        <parameter type="animated" name="0" max="1000" min="0" default="0" factor="1000">
+                <name>Glitch frequency</name>
+        </parameter>
+        <parameter type="animated" name="1" max="1000" min="0" default="0.49913" factor="1000">
+                <name>Block height</name>
+        </parameter>
+        <parameter type="animated" name="2" max="1000" min="0" default="0.499305" factor="1000">
+                <name>Shift intensity</name>
+        </parameter>
+        <parameter type="animated" name="3" max="1000" min="0" default="0" factor="1000">
+                <name>Color glitching intensity</name>
+        </parameter>
+</effect>

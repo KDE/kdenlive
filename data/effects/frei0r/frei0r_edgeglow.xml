@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.edgeglow" id="frei0r.edgeglow" type="video" unique="1">
+	<name>Edge glow</name>
+	<description>Edge glow filter</description>
+	<author>Salsaman</author>
+	<parameter type="animated" name="lthresh" max="1000" min="0" default="0" factor="1000">
+		<name>Edge lightening threshold</name>
+	</parameter>
+	<parameter type="animated" name="lupscale" max="1000" min="0" default="0" factor="1000">
+		<name>Edge brightness upscaling multiplier</name>
+	</parameter>
+	<parameter type="animated" name="lredscale" max="1000" min="0" default="0" factor="1000">
+		<name>Non-edge brightness downscaling multiplier</name>
+	</parameter>
+</effect>

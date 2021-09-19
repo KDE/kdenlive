@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.baltan" id="frei0r.baltan">
+	<name>Baltan</name>
+	<description>Delayed alpha smoothed blit of time</description>
+	<author>Kentaro, Jaromil</author>
+</effect>

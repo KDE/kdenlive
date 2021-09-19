@@ -1,0 +1,117 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.curves" id="frei0r.curves">
+	  <name context="Curves Effect Name">Curves</name>
+	  <description>Color curves adjustment</description>
+	  <author>Maksim Golovkin</author>
+    <parameter type="list" name="Channel" default="0" paramlist="0;1;2;3">
+      <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
+		  <name>Channel</name>
+	  </parameter>
+    <parameter type="list" name="4" default="1" paramlist="0;1">
+      <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
+      <name>Luma formula</name>
+    </parameter>
+
+    <!-- No actual parameter: Represents the curve widget -->
+    <parameter type="curve" default="0" depends="Channel" number="3" inpoints="6 8 10 12 14" outpoints="7 9 11 13 15" min="1" max="5" />
+
+	  <parameter type="fixed" name="3" default="2" min="2" max="5">
+		  <name>Number of curve points</name>
+	  </parameter>
+	  <parameter type="fixed" name="6" default="0" min="0" max="1">
+		  <name>Point 1 input value</name>
+	  </parameter>
+	  <parameter type="fixed" name="7" default="0" min="0" max="1">
+		  <name>Point 1 output value</name>
+	  </parameter>
+	  <parameter type="fixed" name="8" default="1" min="0" max="1">
+		  <name>Point 2 input value</name>
+	  </parameter>
+	  <parameter type="fixed" name="9" default="1" min="0" max="1">
+		  <name>Point 2 output value</name>
+	  </parameter>
+	  <parameter type="fixed" name="10" default="0" min="0" max="1">
+		  <name>Point 3 input value</name>
+	  </parameter>
+	  <parameter type="fixed" name="11" default="0" min="0" max="1">
+		  <name>Point 3 output value</name>
+	  </parameter>
+	  <parameter type="fixed" name="12" default="0" min="0" max="1">
+		  <name>Point 4 input value</name>
+	  </parameter>
+	  <parameter type="fixed" name="13" default="0" min="0" max="1">
+		  <name>Point 4 output value</name>
+	  </parameter>
+	  <parameter type="fixed" name="14" default="0" min="0" max="1">
+		  <name>Point 5 input value</name>
+	  </parameter>
+	  <parameter type="fixed" name="15" default="0" min="0" max="1">
+		  <name>Point 5 output value</name>
+	  </parameter>
+	  <parameter type="bool" name="1" default="0">
+      <name>Show graph in picture</name>
+    </parameter>
+    <parameter type="list" name="2" default="3" paramlist="0;1;2;3">
+      <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
+      <name>Graph position</name>
+    </parameter>
+  </effect>
+  <effect LC_NUMERIC="C" tag="frei0r.curves" id="frei0r.curves" version="0.3">
+    <name>Curves</name>
+    <description>Color curves adjustment</description>
+    <author>Maksim Golovkin</author>
+    <parameter type="list" name="Channel" default="0.5" paramlist="0.5;0;0.1;0.2;0.3;0.4;0.6;0.71">
+      <paramlistdisplay>RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation</paramlistdisplay>
+      <name>Channel</name>
+    </parameter>
+    <parameter type="list" name="4" default="1" paramlist="0;1">
+      <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
+      <name>Luma formula</name>
+    </parameter>
+
+    <!-- No actual parameter: Represents the curve widget -->
+    <parameter type="curve" name="kdenlive:curve" default="0/0;1/1" depends="Channel" list1="6 8 10 12 14" list2="7 9 11 13 15" min="1" max="5" />
+
+    <parameter type="hidden" name="3" default="0.2" min="0.2" max="0.5">
+      <name>Number of curve points</name>
+    </parameter>
+    <parameter type="hidden" name="6" default="0" min="0" max="1">
+      <name>Point 1 input value</name>
+    </parameter>
+    <parameter type="hidden" name="7" default="0" min="0" max="1">
+      <name>Point 1 output value</name>
+    </parameter>
+    <parameter type="hidden" name="8" default="1" min="0" max="1">
+      <name>Point 2 input value</name>
+    </parameter>
+    <parameter type="hidden" name="9" default="1" min="0" max="1">
+      <name>Point 2 output value</name>
+    </parameter>
+    <parameter type="hidden" name="10" default="0" min="0" max="1">
+      <name>Point 3 input value</name>
+    </parameter>
+    <parameter type="hidden" name="11" default="0" min="0" max="1">
+      <name>Point 3 output value</name>
+    </parameter>
+    <parameter type="hidden" name="12" default="0" min="0" max="1">
+      <name>Point 4 input value</name>
+    </parameter>
+    <parameter type="hidden" name="13" default="0" min="0" max="1">
+      <name>Point 4 output value</name>
+    </parameter>
+    <parameter type="hidden" name="14" default="0" min="0" max="1">
+      <name>Point 5 input value</name>
+    </parameter>
+    <parameter type="hidden" name="15" default="0" min="0" max="1">
+      <name>Point 5 output value</name>
+    </parameter>
+    <parameter type="bool" name="1" default="0">
+      <name>Show graph in picture</name>
+    </parameter>
+    <parameter type="list" name="2" default="0.3" paramlist="0;0.1;0.2;0.3">
+      <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
+      <name>Graph position</name>
+    </parameter>
+  </effect>
+</group>

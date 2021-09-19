@@ -1,0 +1,37 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.coloradj_RGB" id="frei0r.coloradj_RGB">
+        <name>RGB adjustment</name>
+        <description>Simple color adjustment</description>
+        <author>Marko Cebokli</author>
+        
+        <parameter type="animated" name="R" default="0.5" min="0" max="1000" factor="1000">
+                <name>R</name>
+        </parameter>
+        
+        <parameter type="animated" name="G" default="0.5" min="0" max="1000" factor="1000">
+                <name>G</name>
+        </parameter>
+        
+        <parameter type="animated" name="B" default="0.5" min="0" max="1000" factor="1000">
+                <name>B</name>
+        </parameter>
+        
+        <parameter type="list" name="Action" default="0.5" paramlist="0;0.5;1">
+                <paramlistdisplay>Add constant,Change gamma,Multiply</paramlistdisplay>
+                <name>Action</name>
+        </parameter>
+
+        <parameter type="bool" name="Keep luma" default="1">
+                <name>Keep luma</name>
+        </parameter>
+        
+        <parameter type="bool" name="Alpha controlled" default="0">
+                <name>Alpha controlled</name>
+        </parameter>
+        
+        <parameter type="list" name="Luma formula" default="1" paramlist="0;1">
+                <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
+                <name>Luma formula</name>
+        </parameter>
+        
+</effect>

@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.threelay0r" id="frei0r.threelay0r">
+	<name>3-level Threshold</name>
+	<description>Dynamic 3-level thresholding</description>
+	<author>Hedde Bosman</author>
+</effect>

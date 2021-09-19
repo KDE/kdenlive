@@ -1,0 +1,25 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect tag="frei0r.vertigo" id="frei0r.vertigo">
+	<name>Vertigo</name>
+	<description>Alpha blending with zoomed and rotated images</description>
+	<author>Fukuchi Kentarou</author>
+        <parameter type="animated" name="PhaseIncrement" default="0.02" min="0" max="100" factor="100">
+                <name>Phase Increment</name>
+        </parameter>
+        <parameter type="animated" name="Zoomrate" default="1.01" min="50" max="500" factor="100">
+                <name>Zoom Rate</name>
+        </parameter>
+    </effect>
+    <effect LC_NUMERIC="C" tag="frei0r.vertigo" id="frei0r.vertigo" version="1.1">
+        <name>Vertigo</name>
+        <description>Alpha blending with zoomed and rotated images</description>
+        <author>Fukuchi Kentarou</author>
+        <parameter type="animated" name="PhaseIncrement" default="0.02" min="0" max="100" factor="100">
+                <name>Phase Increment</name>
+        </parameter>
+        <parameter type="animated" name="Zoomrate" default="0.202" min="50" max="500" factor="500">
+                <name>Zoom Rate</name>
+        </parameter>
+    </effect>
+</group>

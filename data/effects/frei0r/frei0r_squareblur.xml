@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.squareblur" id="frei0r.squareblur">
+	<name>Square Blur</name>
+	<description>Square blur</description>
+	<author>Drone</author>
+	<parameter type="animated" name="Kernel size" max="500" min="0" default="0.05" factor="1000">
+		<name>Kernel size</name>
+	</parameter>
+</effect>

@@ -1,0 +1,37 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.facebl0r" id="frei0r.facebl0r">
+    <name>Face blur</name>
+    <description>Automatically detect and blur a face using OpenCV</description>
+    <author>ZioKernel, Biilly, Jilt, Jaromil, Dan Dennedy</author>
+    
+    <parameter type="animated" name="Search scale" default="1.2" min="110" max="200" factor="100">
+        <name>Search scale</name>
+        <comment>The search window scale factor. For example, 120 = 1.20 = increases by 20% on each pass.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Neighbors" default="2" min="1" max="10">
+        <name>Neighbors</name>
+        <comment>Minimum number of rectangles that determines an object.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Smallest" default="2" min="0" max="100">
+        <name>Smallest</name>
+        <comment>The minimum window size in pixels.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Largest" default="500" min="0" max="10000" suffix="pixels">
+        <name>Largest</name>
+        <comment>The largest size face in pixels - both horizontally and vertically (square window).</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Recheck" default="0.05" min="1" max="1000" factor="1000" suffix="frames">
+        <name>Recheck</name>
+        <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
+    </parameter>
+    
+    <parameter type="bool" name="Ellipse" default="0">
+        <name>Show ellipse</name>
+        <comment>Draw a blue ellipse around the face area?</comment>
+    </parameter>
+    
+</effect>

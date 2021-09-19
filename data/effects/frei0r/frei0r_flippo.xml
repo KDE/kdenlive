@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.flippo" id="frei0r.flippo">
+	<name>Flippo</name>
+	<description>Flipping in X and Y axis</description>
+	<author>Carlo Emilio, Jean-Sebastien Senecal</author>
+	<parameter type="bool" name="X axis" default="1">
+		<name>X axis</name>
+	</parameter>
+	<parameter type="bool" name="Y axis" default="1">
+		<name>Y axis</name>
+	</parameter>
+</effect>

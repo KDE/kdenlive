@@ -1,0 +1,61 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.keyspillm0pup" id="frei0r.keyspillm0pup">
+    <name>Key Spill Mop Up</name>
+    <description>Reduces the visibility of key color spill in chroma keying</description>
+    <author>Marko Cebokli</author>
+    
+    <parameter type="color" name="Key color" default="0x1010D0ff">
+        <name>Key color</name>
+    </parameter>
+    
+    <parameter type="color" name="Target color" default="0xC87F65ff">
+        <name>Target color</name>
+    </parameter>
+
+    <parameter type="list" name="Mask type" default="0" paramlist="0;1;2;3">
+        <paramlistdisplay>Color distance, Transparency, Edge inwards, Edge outwards</paramlistdisplay>
+        <name>Mask type</name>
+    </parameter>
+
+    <parameter type="animated" name="Tolerance" default="0.24" min="0" max="1000" factor="1000">
+    <name>Tolerance</name>
+    </parameter>
+    
+    <parameter type="animated" name="Slope" default="0.4" min="0" max="1000" factor="1000">
+    <name>Slope</name>
+    </parameter>
+
+    <parameter type="animated" name="Hue gate" default="0.25" min="0" max="1000" factor="1000">
+        <name>Hue gate</name>
+    </parameter>
+
+    <parameter type="animated" name="Saturation threshold" default="0.15" min="0" max="1000" factor="1000">
+        <name>Saturation threshold</name>
+    </parameter>
+
+    <parameter type="list" name="Operation 1" default="1" paramlist="0;1;2;3;4">
+        <paramlistdisplay>None, De-Key, Target, Desaturate, Luma adjust</paramlistdisplay>
+        <name>Operation 1</name>
+    </parameter>
+
+    <parameter type="animated" name="Amount 1" default="0.5" min="0" max="1000" factor="1000">
+        <name>Amount 1</name>
+    </parameter>
+
+    <parameter type="list" name="Operation 2" default="0" paramlist="0;1;2;3;4">
+        <paramlistdisplay>None, De-Key, Target, Desaturate, Luma adjust</paramlistdisplay>
+        <name>Operation 2</name>
+    </parameter>
+
+    <parameter type="animated" name="Amount 2" default="0" min="0" max="1000" factor="1000">
+        <name>Amount 2</name>
+    </parameter>
+
+    <parameter type="bool" name="Show mask" default="0">
+        <name>Show mask</name>
+    </parameter>
+
+    <parameter type="bool" name="Mask to Alpha" default="0">
+        <name>Mask to Alpha</name>
+    </parameter>
+</effect>

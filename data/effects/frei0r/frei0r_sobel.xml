@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.sobel" id="frei0r.sobel" type="video" unique="1">
+	<name>Sobel</name>
+	<description>Sobel filter</description>
+	<author>Jean-Sebastien Senecal (Drone)</author>
+</effect>

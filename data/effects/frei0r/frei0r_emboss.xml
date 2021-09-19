@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.emboss" id="frei0r.emboss">
+	  <name context="Emboss Effect Name">Emboss</name>
+	  <description>Creates embossed relief image of source image</description>
+	  <author>Janne Liljeblad</author>
+    <parameter type="animated" name="azimuth" default="0.375" min="0" max="360" factor="360">
+      <name>Light direction</name>
+      <comment>Light direction angle.</comment>
+    </parameter>
+    <parameter type="animated" name="elevation" default="0.333333" min="0" max="90" factor="90">
+      <name>Background lightness</name>
+      <comment>Background lightness (0 to 90).</comment>
+    </parameter>
+    <parameter type="animated" name="width45" default="0.25" min="0" max="40" factor="40">
+      <name>Bump height</name>
+      <comment>Bump height (0 to 40).</comment>
+    </parameter>
+  </effect>
+</group>

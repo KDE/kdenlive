@@ -1,0 +1,148 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
+        <name>Light Graffiti</name>
+        <description>Light Graffiti effect.
+        <full><![CDATA[This effect allows one to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
+        opened for a while), but for video.]]></full></description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="animated" name="thresholdBrightness" default="450" min="0" max="765">
+            <name>Brightness Threshold</name>
+            <comment><![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>
+            Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]></comment>
+        </parameter>
+        <parameter type="animated" name="thresholdDifference" default="80" min="0" max="255">
+            <name>Difference Threshold</name>
+            <comment><![CDATA[How much does the strongest color channel of a pixel have to change, compared to the background image (<code>max(dR, dG, dB)</code>), in order to be recognized as light source? <br/>
+            Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise or generally bright spots counting as light source.]]></comment>
+        </parameter>
+        <parameter type="animated" name="thresholdDiffSum" default="0" min="0" max="765">
+            <name>Difference Sum Threshold</name>
+            <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?<br/>
+            Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
+        </parameter>
+        <parameter type="animated" name="sensitivity" default="1" min="0" max="500" factor="100">
+            <name>Sensitivity</name>
+            <comment><![CDATA[Light sensitivity.<br/>
+            For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
+        </parameter>
+        <parameter type="animated" name="lowerOverexposure" default="0" min="0" max="10">
+            <name>Lower Overexposure</name>
+            <comment><![CDATA[Lowers overexposure.<br/>
+            The light mask does not get white immediately when the light source is moving slowly or staying steady.]]></comment>
+        </parameter>
+        <parameter type="animated" name="dim" default="0" min="0" max="255" factor="255">
+            <name>Dimming</name>
+            <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
+        </parameter>
+        <parameter type="animated" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+            <name>Background Weight</name>
+            <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without the painting person in the image if the video starts with a «clean» background image. (See the α parameter.)</comment>
+        </parameter>
+        <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
+            <name>α</name>
+            <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+            The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
+        </parameter>
+        <parameter type="animated" name="saturation" default="1.5" min="0" max="400" factor="100">
+            <name>Saturation</name>
+            <comment>Increases the saturation of lights.</comment>
+        </parameter>
+        <parameter type="bool" name="statsBrightness" default="0">
+            <name>Show brightness statistics</name>
+            <comment><![CDATA[The stats switches allow easy and accurate adjustment of the threshold parameters.<br/>
+            Example: To adjust the brightness threshold, check this box and adjust the threshold until the whole light source is highlighted. Repeat the same with the other parameters. Only parts that are highlighted in <em>all</em> thresholds will count as light source.]]></comment>
+        </parameter>
+        <parameter type="bool" name="statsDifference" default="0">
+            <name>Show background difference statistics</name>
+        </parameter>
+        <parameter type="bool" name="statsDiffSum" default="0">
+            <name>Show background difference sum statistics</name>
+        </parameter>
+        <parameter type="bool" name="transparentBackground" default="0">
+            <name>Transparent Background</name>
+            <comment>Makes the background transparent, allowing to apply a composite effect and paint the light mask over a completely different video.</comment>
+        </parameter>
+        <parameter type="bool" name="nonlinearDim" default="0">
+            <name>Nonlinear dimming</name>
+            <comment>If normal dimming does not look natural enough, try this one.</comment>
+        </parameter>
+        <parameter type="bool" name="reset" default="0">
+            <name>Reset</name>
+            <comment>Resets the light mask and the background image. This is necessary e.g. if you apply this effect to a clip in the timeline and then move the timeline cursor from outside of the clip to the middle of it. The effect receives this frame in the middle as first frame and uses it as background image. For proper threshold adjusting move the timeline cursor to the beginning of the clip, check the Reset box and uncheck it again.</comment>
+        </parameter>
+    </effect>
+
+    <effect LC_NUMERIC="C" tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti" version="0.2">
+        <name>Light Graffiti</name>
+        <description>Light Graffiti effect.
+        <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
+        opened for a while), but for video.]]></full></description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="animated" name="thresholdBrightness" default="0.588235294117647" min="0" max="765" factor="765">
+            <name>Brightness Threshold</name>
+            <comment><![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>
+            Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]></comment>
+        </parameter>
+        <parameter type="animated" name="thresholdDifference" default="0.313725490196078" min="0" max="255" factor="255">
+            <name>Difference Threshold</name>
+            <comment><![CDATA[How much does the strongest color channel of a pixel have to change, compared to the background image (<code>max(dR, dG, dB)</code>), in order to be recognized as light source? <br/>
+            Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise or generally bright spots counting as light source.]]></comment>
+        </parameter>
+        <parameter type="animated" name="thresholdDiffSum" default="0" min="0" max="765" factor="765">
+            <name>Difference Sum Threshold</name>
+            <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?<br/>
+            Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
+        </parameter>
+        <parameter type="animated" name="sensitivity" default="0.2" min="0" max="500" factor="500">
+            <name>Sensitivity</name>
+            <comment><![CDATA[Light sensitivity.<br/>
+            For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
+        </parameter>
+        <parameter type="animated" name="lowerOverexposure" default="0" min="0" max="10" factor="10">
+            <name>Lower Overexposure</name>
+            <comment><![CDATA[Lowers overexposure.<br/>
+            The light mask does not get white immediately when the light source is moving slowly or staying steady.]]></comment>
+        </parameter>
+        <parameter type="animated" name="dim" default="0" min="0" max="255" factor="255">
+            <name>Dimming</name>
+            <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
+        </parameter>
+        <parameter type="animated" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+            <name>Background Weight</name>
+            <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without the painting person in the image if the video starts with a «clean» background image. (See the α parameter.)</comment>
+        </parameter>
+        <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
+            <name>α</name>
+            <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+            The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
+        </parameter>
+        <parameter type="animated" name="saturation" default="0.375" min="0" max="400" factor="400">
+            <name>Saturation</name>
+            <comment>Increases the saturation of lights.</comment>
+        </parameter>
+        <parameter type="bool" name="statsBrightness" default="0">
+            <name>Show brightness statistics</name>
+            <comment><![CDATA[The stats switches allow easy and accurate adjustment of the threshold parameters.<br/>
+            Example: To adjust the brightness threshold, check this box and adjust the threshold until the whole light source is highlighted. Repeat the same with the other parameters. Only parts that are highlighted in <em>all</em> thresholds will count as light source.]]></comment>
+        </parameter>
+        <parameter type="bool" name="statsDifference" default="0">
+            <name>Show background difference statistics</name>
+        </parameter>
+        <parameter type="bool" name="statsDiffSum" default="0">
+            <name>Show background difference sum statistics</name>
+        </parameter>
+        <parameter type="bool" name="transparentBackground" default="0">
+            <name>Transparent Background</name>
+            <comment>Makes the background transparent, allowing to apply a composite effect and paint the light mask over a completely different video.</comment>
+        </parameter>
+        <parameter type="bool" name="nonlinearDim" default="0">
+            <name>Nonlinear dimming</name>
+            <comment>If normal dimming does not look natural enough, try this one.</comment>
+        </parameter>
+        <parameter type="bool" name="reset" default="0">
+            <name>Reset</name>
+            <comment>Resets the light mask and the background image. This is necessary e.g. if you apply this effect to a clip in the timeline and then move the timeline cursor from outside of the clip to the middle of it. The effect receives this frame in the middle as first frame and uses it as background image. For proper threshold adjusting move the timeline cursor to the beginning of the clip, check the Reset box and uncheck it again.</comment>
+        </parameter>
+    </effect>
+</group>

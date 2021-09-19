@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.saturat0r" id="frei0r.saturat0r">
+	<name context="Saturation Effect Name">Saturation</name>
+	<description>Adjusts the saturation of a source image</description>
+	<author>Jean-Sebastien Senecal</author>
+	<parameter type="animated" name="Saturation" default="0.125" min="1" max="1000" factor="1000">
+		<name>Saturation</name>
+	</parameter>
+</effect>

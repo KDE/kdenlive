@@ -1,0 +1,112 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect tag="frei0r.sopsat" id="frei0r.sopsat">
+        <name>SOP/Sat</name>
+        <description>Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List).</description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="animated" name="rSlope" default="1" min="0" max="1000" factor="100">
+                <name>Slope Red</name>
+                <comment><![CDATA[Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>
+                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.]]></comment>
+        </parameter>
+        <parameter type="animated" name="gSlope" default="1" min="0" max="1000" factor="100">
+                <name>Slope Green</name>
+        </parameter>
+        <parameter type="animated" name="bSlope" default="1" min="0" max="1000" factor="100">
+                <name>Slope Blue</name>
+        </parameter>
+        <parameter type="animated" name="aSlope" default="1" min="0" max="1000" factor="100">
+                <name>Slope Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="rOffset" default="0" min="-1024" max="1024" factor="256">
+                <name>Offset Red</name>
+                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the given value.</comment>
+        </parameter>
+        <parameter type="animated" name="gOffset" default="0" min="-1024" max="1024" factor="256">
+                <name>Offset Green</name>
+        </parameter>
+        <parameter type="animated" name="bOffset" default="0" min="-1024" max="1024" factor="256">
+                <name>Offset Blue</name>
+        </parameter>
+        <parameter type="animated" name="aOffset" default="0" min="-1024" max="1024" factor="256">
+                <name>Offset Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="rPower" default="1" min="1" max="1000" factor="100">
+                <name>Power Red</name>
+                <comment><![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
+                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]></comment>
+        </parameter>
+        <parameter type="animated" name="gPower" default="1" min="1" max="1000" factor="100">
+                <name>Power Green</name>
+        </parameter>
+        <parameter type="animated" name="bPower" default="1" min="1" max="1000" factor="100">
+                <name>Power Blue</name>
+        </parameter>
+        <parameter type="animated" name="aPower" default="1" min="1" max="1000" factor="100">
+                <name>Power Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="saturation" default="1" min="0" max="500" factor="100">
+                <name>Overall Saturation</name>
+                <comment>The overall saturation will be changed in the last step of this filter.</comment>
+        </parameter>
+
+    </effect>
+
+    <effect LC_NUMERIC="C" tag="frei0r.sopsat" id="frei0r.sopsat" version="0.2">
+        <name>SOP/Sat</name>
+        <description>Changes Slope, Offset, and Power of the color components, and the overall Saturation, according to the ASC CDL (Color Decision List).</description>
+        <author>Simon A. Eugster (Granjow)</author>
+        <parameter type="animated" name="rSlope" default="0.05" min="0" max="1000" factor="1000">
+                <name>Slope Red</name>
+                <comment><![CDATA[Changing the slope means multiplying the pixel value with a constant value. Black pixels will remain black, whileas brighter ones will be changed.<br/>
+                All effects can be observed well when applied on a greyscale gradient and looking at the RGB Parade monitor.]]></comment>
+        </parameter>
+        <parameter type="animated" name="gSlope" default="0.05" min="0" max="1000" factor="1000">
+                <name>Slope Green</name>
+        </parameter>
+        <parameter type="animated" name="bSlope" default="0.05" min="0" max="1000" factor="1000">
+                <name>Slope Blue</name>
+        </parameter>
+        <parameter type="animated" name="aSlope" default="0.05" min="0" max="1000" factor="1000">
+                <name>Slope Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="rOffset" default="0.5" min="0" max="2048" factor="2048">
+                <name>Offset Red</name>
+                <comment>Changing the offset lifts (or lowers) the brightness of each pixel by the given value.</comment>
+        </parameter>
+        <parameter type="animated" name="gOffset" default="0.5" min="0" max="2048" factor="2048">
+                <name>Offset Green</name>
+        </parameter>
+        <parameter type="animated" name="bOffset" default="0.5" min="0" max="2048" factor="2048">
+                <name>Offset Blue</name>
+        </parameter>
+        <parameter type="animated" name="aOffset" default="0.5" min="0" max="2048" factor="2048">
+                <name>Offset Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="rPower" default="0.05" min="0" max="1000" factor="1000">
+                <name>Power Red</name>
+                <comment><![CDATA[Changes the Gamma value for the selected channel. Black and white pixel values will not be affected, but everything between.<br/>
+                Mathematically, what happens is an exponentiation of the pixel brightness on <code>[0,1]</code> by the gamma value.]]></comment>
+        </parameter>
+        <parameter type="animated" name="gPower" default="0.05" min="0" max="1000" factor="1000">
+                <name>Power Green</name>
+        </parameter>
+        <parameter type="animated" name="bPower" default="0.05" min="0" max="1000" factor="1000">
+                <name>Power Blue</name>
+        </parameter>
+        <parameter type="animated" name="aPower" default="0.05" min="0" max="1000" factor="1000">
+                <name>Power Alpha</name>
+        </parameter>
+
+        <parameter type="animated" name="saturation" default="0.1" min="0" max="1000" factor="1000">
+                <name>Overall Saturation</name>
+                <comment>The overall saturation will be changed in the last step of this filter.</comment>
+        </parameter>
+
+    </effect>
+</group>

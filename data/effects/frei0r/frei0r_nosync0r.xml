@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.nosync0r" id="frei0r.nosync0r" type="video" unique="1">
+	<name>nosync0r</name>
+	<description>Broken TV</description>
+	<author>Martin Bayer</author>
+	<parameter type="animated" name="HSync" max="1000" min="0" default="0" factor="1000">
+		<name>HSync</name>
+	</parameter>
+</effect>

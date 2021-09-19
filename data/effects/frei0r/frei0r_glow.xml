@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.glow" id="frei0r.glow">
+        <name context="Glow Effect Name">Glow</name>
+        <description>Creates a Glamorous Glow</description>
+        <author>Richard Spindler</author>
+        <parameter type="animated" name="Blur" default="0.01" min="0" max="1000" factor="1000">
+                <name>Blur</name>
+        </parameter>
+</effect>

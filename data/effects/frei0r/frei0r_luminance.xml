@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.luminance" id="frei0r.luminance" type="video" unique="1">
+	<name context="Luminance Effect Name">Luminance</name>
+	<description>Creates a luminance map of the image</description>
+	<author>Richard Spindler</author>
+</effect>

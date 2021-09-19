@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.threshold0r" id="frei0r.threshold0r">
+	<name>Threshold</name>
+	<description>Thresholds a source image</description>
+	<author>Jean-Sebastien Senecal</author>
+	<parameter type="animated" name="Threshold" max="1000" min="0" default="0.2" factor="1000">
+		<name>Threshold</name>
+	</parameter>
+</effect>

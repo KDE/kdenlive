@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.colgate" id="frei0r.colgate" context="nomovit">
+    <name>White Balance (LMS space)</name>
+    <description>Do simple color correction, in a physically meaningful way</description>
+    <author>Steiner H. Gunderson</author>
+    <parameter type="color" name="Neutral Color" default="0x7f7f7fff">
+        <name>Neutral Color</name>
+    </parameter>
+    <parameter type="animated" name="Color Temperature" default="0.433" min="1000" max="15000" factor="15000">
+        <name>Color Temperature</name>
+    </parameter>
+</effect>

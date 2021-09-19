@@ -1,0 +1,93 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
+        <name>Oscilloscope</name>
+        <description>2D video oscilloscope</description>
+        <author>Marko Cebokli</author>
+        
+        <parameter type="animated" name="X" default="0.5" min="0" max="1000" factor="1000">
+                <name>X</name>
+        </parameter>
+        
+        <parameter type="animated" name="Y" default="0.5" min="0" max="1000" factor="1000">
+                <name>Y</name>
+        </parameter>
+        
+        <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
+                <name>Tilt</name>
+        </parameter>
+
+        <parameter type="animated" name="Length" default="0.65" min="0" max="1000" factor="1000">
+                <name>Length</name>
+        </parameter>
+        
+        <parameter type="list" name="Channel" default="0.5" paramlist="0;0.2;0.4;0.5;0.6;0.8;1">
+                <paramlistdisplay>R,G,B,Y',Pr,Pb,Alpha</paramlistdisplay>
+                <name>Channel</name>
+        </parameter>
+        
+        <parameter type="animated" name="Marker 1" default="0" min="0" max="1000" factor="1000">
+                <name>Marker 1</name>
+        </parameter>
+        
+        <parameter type="animated" name="Marker 2" default="0" min="0" max="1000" factor="1000">
+                <name>Marker 2</name>
+        </parameter>
+        
+        <parameter type="bool" name="R trace" default="1">
+                <name>R trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="G trace" default="1">
+                <name>G trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="B trace" default="1">
+                <name>B trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="Y trace" default="0">
+                <name>Y trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="Pr trace" default="0">
+                <name>Pr trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="Pb trace" default="0">
+                <name>Pb trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="Alpha trace" default="0">
+                <name>Alpha trace</name>
+        </parameter>
+        
+        <parameter type="bool" name="Display average" default="1">
+                <name>Display average</name>
+        </parameter>
+        
+        <parameter type="bool" name="Display RMS" default="1">
+                <name>Display RMS</name>
+        </parameter>
+        
+        <parameter type="bool" name="Display minimum" default="0">
+                <name>Display minimum</name>
+        </parameter>
+        
+        <parameter type="bool" name="Display maximum" default="0">
+                <name>Display maximum</name>
+        </parameter>
+        
+        <parameter type="bool" name="256 scale" default="0">
+                <name>256 scale</name>
+        </parameter>
+        
+        <parameter type="list" name="Color" default="0" paramlist="0;1">
+                <paramlistdisplay>CCIR rec. 601,CCIR rec. 709</paramlistdisplay>
+                <name>Color</name>
+        </parameter>
+
+        <parameter type="animated" name="Crosshair color" default="0" min="0" max="7" factor="7">
+                <name>Crosshair color</name>
+        </parameter>
+
+</effect>

@@ -1,0 +1,39 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.3dflippo" id="frei0r.3dflippo" type="video" unique="1">
+	<name>3dflippo</name>
+	<description>Frame rotation in 3D space</description>
+	<author>c.e. prelz AS FLUIDO</author>
+	<parameter type="animated" name="Xaxisrotation" max="1000" min="0" default="0.5" factor="1000">
+		<name>X axis rotation</name>
+	</parameter>
+	<parameter type="animated" name="Yaxisrotation" max="1000" min="0" default="0.5" factor="1000">
+		<name>Y axis rotation</name>
+	</parameter>
+	<parameter type="animated" name="Zaxisrotation" max="1000" min="0" default="0.5" factor="1000">
+		<name>Z axis rotation</name>
+	</parameter>
+	<parameter type="animated" name="Xaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
+		<name>X axis rotation rate</name>
+	</parameter>
+	<parameter type="animated" name="Yaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
+		<name>Y axis rotation rate</name>
+	</parameter>
+	<parameter type="animated" name="Zaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
+		<name>Z axis rotation rate</name>
+	</parameter>
+	<parameter type="animated" name="CenterpositionX" max="1000" min="0" default="0.5" factor="1000">
+		<name>Center position (X)</name>
+	</parameter>
+	<parameter type="animated" name="CenterpositionY" max="1000" min="0" default="0.5" factor="1000">
+		<name>Center position (Y)</name>
+	</parameter>
+	<parameter type="bool" name="Invertrotationassignment" default="1">
+		<name>Invert rotation assignment</name>
+	</parameter>
+	<parameter type="bool" name="Dontblankmask" default="1">
+		<name>Don't blank mask</name>
+	</parameter>
+	<parameter type="bool" name="Fillwithimageorblack" default="1">
+		<name>Fill with image or black</name>
+	</parameter>
+</effect>

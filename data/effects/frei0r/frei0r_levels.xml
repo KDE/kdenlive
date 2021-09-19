@@ -1,0 +1,67 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect tag="frei0r.levels" id="frei0r.levels">
+	<name context="Levels Effect Name">Levels</name>
+	<description>Adjust levels</description>
+	<author>Maksim Golovkin</author>
+
+        <parameter type="list" name="Channel" default="3" paramlist="0;1;2;3">
+                <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
+		<name>Channel</name>
+	</parameter>
+        <parameter type="animated" name="Input black level" default="0" min="0" max="1000" factor="1000">
+		<name>Input black level</name>
+	</parameter>
+        <parameter type="animated" name="Input white level" default="1" min="0" max="1000" factor="1000">
+		<name>Input white level</name>
+	</parameter>
+        <parameter type="animated" name="Gamma" default="0.25" min="10" max="4000" factor="4000">
+		<name>Gamma</name>
+	</parameter>
+        <parameter type="animated" name="Black output" default="0" min="0" max="1000" factor="1000">
+		<name>Black output</name>
+	</parameter>
+        <parameter type="animated" name="White output" default="1" min="0" max="1000" factor="1000">
+		<name>White output</name>
+	</parameter>
+	<parameter type="bool" name="Show histogram" default="0">
+		<name>Show histogram</name>
+	</parameter>
+        <parameter type="list" name="Histogram position" default="3" paramlist="0;1;2;3">
+                <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
+		<name>Histogram position</name>
+	</parameter>
+    </effect>
+    <effect LC_NUMERIC="C" tag="frei0r.levels" id="frei0r.levels" version="0.2">
+        <name>Levels</name>
+        <description>Adjust levels</description>
+        <author>Maksim Golovkin</author>
+
+        <parameter type="list" name="Channel" default="0.3" paramlist="0;0.1;0.2;0.3">
+                <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
+                <name>Channel</name>
+        </parameter>
+        <parameter type="animated" name="Input black level" default="0" min="0" max="1000" factor="1000">
+                <name>Input black level</name>
+        </parameter>
+        <parameter type="animated" name="Input white level" default="1" min="0" max="1000" factor="1000">
+                <name>Input white level</name>
+        </parameter>
+        <parameter type="animated" name="Gamma" default="0.25" min="10" max="4000" factor="4000">
+                <name>Gamma</name>
+        </parameter>
+        <parameter type="animated" name="Black output" default="0" min="0" max="1000" factor="1000">
+                <name>Black output</name>
+        </parameter>
+        <parameter type="animated" name="White output" default="1" min="0" max="1000" factor="1000">
+                <name>White output</name>
+        </parameter>
+        <parameter type="bool" name="Show histogram" default="0">
+                <name>Show histogram</name>
+        </parameter>
+        <parameter type="list" name="Histogram position" default="0.3" paramlist="0;0.1;0.2;0.3">
+                <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
+                <name>Histogram position</name>
+        </parameter>
+    </effect>
+</group>

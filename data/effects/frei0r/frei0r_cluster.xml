@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.cluster" id="frei0r.cluster" type="video" unique="1">
+	<name>K-Means Clustering</name>
+	<description>Clusters of a source image by color and spatial distance</description>
+	<author>binarymillenium</author>
+	<parameter type="animated" name="Num" max="40" min="0" default="20">
+		<name>Amount of clusters</name>
+	</parameter>
+	<parameter type="animated" name="Dist weight" max="1000" min="0" default="0.5" factor="1000">
+		<name>Weight on distance</name>
+	</parameter>
+</effect>

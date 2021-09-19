@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.hqdn3d" id="frei0r.hqdn3d">
+        <name>Denoiser</name>
+        <description>High quality 3D denoiser</description>
+        <author>Marko Cebokli, Daniel Moreno</author>
+        
+        <parameter type="animated" name="Spatial" default="0.004" min="0" max="1000" factor="1000">
+            <name>Spatial</name>
+            <comment>Amount of spatial filtering</comment>
+        </parameter>
+        
+        <parameter type="animated" name="Temporal" default="0.006" min="0" max="1000" factor="1000">
+            <name>Temporal</name>
+            <comment>Amount of temporal filtering</comment>
+        </parameter>
+</effect>

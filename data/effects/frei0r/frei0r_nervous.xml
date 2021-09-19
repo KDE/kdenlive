@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.nervous" id="frei0r.nervous">
+	<name>Nervous</name>
+	<description>Flushes frames in time in a nervous way</description>
+	<author>Tannenbaum, Kentaro, Jaromil</author>
+</effect>

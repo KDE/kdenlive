@@ -1,0 +1,53 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bigsh0t_hemi_to_eq" id="frei0r.bigsh0t_hemi_to_eq">
+	<name>VR360 Hemispherical to Equirectangular</name>
+	<description>Converts a video frame with two hemispherical images to a single equirectangular frame. The plugin assumes that both hemispheres are in the frame</description>
+	<author>Leo Sutic</author>
+     <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="deg">
+		<name>Alignment Yaw</name>
+	</parameter>
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="deg">
+		<name>Alignment Pitch</name>
+	</parameter>
+	<parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="deg">
+		<name>Alignment Roll</name>
+	</parameter>
+	<parameter type="list" name="projection" default="0" paramlist="0">
+            <paramlistdisplay>Equidistant Fisheye</paramlistdisplay>
+            <name>Projection</name>
+    </parameter>
+	<parameter type="animated" name="fov" default="180" min="0f" max="360" factor="1" suffix="deg">
+		<name>Lens FOV</name>
+		</parameter>
+		<parameter type="animated" name="radius" default="0.25" min="0" max="1" decimals="2">
+		<name>Lens Radius</name>
+		</parameter>
+		<parameter type="animated" name="frontX" default="0.7500" min="0" max="1" decimals="4">
+		<name>Front X</name>
+		</parameter>
+		<parameter type="animated" name="frontY" default="0.5000" min="0" max="1" decimals="4">
+		<name>Front Y</name>
+		</parameter>
+		<parameter type="animated" name="frontUp" default="90" min="0" max="360" factor="1" suffix="deg">
+		<name>Front UP</name>
+		</parameter>
+		<parameter type="animated" name="backX" default="0.2500" min="0" max="1" decimals="4">
+		<name>Back X</name>
+		</parameter>
+		<parameter type="animated" name="backY" default="0.5000" min="0" max="1" decimals="4">
+		<name>Back Y</name>
+		</parameter>
+		<parameter type="animated" name="backUp" default="90" min="0" max="360" factor="1" suffix="deg">
+		<name>Back UP</name>
+		</parameter>
+		<parameter type="animated" name="nadirRadius" default="0.2229" min="0" max="1" decimals="4">
+		<name>Nadir Radius</name>
+		</parameter>
+		<parameter type="animated" name="nadirCorrectionStart" default="0.8" min="0" max="1" decimals="4">
+		<name>Nadir Start</name>
+		</parameter>
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
+                <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
+                <name>Interpolation</name>
+        </parameter>
+</effect>

@@ -1,0 +1,71 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.c0rners" id="frei0r.c0rners">
+	<name context="Corners Effect Name">Corners</name>
+	<description>Four corners geometry engine</description>
+	<author>Marko Cebokli</author>
+
+	<parameter type="animated" widget="corners" name="0" default="0.333333333333333" min="0" max="6000" factor="6000">
+		<name>Corner 1 X</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="1" default="0.333333333333333" min="0" max="6000" factor="6000">
+		<name>Corner 1 Y</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="2" default="0.666666666666667" min="0" max="6000" factor="6000">
+		<name>Corner 2 X</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="3" default="0.333333333333333" min="0" max="6000" factor="6000">
+		<name>Corner 2 Y</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="4" default="0.666666666666667" min="0" max="6000" factor="6000">
+		<name>Corner 3 X</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="5" default="0.666666666666667" min="0" max="6000" factor="6000">
+		<name>Corner 3 Y</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="6" default="0.333333333333333" min="0" max="6000" factor="6000">
+		<name>Corner 4 X</name>
+	</parameter>
+	
+        <parameter type="animated" widget="corners" name="7" default="0.666666666666667" min="0" max="6000" factor="6000">
+		<name>Corner 4 Y</name>
+	</parameter>
+
+        <parameter type="animated" widget="corners" name="9" default="0.5" min="0" max="2000" factor="2000">
+            <name>Stretch X</name>
+        </parameter>
+
+        <parameter type="animated" widget="corners" name="10" default="0.5" min="0" max="2000" factor="2000">
+            <name>Stretch Y</name>
+        </parameter>
+
+        <parameter type="animated" widget="corners" name="13" default="0.05" min="0" max="100" factor="100" intimeline="1">
+            <name>Feather Alpha</name>
+        </parameter>
+	
+	<parameter type="bool" name="8" default="0">
+		<name>Enable Stretch</name>
+	</parameter>
+
+        <parameter type="list" name="11" default="0.166" paramlist="0;0.166;0.333;0.5;0.666;0.833;1">
+                <paramlistdisplay>Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,Lanczos</paramlistdisplay>
+		<name>Interpolator</name>
+	</parameter>
+
+	<parameter type="bool" name="12" default="1">
+		<name>Transparent Background</name>
+	</parameter>
+
+        <parameter type="list" name="14" default="0" paramlist="0;0.3;0.5;0.7;1">
+                <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+                <name>Alpha operation</name>
+        </parameter>
+
+
+
+</effect>

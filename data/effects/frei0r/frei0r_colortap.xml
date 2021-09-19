@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.colortap" id="frei0r.colortap">
+	<name>Color Effect</name>
+	<description>Applies a pre-made color effect to image</description>
+	<author>Janne Liljeblad</author>
+	<parameter type="list" name="table" default="xpro" paramlist="xpro;sepia;heat;red_green;old_photo;xray;esses;yellow_blue">
+                <name>Type</name>
+        </parameter>
+</effect>

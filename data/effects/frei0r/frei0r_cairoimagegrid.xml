@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.cairoimagegrid" id="frei0r.cairoimagegrid" type="video">
+	<name>Video grid</name>
+	<description>Create a video Grid</description>
+	<author>Janne Liljeblad</author>
+	<parameter type="animated" name="rows" max="1" min="0" default="0" decimals="3">
+		<name>Rows</name>
+	</parameter>
+	<parameter type="animated"  name="columns" max="1" min="0" default="0" decimals="3">
+		<name>Columns</name>
+	</parameter>
+</effect>

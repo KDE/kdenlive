@@ -1,0 +1,99 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
+            <name>Chroma Key: Advanced (Color Selection)</name>
+		    <description>Chroma Key with more advanced options (e.g. different color models). Use if basic chroma key is not working effectively.</description>
+            <author>Marko Cebokli</author>
+        
+            <parameter type="color" name="Color to select" default="0x00ff00ff">
+                    <name>Color to select</name>
+            </parameter>
+        
+            <parameter type="bool" name="Invert selection" default="1">
+                    <name>Invert selection</name>
+            </parameter>    
+        
+            <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Red / Hue Delta</name>
+            </parameter>
+        
+            <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Green / Chroma Delta</name>
+            </parameter>
+        
+            <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Blue / Intensity Delta</name>
+            </parameter>
+        
+            <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
+                    <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
+                    <name>Color Model</name>
+            </parameter>
+        
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
+                    <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
+                    <name>Shape</name>
+            </parameter>
+        
+            <parameter type="list" name="Edge mode" default="0" paramlist="0;0.35;0.6;1">
+                    <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
+                    <name>Edge mode</name>
+            </parameter>
+        
+            <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
+                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation</name>
+            </parameter>
+    </effect>
+
+
+    <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r" version="0.4">
+            <name>Chroma Key: Advanced (Color Selection)</name>
+		    <description>Chroma Key with more advanced options (e.g. different color models). Use if basic chroma key is not working effectively.</description>
+            <author>Marko Cebokli</author>
+        
+            <parameter type="color" name="Color to select" default="0x00ff00ff">
+                    <name>Color to select</name>
+            </parameter>
+        
+            <parameter type="bool" name="Invert selection" default="1">
+                    <name>Invert selection</name>
+            </parameter>
+
+            <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
+                    <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
+                    <name>Color Model</name>
+            </parameter>
+        
+            <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
+                    <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
+                    <name>Shape</name>
+            </parameter>
+        
+            <parameter type="list" name="Edge mode" default="0.9" paramlist="0;0.35;0.6;0.7;0.9">
+                    <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
+                    <name>Edge mode</name>
+            </parameter>
+        
+            <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Red / Hue Delta</name>
+            </parameter>
+        
+            <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Green / Chroma Delta</name>
+            </parameter>
+        
+            <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
+                    <name>Blue / Intensity Delta</name>
+            </parameter>
+        
+            <parameter type="animated" name="Slope" default="0" min="0" max="1000" factor="1000">
+                    <name>Soften</name>
+            </parameter>
+        
+            <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
+                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation</name>
+            </parameter>
+    </effect>
+</group>

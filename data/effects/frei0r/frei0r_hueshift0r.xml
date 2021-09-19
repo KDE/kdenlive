@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.hueshift0r" id="frei0r.hueshift0r">
+        <name>Hue shift</name>
+        <description>Shifts the hue of a source image</description>
+        <author>Jean-Sebastien Senecal</author>
+        <parameter type="animated" name="Hue" default="0" min="0" max="360" factor="360">
+                <name>Hue</name>
+        </parameter>
+</effect>

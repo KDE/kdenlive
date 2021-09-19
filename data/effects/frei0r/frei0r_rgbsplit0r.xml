@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.rgbsplit0r" id="frei0r.rgbsplit0r">
+	<name>rgbsplit0r</name>
+	<description>RGB splitting and shifting</description>
+	<author>IDENT Software</author>
+	<parameter type="animated" name="0" default="0.5" min="0" max="1" decimals="2">
+		<name>Vertical split distance</name>
+	</parameter>
+	<parameter type="animated" name="1" default="0.5" min="0" max="1" decimals="2">
+		<name>Horizontal split distance</name>
+	</parameter>
+</effect>

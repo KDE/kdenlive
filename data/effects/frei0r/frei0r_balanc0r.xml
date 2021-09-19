@@ -1,0 +1,25 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect tag="frei0r.balanc0r" id="frei0r.balanc0r">
+	<name context="White Balance Effect Name">White Balance</name>
+	<description>Adjust the white balance / color temperature</description>
+	<author>Dan Dennedy</author>
+	<parameter type="color" name="Neutral Color" default="0xffffffff">
+		<name>Neutral Color</name>
+	</parameter>
+        <parameter type="animated" name="Green Tint" default="1.2" min="0" max="2500" factor="1000">
+		<name>Green Tint</name>
+	</parameter>
+    </effect>
+    <effect LC_NUMERIC="C" tag="frei0r.balanc0r" id="frei0r.balanc0r" version="0.3">
+	<name>White Balance</name>
+	<description>Adjust the white balance / color temperature</description>
+	<author>Dan Dennedy</author>
+	<parameter type="color" name="Neutral Color" default="0xffffffff">
+		<name>Neutral Color</name>
+	</parameter>
+        <parameter type="animated" name="Green Tint" default="0.1333" min="0" max="10000" factor="10000">
+		<name>Green Tint</name>
+	</parameter>
+    </effect>
+</group>

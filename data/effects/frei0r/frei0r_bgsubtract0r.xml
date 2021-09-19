@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bgsubtract0r" id="frei0r.bgsubtract0r">
+	<name>Background Subtractor</name>
+	<description>Remove the background of a static video</description>
+	<author>Samuel Mimram</author>
+    <parameter type="constant" name="threshold" default="0.101961" min="0" max="1" decimals="3">
+		<name>Analysis Sample Radius</name>
+	</parameter>
+    <parameter type="bool" name="denoise">
+		<name>Denoise</name>
+	</parameter>
+    <parameter type="constant" name="blur" default="0" min="0" max="1" decimals="3">
+		<name>Blur</name>
+	</parameter>
+</effect>

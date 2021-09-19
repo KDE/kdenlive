@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.brightness" id="frei0r.brightness">
+	<name context="Brightness Effect Name">Brightness</name>
+	<description>Adjusts the brightness of a source image</description>
+	<author>Jean-Sebastien Senecal</author>
+	<parameter type="animated" name="Brightness" default="0.5" min="0" max="1000" factor="1000">
+		<name>Brightness</name>
+	</parameter>
+</effect>

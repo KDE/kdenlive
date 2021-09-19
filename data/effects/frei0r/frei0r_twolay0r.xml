@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.twolay0r" id="frei0r.twolay0r">
+	<name>Binarize dynamically</name>
+	<description>Dynamic thresholding</description>
+	<author>Martin Bayer</author>
+</effect>

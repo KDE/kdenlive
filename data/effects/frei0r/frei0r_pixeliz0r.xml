@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.pixeliz0r" id="frei0r.pixeliz0r">
+        <name>Pixelize</name>
+        <description>Pixelize input image.</description>
+        <author>Gephex crew</author>
+        <parameter type="animated" name="BlockSizeX" default="0.07" min="0" max="1000" factor="1000">
+                <name>Block Size X</name>
+        </parameter>
+        <parameter type="animated" name="BlockSizeY" default="0.1" min="0" max="1000" factor="1000">
+                <name>Block Size Y</name>
+        </parameter>
+</effect>

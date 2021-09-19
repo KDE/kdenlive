@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.d90stairsteppingfix" id="frei0r.d90stairsteppingfix">
+        <name>Nikon D90 Stairstepping fix</name>
+        <description>Removes stairstepping artifacts from Nikon D90's 720p videos.
+        <full><![CDATA[Sharp lines in videos from the Nikon D90 show steps each 8th or 9th line, assumedly
+        due to poor downsampling. These can be smoothed out with this filter if they become too annoying.]]></full>
+        </description>
+        <author>Simon A. Eugster (Granjow)</author>
+</effect>

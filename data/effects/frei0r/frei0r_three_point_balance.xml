@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.three_point_balance" id="frei0r.three_point_balance">
+	<name>3 point balance</name>
+	<description>Balances colors along with 3 points</description>
+	<author>Maksim Golovkin</author>
+	<parameter type="color" name="Black color" default="0x000000ff">
+		<name>Black color</name>
+	</parameter>
+	<parameter type="color" name="Gray color" default="0x808080ff">
+		<name>Gray color</name>
+	</parameter>
+	<parameter type="color" name="White color" default="0xffffffff">
+		<name>White color</name>
+	</parameter>
+	<parameter type="bool" name="Split preview" default="0">
+		<name>Split screen preview</name>
+	</parameter>
+	<parameter type="bool" name="Source image on left side" default="1">
+		<name>Source image on left side</name>
+	</parameter>
+</effect>

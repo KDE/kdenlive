@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.scanline0r" id="frei0r.scanline0r" type="video" unique="1">
+	<name>scanline0r</name>
+	<description>Interlaced black lines</description>
+	<author>Martin Bayer</author>
+</effect>

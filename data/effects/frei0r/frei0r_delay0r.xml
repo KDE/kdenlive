@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.delay0r" id="frei0r.delay0r" type="video" unique="1">
+	<name>delay0r</name>
+	<description>Video delay</description>
+	<author>Martin Bayer</author>
+	<parameter type="animated" name="DelayTime" max="1000" min="0" default="0" factor="1000">
+		<name>Delay time</name>
+	</parameter>
+</effect>

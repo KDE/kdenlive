@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.tehRoxx0r" id="frei0r.tehRoxx0r" type="video" unique="1">
+	<name>TehRoxx0r</name>
+	<description>Something videowall-ish</description>
+	<author>Coma</author>
+	<parameter type="animated" name="0" max="1" min="0" default="0.01" decimals="2">
+		<name>Interval</name>
+	</parameter>
+</effect>

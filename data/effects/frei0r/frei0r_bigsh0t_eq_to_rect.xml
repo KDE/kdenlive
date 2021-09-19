@@ -1,0 +1,26 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bigsh0t_eq_to_rect" id="frei0r.bigsh0t_eq_to_rect">
+	<name>VR360 Equirectangular to Rectilinear</name>
+	<description>Converts an equirectangular frame (panoramic) to a rectilinear frame (what you're used to seeing). Can be used to preview what will be shown in a 360 video viewer. Delayed frame blitting mapped on a time bitmap</description>
+	<author>Leo Sutic</author>
+	
+    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="deg">
+		<name>yaw</name>
+	</parameter>
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="deg">
+		<name>pitch</name>
+	</parameter>
+    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="deg">
+		<name>roll</name>
+	</parameter>
+    <parameter type="animated" name="fov" default="100" min="0" max="180" factor="1" suffix="deg">
+		<name>fov</name>
+	</parameter>
+    <parameter type="animated" name="fisheye" default="0" min="0" max="100" factor="1" suffix="%">
+		<name>fisheye</name>
+	</parameter>
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
+                <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
+                <name>Interpolation</name>
+        </parameter>
+</effect>

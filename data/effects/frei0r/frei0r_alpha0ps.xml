@@ -1,0 +1,66 @@
+<!DOCTYPE kpartgui>
+<group>
+    <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps">
+	    <name>Alpha operations</name>
+	    <description>Display and manipulation of the alpha channel</description>
+	    <author>Marko Cebokli</author>
+
+	    <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
+		  <paramlistdisplay>Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers</paramlistdisplay>
+		  <name>Display</name>
+	    </parameter>
+
+	    <parameter type="bool" name="Display input alpha" default="0">
+		    <name>Display input alpha</name>
+	    </parameter>
+
+	    <parameter type="list" name="Operation" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
+		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold</paramlistdisplay>
+		    <name>Operation</name>
+	    </parameter>
+
+	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">
+		    <name>Threshold</name>
+	    </parameter>
+
+	    <parameter type="animated" name="Shrink/grow amount" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
+		    <name>Shrink/grow amount</name>
+	    </parameter>
+
+	    <parameter type="bool" name="Invert" default="0">
+		    <name>Invert</name>
+	    </parameter>
+    </effect>
+
+    <effect LC_NUMERIC="C" tag="frei0r.alpha0ps" id="frei0r.alpha0ps" version="0.3">
+	    <name>Alpha operations</name>
+	    <description>Display and manipulation of the alpha channel</description>
+	    <author>Marko Cebokli</author>
+
+	    <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
+		  <paramlistdisplay>Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers</paramlistdisplay>
+		  <name>Display</name>
+	    </parameter>
+
+	    <parameter type="bool" name="Display input alpha" default="0">
+		    <name>Display input alpha</name>
+	    </parameter>
+
+	    <parameter type="list" name="Operation" default="0" paramlist="0;0.2;0.3;0.4;0.6;0.7;0.8;1">
+		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur</paramlistdisplay>
+		    <name>Operation</name>
+	    </parameter>
+
+	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">
+		    <name>Threshold</name>
+	    </parameter>
+
+	    <parameter type="animated" name="Shrink/Grow/Blur amount" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
+		    <name>Shrink/Grow/Blur amount</name>
+	    </parameter>
+
+	    <parameter type="bool" name="Invert" default="0">
+		    <name>Invert</name>
+	    </parameter>
+    </effect>
+</group>
