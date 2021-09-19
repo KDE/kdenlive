@@ -6,16 +6,31 @@
     <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">
         <name>Rectangle</name>
     </parameter>
-    <parameter type="bool" name="aligned" default="0" min="0" max="1">
+    <parameter type="bool" name="distort" default="0" min="0" max="1">
+        <name>Distort</name>
+        <description>When set, causes the B frame image to fill the WxH completely with no regard to B's aspect ratio.</description>
+    </parameter>
+    <parameter type="bool" name="crop_to_fill" default="0" min="0" max="1">
+        <name>Crop to fill</name>
+    </parameter>
+    <parameter type="bool" name="aligned" default="1" min="0" max="1">
         <name>Align</name>
     </parameter>
-    <parameter type="bool" name="progressive" default="1" min="0" max="1">
-        <name>Force Progressive Rendering</name>
+    <parameter type="list" name="halign" default="1" paramlist="0;1;2">
+        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
+        <name>H align</name>
+    </parameter>
+    <parameter type="list" name="valign" default="1" paramlist="0;1;2">
+        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
+        <name>V align</name>
     </parameter>
     <parameter type="urllist" name="luma" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
       <name>Composite Method</name>
     </parameter>
     <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
             <name>Softness</name>
+    </parameter>
+    <parameter type="bool" name="progressive" default="1" min="0" max="1">
+        <name>Force Progressive Rendering</name>
     </parameter>
 </transition>
