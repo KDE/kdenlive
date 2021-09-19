@@ -168,7 +168,8 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
-    m_transitionWidget->setModel(transitionModel, QSize(), true);
+    QSize s = pCore->getCompositionSizeOnTrack(id);
+    m_transitionWidget->setModel(transitionModel, s, true);
 }
 
 void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel)

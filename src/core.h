@@ -264,6 +264,8 @@ public:
     MixAlignment getMixAlign(int cid) const;
     /** @brief Closing current document, do some cleanup */
     void cleanup();
+    /** @brief Get the frame size of the clip above a composition */
+    const QSize getCompositionSizeOnTrack(const ObjectId &id);
 
 private:
     explicit Core();
