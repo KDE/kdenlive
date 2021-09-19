@@ -1100,7 +1100,9 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
             transition.set("a_track", 0);
             transition.set("b_track", b_track);
             transition.set("distort", 0);
-            transition.set("aligned", 0);
+            transition.set("aligned", 1);
+            transition.set("halign", 1);
+            transition.set("valign", 1);
             // 200 is an arbitrary number so we can easily remove these transition later
             transition.set("internal_added", 200);
             QString geometry;
