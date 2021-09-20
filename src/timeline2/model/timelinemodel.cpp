@@ -6251,3 +6251,14 @@ QVariantList TimelineModel::getMasterEffectZones() const
     }
     return {};
 }
+
+const QSize TimelineModel::getCompositionSizeOnTrack(const ObjectId &id)
+{
+    int pos = getCompositionPosition(id.second);
+    int tid = getCompositionTrackId(id.second);
+    int cid = getTrackById_const(tid)->getClipByPosition(pos);
+    if (cid > -1) {
+        return getClipFrameSize(cid);
+    }
+    return QSize();
+}

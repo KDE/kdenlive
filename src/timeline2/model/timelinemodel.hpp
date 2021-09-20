@@ -764,6 +764,8 @@ public:
     void requestResizeMix(int cid, int duration, MixAlignment align);
     MixAlignment getMixAlign(int cid) const;
     std::shared_ptr<SubtitleModel> getSubtitleModel();
+    /** @brief Get the frame size of the clip above a composition */
+    const QSize getCompositionSizeOnTrack(const ObjectId &id);
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel

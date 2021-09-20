@@ -70,14 +70,11 @@
     <parameter type="color" name="shape_color" default="0xff0000ff">
         <name>Shape color</name>
     </parameter>
-    <parameter type="constant" name="pixelate" max="200" min="0" default="0">
-        <name>Pixelate</name>
-    </parameter>
     <parameter type="constant" name="blur" max="200" min="0" default="0">
         <name>Blur</name>
     </parameter>
-    <parameter type="list" name="blur_type" default="0" paramlist="0;1">
-        <paramlistdisplay>Median Blur,Gaussian Blur</paramlistdisplay>
+    <parameter type="list" name="blur_type" default="2" paramlist="0;1;2;3">
+        <paramlistdisplay>Median Blur,Gaussian Blur,Pixelate,Opaque fill</paramlistdisplay>
         <name>Blur type</name>
     </parameter>
     <parameter type="hidden" name="modelsfolder" default="">

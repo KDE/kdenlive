@@ -264,6 +264,8 @@ public:
      * @param configFile configuration file for KNewStuff
      * @return number of installed items */
     int getNewStuff(const QString &configFile);
+    /** @brief Get the frame size of the clip above a composition */
+    const QSize getCompositionSizeOnTrack(const ObjectId &id);
 
 private:
     explicit Core();
