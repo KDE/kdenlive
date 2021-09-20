@@ -3534,7 +3534,7 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
         bool affectAllTracks = false;
         size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
         int delta = size - m_allClips[itemId]->getPlaytime();
-        auto spacerOperation = [this, itemId, affectAllTracks, &undo, &redo, delta, right](int position) {
+        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right](int position) {
             int trackId = getItemTrackId(itemId);
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
@@ -3545,7 +3545,7 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
             }
             int endPos = getItemPosition(cid) + delta;
             // Start undoable command
-            TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
+            TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
             return true;
         };
         if(delta > 0) {

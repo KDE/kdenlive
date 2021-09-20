@@ -408,7 +408,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo)
 {
     // Move group back to original position
     spacerMinPosition = -1;
@@ -470,10 +470,12 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     }
     timeline->requestClearSelection();
     if (final) {
-        if (startPosition < endPosition) {
-            pCore->pushUndo(undo, redo, i18n("Insert space"));
-        } else {
-            pCore->pushUndo(undo, redo, i18n("Remove space"));
+        if (pushUndo) {
+            if (startPosition < endPosition) {
+                pCore->pushUndo(undo, redo, i18n("Insert space"));
+            } else {
+                pCore->pushUndo(undo, redo, i18n("Remove space"));
+            }
         }
         // Regroup temporarily ungrouped items
         QMapIterator<int, int> i(spacerUngroupedItems);

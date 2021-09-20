@@ -72,7 +72,7 @@ struct TimelineFunctions
     static bool requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks);
 
     static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups = false);
-    static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo);
+    static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo = true);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
     static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks = QVector<int>(), bool useTargets = true);
