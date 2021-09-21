@@ -213,6 +213,7 @@ void FilterTask::run()
 
     f1.open(QIODevice::WriteOnly);
     QTextStream stream(&f1);
+    stream.setCodec("UTF-8");
     stream << dom.toString();
     f1.close();
     dom.clear();
