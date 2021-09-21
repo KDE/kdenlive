@@ -38,7 +38,6 @@ KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, c
 {
     qDebug() << "Construct keyframemodellist. Checking model:" << m_model.expired();
     addParameter(index);
-    connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
 }
 
 ObjectId KeyframeModelList::getOwnerId() const
@@ -68,6 +67,7 @@ const QString KeyframeModelList::getAssetRow()
 void KeyframeModelList::addParameter(const QModelIndex &index)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
+    connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
     m_parameters.insert({index, std::move(parameter)});
 }
 
