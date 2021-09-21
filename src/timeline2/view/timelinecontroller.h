@@ -521,9 +521,10 @@ public:
     int trimmingBoundOffset(int offset);
     /** @brief @todo TODO */
     bool slipProcessSelection(int mainClipId, bool addToSelection);
-    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false);
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false, bool right = false);
     Q_INVOKABLE void requestEndTrimmingMode();
     Q_INVOKABLE void slipPosChanged(int offset);
+    Q_INVOKABLE void ripplePosChanged(int pos, bool right);
 
     /** @brief Add current timeline zone to preview rendering
      */

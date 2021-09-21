@@ -574,6 +574,9 @@ Rectangle {
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
+                    }
                     trimIn.opacity = 0
                 }
                 onReleased: {
@@ -688,6 +691,10 @@ Rectangle {
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
+                    }
+
                     trimOut.opacity = 0
                 }
                 onReleased: {

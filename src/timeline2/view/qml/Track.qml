@@ -347,7 +347,8 @@ Item{
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("In: Request for " + newDuration)
                     new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
-                    timeline.requestStartTrimmingMode(clip.clipId, false);
+                    timeline.requestStartTrimmingMode(clip.clipId, false, false);
+                    timeline.ripplePosChanged(new_duration, false);
                     console.log("In: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
@@ -381,6 +382,7 @@ Item{
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
                             controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                            timeline.requestEndTrimmingMode();
                         } else {
                             controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
                         }
@@ -415,7 +417,8 @@ Item{
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("Out: Request for " + newDuration)
                     new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
-                    timeline.requestStartTrimmingMode(clip.clipId, false);
+                    timeline.requestStartTrimmingMode(clip.clipId, false, true);
+                    timeline.ripplePosChanged(new_duration, true);
                     console.log("Out: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
@@ -446,6 +449,7 @@ Item{
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
                             controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                            timeline.requestEndTrimmingMode();
                         } else {
                             controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
                         }
