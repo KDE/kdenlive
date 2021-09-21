@@ -52,6 +52,7 @@ avfilter_il.xml
 avfilter_inflate.xml
 avfilter_kerneldeint.xml
 avfilter_lagfun.xml
+avfilter_loudnorm.xml
 avfilter_lenscorrection.xml
 avfilter_limiter.xml
 avfilter_lut3d.xml
