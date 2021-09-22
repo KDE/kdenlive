@@ -279,10 +279,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool || root.activeTool === ProjectTool.RippleTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === ProjectTool.SelectTool
+        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         property bool shiftSlip: false
         property bool controlSlip: false

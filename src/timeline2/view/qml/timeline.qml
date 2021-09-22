@@ -1110,12 +1110,12 @@ Rectangle {
             onPressed: {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                if (mouse.buttons === Qt.MidButton || (root.activeTool === ProjectTool.SelectTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
+                if (mouse.buttons === Qt.MidButton || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
-                if (root.activeTool === ProjectTool.SelectTool && shiftPress && mouse.y > ruler.height) {
+                if ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.clickX = mouse.x + scrollView.contentX
                         rubberSelect.clickY = mouse.y + scrollView.contentY
@@ -1236,7 +1236,7 @@ Rectangle {
                 }
             }
             onPositionChanged: {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
                     var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
@@ -1261,7 +1261,7 @@ Rectangle {
                 var mousePos = Math.max(0, Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor))
                 root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && !rubberSelect.visible && rubberSelect.y > 0) {
+                if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - (mouseY + scrollView.contentY)
@@ -1582,7 +1582,7 @@ Rectangle {
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
                                     cursorShape: root.activeTool === ProjectTool.SelectTool ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
-                                    enabled: root.activeTool === ProjectTool.SelectTool
+                                    enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
                                     onPressed: {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
