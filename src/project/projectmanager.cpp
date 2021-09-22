@@ -108,7 +108,6 @@ void ProjectManager::slotLoadOnOpen()
     } else {
         newFile(false);
     }
-
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
@@ -122,6 +121,9 @@ void ProjectManager::slotLoadOnOpen()
     m_loadClipsOnOpen.clear();
     m_loading = false;
     emit pCore->closeSplash();
+    // Release startup crash lock file
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)

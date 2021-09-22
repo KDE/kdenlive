@@ -102,6 +102,9 @@ bool Core::build(bool testMode)
             // a previous instance crashed, propose to delete config files
             if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes)
             {
+                // Release startup crash lock file
+                QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+                lockFile.remove();
                 return false;
             }
         } else {
@@ -223,10 +226,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
-
-    // Release startup crash lock file
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    lockFile.remove();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
