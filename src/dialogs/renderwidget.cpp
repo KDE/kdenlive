@@ -665,7 +665,7 @@ void RenderWidget::slotSaveProfile()
         doc.appendChild(profileElement);
         saveProfile(doc.documentElement());
 
-        parseProfiles();
+        parseProfiles(newProfileName);
     }
     delete d;
 }
@@ -961,7 +961,7 @@ void RenderWidget::slotEditProfile()
             return;
         }
         file.close();
-        parseProfiles();
+        parseProfiles(newProfileName);
     } else {
         delete d;
     }
