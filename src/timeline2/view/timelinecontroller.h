@@ -353,10 +353,10 @@ public:
 
     /** @brief Set current item's start point to cursor position
      */
-    void setInPoint();
+    void setInPoint(bool ripple = false);
     /** @brief Set current item's end point to cursor position
      */
-    void setOutPoint();
+    void setOutPoint(bool ripple = false);
     /** @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();

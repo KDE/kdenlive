@@ -585,7 +585,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim) {
+                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
                             endDrag()
@@ -703,7 +703,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim) {
+                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
                             endDrag()

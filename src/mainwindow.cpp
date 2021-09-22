@@ -3485,12 +3485,12 @@ QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
 
 void MainWindow::slotResizeItemStart()
 {
-    getMainTimeline()->controller()->setInPoint();
+    getMainTimeline()->controller()->setInPoint(m_activeTool == ToolType::RippleTool);
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    getMainTimeline()->controller()->setOutPoint();
+    getMainTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
 int MainWindow::getNewStuff(const QString &configFile)

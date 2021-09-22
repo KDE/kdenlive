@@ -863,7 +863,7 @@ bool TimelineController::trimmingActive()
     return tool == ToolType::SlideTool || tool == ToolType::SlipTool || tool == ToolType::RippleTool || tool == ToolType::RollTool;
 }
 
-void TimelineController::setInPoint()
+void TimelineController::setInPoint(bool ripple)
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
@@ -871,7 +871,14 @@ void TimelineController::setInPoint()
         qDebug()<< "Cannot operate while dragging";
         return;
     }
-
+    auto requestResize = [this, ripple](int id, int size){
+        if (ripple) {
+            m_model->requestItemRippleResize(id, size, false, true, 0, false);
+            setPosition(m_model->getItemPosition(id));
+        } else {
+            m_model->requestItemResize(id, size, false, true, 0, false);
+        }
+    };
     int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
@@ -882,7 +889,7 @@ void TimelineController::setInPoint()
                 continue;
             }
             int size = start + m_model->getItemPlaytime(id) - cursorPos;
-            m_model->requestItemResize(id, size, false, true, 0, false);
+            requestResize(id, size);
             selectionFound = true;
         }
     }
@@ -900,7 +907,7 @@ void TimelineController::setInPoint()
                 int start = m_model->getItemPosition(cid);
                 if (start != cursorPos) {
                     int size = start + m_model->getItemPlaytime(cid) - cursorPos;
-                    m_model->requestItemResize(cid, size, false, true, 0, false);
+                    requestResize(cid, size);
                     selectionFound = true;
                 }
             }
@@ -924,7 +931,7 @@ void TimelineController::setInPoint()
                     int start = m_model->getItemPosition(sid);
                     if (start != cursorPos) {
                         int size = start + m_model->getItemPlaytime(sid) - cursorPos;
-                        m_model->requestItemResize(sid, size, false, true, 0, false);
+                        requestResize(sid, size);
                         selectionFound = true;
                     }
                 }
@@ -936,7 +943,7 @@ void TimelineController::setInPoint()
     }
 }
 
-void TimelineController::setOutPoint()
+void TimelineController::setOutPoint(bool ripple)
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
@@ -944,6 +951,13 @@ void TimelineController::setOutPoint()
         qDebug() << "Cannot operate while dragging";
         return;
     }
+    auto requestResize = [this, ripple](int id, int size){
+        if (ripple) {
+            m_model->requestItemRippleResize(id, size, true, true, 0, false);
+        } else {
+            m_model->requestItemResize(id, size, true, true, 0, false);
+        }
+    };
     int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
@@ -954,7 +968,7 @@ void TimelineController::setOutPoint()
                 continue;
             }
             int size = cursorPos - start;
-            m_model->requestItemResize(id, size, true, true, 0, false);
+            requestResize(id, size);
             selectionFound = true;
         }
     }
@@ -973,7 +987,7 @@ void TimelineController::setOutPoint()
                 int start = m_model->getItemPosition(cid);
                 if (start + m_model->getItemPlaytime(cid) != cursorPos) {
                     int size = cursorPos - start;
-                    m_model->requestItemResize(cid, size, true, true, 0, false);
+                    requestResize(cid, size);
                     selectionFound = true;
                 }
             }
@@ -997,7 +1011,7 @@ void TimelineController::setOutPoint()
                     int start = m_model->getItemPosition(sid);
                     if (start + m_model->getItemPlaytime(sid) != cursorPos) {
                         int size = cursorPos - start;
-                        m_model->requestItemResize(sid, size, true, true, 0, false);
+                        requestResize(sid, size);
                         selectionFound = true;
                     }
                 }
