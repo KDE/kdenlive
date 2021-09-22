@@ -393,7 +393,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
         pinkAction->setData("#ff00ff");
         m_configMenu->addAction(m_background);
-        m_background->setCurrentAction(blackAction);
+        if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
+            m_background->setCurrentAction(whiteAction);
+        } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
+            m_background->setCurrentAction(pinkAction);
+        } else {
+            m_background->setCurrentAction(blackAction);
+        }
         connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a){
             KdenliveSettings::setMonitor_background(a->data().toString());
             buildBackgroundedProducer(position());
