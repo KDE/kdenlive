@@ -384,6 +384,28 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     menu->addAction(widgetslider);
     m_configMenu->addMenu(menu);
 
+    if (m_id == Kdenlive::ClipMonitor) {
+        m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
+        QAction *blackAction = m_background->addAction(QIcon(), i18n("Black"));
+        blackAction->setData("black");
+        QAction *whiteAction = m_background->addAction(QIcon(), i18n("White"));
+        whiteAction->setData("white");
+        QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
+        pinkAction->setData("#ff00ff");
+        m_configMenu->addAction(m_background);
+        if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
+            m_background->setCurrentAction(whiteAction);
+        } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
+            m_background->setCurrentAction(pinkAction);
+        } else {
+            m_background->setCurrentAction(blackAction);
+        }
+        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a){
+            KdenliveSettings::setMonitor_background(a->data().toString());
+            buildBackgroundedProducer(position());
+        });
+    }
+
     /*QIcon icon;
     if (KdenliveSettings::volume() == 0) {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
@@ -706,6 +728,27 @@ void Monitor::slotForceSize(QAction *a)
     }
     m_forceSizeFactor = resizeType;
     updateGeometry();
+}
+
+void Monitor::buildBackgroundedProducer(int pos) {
+    if (KdenliveSettings::monitor_background() != "black") {
+        Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
+        QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
+        std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
+        bg->set("length", m_controller->originalProducer()->get_length());
+        trac.set_track(*bg.get(), 0);
+        trac.set_track(*m_controller->originalProducer().get(), 1);
+        QString composite = TransitionsRepository::get()->getCompositingTransition();
+        std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
+        transition->set("internal_added", 237);
+        transition->set("always_active", 1);
+        transition->set_tracks(0, 1);
+        trac.plant_transition(*transition.get(), 0, 1);
+        m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
+        qDebug() << "set hacked background monitor";
+    } else {
+       m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), pos);
+    }
 }
 
 
@@ -1688,7 +1731,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
                 slotActivateMonitor();
             }
-            m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
+            buildBackgroundedProducer(in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
         }

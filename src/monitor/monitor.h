@@ -189,6 +189,7 @@ private:
     TimecodeDisplay *m_timePos;
     KDualAction *m_playAction;
     KSelectAction *m_forceSize;
+    KSelectAction *m_background;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_zoomVisibilityAction;
@@ -239,6 +240,7 @@ private slots:
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
+    void buildBackgroundedProducer(int pos);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
