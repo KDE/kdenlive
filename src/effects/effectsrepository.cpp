@@ -369,6 +369,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
         }
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();

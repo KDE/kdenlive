@@ -1173,6 +1173,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));

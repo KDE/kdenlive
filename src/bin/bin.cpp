@@ -1556,6 +1556,7 @@ void Bin::slotReloadClip()
                             KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                         } else {
                             QTextStream out(&f);
+                            out.setCodec("UTF-8");
                             out << doc.toString();
                             f.close();
                             KMessageBox::information(
@@ -1859,6 +1860,7 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
+                    out.setCodec("UTF-8");
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(

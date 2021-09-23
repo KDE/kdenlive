@@ -928,6 +928,7 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
+                        out.setCodec("UTF-8");
                         out << doc.toString();
                     }
                 }
