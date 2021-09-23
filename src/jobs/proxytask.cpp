@@ -103,6 +103,7 @@ void ProxyTask::run()
             if (playlist->open()) {
                 source = playlist->fileName();
                 QTextStream out(playlist);
+                out.setCodec("UTF-8");
                 out << doc.toString();
                 playlist->close();
             }

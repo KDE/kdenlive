@@ -749,6 +749,7 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
         return false;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", dir.absoluteFilePath("customprofiles.xml")));
@@ -984,6 +985,7 @@ void RenderWidget::slotEditProfile()
             return;
         }
         QTextStream out(&file);
+        out.setCodec("UTF-8");
         out << doc.toString();
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
@@ -1040,6 +1042,7 @@ void RenderWidget::slotDeleteProfile(bool dontRefresh)
         return;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
@@ -2297,6 +2300,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 return;
             }
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << newdoc.toString();
             file.close();
             parseFile(exportFile, editable);
@@ -2946,6 +2950,7 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
+    outStream.setCodec("UTF-8");
 #ifndef Q_OS_WIN
     outStream << "#!/bin/sh\n\n";
 #endif

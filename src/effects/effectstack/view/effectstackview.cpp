@@ -507,6 +507,7 @@ void EffectStackView::slotSaveStack()
     QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
+        out.setCodec("UTF-8");
         out << doc.toString();
     }
     file.close();
