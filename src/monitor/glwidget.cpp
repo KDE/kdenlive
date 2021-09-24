@@ -1189,8 +1189,9 @@ int GLWidget::reconfigure()
                 m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
             }
         }
-        /*if (!pCore->getCurrentProfile()->progressive())
-            m_consumer->set("progressive", property("progressive").toBool());*/
+        if (!pCore->getProjectProfile()->progressive()) {
+            m_consumer->set("progressive", KdenliveSettings::monitor_progressive());
+        }
         m_consumer->set("volume", volume / 100.0);
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());

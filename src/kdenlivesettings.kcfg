@@ -456,6 +456,11 @@
       <label>Background color for clip monitor (only visible with transparent clips).</label>
       <default>black</default>
     </entry>
+    
+    <entry name="monitor_progressive" type="Bool">
+      <label>Should we deinterlace monitor preview.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="volume" type="Int">
       <label>Volume used for SDL output.</label>
