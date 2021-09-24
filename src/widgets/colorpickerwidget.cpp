@@ -125,9 +125,12 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    QScreen *currentScreen = QApplication::primaryScreen();
-    if (currentScreen) {
-        m_image = currentScreen->grabWindow(0, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+    for (QScreen *screen : QGuiApplication::screens()) {
+        QRect screenRect = screen->geometry();
+        if (screenRect.contains(m_grabRect.topLeft())) {
+            m_image = screen->grabWindow(0, m_grabRect.x() - screenRect.x(), m_grabRect.y() - screenRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+            break;
+        }
     }
 #endif
 
@@ -262,13 +265,14 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
     Q_UNUSED(destroyImage)
-
     if (m_image.isNull()) {
-        QScreen *currentScreen = QApplication::primaryScreen();
-        if (currentScreen) {
-            QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
-            QImage i = pm.toImage();
-            return i.pixel(0, 0);
+        for (QScreen *screen : QGuiApplication::screens()) {
+            QRect screenRect = screen->geometry();
+            if (screenRect.contains(p)) {
+                QPixmap pm = screen->grabWindow(0, p.x() - screenRect.x(), p.y() - screenRect.y(), 1, 1);
+                QImage i = pm.toImage();
+                return i.pixel(0, 0);
+            }
         }
         return qRgb(0, 0, 0);
     }
