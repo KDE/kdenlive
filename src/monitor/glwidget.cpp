@@ -584,6 +584,11 @@ void GLWidget::paintGL()
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
+        if (!qFuzzyCompare(m_zoom, 1.0f)) {
+            // Disable monitor zoom to render frame
+            modelView = QMatrix4x4();
+            m_shader->setUniformValue(m_modelViewLocation, modelView);
+        }
         if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
