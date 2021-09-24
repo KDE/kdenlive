@@ -235,6 +235,7 @@
       </Menu>
       <Menu name="monitor_config" ><text>Monitor config</text>
           <Action name="mlt_interlace" />
+          <Action name="mlt_progressive" />
           <Action name="mlt_interpolation" />
           <Action name="mlt_gamma" />
           <Action name="mlt_realtime" />

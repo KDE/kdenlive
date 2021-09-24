@@ -417,6 +417,7 @@ void Core::updateMonitorProfile()
     m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
     m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
     m_monitorProfile.set_explicit(true);
+    emit monitorProfileUpdated();
 }
 
 const QString &Core::getCurrentProfilePath() const

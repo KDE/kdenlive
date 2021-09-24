@@ -349,7 +349,8 @@ signals:
     void disconnectEffectStack();
     /** @brief Add a time remap effect to clip and show keyframes dialog */
     void remapClip(int cid);
-
+    /** @brief A monitor property changed, check if we need to reset */
+    void monitorProfileUpdated();
 };
 
 #endif

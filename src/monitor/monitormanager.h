@@ -123,6 +123,8 @@ private slots:
     void slotSetInterpolation(int ix);
     /** @brief Switch muting on/off */
     void slotMuteCurrentMonitor(bool active);
+    /** @brief Toggle progressive play on/off */
+    void slotProgressivePlay(bool active);
     /** @brief Zoom in active monitor */
     void slotZoomIn();
     /** @brief Zoom out active monitor */
