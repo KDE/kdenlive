@@ -447,8 +447,8 @@ void KeyframeImport::updateDestinationRange()
         m_destMin.setEnabled(false);
         m_destMax.setEnabled(false);
         m_limitRange->setEnabled(false);
+        updateView();
     }
-    updateView();
 }
 
 void KeyframeImport::updateDisplay()
