@@ -740,12 +740,10 @@ void Monitor::buildBackgroundedProducer(int pos) {
         trac.set_track(*m_controller->originalProducer().get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();
         std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
-        transition->set("internal_added", 237);
         transition->set("always_active", 1);
         transition->set_tracks(0, 1);
         trac.plant_transition(*transition.get(), 0, 1);
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
-        qDebug() << "set hacked background monitor";
     } else {
        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), pos);
     }

@@ -1101,17 +1101,11 @@ void MainWindow::setupActions()
     noComposite->setData(0);
     m_compositeAction->addAction(noComposite);
     QString compose = TransitionsRepository::get()->getCompositingTransition();
-    if (compose == QStringLiteral("movit.overlay")) {
+    if (compose == QStringLiteral("movit.overlay") || compose != QStringLiteral("composite")) {
         // Movit, do not show "preview" option since movit is faster
         QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
         hqComposite->setCheckable(true);
         hqComposite->setData(2);
-        m_compositeAction->addAction(hqComposite);
-        m_compositeAction->setCurrentAction(hqComposite);
-    } else if (compose != QStringLiteral("composite")) {
-        QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
-        hqComposite->setData(2);
-        hqComposite->setCheckable(true);
         m_compositeAction->addAction(hqComposite);
         m_compositeAction->setCurrentAction(hqComposite);
     }
