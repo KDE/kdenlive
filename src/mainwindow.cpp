@@ -3577,12 +3577,6 @@ void MainWindow::buildDynamicActions()
                 [&]() { SpeedTask::start(this); });
     }
 
-    if (true /* TODO: check if timeremap link is available */) {
-        QAction *action = new QAction(i18n("Duplicate clip with time remap"), m_extraFactory->actionCollection());
-        ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, pCore->bin(), &Bin::remapCurrent);
-    }
-
     // TODO refac reimplement analyseclipjob
     /*
     QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());
