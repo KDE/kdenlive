@@ -956,19 +956,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
-    Mlt::Service s;
-    bool playlistChain = false;
-    QScopedPointer<Mlt::Service> serv;
-    if (m_clipType == ClipType::Playlist) {
-        serv.reset(m_masterProducer->producer());
-        if (serv != nullptr) {
-            s = Mlt::Service(serv->get_service());
-            playlistChain = true;
-        }
-    }
-    if (!playlistChain) {
-        s = Mlt::Service(m_masterProducer->get_service());
-    }
+    Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -985,10 +973,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod;
     qDebug()<<"============= CLONED CLIP: \n\n"<<clipXml<<"\n\n======================";
-    prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
-
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);

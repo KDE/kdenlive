@@ -449,8 +449,6 @@ public slots:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
-    /** @brief Create a playlist clip for timeremap. */
-    void remapCurrent();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
