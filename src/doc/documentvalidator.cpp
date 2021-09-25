@@ -1874,6 +1874,22 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+    // Doc 1.03: Kdenlive 21.08.2
+    if (version < 1.04) {
+        // Slide: replace buggy composite transition with affine
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        int max = transitions.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = transitions.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("slide")) {
+                // Switch to affine and rect instead of composite and geometry
+                Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
+                Xml::setXmlProperty(t, QStringLiteral("mlt_service"), QStringLiteral("affine"));
+            }
+        }
+    }
 
     m_modified = true;
     return true;
