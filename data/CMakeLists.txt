@@ -11,7 +11,6 @@ add_subdirectory(resourceproviders)
 add_subdirectory(shortcuts)
 
 install(FILES
-  banner.png
   encodingprofiles.rc
   externalproxies.rc
   meta_ffmpeg.png
