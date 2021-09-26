@@ -385,6 +385,10 @@ void KeyframeImport::updateRange()
     int pos = m_sourceCombo->currentData().toInt();
     m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_offsetX.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_offsetY.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_limitRange->setEnabled(pos != ImportRoles::RotoData);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -436,6 +440,13 @@ void KeyframeImport::updateRange()
 
 void KeyframeImport::updateDestinationRange()
 {
+    if (m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
+        m_destMin.setEnabled(false);
+        m_destMax.setEnabled(false);
+        m_limitRange->setEnabled(false);
+        return;
+    }
+
     if (m_simpleTargets.contains(m_targetCombo->currentText())) {
         // 1 dimension target
         m_destMin.setEnabled(true);
