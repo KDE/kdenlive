@@ -705,6 +705,9 @@ void KeyframeWidget::slotImportKeyframes()
     for (const auto &w : m_parameters) {
         indexes << w.first;
     }
+    if (m_neededScene == MonitorSceneRoto) {
+        indexes << m_monitorHelper->getIndexes();
+    }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(), m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
     import->show();
     connect(import, &KeyframeImport::updateQmlView, this, &KeyframeWidget::slotRefreshParams);

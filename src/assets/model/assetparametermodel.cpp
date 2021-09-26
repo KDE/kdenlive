@@ -873,7 +873,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     QString x, y, w, h;
     int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::Roto_spline) {
             continue;
         }
         QJsonObject currentParam;
