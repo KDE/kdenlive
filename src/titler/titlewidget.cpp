@@ -2531,6 +2531,7 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setBrush(col);
         m_endViewport->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         m_endViewport->setSelected(true);
+        m_startViewport->setSelected(false);
         selectionChanged();
         slotSelectTool();
         if (m_endViewport->childItems().isEmpty()) {
