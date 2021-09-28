@@ -945,7 +945,6 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     bool useOpacity = false;
     if (auto ptr = m_model.lock()) {
         ptr->passProperties(mlt_prop);
-        ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();

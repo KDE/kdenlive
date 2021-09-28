@@ -1205,7 +1205,8 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         m_ownerId.first = ObjectType::NoItem;
     }
     for (const auto &param : params) {
-        setParameter(param.first, param.second.toString(), false);
+        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        setParameter(param.first, param.second.toString(), false, ix);
     }
     if (m_keyframes) {
         m_keyframes->refresh();

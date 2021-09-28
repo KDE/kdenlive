@@ -56,8 +56,7 @@ void FilterTask::run()
     
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-    std::unique_ptr<Mlt::Producer> producer;
-    //std::unique_ptr<Mlt::Producer> wholeProducer;
+    std::unique_ptr<Mlt::Producer> producer = nullptr;
     Mlt::Profile profile(pCore->getCurrentProfilePath().toUtf8().constData());
     if (binClip) {
         // Filter applied on a timeline or bin clip
@@ -91,8 +90,6 @@ void FilterTask::run()
         }
         if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
             producer->set_in_and_out(m_inPoint, m_outPoint);
-            //std::swap(wholeProducer, producer);
-            //producer.reset(wholeProducer->cut(m_inPoint, m_outPoint));
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job
@@ -104,7 +101,7 @@ void FilterTask::run()
         }
     }
     
-    if ((producer == nullptr) || !producer->is_valid()) {
+    if (producer == nullptr || !producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open source.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
@@ -139,7 +136,7 @@ void FilterTask::run()
 
     consumer->connect(*producer.get());
     producer->set_speed(0);
-    producer->seek(0);
+
     if (binClip) {
         // Build filter
         Mlt::Filter filter(profile, m_filterName.toUtf8().data());
@@ -166,7 +163,7 @@ void FilterTask::run()
         if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
             // leave it operate on full clip
         } else {
-            filter.set_in_and_out(producer->get_in(), producer->get_out());
+            filter.set_in_and_out(m_inPoint, m_outPoint);
         }
         producer->attach(filter);
         filter.set("id", "kdenlive-analysis");
@@ -246,12 +243,12 @@ void FilterTask::run()
         }
     }
 
-    params.append({key,QVariant(resultData)});
-    if (m_inPoint > 0 && (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end())) {
-        // Motion tracker keyframes always start at master clip 0, so we need to set in/out points
+    if (m_inPoint > 0 && (m_filterData.find(QLatin1String("relativeInOut")) == m_filterData.end())) {
+        // Motion tracker keyframes always start at master clip 0, so no need to set in/out points
         params.append({QStringLiteral("in"), m_inPoint});
         params.append({QStringLiteral("out"), m_outPoint});
     }
+    params.append({key,QVariant(resultData)});
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
         // Store a copy of the data in clip analysis
         QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname")) : QStringLiteral("data");

@@ -40,6 +40,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
 #endif
 
     QString conditionalInfo;
+    QString defaultValue;
     for (const QVariant &jobElement : qAsConst(filterData)) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
@@ -47,6 +48,8 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 conditionalInfo = d.at(1);
             } else if (d.at(0) == QLatin1String("key")) {
                 m_keyParam = d.at(1);
+            } else if (d.at(0) == QLatin1String("keydefault")) {
+                defaultValue = d.at(1);
             }
         }
     }
@@ -54,7 +57,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_displayConditional = true;
     for (const auto &param : qAsConst(filterParams)) {
         if (param.first == m_keyParam) {
-            if (!param.second.toString().isEmpty()) {
+            if (!param.second.toString().isEmpty() && param.second.toString().contains(QLatin1Char(';'))) {
                 m_displayConditional = false;
             }
             break;
@@ -78,11 +81,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
     // emit the signal of the base class when appropriate
-    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams]() {
+    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
         // Trigger job
         if (!m_displayConditional) {
             QVector<QPair<QString, QVariant>> values;
-            values << QPair<QString, QVariant>(m_keyParam,QVariant());
+            values << QPair<QString, QVariant>(m_keyParam,defaultValue);
             auto *command = new AssetUpdateCommand(m_model, values);
             pCore->pushUndo(command);
             return;
@@ -116,6 +119,16 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         for (const auto &param : qAsConst(filterLastParams)) {
             if (param.first != m_keyParam) {
                 fParams.insert({param.first, param.second});
+            } else {
+                QString initialRect = param.second.toString();
+                if (initialRect.contains(QLatin1Char('='))) {
+                    initialRect = initialRect.section(QLatin1Char('='), 1);
+                }
+                if (initialRect.contains(QLatin1Char(';'))) {
+                    initialRect = initialRect.section(QLatin1Char(';'), 0, 0);
+                }
+                qDebug()<<"=== PASSING INITIAL RECT: "<<initialRect;
+                fParams.insert({QStringLiteral("rect"), initialRect});
             }
         }
         for (const QString &fparam : filterAddedParams) {
@@ -149,7 +162,7 @@ void ButtonParamWidget::slotRefresh()
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
     m_displayConditional = true;
     for (const auto &param : qAsConst(filterParams)) {
-        if (param.first == m_keyParam && !param.second.isNull()) {
+        if (param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'))) {
             m_displayConditional = false;
             break;
         }

@@ -48,7 +48,7 @@
     <name>Motion Tracker</name>
     <description>Select a zone to follow its movements</description>
     <author>Jean-Baptiste Mardelle</author>
-    <parameter type="geometry" name="rect" default="50% 50% 25% 25%" fixed="1" opacity="false" conditional="1">
+    <parameter type="animatedrect" name="results" default="50% 50% 25% 25%" opacity="false" conditional="1">
         <name>Rectangle</name>
     </parameter>
     <parameter type="listdependency" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;BOOSTING;MEDIANFLOW;DaSIAM" conditional="1">
@@ -70,7 +70,7 @@
     <parameter type="color" name="shape_color" default="0xff0000ff">
         <name>Shape color</name>
     </parameter>
-    <parameter type="constant" name="blur" max="200" min="0" default="0">
+    <parameter type="constant" name="blur" max="200" min="0" default="5">
         <name>Blur</name>
     </parameter>
     <parameter type="list" name="blur_type" default="2" paramlist="0;1;2;3">
@@ -79,17 +79,14 @@
     </parameter>
     <parameter type="hidden" name="modelsfolder" default="">
     </parameter>
-    <parameter type="readonly" name="results" value="">
-        <name>Tracking data</name>
-        <comment>Click to copy to clipboard</comment>
-    </parameter>
     <parameter type="filterjob" filtertag="opencv.tracker" consumer="null" consumerparams="all=1 terminate_on_pause=1 audio_off=1 no_meta=1 real_time=-1">
         <name conditional="Reset">Analyse</name>
         <jobparam name="conditionalinfo">Filter is in preview mode. Click Analyse to see real effect</jobparam>
         <jobparam name="key">results</jobparam>
+        <jobparam name="keydefault">50% 50% 25% 25%</jobparam>
         <jobparam name="finalfilter">opencv.tracker</jobparam>
-        <jobparam name="displaydataname">Motion tracking</jobparam>
         <jobparam name="relativeInOut">1</jobparam>
+        <jobparam name="displaydataname">Motion tracking</jobparam>
     </parameter>
 </effect>
 </group>

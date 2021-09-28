@@ -1877,6 +1877,39 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+    // Doc 1.1: Kdenlive 21.12.0
+    if (version < 1.1) {
+        // OpenCV tracker: Fix for older syntax where filter had in/out defined
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("opencv.tracker") && t.hasAttribute(QLatin1String("in"))) {
+                QString filterIn = t.attribute(QLatin1String("in"));
+                int inPoint;
+                Mlt::Properties props;
+                props.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+                if (!filterIn.contains(QLatin1Char(':'))) {
+                    inPoint = filterIn.toInt();
+                } else {
+                    // Convert from hh:mm:ss.mmm to frames
+                    inPoint = props.time_to_frames(filterIn.toUtf8().constData());
+                }
+                qDebug()<<"=== FOUND TRACKER WITH IN POINT: "<<inPoint;
+                QString animation = Xml::getXmlProperty(t, QStringLiteral("results"));
+                props.set("key", animation.toUtf8().constData());
+                // This is a fake query to force the animation to be parsed
+                (void)props.anim_get_double("key", 0, -1);
+                Mlt::Animation anim = props.get_animation("key");
+                anim.shift_frames(inPoint);
+                Xml::setXmlProperty(t, QStringLiteral("results"), qstrdup(anim.serialize_cut()));
+                t.removeAttribute("in");
+                t.removeAttribute("out");
+            }
+        }
+    }
 
     m_modified = true;
     return true;
