@@ -125,8 +125,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
             loader.prepend(QStringLiteral("consumer:"));
             return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
         } else {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Playlist has a different framerate (%1/%2fps), not supported.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den())),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+            m_errorMessage = i18n("Playlist %1 has a different framerate (%2/%3fps), not supported.", resource, xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den());
             return nullptr;
         }
     }
@@ -495,7 +494,7 @@ void ClipLoadTask::run()
         if (producer) {
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", resource)),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         abort();
         return;
