@@ -400,6 +400,12 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -464,6 +470,12 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -498,6 +510,12 @@ QVariant MyEllipseItem::itemChange(GraphicsItemChange change, const QVariant &va
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -522,6 +540,12 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -546,6 +570,12 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
