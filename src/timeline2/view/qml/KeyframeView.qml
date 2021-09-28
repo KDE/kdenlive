@@ -165,16 +165,18 @@ Rectangle
                     radius: width / 2
                     color: keyframeContainer.activeFrame == keyframe.frame ? 'red' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
                     border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
+
                     MouseArea {
                         id: kf1MouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
+                        cursorShape: shiftPressed ? Qt.SizeVerCursor : Qt.PointingHandCursor
                         drag.target: parent
                         drag.smoothed: false
                         drag.threshold: 1
                         property string movingVal: kfrModel.realValue(model.normalizedValue)
                         property double newVal: NaN
+                        property bool shiftPressed: false
                         onPressed: {
                             drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
@@ -217,6 +219,7 @@ Rectangle
                             }
                         }
                         onPositionChanged: {
+                            shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                             if (mouse.buttons === Qt.LeftButton) {
                                 if (frame == inPoint) {
                                     parent.x = - root.baseUnit / 2

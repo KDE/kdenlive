@@ -4,15 +4,18 @@
 	  <name context="Soft Glow Effect Name">Soft Glow</name>
 	  <description>Does softglow effect on highlights</description>
 	  <author>Janne Liljeblad</author>
-    <parameter type="animated" name="brightness" default="0.5" min="0" max="100" factor="100">
+      <parameter type="animated" name="blur" default="0.5" min="0" max="1" decimals="2">
+      <name>Blur of the glow</name>
+      <comment>Brightness of highlight areas.</comment>
+    <parameter type="animated" name="brightness" default="0.5" min="0" max="1" decimals="2">
       <name>Brightness</name>
       <comment>Brightness of highlight areas.</comment>
     </parameter>
-    <parameter type="animated" name="sharpness" default="0.75" min="0" max="100" factor="100">
+    <parameter type="animated" name="sharpness" default="0.85" min="0" max="1" decimals="2">
       <name>Sharpness</name>
       <comment>Sharpness of highlight areas.</comment>
     </parameter>
-    <parameter type="animated" name="blurblend" default="0" min="0" max="100" factor="100">
+    <parameter type="animated" name="blurblend" default="0" min="0" max="1" decimals="2">
       <name>Blend mode</name>
       <comment>Blend mode used to blend highlight blur with input image. 0 - 0.33 - screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add.</comment>
     </parameter>
