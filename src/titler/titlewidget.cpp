@@ -972,9 +972,9 @@ void TitleWidget::initAnimation()
     graphicsView->scene()->addItem(m_endViewport);
 
     connect(keep_aspect, &QAbstractButton::toggled, this, &TitleWidget::slotKeepAspect);
-    connect(resize50, &QAbstractButton::clicked, this, &TitleWidget::slotResize50);
-    connect(resize100, &QAbstractButton::clicked, this, &TitleWidget::slotResize100);
-    connect(resize200, &QAbstractButton::clicked, this, &TitleWidget::slotResize200);
+    connect(resize50, &QAbstractButton::clicked, this, [&](){ slotResize(50); });
+    connect(resize100, &QAbstractButton::clicked, this, [&](){ slotResize(100); });
+    connect(resize200, &QAbstractButton::clicked, this, [&](){ slotResize(200); });
 }
 
 void TitleWidget::slotUpdateZoom(int pos)
@@ -2550,8 +2550,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
-    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start Viewport"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End Viewport"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(int(m_startViewport->rect().width() / 10));
     QColor col = m_startViewport->pen().color();
@@ -2614,31 +2614,22 @@ void TitleWidget::slotKeepAspect(bool keep)
     }
 }
 
-void TitleWidget::slotResize50()
+void TitleWidget::slotResize(int percentSize)
 {
-    if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
+    int w, h;
+    if (percentSize < 100) {
+        w = m_frameWidth / (100 / percentSize);
+        h = m_frameHeight / (100 / percentSize);
     } else {
-        m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
+        w = m_frameWidth * (percentSize / 100);
+        h = m_frameHeight * (percentSize / 100);
     }
-}
-
-void TitleWidget::slotResize100()
-{
     if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
+        m_endViewport->setRect(0, 0, w, h);
     } else {
-        m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
+        m_startViewport->setRect(0, 0, w, h);
     }
-}
-
-void TitleWidget::slotResize200()
-{
-    if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
-    } else {
-        m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
-    }
+    updateInfoText();
 }
 
 void TitleWidget::slotAddEffect(int /*ix*/)
