@@ -1979,13 +1979,15 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     if (affectAllTracks) {
         int lastFrame = 0;
         for (const auto &track: timeline->m_allTracks) {
-            lastFrame = track->getBlankStart(position);
-            if (lastFrame > spaceStart) {
-                spaceStart = lastFrame;
+            if (!track->isLocked()) {
+                lastFrame = track->getBlankStart(position);
+                if (lastFrame > spaceStart) {
+                    spaceStart = lastFrame;
+                }
             }
         }
         // check subtitle track
-        if (timeline->getSubtitleModel()) {
+        if (timeline->getSubtitleModel() && !timeline->getSubtitleModel()->isLocked()) {
             lastFrame = timeline->getSubtitleModel()->getBlankStart(position);
             if (lastFrame > spaceStart) {
                 spaceStart = lastFrame;
