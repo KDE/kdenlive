@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.crossfeed" id="avfilter.crossfeed" type="audio">
+	<name>Crossfeed</name>
+	<description>Apply headphone crossfeed filter.
+Crossfeed is the process of blending the left and right channels of stereo audio recording. It is mainly used to reduce extreme stereo separation of low frequencies.
+The intent is to produce more speaker like sound to the listener.</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.strength" default="0.2" min="0" max="1" decimals="3">
+        <name>Strength</name><comment>Set strength of crossfeed.
+Default is 0.2. Allowed range is from 0 to 1. This sets gain of low shelf filter for side part of stereo image.
+Default is -6dB. Max allowed is -30db when strength is set to 1.</comment>
+        </parameter>
+	<parameter type="constant" name="av.range" default="0.5" min="0.01" max="1" decimals="3">
+        <name>Range</name><comment>Set soundstage wideness.
+Default is 0.5. Allowed range is from 0 to 1. This sets cut off frequency of low shelf filter.
+Default is cut off near 1550 Hz. With range set to 1 cut off frequency is set to 2100 Hz. </comment>
+        </parameter>
+	<parameter type="constant" name="av.level_in" default="0.9" min="0" max="1" decimals="3">
+                <name>Input gain</name>
+        </parameter>
+        	<parameter type="constant" name="av.level_out" default="1" min="0" max="1" decimals="3">
+                <name>Output gain</name>
+        </parameter>
+</effect>
