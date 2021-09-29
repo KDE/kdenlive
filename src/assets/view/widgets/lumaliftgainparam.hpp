@@ -18,7 +18,7 @@ class FlowLayout;
  * @brief Provides options to choose 3 colors.
  * @author Jean-Baptiste Mardelle
  */
-class LumaLiftGainParam : public AbstractParamWidget
+class LumaLiftGainParam : public QWidget
 {
     Q_OBJECT
 public:
@@ -28,12 +28,15 @@ public:
      * @param alphaEnabled (optional) Should transparent colors be enabled */
     explicit LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
     void updateEffect(QDomElement &effect);
+    int miniHeight();
 
 private:
     ColorWheel *m_lift;
     ColorWheel *m_gamma;
     ColorWheel *m_gain;
     FlowLayout *m_flowLayout;
+    std::shared_ptr<AssetParameterModel> m_model;
+    QPersistentModelIndex m_index;
 
 protected:
     void resizeEvent(QResizeEvent *ev) override;
@@ -43,15 +46,13 @@ signals:
     void liftChanged();
     void gammaChanged();
     void gainChanged();
+    void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
+    void updateHeight(int height);
 
 public slots:
-    /** @brief Toggle the comments on or off
-     */
-    void slotShowComment(bool show) override;
-
     /** @brief refresh the properties to reflect changes in the model
      */
-    void slotRefresh() override;
+    void slotRefresh(int pos);
 };
 
 #endif

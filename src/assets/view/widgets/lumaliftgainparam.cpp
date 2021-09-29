@@ -8,6 +8,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "colorwheel.h"
 #include "utils/flowlayout.h"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 
 #include <KLocalizedString>
 
@@ -16,7 +17,9 @@ static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
 LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(std::move(model), index, parent)
+    : QWidget(parent)
+    , m_model(std::move(model))
+    , m_index(index)
 {
     m_flowLayout = new FlowLayout(this, 10, 10, 4);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -40,7 +43,7 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     m_flowLayout->addWidget(m_gamma);
     m_flowLayout->addWidget(m_gain);
     setLayout(m_flowLayout);
-    slotRefresh();
+    slotRefresh(0);
 
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
         NegQColor liftColor = m_lift->color();
@@ -101,15 +104,18 @@ void LumaLiftGainParam::resizeEvent(QResizeEvent *ev)
     }
 }
 
-void LumaLiftGainParam::slotShowComment(bool) {}
+int LumaLiftGainParam::miniHeight()
+{
+    return m_flowLayout->miniHeight();
+}
 
-void LumaLiftGainParam::slotRefresh()
+void LumaLiftGainParam::slotRefresh(int pos)
 {
     QMap<QString, double> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex local_index = m_model->index(i, 0);
         QString name = m_model->data(local_index, AssetParameterModel::NameRole).toString();
-        double val = m_model->data(local_index, AssetParameterModel::ValueRole).toDouble();
+        double val = m_model->getKeyframeModel()->getInterpolatedValue(pos, local_index).toDouble();
         values.insert(name, val);
     }
     m_lift->setColor({values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b"))});

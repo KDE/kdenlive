@@ -113,7 +113,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 val += out;
                 value = QString::number(val);
             }
-        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
+        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect || currentRow.type == ParamType::ColorWheel) {
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
@@ -218,7 +218,7 @@ void AssetParameterModel::prepareKeyframes()
     int ix = 0;
     for (const auto &name : qAsConst(m_rows)) {
         if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
-            m_params.at(name).type == ParamType::Roto_spline) {
+            m_params.at(name).type == ParamType::Roto_spline || m_params.at(name).type == ParamType::ColorWheel) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -234,7 +234,7 @@ QStringList AssetParameterModel::getKeyframableParameters() const
     QStringList paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect) {
+        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect || m_params.at(name).type == ParamType::ColorWheel) {
             //addKeyframeParam(index(ix, 0));
             paramNames << name;
         }
@@ -976,7 +976,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::AnimatedRect) {
             continue;
         }
 
