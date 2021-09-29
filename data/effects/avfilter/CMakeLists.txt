@@ -26,6 +26,10 @@ avfilter_colorhold.xml
 avfilter_colorlevels.xml
 avfilter_colormatrix.xml
 avfilter_colorspace.xml
+avfilter_compand.xml
+avfilter_compensationdelay.xml
+avfilter_crossfeed.xml
+avfilter_crystalizer.xml
 avfilter_datascope.xml
 avfilter_dctdnoiz.xml
 avfilter_deband.xml
