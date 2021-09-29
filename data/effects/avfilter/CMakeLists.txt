@@ -9,9 +9,14 @@ avfilter_acrusher.xml
 avfilter_alimiter.xml
 avfilter_allpass.xml
 avfilter_aphaser.xml
+avfilter_apulsator.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
+avfilter_bandpass.xml
+avfilter_bandreject.xml
+avfilter_bass.xml
 avfilter_boxblur.xml
+avfilter_bs2b.xml
 avfilter_bwdif.xml
 avfilter_chromahold.xml
 avfilter_chromashift.xml
