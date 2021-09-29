@@ -4,6 +4,11 @@ acompressor.xml
 aecho.xml
 agate.xml
 subtitles.xml
+avfilter_acontrast.xml
+avfilter_acrusher.xml
+avfilter_alimiter.xml
+avfilter_allpass.xml
+avfilter_aphaser.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
 avfilter_boxblur.xml
