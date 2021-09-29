@@ -31,6 +31,7 @@ avfilter_compensationdelay.xml
 avfilter_crossfeed.xml
 avfilter_crystalizer.xml
 avfilter_datascope.xml
+avfilter_dcshift.xml
 avfilter_dctdnoiz.xml
 avfilter_deband.xml
 avfilter_deblock.xml
@@ -38,6 +39,7 @@ avfilter_dedot.xml
 avfilter_deflate.xml
 avfilter_delogo.xml
 avfilter_derain.xml
+avfilter_deesser.xml
 avfilter_despill.xml
 avfilter_dilation.xml
 avfilter_doubleweave.xml
