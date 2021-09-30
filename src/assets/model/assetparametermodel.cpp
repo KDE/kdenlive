@@ -341,11 +341,13 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
             if (m_keyframes) {
+                // This is a fake query to force the animation to be parsed
+                (void)m_asset->anim_get_int(name.toLatin1().constData(), 0, -1);
                 KeyframeModel *km = m_keyframes->getKeyModel(paramIndex);
                 if (km) {
                     km->refresh();
                 } else {
-                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<paramIndex;
+                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<name<<", "<<paramIndex;
                 }
                 //m_keyframes->refresh();
             }
@@ -527,9 +529,14 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return values.join(QLatin1Char('\n'));
         }
         QString value(m_asset->get(paramName.toUtf8().constData()));
-        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
-                                                                                      : element.attribute(QStringLiteral("value")))
-                               : value;
+        if (value.isEmpty()) {
+            if (element.hasAttribute("default")) {
+                return parseAttribute(m_ownerId, QStringLiteral("default"), element);
+            } else {
+                value = element.attribute(QStringLiteral("value"));
+            }
+        }
+        return value;
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));

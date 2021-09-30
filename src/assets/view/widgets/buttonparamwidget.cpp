@@ -83,9 +83,47 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     // emit the signal of the base class when appropriate
     connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
         // Trigger job
+        bool isTracker = m_model->getAssetId() == QLatin1String("opencv.tracker");
         if (!m_displayConditional) {
             QVector<QPair<QString, QVariant>> values;
-            values << QPair<QString, QVariant>(m_keyParam,defaultValue);
+            if (isTracker) {
+                // Tracker needs some special config on reset
+                QString current = m_model->getAsset()->get(m_keyParam.toUtf8().constData());
+                if (!current.isEmpty()) {
+                    // Extract first keyframe
+                    current = current.section(QLatin1Char('='), 1);
+                    current = current.section(QLatin1Char(';'), 0, 0);
+                }
+                if (current.isEmpty()) {
+                    if (defaultValue.contains(QLatin1Char('%'))) {
+                        QSize pSize = pCore->getCurrentFrameDisplaySize();
+                        QStringList numbers = defaultValue.split(QLatin1Char(' '));
+                        int ix = 0;
+                        for ( QString &val : numbers) {
+                            if (val.endsWith(QLatin1Char('%'))) {
+                                val.chop(1);
+                                double n = val.toDouble()/100.;
+                                if (ix %2 == 0) {
+                                    n *= pSize.width();
+                                } else {
+                                    n *= pSize.height();
+                                }
+                                ix++;
+                                current.append(QString("%1 ").arg(qRound(n)));
+                            } else {
+                                current.append(QString("%1 ").arg(val));
+                            }
+                        }
+                    } else {
+                        current = defaultValue;
+                    }
+                }
+                values << QPair<QString, QVariant>(QString("rect"),current);
+                values << QPair<QString, QVariant>(m_keyParam,current);
+                values << QPair<QString, QVariant>(QString("_reset"),1);
+            } else {
+                values << QPair<QString, QVariant>(m_keyParam,defaultValue);
+            }
             auto *command = new AssetUpdateCommand(m_model, values);
             pCore->pushUndo(command);
             return;
@@ -118,8 +156,10 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
         for (const auto &param : qAsConst(filterLastParams)) {
             if (param.first != m_keyParam) {
-                fParams.insert({param.first, param.second});
-            } else {
+                if (!isTracker || param.first != QLatin1String("rect")) {
+                    fParams.insert({param.first, param.second});
+                }
+            } else if (isTracker) {
                 QString initialRect = param.second.toString();
                 if (initialRect.contains(QLatin1Char('='))) {
                     initialRect = initialRect.section(QLatin1Char('='), 1);
@@ -127,7 +167,6 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 if (initialRect.contains(QLatin1Char(';'))) {
                     initialRect = initialRect.section(QLatin1Char(';'), 0, 0);
                 }
-                qDebug()<<"=== PASSING INITIAL RECT: "<<initialRect;
                 fParams.insert({QStringLiteral("rect"), initialRect});
             }
         }
