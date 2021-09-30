@@ -96,7 +96,7 @@ avfilter_setrange.xml
 avfilter_shuffleplanes.xml
 avfilter_smartblur.xml
 avfilter_sobel.xml
-avfilter_sofalizer.xml
+#avfilter_sofalizer.xml
 avfilter_sr.xml
 avfilter_stereo3D.xml
 #avfilter_stereotools.xml
