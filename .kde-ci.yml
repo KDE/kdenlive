@@ -1,5 +1,5 @@
 Dependencies:
-- 'on': ['Linux', 'FreeBSD', 'Windows'] #add 'macOS' later (not supported by Kdenlive yet)
+- 'on': ['Linux', 'FreeBSD', 'Windows', 'macOS']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/breeze-icons' : '@stable'
@@ -30,6 +30,6 @@ Dependencies:
     'frameworks/purpose' : '@stable'
     #'plasma/breeze' : '@stable' #do we need this?
 
-- 'on': ['Linux', 'FreeBSD']
-  'require':
-    'plasma/drkonqi' : '@stable'
+#- 'on': ['Linux', 'FreeBSD']
+  #'require':
+    #'plasma/drkonqi' : '@stable'
