@@ -1479,6 +1479,7 @@ void Monitor::refreshMonitor(bool directUpdate)
         if (isActive()) {
             m_glMonitor->refresh();
             // Monitor was not active, so we activate it, refresh and activate the other monitor once done
+            QObject::disconnect( m_switchConnection );
             m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
                 m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
                 QObject::disconnect( m_switchConnection );
