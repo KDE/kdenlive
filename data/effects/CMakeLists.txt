@@ -9,7 +9,7 @@ audiowaveform.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
-copychannelstostereo.xml
+#copychannelstostereo.xml
 charcoal.xml
 chroma_hold.xml
 chroma.xml
