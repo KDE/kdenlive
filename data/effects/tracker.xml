@@ -19,17 +19,17 @@
         <paramlistdisplay>Rectangle,Ellipse,Arrow</paramlistdisplay>
         <name>Frame shape</name>
     </parameter>
-    <parameter type="constant" name="shape_width" max="100" min="-1" default="1" suffix="pixels">
+    <parameter type="constant" name="shape_width" max="100" min="-1" default="6" suffix="pixels">
         <name>Shape width</name>
     </parameter>
     <parameter type="color" name="shape_color" default="0xff0000ff">
         <name>Shape color</name>
     </parameter>
-    <parameter type="constant" name="blur" max="200" min="0" default="5">
+    <parameter type="constant" name="blur" max="200" min="0" default="20">
         <name>Blur</name>
     </parameter>
-    <parameter type="list" name="blur_type" default="2" paramlist="0;1;2;3">
-        <paramlistdisplay>Median Blur,Gaussian Blur,Pixelate,Opaque fill</paramlistdisplay>
+    <parameter type="list" name="blur_type" default="4" paramlist="0;1;2;3;4">
+        <paramlistdisplay>Median Blur,Gaussian Blur,Pixelate,Opaque fill,None</paramlistdisplay>
         <name>Blur type</name>
     </parameter>
     <parameter type="hidden" name="modelsfolder" default="">

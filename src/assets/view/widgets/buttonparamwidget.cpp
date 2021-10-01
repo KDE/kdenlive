@@ -118,9 +118,9 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                         current = defaultValue;
                     }
                 }
-                values << QPair<QString, QVariant>(QString("rect"),current);
+                //values << QPair<QString, QVariant>(QString("rect"),current);
+                //values << QPair<QString, QVariant>(QString("_reset"),1);
                 values << QPair<QString, QVariant>(m_keyParam,current);
-                values << QPair<QString, QVariant>(QString("_reset"),1);
             } else {
                 values << QPair<QString, QVariant>(m_keyParam,defaultValue);
             }
