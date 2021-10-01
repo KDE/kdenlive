@@ -1,0 +1,29 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox" type="hidden">
+	<name>SoX</name>
+	<description>Process audio using a SoX effect</description>
+	<author>Dan Dennedy</author>
+	<parameter type="list" name="effect" default="analysis" paramlist="analysis;apply">
+         <paramlistdisplay>Analysis,Apply</paramlistdisplay>
+		<name>Effect</name>
+	</parameter>
+        <parameter type="constant" name="analysis_level" max="1" min="-60" default="-12" decimals="1" suffix="dB">
+		<name>Normalization level </name>
+	</parameter>
+    <parameter type="constant" name="gain" max="24" min="-60" default="0" decimals="1" suffix="dB">
+		<name>Gain to normalize</name>
+	</parameter>
+    <parameter type="bool" name="use_peak" default="0">
+		<name>Use peak</name>
+	</parameter>
+    <parameter type="bool" name="normalise" default="0">
+		<name>Dynamic normalization</name>
+	</parameter>
+        <parameter type="constant" name="window" max="1000" min="0" default="75">
+		<name>Smoothing window size </name>
+	</parameter>
+        <parameter type="constant" name="max_gain" max="20" min="0" default="10" decimals="2" suffix="dB">
+		<name>Maximum gain</name>
+	</parameter>
+</effect>
+

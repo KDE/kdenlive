@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_reverb" type="audio">
+<effect tag="sox" id="sox_reverb" type="hidden">
 	<name>Sox Reverb</name>
 	<description>Sox reverb audio effect</description>
 	<author>http://sox.sourceforge.net</author>
