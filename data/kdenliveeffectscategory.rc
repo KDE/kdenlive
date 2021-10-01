@@ -25,7 +25,7 @@
 <group list="invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.saturat0r,frei0r.tint0r,chroma_hold,frei0r.colorize,frei0r.equaliz0r,frei0r.hueshift0r,frei0r.luminance,lumaliftgaingamma,lift_gamma_gain,brightness,gamma,frei0r.colgate,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves,avfilter.selectivecolor,avfilter.lut3d,avfilter.chromahold,avfilter.colorbalance,avfilter.colorchannelmixer,avfilter.colorhold,avfilter.colorlevels,avfilter.eq,frei0r.invert0r,frei0r.normaliz0r,frei0r.gamma,frei0r.bw0r,greyscale,avfilter.vibrance,avfilter.swapuv,avfilter.negate,avfilter.histeq,avfilter.normalize,avfilter.fftfilt,avfilter.limiter">
     <text>Color and Image correction</text>
   </group>
-  <group list="loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,ladspa.1413,mute,fadein,fadeout,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
+  <group list=".ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
     <text>Audio correction</text>
   </group>
   <group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion">
@@ -49,6 +49,24 @@
    <group list="avfilter.deflicker,avfilter.bwdif,avfilter.amplify,avfilter.atadenoise,avfilter.dedot,avfilter.doubleweave,avfilter.random,avfilter.tmix,avfilter.vertigo,avfilter.w3fdif,avfilter.weave,avfilter.yadif">
     <text>To be completed</text>
   </group>
+  <group list="avfilter.compand,avfilter.deesser,avfilter.alimiter,volume,avfilter.acontrast,avfilter.asoftclip,loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,mute,fadein,fadeout,sox_gain,normalise"><text>Volume and Dynamics</text>
+      </group>
+      <group list="avfilter.compensationdelay,sox_echo"><text>Reverb, Echo and Delays</text>
+          </group>
+          <group list="avfilter.equalizer,avfilter.allpass,avfilter.bandpass,avfilter.bandreject,avfilter.bass,avfilter.highpass,avfilter.highshelf,avfilter.lowpass,avfilter.lowshelf,sox_band,sox_bass"><text>EQ and filters</text>
+          </group>
+          <group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato"><text>Modulators</text>
+          </group>
+           <group list="ladspa.9354877"><text>Noise Reduction and audio Restoration</text>
+          </group>
+           <group list="panner,audiomap,channelswap,mono,channelcopy,channelswap,swapchannels,audiobalance,audiopan"><text>Channels</text>
+          </group>
+           <group list="avfilter.aderivative,avfilter.aintegral,avfilter.acrusher,avfilter.crystalizer,avfilter.dcshift"><text>Tools</text>
+          </group>
+           <group list="avfilter.crossfeed,avfilter.extrastereo,avfilter.haas,avfilter.sofalizer,avfilter.bs2b,avfilter.stereotools,avfilter.stereowiden"><text>Stereo and Binaural Images</text>
+          </group>
+           <group list="rbpitch,sox_stretch,rboctaveshift"><text>Pitch and Time</text>
+          </group>
   <group list="ladspa.2141,ladspa.2142,ladspa.2143,ladspa.2144,ladspa.2145,ladspa.2146,ladspa.2147,ladspa.2148,ladspa.2149,ladspa.2150,ladspa.2151,ladspa.2152,ladspa.2153,ladspa.2154,ladspa.2155,ladspa.2156,ladspa.2157,ladspa.2158,ladspa.2159">
         <text>TAP plugins</text>
             </group>
@@ -57,7 +75,7 @@
             </group>
  <group list="ladspa.1963,ladspa.1964,ladspa.1965,ladspa.1966,ladspa.1967,ladspa.1968,ladspa.1973,ladspa.1974,ladspa.1975,ladspa.1976,ladspa.1977,ladspa.1978,ladspa.1979,ladspa.1980">
                 <text>Ambisonic plugins</text>
-            </group> ## ladspa.1087,ladspa.1088,ladspa.1090,ladspa.1091,ladspa.1092,ladspa.1093,ladspa.1094,ladspa.1095
+            </group>
  <group list="ladspa.5002094,ladspa.5002095,ladspa.5002096,ladspa.5002097,ladspa.5002102,ladspa.5002103,ladspa.5002104,ladspa.5002105,ladspa.5002110,ladspa.5002111,ladspa.5002112,ladspa.5002113,ladspa.5002118,ladspa.5002119,ladspa.5002120,ladspa.5002121,ladspa.5002124,ladspa.5002125,ladspa.5002138,ladspa.5002139,ladspa.5002140,ladspa.5002141">
                 <text>Sidechain plugins</text>
             </group>
