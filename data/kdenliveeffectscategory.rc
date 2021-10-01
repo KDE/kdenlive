@@ -75,8 +75,21 @@
             </group>
 <group list="ladspa.1297511010,ladspa.1145921863,ladspa.1144210769,ladspa.1144210771,ladspa.1146114128,ladspa.1097681261,ladspa.1129539188,ladspa.1399604850,ladspa.1297511010">
                 <text>DPF plugins</text>
-            </group>            
+            </group> 
+            
+<group list="ladspa.33917,ladspa.33918,ladspa.33919,ladspa.33922,ladspa.33923,ladspa.33924,ladspa.33951,ladspa.34049,ladspa.34050,ladspa.34051,ladspa.34052,ladspa.34053,ladspa.34065,ladspa.34066,ladspa.34067,ladspa.34068,ladspa.34069,ladspa.34070,ladspa.34071,ladspa.34080,ladspa.34081,ladspa.34096,ladspa.34097,ladspa.34098,ladspa.34184,ladspa.34185">
+                <text>Calf  plugins</text>
+            </group> 
              <group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave">
     <text>Deprecated</text>
   </group>
+  <group list="ladspa.5002170,ladspa.5002171,ladspa.5002168,ladspa.5002166,ladspa.5002167,ladspa.5002169,ladspa.5002162,ladspa.5002163,ladspa.5002148,ladspa.5002149,ladspa.5002147,ladspa.5002146,ladspa.5002154,ladspa.5002155,ladspa.5002156,ladspa.5002157,ladspa.5003074,ladspa.5003075,ladspa.5003076,ladspa.5002152,ladspa.5002153,ladspa.5002150,ladspa.5002151,ladspa.5002158,ladspa.5002159,ladspa.5002160,ladspa.5002161,ladspa.5002164,ladspa.5002165">
+      <text>LSP plugins</text>
+  </group>
+ <group list="ladspa.1041,ladspa.1042,ladspa.1043,ladspa.1044,ladspa.1045,ladspa.1046,ladspa.1227,ladspa.1337,ladspa.1845,ladspa.1846,ladspa.1848,ladspa.1917,ladspa.1949,ladspa.1955,ladspa.1956,ladspa.1957,ladspa.1958,ladspa.1961,ladspa.1962,ladspa.1970,ladspa.1981,ladspa.1982,ladspa.2026,ladspa.2979,ladspa.3701,ladspa.3702,ladspa.4221,ladspa.9792,ladspa.5002064,ladspa.5002065,ladspa.5002066,ladspa.5002067,ladspa.5002068,ladspa.5002069,ladspa.5002070,ladspa.5002071,ladspa.5002072,ladspa.5002073,ladspa.5002074,ladspa.5002075,ladspa.5002076,ladspa.5002077,ladspa.5002078,ladspa.5002079,ladspa.5002080,ladspa.5002081,ladspa.5002082,ladspa.5002083,ladspa.5002084,ladspa.5002085,ladspa.5002086,ladspa.5002087,ladspa.5002088,ladspa.5002089,ladspa.5002090,ladspa.5002091,ladspa.5002092,ladspa.5002093,ladspa.5002098,ladspa.5002099,ladspa.5002100,ladspa.5002101,ladspa.5002106,ladspa.5002107,ladspa.5002108,ladspa.5002109,ladspa.5002114,ladspa.5002115,ladspa.5002116,ladspa.5002117,ladspa.5002122,ladspa.5002123,ladspa.5002130,ladspa.5002131,ladspa.5002132,ladspa.5002133,ladspa.5002134,ladspa.5002135,ladspa.5002136,ladspa.5002137,ladspa.9354877">
+      <text>LADSPA Plugins</text>
+  </group>
+  <group list="ladspa,vinyl,declipper,equalizer,limiter,phaser,equalizer_15,pitch_scale,rate_scale,reverb,room_reverb,pitch_shift">
+                <text>MLT ladspa</text>
+            </group>
 </data>
