@@ -3,6 +3,7 @@ INSTALL (FILES
 ladspa_declipper.xml
 ladspa_equalizer.xml
 ladspa_equalizer_15.xml
+ladspa_librnnoise.xml
 ladspa_limiter.xml
 ladspa_phaser.xml
 ladspa_pitch.xml
