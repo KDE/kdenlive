@@ -701,8 +701,8 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     int width = profile->width();
     int height = profile->height();
-    if(type == ParamType::AnimatedRect && content == "adjustcenter") {
-        QSize frameSize = pCore->getItemFrameSize(owner);
+    QSize frameSize = pCore->getItemFrameSize(owner);
+    if(type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
         int contentHeight;
         int contentWidth;
         double sourceDar = frameSize.width() / frameSize.height();
