@@ -13,8 +13,9 @@ dmg              | macOS   | [Craft Blueprints Repository][craft]
 
 ## How to package
 
-For Appimage and Flatpak you can find instructions in the README.md file of the script folder (for Flatpak the [nightly script folder][nightly-flatpak])
-For Craft based packing the command is `craft --package kdenlive`. For further instructions see https://community.kde.org/Craft
+* For **Appimage** and **Flatpak** you can find instructions in the README.md file of the script folder (for Flatpak the [nightly script folder][nightly-flatpak])
+
+* For **Craft** based packing the command is `craft --package kdenlive`. For further instructions see https://community.kde.org/Craft
 
 [appimage]: ../packaging/appimage
 [flatpak]: https://github.com/flathub/org.kde.kdenlive
