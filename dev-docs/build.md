@@ -16,7 +16,7 @@ But you should be able to build it on any platform that provides up-to-date vers
 ### Base procedure
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bufixes and optimizations.
-On Ubuntu, the easiest way is to add [https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master] (Kdenlive's ppa)
+On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
 
 ```bash
 sudo add-apt-repository ppa:kdenlive/kdenlive-master
@@ -85,7 +85,7 @@ And if you want to build MLT manually:
 ```bash
 git clone https://github.com/mltframework/mlt.git
 
-# Dependencies
+# Install MLT dependencies
 sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavutil-dev
 ```
 
