@@ -966,6 +966,8 @@ void KeyframeImport::importSelectedData()
                 rect.x += m_offsetX.value();
                 rect.y += m_offsetY.value();
                 switch (convertMode) {
+                    case ImportRoles::RotoData:
+                        break;
                     case ImportRoles::FullGeometry:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
@@ -1203,6 +1205,8 @@ void KeyframeImport::updateView()
         rect.x += m_offsetX.value();
         rect.y += m_offsetY.value();
         switch (convertMode) {
+            case ImportRoles::RotoData:
+                break;
             case ImportRoles::FullGeometry:
                 kfrData[0] = locale.toString(int(rect.x));
                 kfrData[1] = locale.toString(int(rect.y));

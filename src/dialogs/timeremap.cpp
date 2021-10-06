@@ -328,7 +328,7 @@ void RemapView::loadKeyframes(const QString &mapData)
     m_scale = maxWidth / double(qMax(1, remapMax()));
     m_zoomStart = m_zoomHandle.x() * maxWidth;
     m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
-    emit updateMaxDuration(m_duration);
+    emit updateMaxDuration();
     update();
 }
 
@@ -1601,7 +1601,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(move_next, &QCheckBox::toggled, m_view, &RemapView::toggleMoveNext);
     connect(pitch_compensate, &QCheckBox::toggled, this, &TimeRemap::switchRemapParam);
     connect(frame_blending, &QCheckBox::toggled, this, &TimeRemap::switchRemapParam);
-    connect(m_view, &RemapView::updateMaxDuration, this, [this](int duration) {
+    connect(m_view, &RemapView::updateMaxDuration, this, [this]() {
         m_out->setRange(0, INT_MAX);
         //m_in->setRange(0, duration - 1);
     });
