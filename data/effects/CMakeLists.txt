@@ -9,7 +9,7 @@ audiowaveform.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
-#copychannelstostereo.xml
+copychannelstostereo.xml
 charcoal.xml
 chroma_hold.xml
 chroma.xml
@@ -50,8 +50,8 @@ pan_zoom.xml
 pillar_echo.xml
 qtblend.xml
 qtcrop.xml
-#rboctaveshift.xml
-#rbpitchscale.xml
+rboctaveshift.xml
+rbpitchscale.xml
 region.xml
 rotation_keyframable.xml
 rotation.xml

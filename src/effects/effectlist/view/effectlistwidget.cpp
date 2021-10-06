@@ -50,7 +50,6 @@ void EffectListWidget::updateFavorite(const QModelIndex &index)
 
 EffectListWidget::~EffectListWidget()
 {
-    qDebug() << " - - -Deleting effect list widget";
 }
 
 void EffectListWidget::setFilterType(const QString &type)

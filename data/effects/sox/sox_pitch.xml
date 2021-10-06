@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="sox" id="sox_pitch" type="audio">
+<effect tag="sox" id="sox_pitch" type="hidden">
 	<name>Sox Pitch Shift</name>
 	<description>Sox change pitch audio effect</description>
 	<author>http://sox.sourceforge.net</author>
