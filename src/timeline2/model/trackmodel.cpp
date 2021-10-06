@@ -2303,11 +2303,16 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
     if (cid1 < 0 || cid2 < 0) {
         qDebug()<<"INVALID CLIP MIX: "<<cid1<<" - "<<cid2;
-        QScopedPointer<Mlt::Field> field(m_track->field());
-        field->lock();
-        field->disconnect_service(*t);
-        field->unlock();
-        return false;
+        // Check if reverse setting was not correctly set
+        cid1 = getClipByPosition(in, reverse ? 0 : 1);
+        cid2 = getClipByPosition(out, reverse ? 1 : 0);
+        if (cid1 < 0 || cid2 < 0) {
+            QScopedPointer<Mlt::Field> field(m_track->field());
+            field->lock();
+            field->disconnect_service(*t);
+            field->unlock();
+            return false;
+        }
     }
     QString assetId(t->get("kdenlive_id"));
     if (assetId.isEmpty()) {
