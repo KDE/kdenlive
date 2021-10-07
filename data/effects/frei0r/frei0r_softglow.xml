@@ -15,9 +15,10 @@
       <name>Sharpness</name>
       <comment>Sharpness of highlight areas.</comment>
     </parameter>
-    <parameter type="animated" name="blurblend" default="0" min="0" max="1" decimals="2">
+    <parameter type="list" name="blurblend" default="0" paramlist="0;0.5;1.0">
+        <paramlistdisplay>Screen,Overlay,Add</paramlistdisplay>
       <name>Blend mode</name>
-      <comment>Blend mode used to blend highlight blur with input image. 0 - 0.33 - screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add.</comment>
+      <comment>Blend mode used to blend highlight blur with input image.</comment>
     </parameter>
   </effect>
 </group>
