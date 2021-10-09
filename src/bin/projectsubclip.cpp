@@ -186,6 +186,10 @@ bool ProjectSubClip::hasAudioAndVideo() const
 void ProjectSubClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
+    if (percent < 0) {
+        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, m_inPoint));
+        return;
+    }
     int duration = m_outPoint - m_inPoint;
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;

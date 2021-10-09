@@ -118,6 +118,7 @@ public:
      * @param name name o the property
      */
     QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
+    bool hasProducerProperty(const QString &name) const;
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
     qint64 getProducerInt64Property(const QString &key) const;

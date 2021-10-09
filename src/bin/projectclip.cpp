@@ -1778,9 +1778,16 @@ void ProjectClip::updateZones()
 }
 
 
-void ProjectClip::getThumbFromPercent(int percent)
+void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview
+    if (percent < 0) {
+        if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
+            int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+            setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+        }
+        return;
+    }
     int duration = getFramePlaytime();
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
@@ -1790,6 +1797,9 @@ void ProjectClip::getThumbFromPercent(int percent)
     } else {
         // Generate percent thumbs
         CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+    }
+    if (storeFrame) {
+        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
     }
 }
 
