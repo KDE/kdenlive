@@ -560,6 +560,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
                     QDir dir = info.absoluteDir();
                     dir.cd(externalParams.at(3));
                     QString fileName = info.fileName();
+                    if (fileName.startsWith(externalParams.at(1))) {
+                        fileName.remove(0, externalParams.at(1).size());
+                        fileName.prepend(externalParams.at(4));
+                    }
                     if (!externalParams.at(2).isEmpty()) {
                         fileName.chop(externalParams.at(2).size());
                     }

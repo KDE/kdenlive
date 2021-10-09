@@ -8,4 +8,5 @@
 
 [proxy]
 Sony PXW=../Sub;;S03.MP4;../Clip;;.MXF
+GoPro LRV=./;GL;.LRV;./;GX;.MP4
 
