@@ -443,6 +443,15 @@ int ClipController::getFramePlaytime() const
     return m_masterProducer->get_length();
 }
 
+bool ClipController::hasProducerProperty(const QString &name) const
+{
+    QReadLocker lock(&m_producerLock);
+    if (m_properties == nullptr) {
+        return false;
+    }
+    return m_properties->property_exists(name.toUtf8().constData());
+}
+
 QString ClipController::getProducerProperty(const QString &name) const
 {
     QReadLocker lock(&m_producerLock);

@@ -375,8 +375,11 @@ public:
     int getFrame(QModelIndex index, int mouseX)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)) {
             return 0;
+        }
+        if (mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+            return -1;
         }
         return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
     }
@@ -578,20 +581,34 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        QAbstractItemDelegate *del = itemDelegate(index);
         if (KdenliveSettings::hoverPreview()) {
+            QAbstractItemDelegate *del = itemDelegate(index);
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
-                int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
-                emit displayBinFrame(index, frame);
+                if (vRect.contains(event->pos())) {
+                    int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
+                    emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
+                }
             } else {
                 qDebug()<<"<<< NO DELEGATE!!!";
             }
+            if (m_lastHoveredItem != index) {
+                if (m_lastHoveredItem.isValid()) {
+                    emit displayBinFrame(m_lastHoveredItem, -1);
+                }
+                m_lastHoveredItem = index;
+            }
+            pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+        } else {
+            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
         }
-        pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
     } else {
         pCore->window()->showKeyBinding();
+        if (m_lastHoveredItem.isValid()) {
+            emit displayBinFrame(m_lastHoveredItem, -1);
+            m_lastHoveredItem = QModelIndex();
+        }
     }
     QListView::mouseMoveEvent(event);
 }
@@ -652,10 +669,24 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
             if (KdenliveSettings::hoverPreview()) {
                 QAbstractItemDelegate *del = itemDelegate(index);
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
-                emit displayBinFrame(index, frame);
+                if (frame >= 0) {
+                    emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
+                    if (m_lastHoveredItem != index) {
+                        if (m_lastHoveredItem.isValid()) {
+                            emit displayBinFrame(m_lastHoveredItem, -1);
+                        }
+                        m_lastHoveredItem = index;
+                    }
+                }
+                pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+            } else {
+                pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
             }
-            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
         } else {
+            if (m_lastHoveredItem.isValid()) {
+                emit displayBinFrame(m_lastHoveredItem, -1);
+                m_lastHoveredItem = QModelIndex();
+            }
             pCore->window()->showKeyBinding();
         }
     }
@@ -3886,7 +3917,7 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     if (!clip) {
         return;
     }
-    clip->reloadProducer(true);
+    ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, QDomElement(), true, -1, -1, this);
 }
 
 void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData, QUndoCommand *groupCommand)
@@ -4268,7 +4299,7 @@ void Bin::adjustProjectProfileToItem()
     }
 }
 
-void Bin::showBinFrame(QModelIndex ix, int frame)
+void Bin::showBinFrame(QModelIndex ix, int frame, bool storeFrame)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (item) {
@@ -4279,7 +4310,7 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Playlist)) {
-                clip->getThumbFromPercent(frame);
+                clip->getThumbFromPercent(frame, storeFrame);
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
             auto clip = std::static_pointer_cast<ProjectSubClip>(item);
