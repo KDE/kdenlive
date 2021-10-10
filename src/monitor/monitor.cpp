@@ -966,13 +966,30 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
-            for (auto screen : qApp->screens()) {
-                QRect screenRect = screen->availableGeometry();
-                if (!screenRect.contains(pCore->window()->geometry().center())) {
-                    m_glWidget->setParent(nullptr);
-                    m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
-                    m_glWidget->setGeometry(screenRect);
-                    break;
+            bool screenFound = false;
+            if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+                for (auto screen : qApp->screens()) {
+                    if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
+                        // Match
+                        QRect screenRect = screen->availableGeometry();
+                        m_glWidget->setParent(nullptr);
+                        m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
+                        m_glWidget->setGeometry(screenRect);
+                        screenFound = true;
+                        break;
+                    }
+                }
+            }
+            if (!screenFound) {
+                for (auto screen : qApp->screens()) {
+                    // Autodetect second monitor
+                    QRect screenRect = screen->availableGeometry();
+                    if (!screenRect.contains(pCore->window()->geometry().center())) {
+                        m_glWidget->setParent(nullptr);
+                        m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
+                        m_glWidget->setGeometry(screenRect);
+                        break;
+                    }
                 }
             }
         } else {

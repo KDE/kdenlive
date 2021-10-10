@@ -335,6 +335,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     loadEncodingProfiles();
 
+    connect(m_configSdl.fullscreen_monitor, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotSetFullscreenMonitor);
     connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &KdenliveSettingsDialog::slotCheckAlsaDriver);
     connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -766,6 +768,20 @@ void KdenliveSettingsDialog::initDevices()
         KdenliveSettings::setAudio_backend(ix);
     }
     m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl")));
+    
+    // Fill monitors data
+    QSignalBlocker bk(m_configSdl.fullscreen_monitor);
+    m_configSdl.fullscreen_monitor->clear();
+    m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
+    for (auto screen : qApp->screens()) {
+        m_configSdl.fullscreen_monitor->addItem(QString("%1 %2 (%3)").arg(screen->manufacturer(), screen->model(), screen->name()), screen->serialNumber());
+    }
+    if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+        int ix = m_configSdl.fullscreen_monitor->findData(KdenliveSettings::fullscreen_monitor());
+        if (ix > -1) {
+            m_configSdl.fullscreen_monitor->setCurrentIndex(ix);
+        }
+    }
 
     loadCurrentV4lProfileInfo();
 }
@@ -1214,15 +1230,21 @@ void KdenliveSettingsDialog::updateSettings()
     settingsGroup.writeEntry("dialogSize", QVariant(size()));
 }
 
+void KdenliveSettingsDialog::slotSetFullscreenMonitor()
+{
+    QString value = m_configSdl.fullscreen_monitor->currentData().toString();
+    KdenliveSettings::setFullscreen_monitor(value);
+}
+
 void KdenliveSettingsDialog::slotCheckAlsaDriver()
 {
-    QString value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
+    QString value = m_configSdl.kcfg_audio_driver->currentData().toString();
     m_configSdl.kcfg_audio_device->setEnabled(value == QLatin1String("alsa"));
 }
 
 void KdenliveSettingsDialog::slotCheckAudioBackend()
 {
-    QString value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
+    QString value = m_configSdl.kcfg_audio_backend->currentData().toString();
     m_configSdl.group_sdl->setEnabled(value.startsWith(QLatin1String("sdl")));
 }
 
