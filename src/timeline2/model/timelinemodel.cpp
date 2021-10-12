@@ -612,18 +612,22 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 {
     Q_UNUSED(moveMirrorTracks)
     if (trackId == -1) {
+        qWarning() << "clip is not on a track";
         return false;
     }
     Q_ASSERT(isClip(clipId));
     if (m_allClips[clipId]->clipState() == PlaylistState::Disabled) {
         if (getTrackById_const(trackId)->trackType() == PlaylistState::AudioOnly && !m_allClips[clipId]->canBeAudio()) {
+            qWarning() << "clip type mismatch 1";
             return false;
         }
         if (getTrackById_const(trackId)->trackType() == PlaylistState::VideoOnly && !m_allClips[clipId]->canBeVideo()) {
+            qWarning() << "clip type mismatch 2";
             return false;
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
+        qWarning() << "clip type mismatch 3";
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -677,7 +681,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
-
         bool mixGroupMove = false;
         if (mixData.first.firstClipId > 0) {
             allowedClipMixes << mixData.first.firstClipId;
@@ -800,6 +803,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
+            qWarning() << "clip deletion failed";
             return false;
         }
     }

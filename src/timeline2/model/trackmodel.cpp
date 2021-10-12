@@ -196,12 +196,14 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         if (allowedClipMixes.isEmpty()) {
             if (!m_playlists[0].is_blank_at(position) || !m_playlists[1].is_blank_at(position)) {
                 // Track is not empty
+                qWarning() << "clip insert failed - non blank 1";
                 return []() { return false; };
             }
         } else {
             // This is a group move with a mix, some clips are allowed
             if (!m_playlists[target_playlist].is_blank_at(position)) {
                 // Track is not empty
+                qWarning() << "clip insert failed - non blank 2";
                 return []() { return false; };
             }
             // Check if there are clips on the other playlist, and if they are in the allowed list
@@ -210,6 +212,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             for (int c : collisions) {
                 if (!allowedClipMixes.contains(c)) {
                     // Track is not empty
+                    qWarning() << "clip insert failed - non blank 3";
                     return []() { return false; };
                 }
             }
@@ -218,7 +221,10 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (target_clip >= count && m_playlists[target_playlist].is_blank_at(position)) {
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function, finalMove, groupMove, target_playlist]() {
-            if (isLocked()) return false;
+            if (isLocked()) {
+                qWarning() << "clip insert failed - locked track";
+                return false;
+            }
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 m_playlists[target_playlist].lock();
