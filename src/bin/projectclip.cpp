@@ -28,6 +28,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
+#include "clipcreator.hpp"
 #include "timecode.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "macros.hpp"
@@ -373,11 +374,17 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         // If another load job is running?
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
-        if (QFile::exists(m_path) && (!isProxy && !hasProxy())) {
+        if (QFile::exists(m_path) && (!isProxy && !hasProxy()) && m_properties) {
             clearBackupProperties();
         }
         QDomDocument doc;
-        QDomElement xml = toXml(doc);
+        QDomElement xml;
+        QString resource(m_properties->get("resource"));
+        if (m_service.isEmpty() && !resource.isEmpty()) {
+            xml = ClipCreator::getXmlFromUrl(resource).documentElement();
+        } else {
+            xml = toXml(doc);
+        }
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
@@ -1231,7 +1238,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         } else if (!properties.contains("kdenlive:proxy")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
-            getInfoForProducer();
+            // Enforce reloading clip type in case of clip replacement
+            m_service.clear();
+            m_clipType = ClipType::Unknown;
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
     }
@@ -1342,7 +1351,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             refreshPanel = true;
         }
     }
-    if (refreshPanel) {
+    if (refreshPanel && m_properties) {
         // Some of the clip properties have changed through a command, update properties panel
         emit refreshPropertiesPanel();
     }
