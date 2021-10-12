@@ -10,7 +10,7 @@
         <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
                 <name>Type</name>
         </parameter>
-	<parameter type="constant" name="av.w" default="0.707" min="0.001" max="9999" decimals="3">
+	<parameter type="constant" name="av.w" default="707" min="100" max="99999" decimals="3">
                 <name>Filter-width</name>
         </parameter>
         <parameter type="list" name="av.p" default="2" paramlist="1;2">
@@ -22,7 +22,6 @@
         </parameter>
         <parameter type="bool" name="av.n" default="0">
                 <name>Normalize</name>
-        </parameter>
         </parameter>
         <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
         <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
