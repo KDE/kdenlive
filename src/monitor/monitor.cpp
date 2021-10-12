@@ -971,10 +971,9 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 for (auto screen : qApp->screens()) {
                     if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
                         // Match
-                        QRect screenRect = screen->availableGeometry();
                         m_glWidget->setParent(nullptr);
-                        m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
-                        m_glWidget->setGeometry(screenRect);
+                        m_glWidget->move(screen->geometry().topLeft());
+                        m_glWidget->resize(screen->geometry().size());
                         screenFound = true;
                         break;
                     }
@@ -983,11 +982,11 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             if (!screenFound) {
                 for (auto screen : qApp->screens()) {
                     // Autodetect second monitor
-                    QRect screenRect = screen->availableGeometry();
+                    QRect screenRect = screen->geometry();
                     if (!screenRect.contains(pCore->window()->geometry().center())) {
                         m_glWidget->setParent(nullptr);
-                        m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
-                        m_glWidget->setGeometry(screenRect);
+                        m_glWidget->move(screenRect.topLeft());
+                        m_glWidget->resize(screenRect.size());
                         break;
                     }
                 }
