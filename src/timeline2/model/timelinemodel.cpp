@@ -661,15 +661,15 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     if (old_trackId == trackId && !finalMove && !revertMove) {
         if (mixData.first.firstClipId > -1 && !moving_clips.contains(mixData.first.firstClipId)) {
             // Mix at clip start, don't allow moving left
-            if (position < getClipPosition(clipId)) {
+            if (position < (mixData.first.firstClipInOut.second - mixData.first.mixOffset))  {
                 qDebug()<<"==== ABORTING GROUP MOVE ON START MIX";
                 return false;
             }
         }
         if (mixData.second.firstClipId > -1 && !moving_clips.contains(mixData.second.secondClipId)) {
             // Mix at clip end, don't allow moving right
-            if (position > getClipPosition(clipId)) {
-                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX";
+            if (position + getClipPlaytime(clipId) > mixData.second.secondClipInOut.first) {
+                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX: "<<position<<" > "<<mixData.second.firstClipInOut.first;
                 return false;
             }
         }
