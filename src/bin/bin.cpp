@@ -663,6 +663,11 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
                         }
                         m_lastHoveredItem = index;
                     }
+                } else {
+                    if (m_lastHoveredItem.isValid()) {
+                        emit displayBinFrame(m_lastHoveredItem, -1);
+                        m_lastHoveredItem = QModelIndex();
+                    }
                 }
                 pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
             } else {
