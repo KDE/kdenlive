@@ -234,6 +234,7 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     int m_loopIn;
+    int m_loopOut;
     QPoint m_offset;
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;

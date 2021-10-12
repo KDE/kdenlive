@@ -1404,7 +1404,7 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitor(bool directUpdate)
 {
-    if (!m_glMonitor->isReady()) {
+    if (!m_glMonitor->isReady() || isPlaying()) {
         return;
     }
     if (isActive()) {

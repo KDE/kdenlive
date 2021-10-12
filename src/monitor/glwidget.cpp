@@ -701,9 +701,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
-    int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
-        if (isPlaying && pos >= maxPos) {
+        if (isPlaying && pos >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
                 return false;
@@ -716,8 +715,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        maxPos -= offset;
-        if (pos >= (maxPos - 1) && !(speed < 0.)) {
+        int maxPos = m_producer->get_length() - 1 - offset;
+        if (pos > maxPos - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
@@ -1682,7 +1681,7 @@ bool GLWidget::playZone(bool loop)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", m_proxy->zoneOut());
+    m_loopOut = m_proxy->zoneOut();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1720,7 +1719,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", inOut.y());
+    m_loopOut = inOut.y();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1735,8 +1734,8 @@ void GLWidget::resetZoneMode()
     if (!m_isZoneMode && !m_isLoopMode) {
         return;
     }
-    m_producer->set("out", m_producer->get_length());
     m_loopIn = 0;
+    m_loopOut = 0;
     m_isZoneMode = false;
     m_isLoopMode = false;
 }
