@@ -1127,10 +1127,13 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
     QCheckBox *b = nullptr;
-    if (m_id == Kdenlive::ClipMonitor) {
-        b = new QCheckBox(i18n("Export image using source resolution"), dlg.data());
-        b->setChecked(KdenliveSettings::exportframe_usingsourceres());
-        fileWidget->setCustomWidget(b);
+    if (m_id == Kdenlive::ClipMonitor && m_controller && m_controller->clipType() != ClipType::Text) {
+        QSize fSize = m_controller->getFrameSize();
+        if (fSize != pCore->getCurrentFrameSize()) {
+            b = new QCheckBox(i18n("Export image using source resolution"), dlg.data());
+            b->setChecked(KdenliveSettings::exportframe_usingsourceres());
+            fileWidget->setCustomWidget(b);
+        }
     }
     fileWidget->setConfirmOverwrite(true);
     fileWidget->okButton()->show();
