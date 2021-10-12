@@ -1645,8 +1645,10 @@ void Bin::slotReplaceClip()
                 QMap <QString, QString> sourceProps;
                 QMap <QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
+                sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
                 newProps.insert(QStringLiteral("resource"), fileName);
+                newProps.insert(QStringLiteral("kdenlive:originalurl"), fileName);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(fileName).fileName());
                 // Check if replacement clip is long enough
                 if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {

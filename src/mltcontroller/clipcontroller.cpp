@@ -338,7 +338,6 @@ QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &pr
 void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::updateProducer";
-    // TODO replace all track producers
     if (!m_properties) {
         // producer has not been initialized
         return addMasterProducer(producer);
@@ -371,6 +370,9 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
         emitProducerChanged(m_controllerBinId, producer);
+        if (m_clipType == ClipType::Unknown) {
+            getInfoForProducer();
+        }
         // URL and name should not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
