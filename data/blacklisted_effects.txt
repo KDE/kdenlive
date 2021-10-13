@@ -78,6 +78,20 @@ loudness_meter
 sox_pitch
 sox_reverb
 
+# NOT WORKING AUDIO MLT LADSPA
+ladspa
+vinyl
+declipper
+equalizer
+limiter
+phaser
+equalizer_15
+pitch_scale
+rate_scale
+reverb
+room_reverb
+pitch_shift
+
 
 # CRASHING AVFILTERS (WOULD REQUIRE AN XML FILE TO CORRECTLY DEFINE PARAMETERS)
 avfilter.acompressor
