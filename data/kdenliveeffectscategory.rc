@@ -94,6 +94,10 @@
 <group list="rbpitch,sox_stretch,rboctaveshift"><text>Pitch and Time</text>
 </group>
 
+<group list="ladspa.1767,ladspa.1771,ladspa.1772,ladspa.1773,ladspa.1779,ladspa.1788,ladspa.1795,ladspa.2586,ladspa.2588,ladspa.2589,ladspa.2592,ladspa.2593,ladspa.2594,ladspa.2595,ladspa.2598,ladspa.2601,ladspa.2602,ladspa.2603,ladspa.2606,ladspa.2607,ladspa.2608,ladspa.2609">
+<text>CAPS Plugins</text>
+</group>
+
  <group list="ladspa.2141,ladspa.2142,ladspa.2143,ladspa.2144,ladspa.2145,ladspa.2146,ladspa.2147,ladspa.2148,ladspa.2149,ladspa.2150,ladspa.2151,ladspa.2152,ladspa.2153,ladspa.2154,ladspa.2155,ladspa.2156,ladspa.2157,ladspa.2158,ladspa.2159">
 <text>TAP Plugins</text>
 </group>
