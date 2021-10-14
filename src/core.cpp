@@ -516,6 +516,20 @@ const QSize Core::getCompositionSizeOnTrack(const ObjectId &id)
     return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionSizeOnTrack(id);
 }
 
+QPair <int,QString> Core::currentTrackInfo() const
+{
+    if (m_mainWindow->getCurrentTimeline()->controller()) {
+        int tid = m_mainWindow->getCurrentTimeline()->controller()->activeTrack();
+        if (tid >= 0) {
+            return {m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackMltIndex(tid), m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackTagById(tid)};
+        }
+        if (tid == -2) {
+            return {-2, i18n("Subtitles")};
+        }
+    }
+    return {-1,QString()};
+}
+
 int Core::getItemPosition(const ObjectId &id)
 {
     if (!m_guiConstructed) return 0;

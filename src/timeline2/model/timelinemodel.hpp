@@ -753,6 +753,8 @@ public:
     std::shared_ptr<SubtitleModel> getSubtitleModel();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
+    /** @brief Get a track tag (A1, V1, V2,...) through its id */
+    const QString getTrackTagById(int trackId) const;
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -826,8 +828,6 @@ protected:
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();
-    /** @brief Get a track tag (A1, V1, V2,...) through its id */
-    const QString getTrackTagById(int trackId) const;
 
     /** @brief Attempt to make a clip move without ever updating the view */
     bool requestClipMoveAttempt(int clipId, int trackId, int position);

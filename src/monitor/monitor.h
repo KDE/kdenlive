@@ -336,6 +336,7 @@ public slots:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
+    void seekTimeline(const QString frameAndTrack);
 
 signals:
     void screenChanged(int screenIndex);
@@ -370,7 +371,7 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
-    void activateTrack(int);
+    void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
 };
 

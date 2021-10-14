@@ -152,7 +152,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
-    connect(m_qmlManager, &QmlManager::activateTrack, this, &Monitor::activateTrack);
+    connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) {
+        activateTrack(ix, false);
+    });
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -2641,4 +2643,22 @@ void Monitor::focusTimecode()
 {
     m_timePos->setFocus();
     m_timePos->selectAll();
+}
+
+void Monitor::seekTimeline(const QString frameAndTrack)
+{
+    int frame;
+    if (frameAndTrack.contains(QLatin1Char('?'))) {
+        // Track and timecode info
+        frame = frameAndTrack.section(QLatin1Char('?'), 0, 0).toInt();
+        int track = frameAndTrack.section(QLatin1Char('?'), 1, 1).toInt();
+        // Track uses MLT index, so remove 1 to discard black background track
+        if (track > 0) {
+            track--;
+        }
+        emit activateTrack(track, true);
+    } else {
+        frame = frameAndTrack.toInt();
+    }
+    requestSeek(frame);
 }

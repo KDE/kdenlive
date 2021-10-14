@@ -44,7 +44,7 @@ private:
 signals:
     void insertNotesTimecode();
     void insertTextNote(const QString &text);
-    void seekProject(int);
+    void seekProject(const QString);
     void reAssign(QStringList anchors, QList <QPoint> points);
 };
 

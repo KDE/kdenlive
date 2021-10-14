@@ -31,7 +31,6 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     container->setLayout(lay);
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
     connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
-
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
     m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
@@ -42,8 +41,8 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
 
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
-    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
+    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, Qt::UniqueConnection);
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
@@ -77,7 +76,13 @@ void NotesPlugin::slotInsertTimecode()
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
-        m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
+        QPair <int,QString>currentTrackInfo = pCore->currentTrackInfo();
+        if (currentTrackInfo.first != -1) {
+            // Insert timeline position with track reference
+            m_widget->insertHtml(QString("<a href=\"%1?%2\">%3 %4</a> ").arg(QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
+        } else {
+            m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
+        }
     }
 }
 
