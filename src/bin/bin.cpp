@@ -4579,6 +4579,12 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
 
 bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName)
 {
+    // Check if the clip is already inserted in the project, if yes exit
+    QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
+    if (!existingIds.isEmpty()) {
+        //selectClipById(existingIds.first());
+        return true;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Check if folder exists
