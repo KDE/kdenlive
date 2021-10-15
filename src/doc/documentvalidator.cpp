@@ -2218,10 +2218,10 @@ bool DocumentValidator::checkMovit()
     bool hasWB = EffectsRepository::get()->exists(QStringLiteral("frei0r.colgate"));
     bool hasBlur = EffectsRepository::get()->exists(QStringLiteral("frei0r.IIRblur"));
     QString compositeTrans;
-    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
-        compositeTrans = QStringLiteral("qtblend");
-    } else if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
+    if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
         compositeTrans = QStringLiteral("frei0r.cairoblend");
+    } else if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
+        compositeTrans = QStringLiteral("qtblend");
     }
 
     // Parse all effects in document
