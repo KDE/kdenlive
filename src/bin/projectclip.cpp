@@ -1235,16 +1235,17 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
             updateRoles << TimelineModel::ResourceRole;
-        } else if (!properties.contains("kdenlive:proxy")) {
+        } else if (properties.contains("_fullreload")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
             // Enforce reloading clip type in case of clip replacement
             m_service.clear();
             m_clipType = ClipType::Unknown;
+            clearBackupProperties();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
     }
-    if (properties.contains(QStringLiteral("kdenlive:proxy"))) {
+    if (properties.contains(QStringLiteral("kdenlive:proxy")) && !properties.contains("_fullreload")) {
         QString value = properties.value(QStringLiteral("kdenlive:proxy"));
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
@@ -2119,7 +2120,7 @@ void ProjectClip::setInvalid()
 
 void ProjectClip::updateProxyProducer(const QString &path)
 {
-    setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
+    resetProducerProperty(QStringLiteral("_overwriteproxy"));
     setProducerProperty(QStringLiteral("resource"), path);
     reloadProducer(false, true);
 }
