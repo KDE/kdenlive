@@ -34,6 +34,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     setWindowTitle(i18n("Stabilize Clip"));
     auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_binIds.size()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
+    auto_folder->setChecked(KdenliveSettings::add_new_clip_to_folder());
 
     // QString stylesheet = EffectStackView2::getStyleSheet();
     // setStyleSheet(stylesheet);
@@ -83,6 +84,7 @@ ClipStabilize::~ClipStabilize()
         m_stabilizeProcess.close();
     }*/
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
+    KdenliveSettings::setAdd_new_clip_to_folder(auto_folder->isChecked());
 }
 
 std::unordered_map<QString, QVariant> ClipStabilize::filterParams() const
@@ -118,6 +120,11 @@ QString ClipStabilize::desc() const
 bool ClipStabilize::autoAddClip() const
 {
     return auto_add->isChecked();
+}
+
+bool ClipStabilize::addClipInFolder() const
+{
+    return auto_folder->isChecked();
 }
 
 void ClipStabilize::slotValidate()

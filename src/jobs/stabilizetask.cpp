@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, bool autoAddClip, std::unordered_map<QString, QVariant> filterParams, QObject* object)
+StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool,bool> autoAddClip, std::unordered_map<QString, QVariant> filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::STABILIZEJOB, object)
     , m_binId(binId)
     , m_inPoint(in)
@@ -57,6 +57,8 @@ void StabilizeTask::start(QObject* object, bool force)
         }
         // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
         // destination). We have to construct a lambda that does that.
+        bool autoAdd = d->autoAddClip();
+        bool addToFolder = d->addClipInFolder();
         for (auto & id : binIds) {
             StabilizeTask* task = nullptr;
             ObjectId owner;
@@ -70,14 +72,14 @@ void StabilizeTask::start(QObject* object, bool force)
                 owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
                 if (binClip) {
-                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), d->autoAddClip(), filterParams, binClip.get());
+                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), {autoAdd,addToFolder}, filterParams, binClip.get());
                 }
             } else {
                 // Process full clip
                 owner = ObjectId(ObjectType::BinClip, id.toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(id);
                 if (binClip) {
-                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, d->autoAddClip(), filterParams, binClip.get());
+                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, {autoAdd,addToFolder}, filterParams, binClip.get());
                 }
             }
             if (task) {
@@ -180,8 +182,8 @@ void StabilizeTask::run()
         }
         return;
     }
-    if (m_addToProject) {
-        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,i18n("Stabilized")));
+    if (m_addToProject.first) {
+        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,m_addToProject.second ? i18n("Stabilized") : QString()));
     }
 }
 

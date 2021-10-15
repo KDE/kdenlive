@@ -1120,7 +1120,12 @@
     </entry>
 
     <entry name="add_new_clip" type="Bool">
-      <label>Add cut clips to project after transcoding.</label>
+      <label>Add task clips to project after processing.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="add_new_clip_to_folder" type="Bool">
+      <label>Add task clips in a specific folder after processing.</label>
       <default>true</default>
     </entry>
 

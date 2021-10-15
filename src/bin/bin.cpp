@@ -4600,18 +4600,23 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     if (!baseFolder) {
         baseFolder = m_itemModel->getRootFolder();
     }
-    for (int i = 0; i < baseFolder->childCount(); ++i) {
-        auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
-        if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
-            found = true;
-            folderId = currentItem->clipId();
-            break;
+    if (folderName.isEmpty()) {
+        // Put clip in parentFolder
+        folderId = baseFolder->clipId();
+    } else {
+        for (int i = 0; i < baseFolder->childCount(); ++i) {
+            auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
+            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
+                found = true;
+                folderId = currentItem->clipId();
+                break;
+            }
         }
-    }
 
-    if (!found) {
-        // if it was not found, create folder
-        m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+        if (!found) {
+            // if it was not found, create folder
+            m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+        }
     }
     auto id = ClipCreator::createClipFromFile(path, folderId, m_itemModel, undo, redo);
     bool ok = (id != QStringLiteral("-1"));
