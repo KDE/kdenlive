@@ -597,6 +597,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
             if (!skipProducer && getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize()) {
                 clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
+        } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
+                getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
+            clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
         }
         if (!clipList.isEmpty()) {
             generateProxy = true;
