@@ -2895,6 +2895,24 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     return size;
 }
 
+bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
+{
+    if (pos >= getTrackById_const(tid)->trackDuration() - 1) {
+        return true;
+    }
+    return getTrackById_const(tid)->isBlankAt(pos, playlist);
+}
+
+int TimelineModel::getClipStartAt(int tid, int pos, int playlist) const
+{
+    return getTrackById_const(tid)->getClipStart(pos, playlist);
+}
+
+int TimelineModel::getClipEndAt(int tid, int pos, int playlist) const
+{
+    return getTrackById_const(tid)->getClipEnd(pos, playlist);
+}
+
 int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int snapDistance)
 {
     Q_ASSERT(isClip(itemId));

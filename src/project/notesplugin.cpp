@@ -58,6 +58,7 @@ void NotesPlugin::setProject(KdenliveDoc *document)
 void NotesPlugin::showDock()
 {
     m_notesDock->show();
+    m_notesDock->raise();
 }
 
 void NotesPlugin::slotInsertTimecode()

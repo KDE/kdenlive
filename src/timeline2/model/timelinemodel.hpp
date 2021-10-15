@@ -755,6 +755,11 @@ public:
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
     const QString getTrackTagById(int trackId) const;
+    /** @brief returns true if track is empty at position on playlist */
+    bool trackIsBlankAt(int tid, int pos, int playlist) const;
+    /** @brief returns the position of the clip start on a playlist */
+    int getClipStartAt(int tid, int pos, int playlist) const;
+    int getClipEndAt(int tid, int pos, int playlist) const;
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel

@@ -1165,6 +1165,33 @@ int TrackModel::getBlankStart(int position)
     return result;
 }
 
+int TrackModel::getClipStart(int position, int track)
+{
+    if (track == -1) {
+        return getBlankStart(position);
+    }
+    READ_LOCK();
+    if (m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    return m_playlists[track].clip_start(clip_index);
+}
+
+int TrackModel::getClipEnd(int position, int track)
+{
+    if (track == -1) {
+        return getBlankStart(position);
+    }
+    READ_LOCK();
+    if (m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    clip_index++;
+    return m_playlists[track].clip_start(clip_index);
+}
+
 int TrackModel::getBlankStart(int position, int track)
 {
     if (track == -1) {
