@@ -346,7 +346,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("In: Request for " + newDuration)
-                    new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
+                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, false);
                     timeline.ripplePosChanged(new_duration, false);
                     console.log("In: Fake Resize to " + new_duration)
@@ -416,7 +416,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("Out: Request for " + newDuration)
-                    new_duration = controller.requestFakeItemResize(clip.clipId, newDuration, true, root.snapping, shiftTrim)
+                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, true);
                     timeline.ripplePosChanged(new_duration, true);
                     console.log("Out: Fake Resize to " + new_duration)
