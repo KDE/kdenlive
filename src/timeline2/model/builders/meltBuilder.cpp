@@ -359,7 +359,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         m_notesLog << i18n("%1 Timeline clip (%2) with incorrect bin reference found and recovered.", tcInfo, clip->parent().get("id"));
                         m_errorMessage << i18n("Invalid clip %1 (%2) not found in project bin, recovered.", clip->parent().get("id"), clipId);
                     } else {
-                        m_notesLog << i18n("%1 Timeline clip (%2) without bin refrence found and removed.", tcInfo, clip->parent().get("id"));
+                        m_notesLog << i18n("%1 Timeline clip (%2) without bin reference found and removed.", tcInfo, clip->parent().get("id"));
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
                         // Do not try to insert clip
                         continue;

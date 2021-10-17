@@ -26,6 +26,8 @@ public:
     ~ClipStabilize() override;
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
+    /** @brief Should the generated clip be moved in a specific folder. */
+    bool addClipInFolder() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
     std::unordered_map<QString, QVariant> filterParams() const;
     /** @brief Return the destination file or folder. */

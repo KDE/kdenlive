@@ -6,18 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>349</width>
-    <height>160</height>
+    <width>324</width>
+    <height>198</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="4">
-    <widget class="QLabel" name="label_3">
+   <item row="6" column="1" colspan="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="4">
+    <widget class="QCheckBox" name="auto_add">
      <property name="text">
-      <string>Options</string>
+      <string>Add clip to project</string>
      </property>
     </widget>
    </item>
@@ -28,12 +41,25 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4">
-    <widget class="QCheckBox" name="auto_add">
+   <item row="1" column="0" colspan="4">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Add clip to project</string>
+      <string>Options</string>
      </property>
     </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="KUrlRequester" name="dest_url"/>
    </item>
    <item row="3" column="0">
     <spacer name="verticalSpacer">
@@ -48,19 +74,6 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="2" colspan="2">
-    <widget class="KUrlRequester" name="dest_url"/>
-   </item>
-   <item row="5" column="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0" colspan="4">
     <widget class="QWidget" name="optionsbox" native="true">
      <property name="sizePolicy">
@@ -71,7 +84,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QToolButton" name="preset_button">
      <property name="text">
       <string>...</string>
@@ -81,25 +94,22 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="5" column="0" colspan="4">
+    <widget class="QCheckBox" name="auto_folder">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
+     <property name="text">
+      <string>Put clip in &quot;Stabilized&quot; folder</string>
      </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>
@@ -119,6 +129,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>auto_add</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>auto_folder</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>161</x>
+     <y>143</y>
     </hint>
    </hints>
   </connection>

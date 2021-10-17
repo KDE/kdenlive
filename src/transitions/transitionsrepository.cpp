@@ -158,11 +158,11 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
-    if (exists(QStringLiteral("qtblend"))) {
-        return QStringLiteral("qtblend");
-    }
     if (exists(QStringLiteral("frei0r.cairoblend"))) {
         return QStringLiteral("frei0r.cairoblend");
+    }
+    if (exists(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
     }
     if (exists(QStringLiteral("composite"))) {
         return QStringLiteral("composite");
