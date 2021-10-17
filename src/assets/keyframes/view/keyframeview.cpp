@@ -416,6 +416,12 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                         return;
                     }
                 }
+                if (delta > 0) {
+                    // Sort kfrs in revert order to prevent conflicts
+                    std::sort(m_selectedKeyframes.rbegin(), m_selectedKeyframes.rend());
+                } else {
+                    std::sort(m_selectedKeyframes.begin(), m_selectedKeyframes.end());
+                }
                 for (int kf : qAsConst(m_selectedKeyframes)) {
                     if (kf == 0) {
                         // Don't allow moving first keyframe
@@ -427,6 +433,9 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                         if (kf == m_currentKeyframe) {
                            m_currentKeyframe = pos;
                         }
+                    } else {
+                        qDebug()<<"=== FAILED KF MOVE!!!";
+                        Q_ASSERT(false);
                     }
                 }
                 for (int &kf : m_selectedKeyframes) {
