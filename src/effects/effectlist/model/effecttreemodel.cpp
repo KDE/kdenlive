@@ -243,6 +243,7 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();
@@ -256,6 +257,7 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();

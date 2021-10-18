@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.acontrast" id="avfilter.acontrast" type="audio">
+	<name>Simple Compressor/Expander</name>
+	<description>Simple audio dynamic range compression/expansion filter.</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.contrast" max="100" min="0" default="33" decimals="3">
+		<name>Contrast</name>
+	</parameter>
+</effect>

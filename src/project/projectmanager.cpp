@@ -103,7 +103,6 @@ void ProjectManager::slotLoadOnOpen()
     } else {
         newFile(false);
     }
-
     if (!m_loadClipsOnOpen.isEmpty() && (m_project != nullptr)) {
         const QStringList list = m_loadClipsOnOpen.split(QLatin1Char(','));
         QList<QUrl> urls;
@@ -117,6 +116,9 @@ void ProjectManager::slotLoadOnOpen()
     m_loadClipsOnOpen.clear();
     m_loading = false;
     emit pCore->closeSplash();
+    // Release startup crash lock file
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -614,7 +616,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
     doc->loadDocumentGuides();
-
     if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt())) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
@@ -776,7 +777,6 @@ QString ProjectManager::documentNotes() const
 void ProjectManager::slotAddProjectNote()
 {
     m_notesPlugin->showDock();
-    m_notesPlugin->widget()->raise();
     m_notesPlugin->widget()->setFocus();
     m_notesPlugin->widget()->addProjectNote();
 }
@@ -784,7 +784,6 @@ void ProjectManager::slotAddProjectNote()
 void ProjectManager::slotAddTextNote(const QString &text)
 {
     m_notesPlugin->showDock();
-    m_notesPlugin->widget()->raise();
     m_notesPlugin->widget()->setFocus();
     m_notesPlugin->widget()->addTextNote(text);
 }
@@ -930,9 +929,8 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-bool ProjectManager::updateTimeline(int pos, int scrollPos)
+bool ProjectManager::updateTimeline(int pos)
 {
-    Q_UNUSED(scrollPos);
     pCore->taskManager.slotCancelJobs();
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
@@ -961,7 +959,8 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+    bool projectErrors = false;
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), &projectErrors)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
@@ -997,7 +996,11 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
 
     // Reset locale to C to ensure numbers are serialised correctly
     LocaleHandling::resetLocale();
-
+    if (projectErrors) {
+        m_notesPlugin->showDock();
+        m_notesPlugin->widget()->raise();
+        m_notesPlugin->widget()->setFocus();
+    }
     return true;
 }
 
@@ -1171,6 +1174,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));

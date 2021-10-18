@@ -306,9 +306,9 @@ void GLWidget::createYUVTextureProjectFragmentProg()
                                       "varying highp vec2 coordinates;"
                                       "void main(void) {"
                                       "  mediump vec3 texel;"
-                                      "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
-                                      "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
-                                      "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
+                                      "  texel.r = texture2D(Ytex, coordinates).r - 16.0/255.0;" // Y
+                                      "  texel.g = texture2D(Utex, coordinates).r - 128.0/255.0;"    // U
+                                      "  texel.b = texture2D(Vtex, coordinates).r - 128.0/255.0;"    // V
                                       "  mediump mat3 coefficients;"
                                       "  if (colorspace == 601) {"
                                       "    coefficients = mat3("
@@ -576,6 +576,11 @@ void GLWidget::paintGL()
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
+        if (!qFuzzyCompare(m_zoom, 1.0f)) {
+            // Disable monitor zoom to render frame
+            modelView = QMatrix4x4();
+            m_shader->setUniformValue(m_modelViewLocation, modelView);
+        }
         if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
@@ -688,9 +693,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
-    int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
-        if (isPlaying && pos >= maxPos) {
+        if (isPlaying && pos >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
                 return false;
@@ -703,8 +707,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        maxPos -= offset;
-        if (pos >= (maxPos - 1) && !(speed < 0.)) {
+        int maxPos = m_producer->get_length() - 1 - offset;
+        if (pos > maxPos - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
@@ -1189,8 +1193,9 @@ int GLWidget::reconfigure()
                 m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
             }
         }
-        /*if (!pCore->getCurrentProfile()->progressive())
-            m_consumer->set("progressive", property("progressive").toBool());*/
+        if (!pCore->getProjectProfile()->progressive()) {
+            m_consumer->set("progressive", KdenliveSettings::monitor_progressive());
+        }
         m_consumer->set("volume", volume / 100.0);
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
@@ -1671,7 +1676,7 @@ bool GLWidget::playZone(bool loop)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", m_proxy->zoneOut());
+    m_loopOut = m_proxy->zoneOut();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1709,7 +1714,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", inOut.y());
+    m_loopOut = inOut.y();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1724,8 +1729,8 @@ void GLWidget::resetZoneMode()
     if (!m_isZoneMode && !m_isLoopMode) {
         return;
     }
-    m_producer->set("out", m_producer->get_length());
     m_loopIn = 0;
+    m_loopOut = 0;
     m_isZoneMode = false;
     m_isLoopMode = false;
 }

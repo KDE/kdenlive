@@ -361,8 +361,11 @@ public:
     int getFrame(QModelIndex index, int mouseX)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)) {
             return 0;
+        }
+        if (mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+            return -1;
         }
         return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
     }
@@ -564,20 +567,34 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        QAbstractItemDelegate *del = itemDelegate(index);
         if (KdenliveSettings::hoverPreview()) {
+            QAbstractItemDelegate *del = itemDelegate(index);
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
-                int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
-                emit displayBinFrame(index, frame);
+                if (vRect.contains(event->pos())) {
+                    int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
+                    emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
+                }
             } else {
                 qDebug()<<"<<< NO DELEGATE!!!";
             }
+            if (m_lastHoveredItem != index) {
+                if (m_lastHoveredItem.isValid()) {
+                    emit displayBinFrame(m_lastHoveredItem, -1);
+                }
+                m_lastHoveredItem = index;
+            }
+            pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+        } else {
+            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
         }
-        pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
     } else {
         pCore->window()->showKeyBinding();
+        if (m_lastHoveredItem.isValid()) {
+            emit displayBinFrame(m_lastHoveredItem, -1);
+            m_lastHoveredItem = QModelIndex();
+        }
     }
     QListView::mouseMoveEvent(event);
 }
@@ -638,10 +655,29 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
             if (KdenliveSettings::hoverPreview()) {
                 QAbstractItemDelegate *del = itemDelegate(index);
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
-                emit displayBinFrame(index, frame);
+                if (frame >= 0) {
+                    emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
+                    if (m_lastHoveredItem != index) {
+                        if (m_lastHoveredItem.isValid()) {
+                            emit displayBinFrame(m_lastHoveredItem, -1);
+                        }
+                        m_lastHoveredItem = index;
+                    }
+                } else {
+                    if (m_lastHoveredItem.isValid()) {
+                        emit displayBinFrame(m_lastHoveredItem, -1);
+                        m_lastHoveredItem = QModelIndex();
+                    }
+                }
+                pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+            } else {
+                pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
             }
-            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
         } else {
+            if (m_lastHoveredItem.isValid()) {
+                emit displayBinFrame(m_lastHoveredItem, -1);
+                m_lastHoveredItem = QModelIndex();
+            }
             pCore->window()->showKeyBinding();
         }
     }
@@ -1556,6 +1592,7 @@ void Bin::slotReloadClip()
                             KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                         } else {
                             QTextStream out(&f);
+                            out.setCodec("UTF-8");
                             out << doc.toString();
                             f.close();
                             KMessageBox::information(
@@ -1594,9 +1631,15 @@ void Bin::slotReplaceClip()
                 QMap <QString, QString> sourceProps;
                 QMap <QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
+                sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
+                sourceProps.insert(QStringLiteral("kdenlive:proxy"), currentItem->getProducerProperty(QStringLiteral("kdenlive:proxy")));
+                sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 newProps.insert(QStringLiteral("resource"), fileName);
+                newProps.insert(QStringLiteral("kdenlive:originalurl"), fileName);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(fileName).fileName());
+                newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 // Check if replacement clip is long enough
                 if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
                     // Clip is used in timeline, make sure length is similar
@@ -1859,6 +1902,7 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
+                    out.setCodec("UTF-8");
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(
@@ -3884,7 +3928,7 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     if (!clip) {
         return;
     }
-    clip->reloadProducer(true);
+    ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, QDomElement(), true, -1, -1, this);
 }
 
 void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData, QUndoCommand *groupCommand)
@@ -4266,7 +4310,7 @@ void Bin::adjustProjectProfileToItem()
     }
 }
 
-void Bin::showBinFrame(QModelIndex ix, int frame)
+void Bin::showBinFrame(QModelIndex ix, int frame, bool storeFrame)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (item) {
@@ -4277,7 +4321,7 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Playlist)) {
-                clip->getThumbFromPercent(frame);
+                clip->getThumbFromPercent(frame, storeFrame);
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
             auto clip = std::static_pointer_cast<ProjectSubClip>(item);
@@ -4539,6 +4583,12 @@ void Bin::requestTranscoding(const QString &url, const QString &id)
 
 bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName)
 {
+    // Check if the clip is already inserted in the project, if yes exit
+    QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
+    if (!existingIds.isEmpty()) {
+        //selectClipById(existingIds.first());
+        return true;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Check if folder exists
@@ -4550,18 +4600,23 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     if (!baseFolder) {
         baseFolder = m_itemModel->getRootFolder();
     }
-    for (int i = 0; i < baseFolder->childCount(); ++i) {
-        auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
-        if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
-            found = true;
-            folderId = currentItem->clipId();
-            break;
+    if (folderName.isEmpty()) {
+        // Put clip in parentFolder
+        folderId = baseFolder->clipId();
+    } else {
+        for (int i = 0; i < baseFolder->childCount(); ++i) {
+            auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
+            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
+                found = true;
+                folderId = currentItem->clipId();
+                break;
+            }
         }
-    }
 
-    if (!found) {
-        // if it was not found, create folder
-        m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+        if (!found) {
+            // if it was not found, create folder
+            m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+        }
     }
     auto id = ClipCreator::createClipFromFile(path, folderId, m_itemModel, undo, redo);
     bool ok = (id != QStringLiteral("-1"));
@@ -4571,40 +4626,3 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     return ok;
 }
 
-void Bin::remapCurrent()
-{
-    std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
-    if (clip) {
-        QFileInfo info(clip->url());
-        QDir dir =info.absoluteDir();
-        QString fName = info.fileName().section(QLatin1Char('.'),0, -2);
-        fName.append("-remap");
-        int ix = 1;
-        QString renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
-        while (dir.exists(renderName)) {
-            ix++;
-            renderName = QString("%1%2.mlt").arg(fName, QString::number(ix).rightJustified(4, '0'));
-        }
-        Mlt::Consumer consumer(pCore->getCurrentProfile()->profile(), "xml", dir.absoluteFilePath(renderName).toUtf8().constData());
-        consumer.set("terminate_on_pause", 1);
-        consumer.set("title", "Time remap");
-        consumer.set("real_time", -1);
-        Mlt::Tractor t(pCore->getCurrentProfile()->profile());
-        Mlt::Chain chain(pCore->getCurrentProfile()->profile(), nullptr, clip->url().toUtf8().constData());
-        Mlt::Link link("timeremap");
-        chain.attach(link);
-        t.set_track(chain, 0);
-        consumer.connect(t);
-        consumer.run();
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-
-        std::function<void(const QString &)> callBack = [this](const QString &binId) {
-            selectClipById(binId);
-        };
-
-        auto id = ClipCreator::createClipFromFile(dir.absoluteFilePath(renderName), getCurrentFolder(), pCore->projectItemModel(), undo, redo, callBack);
-        pCore->pushUndo(undo, redo, i18n("Add clip remap"));
-
-    }
-}

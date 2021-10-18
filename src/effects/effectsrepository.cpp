@@ -112,7 +112,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         Info result;
         bool ok = parseInfoFromXml(currentEffect, result);
         if (!ok) {
-            qDebug()<<"==== PARSING ABORTED FOR: "<<file_name;
             continue;
         }
 
@@ -369,6 +368,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
         }
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();

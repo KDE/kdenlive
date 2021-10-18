@@ -202,7 +202,7 @@ public:
     void updateZones();
     /** @brief Display Bin thumbnail given a percent
      */
-    void getThumbFromPercent(int percent);
+    void getThumbFromPercent(int percent, bool storeFrame = false);
     /** @brief Return audio cache for a stream
      */
     const QVector <uint8_t> audioFrameCache(int stream = -1);

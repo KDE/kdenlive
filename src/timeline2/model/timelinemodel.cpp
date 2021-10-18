@@ -617,18 +617,22 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 {
     Q_UNUSED(moveMirrorTracks)
     if (trackId == -1) {
+        qWarning() << "clip is not on a track";
         return false;
     }
     Q_ASSERT(isClip(clipId));
     if (m_allClips[clipId]->clipState() == PlaylistState::Disabled) {
         if (getTrackById_const(trackId)->trackType() == PlaylistState::AudioOnly && !m_allClips[clipId]->canBeAudio()) {
+            qWarning() << "clip type mismatch 1";
             return false;
         }
         if (getTrackById_const(trackId)->trackType() == PlaylistState::VideoOnly && !m_allClips[clipId]->canBeVideo()) {
+            qWarning() << "clip type mismatch 2";
             return false;
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
+        qWarning() << "clip type mismatch 3";
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -666,15 +670,15 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     if (old_trackId == trackId && !finalMove && !revertMove) {
         if (mixData.first.firstClipId > -1 && !moving_clips.contains(mixData.first.firstClipId)) {
             // Mix at clip start, don't allow moving left
-            if (position < getClipPosition(clipId)) {
+            if (position < (mixData.first.firstClipInOut.second - mixData.first.mixOffset))  {
                 qDebug()<<"==== ABORTING GROUP MOVE ON START MIX";
                 return false;
             }
         }
         if (mixData.second.firstClipId > -1 && !moving_clips.contains(mixData.second.secondClipId)) {
             // Mix at clip end, don't allow moving right
-            if (position > getClipPosition(clipId)) {
-                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX";
+            if (position + getClipPlaytime(clipId) > mixData.second.secondClipInOut.first) {
+                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX: "<<position<<" > "<<mixData.second.firstClipInOut.first;
                 return false;
             }
         }
@@ -682,7 +686,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
-
         bool mixGroupMove = false;
         if (mixData.first.firstClipId > 0) {
             allowedClipMixes << mixData.first.firstClipId;
@@ -805,6 +808,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
+            qWarning() << "clip deletion failed";
             return false;
         }
     }
@@ -2894,6 +2898,24 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         }
     }
     return size;
+}
+
+bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
+{
+    if (pos >= getTrackById_const(tid)->trackDuration() - 1) {
+        return true;
+    }
+    return getTrackById_const(tid)->isBlankAt(pos, playlist);
+}
+
+int TimelineModel::getClipStartAt(int tid, int pos, int playlist) const
+{
+    return getTrackById_const(tid)->getClipStart(pos, playlist);
+}
+
+int TimelineModel::getClipEndAt(int tid, int pos, int playlist) const
+{
+    return getTrackById_const(tid)->getClipEnd(pos, playlist);
 }
 
 int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int snapDistance)

@@ -3,6 +3,7 @@ INSTALL (FILES
 frei0r_alpha0ps.xml
 frei0r_alphagrad.xml
 frei0r_alphaspot.xml
+frei0r_B.xml
 frei0r_balanc0r.xml
 frei0r_baltan.xml
 frei0r_bezier_curves.xml
@@ -38,6 +39,7 @@ frei0r_equaliz0r.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
 frei0r_flippo.xml
+frei0r_G.xml
 frei0r_glitch0r.xml
 frei0r_glow.xml
 frei0r_hqdn3d.xml
@@ -57,6 +59,7 @@ frei0r_pixeliz0r.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_primaries.xml
+frei0r_R.xml
 frei0r_rgbnoise.xml
 frei0r_rgbparade.xml
 frei0r_rgbsplit0r.xml

@@ -196,12 +196,14 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         if (allowedClipMixes.isEmpty()) {
             if (!m_playlists[0].is_blank_at(position) || !m_playlists[1].is_blank_at(position)) {
                 // Track is not empty
+                qWarning() << "clip insert failed - non blank 1";
                 return []() { return false; };
             }
         } else {
             // This is a group move with a mix, some clips are allowed
             if (!m_playlists[target_playlist].is_blank_at(position)) {
                 // Track is not empty
+                qWarning() << "clip insert failed - non blank 2";
                 return []() { return false; };
             }
             // Check if there are clips on the other playlist, and if they are in the allowed list
@@ -210,6 +212,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             for (int c : collisions) {
                 if (!allowedClipMixes.contains(c)) {
                     // Track is not empty
+                    qWarning() << "clip insert failed - non blank 3";
                     return []() { return false; };
                 }
             }
@@ -218,7 +221,10 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (target_clip >= count && m_playlists[target_playlist].is_blank_at(position)) {
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function, finalMove, groupMove, target_playlist]() {
-            if (isLocked()) return false;
+            if (isLocked()) {
+                qWarning() << "clip insert failed - locked track";
+                return false;
+            }
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 m_playlists[target_playlist].lock();
@@ -1157,6 +1163,33 @@ int TrackModel::getBlankStart(int position)
         }
     }
     return result;
+}
+
+int TrackModel::getClipStart(int position, int track)
+{
+    if (track == -1) {
+        return getBlankStart(position);
+    }
+    READ_LOCK();
+    if (m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    return m_playlists[track].clip_start(clip_index);
+}
+
+int TrackModel::getClipEnd(int position, int track)
+{
+    if (track == -1) {
+        return getBlankStart(position);
+    }
+    READ_LOCK();
+    if (m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    clip_index++;
+    return m_playlists[track].clip_start(clip_index);
 }
 
 int TrackModel::getBlankStart(int position, int track)
@@ -2314,11 +2347,16 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
     if (cid1 < 0 || cid2 < 0) {
         qDebug()<<"INVALID CLIP MIX: "<<cid1<<" - "<<cid2;
-        QScopedPointer<Mlt::Field> field(m_track->field());
-        field->lock();
-        field->disconnect_service(*t);
-        field->unlock();
-        return false;
+        // Check if reverse setting was not correctly set
+        cid1 = getClipByPosition(in, reverse ? 0 : 1);
+        cid2 = getClipByPosition(out, reverse ? 1 : 0);
+        if (cid1 < 0 || cid2 < 0) {
+            QScopedPointer<Mlt::Field> field(m_track->field());
+            field->lock();
+            field->disconnect_service(*t);
+            field->unlock();
+            return false;
+        }
     }
     QString assetId(t->get("kdenlive_id"));
     if (assetId.isEmpty()) {

@@ -113,7 +113,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 val += out;
                 value = QString::number(val);
             }
-        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
+        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect || currentRow.type == ParamType::ColorWheel) {
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
@@ -218,7 +218,7 @@ void AssetParameterModel::prepareKeyframes()
     int ix = 0;
     for (const auto &name : qAsConst(m_rows)) {
         if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
-            m_params.at(name).type == ParamType::Roto_spline) {
+            m_params.at(name).type == ParamType::Roto_spline || m_params.at(name).type == ParamType::ColorWheel) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -234,7 +234,7 @@ QStringList AssetParameterModel::getKeyframableParameters() const
     QStringList paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect) {
+        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect || m_params.at(name).type == ParamType::ColorWheel) {
             //addKeyframeParam(index(ix, 0));
             paramNames << name;
         }
@@ -341,11 +341,13 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
             if (m_keyframes) {
+                // This is a fake query to force the animation to be parsed
+                (void)m_asset->anim_get_int(name.toLatin1().constData(), 0, -1);
                 KeyframeModel *km = m_keyframes->getKeyModel(paramIndex);
                 if (km) {
                     km->refresh();
                 } else {
-                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<paramIndex;
+                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<name<<", "<<paramIndex;
                 }
                 //m_keyframes->refresh();
             }
@@ -527,9 +529,14 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return values.join(QLatin1Char('\n'));
         }
         QString value(m_asset->get(paramName.toUtf8().constData()));
-        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
-                                                                                      : element.attribute(QStringLiteral("value")))
-                               : value;
+        if (value.isEmpty()) {
+            if (element.hasAttribute("default")) {
+                return parseAttribute(m_ownerId, QStringLiteral("default"), element);
+            } else {
+                value = element.attribute(QStringLiteral("value"));
+            }
+        }
+        return value;
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
@@ -705,8 +712,8 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     int width = profile->width();
     int height = profile->height();
-    if(type == ParamType::AnimatedRect && content == "adjustcenter") {
-        QSize frameSize = pCore->getItemFrameSize(owner);
+    QSize frameSize = pCore->getItemFrameSize(owner);
+    if(type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
         int contentHeight;
         int contentWidth;
         double sourceDar = frameSize.width() / frameSize.height();
@@ -873,7 +880,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     QString x, y, w, h;
     int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::Roto_spline) {
             continue;
         }
         QJsonObject currentParam;
@@ -976,7 +983,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::AnimatedRect) {
             continue;
         }
 
@@ -1205,7 +1212,8 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         m_ownerId.first = ObjectType::NoItem;
     }
     for (const auto &param : params) {
-        setParameter(param.first, param.second.toString(), false);
+        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        setParameter(param.first, param.second.toString(), false, ix);
     }
     if (m_keyframes) {
         m_keyframes->refresh();

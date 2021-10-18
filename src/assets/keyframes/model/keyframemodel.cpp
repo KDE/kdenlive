@@ -281,7 +281,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
     KeyframeType type = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     // Check if keyframe is different
-    if (m_paramType == ParamType::KeyframeParam) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
     auto operation = updateKeyframe_lambda(pos, type, value, update);
@@ -357,7 +357,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     KeyframeType newType = convertFromMltType(mlt_keyframe_type(type));
     QVariant value = m_keyframeList[pos].second;
     // Check if keyframe is different
-    if (m_paramType == ParamType::KeyframeParam) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (oldType == newType) return true;
     }
     auto operation = updateKeyframe_lambda(pos, newType, value, true);
@@ -945,12 +945,11 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     bool useOpacity = false;
     if (auto ptr = m_model.lock()) {
         ptr->passProperties(mlt_prop);
-        ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     }
-    if (m_paramType == ParamType::KeyframeParam) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (!animData.isEmpty()) {
             mlt_prop.set("key", animData.toUtf8().constData());
             // This is a fake query to force the animation to be parsed
@@ -1020,7 +1019,7 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline || m_paramType == ParamType::ColorWheel) {
             m_lastData = getAnimProperty();
             ptr->setParameter(name, m_lastData, false, m_index);
         } else {
@@ -1071,7 +1070,7 @@ void KeyframeModel::refresh()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
         parseAnimProperty(animData);
     } else if (m_paramType == ParamType::Roto_spline) {
         parseRotoProperty(animData);
@@ -1105,7 +1104,7 @@ void KeyframeModel::reset()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
         qDebug() << "parsing keyframe" << animData;
         resetAnimProperty(animData);
     } else if (m_paramType == ParamType::Roto_spline) {

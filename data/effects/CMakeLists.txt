@@ -9,6 +9,7 @@ audiowaveform.xml
 boxblur.xml
 brightness.xml
 channelcopy.xml
+copychannelstostereo.xml
 charcoal.xml
 chroma_hold.xml
 chroma.xml
@@ -41,19 +42,6 @@ mask_start_shape.xml
 mask_apply.xml
 mirror.xml
 mono.xml
-movit_blur.xml
-movit_deconvolution_sharpen.xml
-movit_diffusion.xml
-movit_flip.xml
-movit_glow.xml
-movit_lift_gamma_gain.xml
-movit_mirror.xml
-movit_opacity.xml
-movit_rect.xml
-movit_saturation.xml
-movit_unsharp_mask.xml
-movit_vignette.xml
-movit_white_balance.xml
 mute.xml
 normalise.xml
 obscure.xml
@@ -62,6 +50,8 @@ pan_zoom.xml
 pillar_echo.xml
 qtblend.xml
 qtcrop.xml
+rboctaveshift.xml
+rbpitchscale.xml
 region.xml
 rotation_keyframable.xml
 rotation.xml
@@ -69,13 +59,6 @@ rotoscoping.xml
 scratchlines.xml
 sepia.xml
 shape.xml
-sox_band.xml
-sox_bass.xml
-sox_echo.xml
-sox_flanger.xml
-sox_gain.xml
-sox_phaser.xml
-sox_stretch.xml
 speed.xml
 swapchannels.xml
 tcolor.xml
@@ -92,3 +75,6 @@ DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)
 add_subdirectory(update)
 add_subdirectory(avfilter)
 add_subdirectory(frei0r)
+add_subdirectory(ladspa)
+add_subdirectory(movit)
+add_subdirectory(sox)

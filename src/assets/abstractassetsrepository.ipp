@@ -335,7 +335,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
 
     if (!exists(tag)) {
-        qDebug() << "Unknown asset" << tag;
+        qDebug() << "plugin not available:" << tag;
         return false;
     }
 
@@ -343,6 +343,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     if (currentAsset.hasAttribute(QStringLiteral("version")) && !m_assets.at(tag).xml.isNull()) {
         // a specific version of the filter is required
         if (m_assets.at(tag).version < int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
+            qDebug() << "plugin version too low:" << tag;
             return false;
         }
     }

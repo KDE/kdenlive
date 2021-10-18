@@ -452,6 +452,16 @@
       <default>#535353</default>
     </entry>
 
+    <entry name="monitor_background" type="String">
+      <label>Background color for clip monitor (only visible with transparent clips).</label>
+      <default>black</default>
+    </entry>
+    
+    <entry name="monitor_progressive" type="Bool">
+      <label>Should we deinterlace monitor preview.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="volume" type="Int">
       <label>Volume used for SDL output.</label>
       <default>100</default>
@@ -474,6 +484,11 @@
     <entry name="blackmagic_output_device" type="Int">
       <label>Blackmagic video output device.</label>
       <default>0</default>
+    </entry>
+    
+    <entry name="fullscreen_monitor" type="String">
+      <label>Monitor used for fullscreen output.</label>
+      <default></default>
     </entry>
 </group>
 
@@ -1105,7 +1120,12 @@
     </entry>
 
     <entry name="add_new_clip" type="Bool">
-      <label>Add cut clips to project after transcoding.</label>
+      <label>Add task clips to project after processing.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="add_new_clip_to_folder" type="Bool">
+      <label>Add task clips in a specific folder after processing.</label>
       <default>true</default>
     </entry>
 

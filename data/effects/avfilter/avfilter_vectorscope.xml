@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.vectorscope" id="avfilter.vectorscope">
-	<name>Vectorscope</name>
+	<name>Vectorscope (Advanced)</name>
 	<description>Display 2 color component values in the two dimensional graph (which is called a vectorscope)</description>
 	<author>libavfilter</author>
     <parameter type="list" name="av.m" default="color3" paramlist="gray;color;color2;color3;color4;color5">

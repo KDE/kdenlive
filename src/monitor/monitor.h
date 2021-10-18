@@ -189,6 +189,7 @@ private:
     TimecodeDisplay *m_timePos;
     KDualAction *m_playAction;
     KSelectAction *m_forceSize;
+    KSelectAction *m_background;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_zoomVisibilityAction;
@@ -243,6 +244,7 @@ private slots:
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
+    void buildBackgroundedProducer(int pos);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
@@ -338,6 +340,7 @@ public slots:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
+    void seekTimeline(const QString frameAndTrack);
 
 signals:
     void screenChanged(int screenIndex);
@@ -372,7 +375,7 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
-    void activateTrack(int);
+    void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
 };
 

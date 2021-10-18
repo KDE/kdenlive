@@ -18,22 +18,17 @@ ecm_install_icons(ICONS
   16-actions-kdenlive-lock.png
   16-actions-kdenlive-menu.png
   16-actions-kdenlive-normal-edit.png
-  16-actions-kdenlive-object-height.png
-  16-actions-kdenlive-object-width.png
   16-actions-kdenlive-overwrite-edit.png
   16-actions-kdenlive-select-all.png
   16-actions-kdenlive-select-images.png
   16-actions-kdenlive-select-rects.png
   16-actions-kdenlive-select-texts.png
-  16-actions-kdenlive-select-tool.png
   16-actions-kdenlive-show-audio.png
   16-actions-kdenlive-show-audiothumb.png
   16-actions-kdenlive-show-markers.png
   16-actions-kdenlive-show-video.png
   16-actions-kdenlive-show-videothumb.png
   16-actions-kdenlive-snap.png
-  16-actions-kdenlive-spacer-tool.png
-  16-actions-kdenlive-split-audio.png
   16-actions-kdenlive-track_has_effect.png
   16-actions-kdenlive-unlock.png
   16-actions-kdenlive-unselect-all.png
@@ -59,7 +54,6 @@ ecm_install_icons(ICONS
   22-actions-keyframe-record.svg
   22-actions-keyframe-remove.svg
   22-actions-kdenlive-select-all.png
-  22-actions-kdenlive-spacer-tool.png
   32-actions-kdenlive-select-all.png
   32-mimetypes-application-x-kdenlivetitle.png
   48-actions-kdenlive-select-all.png
@@ -80,22 +74,13 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-align-right.svgz
   sc-actions-kdenlive-align-top.svgz
   sc-actions-kdenlive-align-vert.svgz
-  sc-actions-kdenlive-hide-audio-effects.svg
-  sc-actions-kdenlive-hide-video-effects.svg
   sc-actions-kdenlive-insert-rect.svgz
   sc-actions-kdenlive-insert-unicode.svgz
-  sc-actions-kdenlive-object-height.svgz
-  sc-actions-kdenlive-object-width.svgz
   sc-actions-kdenlive-select-all.svgz
   sc-actions-kdenlive-select-images.svgz
   sc-actions-kdenlive-select-rects.svgz
   sc-actions-kdenlive-select-texts.svgz
-  sc-actions-kdenlive-select-tool.svgz
   sc-actions-kdenlive-show-all-effects.svg
-  sc-actions-kdenlive-show-audio-effects.svg
-  sc-actions-kdenlive-show-gpu-effects.svg
-  sc-actions-kdenlive-show-video-effects.svg
-  sc-actions-kdenlive-spacer-tool.svgz
   sc-actions-kdenlive-unselect-all.svgz
   sc-actions-kdenlive-zindex-bottom.svgz
   sc-actions-kdenlive-zindex-down.svgz
@@ -103,8 +88,6 @@ ecm_install_icons(ICONS
   sc-actions-kdenlive-zindex-up.svgz
   sc-actions-kdenlive-zone-end.svgz
   sc-actions-kdenlive-zone-start.svgz
-  sc-actions-kdenlive-zoom-large.svgz
-  sc-actions-kdenlive-zoom-small.svgz
   sc-actions-add-subtitle.svg
   sc-mimetypes-application-x-kdenlive.svgz
   sc-mimetypes-application-x-kdenlivetitle.svgz

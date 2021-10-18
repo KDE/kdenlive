@@ -39,6 +39,7 @@ private:
     QStringList m_consumerArgs;
     QString m_errorMessage;
     QString m_logDetails;
+    bool m_addToFolder;
     std::unique_ptr<QProcess> m_jobProcess;
 };
 

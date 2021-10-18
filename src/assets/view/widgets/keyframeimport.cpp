@@ -151,6 +151,9 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             if(name.contains("Position X") || name.contains("Position Y") || name.contains("Size X") || name.contains("Size Y")) {
                 count++;
             }
+        } else if (type == ParamType::Roto_spline) {
+            m_simpleTargets.insert(i18n("Rotoscoping shape"), idx);
+            QString name(m_model->data(idx, AssetParameterModel::NameRole).toString());
         } else if (type == ParamType::AnimatedRect) {
             m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
         }
@@ -341,6 +344,10 @@ void KeyframeImport::updateDataDisplay()
         updateRange();
         return;
     }
+    if (type == ParamType::Roto_spline) {
+        m_sourceCombo->addItem(i18n("Rotoscoping shape"), ImportRoles::RotoData);
+        return;
+    }
     double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     m_sourceCombo->addItem(i18n("Geometry"), ImportRoles::FullGeometry);
@@ -378,6 +385,10 @@ void KeyframeImport::updateRange()
     int pos = m_sourceCombo->currentData().toInt();
     m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_offsetX.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_offsetY.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_limitRange->setEnabled(pos != ImportRoles::RotoData);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -429,6 +440,13 @@ void KeyframeImport::updateRange()
 
 void KeyframeImport::updateDestinationRange()
 {
+    if (m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
+        m_destMin.setEnabled(false);
+        m_destMax.setEnabled(false);
+        m_limitRange->setEnabled(false);
+        return;
+    }
+
     if (m_simpleTargets.contains(m_targetCombo->currentText())) {
         // 1 dimension target
         m_destMin.setEnabled(true);
@@ -447,8 +465,8 @@ void KeyframeImport::updateDestinationRange()
         m_destMin.setEnabled(false);
         m_destMax.setEnabled(false);
         m_limitRange->setEnabled(false);
+        updateView();
     }
-    updateView();
 }
 
 void KeyframeImport::updateDisplay()
@@ -538,6 +556,10 @@ QString KeyframeImport::selectedData() const
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->height()));
         }
         std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
+        if (m_dataCombo->currentText() == "spline") {
+            QJsonDocument doc = QJsonDocument::fromJson(m_dataCombo->currentData().toString().toLocal8Bit());
+            return QString(doc.toJson(QJsonDocument::Compact));
+        }
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         int existingKeys = anim->key_count();
@@ -807,6 +829,14 @@ void KeyframeImport::importSelectedData()
             // Import our keyframes
             int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
+            if (convertMode == ImportRoles::RotoData && m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
+                QJsonObject json = QJsonDocument::fromJson(selectedData().toLocal8Bit()).object();
+                for (int i = 0; i < json.count(); i++) {
+                    int frame = json.keys().at(i).toInt();
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType::Linear, json.value(json.keys().at(i)), true, undo, redo);
+                }
+                continue;
+            }
             mlt_keyframe_type type;
             mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
             for (int i = 0; i < anim->key_count(); i++) {
@@ -936,6 +966,8 @@ void KeyframeImport::importSelectedData()
                 rect.x += m_offsetX.value();
                 rect.y += m_offsetY.value();
                 switch (convertMode) {
+                    case ImportRoles::RotoData:
+                        break;
                     case ImportRoles::FullGeometry:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
@@ -1173,6 +1205,8 @@ void KeyframeImport::updateView()
         rect.x += m_offsetX.value();
         rect.y += m_offsetY.value();
         switch (convertMode) {
+            case ImportRoles::RotoData:
+                break;
             case ImportRoles::FullGeometry:
                 kfrData[0] = locale.toString(int(rect.x));
                 kfrData[1] = locale.toString(int(rect.y));

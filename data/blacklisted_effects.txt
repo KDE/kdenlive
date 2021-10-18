@@ -46,6 +46,52 @@ avfilter.afade
 avfilter.afftfilt
 avfilter.aformat
 
+# NOT WORKING AUDIO AVIFILTER
+#audiolevel (it has not to show up in the effects list) 
+avfilter.acue
+avfilter.adeclick
+avfilter.adeclip
+#avfilter.aderivative
+avfilter.afftdn
+#avfilter.aintegral
+#avfilter.allpass
+avfilter.aloop
+avfilter.anlmdn
+avfilter.asidedata
+avfilter.astats
+avfilter.azmq
+avfilter.biquad
+avfilter.drmeter
+avfilter.dynaudnorm
+avfilter.firequalizer
+avfilter.hdcd
+avfilter.loudnorm
+avfilter.mcompand
+avfilter.rubberband
+avfilter.silencedetect
+avfilter.superequalizer
+#avfilter.sofalizer
+avfilter.tremolo
+fft
+#ladspa
+loudness_meter
+sox_pitch
+sox_reverb
+
+# NOT WORKING AUDIO MLT LADSPA
+ladspa
+vinyl
+declipper
+equalizer
+limiter
+phaser
+equalizer_15
+pitch_scale
+rate_scale
+reverb
+room_reverb
+pitch_shift
+
 
 # CRASHING AVFILTERS (WOULD REQUIRE AN XML FILE TO CORRECTLY DEFINE PARAMETERS)
 avfilter.acompressor

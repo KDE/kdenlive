@@ -3,11 +3,11 @@
         <name context="Wipe Transition Name">Wipe</name>
         <description>Applies a stationary transition between the current and next frames.</description>
         <author>Dan Dennedy</author>
-        <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
-                <name>Softness</name>
-        </parameter>
         <parameter type="urllist" name="luma" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
           <name>Wipe Method</name>
+        </parameter>
+        <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
+            <name>Softness</name>
         </parameter>
         <parameter type="bool" name="luma_invert" max="1" min="0" default="0">
                 <name>Invert</name>

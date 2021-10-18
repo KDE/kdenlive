@@ -20,6 +20,8 @@
 #include "timecodedisplay.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
+#include "lumaliftgainparam.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include <KSelectAction>
 #include <KActionCategory>
@@ -151,6 +153,12 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(copyValue, &QAction::triggered, this, &KeyframeWidget::slotCopyValueAtCursorPos);
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
+    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel) {
+        // TODO color wheel doesn't support keyframe import/export yet
+        copy->setVisible(false);
+        copyValue->setVisible(false);
+        paste->setVisible(false);
+    }
     // Remove keyframes
     QAction *removeNext = new QAction(i18n("Remove all keyframes after cursor"), this);
     connect(removeNext, &QAction::triggered, this, &KeyframeWidget::slotRemoveNextKeyframes);
@@ -411,6 +419,8 @@ void KeyframeWidget::slotRefreshParams()
                 }
             }
             (static_cast<GeometryWidget *>(w.second))->setValue(rect, opacity);
+        } else if (type == ParamType::ColorWheel) {
+            (static_cast<LumaLiftGainParam *>(w.second)->slotRefresh(pos));
         }
     }
     if (m_monitorHelper && m_model->isActive()) {
@@ -532,6 +542,27 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                     }
         });
         paramWidget = geomWidget;
+    } else if (type == ParamType::ColorWheel) {
+        auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
+        connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged,
+                this, [this, index](const QList <QModelIndex> indexes, const QStringList& list, bool) {
+            emit activateEffect();
+            auto *parentCommand = new QUndoCommand();
+            parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));
+            for (int i = 0; i < indexes.count(); i++) {
+                if (m_keyframes->getInterpolatedValue(getPosition(), indexes.at(i)) != list.at(i)) {
+                    m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(list.at(i)), indexes.at(i), parentCommand);
+                }
+            }
+            if (parentCommand->childCount() > 0) {
+                pCore->pushUndo(parentCommand);
+            }
+        });
+        connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h){
+            setFixedHeight(m_baseHeight + m_addedHeight + h);
+            emit updateHeight();
+        });
+        paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
@@ -704,6 +735,9 @@ void KeyframeWidget::slotImportKeyframes()
     QList<QPersistentModelIndex> indexes;
     for (const auto &w : m_parameters) {
         indexes << w.first;
+    }
+    if (m_neededScene == MonitorSceneRoto) {
+        indexes << m_monitorHelper->getIndexes();
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(), m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
     import->show();

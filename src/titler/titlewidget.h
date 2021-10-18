@@ -346,9 +346,7 @@ private slots:
     void itemBottom();
     void itemLeft();
     void itemRight();
-    void slotResize50();
-    void slotResize100();
-    void slotResize200();
+    void slotResize(int percentSize);
     /** @brief Show hide guides */
     void showGuides(int state);
     /** @brief Build guides */

@@ -327,6 +327,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         std::unordered_set<int> groupsToRemove;
         int firstCid = -1;
         int firstPosition = -1;
+        QMap<int,int>firstPositions;
         for (int r : roots) {
             if (timeline->isGroup(r)) {
                 std::unordered_set<int> leaves = timeline->m_groups->getLeaves(r);
@@ -340,6 +341,15 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         leavesToRemove.insert(l);
                     } else {
                         leavesToKeep.insert(l);
+                        int tid = timeline->getItemTrackId(l);
+                        // Check space in all tracks
+                        if (!firstPositions.contains(tid)) {
+                            firstPositions.insert(tid, pos);
+                        } else {
+                            if (pos < firstPositions.value(tid)) {
+                                firstPositions.insert(tid, pos);
+                            }
+                        }
                         // Find first item
                         if (firstPosition == -1 || pos < firstPosition) {
                             firstCid = l;
@@ -362,6 +372,15 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 }
             } else {
                 int pos = timeline->getItemPosition(r);
+                int tid = timeline->getItemTrackId(r);
+                // Check space in all tracks
+                if (!firstPositions.contains(tid)) {
+                    firstPositions.insert(tid, pos);
+                } else {
+                    if (pos < firstPositions.value(tid)) {
+                        firstPositions.insert(tid, pos);
+                    }
+                }
                 if (firstPosition == -1 || pos < firstPosition) {
                     firstCid = r;
                     firstPosition = pos;
@@ -379,7 +398,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
             timeline->m_groups->ungroupItem(i.key(), undo, redo);
         }
         timeline->requestSetSelection(roots);
-        if (firstPosition > 0) {
+        if (!firstPositions.isEmpty()) {
             // Find minimum position, parse all tracks
             if (trackId > -1) {
                 // Easy, check blank size
@@ -392,7 +411,12 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 auto it = timeline->m_allTracks.cbegin();
                 int space = -1;
                 while (it != timeline->m_allTracks.cend()) {
-                    int spaceDuration = timeline->getTrackById_const((*it)->getId())->getBlankSizeAtPos(firstPosition - 1);
+                    int tid = (*it)->getId();
+                    if (!firstPositions.contains(tid)) {
+                        ++it;
+                        continue;
+                    }
+                    int spaceDuration = (*it)->getBlankSizeAtPos(firstPositions.value(tid) - 1);
                     if (space == -1 || spaceDuration < space) {
                         space = spaceDuration;
                     }
@@ -1990,13 +2014,15 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     if (affectAllTracks) {
         int lastFrame = 0;
         for (const auto &track: timeline->m_allTracks) {
-            lastFrame = track->getBlankStart(position);
-            if (lastFrame > spaceStart) {
-                spaceStart = lastFrame;
+            if (!track->isLocked()) {
+                lastFrame = track->getBlankStart(position);
+                if (lastFrame > spaceStart) {
+                    spaceStart = lastFrame;
+                }
             }
         }
         // check subtitle track
-        if (timeline->getSubtitleModel()) {
+        if (timeline->getSubtitleModel() && !timeline->getSubtitleModel()->isLocked()) {
             lastFrame = timeline->getSubtitleModel()->getBlankStart(position);
             if (lastFrame > spaceStart) {
                 spaceStart = lastFrame;

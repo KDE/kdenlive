@@ -1,18 +1,9 @@
 <!DOCTYPE kpartgui>
-<transition tag="composite" id="slide" type="short">
+<transition tag="affine" id="slide" type="short">
         <name context="Slide Transition Name">Slide</name>
         <description>Slide image from one side to another.</description>
         <author>Dan Dennedy</author>
-        <parameter tag="geometry" type="wipe" default="0=-100% 0% 100% 100%;-1=0% 0% 100% 100%" name="geometry">
+        <parameter type="wipe" default="0=-100% 0% 100% 100% 100%;-1=0% 0% 100% 100% 100%" name="rect">
             <name>Direction</name>
-        </parameter>
-        <parameter tag="aligned" default="0" type="bool" name="aligned" >
-            <name>Align</name>
-        </parameter>
-        <parameter tag="progressive" default="1" type="bool" name="progressive" >
-            <name>Force Progressive Rendering</name>
-        </parameter>
-        <parameter tag="deinterlace" default="0" type="bool" name="deinterlace" >
-            <name>Force Deinterlace Overlay</name>
         </parameter>
 </transition>

@@ -77,12 +77,17 @@ void SpeedTask::start(QObject* object, bool force)
     l->addWidget(&lab);
     l->addWidget(&speedInput);
     l->addWidget(&cb);
+    QCheckBox cb2(i18n("Add clip to \"Speed Change\" folder"), &d);
+    cb2.setChecked(KdenliveSettings::add_new_clip_to_folder());
+    l->addWidget(&cb2);
     l->addWidget(&buttonBox);
     d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     if (d.exec() != QDialog::Accepted) {
         return;
     }
+    bool addToFolder = cb2.isChecked();
+    KdenliveSettings::setAdd_new_clip_to_folder(addToFolder);
     double speed = speedInput.value();
     bool warp_pitch = cb.isChecked();
     std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
@@ -144,6 +149,7 @@ void SpeedTask::start(QObject* object, bool force)
         if (task) {
             // Otherwise, start a filter thread.
             task->m_isForce = force;
+            task->m_addToFolder = addToFolder;
             pCore->taskManager.startTask(owner.second, task);
         }
     }
@@ -202,7 +208,7 @@ void SpeedTask::run()
     for (const auto &it : m_filterParams) {
         qDebug()<<". . ."<<it.first<<" = "<<it.second;
         if (it.second.type() == QVariant::Double) {
-            producerArgs << QString("%1=%2").arg(it.first, it.second.toDouble());
+            producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
             producerArgs << QString("%1=%2").arg(it.first, it.second.toString());
         }
@@ -231,7 +237,7 @@ void SpeedTask::run()
         return;
     }
 
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,i18n("Speed Change")));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,m_addToFolder ? i18n("Speed Change") : QString()));
     return;
 }
 

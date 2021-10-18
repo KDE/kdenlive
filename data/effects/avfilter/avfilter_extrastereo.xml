@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.extrastereo" id="avfilter.extrastereo" type="audio">
+	<name>Extrastereo</name>
+	<description>Linearly increases the difference between left and right channels which adds some sort of "live" effect to playback. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.m" default="2.5" min="-10" max="10" decimals="2">
+        <name>Intensity</name><comment>Sets the difference coefficient (default: 2.5).
+0.0 means mono sound (average of both channels),
+with 1.0 sound will be unchanged, with -1.0 left and right channels will be swapped.</comment>
+        </parameter>
+	<parameter type="bool" name="av.c" default="1">
+                <name>Enable clipping</name>
+        </parameter>
+</effect>

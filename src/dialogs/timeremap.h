@@ -130,7 +130,7 @@ signals:
     void atKeyframe(bool isKeyframe, bool last);
     void updateKeyframes(bool resize);
     void updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes);
-    void updateMaxDuration(int duration);
+    void updateMaxDuration();
 };
 
  /**

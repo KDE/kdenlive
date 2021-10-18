@@ -4026,15 +4026,20 @@ void TimelineController::updateMultiTrack()
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(MonitorSplitTrack, false, QVariant(trackNames));
 }
 
-void TimelineController::activateTrackAndSelect(int trackPosition)
+void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMode)
 {
     int tid = -1;
     int ix = 0;
+    if (notesMode && trackPosition == -2) {
+        m_activeTrack = -2;
+        emit activeTrackChanged();
+        return;
+    }
     auto it = m_model->m_allTracks.cbegin();
     while (it != m_model->m_allTracks.cend()) {
         tid = (*it)->getId();
         ++it;
-        if (m_model->getTrackById_const(tid)->isAudioTrack() || m_model->getTrackById_const(tid)->isHidden()) {
+        if (!notesMode && (m_model->getTrackById_const(tid)->isAudioTrack() || m_model->getTrackById_const(tid)->isHidden())) {
             continue;
         }
         if (trackPosition == ix) {
@@ -4045,7 +4050,7 @@ void TimelineController::activateTrackAndSelect(int trackPosition)
     if (tid > -1) {
         m_activeTrack = tid;
         emit activeTrackChanged();
-        if (pCore->activeTool() != ToolType::MulticamTool) {
+        if (!notesMode && pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
             selectCurrentItem(ObjectType::TimelineClip, true);
         }
     }

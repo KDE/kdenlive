@@ -79,11 +79,12 @@ protected:
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
-    void displayBinFrame(QModelIndex ix, int frame);
+    void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
     void processDragEnd();
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
+    QModelIndex m_lastHoveredItem;
 };
 
 /** @class MyTreeView
@@ -112,6 +113,7 @@ protected slots:
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
+    QModelIndex m_lastHoveredItem;
     bool m_editing;
     bool performDrag();
     bool isEditing() const;
@@ -119,7 +121,7 @@ private:
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
-    void displayBinFrame(QModelIndex ix, int frame);
+    void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
     void processDragEnd();
     void selectCurrent();
     void editingChanged();
@@ -390,7 +392,7 @@ private slots:
     void showClearButton(bool show);
     /** @brief Display a defined frame in bin clip thumbnail
      */
-    void showBinFrame(QModelIndex ix, int frame);
+    void showBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
     /** @brief Switch a tag on/off on current selection
      */
     void switchTag(const QString &tag, bool add);
@@ -449,8 +451,6 @@ public slots:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
-    /** @brief Create a playlist clip for timeremap. */
-    void remapCurrent();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

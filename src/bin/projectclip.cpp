@@ -28,6 +28,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
+#include "clipcreator.hpp"
 #include "timecode.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "macros.hpp"
@@ -373,11 +374,17 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         // If another load job is running?
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
-        if (QFile::exists(m_path) && (!isProxy && !hasProxy())) {
+        if (QFile::exists(m_path) && (!isProxy && !hasProxy()) && m_properties) {
             clearBackupProperties();
         }
         QDomDocument doc;
-        QDomElement xml = toXml(doc);
+        QDomElement xml;
+        QString resource(m_properties->get("resource"));
+        if (m_service.isEmpty() && !resource.isEmpty()) {
+            xml = ClipCreator::getXmlFromUrl(resource).documentElement();
+        } else {
+            xml = toXml(doc);
+        }
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
@@ -560,6 +567,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
                     QDir dir = info.absoluteDir();
                     dir.cd(externalParams.at(3));
                     QString fileName = info.fileName();
+                    if (fileName.startsWith(externalParams.at(1))) {
+                        fileName.remove(0, externalParams.at(1).size());
+                        fileName.prepend(externalParams.at(4));
+                    }
                     if (!externalParams.at(2).isEmpty()) {
                         fileName.chop(externalParams.at(2).size());
                     }
@@ -576,6 +587,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
             if (!skipProducer && getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize()) {
                 clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
+        } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
+                getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
+            clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
         }
         if (!clipList.isEmpty()) {
             generateProxy = true;
@@ -956,19 +970,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
-    Mlt::Service s;
-    bool playlistChain = false;
-    QScopedPointer<Mlt::Service> serv;
-    if (m_clipType == ClipType::Playlist) {
-        serv.reset(m_masterProducer->producer());
-        if (serv != nullptr) {
-            s = Mlt::Service(serv->get_service());
-            playlistChain = true;
-        }
-    }
-    if (!playlistChain) {
-        s = Mlt::Service(m_masterProducer->get_service());
-    }
+    Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -985,10 +987,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod;
     qDebug()<<"============= CLONED CLIP: \n\n"<<clipXml<<"\n\n======================";
-    prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
-
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1238,14 +1238,17 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
             updateRoles << TimelineModel::ResourceRole;
-        } else if (!properties.contains("kdenlive:proxy")) {
+        } else if (properties.contains("_fullreload")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
-            getInfoForProducer();
+            // Enforce reloading clip type in case of clip replacement
+            m_service.clear();
+            m_clipType = ClipType::Unknown;
+            clearBackupProperties();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
     }
-    if (properties.contains(QStringLiteral("kdenlive:proxy"))) {
+    if (properties.contains(QStringLiteral("kdenlive:proxy")) && !properties.contains("_fullreload")) {
         QString value = properties.value(QStringLiteral("kdenlive:proxy"));
         // If value is "-", that means user manually disabled proxy on this clip
         if (value.isEmpty() || value == QLatin1String("-")) {
@@ -1352,7 +1355,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             refreshPanel = true;
         }
     }
-    if (refreshPanel) {
+    if (refreshPanel && m_properties) {
         // Some of the clip properties have changed through a command, update properties panel
         emit refreshPropertiesPanel();
     }
@@ -1792,9 +1795,16 @@ void ProjectClip::updateZones()
 }
 
 
-void ProjectClip::getThumbFromPercent(int percent)
+void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview
+    if (percent < 0) {
+        if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
+            int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+            setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+        }
+        return;
+    }
     int duration = getFramePlaytime();
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
@@ -1804,6 +1814,9 @@ void ProjectClip::getThumbFromPercent(int percent)
     } else {
         // Generate percent thumbs
         CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+    }
+    if (storeFrame) {
+        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
     }
 }
 
@@ -2110,7 +2123,7 @@ void ProjectClip::setInvalid()
 
 void ProjectClip::updateProxyProducer(const QString &path)
 {
-    setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
+    resetProducerProperty(QStringLiteral("_overwriteproxy"));
     setProducerProperty(QStringLiteral("resource"), path);
     reloadProducer(false, true);
 }

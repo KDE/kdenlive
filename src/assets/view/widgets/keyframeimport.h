@@ -66,6 +66,7 @@ private:
 protected:
     enum ImportRoles {
         SimpleValue,
+        RotoData,
         FullGeometry,
         Position,
         InvertedPosition,

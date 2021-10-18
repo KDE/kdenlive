@@ -217,6 +217,9 @@ protected:
     /** @brief Returns the start of the blank on a specific playlist */
     int getBlankStart(int position, int track);
     int getBlankSizeAtPos(int frame);
+    /** @brief Returns the start of the clip on a specific playlist */
+    int getClipStart(int position, int track);
+    int getClipEnd(int position, int track);
     /** @brief Returns true if clip at position is the last on playlist
      * @param position the position in playlist
     */

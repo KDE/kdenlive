@@ -55,7 +55,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 1.03;
+const double DOCUMENTVERSION = 1.04;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
@@ -928,6 +928,7 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
+                        out.setCodec("UTF-8");
                         out << doc.toString();
                     }
                 }

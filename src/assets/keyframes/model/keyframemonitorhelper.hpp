@@ -41,6 +41,8 @@ public:
      */
     virtual void refreshParams(int pos);
 
+    QList<QPersistentModelIndex> getIndexes();
+
 protected:
     Monitor *m_monitor;
     std::shared_ptr<AssetParameterModel> m_model;

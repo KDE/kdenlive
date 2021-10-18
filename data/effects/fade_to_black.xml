@@ -9,7 +9,7 @@
 	<parameter type="fixed" name="out" max="99999" min="0" default="%out">
 		<name>Out</name>
 	</parameter>
-    <parameter type="multiswitch" name="level&#10;alpha" value="1&#10;0=1;-1=0" min="1&#10;0=1;-1=0" max="0=1;-1=0&#10;1">
+    <parameter type="multiswitch" name="level&#10;alpha" default="1&#10;0=1;-1=0" min="1&#10;0=1;-1=0" max="0=1;-1=0&#10;1">
         <name>Fade to Black</name>
     </parameter>
 </effect>

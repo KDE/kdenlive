@@ -157,7 +157,8 @@ public:
     void refreshProjectItem(const ObjectId &id);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
-
+    /** @brief Returns timeline's active track info (position and tag) */
+    QPair <int,QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();
 
@@ -350,7 +351,8 @@ signals:
     void disconnectEffectStack();
     /** @brief Add a time remap effect to clip and show keyframes dialog */
     void remapClip(int cid);
-
+    /** @brief A monitor property changed, check if we need to reset */
+    void monitorProfileUpdated();
 };
 
 #endif

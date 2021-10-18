@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect LC_NUMERIC="C" tag="frei0r.pr0file" id="frei0r.pr0file">
-        <name>Oscilloscope</name>
+        <name>Oscilloscope (Advanced)</name>
         <description>2D video oscilloscope</description>
         <author>Marko Cebokli</author>
         

@@ -115,7 +115,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         // That's a Bin Clip reference.
         pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
     } else {
-        emit seekProject(anchor.toInt());
+        emit seekProject(anchor);
     }
     e->setAccepted(true);
 }

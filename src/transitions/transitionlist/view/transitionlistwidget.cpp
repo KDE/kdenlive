@@ -38,7 +38,6 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
 TransitionListWidget::~TransitionListWidget()
 {
-    qDebug() << " - - -Deleting transition list widget";
 }
 
 QString TransitionListWidget::getMimeType(const QString &assetId) const

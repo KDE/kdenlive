@@ -88,6 +88,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::KeyframeParam:
     case ParamType::AnimatedRect:
     case ParamType::Roto_spline:
+    case ParamType::ColorWheel:
         widget = new KeyframeWidget(model, index, frameSize, parent);
         break;
     case ParamType::Geometry:
@@ -98,9 +99,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Color:
         widget = new ColorEditWidget(model, index, parent);
-        break;
-    case ParamType::ColorWheel:
-        widget = new LumaLiftGainParam(model, index, parent);
         break;
     case ParamType::Wipe:
         widget = new SlideWidget(model, index, parent);

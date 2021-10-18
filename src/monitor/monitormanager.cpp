@@ -33,6 +33,13 @@ MonitorManager::MonitorManager(QObject *parent)
     refreshTimer.setSingleShot(true);
     refreshTimer.setInterval(200);
     connect(&refreshTimer, &QTimer::timeout, this, &MonitorManager::forceProjectMonitorRefresh);
+    connect(pCore.get(), &Core::monitorProfileUpdated, this, [&]() {
+        QAction *prog = pCore->window()->actionCollection()->action(QStringLiteral("mlt_progressive"));
+        if (prog) {
+            prog->setEnabled(!pCore->getProjectProfile()->progressive());
+            slotProgressivePlay(prog->isChecked());
+        }
+    });
 }
 
 QAction *MonitorManager::getAction(const QString &name)
@@ -390,7 +397,7 @@ void MonitorManager::resetProfiles()
     }
     if (m_projectMonitor) {
         m_projectMonitor->resetProfile();
-    }
+    }  
 }
 
 void MonitorManager::resetConsumers(bool fullReset)
@@ -568,6 +575,12 @@ void MonitorManager::setupActions()
 #endif
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
+    
+    QAction *progressive = new QAction(QIcon::fromTheme(QString()), i18n("Progressive playback"), this);
+    connect(progressive, &QAction::triggered, this, &MonitorManager::slotProgressivePlay);
+    pCore->window()->addAction(QStringLiteral("mlt_progressive"), progressive);
+    progressive->setCheckable(true);
+    progressive->setChecked(KdenliveSettings::monitor_progressive());
 
     QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
@@ -650,6 +663,23 @@ void MonitorManager::slotSetInterpolation(int ix)
 void MonitorManager::slotMuteCurrentMonitor(bool active)
 {
     m_activeMonitor->mute(active);
+}
+
+void MonitorManager::slotProgressivePlay(bool active)
+{
+    if (pCore->getProjectProfile()->progressive()) {
+        // nothing to do
+        return;
+    }
+    KdenliveSettings::setMonitor_progressive(active);
+    if (m_clipMonitor) {
+        m_clipMonitor->resetConsumer(true);
+        m_clipMonitor->refreshMonitor(true);
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->resetConsumer(true);
+        m_projectMonitor->refreshMonitor(true);
+    }
 }
 
 Monitor *MonitorManager::clipMonitor()

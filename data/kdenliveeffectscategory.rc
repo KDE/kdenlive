@@ -1,82 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <data name="effects" version="0">
-  <group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r">
-    <text>Alpha, Mask and Keying</text>
-  </group>
+    
+<group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r">
+<text>Alpha, Mask and Keying</text>
+</group>
+
 <group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,avfilter.unsharp,avfilter.sab">
-    <text>Blur and Sharpen</text>
-  </group>
+<text>Blur and Sharpen</text>
+</group>
+
 <group list="frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo">
-    <text>Transform, Distort and Perspective</text>
-  </group>
+<text>Transform, Distort and Perspective</text>
+</group>
+
 <group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.gradfun,avfilter.removegrain">
-    <text>Grain and Noise</text>
-  </group>
+<text>Grain and Noise</text>
+</group>
+
 <group list="frei0r.pr0be,frei0r.pr0file,frei0r.rgbparade,frei0r.timeout,frei0r.vectorscope,avfilter.ciescope,avfilter.oscilloscope,avfilter.vectorscope,avfilter.waveform,avfilter.histogram,avfilter.field,frei0r.d90stairsteppingfix,avfilter.datascope">
-    <text>Utility</text>
-  </group>
+<text>Utility</text>
+</group>
+
 <group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r,gpstext">
-    <text>Generate</text>
-  </group>
+<text>Generate</text>
+</group>
+
 <group list="audiowave,dance,lightshow,audiospectrum,audiowaveform">
-    <text>On Master</text>
-  </group>
+<text>On Master</text>
+</group>
+
 <group list="invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.saturat0r,frei0r.tint0r,chroma_hold,frei0r.colorize,frei0r.equaliz0r,frei0r.hueshift0r,frei0r.luminance,lumaliftgaingamma,lift_gamma_gain,brightness,gamma,frei0r.colgate,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves,avfilter.selectivecolor,avfilter.lut3d,avfilter.chromahold,avfilter.colorbalance,avfilter.colorchannelmixer,avfilter.colorhold,avfilter.colorlevels,avfilter.eq,frei0r.invert0r,frei0r.normaliz0r,frei0r.gamma,frei0r.bw0r,greyscale,avfilter.vibrance,avfilter.swapuv,avfilter.negate,avfilter.histeq,avfilter.normalize,avfilter.fftfilt,avfilter.limiter">
-    <text>Color and Image correction</text>
-  </group>
-  <group list="loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,ladspa.1413,mute,fadein,fadeout,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
-    <text>Audio correction</text>
-  </group>
-  <group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion">
-    <text>Image adjustment</text>
-  </group>
-  <group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r">
-    <text>Stylize</text>
-  </group>
-  <group list="fade_from_black,fade_to_black,avfilter.lagfun,frei0r.nervous,freeze,frei0r.glitch0r,frei0r.vertigo,frei0r.baltan">
-    <text>Motion</text>
-  </group>
-  <group list="movit.blur,movit.sharpen,movit.diffusion,movit.glow,movit.lift_gamma_gain,movit.mirror,movit.opacity,movit.rect,movit.saturation,movit.unsharp_mask,movit.vignette,movit.white_balance,movit.flip">
-    <text>GPU effects</text>
-  </group>
-  <group list="frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,avfilter.stereo3d">
-    <text>VR360 and 3D</text>
-  </group>
-   <group list="avfilter.derain,avfilter.sr,avfilter.fspp,avfilter.deblock,avfilter.deflate,avfilter.deshake,avfilter.inflate,deshake,fieldorder,frei0r.colorhalftone,frei0r.delaygrab,frei0r.premultiply,gtkrescale,resize,avfilter.nlmeans,avfilter.owdenoise,region">
-    <text>More checks</text>
-  </group>
-   <group list="avfilter.deflicker,avfilter.bwdif,avfilter.amplify,avfilter.atadenoise,avfilter.dedot,avfilter.doubleweave,avfilter.random,avfilter.tmix,avfilter.vertigo,avfilter.w3fdif,avfilter.weave,avfilter.yadif">
-    <text>To be completed</text>
-  </group>
-  <group list="ladspa.2141,ladspa.2142,ladspa.2143,ladspa.2144,ladspa.2145,ladspa.2146,ladspa.2147,ladspa.2148,ladspa.2149,ladspa.2150,ladspa.2151,ladspa.2152,ladspa.2153,ladspa.2154,ladspa.2155,ladspa.2156,ladspa.2157,ladspa.2158,ladspa.2159">
-        <text>TAP plugins</text>
-            </group>
-            <group list="ladspa.3301,ladspa.3302,ladspa.3303,ladspa.3304,ladspa.3305,ladspa.3306,ladspa.3307,ladspa.3308,ladspa.3309,ladspa.3311,ladspa.3312">
-                <text>Invada plugins</text>
-            </group>
- <group list="ladspa.1963,ladspa.1964,ladspa.1965,ladspa.1966,ladspa.1967,ladspa.1968,ladspa.1973,ladspa.1974,ladspa.1975,ladspa.1976,ladspa.1977,ladspa.1978,ladspa.1979,ladspa.1980">
-                <text>Ambisonic plugins</text>
-            </group> ## ladspa.1087,ladspa.1088,ladspa.1090,ladspa.1091,ladspa.1092,ladspa.1093,ladspa.1094,ladspa.1095
- <group list="ladspa.5002094,ladspa.5002095,ladspa.5002096,ladspa.5002097,ladspa.5002102,ladspa.5002103,ladspa.5002104,ladspa.5002105,ladspa.5002110,ladspa.5002111,ladspa.5002112,ladspa.5002113,ladspa.5002118,ladspa.5002119,ladspa.5002120,ladspa.5002121,ladspa.5002124,ladspa.5002125,ladspa.5002138,ladspa.5002139,ladspa.5002140,ladspa.5002141">
-                <text>Sidechain plugins</text>
-            </group>
+<text>Color and Image correction</text>
+</group>
+
+<group list=".ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
+<text>Audio correction</text>
+</group>
+
+<group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion">
+<text>Image adjustment</text>
+</group>
+
+<group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r">
+<text>Stylize</text>
+</group>
+
+<group list="fade_from_black,fade_to_black,avfilter.lagfun,frei0r.nervous,freeze,frei0r.glitch0r,frei0r.vertigo,frei0r.baltan">
+<text>Motion</text>
+</group>
+
+<group list="movit.blur,movit.sharpen,movit.diffusion,movit.glow,movit.lift_gamma_gain,movit.mirror,movit.opacity,movit.rect,movit.saturation,movit.unsharp_mask,movit.vignette,movit.white_balance,movit.flip">
+<text>GPU effects</text>
+</group>
+
+<group list="frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,avfilter.stereo3d">
+<text>VR360 and 3D</text>
+</group>
+
+<group list="avfilter.derain,avfilter.sr,avfilter.fspp,avfilter.deblock,avfilter.deflate,avfilter.deshake,avfilter.inflate,deshake,fieldorder,frei0r.colorhalftone,frei0r.delaygrab,frei0r.premultiply,gtkrescale,resize,avfilter.nlmeans,avfilter.owdenoise,region">
+<text>More checks</text>
+</group>
+
+<group list="avfilter.deflicker,avfilter.bwdif,avfilter.amplify,avfilter.atadenoise,avfilter.dedot,avfilter.doubleweave,avfilter.random,avfilter.tmix,avfilter.vertigo,avfilter.w3fdif,avfilter.weave,avfilter.yadif">
+<text>To be completed</text>
+</group>
+
+<group list="avfilter.compand,avfilter.deesser,avfilter.alimiter,volume,avfilter.acontrast,avfilter.asoftclip,loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,mute,fadein,fadeout,sox_gain,normalise"><text>Volume and Dynamics</text>
+</group>
+
+<group list="avfilter.compensationdelay,sox_echo"><text>Reverb, Echo and Delays</text>
+</group>
+
+<group list="avfilter.equalizer,avfilter.allpass,avfilter.bandpass,avfilter.bandreject,avfilter.bass,avfilter.highpass,avfilter.highshelf,avfilter.lowpass,avfilter.lowshelf,sox_band,sox_bass"><text>EQ and filters</text>
+</group>
+
+<group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato"><text>Modulators</text>
+</group>
+
+<group list="ladspa.9354877"><text>Noise Reduction and audio Restoration</text>
+</group>
+
+<group list="panner,audiomap,channelswap,mono,channelcopy,channelswap,swapchannels,audiobalance,audiopan">
+<text>Channels</text>
+</group>
+          
+<group list="avfilter.aderivative,avfilter.aintegral,avfilter.acrusher,avfilter.crystalizer,avfilter.dcshift"><text>Tools</text>
+</group>
+
+<group list="avfilter.crossfeed,avfilter.extrastereo,avfilter.haas,avfilter.sofalizer,avfilter.bs2b,avfilter.stereotools,avfilter.stereowiden"><text>Stereo and Binaural Images</text>
+</group>
+
+<group list="rbpitch,sox_stretch,rboctaveshift"><text>Pitch and Time</text>
+</group>
+
+<group list="ladspa.1767,ladspa.1771,ladspa.1772,ladspa.1773,ladspa.1779,ladspa.1788,ladspa.1795,ladspa.2586,ladspa.2588,ladspa.2589,ladspa.2592,ladspa.2593,ladspa.2594,ladspa.2595,ladspa.2598,ladspa.2601,ladspa.2602,ladspa.2603,ladspa.2606,ladspa.2607,ladspa.2608,ladspa.2609">
+<text>CAPS Plugins</text>
+</group>
+
+ <group list="ladspa.2141,ladspa.2142,ladspa.2143,ladspa.2144,ladspa.2145,ladspa.2146,ladspa.2147,ladspa.2148,ladspa.2149,ladspa.2150,ladspa.2151,ladspa.2152,ladspa.2153,ladspa.2154,ladspa.2155,ladspa.2156,ladspa.2157,ladspa.2158,ladspa.2159">
+<text>TAP Plugins</text>
+</group>
+
+<group list="ladspa.3301,ladspa.3302,ladspa.3303,ladspa.3304,ladspa.3305,ladspa.3306,ladspa.3307,ladspa.3308,ladspa.3309,ladspa.3311,ladspa.3312">
+<text>Invada Plugins</text>
+</group>
+
+<group list="ladspa.1963,ladspa.1964,ladspa.1965,ladspa.1966,ladspa.1967,ladspa.1968,ladspa.1973,ladspa.1974,ladspa.1975,ladspa.1976,ladspa.1977,ladspa.1978,ladspa.1979,ladspa.1980">
+<text>Ambisonic Plugins</text>
+</group>
+
 <group list="ladspa.1515405652,ladspa.1515018290,ladspa.1514360144,ladspa.1514360882,ladspa.1515013196,ladspa.1515013201,ladspa.1514492210,ladspa.1514619220,ladspa.1514624050,ladspa.1514615601,ladspa.1514685490,ladspa.1515016264,ladspa.1515476290,ladspa.1515015491,ladspa.1515015474">
-                <text>ZAM plugins</text>
-            </group>
+<text>ZAM Plugins</text>
+</group>
+
 <group list="ladspa.1641,ladspa.1642,ladspa.1643,ladspa.1644,ladspa.1645,ladspa.1646,ladspa.1647,ladspa.1648,ladspa.1649,ladspa.1650,ladspa.1651,ladspa.1652,ladspa.1653,ladspa.1654,ladspa.1655,ladspa.1656,ladspa.1657,ladspa.1658,ladspa.1659,ladspa.1660,ladspa.1661,ladspa.1662,ladspa.1663,ladspa.1664,ladspa.1665,ladspa.1666,ladspa.1667,ladspa.1668,ladspa.1669,ladspa.1670,ladspa.1671,ladspa.1672,ladspa.1673,ladspa.1674,ladspa.1675,ladspa.1676,ladspa.1677,ladspa.1678,ladspa.1679,ladspa.1680,ladspa.2021,ladspa.2022,ladspa.2023,ladspa.2024,ladspa.2025,ladspa.2025,ladspa.2027,ladspa.2028,ladspa.2029,ladspa.2030,ladspa.2031,ladspa.2032,ladspa.2033,ladspa.2034,ladspa.2035,ladspa.2036,ladspa.2037,ladspa.2038">
-                <text>BLOP plugins</text>
-            </group>
+<text>BLOP Plugins</text>
+</group>
+
 <group list="ladspa.1181,ladspa.1184,ladspa.1185,ladspa.1186,ladspa.1187,ladspa.1188,ladspa.1189,ladspa.1190,ladspa.1191,ladspa.1192,ladspa.1193,ladspa.1194,ladspa.1195,ladspa.1196,ladspa.1197,ladspa.1198,ladspa.1199,ladspa.1200,ladspa.1201,ladspa.1202,ladspa.1203,ladspa.1204,ladspa.1206,ladspa.1207,ladspa.1208,ladspa.1209,ladspa.1210,ladspa.1211,ladspa.1212,ladspa.1213,ladspa.1214,ladspa.1215,ladspa.1216,ladspa.1217,ladspa.1218,ladspa.1219,ladspa.1220,ladspa.1401,ladspa.1402,ladspa.1403,ladspa.1404,ladspa.1405,ladspa.1406,ladspa.1407,ladspa.1408,ladspa.1409,ladspa.1410,ladspa.1411,ladspa.1412,ladspa.1413,ladspa.1414,ladspa.1415,ladspa.1416,ladspa.1417,ladspa.1418,ladspa.1419,ladspa.1420,ladspa.1421,ladspa.1422,ladspa.1423,ladspa.1424,ladspa.1425,ladspa.1426,ladspa.1427,ladspa.1428,ladspa.1429,ladspa.1430,ladspa.1431,ladspa.1432,ladspa.1433,ladspa.1435,ladspa.1436,ladspa.1437,ladspa.1438,ladspa.1439,ladspa.1440,ladspa.1605,ladspa.1881,ladspa.1882,ladspa.1883,ladspa.1885,ladspa.1886,ladspa.1887,ladspa.1888,ladspa.1889,ladspa.1890,ladspa.1891,ladspa.1892,ladspa.1893,ladspa.1894,ladspa.1895,ladspa.1896,ladspa.1897,ladspa.1898,ladspa.1899,ladspa.1900,ladspa.1901,ladspa.1902,ladspa.1903,ladspa.1904,ladspa.1905,ladspa.1906,ladspa.1907,ladspa.1908,ladspa.1909,ladspa.1910,ladspa.1913,ladspa.1914,ladspa.1915,ladspa.1916,ladspa.1921,ladspa.1922">
-                <text>Steve Harris' SWH plugins</text>
-            </group>
+<text>Steve Harris' SWH Plugins</text>
+</group>
+
 <group list="ladspa.1051,ladspa.1052,ladspa.1053,ladspa.1054,ladspa.1055,ladspa.1056,ladspa.1057,ladspa.1058,ladspa.1059,ladspa.1060,ladspa.1061,ladspa.1062,ladspa.1063,ladspa.1064,ladspa.1065,ladspa.1066,ladspa.1067,ladspa.1068,ladspa.1069,ladspa.1070,ladspa.1071,ladspa.1072,ladspa.1073,ladspa.1074,ladspa.1075,ladspa.1076,ladspa.1077,ladspa.1078,ladspa.1079,ladspa.1080,ladspa.1081,ladspa.1082,ladspa.1083,ladspa.1084,ladspa.1085,ladspa.1086,ladspa.1087,ladspa.1088,ladspa.1089,ladspa.1090,ladspa.1091,ladspa.1092,ladspa.1093,ladspa.1094,ladspa.1095,ladspa.1096,ladspa.1097,ladspa.1098,ladspa.1099,ladspa.1123,ladspa.1221,ladspa.1222,ladspa.1223,ladspa.1224,ladspa.1225">
-                <text>CMT plugins</text>
-            </group>
+<text>CMT Plugins</text>
+</group>
+
 <group list="ladspa.1297511010,ladspa.1145921863,ladspa.1144210769,ladspa.1144210771,ladspa.1146114128,ladspa.1097681261,ladspa.1129539188,ladspa.1399604850,ladspa.1297511010">
-                <text>DPF plugins</text>
-            </group>            
-             <group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave">
-    <text>Deprecated</text>
-  </group>
+<text>DPF Plugins</text>
+</group> 
+            
+<group list="ladspa.33917,ladspa.33918,ladspa.33919,ladspa.33922,ladspa.33923,ladspa.33924,ladspa.33951,ladspa.34049,ladspa.34050,ladspa.34051,ladspa.34052,ladspa.34053,ladspa.34065,ladspa.34066,ladspa.34067,ladspa.34068,ladspa.34069,ladspa.34070,ladspa.34071,ladspa.34080,ladspa.34081,ladspa.34096,ladspa.34097,ladspa.34098,ladspa.34184,ladspa.34185">
+<text>Calf  Plugins</text>
+</group> 
+
+<group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave">
+<text>Deprecated</text>
+</group>
+
+<group list="ladspa.5002064,ladspa.5002065,ladspa.5002066,ladspa.5002067,ladspa.5002068,ladspa.5002069,ladspa.5002070,ladspa.5002071,ladspa.5002072,ladspa.5002073,ladspa.5002074,ladspa.5002075,ladspa.5002076,ladspa.5002077,ladspa.5002078,ladspa.5002079,ladspa.5002080,ladspa.5002081,ladspa.5002082,ladspa.5002083,ladspa.5002084,ladspa.5002085,ladspa.5002086,ladspa.5002087,ladspa.5002088,ladspa.5002089,ladspa.5002090,ladspa.5002091,ladspa.5002092,ladspa.5002093,ladspa.5002094,ladspa.5002095,ladspa.5002096,ladspa.5002097,ladspa.5002098,ladspa.5002099,ladspa.5002100,ladspa.5002101,ladspa.5002102,ladspa.5002103,ladspa.5002104,ladspa.5002105,ladspa.5002106,ladspa.5002107,ladspa.5002108,ladspa.5002109,ladspa.5002110,ladspa.5002111,ladspa.5002112,ladspa.5002113,ladspa.5002114,ladspa.5002115,ladspa.5002116,ladspa.5002117,ladspa.5002118,ladspa.5002119,ladspa.5002120,ladspa.5002121,ladspa.5002122,ladspa.5002123,ladspa.5002124,ladspa.5002125,ladspa.5002130,ladspa.5002131,ladspa.5002132,ladspa.5002133,ladspa.5002134,ladspa.5002135,ladspa.5002136,ladspa.5002137,ladspa.5002138,ladspa.5002139,ladspa.5002140,ladspa.5002141,ladspa.5002146,ladspa.5002147,ladspa.5002148,ladspa.5002149,ladspa.5002150,ladspa.5002151,ladspa.5002152,ladspa.5002153,ladspa.5002154,ladspa.5002155,ladspa.5002156,ladspa.5002157,ladspa.5002158,ladspa.5002159,ladspa.5002160,ladspa.5002161,ladspa.5002162,ladspa.5002163,ladspa.5002164,ladspa.5002165,ladspa.5002166,ladspa.5002167,ladspa.5002168,ladspa.5002169,ladspa.5002170,ladspa.5002171,ladspa.5003074,ladspa.5003075,ladspa.5003076">
+<text>LSP plugins</text>
+</group>
+
+<group list="ladspa.1041,ladspa.1042,ladspa.1043,ladspa.1044,ladspa.1045,ladspa.1046,ladspa.1227,ladspa.1337,ladspa.1845,ladspa.1846,ladspa.1848,ladspa.1917,ladspa.1944,ladspa.1945,ladspa.1946,ladspa.1947,ladspa.1949,ladspa.1951,ladspa.1955,ladspa.1956,ladspa.1957,ladspa.1958,ladspa.1961,ladspa.1962,ladspa.1970,ladspa.1981,ladspa.1982,ladspa.2026,ladspa.2979,ladspa.3701,ladspa.3702,ladspa.4221,ladspa.9792,ladspa.9354877">
+<text>LADSPA Plugins</text>
+</group>
+
+<group list="ladspa.4061,ladspa.4062,ladspa.4063,ladspa.4064,ladspa.4065,ladspa.4066,ladspa.4067,ladspa.4068">
+<text>Guitarix Plugins</text>
+</group>
+
+<group list="ladspa.1941,ladspa.1942,ladspa.1943,ladspa.1960,ladspa.1948">
+<text>Mvc Plugins</text>
+</group>
+
+<group list="ladspa.1952,ladspa.1953,ladspa.1954,ladspa.2184,ladspa.2185,ladspa.2186">
+<text>VCO Plugins</text>
+</group>
+
+<group list="ladspa,vinyl,declipper,equalizer,limiter,phaser,equalizer_15,pitch_scale,rate_scale,reverb,room_reverb,pitch_shift">
+<text>MLT ladspa</text>
+</group>
+
 </data>

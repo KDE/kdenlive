@@ -97,6 +97,9 @@ bool Core::build(bool testMode)
             // a previous instance crashed, propose to delete config files
             if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) ==  KMessageBox::Yes)
             {
+                // Release startup crash lock file
+                QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+                lockFile.remove();
                 return false;
             }
         } else {
@@ -218,10 +221,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
-
-    // Release startup crash lock file
-    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-    lockFile.remove();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
@@ -422,6 +421,7 @@ void Core::updateMonitorProfile()
     m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
     m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
     m_monitorProfile.set_explicit(true);
+    emit monitorProfileUpdated();
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -518,6 +518,20 @@ void Core::refreshProjectRange(QPair<int, int> range)
 const QSize Core::getCompositionSizeOnTrack(const ObjectId &id)
 {
     return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionSizeOnTrack(id);
+}
+
+QPair <int,QString> Core::currentTrackInfo() const
+{
+    if (m_mainWindow->getCurrentTimeline()->controller()) {
+        int tid = m_mainWindow->getCurrentTimeline()->controller()->activeTrack();
+        if (tid >= 0) {
+            return {m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackMltIndex(tid), m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackTagById(tid)};
+        }
+        if (tid == -2) {
+            return {-2, i18n("Subtitles")};
+        }
+    }
+    return {-1,QString()};
 }
 
 int Core::getItemPosition(const ObjectId &id)

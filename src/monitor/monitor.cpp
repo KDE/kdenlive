@@ -152,7 +152,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
-    connect(m_qmlManager, &QmlManager::activateTrack, this, &Monitor::activateTrack);
+    connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) {
+        activateTrack(ix, false);
+    });
 
     glayout->addWidget(m_videoWidget, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -383,6 +385,28 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     menu->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
     menu->addAction(widgetslider);
     m_configMenu->addMenu(menu);
+
+    if (m_id == Kdenlive::ClipMonitor) {
+        m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
+        QAction *blackAction = m_background->addAction(QIcon(), i18n("Black"));
+        blackAction->setData("black");
+        QAction *whiteAction = m_background->addAction(QIcon(), i18n("White"));
+        whiteAction->setData("white");
+        QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
+        pinkAction->setData("#ff00ff");
+        m_configMenu->addAction(m_background);
+        if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
+            m_background->setCurrentAction(whiteAction);
+        } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
+            m_background->setCurrentAction(pinkAction);
+        } else {
+            m_background->setCurrentAction(blackAction);
+        }
+        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a){
+            KdenliveSettings::setMonitor_background(a->data().toString());
+            buildBackgroundedProducer(position());
+        });
+    }
 
     /*QIcon icon;
     if (KdenliveSettings::volume() == 0) {
@@ -708,6 +732,25 @@ void Monitor::slotForceSize(QAction *a)
     updateGeometry();
 }
 
+void Monitor::buildBackgroundedProducer(int pos) {
+    if (KdenliveSettings::monitor_background() != "black") {
+        Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
+        QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
+        std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
+        bg->set("length", m_controller->originalProducer()->get_length());
+        trac.set_track(*bg.get(), 0);
+        trac.set_track(*m_controller->originalProducer().get(), 1);
+        QString composite = TransitionsRepository::get()->getCompositingTransition();
+        std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
+        transition->set("always_active", 1);
+        transition->set_tracks(0, 1);
+        trac.plant_transition(*transition.get(), 0, 1);
+        m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
+    } else {
+       m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), pos);
+    }
+}
+
 
 void Monitor::updateMarkers()
 {
@@ -925,13 +968,29 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
-            for (auto screen : qApp->screens()) {
-                QRect screenRect = screen->availableGeometry();
-                if (!screenRect.contains(pCore->window()->geometry().center())) {
-                    m_glWidget->setParent(nullptr);
-                    m_glWidget->move(this->parentWidget()->mapFromGlobal(screenRect.center()));
-                    m_glWidget->setGeometry(screenRect);
-                    break;
+            bool screenFound = false;
+            if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+                for (auto screen : qApp->screens()) {
+                    if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
+                        // Match
+                        m_glWidget->setParent(nullptr);
+                        m_glWidget->move(screen->geometry().topLeft());
+                        m_glWidget->resize(screen->geometry().size());
+                        screenFound = true;
+                        break;
+                    }
+                }
+            }
+            if (!screenFound) {
+                for (auto screen : qApp->screens()) {
+                    // Autodetect second monitor
+                    QRect screenRect = screen->geometry();
+                    if (!screenRect.contains(pCore->window()->geometry().center())) {
+                        m_glWidget->setParent(nullptr);
+                        m_glWidget->move(screenRect.topLeft());
+                        m_glWidget->resize(screenRect.size());
+                        break;
+                    }
                 }
             }
         } else {
@@ -1150,10 +1209,13 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
     QCheckBox *b = nullptr;
-    if (m_id == Kdenlive::ClipMonitor) {
-        b = new QCheckBox(i18n("Export image using source resolution"), dlg.data());
-        b->setChecked(KdenliveSettings::exportframe_usingsourceres());
-        fileWidget->setCustomWidget(b);
+    if (m_id == Kdenlive::ClipMonitor && m_controller && m_controller->clipType() != ClipType::Text) {
+        QSize fSize = m_controller->getFrameSize();
+        if (fSize != pCore->getCurrentFrameSize()) {
+            b = new QCheckBox(i18n("Export image using source resolution"), dlg.data());
+            b->setChecked(KdenliveSettings::exportframe_usingsourceres());
+            fileWidget->setCustomWidget(b);
+        }
     }
     fileWidget->setConfirmOverwrite(true);
     fileWidget->okButton()->show();
@@ -1424,7 +1486,7 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitor(bool directUpdate)
 {
-    if (!m_glMonitor->isReady()) {
+    if (!m_glMonitor->isReady() || isPlaying()) {
         return;
     }
     if (isActive()) {
@@ -1438,6 +1500,7 @@ void Monitor::refreshMonitor(bool directUpdate)
         if (isActive()) {
             m_glMonitor->refresh();
             // Monitor was not active, so we activate it, refresh and activate the other monitor once done
+            QObject::disconnect( m_switchConnection );
             m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
                 m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
                 QObject::disconnect( m_switchConnection );
@@ -1688,7 +1751,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
                 slotActivateMonitor();
             }
-            m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
+            buildBackgroundedProducer(in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
         }
@@ -2591,4 +2654,22 @@ void Monitor::focusTimecode()
 {
     m_timePos->setFocus();
     m_timePos->selectAll();
+}
+
+void Monitor::seekTimeline(const QString frameAndTrack)
+{
+    int frame;
+    if (frameAndTrack.contains(QLatin1Char('?'))) {
+        // Track and timecode info
+        frame = frameAndTrack.section(QLatin1Char('?'), 0, 0).toInt();
+        int track = frameAndTrack.section(QLatin1Char('?'), 1, 1).toInt();
+        // Track uses MLT index, so remove 1 to discard black background track
+        if (track > 0) {
+            track--;
+        }
+        emit activateTrack(track, true);
+    } else {
+        frame = frameAndTrack.toInt();
+    }
+    requestSeek(frame);
 }

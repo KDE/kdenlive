@@ -41,6 +41,11 @@ void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
     m_indexes << index;
 }
 
+QList<QPersistentModelIndex> KeyframeMonitorHelper::getIndexes()
+{
+    return m_indexes;
+}
+
 void KeyframeMonitorHelper::refreshParams(int /* pos */ )
 {
     QVariantList points;

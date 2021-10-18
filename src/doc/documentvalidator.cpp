@@ -1814,6 +1814,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
                         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                             QTextStream out(&file);
+                            out.setCodec("UTF-8");
                             out << doc.toString();
                         }
                         file.close();
@@ -1857,6 +1858,55 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     Xml::setXmlProperty(t, QStringLiteral("level"), params);
                     Xml::setXmlProperty(t, QStringLiteral("alpha"), QStringLiteral("1"));
                 }
+            }
+        }
+    }
+    // Doc 1.03: Kdenlive 21.08.2
+    if (version < 1.04) {
+        // Slide: replace buggy composite transition with affine
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        int max = transitions.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = transitions.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("slide")) {
+                // Switch to affine and rect instead of composite and geometry
+                Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
+                Xml::setXmlProperty(t, QStringLiteral("mlt_service"), QStringLiteral("affine"));
+            }
+        }
+    }
+    // Doc 1.1: Kdenlive 21.12.0
+    if (version < 1.1) {
+        // OpenCV tracker: Fix for older syntax where filter had in/out defined
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("opencv.tracker") && t.hasAttribute(QLatin1String("in"))) {
+                QString filterIn = t.attribute(QLatin1String("in"));
+                int inPoint;
+                Mlt::Properties props;
+                props.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+                if (!filterIn.contains(QLatin1Char(':'))) {
+                    inPoint = filterIn.toInt();
+                } else {
+                    // Convert from hh:mm:ss.mmm to frames
+                    inPoint = props.time_to_frames(filterIn.toUtf8().constData());
+                }
+                qDebug()<<"=== FOUND TRACKER WITH IN POINT: "<<inPoint;
+                QString animation = Xml::getXmlProperty(t, QStringLiteral("results"));
+                props.set("key", animation.toUtf8().constData());
+                // This is a fake query to force the animation to be parsed
+                (void)props.anim_get_double("key", 0, -1);
+                Mlt::Animation anim = props.get_animation("key");
+                anim.shift_frames(inPoint);
+                Xml::setXmlProperty(t, QStringLiteral("results"), qstrdup(anim.serialize_cut()));
+                t.removeAttribute("in");
+                t.removeAttribute("out");
             }
         }
     }
@@ -2168,10 +2218,10 @@ bool DocumentValidator::checkMovit()
     bool hasWB = EffectsRepository::get()->exists(QStringLiteral("frei0r.colgate"));
     bool hasBlur = EffectsRepository::get()->exists(QStringLiteral("frei0r.IIRblur"));
     QString compositeTrans;
-    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
-        compositeTrans = QStringLiteral("qtblend");
-    } else if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
+    if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
         compositeTrans = QStringLiteral("frei0r.cairoblend");
+    } else if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
+        compositeTrans = QStringLiteral("qtblend");
     }
 
     // Parse all effects in document

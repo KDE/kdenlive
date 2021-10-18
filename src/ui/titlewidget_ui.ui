@@ -498,14 +498,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
@@ -703,7 +703,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>367</width>
+                    <width>388</width>
                     <height>542</height>
                    </rect>
                   </property>
@@ -766,14 +766,14 @@
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <property name="color">
+                        <property name="color" stdset="0">
                          <color alpha="100">
                           <red>0</red>
                           <green>0</green>
                           <blue>0</blue>
                          </color>
                         </property>
-                        <property name="alphaChannelEnabled">
+                        <property name="alphaChannelEnabled" stdset="0">
                          <bool>true</bool>
                         </property>
                        </widget>
@@ -1054,7 +1054,7 @@
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>0</red>
                        <green>0</green>
@@ -1074,14 +1074,14 @@
                      <property name="flat">
                       <bool>false</bool>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>255</red>
                        <green>255</green>
                        <blue>255</blue>
                       </color>
                      </property>
-                     <property name="defaultColor">
+                     <property name="defaultColor" stdset="0">
                       <color>
                        <red>255</red>
                        <green>255</green>
@@ -1256,14 +1256,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1325,14 +1325,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1444,14 +1444,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="color">
+             <property name="color" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor">
+             <property name="defaultColor" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
@@ -1470,7 +1470,7 @@
            <item row="0" column="0">
             <widget class="QToolButton" name="anim_start">
              <property name="text">
-              <string>Edit start</string>
+              <string>Edit start viewport</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1480,7 +1480,7 @@
            <item row="0" column="1">
             <widget class="QToolButton" name="anim_end">
              <property name="text">
-              <string>Edit end</string>
+              <string>Edit end viewport</string>
              </property>
              <property name="checkable">
               <bool>true</bool>

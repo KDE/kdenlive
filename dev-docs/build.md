@@ -2,7 +2,7 @@
 
 ## Supported platforms
 
-Kdenlive is primarily developed on GNU/Linux, but there is also a working version of [Kdenlive on Microsoft Windows](https://community.kde.org/Kdenlive/Development/WindowsBuild). 
+Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build Kdenlive on Microsoft Windows and macOS using Craft](#build-craft). For Windows also [other possibilities exist](https://community.kde.org/Kdenlive/Development/WindowsBuild). 
 
 Currently supported distributions are:
 
@@ -11,10 +11,12 @@ Currently supported distributions are:
 
 But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50,MLT >= 6.20.0.
 
-## Base procedure
+## Build on Linux
+
+### Base procedure
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bufixes and optimizations.
-On Ubuntu, the easiest way is to add [https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master Kdenlive's ppa]
+On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
 
 ```bash
 sudo add-apt-repository ppa:kdenlive/kdenlive-master
@@ -28,7 +30,7 @@ sudo apt remove kdenlive kdenlive-data
 ```
 
 
-### Get the build dependencies
+#### Get the build dependencies
 
 
 First, make sure you have the required tooling installed:
@@ -70,7 +72,7 @@ sudo apt install ruby subversion gnupg2 gettext
 
 
 ```
-### Clone the repositories
+#### Clone the repositories
 
 In your development directory, run:
 
@@ -82,9 +84,12 @@ And if you want to build MLT manually:
 
 ```bash
 git clone https://github.com/mltframework/mlt.git
+
+# Install MLT dependencies
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavutil-dev
 ```
 
-### Build and install the projects
+#### Build and install the projects
 
 You should decide where you want to install your builds:
 
@@ -98,7 +103,7 @@ Let's define that destination as `INSTALL_PREFIX` variable; also you can set `JO
 And build the dependencies (MLT) before the project (Kdenlive):
 
 ```bash
-INSTALL_PREFIX=$HOME/.local # or any other choice
+INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
 JOBS=4
 
 # Only if you want to compile MLT manually
@@ -128,7 +133,7 @@ make install
 
 Note that `make install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
 
-### Run Kdenlive
+#### Run Kdenlive
 
 If you didn't build in a system path in which all libs and data are automatically found, you will need to set environment variables to point to them.
 This is done by the auto-generated script in `kdenlive/build` that must be sourced (to keep variables set in current shell, unlike just executing the script):
@@ -137,6 +142,21 @@ This is done by the auto-generated script in `kdenlive/build` that must be sourc
 . prefix.sh
 kdenlive
 ```
+
+## <a name="build-craft">Build with KDE Craft (Linux, Windows, macOS)</a>
+
+[Craft](https://community.kde.org/Craft) is a tool to build the sources and its third-party requirements. It is an easy way to build software, but however not ideal if you want to build Kdenlive for development purposes.
+
+1. Set up Craft as described [here](https://community.kde.org/Craft#Setting_up_Craft). (On Windows choose MinGW as compiler!)
+2. Start building kdenlive. You can simply run `craft --target=master kdenlive`
+3. Within the the craft environment you can running Kdenlive is as simple as `kdenlive`
+
+### Tipps for Craft
+
+* If you want to compile kdenlive in debug mode, you can do so by running `craft --buildtype Debug kdenlive`
+* If you want to compile the stable version instead of the master with that last changes, remove `--target=master` from the craft command: `craft kdenlive`
+* With Craft you can also easily package Kdenlive as `.dmg`, `.exe` or `.appimage` (depending on your platform): `craft --target=master --package kdenlive` The output can be found in `CraftRoot/tmp`
+* For more instructions and tipps on Craft see https://community.kde.org/Craft
 
 ## Various development tricks
 

@@ -1,0 +1,47 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.haas" id="avfilter.haas" type="audio">
+	<name>Haas Stereo Enhancer</name>
+	<description>Apply Haas effect to audio.
+Note that this makes most sense to apply on mono signals. With this filter applied to mono signals it give some directionality and stretches its stereo image.</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.level_in" default="1" min="0.015" max="64" decimals="3">
+        <name>Level in</name>
+        </parameter>
+	<parameter type="constant" name="av.level_out" default="1" min="0.015" max="64" decimals="3">
+                <name>Level out</name>
+        </parameter>
+	<parameter type="constant" name="av.side_gain" default="1" min="0.015" max="64" decimals="3">
+                <name>Side gain</name>
+        </parameter>
+        	<parameter type="list" name="av.middle_source" default="left" paramlist="left;right;mid;side">
+                <paramlistdisplay>left,right,mid,side</paramlistdisplay>
+                <name>Middle source</name>
+        </parameter>
+        <parameter type="bool" name="av.middle_phase" default="0">
+                <name>Middle phase</name>
+        </parameter>
+        <parameter type="constant" name="av.left_delay" default="2.05" min="0" max="40" decimals="2">
+                <name>Left delay</name>
+        </parameter>
+        <parameter type="constant" name="av.left_balance" default="-1" min="-1" max="1" decimals="3">
+        <name>Left balance</name>
+        </parameter>
+        <parameter type="constant" name="av.left_gain" default="1" min="0.015" max="64" decimals="3">
+        <name>Left Gain</name>
+        </parameter>
+        <parameter type="bool" name="av.left_phase" default="0">
+        <name>Left phase</name>
+        </parameter>
+        <parameter type="constant" name="av.right_delay" default="2.12" min="0" max="40" decimals="2">
+        <name>Right delay</name>
+        </parameter>
+        <parameter type="constant" name="av.right_balance" default="1"  min="-1" max="1" decimals="3">
+        <name>Right balance</name>
+        </parameter>
+        <parameter type="constant" name="av.right_gain"  default="1" min="0.015" max="64" decimals="3">
+        <name>Right Gain</name>
+        </parameter>
+        <parameter type="bool" name="av.right_phase" default="1">
+        <name>Right phase</name>
+        </parameter>
+</effect>

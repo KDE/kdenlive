@@ -70,53 +70,41 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     });
     emit updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    if (paramTag.endsWith(QStringLiteral("lift_gamma_gain")) || m_model->getParam(QStringLiteral("mlt_service")).endsWith(QStringLiteral("lift_gamma_gain"))) {
-        // Special case, the colorwheel widget manages several parameters
-        QModelIndex index = model->index(0, 0);
-        auto w = AbstractParamWidget::construct(model, index, frameSize, this);
-        connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
-        connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-        m_lay->addWidget(w);
-        connect(w, &AbstractParamWidget::updateHeight, this, [&](int h) {
-            setFixedHeight(h + m_lay->contentsMargins().bottom());
-            emit updateHeight();
-        });
-        m_widgets.push_back(w);
-    } else {
-        int minHeight = 0;
-        for (int i = 0; i < model->rowCount(); ++i) {
-            QModelIndex index = model->index(i, 0);
-            auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-            if (m_mainKeyframeWidget &&
-                (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
-                // Keyframe widget can have some extra params that shouldn't build a new widget
-                qDebug() << "// FOUND ADDED PARAM";
+    int minHeight = 0;
+    for (int i = 0; i < model->rowCount(); ++i) {
+        QModelIndex index = model->index(i, 0);
+        auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (m_mainKeyframeWidget &&
+            (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+            // Keyframe widget can have some extra params that shouldn't build a new widget
+            qDebug() << "// FOUND ADDED PARAM";
+            if (type != ParamType::ColorWheel) {
                 m_mainKeyframeWidget->addParameter(index);
-            } else {
-                auto w = AbstractParamWidget::construct(model, index, frameSize, this);
-                connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-                connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
-                connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
-                connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                    setFixedHeight(contentHeight());
-                    emit updateHeight();
-                });
-                m_lay->addWidget(w);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
-                    m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
-                    connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
-                    connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
-                    connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
-                } else {
-                    minHeight += w->minimumHeight();
-                }
-                m_widgets.push_back(w);
             }
+        } else {
+            auto w = AbstractParamWidget::construct(model, index, frameSize, this);
+            connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
+            connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+            connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
+            connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+            connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
+            connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
+                setFixedHeight(contentHeight());
+                emit updateHeight();
+            });
+            m_lay->addWidget(w);
+            if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline || type == ParamType::ColorWheel) {
+                m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+                connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+                connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
+            } else {
+                minHeight += w->minimumHeight();
+            }
+            m_widgets.push_back(w);
         }
-        setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
     }
+    setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
     if (addSpacer) {
         m_lay->addStretch();
     }
@@ -133,7 +121,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
-        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel) {
             QString val = defaultValue.toString();
             if (!val.contains(QLatin1Char('='))) {
                 val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
