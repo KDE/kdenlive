@@ -1077,10 +1077,10 @@ void TimelineController::addMarker(int cid, int position)
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
 }
 
-int TimelineController::getMainSelectedClip() const
+int TimelineController::getMainSelectedClip()
 {
     int clipId = m_root->property("mainItemId").toInt();
-    if (clipId == -1) {
+    if (clipId == -1 || !isInSelection(clipId)) {
         std::unordered_set<int> sel = m_model->getCurrentSelection();
         for (int i : sel) {
             if (m_model->isClip(i)) {
