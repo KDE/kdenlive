@@ -741,9 +741,8 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (err == 0) {
                     QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip_mutable));
                     if (out >= clip->get_length()) {
-                        clip->parent().set("length", out + 1);
-                        clip->parent().set("out", out);
                         clip->set("length", out + 1);
+                        clip->set("out", out);
                     }
                     err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
                 }
@@ -2214,6 +2213,10 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
 {
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
     m_sameCompositions[cid]->getAsset()->set("kdenlive:mixcut", mixCut);
+    int in = m_allClips[cid]->getPosition();
+    int out = in + mixDuration;
+    Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
+    transition.set_in_and_out(in, out);
     emit m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
 }
 
