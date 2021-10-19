@@ -835,9 +835,12 @@ bool TimelineModel::mixClip(int idToMove, int delta)
         return false;
     }
     std::pair<int, int> clipsToMix;
+    std::pair<int, int> mixDurations;
     int mixPosition = 0;
     int previousClip = -1;
     int noSpaceInClip = 0;
+    int leftMax = 0;
+    int rightMax = 0;
     if (idToMove != -1) {
         initialSelection = {idToMove};
         idToMove = -1;
@@ -890,8 +893,11 @@ bool TimelineModel::mixClip(int idToMove, int delta)
                 continue;
             }
             // Make sure we have enough space in clip to resize
-            int maxLength = m_allClips[previousClip]->getMaxDuration();
-            if ((m_allClips[s]->getMaxDuration() > -1 && m_allClips[s]->getIn() < 2) || (maxLength > -1 && m_allClips[previousClip]->getOut() + 2 >= maxLength)) {
+            int maxLengthLeft = m_allClips[previousClip]->getMaxDuration();
+            int maxLengthRight = m_allClips[s]->getMaxDuration();
+            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[previousClip]->getOut()) : -1;
+            rightMax = maxLengthRight > -1 ? (m_allClips[s]->getIn()) : -1;
+            if (leftMax > -1 && rightMax > -1 && (leftMax + rightMax < 3)) {
                 noSpaceInClip = 1;
                 continue;
             }
@@ -903,8 +909,11 @@ bool TimelineModel::mixClip(int idToMove, int delta)
         } else {
             // Mix at end of selected clip
             // Make sure we have enough space in clip to resize
-            int maxLength = m_allClips[s]->getMaxDuration();
-            if ((m_allClips[nextClip]->getMaxDuration() > -1 && m_allClips[nextClip]->getIn() < 2) || (maxLength > -1 && m_allClips[s]->getOut() + 2 >= maxLength)) {
+            int maxLengthLeft = m_allClips[s]->getMaxDuration();
+            int maxLengthRight = m_allClips[nextClip]->getMaxDuration();
+            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[s]->getOut()) : -1;
+            rightMax = maxLengthRight > -1 ? (m_allClips[nextClip]->getIn()) : -1;
+            if (leftMax > -1 && rightMax > -1 && (leftMax + rightMax < 3)) {
                 noSpaceInClip = 2;
                 continue;
             }
@@ -926,7 +935,34 @@ bool TimelineModel::mixClip(int idToMove, int delta)
 
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo,
+    int mixDuration = pCore->getDurationFromString(KdenliveSettings::mix_duration());
+    if (leftMax > -1) {
+        if (rightMax > -1) {
+            // Both clips have limited durations
+            mixDurations.first = qMin(mixDuration / 2, leftMax);
+            mixDurations.second = qMin(mixDuration - mixDuration / 2, rightMax);
+            int offset = mixDuration - (mixDurations.first + mixDurations.second);
+            if (offset > 0) {
+                if (leftMax > mixDurations.first) {
+                    mixDurations.first = qMin(leftMax, mixDurations.first + offset);
+                } else if (rightMax > mixDurations.second) {
+                    mixDurations.second = qMin(rightMax, mixDurations.second + offset);
+                }
+            }
+        } else {
+            mixDurations.first = qMin(mixDuration - mixDuration / 2, leftMax);
+            mixDurations.second = mixDuration - mixDurations.second;
+        }
+    } else {
+        if (rightMax > -1) {
+            mixDurations.second = qMin(mixDuration - mixDuration / 2, rightMax);
+            mixDurations.first= mixDuration - mixDurations.first;
+        } else {
+            mixDurations.first = mixDuration / 2;
+            mixDurations.second = mixDuration - mixDurations.first;
+        }
+    }
+    bool result = requestClipMix(clipsToMix, mixDurations, selectedTrack, mixPosition, true, true, true, undo,
  redo, false);
     if (result) {
         // Check if this is an AV split group
@@ -951,7 +987,7 @@ bool TimelineModel::mixClip(int idToMove, int delta)
                         clipsToMix.second = current_id;
                     }
                     if (splitId > -1 && clipsToMix.first != clipsToMix.second) {
-                        result = requestClipMix(clipsToMix, splitTrack, mixPosition, true, true, true, undo, redo, false);
+                        result = requestClipMix(clipsToMix, mixDurations, splitTrack, mixPosition, true, true, true, undo, redo, false);
                     }
                 }
             }
@@ -972,7 +1008,7 @@ bool TimelineModel::mixClip(int idToMove, int delta)
     }
 }
 
-bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     if (trackId == -1) {
         return false;
@@ -986,21 +1022,20 @@ bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int
     // Move on same track, simply inform the view
     updateView = false;
     notifyViewOnly = true;
-    int mixDuration = pCore->getDurationFromString(KdenliveSettings::mix_duration());
-    update_model = [clipIds, this, trackId, position, invalidateTimeline, mixDuration]() {
+    update_model = [clipIds, this, trackId, position, invalidateTimeline, mixDurations]() {
         QModelIndex modelIndex = makeClipIndexFromID(clipIds.second);
         notifyChange(modelIndex, modelIndex, {StartRole,DurationRole});
         QModelIndex modelIndex2 = makeClipIndexFromID(clipIds.first);
         notifyChange(modelIndex2, modelIndex2, DurationRole);
         if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
-            emit invalidateZone(position - mixDuration / 2, position + mixDuration);
+            emit invalidateZone(position - mixDurations.second, position + mixDurations.first);
         }
         return true;
     };
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_undo);
     }
-    ok = getTrackById(trackId)->requestClipMix(clipIds, mixDuration, updateView, finalMove, local_undo, local_redo, groupMove);
+    ok = getTrackById(trackId)->requestClipMix(clipIds, mixDurations, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qWarning() << "mix failed, reverting";
         bool undone = local_undo();

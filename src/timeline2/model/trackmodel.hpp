@@ -126,7 +126,7 @@ public:
     /** @brief Remove a composition between 2 same track clips */
     bool requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
