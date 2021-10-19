@@ -2090,13 +2090,12 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString,QVector<QPair<QString
         //int out = in + info.firstClipInOut.second - info.secondClipInOut.first;
         int duration = info.firstClipInOut.second - info.secondClipInOut.first;
         int out = in + duration;
-        movedClip->setMixDuration(duration);
+        movedClip->setMixDuration(duration, info.mixOffset);
         std::unique_ptr<Mlt::Transition> t;
         const QString assetId = params.first;
         t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), assetId.toUtf8().constData());
-        int mixCutPos = info.mixOffset; //movedClip->getMixCutPosition();
         t->set_in_and_out(in, out);
-        t->set("kdenlive:mixcut", mixCutPos);
+        t->set("kdenlive:mixcut", info.mixOffset);
         t->set("kdenlive_id", assetId.toUtf8().constData());
         m_track->plant_transition(*t.get(), 0, 1);
         QDomElement xml = TransitionsRepository::get()->getXml(assetId);
