@@ -157,9 +157,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         QString id(t->get("kdenlive_id"));
         int compoId;
         int aTrack = t->get_a_track();
-        if (!timeline->isTrack(t->get_b_track() - 1)) {
+        if (!timeline->isTrack(timeline->getTrackIndexFromPosition(t->get_b_track() - 1))) {
             QString tcInfo = QString("<a href=\"%1\">%2</a>").arg(QString::number(t->get_in()), pCore->timecode().getTimecodeFromFrames(t->get_in()));
             m_notesLog << i18n("%1 Composition (%2) with invalid track reference found and removed.", tcInfo, t->get("id"));
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
+                                       t->get_in(), t->get_a_track());
             continue;
         }
         if (aTrack > tractor.count()) {
