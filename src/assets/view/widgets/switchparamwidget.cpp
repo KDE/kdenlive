@@ -59,5 +59,25 @@ void SwitchParamWidget::slotShowComment(bool show)
 void SwitchParamWidget::slotRefresh()
 {
     const QSignalBlocker bk(m_checkBox);
-    m_checkBox->setChecked(m_model->data(m_index, AssetParameterModel::ValueRole) == m_model->data(m_index, AssetParameterModel::MaxRole));
+    QString max = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
+    QString val = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    if (val == max) {
+        m_checkBox->setChecked(true);
+    } else {
+        QString min = m_model->data(m_index, AssetParameterModel::MinRole).toString();
+        if (val == min) {
+            m_checkBox->setChecked(false);
+            return;
+        }
+        if (val.contains(QLatin1Char(';'))) {
+            // Value is not equal to min/max, might be caused by a frame > timecode replacement
+            max = max.section(QLatin1Char(';'), 0, 0);
+            val = val.section(QLatin1Char(';'), 0, 0);
+            if (val.endsWith(max.section(QLatin1Char(' '), -1))) {
+                m_checkBox->setChecked(true);
+            } else {
+                m_checkBox->setChecked(false);
+            }
+        }
+    }
 }
