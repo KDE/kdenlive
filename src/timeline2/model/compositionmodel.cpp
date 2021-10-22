@@ -150,6 +150,36 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
                 };
                 refresh();
                 UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
+            } else {
+                if (m_assetId == QLatin1String("slide")) {
+                    // Slide composition uses a keyframe at end of composition, so update last keyframe
+                    Fun refresh = [this]() {
+                        QString animation(m_asset->get("rect"));
+                        if (animation.contains(QLatin1Char(';'))) {
+                            QString result = animation.section(QLatin1Char(';'), 0, 0);
+                            result.append(QStringLiteral(";-1="));
+                            result.append(animation.section(QLatin1Char('='), -1));
+                            m_asset->set("rect", result.toUtf8().constData());    
+                        }
+                        return true;
+                    };
+                    refresh();
+                    UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
+                } else if (m_assetId == QLatin1String("wipe")) {
+                    // Slide composition uses a keyframe at end of composition, so update last keyframe
+                    Fun refresh = [this]() {
+                        QString animation(m_asset->get("geometry"));
+                        if (animation.contains(QLatin1Char(';'))) {
+                            QString result = animation.section(QLatin1Char(';'), 0, 0);
+                            result.append(QStringLiteral(";-1="));
+                            result.append(animation.section(QLatin1Char('='), -1));
+                            m_asset->set("geometry", result.toUtf8().constData());    
+                        }
+                        return true;
+                    };
+                    refresh();
+                    UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
+                }
             }
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
