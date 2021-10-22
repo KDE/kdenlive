@@ -373,7 +373,12 @@ Item{
                 timeline.showToolTip();
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     // We only resize one element
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        controller.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    }
+
                     if (controlTrim) {
                         // Update speed
                         speedController.visible = false
@@ -416,7 +421,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("Out: Request for " + newDuration)
-                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, false, root.snapping, shiftTrim)
+                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, true);
                     timeline.ripplePosChanged(new_duration, true);
                     console.log("Out: Fake Resize to " + new_duration)
@@ -440,7 +445,12 @@ Item{
                 timeline.showToolTip();
                 //bubbleHelp.hide()
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        controller.requestItemRippleResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    }
+
                     if (controlTrim) {
                         speedController.visible = false
                         // Update speed

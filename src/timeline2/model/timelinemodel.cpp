@@ -3283,7 +3283,7 @@ int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, boo
     int offset = getItemPlaytime(itemId);
     int tid = getItemTrackId(itemId);
     int out = offset;
-    qDebug()<<"======= REQUESTING NEW CLIP SIZE: "<<size;
+    qDebug()<<"======= REQUESTING NEW CLIP SIZE (RIPPLE): "<<size;
     if (tid != -1 || !isClip(itemId)) {
         in = qMax(0, getItemPosition(itemId));
         out += in;
@@ -3556,6 +3556,7 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
         bool affectAllTracks = false;
         size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
         int delta = size - m_allClips[itemId]->getPlaytime();
+        qDebug() << "requestItemRippleResize logUndo: " << logUndo << " size: " << size << " playtime: " << m_allClips[itemId]->getPlaytime() <<" delta: " << delta;
         auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right](int position) {
             int trackId = getItemTrackId(itemId);
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
@@ -3626,7 +3627,7 @@ int TimelineModel::requestFakeItemResize(int itemId, int size, bool right, int s
     int offset = getItemPlaytime(itemId);
     int tid = getItemTrackId(itemId);
     int out = offset;
-    qDebug()<<"======= REQUESTING NEW CLIP SIZE: "<<size;
+    qDebug()<<"======= REQUESTING NEW FAKE CLIP SIZE: "<<size;
     if (tid != -1 || !isClip(itemId)) {
         in = qMax(0, getItemPosition(itemId));
         out += in;
