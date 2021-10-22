@@ -670,7 +670,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         // We have processed all slideshows
                         parentItem->setDisabled(true);
                     }
-                    break;
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     files << QUrl::fromLocalFile(item->text(0));
                 } else {
@@ -687,7 +686,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             if (!isSlideshow) {
                 parentItem->setDisabled(true);
             }
-            break;
         }
     }
 
