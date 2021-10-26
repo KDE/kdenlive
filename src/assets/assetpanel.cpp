@@ -172,16 +172,23 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_transitionWidget->setModel(transitionModel, s, true);
 }
 
-void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel)
+void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel, bool refreshOnly)
 {
     if (cid == -1) {
         clear();
         return;
     }
     ObjectId id = {ObjectType::TimelineMix, cid};
-    if (m_mixWidget->stackOwner() == id) {
-        // already on this effect stack, do nothing
-        return;
+    if (refreshOnly) {
+        if (m_mixWidget->stackOwner() != id) {
+            // item not currently displayed, ignore
+            return;
+        }
+    } else {
+        if (m_mixWidget->stackOwner() == id) {
+            // already on this effect stack, do nothing
+            return;
+        }
     }
     clear();
     // There is only 1 audio composition, so hide switch combobox

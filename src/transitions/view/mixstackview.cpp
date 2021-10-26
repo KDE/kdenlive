@@ -149,8 +149,7 @@ void MixStackView::slotAlignLeft()
     }
     m_alignRight->setChecked(false);
     m_alignCenter->setChecked(false);
-    int newDuration = m_duration->getValue();
-    pCore->resizeMix(stackOwner().second, newDuration, MixAlignment::AlignLeft);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignLeft);
 }
 
 void MixStackView::slotAlignRight()
@@ -160,8 +159,7 @@ void MixStackView::slotAlignRight()
     }
     m_alignLeft->setChecked(false);
     m_alignCenter->setChecked(false);
-    int newDuration = m_duration->getValue();
-    pCore->resizeMix(stackOwner().second, newDuration, MixAlignment::AlignRight);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignRight);
 }
 
 void MixStackView::slotAlignCenter()
@@ -171,8 +169,7 @@ void MixStackView::slotAlignCenter()
     }
     m_alignLeft->setChecked(false);
     m_alignRight->setChecked(false);
-    int newDuration = m_duration->getValue();
-    pCore->resizeMix(stackOwner().second, newDuration, MixAlignment::AlignCenter);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignCenter);
 }
 
 void MixStackView::unsetModel()
