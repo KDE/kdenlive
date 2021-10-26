@@ -865,7 +865,7 @@ signals:
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /** @brief Signal sent whenever the selected mix changes */
-    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly = false);
     /** @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /** @brief Emitted when a clip is deleted to check if it was not used in timeline qml */

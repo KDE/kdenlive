@@ -138,9 +138,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                 continue;
             }
             QString id(t.get("kdenlive_id"));
-            QString internal(t.get("internal_added"));
-            QString isMix(t.get("kdenlive:mixcut"));
-            if (internal.isEmpty() && isMix.isEmpty()) {
+            if (t.property_exists("internal_added") == false && t.property_exists("kdenlive:mixcut") == false) {
                 compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
                     qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();

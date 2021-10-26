@@ -2349,6 +2349,14 @@ bool TrackModel::loadMix(Mlt::Transition *t)
             return false;
         }
     }
+    // Ensure in/out points are in sync with the clips
+    int clipIn = m_allClips[cid2]->getPosition();
+    int clipOut = m_allClips[cid1]->getPosition() + m_allClips[cid1]->getPlaytime();
+    if (in != clipIn || out != clipOut) {
+        t->set_in_and_out(clipIn, clipOut);
+        in = clipIn;
+        out = clipOut;
+    }
     QString assetId(t->get("kdenlive_id"));
     if (assetId.isEmpty()) {
         assetId = QString(t->get("mlt_service"));
@@ -2374,7 +2382,9 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(tr), xml, assetId, {ObjectType::TimelineMix, cid2}, QString()));
     m_sameCompositions[cid2] = asset;
     m_mixList.insert(cid1, cid2);
-    setMixDuration(cid2, t->get_length() - 1, t->get_int("kdenlive:mixcut"));
+    int mixDuration = t->get_length() - 1;
+    int mixCutPos = qMin(t->get_int("kdenlive:mixcut"), mixDuration);
+    setMixDuration(cid2, mixDuration, mixCutPos);
     return true;
 }
 
