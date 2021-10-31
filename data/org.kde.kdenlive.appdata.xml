@@ -242,25 +242,10 @@
     </ul>
   </description>
   <releases>
+    <release version="21.08.3" date="2021-11-04"/>
     <release version="21.08.2" date="2021-10-07"/>
     <release version="21.08.1" date="2021-09-02"/>
     <release version="21.08.0" date="2021-08-12"/>
-    <release version="21.04.3" date="2021-07-08">
-      <url type="details">https://kdenlive.org/en/2021/07/kdenlive-21-04-3</url>
-      <description>
-        <p>The last maintenance release of the 21.04 series is out with improvements to same track transitions, improved Wayland support, as well as  fixing issues with rotoscoping and the speech to text module. This version also adds support for the WebP image format.</p>
-        <ul>
-          <li>Fix crash closing project with a mix on a clip with keyframable effect.</li>
-          <li>Fix speech to text after recent VOSK api change.</li>
-          <li>Cleanup font setting for qml timeline.</li>
-          <li>Add webp mime type to clip creation dialog.</li>
-          <li>Fix startup crash on Wayland, thanks to login.kde@unrelenting.technology.</li>
-          <li>Mix: Fix first clip out not correctly reset on second clip deletion.</li>
-          <li>Fix crash on exit when a mix is selected.</li>
-          <li>Resolved Bug 436895 - “Rotoscoping not working right”.</li>
-        </ul>
-      </description>
-    </release>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
