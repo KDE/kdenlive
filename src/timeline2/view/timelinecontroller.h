@@ -180,9 +180,6 @@ public:
     void switchSubtitleLock();
     bool subtitlesLocked() const;
     bool guidesLocked() const;
-    /** @brief Request a seek operation
-       @param position is the desired new timeline position
-     */
     int zoneIn() const { return m_zone.x(); }
     int zoneOut() const { return m_zone.y(); }
     void setZoneIn(int inPoint);

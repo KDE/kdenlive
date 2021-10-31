@@ -48,6 +48,11 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout->addWidget(m_alignCenter);
     m_durationLayout->addWidget(m_alignLeft);
     connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
+    connect(this, &AssetParameterView::seekToPos, [this](int pos) {
+        // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
+        int clipIn = pCore->getItemPosition(m_model->getOwnerId());
+        emit seekToTransPos(pos + clipIn);
+    });
 }
 
 void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
@@ -58,11 +63,6 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
     }
-    connect(this, &AssetParameterView::seekToPos, [this](int pos) {
-        // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
-        int clipIn = 0; //pCore->getItemPosition(m_model->getOwnerId());
-        emit seekToTransPos(pos + clipIn);
-    });
     emit initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 

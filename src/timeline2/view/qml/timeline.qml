@@ -1750,6 +1750,11 @@ Rectangle {
                                             }
                                         }
                                     }
+                                    onClicked: {
+                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes) {
+                                            dragProxy.masterObject.resetSelection()
+                                        }
+                                    }
                                 }
                             }
                             MouseArea {

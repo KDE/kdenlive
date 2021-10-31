@@ -40,6 +40,42 @@ const QString KeyframeModelList::getAssetId()
     return {};
 }
 
+QVector<int> KeyframeModelList::selectedKeyframes() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->m_selectedKeyframes;
+    }
+    return {};
+}
+
+int KeyframeModelList::activeKeyframe() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->m_activeKeyframe;
+    }
+    return -1;
+}
+
+void KeyframeModelList::setActiveKeyframe(int ix)
+{
+    m_parameters.begin()->second->setActiveKeyframe(ix);
+}
+
+void KeyframeModelList::removeFromSelected(int ix)
+{
+    m_parameters.begin()->second->setSelectedKeyframe(ix, true);
+}
+
+void KeyframeModelList::setSelectedKeyframes(QVector<int> list)
+{
+    m_parameters.begin()->second->setSelectedKeyframes(list);
+}
+
+void KeyframeModelList::appendSelectedKeyframe(int ix)
+{
+    m_parameters.begin()->second->setSelectedKeyframe(ix, true);
+}
+
 const QString KeyframeModelList::getAssetRow()
 {
     if (auto ptr = m_model.lock()) {
@@ -52,7 +88,17 @@ void KeyframeModelList::addParameter(const QModelIndex &index)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
     connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
+    connect(parameter.get(), &KeyframeModel::requestModelUpdate, this, &KeyframeModelList::slotUpdateModels);
     m_parameters.insert({index, std::move(parameter)});
+}
+
+void KeyframeModelList::slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
+{
+    // Propagate change to all keyframe models
+    for (const auto &param : m_parameters) {
+        param.second->dataChanged(ix1, ix2, roles);
+    }
+    emit modelDisplayChanged();
 }
 
 bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString)
@@ -169,11 +215,11 @@ bool KeyframeModelList::removeNextKeyframes(GenTime pos)
     return applyOperation(op, i18n("Delete keyframes"));
 }
 
-bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
+bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
-    auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo); };
+    auto op = [oldPos, pos, updateView](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo, updateView); };
     return applyOperation(op, logUndo ? i18nc("@action", "Move keyframe") : QString());
 }
 
@@ -558,12 +604,12 @@ void KeyframeModelList::checkConsistency()
 
 GenTime KeyframeModelList::getPosAtIndex(int ix)
 {
-    QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
-    std::sort(positions.begin(), positions.end());
-    if (ix < 0 || ix >= positions.count()) {
-        return GenTime();
-    }
-    return positions.at(ix);
+    return m_parameters.begin()->second->getPosAtIndex(ix);
+}
+
+int KeyframeModelList::getIndexForPos(GenTime pos)
+{
+    return m_parameters.begin()->second->getIndexForPos(pos);
 }
 
 QModelIndex KeyframeModelList::getIndexAtRow(int row)

@@ -53,10 +53,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
-    int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
     m_model->prepareKeyframes();
     m_keyframes = m_model->getKeyframeModel();
-    m_keyframeview = new KeyframeView(m_keyframes, duration, in, this);
+    m_keyframeview = new KeyframeView(m_keyframes, duration, this);
 
 
     m_buttonAddDelete = new QToolButton(this);
@@ -130,7 +129,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
-    m_time->setOffset(in);
+    m_time->setOffset(m_model->data(index, AssetParameterModel::ParentInRole).toInt());
 
     m_toolbar->addWidget(buttonPrevious);
     m_toolbar->addWidget(m_buttonAddDelete);
@@ -440,8 +439,8 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     slotRefreshParams();
 
     if (update) {
-        int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        emit seekToPos(pos + in);
+        //int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+        emit seekToPos(pos);
     }
 }
 
@@ -684,6 +683,8 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         }
         m_keyframes->updateKeyframe(pos, res, index);
+    } else {
+        qDebug()<<"==== NO KFR AT: "<<getPosition();
     }
 }
 

@@ -102,6 +102,12 @@ Rectangle {
         mouseArea.focus = true
     }
 
+    function resetSelection() {
+        if (effectRow.visible) {
+            effectRow.item.resetSelection()
+        }
+    }
+
     function clearAndMove(offset) {
         controller.requestClearSelection()
         controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)
@@ -115,9 +121,8 @@ Rectangle {
     }
 
     onKeyframeModelChanged: {
-        if (effectRow.keyframecanvas) {
-            console.log('keyframe model changed............')
-            effectRow.keyframecanvas.requestPaint()
+        if (effectRow.item && effectRow.item.keyframecanvas) {
+            effectRow.item.keyframecanvas.requestPaint()
         }
     }
 
@@ -919,16 +924,54 @@ Rectangle {
                 }
             }
 
-            KeyframeView {
+            Loader {
+                // keyframes container
                 id: effectRow
                 clip: true
                 anchors.fill: parent
-                visible: clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
-                selected: clipRoot.selected
-                inPoint: clipRoot.inPoint
-                outPoint: clipRoot.outPoint
-                masterObject: clipRoot
-                kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
+                asynchronous: true
+                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
+                source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+                Binding {
+                    target: effectRow.item
+                    property: "kfrModel"
+                    value: clipRoot.hideClipViews ? undefined : clipRoot.keyframeModel
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "selected"
+                    value: clipRoot.selected
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "inPoint"
+                    value: clipRoot.inPoint
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "outPoint"
+                    value: clipRoot.outPoint
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "modelStart"
+                    value: clipRoot.modelStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "clipId"
+                    value: clipRoot.clipId
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+            }
+            Connections {
+                target: effectRow.item
+                function onSeek(position) { proxy.position = position }
             }
         }
 

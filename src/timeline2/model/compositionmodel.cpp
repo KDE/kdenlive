@@ -246,8 +246,9 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
 KeyframeModel *CompositionModel::getEffectKeyframeModel()
 {
     prepareKeyframes();
-    if (getKeyframeModel()) {
-        return getKeyframeModel()->getKeyModel();
+    std::shared_ptr<KeyframeModelList> listModel = getKeyframeModel();
+    if (listModel) {
+        return listModel->getKeyModel();
     }
     return nullptr;
 }

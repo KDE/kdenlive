@@ -19,7 +19,7 @@ class KeyframeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, int inPoint, QWidget *parent = nullptr);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
     void setDuration(int dur, int inPoint);
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
@@ -46,6 +46,7 @@ public slots:
     void slotGoToNext();
     void slotGoToPrev();
     void slotModelChanged();
+    void slotModelDisplayChanged();
     void slotEditType(int type, const QPersistentModelIndex &index);
     /** @brief Emit initial info for monitor. */
     void initKeyframePos();
@@ -63,9 +64,7 @@ protected:
 private:
     std::shared_ptr<KeyframeModelList> m_model;
     int m_duration;
-    int m_inPoint;
     int m_position;
-    int m_currentKeyframe;
     int m_currentKeyframeOriginal;
     QVector <int>m_selectedKeyframes;
     int m_hoverKeyframe;

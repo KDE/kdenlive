@@ -366,7 +366,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    emit updateMonitorGeometry(r);
+    //emit updateMonitorGeometry(r);
     adjustSizeValue();
     emit valueChanged(getValue());
 }

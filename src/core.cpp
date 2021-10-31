@@ -657,6 +657,7 @@ QSize Core::getItemFrameSize(const ObjectId &id)
         return m_binWidget->getFrameSize(id.second);
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
+    case ObjectType::TimelineComposition:
         return pCore->getCurrentFrameSize();
     default:
         qWarning() << "unhandled object type";

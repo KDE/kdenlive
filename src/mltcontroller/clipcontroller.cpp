@@ -28,6 +28,7 @@ std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
+    , m_producerLock(QReadWriteLock::Recursive)
     , m_masterProducer(producer)
     , m_properties(producer ? new Mlt::Properties(producer->get_properties()) : nullptr)
     , m_usesProxy(false)
@@ -39,7 +40,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_thumbsProducer(nullptr)
-    , m_producerLock(QReadWriteLock::Recursive)
     , m_controllerBinId(clipId)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {

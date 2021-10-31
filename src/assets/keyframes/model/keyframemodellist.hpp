@@ -62,7 +62,7 @@ public:
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
-    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView = true);
     bool moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 
     /** @brief updates the value of a keyframe
@@ -128,6 +128,20 @@ public:
     const QString getAssetId();
     const QString getAssetRow();
 
+    /** @brief Returns the list of selected keyframes */
+    QVector<int> selectedKeyframes() const;
+    /** @brief Remove a position from selected keyframes */
+    void removeFromSelected(int pos);
+    /** @brief Replace list of selected keyframes */
+    void setSelectedKeyframes(QVector<int> list);
+    /** @brief Append a keyframe to selection */
+    void appendSelectedKeyframe(int frame);
+
+    /** @brief Get the currently active keyframe */
+    int activeKeyframe() const;
+    /** @brief Set the currently active keyframe */
+    void setActiveKeyframe(int pos);
+
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
     
@@ -136,6 +150,7 @@ public:
     
     /** @brief Return position of the nth keyframe (ix = nth)*/
     GenTime getPosAtIndex(int ix);
+    int getIndexForPos(GenTime pos);
     QModelIndex getIndexAtRow(int row);
 
     /** @brief Check that all keyframable parameters have the same keyframes on loading
@@ -148,6 +163,7 @@ protected:
 
 signals:
     void modelChanged();
+    void modelDisplayChanged();
 
 private:
     std::weak_ptr<AssetParameterModel> m_model;
@@ -156,6 +172,9 @@ private:
     /** @brief Index of the parameter that is displayed in timeline */
     QModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+
+private slots:
+    void slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
 public:
     // this is to enable for range loops

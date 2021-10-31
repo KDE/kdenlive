@@ -60,6 +60,9 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
 {
     Q_OBJECT
 
+friend class KeyframeModelList;
+friend class KeyframeModel;
+
 public:
     /**
      *
@@ -238,6 +241,8 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
+    QVector<int>m_selectedKeyframes;
+    int m_activeKeyframe;
     /** @brief if true, keyframe tools will be hidden by default */
     bool m_hideKeyframesByDefault;
     /** @brief true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate */
