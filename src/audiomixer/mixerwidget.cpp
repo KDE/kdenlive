@@ -267,10 +267,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             // Muting master, special case
             if (m_levelFilter) {
                 if (active) {
-                    m_lastVolume = m_levelFilter->get_int("level");
+                    m_lastVolume = m_levelFilter->get_double("level");
                     m_levelFilter->set("level", -1000);
+                    m_levelFilter->set("disable", 0);
                 } else {
                     m_levelFilter->set("level", m_lastVolume);
+                    m_levelFilter->set("disable", qFuzzyIsNull(m_lastVolume) ? 1 : 0);
                 }
             }
         } else {
