@@ -89,7 +89,7 @@ private:
     QToolButton *m_collapse;
     KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;
-    int m_lastVolume;
+    double m_lastVolume;
     QVector <double>m_audioData;
     Mlt::Event *m_listener;
     bool m_recording;
