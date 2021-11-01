@@ -346,6 +346,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
+        mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
         mimeData->setText(QString::number(duration));
     }
     return mimeData;

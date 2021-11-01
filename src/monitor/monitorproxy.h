@@ -75,6 +75,7 @@ public:
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
+    Q_INVOKABLE QByteArray getUuid() const;
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
     void positionFromConsumer(int pos, bool playing);

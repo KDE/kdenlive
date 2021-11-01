@@ -268,6 +268,7 @@ Rectangle {
         clipBeingDroppedId = -1
         droppedPosition = -1
         droppedTrack = -1
+        clipDropArea.lastDragUuid = ""
         scrollTimer.running = false
         scrollTimer.stop()
     }
@@ -519,7 +520,7 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
-                    if (clipBeingDroppedId >= 0){
+                    if (clipBeingDroppedId >= 0) {
                         if (controller.isAudioTrack(track)) {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
@@ -556,6 +557,7 @@ Rectangle {
     DropArea {
         //Drop area for bin/clips
         id: clipDropArea
+        property string lastDragUuid
         /** @brief local helper function to handle the insertion of multiple dragged items */
         function insertAndMaybeGroup(track, frame, droppedData) {
             var binIds = droppedData.split(";")
@@ -622,6 +624,10 @@ Rectangle {
             clearDropData()
         }
         onEntered: {
+            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid')) {
+                // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
+                processDrop()
+            }
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
                 var yOffset = 0
@@ -635,6 +641,7 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
+                    lastDragUuid = drag.getDataAsString('kdenlive/dragid')
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
