@@ -965,6 +965,7 @@ void Monitor::slotStartDrag()
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
+    mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
     drag->exec(Qt::MoveAction);
     emit pCore->bin()->processDragEnd();

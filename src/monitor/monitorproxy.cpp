@@ -27,6 +27,8 @@
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
 
+#include <QUuid>
+
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltFilter.h>
 #include <mlt++/MltProducer.h>
@@ -409,4 +411,9 @@ void MonitorProxy::setSpeed(double speed)
         m_speed = speed;
         emit speedChanged();
     }
+}
+
+QByteArray MonitorProxy::getUuid() const
+{
+    return QUuid::createUuid().toByteArray();
 }
