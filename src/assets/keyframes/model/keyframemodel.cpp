@@ -220,6 +220,12 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
     if (auto ptr = m_model.lock()) {
         if (ptr->m_selectedKeyframes.size() > 1) {
             // We have several selected keyframes, move them all
+            double offset = 0.;
+            if (newVal.isValid() && newVal.type() == QVariant::Double) {
+                int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
+                double oldVal = data(index(row), NormalizedValueRole).toDouble();
+                offset = newVal.toDouble() - oldVal;
+            }
             QVector<GenTime> positions;
             for (auto &kf : ptr->m_selectedKeyframes) {
                 if (kf > 0) {
@@ -259,7 +265,14 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
                 if (p == oldPos) {
                     res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, undo, redo, updateView);
                 } else {
-                    res = res && moveOneKeyframe(p, p + delta, QVariant(), undo, redo, updateView);
+                    if (!qFuzzyIsNull(offset)) {
+                        // Calculate new value
+                        int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(p)));
+                        double newVal2 = qBound(0., data(index(row), NormalizedValueRole).toDouble() + offset, 1.);
+                        res = res && moveOneKeyframe(p, p + delta, newVal2, undo, redo, updateView);
+                    } else {
+                        res = res && moveOneKeyframe(p, p + delta, QVariant(), undo, redo, updateView);
+                    }
                 }
             }
             return res;

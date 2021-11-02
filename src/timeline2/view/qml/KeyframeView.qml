@@ -164,7 +164,7 @@ Rectangle
                         }
                     }
                     onEntered: {
-                        timeline.showKeyBinding(i18n("<b>Shift drag</b> to move all keyframes after this one."))
+                        timeline.showKeyBinding(i18n("<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move all keyframes after this one."))
                     }
                     onExited: {
                         timeline.showKeyBinding()
@@ -272,7 +272,7 @@ Rectangle
                             resetSelection()
                         }
                         onEntered: {
-                            timeline.showKeyBinding(i18n("<b>Shift drag</b> to change value only, <b>Ctrl click</b> for multiple keyframe selection."))
+                            timeline.showKeyBinding(i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
                         }
                         onExited: {
                             timeline.showKeyBinding()
