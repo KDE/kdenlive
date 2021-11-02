@@ -309,6 +309,8 @@ protected:
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
+    /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
+    bool isAvailableWithExceptions(int position, int duration, QVector<int>exceptions);
     /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */

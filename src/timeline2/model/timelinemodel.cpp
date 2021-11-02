@@ -679,6 +679,20 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
+    if (!finalMove) {
+        QVector <int>exceptions = {clipId};
+        if (mixData.first.firstClipId > -1) {
+            exceptions << mixData.first.firstClipId;
+        }
+        if (mixData.second.secondClipId > -1) {
+            exceptions << mixData.second.secondClipId;
+        }
+        if (!getTrackById_const(trackId)->isAvailableWithExceptions(position, getClipPlaytime(clipId), exceptions)) {
+            // No space for clip insert operation, abort
+            qWarning() << "No free space for clip move";
+            return false;
+        }
+    }
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
         bool mixGroupMove = false;
@@ -766,7 +780,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     } else if (finalMove && groupMove && isTrack(old_trackId) && hadMix && old_trackId == trackId) {
-
+        // Group move on same track with mix
         if (mixData.first.firstClipId > -1) {
             // Mix on clip start, check if mix is still in range
             if (!moving_clips.contains(mixData.first.firstClipId)) {
@@ -2936,6 +2950,11 @@ bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
         return true;
     }
     return getTrackById_const(tid)->isBlankAt(pos, playlist);
+}
+
+bool TimelineModel::trackIsAvailable(int tid, int pos, int duration, int playlist) const
+{
+    return getTrackById_const(tid)->isAvailable(pos, duration, playlist);
 }
 
 int TimelineModel::getClipStartAt(int tid, int pos, int playlist) const

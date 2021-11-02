@@ -1573,6 +1573,28 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
     return m_playlists[playlist].is_blank(start_clip);
 }
 
+bool TrackModel::isAvailableWithExceptions(int position, int duration, QVector<int>exceptions)
+{
+    // Check on both playlists
+    QSharedPointer<Mlt::Producer> prod = nullptr;
+    for (auto &playlist : m_playlists) {
+        int start_clip = playlist.get_clip_index_at(position);
+        int end_clip = playlist.get_clip_index_at(position + duration - 1);
+        for (int ix = start_clip; ix <= end_clip; ix++) {
+            if (playlist.is_blank(ix)) {
+                continue;
+            }
+            prod.reset(playlist.get_clip(ix));
+            if (prod) {
+                if (!exceptions.contains(prod->get_int("_kdenlive_cid"))) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo)
 {
     int mixDuration;

@@ -375,6 +375,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             int cid = -1;
             if (pCore->bin()->getBinClip(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
+                bool enforceTopPlaylist = false;
                 if (playlist > 0) {
                     // Clips on playlist > 0 must have a mix or something is wrong
                     bool hasStartMix = !timeline->trackIsBlankAt(tid, position, 0);
@@ -451,9 +452,19 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             m_notesLog << i18n("%1 Clip (%2) with missing mix found and removed", tcInfo, clip->parent().get("id"));
                             continue;
                         }
+                    } else {
+                        // Check if playlist 0 is available
+                        enforceTopPlaylist = timeline->trackIsAvailable(tid, position, duration, 0);
+                        if (enforceTopPlaylist) {
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found and fixed on track %2 at %3.", clip->parent().get("id"), timeline->getTrackTagById(tid), position);
+                        } else {
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found on track %2 at %3.", clip->parent().get("id"), timeline->getTrackTagById(tid), position);
+                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>").arg(QString::number(position), QString::number(timeline->getTrackPosition(tid)+1), timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                            m_notesLog << i18n("%1 Clip (%2) with incorrect subplaylist found", tcInfo, clip->parent().get("id"));
+                        }
                     }
                 }
-                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, playlist);
+                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, enforceTopPlaylist ? 0 : playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
                 qWarning() << "can't find bin clip" << binId << clip->get("id");
