@@ -163,6 +163,12 @@ Rectangle
                             }
                         }
                     }
+                    onEntered: {
+                        timeline.showKeyBinding(i18n("<b>Shift drag</b> to move all keyframes after this one."))
+                    }
+                    onExited: {
+                        timeline.showKeyBinding()
+                    }
                 }
                 Rectangle {
                     id: keyframeVal
@@ -264,6 +270,12 @@ Rectangle
                         onDoubleClicked: {
                             timeline.removeEffectKeyframe(clipId, frame);
                             resetSelection()
+                        }
+                        onEntered: {
+                            timeline.showKeyBinding(i18n("<b>Shift drag</b> to change value only, <b>Ctrl click</b> for multiple keyframe selection."))
+                        }
+                        onExited: {
+                            timeline.showKeyBinding()
                         }
                         ToolTip.visible: (containsMouse || pressed) && movingVal != ""
                         ToolTip.text: movingVal
