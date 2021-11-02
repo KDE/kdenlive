@@ -1934,6 +1934,13 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, int>
     
     Fun destroy_mix = [clipIds, this]() {
         if (auto ptr = m_parent.lock()) {
+            if (m_sameCompositions.count(clipIds.second) == 0) {
+                // Mix was already deleted
+                if (m_mixList.contains(clipIds.first)) {
+                    m_mixList.remove(clipIds.first);
+                }
+                return true;
+            }
             Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[clipIds.second]->getAsset());
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(0);
