@@ -2218,7 +2218,9 @@ bool DocumentValidator::checkMovit()
     bool hasWB = EffectsRepository::get()->exists(QStringLiteral("frei0r.colgate"));
     bool hasBlur = EffectsRepository::get()->exists(QStringLiteral("frei0r.IIRblur"));
     QString compositeTrans;
-    if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
+    if (KdenliveSettings::preferredcomposite() != i18n("auto") && TransitionsRepository::get()->exists(KdenliveSettings::preferredcomposite())) {
+        compositeTrans = KdenliveSettings::preferredcomposite();
+    } else if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
         compositeTrans = QStringLiteral("frei0r.cairoblend");
     } else if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
         compositeTrans = QStringLiteral("qtblend");
