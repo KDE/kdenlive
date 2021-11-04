@@ -679,7 +679,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
-    if (!finalMove) {
+    if (!finalMove && !revertMove) {
         QVector <int>exceptions = {clipId};
         if (mixData.first.firstClipId > -1) {
             exceptions << mixData.first.firstClipId;
@@ -743,7 +743,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else if (finalMove && !groupMove && isTrack(old_trackId) && hadMix) {
         // Clip has a mix
-
         if (mixData.first.firstClipId > -1) {
             if (old_trackId == trackId) {
                 int mixCut = m_allClips[clipId]->getMixCutPosition();
@@ -2471,8 +2470,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             if (delta_pos < 0) {
                 if (getTrackById_const(current_track_id)->hasStartMix(item.first)) {
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
-                } else {
-                    qDebug()<<"==== CLIP DOES NOT HAVE A START MIX!!!!!!!!";
                 }
                 if (!getTrackById_const(current_track_id)->isAvailable(target_position, qMin(qAbs(delta_pos), playtime), subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
