@@ -259,7 +259,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
-                if (trackDuration > 0) {
+                if (trackDuration > 0 && !closing) {
                     // Operation changed parent track duration, update effect stack
                     int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
                     if (logUndo || trackDuration != newDuration) {

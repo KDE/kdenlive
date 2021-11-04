@@ -1620,20 +1620,26 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         return false;
     }
     bool result = false;
+    bool closing = false;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     if (auto ptr = m_parent.lock()) {
         // Resize first part clip
-        result = ptr->getClipPtr(clipIds.first)->requestResize(secondInPos - firstInPos, true, local_undo, local_redo, true, true);
-        // Resize main clip
-        result = result && ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, true);
+        closing = ptr->m_closing;
+        if (closing) {
+            result = true;
+        } else {
+            result = ptr->getClipPtr(clipIds.first)->requestResize(secondInPos - firstInPos, true, local_undo, local_redo, true, true);
+            // Resize main clip
+            result = result && ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, true);
+        }
     }
     if (result) {
         PUSH_LAMBDA(local_redo, redo);
         QString assetId = m_sameCompositions[clipIds.second]->getAssetId();
         QVector<QPair<QString, QVariant>> params = m_sameCompositions[clipIds.second]->getAllParameters();
-        Fun replay = [this, clipIds, secondInPos, clipHasEndMix, src_track]() {
-            if (src_track == 1 && !clipHasEndMix) {
+        Fun replay = [this, clipIds, secondInPos, clipHasEndMix, src_track, closing]() {
+            if (src_track == 1 && !clipHasEndMix && !closing) {
                 // Revert clip to playlist 0 since it has no mix
                 switchPlaylist(clipIds.second, secondInPos, 1, 0);
             }
