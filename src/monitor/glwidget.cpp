@@ -697,6 +697,12 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         if (isPlaying && pos >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
+                m_producer->set_speed(0);
+                m_proxy->setSpeed(0);
+                m_consumer->set("refresh", 0);
+                m_proxy->setPosition(m_loopOut);
+                m_producer->seek(m_loopOut);
+                m_loopOut = 0;
                 return false;
             }
             m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
