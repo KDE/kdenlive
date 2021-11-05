@@ -759,7 +759,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixData.second.firstClipId > -1) {
             // We have a mix at clip end
-
             sync_mix = [this, old_trackId, finalMove]() {
                 getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                 return true;

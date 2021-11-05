@@ -197,7 +197,6 @@ Rectangle {
                 scrollTimer.horizontal = 0
                 scrollTimer.start()
             } else {
-                console.log('TRIGGERING VERTICAL STOP: ', y, ', SCROLL: ',scrollView.contentY, 'SCH:', scrollView.height)
                 scrollTimer.vertical = 0
                 scrollTimer.horizontal = 0
                 scrollTimer.stop()
@@ -1629,7 +1628,6 @@ Rectangle {
                                                     dragProxy.height = tentativeClip.height
                                                     dragProxy.masterObject = tentativeClip
                                                     dragProxy.sourceTrack = tk
-                                                    dragProxy.sourceFrame = tentativeClip.modelStart
                                                     dragProxy.isComposition = tentativeClip.isComposition
                                                 } else {
                                                     console.log('item not found')
@@ -1649,6 +1647,7 @@ Rectangle {
                                                 root.mainItemId = dragProxy.draggedItem
                                                 dragProxy.masterObject.originalX = dragProxy.masterObject.x
                                                 dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
+                                                dragProxy.sourceFrame = dragProxy.masterObject.modelStart
                                                 dragProxy.masterObject.forceActiveFocus();
                                             } else {
                                                 root.mainItemId = -1
@@ -1725,7 +1724,9 @@ Rectangle {
                                                 controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
+                                                    // Move clip back to original position
                                                     controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false, true)
+                                                    // Move clip to final pos
                                                     controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move
@@ -1736,7 +1737,6 @@ Rectangle {
                                                 dragProxy.masterObject.grabItem()
                                             }
                                             dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
-                                            dragProxy.sourceFrame = dragFrame
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
