@@ -195,6 +195,11 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         inPoint = 0;
     }
     bool closing = false;
+    // Ensure producer is long enough
+    if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+        m_producer->parent().set("length", outPoint + 1);
+        m_producer->parent().set("out", outPoint);
+    }
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
@@ -208,12 +213,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
-        }
-    } else {
-        // Ensure producer is long enough
-        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
-            m_producer->set("length", outPoint + 1);
-            m_producer->set("out", outPoint);
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};
