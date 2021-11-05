@@ -26,7 +26,6 @@ private slots:
 
 private:
     int m_jobDuration;
-    double m_threshold;
     int m_markersType;
     bool m_subClips;
     int m_minInterval;

@@ -243,23 +243,23 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
 
-    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
+    foreach (QSpinBox *sp, findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QComboBox *cb : findChildren<QComboBox *>()) {
+    foreach (QComboBox *cb, findChildren<QComboBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
+    foreach (QProgressBar *cb, findChildren<QProgressBar *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
+    foreach (WheelContainer *cb, findChildren<WheelContainer *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
+    foreach (QDoubleSpinBox *cb, findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }

@@ -183,7 +183,7 @@ void StabilizeTask::run()
         return;
     }
     if (m_addToProject.first) {
-        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,m_addToProject.second ? i18n("Stabilized") : QString()));
+        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,binClip->parent()->clipId()), Q_ARG(QString,m_addToProject.second ? i18n("Stabilized") : QString()));
     }
 }
 

@@ -883,7 +883,7 @@ void MainWindow::updateActionsToolTip()
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
+        foreach (QAction *tempAction, coll->actions()) {
             if (tempAction == m_timeFormatButton) {
                 continue;
             }
@@ -3970,7 +3970,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
+        foreach (QAction *tempAction, coll->actions()) {
             if (tempAction->shortcuts().contains(seq)) {
                 // Trigger action
                 tempAction->trigger();

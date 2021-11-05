@@ -254,7 +254,7 @@ void FilterTask::run()
         QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname")) : QStringLiteral("data");
         auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(const QString&, dataName), Q_ARG(const QString&, resultData), Q_ARG(int, m_inPoint));
+            QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(QString, dataName), Q_ARG(QString, resultData), Q_ARG(int, m_inPoint));
         }
         //binClip->updatedAnalysisData(dataName, resultData, m_inPoint);
     }

@@ -112,7 +112,7 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    for (QScreen *screen : QGuiApplication::screens()) {
+    foreach (QScreen *screen, QGuiApplication::screens()) {
         QRect screenRect = screen->geometry();
         if (screenRect.contains(m_grabRect.topLeft())) {
             m_image = screen->grabWindow(0, m_grabRect.x() - screenRect.x(), m_grabRect.y() - screenRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
@@ -253,7 +253,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #else
     Q_UNUSED(destroyImage)
     if (m_image.isNull()) {
-        for (QScreen *screen : QGuiApplication::screens()) {
+        foreach (QScreen *screen, QGuiApplication::screens()) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(0, p.x() - screenRect.x(), p.y() - screenRect.y(), 1, 1);

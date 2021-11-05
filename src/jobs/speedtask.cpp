@@ -237,7 +237,7 @@ void SpeedTask::run()
         return;
     }
 
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,m_addToFolder ? i18n("Speed Change") : QString()));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,binClip->parent()->clipId()), Q_ARG(QString,m_addToFolder ? i18n("Speed Change") : QString()));
     return;
 }
 

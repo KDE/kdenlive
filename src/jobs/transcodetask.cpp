@@ -208,7 +208,7 @@ void TranscodeTask::run()
                         folder = containingFolder->clipId();
                     }
                 }
-                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(const QString&,destUrl), Q_ARG(const QString&,folder));
+                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString,destUrl), Q_ARG(QString,folder));
                 //id = ClipCreator::createClipFromFile(destUrl, folderId, pCore->projectItemModel());
             }
         }

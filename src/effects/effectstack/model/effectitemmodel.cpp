@@ -68,7 +68,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
             // multiswitch params have a composited param name, skip
             QStringList names = paramName.split(QLatin1Char('\n'));
             QStringList paramValues;
-            for (const QString &n : names) {
+            for (const QString &n : qAsConst(names)) {
                 paramValues << effect->get(n.toUtf8().constData());
             }
             currentParameter.setAttribute(QStringLiteral("value"), paramValues.join(QLatin1Char('\n')));

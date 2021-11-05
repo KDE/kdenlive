@@ -789,7 +789,7 @@ void KdenliveSettingsDialog::initDevices()
     QSignalBlocker bk(m_configSdl.fullscreen_monitor);
     m_configSdl.fullscreen_monitor->clear();
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
-    for (auto screen : qApp->screens()) {
+    for (const QScreen* screen : qApp->screens()) {
         m_configSdl.fullscreen_monitor->addItem(QString("%1 %2 (%3)").arg(screen->manufacturer(), screen->model(), screen->name()), screen->serialNumber());
     }
     if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {

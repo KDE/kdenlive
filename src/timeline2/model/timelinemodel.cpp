@@ -5628,7 +5628,7 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
-                Fun adjust_mix = [this, tid, cid, updatedDuration, duration]() {
+                Fun adjust_mix = [this, tid, cid, updatedDuration]() {
                     getTrackById_const(tid)->setMixDuration(cid, updatedDuration, updatedDuration);
                     QModelIndex ix = makeClipIndexFromID(cid);
                     emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});

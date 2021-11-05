@@ -487,12 +487,10 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 }
             } else if (m_moveKeyframeMode == TopMove) {
                 // Moving top keyframe
-                auto kfrValues = m_keyframes.values();
                 int realPos = qMax(m_inFrame, pos + m_inFrame);
                 //pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
                 int delta = realPos - m_currentKeyframe.second;
                 // Check that the move is possible
-                auto selectedValues = m_selectedKeyframes.values();
                 QMapIterator<int, int> i(m_selectedKeyframes);
                 QMap<int,int>updated;
                 while (i.hasNext()) {
@@ -516,7 +514,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 m_selectedKeyframes = updated;
                 slotSetPosition(pos + m_inFrame);
                 emit seekToPos(pos + m_inFrame, -1);
-                updateKeyframes(false);
+                emit updateKeyframes(false);
                 if (remapMax() > m_lastMaxDuration) {
                     m_lastMaxDuration = remapMax();
                     int maxWidth = width() - (2 * m_offset);
@@ -1158,7 +1156,7 @@ void RemapView::updateAfterSpeed(double speed)
             i.next();
             m_keyframes.insert(i.key(), i.value());
         }
-        updateKeyframes(true);
+        emit updateKeyframes(true);
         update();
     }
 }
@@ -1247,7 +1245,7 @@ void RemapView::addKeyframe()
             emit selectedKf(m_currentKeyframe, {-1,-1});
         }
         emit atKeyframe(false, false);
-        updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
+        emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
         return;
     }
@@ -1290,7 +1288,7 @@ void RemapView::addKeyframe()
     emit selectedKf(m_currentKeyframe, speeds, atEnd);
     bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
     emit atKeyframe(true, isLast);
-    updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
+    emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
     update();
 }
 

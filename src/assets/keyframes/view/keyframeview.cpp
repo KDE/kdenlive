@@ -245,7 +245,6 @@ void KeyframeView::slotCenterKeyframe()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     int delta = m_position - (m_currentKeyframeOriginal - offset);
-    QVector<int>currentSelection = m_model->selectedKeyframes();
     int sourcePosition = m_currentKeyframeOriginal;
     QVector<int>updatedSelection;
     for (int &kf : m_model->selectedKeyframes()) {

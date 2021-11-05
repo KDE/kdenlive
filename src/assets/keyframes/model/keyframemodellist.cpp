@@ -96,7 +96,7 @@ void KeyframeModelList::slotUpdateModels(const QModelIndex &ix1, const QModelInd
 {
     // Propagate change to all keyframe models
     for (const auto &param : m_parameters) {
-        param.second->dataChanged(ix1, ix2, roles);
+        emit param.second->dataChanged(ix1, ix2, roles);
     }
     emit modelDisplayChanged();
 }
