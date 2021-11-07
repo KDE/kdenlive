@@ -747,7 +747,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             if (old_trackId == trackId) {
                 int mixCut = m_allClips[clipId]->getMixCutPosition();
                 // We are moving a clip on same track
-                if (position > mixData.first.secondClipInOut.first - mixCut) {
+                if (position > mixData.first.secondClipInOut.first - mixCut || position < mixData.first.firstClipInOut.first) {
                     position += m_allClips[clipId]->getMixDuration() - mixCut;
                     removeMixWithUndo(clipId, local_undo, local_redo);
                 }
@@ -765,7 +765,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             };*/
             if (old_trackId == trackId) {
                 int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition() + m_allClips[mixData.second.secondClipId]->getMixDuration();
-                if (finalMove && mixEnd > position + m_allClips[clipId]->getPlaytime()) {
+                if (position > mixEnd || position < m_allClips[mixData.second.secondClipId]->getPosition()) {
                     // Moved outside mix zone
                     removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
 
