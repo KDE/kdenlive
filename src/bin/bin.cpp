@@ -494,13 +494,13 @@ public:
         }
     }
 
-    int getFrame(QModelIndex index, int mouseX)
+    int getFrame(QModelIndex index, QPoint pos)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)|| mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || !m_thumbRect.contains(pos)) {
             return 0;
         }
-        return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
+        return 100 * (pos.x() - m_thumbRect.x()) / m_thumbRect.width();
     }
 
 private:
@@ -573,7 +573,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
                 if (vRect.contains(event->pos())) {
-                    int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
+                    int frame = delegate->getFrame(index, event->pos());
                     emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
                 }
             } else {
