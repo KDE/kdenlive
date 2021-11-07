@@ -698,7 +698,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     clip->parent().set("length", out + 1);
                     clip->parent().set("out", out);
                     clip->set("length", out + 1);
-                    clip->set("out", out);
                 }
                 int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                 if (err == 0) {
@@ -1618,9 +1617,6 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         firstInPos = ptr->getClipPtr(clipIds.first)->getPosition();
         endPos = mixPosition + secondClip->getPlaytime();
         clipHasEndMix = hasEndMix(clipIds.second);
-        if (clipHasEndMix) {
-            allowedMixes << getMixInfo(clipIds.second).second.secondClipId;
-        }
         src_track = secondClip->getSubPlaylistIndex();
     } else {
         return false;
@@ -1671,7 +1667,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             return true;
         };
         replay();
-        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, switchSecondTrack, allowedMixes]() {
+        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, switchSecondTrack]() {
             // First restore correct playlist
             if (switchSecondTrack) {
                 // Revert clip to playlist 1
