@@ -759,10 +759,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixData.second.firstClipId > -1) {
             // We have a mix at clip end
-            sync_mix = [this, old_trackId, finalMove]() {
+            /*sync_mix = [this, old_trackId, finalMove]() {
                 getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                 return true;
-            };
+            };*/
             if (old_trackId == trackId) {
                 int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition() + m_allClips[mixData.second.secondClipId]->getMixDuration();
                 if (finalMove && mixEnd > position + m_allClips[clipId]->getPlaytime()) {
@@ -1939,16 +1939,16 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
         bool res = true;
-        if (getTrackById_const(trackId)->hasEndMix(clipId)) {
-            MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).second;
-            if (isClip(mixData.secondClipId)) {
-                res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
-            }
-        }
         if (getTrackById_const(trackId)->hasStartMix(clipId)) {
             MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).first;
             if (isClip(mixData.firstClipId)) {
                 res = getTrackById(trackId)->requestRemoveMix({mixData.firstClipId, clipId}, undo, redo);
+            }
+        }
+        if (getTrackById_const(trackId)->hasEndMix(clipId)) {
+            MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).second;
+            if (isClip(mixData.secondClipId)) {
+                res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
             }
         }
         res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, !m_closing, undo, redo, false, true);

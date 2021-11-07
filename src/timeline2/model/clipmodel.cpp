@@ -199,6 +199,8 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
         m_producer->parent().set("length", outPoint + 1);
         m_producer->parent().set("out", outPoint);
+        m_producer->set("length", outPoint + 1);
+        m_producer->set("out", outPoint);
     }
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {

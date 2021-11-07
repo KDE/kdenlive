@@ -698,6 +698,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     clip->parent().set("length", out + 1);
                     clip->parent().set("out", out);
                     clip->set("length", out + 1);
+                    clip->set("out", out);
                 }
                 int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                 if (err == 0) {
@@ -741,6 +742,8 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (err == 0) {
                     QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip_mutable));
                     if (out >= clip->get_length()) {
+                        clip->parent().set("length", out + 1);
+                        clip->parent().set("out", out);
                         clip->set("length", out + 1);
                         clip->set("out", out);
                     }
@@ -1063,7 +1066,6 @@ bool TrackModel::checkConsistency()
     // Check Mixes
     QScopedPointer<Mlt::Service> service(m_track->field());
     int mixCount = 0;
-    qDebug()<<"=== STARTING MIX CHECK ======";
     while (service != nullptr && service->is_valid()) {
         if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
@@ -1605,6 +1607,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     int mixPosition;
     int src_track = 0;
     bool clipHasEndMix = false;
+    QList <int> allowedMixes = {clipIds.first};
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
         std::shared_ptr<ClipModel> secondClip(ptr->getClipPtr(clipIds.second));
@@ -1615,6 +1618,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         firstInPos = ptr->getClipPtr(clipIds.first)->getPosition();
         endPos = mixPosition + secondClip->getPlaytime();
         clipHasEndMix = hasEndMix(clipIds.second);
+        if (clipHasEndMix) {
+            allowedMixes << getMixInfo(clipIds.second).second.secondClipId;
+        }
         src_track = secondClip->getSubPlaylistIndex();
     } else {
         return false;
@@ -1635,11 +1641,14 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         }
     }
     if (result) {
-        PUSH_LAMBDA(local_redo, redo);
         QString assetId = m_sameCompositions[clipIds.second]->getAssetId();
         QVector<QPair<QString, QVariant>> params = m_sameCompositions[clipIds.second]->getAllParameters();
-        Fun replay = [this, clipIds, secondInPos, clipHasEndMix, src_track, closing]() {
-            if (src_track == 1 && !clipHasEndMix && !closing) {
+        bool switchSecondTrack = false;
+        if (src_track == 1 && !clipHasEndMix && !closing) {
+            switchSecondTrack = true;
+        }
+        Fun replay = [this, clipIds, secondInPos, switchSecondTrack]() {
+            if (switchSecondTrack) {
                 // Revert clip to playlist 0 since it has no mix
                 switchPlaylist(clipIds.second, secondInPos, 1, 0);
             }
@@ -1662,9 +1671,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             return true;
         };
         replay();
-        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, clipHasEndMix, src_track]() {
+        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, switchSecondTrack, allowedMixes]() {
             // First restore correct playlist
-            if (src_track == 1 && !clipHasEndMix) {
+            if (switchSecondTrack) {
                 // Revert clip to playlist 1
                 switchPlaylist(clipIds.second, secondInPos, 0, 1);
             }
@@ -1698,9 +1707,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             }
             return true; 
         };
-        PUSH_LAMBDA(replay, redo);
-        PUSH_LAMBDA(reverse, undo);
-        PUSH_LAMBDA(local_undo, undo);
+        PUSH_LAMBDA(replay, local_redo);
+        PUSH_FRONT_LAMBDA(reverse, local_undo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
     return false;
