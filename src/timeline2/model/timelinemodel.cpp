@@ -5706,7 +5706,7 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                 }
                 int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
                 int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (deltaLeft < 2 || deltaRight < 2) {
+                if (deltaLeft < 1 || deltaRight < 1) {
                     pCore->displayMessage(i18n("Cannot align mix"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
@@ -5734,19 +5734,28 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                 adjust_mix();
                 UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
             } else {
-                int updatedDurationLeft = m_allClips.at(cid)->getPosition() + duration - m_allClips[clipToResize]->getPosition();
-                if (leftMax > -1) {
-                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
-                }
-                int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - m_allClips.at(cid)->getPosition();
-                if (updatedDuration < 1) {
+                int updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
+                int updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
+                int currentDuration = m_allClips.at(cid)->getMixDuration();
+                double ratio = double (duration) / currentDuration;
+                updatedDurationRight *= ratio;
+                updatedDurationLeft = duration - updatedDurationRight;
+                if (updatedDurationLeft + updatedDurationRight < 1) {
                     //
                     pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
-                requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
+                updatedDurationLeft -= (m_allClips.at(cid)->getMixDuration() - updatedDurationRight);
+                updatedDurationRight -= m_allClips.at(cid)->getMixCutPosition();
+                if (updatedDurationLeft != 0) {
+                    requestItemResize(cid, m_allClips.at(cid)->getPlaytime() + updatedDurationLeft, false, true, undo, redo);
+                }
+                if (updatedDurationRight != 0) {
+                    requestItemResize(clipToResize, m_allClips.at(clipToResize)->getPlaytime() + updatedDurationRight, true, true, undo, redo);
+                }
                 int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
+                int updatedDuration = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getPosition();
                 if (mixCutPos > updatedDuration) {
                     pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
                     undo();

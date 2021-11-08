@@ -72,6 +72,15 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
         m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt() + 1);
         connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
     }
+    checkAlignment();
+    m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
+    m_lay->addLayout(m_durationLayout);
+    m_lay->addStretch(10);
+    slotRefresh();
+}
+
+void MixStackView::checkAlignment()
+{
     int mainClipId = stackOwner().second;
     MixAlignment align = pCore->getMixAlign(mainClipId);
     QSignalBlocker bk1(m_alignLeft);
@@ -94,10 +103,7 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
             // No alignment
             break;
     }
-    m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
-    m_lay->addLayout(m_durationLayout);
-    m_lay->addStretch(10);
-    slotRefresh();
+
 }
 
 void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles)
@@ -105,6 +111,7 @@ void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, con
     if (roles.contains(AssetParameterModel::ParentDurationRole)) {
         QSignalBlocker bk1(m_duration);
         m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt() + 1);
+        checkAlignment();
     }
 }
 

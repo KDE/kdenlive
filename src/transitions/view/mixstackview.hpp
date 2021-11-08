@@ -41,6 +41,7 @@ private:
     QToolButton *m_alignCenter;
     QToolButton *m_alignRight;
     MixAlignment alignment() const;
+    void checkAlignment();
 };
 
 #endif
