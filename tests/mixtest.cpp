@@ -73,6 +73,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     REQUIRE(timeline->requestItemResize(cid3, 20, true, true));
     REQUIRE(timeline->requestClipInsertion(binId2, tid2, 520, cid4));
     REQUIRE(timeline->requestItemResize(cid4, 20, true, true));
+    int mixDuration = pCore->getDurationFromString(KdenliveSettings::mix_duration());
     
     auto state0 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
@@ -99,12 +100,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
     
-    auto state3 = [&]() {
+    auto state3 = [&, mixDuration]() {
         REQUIRE(timeline->getClipsCount() == 6);
         REQUIRE(timeline->getClipPlaytime(cid1) > 30);
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 30);
         REQUIRE(timeline->getClipPosition(cid2) < 130);
+        REQUIRE(timeline->m_allClips[cid2]->getMixDuration() == mixDuration);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
@@ -167,7 +169,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
     
-    /*SECTION("Create mix on color clip and move left side clip")
+    SECTION("Create mix on color clip and move left side clip")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
@@ -256,11 +258,17 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Resize clip, should resize the mix
         state0();
         REQUIRE(timeline->mixClip(cid2));
-        //state1();
-        // Move clip inside mix zone, should resize the mix
-        REQUIRE(timeline->requestClipMove(cid2, tid2, 105));
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        state1();
+        // Resize right clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid2, 15, false, true) == 15);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        state1();
+        // Resize left clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid1, 20, true, true) == 20);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
         state1();
         // Move clip outside mix zone, should delete the mix
@@ -377,14 +385,15 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
         REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
         REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
-        REQUIRE(timeline->requestItemResize(cid6, 20, true, true));
-        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 580, cid7));
+        REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
         REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
         
         // Cid3 pos=500, duration=20
         // Cid4 pos=520, duration=20
         // Cid5 pos=540, duration=20
-        // Cid6 pos=560, duration=20
+        // Cid6 pos=560, duration=40
+        // Cid7 pos=600, duration=20
         
         // Mix 3 and 4
         REQUIRE(timeline->mixClip(cid4));
@@ -430,7 +439,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        
+
         // Undo mix 3 and 4
         undoStack->undo();
         
@@ -444,7 +453,6 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         
         state0();
     }
-    */
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }

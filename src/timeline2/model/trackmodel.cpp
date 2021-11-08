@@ -686,7 +686,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         };
     }
     int blank = -1;
-    int other_blank_end = getBlankEnd(clip_position, (target_track + 1) % 2);
+    int other_blank_end = getBlankEnd(clip_position, 1 - target_track);
     if (right) {
         if (target_clip == m_playlists[target_track].count() - 1 && (hasMix || other_blank_end >= out)) {
             // clip is last, it can always be extended

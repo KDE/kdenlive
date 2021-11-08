@@ -3300,9 +3300,11 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
                     return true;
                 };
                 Fun local_update_undo = [this, itemId, tid, mixData, currentMixDuration] {
-                    getTrackById_const(tid)->setMixDuration(itemId, currentMixDuration, mixData.first.mixOffset);
-                    QModelIndex ix = makeClipIndexFromID(itemId);
-                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    if (getTrackById_const(tid)->hasStartMix(itemId)) {
+                        getTrackById_const(tid)->setMixDuration(itemId, currentMixDuration, mixData.first.mixOffset);
+                        QModelIndex ix = makeClipIndexFromID(itemId);
+                        emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    }
                     return true;
                 };
                 local_update();
