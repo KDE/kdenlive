@@ -135,6 +135,7 @@ public:
     bool loadMix(Mlt::Transition *t);
     /** @brief Set mix duration and mix cut pos on a clip */
     void setMixDuration(int cid, int mixDuration, int mixCut);
+    int getMixDuration(int cid) const;
     /** @brief Get the assetparameter model for a mix */
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
     /** @brief Get a list of current effect stack zones */

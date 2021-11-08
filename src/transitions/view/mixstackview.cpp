@@ -23,6 +23,7 @@ MixStackView::MixStackView(QWidget *parent)
 {
     m_durationLayout = new QHBoxLayout;
     m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_duration->setRange(1, -1);
     m_durationLayout->addWidget(new QLabel(i18n("Duration:")));
     m_durationLayout->addWidget(m_duration);
     m_alignLeft = new QToolButton(this);
@@ -68,7 +69,7 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
 
     if (m_model->rowCount() > 0) {
         QSignalBlocker bk0(m_duration);
-        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
+        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt() + 1);
         connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
     }
     int mainClipId = stackOwner().second;
@@ -103,7 +104,7 @@ void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, con
 {
     if (roles.contains(AssetParameterModel::ParentDurationRole)) {
         QSignalBlocker bk1(m_duration);
-        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
+        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt() + 1);
     }
 }
 
@@ -123,7 +124,7 @@ MixAlignment MixStackView::alignment() const
 
 void MixStackView::updateDuration()
 {
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), alignment());
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, alignment());
 }
 
 void MixStackView::slotAlignLeft()
@@ -133,7 +134,7 @@ void MixStackView::slotAlignLeft()
     }
     m_alignRight->setChecked(false);
     m_alignCenter->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignLeft);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignLeft);
 }
 
 void MixStackView::slotAlignRight()
@@ -143,7 +144,7 @@ void MixStackView::slotAlignRight()
     }
     m_alignLeft->setChecked(false);
     m_alignCenter->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignRight);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignRight);
 }
 
 void MixStackView::slotAlignCenter()
@@ -153,7 +154,7 @@ void MixStackView::slotAlignCenter()
     }
     m_alignLeft->setChecked(false);
     m_alignRight->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignCenter);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignCenter);
 }
 
 void MixStackView::unsetModel()

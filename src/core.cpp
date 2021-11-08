@@ -632,8 +632,7 @@ int Core::getItemDuration(const ObjectId &id)
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
     case ObjectType::TimelineMix:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            std::pair<int, int> mixInOut = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second);
-            return (mixInOut.second - mixInOut.first);
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixDuration(id.second);
         } else {
             qWarning() << "querying non clip properties";
         }

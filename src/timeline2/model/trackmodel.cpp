@@ -2249,6 +2249,13 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
     emit m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
 }
 
+int TrackModel::getMixDuration(int cid) const
+{
+    Q_ASSERT(m_sameCompositions.count(cid) > 0);
+    Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions.at(cid)->getAsset());
+    return transition.get_length() - 1;
+}
+
 void TrackModel::removeMix(MixInfo info)
 {
     Q_ASSERT(m_sameCompositions.count(info.secondClipId) > 0);

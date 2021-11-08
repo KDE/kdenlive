@@ -5552,6 +5552,16 @@ bool TimelineModel::resizeStartMix(int cid, int duration, bool singleResize)
     return false;
 }
 
+int TimelineModel::getMixDuration(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
+    if (tid > -1) {
+        return getTrackById_const(tid)->getMixDuration(cid);
+    }
+    return 0;
+}
+
 std::pair<int, int> TimelineModel::getMixInOut(int cid) const
 {
     Q_ASSERT(isClip(cid));
@@ -5620,9 +5630,9 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                     }
                 }
                 int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 2) {
+                if (updatedDuration < 1) {
                     //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 2 frames"), ErrorMessage, 500);
+                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     // update mix widget
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
@@ -5656,9 +5666,9 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                     updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
                 }
                 int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 2) {
+                if (updatedDuration < 1) {
                     //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 2 frames"), ErrorMessage, 500);
+                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
@@ -5689,8 +5699,8 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                     updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
                 }
                 int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 2) {
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 2 frames"), ErrorMessage, 500);
+                if (updatedDuration < 1) {
+                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
@@ -5729,9 +5739,9 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                     updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
                 }
                 int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - m_allClips.at(cid)->getPosition();
-                if (updatedDuration < 2) {
+                if (updatedDuration < 1) {
                     //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 2 frames"), ErrorMessage, 500);
+                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
