@@ -33,7 +33,7 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     // setup the comment
     setToolTip(comment);
     m_infoMessage->hide();
-    connect(m_infoMessage, &KMessageWidget::linkActivated, [this](const QString &contents) {
+    connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
 #if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
@@ -126,7 +126,7 @@ void ListDependencyParamWidget::checkDependencies(const QString &val)
             if (fileData.first == QLatin1String("/opencvmodels")) {
                 m_model->setParameter(QStringLiteral("modelsfolder"), dir.absolutePath(), false);
             }
-            for (const QString &file : fileData.second) {
+            for (const QString &file : qAsConst(fileData.second)) {
                 if (!dir.exists(file)) {
                     m_infoMessage->setText(m_dependencyInfos.value(val));
                     m_infoMessage->animatedShow();

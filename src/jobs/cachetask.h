@@ -35,7 +35,6 @@ private:
     int m_thumbsCount;
     int m_in;
     int m_out;
-    bool m_thumbOnly;
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip);

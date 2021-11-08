@@ -1253,7 +1253,7 @@ void ClipPropertiesController::fillProperties()
     QMimeType mimeType;
 
     mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl());
-    for (KFileMetaData::Extractor *plugin : metaDataCollection.fetchExtractors(mimeType.name())) {
+    foreach (KFileMetaData::Extractor *plugin, metaDataCollection.fetchExtractors(mimeType.name())) {
         ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }

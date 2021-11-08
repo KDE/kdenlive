@@ -1271,7 +1271,6 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
             }
             if (parentId == id) {
                 // Fix clip
-                QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
                 QString fixedResource = child->text(1);
                 if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl")).isEmpty()) {
                     // Only set originalurl on master producer
@@ -1472,7 +1471,7 @@ void DocumentChecker::slotDeleteSelected()
     QStringList deletedLumas;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
 
-    for (QTreeWidgetItem *child : m_ui.treeWidget->selectedItems()) {
+    foreach (QTreeWidgetItem *child, m_ui.treeWidget->selectedItems()) {
         int id = child->data(0, statusRole).toInt();
         if (id == CLIPMISSING) {
             deletedIds.append(child->data(0, idRole).toString());
@@ -1505,7 +1504,6 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedIds.isEmpty()) {
         QDomElement e;
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-        QDomNode mlt = m_doc.elementsByTagName(QStringLiteral("mlt")).at(0);
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
             if (deletedIds.contains(Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")))) {

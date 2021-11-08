@@ -155,8 +155,7 @@ ClipModel::~ClipModel() = default;
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length();
+    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" << m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !isChain()) {
         return false;
     }
@@ -196,6 +195,12 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         inPoint = 0;
     }
     bool closing = false;
+    // Ensure producer is long enough
+    if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+        m_producer->parent().set("length", outPoint + 1);
+        m_producer->parent().set("out", outPoint);
+        m_producer->set("length", outPoint + 1);
+    }
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
@@ -209,12 +214,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
-        }
-    } else {
-        // Ensure producer is long enough
-        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
-            m_producer->set("length", outPoint + 1);
-            m_producer->set("out", outPoint);
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};
@@ -259,7 +258,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
-                if (trackDuration > 0) {
+                if (trackDuration > 0 && !closing) {
                     // Operation changed parent track duration, update effect stack
                     int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
                     if (logUndo || trackDuration != newDuration) {

@@ -525,6 +525,7 @@ Item {
         Rectangle {
             // Audio or video only drag zone
             id: dragZone
+            property string uuid
             x: 2
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
             width: childrenRect.width
@@ -549,7 +550,8 @@ Item {
                     Drag.active: dragVideoArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
+                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "kdenlive/dragid" : dragZone.uuid
                     }
                     MouseArea {
                         id: dragVideoArea
@@ -558,6 +560,9 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        onPressed: {
+                            dragZone.uuid = controller.getUuid()
+                        }
                         onExited: {
                             parent.x = 0
                             parent.y = 0
@@ -570,7 +575,8 @@ Item {
                     Drag.active: dragAudioArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
+                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "kdenlive/dragid" : dragZone.uuid
                     }
                     MouseArea {
                         id: dragAudioArea
@@ -579,6 +585,9 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        onPressed: {
+                            dragZone.uuid = controller.getUuid()
+                        }
                         onExited: {
                             parent.x = videoDragButton.x + videoDragButton.width
                             parent.y = 0

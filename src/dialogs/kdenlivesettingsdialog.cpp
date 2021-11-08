@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/profilewidget.h"
 #include "wizard.h"
 #include "monitor/monitor.h"
+#include "doc/kdenlivedoc.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -126,6 +127,21 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configMisc.kcfg_fade_duration->setValidator(validator);
     m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
     m_configMisc.kcfg_subtitle_duration->setValidator(validator);
+
+    if (!KdenliveSettings::preferredcomposite().isEmpty()) {
+        int ix = m_configMisc.preferredcomposite->findData(KdenliveSettings::preferredcomposite());
+        if (ix > -1) {
+            m_configMisc.preferredcomposite->setCurrentIndex(ix);
+        }
+    }
+    connect(m_configMisc.preferredcomposite, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,[&](){
+        if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
+            KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
+            int mode = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing")).toInt();
+            pCore->window()->getMainTimeline()->controller()->switchCompositing(mode);
+            pCore->currentDoc()->setModified();
+        }
+    });
 
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
@@ -773,7 +789,7 @@ void KdenliveSettingsDialog::initDevices()
     QSignalBlocker bk(m_configSdl.fullscreen_monitor);
     m_configSdl.fullscreen_monitor->clear();
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
-    for (auto screen : qApp->screens()) {
+    for (const QScreen* screen : qApp->screens()) {
         m_configSdl.fullscreen_monitor->addItem(QString("%1 %2 (%3)").arg(screen->manufacturer(), screen->model(), screen->name()), screen->serialNumber());
     }
     if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {

@@ -61,8 +61,8 @@ public:
     const QString clipName() const;
     const QString clipTag() const;
     QSize getFrameSize() const;
-    Q_INVOKABLE bool showKeyframes() const;
-    Q_INVOKABLE void setShowKeyframes(bool show);
+    bool showKeyframes() const;
+    void setShowKeyframes(bool show);
 
     /** @brief Returns true if the clip can be converted to a video clip */
     bool canBeVideo() const;

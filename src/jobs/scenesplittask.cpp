@@ -30,7 +30,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_jobDuration(0)
-    , m_threshold(threshold)
     , m_markersType(markersCategory)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
@@ -177,7 +176,7 @@ void SceneSplitTask::run()
                 ix++;
             }
             QJsonDocument json(list);
-            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(const QString&,QString(json.toJson())));
+            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString,QString(json.toJson())));
         }
         if (m_subClips) {
             // Create zones
@@ -208,7 +207,7 @@ void SceneSplitTask::run()
             json.setArray(list);
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(const QString&,QString::number(m_owner.second)), Q_ARG(const QString&,dataMap));
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString,QString::number(m_owner.second)), Q_ARG(QString,dataMap));
             }
         }
     } else {

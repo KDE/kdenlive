@@ -95,7 +95,7 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = pos < 0 ? getAudioKey(binId, &ok).first() : getKey(binId, pos, &ok);
+    auto key = pos < 0 ? getAudioKey(binId, &ok).constFirst() : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
         return true;
     }
@@ -110,7 +110,7 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = getAudioKey(binId, &ok).first();
+    auto key = getAudioKey(binId, &ok).constFirst();
     if (ok && m_volatileCache->contains(key)) {
         return m_volatileCache->get(key);
     }

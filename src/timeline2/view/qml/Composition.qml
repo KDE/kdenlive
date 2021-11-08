@@ -64,8 +64,8 @@ Item {
     }
 
     onKeyframeModelChanged: {
-        if (effectRow.keyframecanvas) {
-            effectRow.keyframecanvas.requestPaint()
+        if (effectRow.item && effectRow.item.keyframecanvas) {
+            effectRow.item.keyframecanvas.requestPaint()
         }
     }
 
@@ -82,6 +82,12 @@ Item {
     function grabItem() {
         compositionRoot.forceActiveFocus()
         mouseArea.focus = true
+    }
+
+    function resetSelection() {
+        if (effectRow.visible) {
+            effectRow.item.resetSelection()
+        }
     }
 
     onTrackIdChanged: {
@@ -127,41 +133,7 @@ Item {
         onWidthChanged: {
             console.log('TRIM AREA ENABLED: ',trimOutMouseArea.enabled)
         }
-        Item {
-            // clipping container
-            id: container
-            anchors.fill: displayRect
-            anchors.margins: displayRect.border.width
-            clip: true
-            Rectangle {
-                // text background
-                id: labelRect
-                color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
-                width: label.width + 2
-                height: label.height
-                Text {
-                    id: label
-                    text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font: miniFont
-                    anchors {
-                        top: labelRect.top
-                        left: labelRect.left
-                        topMargin: 1
-                        leftMargin: 1
-                    }
-                    color: 'black'
-                }
-            }
-            KeyframeView {
-                id: effectRow
-                visible: compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
-                selected: compositionRoot.selected
-                inPoint: 0
-                outPoint: compositionRoot.clipDuration
-                masterObject: compositionRoot
-                kfrModel: compositionRoot.hideCompoViews ? 0 : compositionRoot.keyframeModel
-            }
-        }
+
         /*Drag.active: mouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction*/
 
@@ -390,6 +362,81 @@ Item {
                     Drag.proposedAction: Qt.MoveAction
                     visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
                 }
+            }
+            Item {
+            // clipping container
+            id: container
+            anchors.fill: parent
+            anchors.margins: displayRect.border.width
+            clip: true
+            Rectangle {
+                // text background
+                id: labelRect
+                color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
+                width: label.width + 2
+                height: label.height
+                Text {
+                    id: label
+                    text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
+                    font: miniFont
+                    anchors {
+                        top: labelRect.top
+                        left: labelRect.left
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'black'
+                }
+            }
+        }
+        Loader {
+            // keyframes container
+            id: effectRow
+            clip: true
+            anchors.fill: parent
+            //asynchronous: true
+            visible: status == Loader.Ready && compositionRoot.showKeyframes && compositionRoot.keyframeModel && compositionRoot.width > 2 * root.baseUnit
+            source: compositionRoot.hideClipViews || compositionRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
+            Binding {
+                    target: effectRow.item
+                    property: "kfrModel"
+                    value: compositionRoot.hideClipViews ? undefined : compositionRoot.keyframeModel
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "selected"
+                    value: compositionRoot.selected
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "inPoint"
+                    value: 0
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "outPoint"
+                    value: compositionRoot.clipDuration
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "modelStart"
+                    value: compositionRoot.modelStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "clipId"
+                    value: compositionRoot.clipId
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+            }
+            Connections {
+                target: effectRow.item
+                function onSeek(position) { proxy.position = position }
             }
         }
     }

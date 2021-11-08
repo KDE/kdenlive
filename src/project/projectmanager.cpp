@@ -303,7 +303,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     // Sync document properties
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
-        emit pCore->window()->updateProjectPath(outputFileName);
+        pCore->window()->updateProjectPath(outputFileName);
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();

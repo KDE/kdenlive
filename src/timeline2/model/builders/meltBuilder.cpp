@@ -138,9 +138,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                 continue;
             }
             QString id(t.get("kdenlive_id"));
-            QString internal(t.get("internal_added"));
-            QString isMix(t.get("kdenlive:mixcut"));
-            if (internal.isEmpty() && isMix.isEmpty()) {
+            if (t.property_exists("internal_added") == false && t.property_exists("kdenlive:mixcut") == false) {
                 compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
                     qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();
@@ -157,9 +155,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         QString id(t->get("kdenlive_id"));
         int compoId;
         int aTrack = t->get_a_track();
-        if (!timeline->isTrack(t->get_b_track() - 1)) {
+        if (!timeline->isTrack(timeline->getTrackIndexFromPosition(t->get_b_track() - 1))) {
             QString tcInfo = QString("<a href=\"%1\">%2</a>").arg(QString::number(t->get_in()), pCore->timecode().getTimecodeFromFrames(t->get_in()));
             m_notesLog << i18n("%1 Composition (%2) with invalid track reference found and removed.", tcInfo, t->get("id"));
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
+                                       t->get_in(), t->get_a_track());
             continue;
         }
         if (aTrack > tractor.count()) {
@@ -375,6 +375,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             int cid = -1;
             if (pCore->bin()->getBinClip(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
+                bool enforceTopPlaylist = false;
                 if (playlist > 0) {
                     // Clips on playlist > 0 must have a mix or something is wrong
                     bool hasStartMix = !timeline->trackIsBlankAt(tid, position, 0);
@@ -451,9 +452,19 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             m_notesLog << i18n("%1 Clip (%2) with missing mix found and removed", tcInfo, clip->parent().get("id"));
                             continue;
                         }
+                    } else {
+                        // Check if playlist 0 is available
+                        enforceTopPlaylist = timeline->trackIsAvailable(tid, position, duration, 0);
+                        if (enforceTopPlaylist) {
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found and fixed on track %2 at %3.", clip->parent().get("id"), timeline->getTrackTagById(tid), position);
+                        } else {
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found on track %2 at %3.", clip->parent().get("id"), timeline->getTrackTagById(tid), position);
+                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>").arg(QString::number(position), QString::number(timeline->getTrackPosition(tid)+1), timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                            m_notesLog << i18n("%1 Clip (%2) with incorrect subplaylist found", tcInfo, clip->parent().get("id"));
+                        }
                     }
                 }
-                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, playlist);
+                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, enforceTopPlaylist ? 0 : playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
                 qWarning() << "can't find bin clip" << binId << clip->get("id");

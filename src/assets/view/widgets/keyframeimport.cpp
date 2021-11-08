@@ -153,7 +153,6 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             }
         } else if (type == ParamType::Roto_spline) {
             m_simpleTargets.insert(i18n("Rotoscoping shape"), idx);
-            QString name(m_model->data(idx, AssetParameterModel::NameRole).toString());
         } else if (type == ParamType::AnimatedRect) {
             m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
         }

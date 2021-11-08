@@ -884,7 +884,7 @@ void MainWindow::updateActionsToolTip()
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
+        foreach (QAction *tempAction, coll->actions()) {
             if (tempAction == m_timeFormatButton) {
                 continue;
             }
@@ -3975,7 +3975,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        for (QAction *tempAction : coll->actions()) {
+        foreach (QAction *tempAction, coll->actions()) {
             if (tempAction->shortcuts().contains(seq)) {
                 // Trigger action
                 tempAction->trigger();
@@ -4532,6 +4532,7 @@ void MainWindow::slotCopyDebugInfo() {
     debuginfo.append(QStringLiteral("CPU: %1\n").arg(QSysInfo::currentCpuArchitecture()));
     debuginfo.append(QStringLiteral("Windowing System: %1\n").arg(QGuiApplication::platformName()));
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
+    debuginfo.append(QStringLiteral("Track Compositing: %1\n").arg(TransitionsRepository::get()->getCompositingTransition()));
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(debuginfo);
 }

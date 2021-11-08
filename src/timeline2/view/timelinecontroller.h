@@ -180,9 +180,6 @@ public:
     void switchSubtitleLock();
     bool subtitlesLocked() const;
     bool guidesLocked() const;
-    /** @brief Request a seek operation
-       @param position is the desired new timeline position
-     */
     int zoneIn() const { return m_zone.x(); }
     int zoneOut() const { return m_zone.y(); }
     void setZoneIn(int inPoint);
@@ -763,7 +760,7 @@ signals:
     /** @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     /** @brief Requests that a given mix is displayed in the asset panel */
-    void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly);
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     void showSubtitle(int id);
     /** @brief notify of chunks change

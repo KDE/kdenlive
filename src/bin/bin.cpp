@@ -494,13 +494,13 @@ public:
         }
     }
 
-    int getFrame(QModelIndex index, int mouseX)
+    int getFrame(QModelIndex index, QPoint pos)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)|| mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || !m_thumbRect.contains(pos)) {
             return 0;
         }
-        return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
+        return 100 * (pos.x() - m_thumbRect.x()) / m_thumbRect.width();
     }
 
 private:
@@ -573,7 +573,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
                 if (vRect.contains(event->pos())) {
-                    int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
+                    int frame = delegate->getFrame(index, event->pos());
                     emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
                 }
             } else {
@@ -1330,7 +1330,7 @@ void Bin::abortOperations()
     m_infoMessage->hide();
     blockSignals(true);
     if (m_propertiesPanel) {
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }
     }
@@ -1462,7 +1462,7 @@ void Bin::slotSaveHeaders()
 
 void Bin::updateSortingAction(int ix)
 {
-    for (QAction *ac : m_sortGroup->actions()) {
+    foreach (QAction *ac, m_sortGroup->actions()) {
         if (ac->data().toInt() == ix) {
             ac->setChecked(true);
         }
@@ -2614,7 +2614,7 @@ void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, co
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
 {
     if ((clip == nullptr) || !clip->statusReady()) {
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }
         m_propertiesPanel->setProperty("clipId", QString());
@@ -2629,7 +2629,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         return;
     }
     // Cleanup widget for new content
-    for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+    foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
         delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
@@ -2647,7 +2647,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
     connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
     connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void (Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
-    connect(panel, SIGNAL(editAnalysis(QString, QString, QString)), this, SLOT(slotAddClipExtraData(QString, QString, QString)));
+    connect(panel, SIGNAL(editAnalysis(QString,QString,QString)), this, SLOT(slotAddClipExtraData(QString,QString,QString)));
 
     lay->addWidget(panel);
 }
@@ -4013,7 +4013,7 @@ void Bin::slotRenameItem()
         QWidget *widget = QApplication::focusWidget();
         while ((widget != nullptr) && widget != pCore->window()) {
             if (widget == pCore->bin()->clipPropertiesDock()) {
-                for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
                     static_cast<ClipPropertiesController *>(w)->slotEditMarker();
                     break;
                 }
@@ -4040,7 +4040,7 @@ void Bin::refreshProxySettings()
     auto *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
-    for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+    foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
         emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
     }
     if (!m_doc->useProxy()) {
@@ -4395,7 +4395,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
         connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
-            for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+            foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
                 if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                     // Raise panel
                     w->parentWidget()->parentWidget()->show();

@@ -269,7 +269,7 @@ void RecManager::slotRecord(bool record)
     QString captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        QRect screenSize = QApplication::screens()[m_screenIndex]->geometry();
+        QRect screenSize = QApplication::screens().at(m_screenIndex)->geometry();
         captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {

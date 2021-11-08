@@ -27,6 +27,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     , m_active(false)
     , m_asset(std::move(asset))
     , m_keyframes(nullptr)
+    , m_activeKeyframe(-1)
     , m_filterProgress(0)
 {
     Q_ASSERT(m_asset->is_valid());
@@ -209,7 +210,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    emit modelChanged();
+    modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()

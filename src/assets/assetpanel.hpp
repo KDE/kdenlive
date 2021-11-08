@@ -44,7 +44,7 @@ public:
     /** @brief Shows the parameters of the given transition model */
     void showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transition_model);
     /** @brief Shows the parameters of the given mix model */
-    void showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel);
+    void showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel, bool refreshOnly);
 
     /** @brief Shows the parameters of the given effect stack model */
     void showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes);

@@ -104,6 +104,34 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     if (!right) {
         roles.push_back(TimelineModel::StartRole);
     }
+    Fun refresh = []() { return true; };
+    if (m_assetId == QLatin1String("slide")) {
+        // Slide composition uses a keyframe at end of composition, so update last keyframe
+        refresh = [this]() {
+            QString animation = qstrdup(m_asset->get("rect"));
+            if (animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) {
+                QString result = animation.section(QLatin1Char(';'), 0, 0);
+                result.append(QStringLiteral(";-1="));
+                result.append(animation.section(QLatin1Char('='), -1));
+                m_asset->set("rect", result.toUtf8().constData());
+            }
+            return true;
+        };
+        refresh();
+    } else if (m_assetId == QLatin1String("wipe")) {
+        // Slide composition uses a keyframe at end of composition, so update last keyframe
+        refresh = [this]() {
+            QString animation = qstrdup(m_asset->get("geometry"));
+            if (animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) {
+                QString result = animation.section(QLatin1Char(';'), 0, 0);
+                result.append(QStringLiteral(";-1="));
+                result.append(animation.section(QLatin1Char('='), -1));
+                m_asset->set("geometry", result.toUtf8().constData());
+            }
+            return true;
+        };
+        refresh();
+    }
     Fun operation = [this, track_operation, roles]() {
         if (track_operation()) {
             // we send a list of roles to be updated
@@ -119,6 +147,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     };
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
@@ -216,8 +245,9 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
 KeyframeModel *CompositionModel::getEffectKeyframeModel()
 {
     prepareKeyframes();
-    if (getKeyframeModel()) {
-        return getKeyframeModel()->getKeyModel();
+    std::shared_ptr<KeyframeModelList> listModel = getKeyframeModel();
+    if (listModel) {
+        return listModel->getKeyModel();
     }
     return nullptr;
 }

@@ -61,7 +61,7 @@ void ProxyTask::run()
         m_progress = 100;
         pCore->taskManager.taskDone(m_owner.second, this);
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
+        QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString,dest));
         return;
     }
 
@@ -364,7 +364,7 @@ void ProxyTask::run()
             }
         } else if (binClip) {
             // Job successful
-            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
+            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString,dest));
         }
     } else {
         // Proxy process crashed

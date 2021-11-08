@@ -153,7 +153,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
     connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) {
-        activateTrack(ix, false);
+        emit activateTrack(ix, false);
     });
 
     glayout->addWidget(m_videoWidget, 0, 0);
@@ -970,7 +970,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         if (qApp->screens().count() > 1) {
             bool screenFound = false;
             if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
-                for (auto screen : qApp->screens()) {
+                for (const QScreen* screen : qApp->screens()) {
                     if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
                         // Match
                         m_glWidget->setParent(nullptr);
@@ -982,7 +982,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 }
             }
             if (!screenFound) {
-                for (auto screen : qApp->screens()) {
+                for (const QScreen* screen : qApp->screens()) {
                     // Autodetect second monitor
                     QRect screenRect = screen->geometry();
                     if (!screenRect.contains(pCore->window()->geometry().center())) {
@@ -1047,6 +1047,7 @@ void Monitor::slotStartDrag()
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
+    mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
     drag->exec(Qt::MoveAction);
     emit pCore->bin()->processDragEnd();

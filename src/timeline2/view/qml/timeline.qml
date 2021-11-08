@@ -197,7 +197,6 @@ Rectangle {
                 scrollTimer.horizontal = 0
                 scrollTimer.start()
             } else {
-                console.log('TRIGGERING VERTICAL STOP: ', y, ', SCROLL: ',scrollView.contentY, 'SCH:', scrollView.height)
                 scrollTimer.vertical = 0
                 scrollTimer.horizontal = 0
                 scrollTimer.stop()
@@ -268,6 +267,7 @@ Rectangle {
         clipBeingDroppedId = -1
         droppedPosition = -1
         droppedTrack = -1
+        clipDropArea.lastDragUuid = ""
         scrollTimer.running = false
         scrollTimer.stop()
     }
@@ -519,7 +519,7 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
-                    if (clipBeingDroppedId >= 0){
+                    if (clipBeingDroppedId >= 0) {
                         if (controller.isAudioTrack(track)) {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
@@ -556,6 +556,7 @@ Rectangle {
     DropArea {
         //Drop area for bin/clips
         id: clipDropArea
+        property string lastDragUuid
         /** @brief local helper function to handle the insertion of multiple dragged items */
         function insertAndMaybeGroup(track, frame, droppedData) {
             var binIds = droppedData.split(";")
@@ -622,6 +623,10 @@ Rectangle {
             clearDropData()
         }
         onEntered: {
+            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid')) {
+                // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
+                processDrop()
+            }
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
                 var yOffset = 0
@@ -635,6 +640,7 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
+                    lastDragUuid = drag.getDataAsString('kdenlive/dragid')
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
@@ -1622,7 +1628,6 @@ Rectangle {
                                                     dragProxy.height = tentativeClip.height
                                                     dragProxy.masterObject = tentativeClip
                                                     dragProxy.sourceTrack = tk
-                                                    dragProxy.sourceFrame = tentativeClip.modelStart
                                                     dragProxy.isComposition = tentativeClip.isComposition
                                                 } else {
                                                     console.log('item not found')
@@ -1642,6 +1647,7 @@ Rectangle {
                                                 root.mainItemId = dragProxy.draggedItem
                                                 dragProxy.masterObject.originalX = dragProxy.masterObject.x
                                                 dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
+                                                dragProxy.sourceFrame = dragProxy.masterObject.modelStart
                                                 dragProxy.masterObject.forceActiveFocus();
                                             } else {
                                                 root.mainItemId = -1
@@ -1718,7 +1724,9 @@ Rectangle {
                                                 controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
+                                                    // Move clip back to original position
                                                     controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false, true)
+                                                    // Move clip to final pos
                                                     controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move
@@ -1729,7 +1737,6 @@ Rectangle {
                                                 dragProxy.masterObject.grabItem()
                                             }
                                             dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
-                                            dragProxy.sourceFrame = dragFrame
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
@@ -1748,6 +1755,11 @@ Rectangle {
                                             } else {
                                                 timeline.editItemDuration(dragProxy.draggedItem)
                                             }
+                                        }
+                                    }
+                                    onClicked: {
+                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes) {
+                                            dragProxy.masterObject.resetSelection()
                                         }
                                     }
                                 }

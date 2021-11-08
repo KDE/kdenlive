@@ -246,7 +246,7 @@ void CutTask::run()
             } else {
                 // all ok, add clip
                 if (m_addToProject) {
-                    QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,folder));
+                    QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,folder));
                 }
             }
         } else {

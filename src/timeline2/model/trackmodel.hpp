@@ -110,7 +110,7 @@ public:
     /** @brief Remove a composition between 2 same track clips */
     bool requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
@@ -309,6 +309,8 @@ protected:
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
+    /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
+    bool isAvailableWithExceptions(int position, int duration, QVector<int>exceptions);
     /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */

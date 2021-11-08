@@ -490,6 +490,11 @@
       <label>Monitor used for fullscreen output.</label>
       <default></default>
     </entry>
+
+    <entry name="preferredcomposite" type="String">
+      <label>The preferred composition for track compositing.</label>
+      <default></default>
+    </entry>
 </group>
 
   <group name="env">

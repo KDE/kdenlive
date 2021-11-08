@@ -465,7 +465,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
     fileWidget->setOperationMode(KFileWidget::Saving);
-    QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq]() {
+    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [fileWidget, importseq]() {
         if (importseq->isChecked()) {
             // We are importing an image sequence, abort
             return;

@@ -276,7 +276,7 @@ int main(int argc, char *argv[])
         result = EXIT_CLEAN_RESTART;
     } else {
         QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
+        QObject::connect(pCore.get(), &Core::closeSplash, pCore.get(), [&] () {
             splash.finish(pCore->window());
         });
         pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);

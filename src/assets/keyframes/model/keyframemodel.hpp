@@ -44,7 +44,7 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack,
                            QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole };
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole };
     friend class KeyframeModelList;
     friend class KeyframeWidget;
     friend class KeyframeImport;
@@ -77,7 +77,7 @@ protected:
 
 protected:
     /** @brief Same function but accumulates undo/redo */
-    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true);
+    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true, bool updateSelection = true);
 
 public:
     /** @brief moves a keyframe
@@ -88,7 +88,7 @@ public:
     bool moveKeyframe(int oldPos, int pos, bool logUndo);
     bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -147,6 +147,14 @@ public:
     QVariant updateInterpolated(const QVariant &interpValue, double val);
     /** @brief Return the real value from a normalized one */
     QVariant getNormalizedValue(double newVal) const;
+    /** @brief Set or add a keyframe to selection */
+    Q_INVOKABLE void setSelectedKeyframe(int ix, bool add);
+    void setSelectedKeyframes(QVector<int> selection);
+
+    Q_INVOKABLE int activeKeyframe() const;
+    Q_INVOKABLE void setActiveKeyframe(int ix);
+    int getIndexForPos(const GenTime pos) const;
+    GenTime getPosAtIndex(int ix) const;
 
     // Mandatory overloads
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
@@ -197,9 +205,11 @@ private:
     mutable QReadWriteLock m_lock;
 
     std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
+    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
 
 signals:
     void modelChanged();
+    void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int>&);
 
 public:
     // this is to enable for range loops

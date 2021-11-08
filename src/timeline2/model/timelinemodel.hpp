@@ -359,7 +359,7 @@ public:
     Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
     bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
-    bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /** @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -762,6 +762,8 @@ public:
     const QString getTrackTagById(int trackId) const;
     /** @brief returns true if track is empty at position on playlist */
     bool trackIsBlankAt(int tid, int pos, int playlist) const;
+    /** @brief returns true if track is empty at position on playlist */
+    bool trackIsAvailable(int tid, int pos, int duration, int playlist) const;
     /** @brief returns the position of the clip start on a playlist */
     int getClipStartAt(int tid, int pos, int playlist) const;
     int getClipEndAt(int tid, int pos, int playlist) const;
@@ -870,7 +872,7 @@ signals:
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /** @brief Signal sent whenever the selected mix changes */
-    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly = false);
     /** @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /** @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
