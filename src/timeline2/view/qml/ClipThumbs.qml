@@ -30,17 +30,17 @@ Row {
         // 1: only show first thumbnail
         // 0: will disable thumbnails
         model: parentTrack.trackThumbsFormat === 0 ? 2 : parentTrack.trackThumbsFormat === 1 ? Math.ceil(container.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat === 2 ? 1 : 0
-        property int startFrame: clipRoot.switchedInPoint
-        property int endFrame: clipRoot.switchedOutPoint
+        property int startFrame: clipRoot.inPoint
+        property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
         property int thumbStartFrame: fixedThumbs ? 0 :
                                                     (clipRoot.speed >= 0)
-                                                    ? Math.round(clipRoot.switchedInPoint * clipRoot.speed)
-                                                    : Math.round((clipRoot.maxDuration - clipRoot.switchedInPoint) * -clipRoot.speed - 1)
+                                                    ? Math.round(clipRoot.inPoint * clipRoot.speed)
+                                                    : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -clipRoot.speed - 1)
         property int thumbEndFrame: fixedThumbs ? 0 :
                                                   (clipRoot.speed >= 0)
-                                                  ? Math.round(clipRoot.switchedOutPoint * clipRoot.speed)
-                                                  : Math.round((clipRoot.maxDuration - clipRoot.switchedOutPoint) * -clipRoot.speed - 1)
+                                                  ? Math.round(clipRoot.outPoint * clipRoot.speed)
+                                                  : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -clipRoot.speed - 1)
 
         Image {
             width: thumbRepeater.imageWidth
@@ -50,7 +50,7 @@ Row {
             cache: enableCache
             //sourceSize.width: width
             //sourceSize.height: height
-            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.switchedInPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
+            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
             source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
             onStatusChanged: {

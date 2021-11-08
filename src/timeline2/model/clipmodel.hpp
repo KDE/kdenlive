@@ -89,20 +89,14 @@ public:
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    /** @brief The fake track is used in insrt/overwrite mode.
+    /** @brief The fake track is used in insert/overwrite mode.
      *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
      *  so we use a 'fake' track id to pass to the qml view
      */
     int getFakeTrackId() const;
     void setFakeTrackId(int fid);
-    int getFakePosition() const;
     void setFakePosition(int fpos);
-    int getFakeDuration() const;
-    void setFakeDuration(int fduration);
-    int getFakeIn() const;
-    void setFakeIn(int fin);
-    int getFakeOut() const;
-    void setFakeOut(int fin);
+    int getFakePosition() const;
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
@@ -117,7 +111,7 @@ public:
     void allSnaps(std::vector<int> &snaps, int offset = 0);
 
 protected:
-    // helper functions that creates the lambda
+    /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
 
 public:
@@ -265,9 +259,6 @@ protected:
     /** @brief Fake track id, used when dragging in insert/overwrite mode */
     int m_fakeTrack;
     int m_fakePosition;
-    int m_fakeDuration;
-    int m_fakeIn = -1;
-    int m_fakeOut = -1;
     /** @brief Temporary val to store offset between two clips with same bin id. */
     int m_positionOffset;
     /** @brief Tracks have two sub playlists to enable same track transitions, we store in which one this clip is. */

@@ -1275,36 +1275,6 @@ void ClipModel::setFakePosition(int fpos)
     m_fakePosition = fpos;
 }
 
-int ClipModel::getFakeDuration() const
-{
-    return m_fakeDuration;
-}
-
-void ClipModel::setFakeDuration(int fduration)
-{
-    m_fakeDuration = fduration;
-}
-
-int ClipModel::getFakeIn() const
-{
-    return m_fakeIn;
-}
-
-void ClipModel::setFakeIn(int fin)
-{
-    m_fakeIn = fin;
-}
-
-int ClipModel::getFakeOut() const
-{
-    return m_fakeOut;
-}
-
-void ClipModel::setFakeOut(int fout)
-{
-    m_fakeOut = fout;
-}
-
 QDomElement ClipModel::toXml(QDomDocument &document)
 {
     QDomElement container = document.createElement(QStringLiteral("clip"));

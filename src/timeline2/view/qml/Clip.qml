@@ -26,16 +26,8 @@ Rectangle {
     property int mixCut: 0
     property real scrollX: 0
     property int inPoint: 0
-    property int fakeInPoint: 0
-    property int switchedInPoint: useFakeInOut ? fakeInPoint : inPoint
     property int outPoint: 0
-    property int fakeOutPoint: 0
-    property int switchedOutPoint: useFakeInOut ? fakeOutPoint : outPoint
-    property bool useFakeInOut: false
     property int clipDuration: 0
-    property int fakeDuration: 0
-    property bool useFakeDuration: false
-    property int switchedDuration: useFakeDuration ? fakeDuration : clipDuration
     property int maxDuration: 0
     property bool isAudio: false
     property bool timeremap: false
@@ -131,17 +123,7 @@ Rectangle {
     }
 
     onClipDurationChanged: {
-        useFakeDuration = false;
         width = clipDuration * timeScale
-        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
-            // Duration changed, we may need a different number of repeaters
-            thumbsLoader.item.reload(1)
-        }
-    }
-
-    onFakeDurationChanged: {
-        useFakeDuration = true;
-        width = fakeDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
             thumbsLoader.item.reload(1)
@@ -150,11 +132,7 @@ Rectangle {
 
     onInPointChanged: useFakeInOut = false;
 
-    onFakeInPointChanged: useFakeInOut = true;
-
     onOutPointChanged: useFakeInOut = false;
-
-    onFakeOutPointChanged: useFakeInOut = true;
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -732,7 +710,7 @@ Rectangle {
                         if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = maxDuration - inPoint
                         }
-                        if (newDuration != switchedDuration) {
+                        if (newDuration != clipDuration) {
                             sizeChanged = true
                             clipRoot.trimmingOut(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
@@ -974,7 +952,7 @@ Rectangle {
                 anchors.fill: parent
                 visible: clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
                 selected: clipRoot.selected
-                inPoint: clipRoot.switchedInPoint
+                inPoint: clipRoot.inPoint
                 outPoint: clipRoot.outPoint
                 masterObject: clipRoot
                 kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
@@ -997,7 +975,7 @@ Rectangle {
                 when: clipRoot.selected === false
                 PropertyChanges {
                     target: clipRoot
-                    color: Qt.darker(getColor(), 2)
+                    color: Qt.darker(getColor(), 1.5)
                     z: 0
                 }
             },

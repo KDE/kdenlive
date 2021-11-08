@@ -87,12 +87,6 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "fakeDuration"
-                    value: model.fakeDuration
-                    when: loader.status == Loader.Ready && loader.item && clipItem
-                }
-                Binding {
-                    target: loader.item
                     property: "mixDuration"
                     value: model.mixDuration
                     when: loader.status == Loader.Ready && loader.item && clipItem
@@ -197,18 +191,6 @@ Item{
                     target: loader.item
                     property: "inPoint"
                     value: model.in
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "fakeInPoint"
-                    value: model.fakeIn
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "fakeOutPoint"
-                    value: model.fakeOut
                     when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {

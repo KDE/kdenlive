@@ -112,9 +112,6 @@ public:
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,
-        FakeDurationRole,
-        FakeInRole,
-        FakeOutRole,
         MarkersRole, /// clip only
         PlaylistStateRole,  /// clip only
         StatusRole,  /// clip only
@@ -502,11 +499,6 @@ public:
     Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
     /** @brief @todo TODO */
     bool requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
-
-    /** @brief @todo TODO */
-    Q_INVOKABLE int requestFakeItemResize(int itemId, int size, bool right, int snapDistance = -1, bool allowSingleResize = false);
-    /** @brief @todo TODO */
-    Q_INVOKABLE int requestFakeClipResize(int clipId, int size, bool right, int snapDistance = -1, bool allowSingleResize = false);
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable

@@ -193,9 +193,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[TagRole] = "tag";
     roles[FakeTrackIdRole] = "fakeTrackId";
     roles[FakePositionRole] = "fakePosition";
-    roles[FakeDurationRole] = "fakeDuration";
-    roles[FakeInRole] = "fakeIn";
-    roles[FakeOutRole] = "fakeOut";
     roles[StartRole] = "start";
     roles[MixRole] = "mixDuration";
     roles[MixCutRole] = "mixCut";
@@ -285,12 +282,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getFakeTrackId();
         case FakePositionRole:
             return clip->getFakePosition();
-        case FakeDurationRole:
-            return clip->getFakeDuration();
-        case FakeInRole:
-            return clip->getFakeIn();
-        case FakeOutRole:
-            return clip->getFakeOut();
         case BinIdRole:
             return clip->binId();
         case TrackIdRole:
