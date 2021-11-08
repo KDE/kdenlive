@@ -537,7 +537,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -634,7 +634,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -662,7 +662,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -773,7 +773,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
                 }
             }
 
