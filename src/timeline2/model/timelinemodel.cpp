@@ -3282,8 +3282,8 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     if (isClip(itemId)) {
         bool hasMix = false;
         int tid = m_allClips[itemId]->getCurrentTrackId();
-        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
         if (tid > -1) {
+            std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
             if (right && mixData.second.firstClipId > -1) {
                 hasMix = true;
                 size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
