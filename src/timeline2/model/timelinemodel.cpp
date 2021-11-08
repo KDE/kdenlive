@@ -655,7 +655,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         };
     }
     Fun sync_mix = []() { return true; };
-
     Fun simple_move_mix = []() { return true; };
     Fun simple_restore_mix = []() { return true; };
     QList<int> allowedClipMixes;
@@ -665,15 +664,15 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     if (old_trackId == trackId && !finalMove && !revertMove) {
         if (mixData.first.firstClipId > -1 && !moving_clips.contains(mixData.first.firstClipId)) {
             // Mix at clip start, don't allow moving left
-            if (position < (mixData.first.firstClipInOut.second - mixData.first.mixOffset))  {
+            if (position < (mixData.first.firstClipInOut.second - mixData.first.mixOffset) && (position + m_allClips[clipId]->getPlaytime() >= mixData.first.firstClipInOut.first))  {
                 qDebug()<<"==== ABORTING GROUP MOVE ON START MIX";
                 return false;
             }
         }
         if (mixData.second.firstClipId > -1 && !moving_clips.contains(mixData.second.secondClipId)) {
             // Mix at clip end, don't allow moving right
-            if (position + getClipPlaytime(clipId) > mixData.second.secondClipInOut.first) {
-                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX: "<<position<<" > "<<mixData.second.firstClipInOut.first;
+            if (position + getClipPlaytime(clipId) > mixData.second.secondClipInOut.first && position < mixData.second.secondClipInOut.second) {
+                qDebug()<<"==== ABORTING GROUP MOVE ON END MIX: "<<position;
                 return false;
             }
         }
@@ -1342,18 +1341,18 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         if (mixData.first.firstClipId > -1) {
             // Clip has start mix
             int clipDuration = m_allClips[clipId]->getPlaytime();
-            // ensure we don't move before first clip
-            position = qMax(position, mixData.first.firstClipInOut.first);
-            if (position + clipDuration <= mixData.first.firstClipInOut.second) {
-                position = mixData.first.firstClipInOut.second - clipDuration + 2;
+            // ensure we don't move into clip
+            if (position + clipDuration > mixData.first.firstClipInOut.first && position < mixData.first.firstClipInOut.second) {
+                // Abort move
+                return {currentPos, sourceTrackId};
             }
         }
         if (mixData.second.firstClipId > -1) {
             // Clip has end mix
             int clipDuration = m_allClips[clipId]->getPlaytime();
-            position = qMin(position, mixData.second.secondClipInOut.first);
-            if (position + clipDuration >= mixData.second.secondClipInOut.second) {
-                position = mixData.second.secondClipInOut.second - clipDuration - 2;
+            if (position + clipDuration > mixData.second.secondClipInOut.first && position < mixData.second.secondClipInOut.second) {
+                // Abort move
+                return {currentPos, sourceTrackId};
             }
         }
     }
