@@ -3281,27 +3281,36 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     bool result = false;
     if (isClip(itemId)) {
         bool hasMix = false;
-        if (!logUndo) {
-            int tid = m_allClips[itemId]->getCurrentTrackId();
-            if (tid > -1) {
-                if (right) {
-                    if (getTrackById_const(tid)->hasEndMix(itemId)) {
-                        hasMix = true;
-                    }
-                } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
-                    hasMix = true;
-                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
-                    // We have a mix at clip start
-                    int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
-                    getTrackById_const(tid)->setMixDuration(itemId, qMax(1, mixDuration), m_allClips[itemId]->getMixCutPosition());
+        int tid = m_allClips[itemId]->getCurrentTrackId();
+        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+        if (tid > -1) {
+            if (right && mixData.second.firstClipId > -1) {
+                hasMix = true;
+                size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
+            } else if (!right && mixData.first.firstClipId > -1) {
+                hasMix = true;
+                // We have a mix at clip start, limit size to previous clip start
+                size = qMin(size, mixData.first.secondClipInOut.second - mixData.first.firstClipInOut.first);
+                int currentMixDuration = mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first;
+                int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
+                Fun local_update = [this, itemId, tid, mixData, mixDuration] {
+                    getTrackById_const(tid)->setMixDuration(itemId, qMax(1, mixDuration), mixData.first.mixOffset);
                     QModelIndex ix = makeClipIndexFromID(itemId);
                     emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    return true;
+                };
+                Fun local_update_undo = [this, itemId, tid, mixData, currentMixDuration] {
+                    getTrackById_const(tid)->setMixDuration(itemId, currentMixDuration, mixData.first.mixOffset);
+                    QModelIndex ix = makeClipIndexFromID(itemId);
+                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    return true;
+                };
+                local_update();
+                if (logUndo) {
+                    UPDATE_UNDO_REDO(local_update, local_update_undo, local_undo, local_redo);
                 }
-            }
-        } else {
-            int tid = m_allClips[itemId]->getCurrentTrackId();
-            if (tid > -1 && getTrackById_const(tid)->hasMix(itemId)) {
-                hasMix = true;
+            } else {
+                hasMix = mixData.second.firstClipId > -1 || mixData.first.firstClipId > -1;
             }
         }
         result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo, hasMix);
