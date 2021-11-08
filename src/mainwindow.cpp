@@ -100,6 +100,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
+#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -1196,8 +1197,11 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-    // TODO icon available (and properly working) in KF 5.86
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
+#else
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple tool"), this);
+#endif
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
@@ -1208,9 +1212,11 @@ void MainWindow::setupActions()
     m_buttonRollTool->setCheckable(true);
     m_buttonRollTool->setChecked(false);*/
 
-    // TODO icon available (and properly working) in KF 5.86
-    //m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+#else
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
+#endif
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 

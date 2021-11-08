@@ -331,7 +331,6 @@ Item{
                     new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, false);
                     timeline.ripplePosChanged(new_duration, false);
-                    console.log("In: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                 }
@@ -406,7 +405,6 @@ Item{
                     new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, true);
                     timeline.ripplePosChanged(new_duration, true);
-                    console.log("Out: Fake Resize to " + new_duration)
                 } else {
                     new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                 }

@@ -81,7 +81,6 @@ Rectangle {
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onScrollStartChanged: {
-        //TODO handle fakeDuration
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
     }
 
