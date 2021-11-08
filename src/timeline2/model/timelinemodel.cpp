@@ -3571,7 +3571,7 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
             TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
             return true;
         };
-        if(delta > 0) {
+        if (delta > 0) {
             if(right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId);
                 if (!spacerOperation(position)) {
@@ -3586,7 +3586,10 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
         }
 
         result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo, hasMix);
-        if (delta < 0) {
+        if (!result && delta > 0) {
+            local_undo();
+        }
+        if (result && delta < 0) {
             if(right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
                 if (!spacerOperation(position)) {

@@ -591,6 +591,9 @@ Rectangle {
                             endDrag()
                         }
                     } else {
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestEndTrimmingMode();
+                        }
                         root.groupTrimData = undefined
                     }
                 }
@@ -602,12 +605,16 @@ Rectangle {
                         var currentFrame = Math.round((clipRoot.x + (x + clipRoot.border.width)) / timeScale)
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
-                        var delta2 = clipRoot.originalDuration - clipDuration
                         if (delta !== 0) {
-                            if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
-                                delta = -inPoint
+                            var newDuration = 0;
+                            if (root.activeTool === ProjectTool.RippleTool) {
+                                newDuration = clipRoot.originalDuration - delta
+                            } else {
+                                if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
+                                    delta = -inPoint
+                                }
+                                newDuration = clipDuration - delta
                             }
-                            var newDuration =  clipDuration - delta + (root.activeTool === ProjectTool.RippleTool ? delta2 : 0)
                             sizeChanged = true
                             clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
@@ -710,6 +717,9 @@ Rectangle {
                             endDrag()
                         }
                     } else {
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestEndTrimmingMode();
+                        }
                         root.groupTrimData = undefined
                     }
                 }

@@ -1947,6 +1947,10 @@ void TimelineController::ripplePosChanged(int size, bool right) {
     if (!m_model->isClip(m_trimmingMainClip) || !pCore->monitorManager()->isTrimming()) {
         return;
     }
+    if (size < 0) {
+        return;
+    }
+    qDebug() << "ripplePosChanged" << size << right;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
     int delta = size - mainClip->getPlaytime();
     if (!right) {
@@ -1954,6 +1958,11 @@ void TimelineController::ripplePosChanged(int size, bool right) {
     }
     int pos = right ? mainClip->getOut() : mainClip->getIn();
     pos += delta;
+    if (mainClip->getMaxDuration() > -1) {
+        pos = qBound(0, pos, mainClip->getMaxDuration());
+    } else {
+        pos = qMax(0, pos);
+    }
     pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos + 1, delta, right ? mainClip->getIn() : pos, right ? pos : mainClip->getOut());
 }
 
@@ -2034,6 +2043,10 @@ bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelectio
 
 bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection, bool right)
 {
+
+    if (pCore->monitorManager()->isTrimming() && m_trimmingMainClip == mainClipId) {
+        return true;
+    }
 
     if (pCore->activeTool() == ToolType::SlipTool && !slipProcessSelection(mainClipId, addToSelection)) {
         return false;
