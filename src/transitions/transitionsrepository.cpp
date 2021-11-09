@@ -110,9 +110,7 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
     Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");
 
-    qDebug()<<"::: TESTING TRANSITION: "<<res.id;
     if (getSingleTrackTransitions().contains(res.id)) {
-        qDebug()<<"======\nFOUND TRANSITION: "<<res.id<<"\n\nBBBBBBBBBBBBB";
         if (audio) {
             res.type = AssetListType::AssetType::AudioTransition;
         } else {
