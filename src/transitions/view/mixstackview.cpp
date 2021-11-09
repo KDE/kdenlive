@@ -76,14 +76,13 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     emit initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 
-    if (m_model->rowCount() > 0) {
-        const QSignalBlocker bk0(m_duration);
-        const QSignalBlocker bk1(m_position);
-        int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
-        m_duration->setValue(duration);
-        m_position->setValue(duration - pCore->getMixCutPos(stackOwner().second));
-        connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
-    }
+    const QSignalBlocker bk0(m_duration);
+    const QSignalBlocker bk1(m_position);
+    int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
+    m_duration->setValue(duration);
+    m_position->setValue(duration - pCore->getMixCutPos(stackOwner().second));
+    connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
+
     // The layout is handled by AssetParameterView, so we can only add our custom stuff later here
     m_lay->addLayout(m_durationLayout);
     m_lay->addLayout(m_positionLayout);
