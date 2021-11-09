@@ -638,6 +638,8 @@ public:
     void updateMasterZones(QVariantList zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
     /** @brief Get align info for a mix. */
     MixAlignment getMixAlign(int cid) const;
     /** @brief Process a lift operation for multitrack operation. */
@@ -665,7 +667,7 @@ public slots:
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
     /** @brief Request resizing currently selected mix. */
-    void resizeMix(int cid, int duration, MixAlignment align);
+    void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);

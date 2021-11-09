@@ -1136,14 +1136,19 @@ void Core::testProxies()
     dialog->exec();
 }
 
-void Core::resizeMix(int cid, int duration, MixAlignment align)
+void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
-    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align);
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
 }
 
 MixAlignment Core::getMixAlign(int cid) const
 {
     return m_mainWindow->getCurrentTimeline()->controller()->getMixAlign(cid);
+}
+
+int Core::getMixCutPos(int cid) const
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->getMixCutPos(cid);
 }
 
 void Core::cleanup()
