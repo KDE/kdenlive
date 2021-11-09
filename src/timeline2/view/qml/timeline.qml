@@ -536,7 +536,7 @@ Rectangle {
                         if (sameCutPos > -1) {
                             var sourceTrack = Logic.getTrackById(currentTrack)
                             if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
-                                sameTrackIndicator.x = sameCutPos * timeline.scaleFactor - scrollView.contentX - sameTrackIndicator.width / 2
+                                sameTrackIndicator.x = sameCutPos * timeline.scaleFactor - sameTrackIndicator.width / 2
                                 sameTrackIndicator.y = sourceTrack.y
                                 sameTrackIndicator.height = sourceTrack.height
                                 sameTrackIndicator.visible = true
