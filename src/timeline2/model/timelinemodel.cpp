@@ -5751,9 +5751,35 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                     updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
                     updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
                     int currentDuration = m_allClips.at(cid)->getMixDuration();
-                    double ratio = double (duration) / currentDuration;
-                    updatedDurationRight *= ratio;
-                    updatedDurationLeft = duration - updatedDurationRight;
+                    if (qAbs(duration - currentDuration) == 1) {
+                        if (duration < currentDuration) {
+                            // We are reducing the duration
+                            if (currentDuration %2 == 0) {
+                                updatedDurationRight --;
+                                if (updatedDurationRight < 0) {
+                                    updatedDurationRight = 0;
+                                    updatedDurationLeft--;
+                                }
+                            } else {
+                                updatedDurationLeft --;
+                                if (updatedDurationLeft < 0) {
+                                    updatedDurationLeft = 0;
+                                    updatedDurationRight--;
+                                }
+                            }
+                        } else {
+                            // Increasing duration
+                            if (currentDuration %2 == 0) {
+                                updatedDurationRight ++;
+                            } else {
+                                updatedDurationLeft ++;
+                            }
+                        }
+                    } else {
+                        double ratio = double (duration) / currentDuration;
+                        updatedDurationRight *= ratio;
+                        updatedDurationLeft = duration - updatedDurationRight;
+                    }
                 }
                 if (updatedDurationLeft + updatedDurationRight < 1) {
                     //
