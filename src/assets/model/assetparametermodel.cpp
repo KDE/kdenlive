@@ -18,6 +18,8 @@
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
 
+static QVector<int> bypassRoles = {AssetParameterModel::InRole,AssetParameterModel::OutRole,AssetParameterModel::ParentInRole,AssetParameterModel::ParentDurationRole,AssetParameterModel::ParentPositionRole,AssetParameterModel::HideKeyframesFirstRole};
+
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString& originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
@@ -428,6 +430,29 @@ AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
+    if (bypassRoles.contains(role)) {
+        switch (role) {
+            case InRole:
+                return m_asset->get_int("in");
+            case OutRole:
+                return m_asset->get_int("out");
+            case ParentInRole:
+                return pCore->getItemIn(m_ownerId);
+            case ParentDurationRole:
+                if (m_asset->get_int("kdenlive:force_in_out") == 1) {
+                    // Zone effect, return effect length
+                    return m_asset->get_int("out") - m_asset->get_int("in");
+                }
+                return pCore->getItemDuration(m_ownerId);
+            case ParentPositionRole:
+                return pCore->getItemPosition(m_ownerId);
+            case HideKeyframesFirstRole:
+                return m_hideKeyframesByDefault;
+            default:
+                qDebug()<<"WARNING; UNHANDLED DATA: "<<role;
+                return QVariant();
+        }
+    }
     if (index.row() < 0 || index.row() >= m_rows.size() || !index.isValid()) {
         return QVariant();
     }
@@ -450,22 +475,6 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         }
         return comment;
     }
-    case InRole:
-        return m_asset->get_int("in");
-    case OutRole:
-        return m_asset->get_int("out");
-    case ParentInRole:
-        return pCore->getItemIn(m_ownerId);
-    case ParentDurationRole:
-        if (m_asset->get_int("kdenlive:force_in_out") == 1) {
-            // Zone effect, return effect length
-            return m_asset->get_int("out") - m_asset->get_int("in");
-        }
-        return pCore->getItemDuration(m_ownerId);
-    case ParentPositionRole:
-        return pCore->getItemPosition(m_ownerId);
-    case HideKeyframesFirstRole:
-        return m_hideKeyframesByDefault;
     case MinRole:
         return parseAttribute(m_ownerId, QStringLiteral("min"), element);
     case MaxRole:
