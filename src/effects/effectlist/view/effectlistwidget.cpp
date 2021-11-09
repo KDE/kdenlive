@@ -67,6 +67,11 @@ void EffectListWidget::setFilterType(const QString &type)
     }
 }
 
+bool EffectListWidget::isAudio(const QString &assetId) const
+{
+    return EffectsRepository::get()->isAudioEffect(assetId);
+}
+
 QString EffectListWidget::getMimeType(const QString &assetId) const
 {
     Q_UNUSED(assetId);

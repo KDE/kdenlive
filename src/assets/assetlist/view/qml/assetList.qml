@@ -56,6 +56,17 @@ Rectangle {
                 }
             }
             ToolButton {
+                id: showTransitions
+                visible: !isEffectList
+                iconName: "transform-move-horizontal"
+                checkable:true
+                exclusiveGroup: filterGroup
+                tooltip: i18n("Show transitions only")
+                onClicked: {
+                    assetlist.setFilterType("transition")
+                }
+            }
+            ToolButton {
                 id: showVideo
                 visible: isEffectList
                 iconName: "kdenlive-show-video"

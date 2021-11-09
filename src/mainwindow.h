@@ -182,8 +182,8 @@ private:
 
     QDockWidget *m_projectBinDock;
     QDockWidget *m_effectListDock;
-    QDockWidget *m_transitionListDock;
-    TransitionListWidget *m_transitionList2;
+    QDockWidget *m_compositionListDock;
+    TransitionListWidget *m_compositionList;
     EffectListWidget *m_effectList2;
 
     AssetPanel *m_assetPanel{nullptr};

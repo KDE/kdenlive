@@ -843,7 +843,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return true;
 }
 
-bool TimelineModel::mixClip(int idToMove, int delta)
+bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
 {
     int selectedTrack = -1;
 
@@ -980,7 +980,7 @@ bool TimelineModel::mixClip(int idToMove, int delta)
             mixDurations.second = mixDuration - mixDurations.first;
         }
     }
-    bool result = requestClipMix(clipsToMix, mixDurations, selectedTrack, mixPosition, true, true, true, undo,
+    bool result = requestClipMix(mixId, clipsToMix, mixDurations, selectedTrack, mixPosition, true, true, true, undo,
  redo, false);
     if (result) {
         // Check if this is an AV split group
@@ -1004,8 +1004,8 @@ bool TimelineModel::mixClip(int idToMove, int delta)
                         clipsToMix.first = splitId;
                         clipsToMix.second = current_id;
                     }
-                    if (splitId > -1 && clipsToMix.first != clipsToMix.second) {
-                        result = requestClipMix(clipsToMix, mixDurations, splitTrack, mixPosition, true, true, true, undo, redo, false);
+                    if (splitId > -1 && !getTrackById_const(splitTrack)->hasStartMix(clipsToMix.second) && clipsToMix.first != clipsToMix.second) {
+                        result = requestClipMix(mixId, clipsToMix, mixDurations, splitTrack, mixPosition, true, true, true, undo, redo, false);
                     }
                 }
             }
@@ -1026,7 +1026,7 @@ bool TimelineModel::mixClip(int idToMove, int delta)
     }
 }
 
-bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+bool TimelineModel::requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     if (trackId == -1) {
         return false;
@@ -1053,7 +1053,7 @@ bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, i
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_undo);
     }
-    ok = getTrackById(trackId)->requestClipMix(clipIds, mixDurations, updateView, finalMove, local_undo, local_redo, groupMove);
+    ok = getTrackById(trackId)->requestClipMix(mixId, clipIds, mixDurations, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qWarning() << "mix failed, reverting";
         bool undone = local_undo();
@@ -5557,7 +5557,13 @@ int TimelineModel::getMixDuration(int cid) const
     Q_ASSERT(isClip(cid));
     int tid = m_allClips.at(cid)->getCurrentTrackId();
     if (tid > -1) {
-        return getTrackById_const(tid)->getMixDuration(cid);
+        if (getTrackById_const(tid)->hasStartMix(cid)) {
+            return getTrackById_const(tid)->getMixDuration(cid);
+        } else {
+            // Mix is not yet inserted in timeline
+            std::pair<int, int> mixInOut = getMixInOut(cid);
+            return mixInOut.second - mixInOut.first;
+        }
     }
     return 0;
 }

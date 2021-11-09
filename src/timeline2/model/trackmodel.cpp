@@ -1711,7 +1711,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     return false;
 }
 
-bool TrackModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
@@ -1906,33 +1906,36 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, std::pair<int, int>
         };
     }
     // Create mix compositing
-    Fun build_mix = [clipIds, mixPosition, mixDurations, dest_track, secondClipCut, this]() {
+    Fun build_mix = [clipIds, mixPosition, mixDurations, dest_track, secondClipCut, mixId, this]() {
         if (auto ptr = m_parent.lock()) {
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(mixDurations.first + mixDurations.second, secondClipCut);
             // Insert mix transition
             QString assetName;
             std::unique_ptr<Mlt::Transition>t;
+            QDomElement xml;
             if (isAudioTrack()) {
-                t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
+                // Mix is the only audio transition
+                t = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDurations.first + mixDurations.second);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("start", -1);
                 t->set("accepts_blanks", 1);
                 m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("mix");
+                xml = TransitionsRepository::get()->getXml(assetName);
             } else {
-                t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
+                assetName = mixId.isEmpty() || mixId == QLatin1String("mix") ? QStringLiteral("luma") : mixId;
+                t = TransitionsRepository::get()->getTransition(assetName);
                 t->set_in_and_out(mixPosition, mixPosition + mixDurations.first + mixDurations.second);
+                xml = TransitionsRepository::get()->getXml(assetName);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
                 m_track->plant_transition(*t.get(), 0, 1);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
-                assetName = QStringLiteral("luma");
             }
-            QDomElement xml = TransitionsRepository::get()->getXml(assetName);
             if (dest_track == 0 && Xml::hasXmlParameter(xml, QStringLiteral("reverse"))) {
                 Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
             }
@@ -2341,6 +2344,32 @@ bool TrackModel::hasMix(int cid) const
 bool TrackModel::hasStartMix(int cid) const
 {
     return m_sameCompositions.count(cid) > 0;
+}
+
+int TrackModel::isOnCut(int cid)
+{
+    if (auto ptr = m_parent.lock()) {
+        std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(cid);
+        int startPos = composition->getPosition();
+        int endPos = startPos + composition->getPlaytime() - 1;
+        int cid1 = getClipByPosition(startPos);
+        int cid2 = getClipByPosition(endPos);
+        if (cid1 == -1 || cid2 == -1 || cid1 == cid2) {
+            return -1;
+        }
+        if (m_mixList.contains(cid1) || m_sameCompositions.count(cid2) > 0) {
+            // Clips are already mixed, abort
+            return -1;
+        }
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid2);
+        int mixRight = clip->getPosition();
+        std::shared_ptr<ClipModel> clip2 = ptr->getClipPtr(cid1);
+        int mixLeft = clip2->getPosition() + clip2->getPlaytime();
+        if (mixLeft == mixRight) {
+            return mixLeft;
+        }
+    }
+    return -1;
 }
 
 bool TrackModel::hasEndMix(int cid) const
