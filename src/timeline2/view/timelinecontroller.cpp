@@ -4677,11 +4677,16 @@ int TimelineController::clipMaxDuration(int cid)
     return m_model->m_allClips[cid]->getMaxDuration();
 }
 
-void TimelineController::resizeMix(int cid, int duration, MixAlignment align)
+void TimelineController::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
     if (cid > -1) {
-        m_model->requestResizeMix(cid, duration, align);
+        m_model->requestResizeMix(cid, duration, align, leftFrames);
     }
+}
+
+int TimelineController::getMixCutPos(int cid) const
+{
+    return m_model->getMixCutPos(cid);
 }
 
 MixAlignment TimelineController::getMixAlign(int cid) const

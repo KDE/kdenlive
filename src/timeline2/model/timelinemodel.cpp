@@ -5575,6 +5575,12 @@ std::pair<int, int> TimelineModel::getMixInOut(int cid) const
     return {-1,-1};
 }
 
+int TimelineModel::getMixCutPos(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->getMixCutPosition();
+}
+
 MixAlignment TimelineModel::getMixAlign(int cid) const
 {
     Q_ASSERT(isClip(cid));
@@ -5593,7 +5599,7 @@ MixAlignment TimelineModel::getMixAlign(int cid) const
     return MixAlignment::AlignNone;
 }
 
-void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
+void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
     Q_ASSERT(isClip(cid));
     int tid = m_allClips.at(cid)->getCurrentTrackId();
@@ -5734,19 +5740,28 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align)
                 adjust_mix();
                 UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
             } else {
-                int updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
-                int updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
-                int currentDuration = m_allClips.at(cid)->getMixDuration();
-                double ratio = double (duration) / currentDuration;
-                updatedDurationRight *= ratio;
-                updatedDurationLeft = duration - updatedDurationRight;
+                // No alignment specified
+                int updatedDurationRight;
+                int updatedDurationLeft;
+                if (leftFrames > -1) {
+                    // A left frame offset was specified
+                    updatedDurationLeft = qBound(0, leftFrames, duration);
+                    updatedDurationRight = duration - updatedDurationLeft;
+                } else {
+                    updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
+                    updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
+                    int currentDuration = m_allClips.at(cid)->getMixDuration();
+                    double ratio = double (duration) / currentDuration;
+                    updatedDurationRight *= ratio;
+                    updatedDurationLeft = duration - updatedDurationRight;
+                }
                 if (updatedDurationLeft + updatedDurationRight < 1) {
                     //
                     pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
-                updatedDurationLeft -= (m_allClips.at(cid)->getMixDuration() - updatedDurationRight);
+                updatedDurationLeft -= (m_allClips.at(cid)->getMixDuration() - m_allClips.at(cid)->getMixCutPosition());
                 updatedDurationRight -= m_allClips.at(cid)->getMixCutPosition();
                 if (updatedDurationLeft != 0) {
                     requestItemResize(cid, m_allClips.at(cid)->getPlaytime() + updatedDurationLeft, false, true, undo, redo);
