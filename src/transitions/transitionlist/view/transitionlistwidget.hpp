@@ -22,6 +22,7 @@ public:
     TransitionListWidget(QWidget *parent = Q_NULLPTR);
     ~TransitionListWidget() override;
     void setFilterType(const QString &type);
+    bool isAudio(const QString &assetId) const override;
     /** @brief Return mime type used for drag and drop. It will be kdenlive/composition
      or kdenlive/transition*/
     QString getMimeType(const QString &assetId) const override;

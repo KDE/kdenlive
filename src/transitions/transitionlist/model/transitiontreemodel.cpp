@@ -35,11 +35,10 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
     for (const auto &transition : qAsConst(allTransitions)) {
         std::shared_ptr<TreeItem> targetCategory = compoCategory;
         AssetListType::AssetType type = TransitionsRepository::get()->getType(transition.first);
-        if (type == AssetListType::AssetType::AudioTransition || type == AssetListType::AssetType::VideoTransition) {
-            targetCategory = transCategory;
-        }
         if (flat) {
             targetCategory = self->rootItem;
+        } else if (type == AssetListType::AssetType::AudioTransition || type == AssetListType::AssetType::VideoTransition) {
+            targetCategory = transCategory;
         }
 
         // we create the data list corresponding to this transition

@@ -221,6 +221,15 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    /** @brief Request inserting a new mix in timeline (dragged from compositions list)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param transitionId is the data describing the dropped composition
+    */
+    Q_INVOKABLE void insertNewMix(int tid, int position, const QString transitionId);
+    /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
+    */
+    Q_INVOKABLE int isOnCut(int cid) const;
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        this function will check if there is a clip at insert point and
        adjust the composition length accordingly

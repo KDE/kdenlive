@@ -114,7 +114,6 @@ void MixStackView::checkAlignment()
             // No alignment
             break;
     }
-
 }
 
 void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles)

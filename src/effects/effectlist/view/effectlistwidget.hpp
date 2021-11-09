@@ -26,7 +26,7 @@ public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
     ~EffectListWidget() override;
     void setFilterType(const QString &type);
-
+    bool isAudio(const QString &assetId) const override;
     /** @brief Return mime type used for drag and drop. It will be kdenlive/effect*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);

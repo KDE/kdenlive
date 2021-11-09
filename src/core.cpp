@@ -638,7 +638,7 @@ int Core::getItemDuration(const ObjectId &id)
         }
         break;
     default:
-        qWarning() << "unhandled object type";
+        qWarning() << "unhandled object type: "<<(int)id.first;
     }
     return 0;
 }
@@ -657,9 +657,10 @@ QSize Core::getItemFrameSize(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
     case ObjectType::TimelineComposition:
+    case ObjectType::TimelineMix:
         return pCore->getCurrentFrameSize();
     default:
-        qWarning() << "unhandled object type";
+        qWarning() << "unhandled object type frame size";
     }
     return pCore->getCurrentFrameSize();
 }

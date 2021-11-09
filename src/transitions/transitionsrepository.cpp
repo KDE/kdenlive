@@ -73,7 +73,6 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (!ok) {
             continue;
         }
-
         if (customAssets.count(result.id) > 0) {
             //qDebug() << "duplicate transition" << result.id;
         }
@@ -83,6 +82,13 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
+        }
+        if (getSingleTrackTransitions().contains(result.id)) {
+            if (type == QLatin1String("audio")) {
+                result.type = AssetListType::AssetType::AudioTransition;
+            } else {
+                result.type = AssetListType::AssetType::VideoTransition;
+            }
         }
         customAssets[result.id] = result;
     }
@@ -104,7 +110,9 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
     Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");
 
+    qDebug()<<"::: TESTING TRANSITION: "<<res.id;
     if (getSingleTrackTransitions().contains(res.id)) {
+        qDebug()<<"======\nFOUND TRANSITION: "<<res.id<<"\n\nBBBBBBBBBBBBB";
         if (audio) {
             res.type = AssetListType::AssetType::AudioTransition;
         } else {
@@ -122,7 +130,7 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
 QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 {
     // Disabled until same track transitions is implemented
-    return {/*QStringLiteral("composite"), QStringLiteral("dissolve")*/};
+    return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
 QString TransitionsRepository::assetBlackListPath() const
@@ -145,6 +153,12 @@ std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QStr
     auto transition = std::make_unique<Mlt::Transition>(pCore->getCurrentProfile()->profile(), service_name.toUtf8().constData());
     transition->set("kdenlive_id", transitionId.toUtf8().constData());
     return transition;
+}
+
+bool TransitionsRepository::isAudio(const QString &transitionId) const
+{
+    auto type = getType(transitionId);
+    return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::AudioTransition;
 }
 
 bool TransitionsRepository::isComposition(const QString &transitionId) const

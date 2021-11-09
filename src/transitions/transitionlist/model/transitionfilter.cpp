@@ -39,6 +39,9 @@ bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
     if (m_type_value == AssetListType::AssetType::Favorites) {
         return item->dataColumn(AssetTreeModel::favCol).toBool();
     }
+    if (m_type_value == AssetListType::AssetType::VideoTransition) {
+        return itemType == m_type_value || itemType == AssetListType::AssetType::AudioTransition;
+    }
     return itemType == m_type_value;
 }
 
