@@ -73,6 +73,7 @@ void PositionWidget::setRange(int min, int max, bool absolute)
         m_slider->setRange(0, max - min);
         m_display->setRange(0, max - min);
     }
+    m_slider->setSingleStep(std::ceil((max - min) / 10.));
 }
 
 bool PositionWidget::isValid() const

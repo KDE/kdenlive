@@ -5605,7 +5605,7 @@ MixAlignment TimelineModel::getMixAlign(int cid) const
     return MixAlignment::AlignNone;
 }
 
-void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames)
+void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int rightFrames)
 {
     Q_ASSERT(isClip(cid));
     int tid = m_allClips.at(cid)->getCurrentTrackId();
@@ -5718,13 +5718,12 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 }
                 int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
                 int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (deltaLeft < 1 || deltaRight < 1) {
-                    pCore->displayMessage(i18n("Cannot align mix"), ErrorMessage, 500);
-                    emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
+                if (deltaRight) {
+                    requestItemResize(cid, updatedDurationRight, false, true, undo, redo);
                 }
-                requestItemResize(cid, updatedDurationRight, false, true, undo, redo);
-                requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
+                if (deltaLeft > 0) {
+                    requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
+                }
                 int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
                 if (mixCutPos > updatedDuration) {
                     pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
@@ -5749,10 +5748,10 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 // No alignment specified
                 int updatedDurationRight;
                 int updatedDurationLeft;
-                if (leftFrames > -1) {
-                    // A left frame offset was specified
-                    updatedDurationLeft = qBound(0, leftFrames, duration);
-                    updatedDurationRight = duration - updatedDurationLeft;
+                if (rightFrames > -1) {
+                    // A right frame offset was specified
+                    updatedDurationRight = qBound(0, rightFrames, duration);
+                    updatedDurationLeft = duration - updatedDurationRight;
                 } else {
                     updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
                     updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;

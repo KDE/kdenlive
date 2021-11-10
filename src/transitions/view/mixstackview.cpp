@@ -8,6 +8,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
+#include "widgets/positionwidget.h"
 #include "timecodedisplay.h"
 
 #include <QComboBox>
@@ -22,12 +23,7 @@ MixStackView::MixStackView(QWidget *parent)
     : AssetParameterView(parent)
 {
     // Position widget
-    m_positionLayout = new QHBoxLayout;
-    m_position = new TimecodeDisplay(pCore->timecode(), this);
-    m_position->setRange(0, -1);
-    m_positionLayout->addWidget(new QLabel(i18n("Position (left):")));
-    m_positionLayout->addWidget(m_position);
-    m_positionLayout->addStretch();
+    m_position = new PositionWidget(i18n("Position"), 0, 0, 0, pCore->timecode()); // TimecodeDisplay(pCore->timecode(), this);
     // Duration widget
     m_durationLayout = new QHBoxLayout;
     m_duration = new TimecodeDisplay(pCore->timecode(), this);
@@ -57,7 +53,7 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout->addWidget(m_alignCenter);
     m_durationLayout->addWidget(m_alignLeft);
     connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
-    connect(m_position, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updatePosition);
+    connect(m_position, &PositionWidget::valueChanged, this, &MixStackView::updatePosition);
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
@@ -80,12 +76,14 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     const QSignalBlocker bk1(m_position);
     int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
     m_duration->setValue(duration + 1);
-    m_position->setValue(duration - pCore->getMixCutPos(stackOwner().second));
+    m_position->updateTimecodeFormat();
+    m_position->setRange(0, duration);
+    m_position->setPosition(duration - pCore->getMixCutPos(stackOwner().second));
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
 
     // The layout is handled by AssetParameterView, so we can only add our custom stuff later here
     m_lay->addLayout(m_durationLayout);
-    m_lay->addLayout(m_positionLayout);
+    m_lay->addWidget(m_position);
     m_lay->addStretch(10);
     checkAlignment();
     slotRefresh();
@@ -119,12 +117,17 @@ void MixStackView::checkAlignment()
 void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles)
 {
     if (roles.contains(AssetParameterModel::ParentDurationRole)) {
+        int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
+        int mixCutPos = pCore->getMixCutPos(stackOwner().second);
+        if (duration + 1 == m_duration->getValue() && mixCutPos == m_position->getPosition()) {
+            // No change
+            return;
+        }
         QSignalBlocker bk1(m_duration);
         QSignalBlocker bk2(m_position);
-        int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
         m_duration->setValue(duration + 1);
         m_position->setRange(0, duration);
-        m_position->setValue(duration - pCore->getMixCutPos(stackOwner().second));
+        m_position->setPosition(mixCutPos);
         checkAlignment();
     }
 }
@@ -150,7 +153,7 @@ void MixStackView::updateDuration()
 
 void MixStackView::updatePosition()
 {
-    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignNone, m_position->getValue());
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignNone, m_position->getPosition());
 }
 
 void MixStackView::slotAlignLeft()
@@ -188,7 +191,7 @@ void MixStackView::unsetModel()
     if (m_model) {
         m_model->setActive(false);
         m_lay->removeItem(m_durationLayout);
-        m_lay->removeItem(m_positionLayout);
+        m_lay->removeWidget(m_position);
         auto kfr = m_model->getKeyframeModel();
         if (kfr) {
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
