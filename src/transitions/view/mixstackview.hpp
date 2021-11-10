@@ -12,6 +12,7 @@
 class QComboBox;
 class QToolButton;
 class TimecodeDisplay;
+class PositionWidget;
 class QHBoxLayout;
 
 class MixStackView : public AssetParameterView
@@ -36,8 +37,8 @@ private slots:
     void slotAlignCenter();
 
 private:
-    QHBoxLayout *m_positionLayout;
-    TimecodeDisplay *m_position;
+    //QHBoxLayout *m_positionLayout;
+    PositionWidget *m_position;
     QHBoxLayout *m_durationLayout;
     TimecodeDisplay *m_duration;
     QToolButton *m_alignLeft;

@@ -676,7 +676,7 @@ public slots:
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
     /** @brief Request resizing currently selected mix. */
-    void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
+    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
