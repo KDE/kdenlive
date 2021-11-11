@@ -196,7 +196,7 @@ class Bin : public QWidget
     enum BinViewType { BinTreeView, BinIconView };
 
 public:
-    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr);
+    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true);
     ~Bin() override;
 
     bool isLoading;
@@ -364,11 +364,6 @@ private slots:
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();
-    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
-    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
-    void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
-    void slotTagDropped(const QString &tag, const QModelIndex &parent);
-    void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
@@ -419,6 +414,11 @@ public slots:
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
+    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
+    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
+    void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
+    void slotTagDropped(const QString &tag, const QModelIndex &parent);
+    void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     /** @brief Open current clip in an external editing application */
     void slotOpenClip();
     void slotDuplicateClip();
@@ -463,6 +463,7 @@ protected:
     QSize sizeHint() const override;
 
 private:
+    bool m_isMainBin;
     std::shared_ptr<ProjectItemModel> m_itemModel;
     QAbstractItemView *m_itemView;
     BinItemDelegate *m_binTreeViewDelegate;

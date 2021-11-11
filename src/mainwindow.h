@@ -134,6 +134,13 @@ public:
 
     /** @brief Raise (show) the project bin*/
     void raiseBin();
+    /** @brief Add a bin widget*/
+    void addBin(std::shared_ptr<Bin> bin);
+    /** @brief Get the main (first) bin*/
+    std::shared_ptr<Bin> getBin();
+    /** @brief Get the active (focused) bin or first one if none is active*/
+    std::shared_ptr<Bin> activeBin();
+    int binCount() const;
 
     /** @brief Hide subtitle track */
     void resetSubtitles();
@@ -176,6 +183,8 @@ protected:
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
+    /** @brief Rebuild the dock menu according to existing dock widgets. */
+    void updateDockMenu();
 
     OtioConvertions m_otioConvertions;
     KColorSchemeManager *m_colorschemes;
@@ -205,6 +214,7 @@ private:
     KSelectAction *m_compositeAction;
 
     TimelineTabs *m_timelineTabs{nullptr};
+    QVector <std::shared_ptr<Bin> >m_binWidgets;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList<QDockWidget *> m_gfxScopesList;
