@@ -267,6 +267,7 @@ void MainWindow::init(const QString &mltPath)
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
+    pCore->bin()->setupMenu();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
@@ -285,12 +286,6 @@ void MainWindow::init(const QString &mltPath)
     connect(m_clipMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
-
-    connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
-    connect(pCore->bin(), &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
-            getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
-        }
-    );
 
     // TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
@@ -410,7 +405,6 @@ void MainWindow::init(const QString &mltPath)
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
-    connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(pCore->bin(), &Bin::requestShowEffectStack, [&] () {
         // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
         // m_effectStackDock->raise();
@@ -1439,8 +1433,6 @@ void MainWindow::setupActions()
         slotRestart(true);
     });
 
-    addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
-
     m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
                            QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
@@ -1922,8 +1914,6 @@ void MainWindow::setupActions()
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
         addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL, keysequence[i-1]), timelineActions);
     }
-
-    pCore->bin()->setupMenu();
 
     // Setup effects and transitions actions.
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
@@ -2642,9 +2632,15 @@ void MainWindow::slotShowTimelineTags()
 
 void MainWindow::slotDeleteItem()
 {
-    if (QApplication::focusWidget() != nullptr && pCore->bin()->isAncestorOf(QApplication::focusWidget())) {
-        pCore->bin()->slotDeleteClip();
-    } if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
+    if (QApplication::focusWidget() != nullptr) {
+        for (auto &bin : m_binWidgets) {
+            if (bin->isAncestorOf(QApplication::focusWidget())) {
+                bin->slotDeleteClip();
+                return;
+            }
+        }
+    }
+    if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
         qDebug()<<"===============\nDELETE TEXT BASED ITEM";
         pCore->textEditWidget()->deleteItem();
     } else {
@@ -2847,9 +2843,13 @@ void MainWindow::slotSelectTrack()
 void MainWindow::slotSelectAllTracks()
 {
     if (QApplication::focusWidget() != nullptr) {
-        if (QApplication::focusWidget()->parentWidget() != nullptr && QApplication::focusWidget()->parentWidget() == pCore->bin()) {
-            pCore->bin()->selectAll();
-            return;
+        if (QApplication::focusWidget()->parentWidget() != nullptr) {
+            for (auto &bin : m_binWidgets) {
+                if (bin->isAncestorOf(QApplication::focusWidget())) {
+                    bin->selectAll();
+                    return;
+                }
+            }
         } 
         if (QApplication::focusWidget()->objectName() == QLatin1String("markers_list")) {
             emit pCore->bin()->selectMarkers();
@@ -3720,6 +3720,11 @@ void MainWindow::buildDynamicActions()
     kdenliveCategoryMap.insert(QStringLiteral("transcoderslist"), ts);
     kdenliveCategoryMap.insert(QStringLiteral("audiotranscoderslist"), ats);
 
+    updateDockMenu();
+}
+
+void MainWindow::updateDockMenu()
+{
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
@@ -4555,6 +4560,48 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             break;
     }
     return QObject::eventFilter(object, event);
+}
+
+void MainWindow::addBin(std::shared_ptr<Bin> bin)
+{
+    connect(bin.get(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
+    connect(bin.get(), &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
+            getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
+        }
+    );
+    connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    m_binWidgets << bin;
+    if (m_binWidgets.count() > 1) {
+        // Update dock list
+        updateDockMenu();
+        loadDockActions();
+    }
+}
+
+std::shared_ptr<Bin> MainWindow::getBin()
+{
+    if (m_binWidgets.isEmpty()) {
+        return nullptr;
+    }
+    return m_binWidgets.first();
+}
+
+std::shared_ptr<Bin> MainWindow::activeBin()
+{
+    for (auto &bin : m_binWidgets) {
+        if (bin->isAncestorOf(QApplication::focusWidget())) {
+            return bin;
+        }
+    }
+    return m_binWidgets.first();
+}
+
+int MainWindow::binCount() const
+{
+    if (m_binWidgets.isEmpty()) {
+        return 0;
+    }
+    return m_binWidgets.count();
 }
 
 #ifdef DEBUG_MAINW

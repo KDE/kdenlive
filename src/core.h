@@ -256,7 +256,7 @@ public:
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
     /** @brief Resize current mix item */
-    void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
+    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
     int getMixCutPos(int cid) const;
     /** @brief Get alignment info for a mix item */
@@ -281,7 +281,6 @@ private:
     ProjectManager *m_projectManager{nullptr};
     MonitorManager *m_monitorManager{nullptr};
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
-    Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
@@ -330,6 +329,8 @@ public slots:
     void testProxies();
     /** @brief Refresh the monitor profile when project profile changes. */
     void updateMonitorProfile();
+    /** @brief Add a new Bin Widget. */
+    void addBin();
 
 signals:
     void coreIsReady();
