@@ -561,6 +561,7 @@ void MyListView::mousePressEvent(QMouseEvent *event)
         }
         emit updateDragMode(m_dragType);
     }
+    event->accept();
 }
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
@@ -619,6 +620,7 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
             m_dragType = PlaylistState::Disabled;
         }
     }
+    event->accept();
 }
 
 void MyTreeView::focusInEvent(QFocusEvent *event)
@@ -914,6 +916,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
+    , m_propertiesDock(nullptr)
 {
     m_layout = new QVBoxLayout(this);
 
@@ -1114,14 +1117,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_showRating->setData(7);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
 
-    QAction *duplicateBin = new QAction(i18n("New Project Bin"), this);
-    connect(duplicateBin, &QAction::triggered, pCore.get(), &Core::addBin);
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(m_showRating);
     settingsMenu->addAction(disableEffects);
     settingsMenu->addAction(hoverPreview);
-    settingsMenu->addAction(duplicateBin);
 
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
@@ -1291,8 +1291,10 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     // connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
-    m_propertiesPanel = new QScrollArea(this);
-    m_propertiesPanel->setFrameShape(QFrame::NoFrame);
+    if (m_isMainBin) {
+        m_propertiesPanel = new QScrollArea(this);
+        m_propertiesPanel->setFrameShape(QFrame::NoFrame);
+    }
     // Insert listview
     m_itemView = new MyTreeView(this);
     m_layout->addWidget(m_itemView);
@@ -1322,7 +1324,6 @@ Bin::~Bin()
     } else {
         blockSignals(true);
         setEnabled(false);
-        delete m_propertiesDock;
     }
 }
 
@@ -1774,7 +1775,7 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 }
 
-void Bin::setDocument(KdenliveDoc *project)
+void Bin::setDocument(KdenliveDoc *project, const QString &id)
 {
     m_doc = project;
     if (m_isMainBin) {
@@ -1805,6 +1806,12 @@ void Bin::setDocument(KdenliveDoc *project)
         }
     }
     m_itemModel->setBinEffectsEnabled(!binEffectsDisabled);
+    if (!id.isEmpty()) {
+        // Open view in a specific folder
+        std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(id);
+        auto parentIx = m_itemModel->getIndexFromItem(clip);
+        m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+    }
 
     //setBinEffectsEnabled(!binEffectsDisabled, false);
     QMap <QString, QString> projectTags = m_doc->getProjectTags();
@@ -2155,7 +2162,9 @@ void Bin::slotInitView(QAction *action)
             m_proxyModel->selectionModel()->clearSelection();
         }
         int viewType = action->data().toInt();
-        KdenliveSettings::setBinMode(viewType);
+        if (m_isMainBin) {
+            KdenliveSettings::setBinMode(viewType);
+        }
         if (viewType == m_listType) {
             return;
         }
@@ -2346,7 +2355,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     QString audioCodec;
     bool clickInView = false;
     if (m_itemView) {
-        QRect viewRect(m_itemView->mapToGlobal(m_itemView->geometry().topLeft()), m_itemView->mapToGlobal(m_itemView->geometry().bottomRight()));
+        QRect viewRect(m_itemView->mapToGlobal(QPoint(0,0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
         if (viewRect.contains(event->globalPos())) {
             clickInView = true;
             QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
@@ -2450,8 +2459,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     // New folder can be created from level of another folder.
     if (isFolder) {
         m_menu->insertAction(m_deleteAction, m_createFolderAction);
+        m_menu->insertAction(m_createFolderAction, m_openInBin);
     } else {
         m_menu->removeAction(m_createFolderAction);
+        m_menu->removeAction(m_openInBin);
     }
 
     // Show menu
@@ -2525,6 +2536,9 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
 
 void Bin::slotEditClip()
 {
+    if (m_propertiesPanel == nullptr) {
+        return;
+    }
     QString panelId = m_propertiesPanel->property("clipId").toString();
     QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(current));
@@ -2572,6 +2586,9 @@ void Bin::slotSwitchClipProperties()
 
 void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
 {
+    if (m_propertiesPanel == nullptr) {
+        return;
+    }
     if (clip == nullptr) {
         m_propertiesPanel->setEnabled(false);
         return;
@@ -2621,6 +2638,9 @@ void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, co
 
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
 {
+    if (m_propertiesPanel == nullptr) {
+        return;
+    }
     if ((clip == nullptr) || !clip->statusReady()) {
         foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
@@ -2946,6 +2966,17 @@ void Bin::setupMenu()
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
 
+    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open in new bin"), QIcon::fromTheme(QStringLiteral("document-open")));
+    connect(m_openInBin, &QAction::triggered, this, [&]() {
+        QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        QString id;
+        if (currentItem) {
+            id = currentItem->clipId();
+        }
+        pCore.get()->addBin(id);
+    });
+
     m_createFolderAction =
         addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
@@ -2966,8 +2997,10 @@ void Bin::setupMenu()
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
-    m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
-    m_propertiesDock->close();
+    if (m_isMainBin) {
+        m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
+        m_propertiesDock->close();
+    }
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
@@ -4048,8 +4081,10 @@ void Bin::refreshProxySettings()
     auto *masterCommand = new QUndoCommand();
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
-    foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-        emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+    if (m_propertiesPanel) {
+        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+            emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+        }
     }
     if (!m_doc->useProxy()) {
         // Disable all proxies
@@ -4301,6 +4336,14 @@ QString Bin::getCurrentFolder()
     if (ix.isValid() && m_proxyModel->selectionModel()->isSelected(ix)) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+    } else {
+        QModelIndex parentIx = m_itemView->rootIndex();
+        if (parentIx.isValid()) {
+            std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(parentIx));
+            if (item) {
+                parentFolder = std::static_pointer_cast<ProjectFolder>(item->getEnclosingFolder());
+            }
+        }
     }
     return parentFolder->clipId();
 }
@@ -4403,14 +4446,16 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
         connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
-            foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-                if (w->parentWidget() && w->parentWidget()->parentWidget()) {
-                    // Raise panel
-                    w->parentWidget()->parentWidget()->show();
-                    w->parentWidget()->parentWidget()->raise();
+            if (m_propertiesPanel) {
+                foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                    if (w->parentWidget() && w->parentWidget()->parentWidget()) {
+                        // Raise panel
+                        w->parentWidget()->parentWidget()->show();
+                        w->parentWidget()->parentWidget()->raise();
+                    }
+                    // Show audio tab
+                    static_cast<ClipPropertiesController *>(w)->activatePage(2);
                 }
-                // Show audio tab
-                static_cast<ClipPropertiesController *>(w)->activatePage(2);
             }
         });
         QAction *ac3 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Don't ask again"), this);

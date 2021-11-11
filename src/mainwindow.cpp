@@ -3352,8 +3352,11 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
 
 void MainWindow::raiseBin()
 {
-    m_projectBinDock->setVisible(true);
-    m_projectBinDock->raise();
+    std::shared_ptr<Bin> bin = activeBin();
+    if (bin && !bin->isVisible()) {
+        bin->parentWidget()->setVisible(true);
+        bin->parentWidget()->raise();
+    }
 }
 
 void MainWindow::slotClipInProjectTree()
@@ -4565,12 +4568,19 @@ void MainWindow::addBin(std::shared_ptr<Bin> bin)
         }
     );
     connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    m_binWidgets << bin;
-    if (m_binWidgets.count() > 1) {
+    if (!m_binWidgets.isEmpty()) {
+        // This is a secondary bin widget
+        int ix = binCount() + 1;
+        QDockWidget *binDock = addDock(i18n("Project Bin %1", ix), QString("project_bin_%1").arg(ix), bin.get());
+        bin->setupGeneratorMenu();
+        tabifyDockWidget(m_projectBinDock, binDock);
         // Update dock list
         updateDockMenu();
         loadDockActions();
+        binDock->show();
+        binDock->raise();
     }
+    m_binWidgets << bin;
 }
 
 std::shared_ptr<Bin> MainWindow::getBin()
@@ -4583,9 +4593,12 @@ std::shared_ptr<Bin> MainWindow::getBin()
 
 std::shared_ptr<Bin> MainWindow::activeBin()
 {
-    for (auto &bin : m_binWidgets) {
-        if (bin->isAncestorOf(QApplication::focusWidget())) {
-            return bin;
+    QWidget* wid = QApplication::focusWidget();
+    if (wid) {
+        for (auto &bin : m_binWidgets) {
+            if (bin.get() == wid || bin->isAncestorOf(wid)) {
+                return bin;
+            }
         }
     }
     return m_binWidgets.first();
