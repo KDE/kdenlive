@@ -386,6 +386,14 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
     return clipIds;
 }
 
+void TimelineController::insertNewMix(int tid, int position, const QString transitionId)
+{
+    int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
+    if (clipId > 0) {
+        m_model->mixClip(clipId, transitionId);
+    }
+}
+
 int TimelineController::insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
@@ -474,6 +482,13 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         pCore->displayMessage(i18n("Could not add composition at selected position"), ErrorMessage, 500);
     }
     return id;
+}
+
+int TimelineController::isOnCut(int cid) const
+{
+    Q_ASSERT(m_model->isComposition(cid));
+    int tid = m_model->getItemTrackId(cid);
+    return m_model->getTrackById_const(tid)->isOnCut(cid);
 }
 
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
@@ -4488,7 +4503,7 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
 
 void TimelineController::mixClip(int cid, int delta)
 {
-    m_model->mixClip(cid, delta);
+    m_model->mixClip(cid, QStringLiteral("luma"), delta);
 }
 
 void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
@@ -4757,11 +4772,16 @@ int TimelineController::clipMaxDuration(int cid)
     return m_model->m_allClips[cid]->getMaxDuration();
 }
 
-void TimelineController::resizeMix(int cid, int duration, MixAlignment align)
+void TimelineController::resizeMix(int cid, int duration, MixAlignment align, int rightFrames)
 {
     if (cid > -1) {
-        m_model->requestResizeMix(cid, duration, align);
+        m_model->requestResizeMix(cid, duration, align, rightFrames);
     }
+}
+
+int TimelineController::getMixCutPos(int cid) const
+{
+    return m_model->getMixCutPos(cid);
 }
 
 MixAlignment TimelineController::getMixAlign(int cid) const

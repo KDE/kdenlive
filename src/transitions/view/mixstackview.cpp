@@ -8,6 +8,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
+#include "widgets/positionwidget.h"
 #include "timecodedisplay.h"
 
 #include <QComboBox>
@@ -21,8 +22,12 @@
 MixStackView::MixStackView(QWidget *parent)
     : AssetParameterView(parent)
 {
+    // Position widget
+    m_position = new PositionWidget(i18n("Position"), 0, 0, 0, pCore->timecode()); // TimecodeDisplay(pCore->timecode(), this);
+    // Duration widget
     m_durationLayout = new QHBoxLayout;
     m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_duration->setRange(1, -1);
     m_durationLayout->addWidget(new QLabel(i18n("Duration:")));
     m_durationLayout->addWidget(m_duration);
     m_alignLeft = new QToolButton(this);
@@ -48,6 +53,7 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout->addWidget(m_alignCenter);
     m_durationLayout->addWidget(m_alignLeft);
     connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
+    connect(m_position, &PositionWidget::valueChanged, this, &MixStackView::updatePosition);
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
@@ -66,13 +72,26 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     emit initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 
-    if (m_model->rowCount() > 0) {
-        QSignalBlocker bk0(m_duration);
-        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
-        connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
-    }
-    int mainClipId = stackOwner().second;
-    MixAlignment align = pCore->getMixAlign(mainClipId);
+    const QSignalBlocker bk0(m_duration);
+    const QSignalBlocker bk1(m_position);
+    int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
+    m_duration->setValue(duration + 1);
+    m_position->updateTimecodeFormat();
+    m_position->setRange(0, duration);
+    m_position->setPosition(duration - pCore->getMixCutPos(stackOwner().second));
+    connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
+
+    // The layout is handled by AssetParameterView, so we can only add our custom stuff later here
+    m_lay->addLayout(m_durationLayout);
+    m_lay->addWidget(m_position);
+    m_lay->addStretch(10);
+    checkAlignment();
+    slotRefresh();
+}
+
+void MixStackView::checkAlignment()
+{
+    MixAlignment align = pCore->getMixAlign(stackOwner().second);
     QSignalBlocker bk1(m_alignLeft);
     QSignalBlocker bk2(m_alignRight);
     QSignalBlocker bk3(m_alignCenter);
@@ -93,17 +112,23 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
             // No alignment
             break;
     }
-    m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
-    m_lay->addLayout(m_durationLayout);
-    m_lay->addStretch(10);
-    slotRefresh();
 }
 
 void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles)
 {
     if (roles.contains(AssetParameterModel::ParentDurationRole)) {
+        int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
+        int mixCutPos = pCore->getMixCutPos(stackOwner().second);
+        if (duration + 1 == m_duration->getValue() && mixCutPos == m_position->getPosition()) {
+            // No change
+            return;
+        }
         QSignalBlocker bk1(m_duration);
-        m_duration->setValue(m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt());
+        QSignalBlocker bk2(m_position);
+        m_duration->setValue(duration + 1);
+        m_position->setRange(0, duration);
+        m_position->setPosition(mixCutPos);
+        checkAlignment();
     }
 }
 
@@ -123,7 +148,12 @@ MixAlignment MixStackView::alignment() const
 
 void MixStackView::updateDuration()
 {
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), alignment());
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, alignment());
+}
+
+void MixStackView::updatePosition()
+{
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignNone, m_position->getPosition());
 }
 
 void MixStackView::slotAlignLeft()
@@ -133,7 +163,7 @@ void MixStackView::slotAlignLeft()
     }
     m_alignRight->setChecked(false);
     m_alignCenter->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignLeft);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignLeft);
 }
 
 void MixStackView::slotAlignRight()
@@ -143,7 +173,7 @@ void MixStackView::slotAlignRight()
     }
     m_alignLeft->setChecked(false);
     m_alignCenter->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignRight);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignRight);
 }
 
 void MixStackView::slotAlignCenter()
@@ -153,7 +183,7 @@ void MixStackView::slotAlignCenter()
     }
     m_alignLeft->setChecked(false);
     m_alignRight->setChecked(false);
-    pCore->resizeMix(stackOwner().second, m_duration->getValue(), MixAlignment::AlignCenter);
+    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignCenter);
 }
 
 void MixStackView::unsetModel()
@@ -161,6 +191,7 @@ void MixStackView::unsetModel()
     if (m_model) {
         m_model->setActive(false);
         m_lay->removeItem(m_durationLayout);
+        m_lay->removeWidget(m_position);
         auto kfr = m_model->getKeyframeModel();
         if (kfr) {
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);

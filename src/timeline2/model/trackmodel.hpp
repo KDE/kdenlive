@@ -110,7 +110,7 @@ public:
     /** @brief Remove a composition between 2 same track clips */
     bool requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
@@ -135,6 +135,7 @@ public:
     bool loadMix(Mlt::Transition *t);
     /** @brief Set mix duration and mix cut pos on a clip */
     void setMixDuration(int cid, int mixDuration, int mixCut);
+    int getMixDuration(int cid) const;
     /** @brief Get the assetparameter model for a mix */
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
     /** @brief Get a list of current effect stack zones */
@@ -319,6 +320,9 @@ protected:
     bool hasStartMix(int cid) const;
     /** @brief Returns true if this clip has a mix at end */
     bool hasEndMix(int cid) const;
+    /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
+    */
+    int isOnCut(int cid);
     /** @brief Returns all mix info as xml */
     QDomElement mixXml(QDomDocument &document, int cid) const;
 

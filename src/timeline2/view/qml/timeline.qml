@@ -270,6 +270,7 @@ Rectangle {
         clipDropArea.lastDragUuid = ""
         scrollTimer.running = false
         scrollTimer.stop()
+        sameTrackIndicator.visible = false
     }
 
     function isDragging() {
@@ -494,17 +495,21 @@ Rectangle {
     }
 
     DropArea { //Drop area for compositions
+        id: compoArea
         width: root.width - headerWidth
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
+        property bool isAudioDrag
+        property int sameCutPos: -1
         keys: 'kdenlive/composition'
         onEntered: {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
-                if (track >= 0 && !controller.isAudioTrack(track)) {
+                isAudioDrag = drag.getDataAsString('type') == "audio"
+                if (track >= 0 && controller.isAudioTrack(track) == isAudioDrag) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
@@ -520,13 +525,30 @@ Rectangle {
                 if (track !== -1) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0) {
-                        if (controller.isAudioTrack(track)) {
+                        if (controller.isAudioTrack(track) != isAudioDrag) {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
                         }
-                        controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                        var moveData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                        var currentFrame = moveData[0]
+                        var currentTrack = moveData[1]
+                        sameCutPos = timeline.isOnCut(clipBeingDroppedId)
+                        if (sameCutPos > -1) {
+                            var sourceTrack = Logic.getTrackById(currentTrack)
+                            if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
+                                sameTrackIndicator.x = sameCutPos * timeline.scaleFactor - sameTrackIndicator.width / 2
+                                sameTrackIndicator.y = sourceTrack.y
+                                sameTrackIndicator.height = sourceTrack.height
+                                sameTrackIndicator.visible = true
+                            } else {
+                                sameTrackIndicator.visible = false
+                            }
+                        } else {
+                            sameTrackIndicator.visible = false
+                        }
+
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    } else if (!controller.isAudioTrack(track)) {
+                    } else if (controller.isAudioTrack(track) == isAudioDrag) {
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
@@ -548,7 +570,14 @@ Rectangle {
                 var track = controller.getCompositionTrackId(clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
                 controller.requestItemDeletion(clipBeingDroppedId, false)
-                timeline.insertNewComposition(track, frame, clipBeingDroppedData, true)
+                if (sameTrackIndicator.visible) {
+                    // We want a same track composition
+                    timeline.insertNewMix(track, sameCutPos, clipBeingDroppedData)
+                } else if (!isAudioDrag) {
+                    timeline.insertNewComposition(track, frame, clipBeingDroppedData, true)
+                } else {
+                    // Cannot insert an audio mix composition
+                }
             }
             clearDropData()
         }
@@ -1777,6 +1806,14 @@ Rectangle {
                                     id: dragContainer
                                     z: 100
                                 }
+                            }
+                            Rectangle {
+                                id: sameTrackIndicator
+                                color: 'red'
+                                opacity: 0.5
+                                visible: false
+                                width: root.baseUnit
+                                height: width
                             }
                         }
                         Repeater { id: guidesRepeater;

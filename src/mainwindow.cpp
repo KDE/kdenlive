@@ -441,8 +441,8 @@ void MainWindow::init(const QString &mltPath)
     connect(m_assetPanel, &AssetPanel::reloadEffect, m_effectList2, &EffectListWidget::reloadCustomEffect);
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
-    m_transitionList2 = new TransitionListWidget(this);
-    m_transitionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_transitionList2);
+    m_compositionList = new TransitionListWidget(this);
+    m_compositionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_compositionList);
 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
@@ -488,7 +488,7 @@ void MainWindow::init(const QString &mltPath)
 
     /// Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-    tabifyDockWidget(m_transitionListDock, m_effectListDock);
+    tabifyDockWidget(m_compositionListDock, m_effectListDock);
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     bool firstRun = readOptions();
 
@@ -851,9 +851,9 @@ void MainWindow::slotThemeChanged(const QString &name)
         // Trigger a repaint to have icons adapted
         m_effectList2->reset();
     }
-    if (m_transitionList2) {
+    if (m_compositionList) {
         // Trigger a repaint to have icons adapted
-        m_transitionList2->reset();
+        m_compositionList->reset();
     }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
@@ -917,7 +917,7 @@ MainWindow::~MainWindow()
     delete m_clipMonitor;
     delete m_shortcutRemoveFocus;
     delete m_effectList2;
-    delete m_transitionList2;
+    delete m_compositionList;
     qDeleteAll(m_transitions);
     // Mlt::Factory::close();
 }
@@ -2449,7 +2449,7 @@ void MainWindow::connectDocument()
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
     connect(m_effectList2, &EffectListWidget::reloadFavorites, getMainTimeline(), &TimelineWidget::updateEffectFavorites);
-    connect(m_transitionList2, &TransitionListWidget::reloadFavorites, getMainTimeline(), &TimelineWidget::updateTransitionFavorites);
+    connect(m_compositionList, &TransitionListWidget::reloadFavorites, getMainTimeline(), &TimelineWidget::updateTransitionFavorites);
     connect(pCore->bin(), &Bin::processDragEnd, getMainTimeline(), &TimelineWidget::endDrag);
     
     // Load master effect zones

@@ -19,7 +19,6 @@
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)
 {
-
     m_model = TransitionTreeModel::construct(true, this);
 
     m_proxyModel = std::make_unique<TransitionFilter>(this);
@@ -40,12 +39,17 @@ TransitionListWidget::~TransitionListWidget()
 {
 }
 
+bool TransitionListWidget::isAudio(const QString &assetId) const
+{
+    return TransitionsRepository::get()->isAudio(assetId);
+}
+
 QString TransitionListWidget::getMimeType(const QString &assetId) const
 {
-    if (TransitionsRepository::get()->isComposition(assetId)) {
+    /*if (TransitionsRepository::get()->isComposition(assetId)) {
         return QStringLiteral("kdenlive/composition");
-    }
-    return QStringLiteral("kdenlive/transition");
+    }*/
+    return QStringLiteral("kdenlive/composition");
 }
 
 void TransitionListWidget::updateFavorite(const QModelIndex &index)
@@ -59,6 +63,8 @@ void TransitionListWidget::setFilterType(const QString &type)
 {
     if (type == "favorites") {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
+    } else if (type == "transition") {
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::VideoTransition);
     } else {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Favorites);
     }

@@ -12,6 +12,7 @@
 class QComboBox;
 class QToolButton;
 class TimecodeDisplay;
+class PositionWidget;
 class QHBoxLayout;
 
 class MixStackView : public AssetParameterView
@@ -30,17 +31,21 @@ signals:
 private slots:
     void durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles);
     void updateDuration();
+    void updatePosition();
     void slotAlignLeft();
     void slotAlignRight();
     void slotAlignCenter();
 
 private:
+    //QHBoxLayout *m_positionLayout;
+    PositionWidget *m_position;
     QHBoxLayout *m_durationLayout;
     TimecodeDisplay *m_duration;
     QToolButton *m_alignLeft;
     QToolButton *m_alignCenter;
     QToolButton *m_alignRight;
     MixAlignment alignment() const;
+    void checkAlignment();
 };
 
 #endif

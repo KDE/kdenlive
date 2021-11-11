@@ -636,14 +636,13 @@ int Core::getItemDuration(const ObjectId &id)
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
     case ObjectType::TimelineMix:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            std::pair<int, int> mixInOut = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second);
-            return (mixInOut.second - mixInOut.first);
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixDuration(id.second);
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
     default:
-        qWarning() << "unhandled object type";
+        qWarning() << "unhandled object type: "<<(int)id.first;
     }
     return 0;
 }
@@ -662,9 +661,10 @@ QSize Core::getItemFrameSize(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
     case ObjectType::TimelineComposition:
+    case ObjectType::TimelineMix:
         return pCore->getCurrentFrameSize();
     default:
-        qWarning() << "unhandled object type";
+        qWarning() << "unhandled object type frame size";
     }
     return pCore->getCurrentFrameSize();
 }
@@ -1141,14 +1141,19 @@ void Core::testProxies()
     dialog->exec();
 }
 
-void Core::resizeMix(int cid, int duration, MixAlignment align)
+void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
-    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align);
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
 }
 
 MixAlignment Core::getMixAlign(int cid) const
 {
     return m_mainWindow->getCurrentTimeline()->controller()->getMixAlign(cid);
+}
+
+int Core::getMixCutPos(int cid) const
+{
+    return m_mainWindow->getCurrentTimeline()->controller()->getMixCutPos(cid);
 }
 
 void Core::cleanup()

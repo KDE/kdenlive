@@ -83,6 +83,9 @@ QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
 {
     QVariantMap mimeData;
     mimeData.insert(getMimeType(assetId), assetId);
+    if (isAudio(assetId)) {
+        mimeData.insert(QStringLiteral("type"), QStringLiteral("audio"));
+    }
     return mimeData;
 }
 

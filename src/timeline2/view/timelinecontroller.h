@@ -221,6 +221,15 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    /** @brief Request inserting a new mix in timeline (dragged from compositions list)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param transitionId is the data describing the dropped composition
+    */
+    Q_INVOKABLE void insertNewMix(int tid, int position, const QString transitionId);
+    /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
+    */
+    Q_INVOKABLE int isOnCut(int cid) const;
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        this function will check if there is a clip at insert point and
        adjust the composition length accordingly
@@ -641,6 +650,8 @@ public:
     void updateMasterZones(QVariantList zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
     /** @brief Get align info for a mix. */
     MixAlignment getMixAlign(int cid) const;
     /** @brief Process a lift operation for multitrack operation. */
@@ -668,7 +679,7 @@ public slots:
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
     /** @brief Request resizing currently selected mix. */
-    void resizeMix(int cid, int duration, MixAlignment align);
+    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);

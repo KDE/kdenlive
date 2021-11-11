@@ -208,6 +208,7 @@ public:
     int getSubtitlePosition(int subId) const;
     int getCompositionPlaytime(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
+    int getMixDuration(int cid) const;
 
     /** @brief Returns an item position, item can be clip or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
@@ -364,7 +365,7 @@ public:
     Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
     bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
-    bool requestClipMix(std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /** @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -756,9 +757,11 @@ public:
     /** @brief Import project's master effects */
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
-    bool mixClip(int idToMove = -1, int delta = 0);
+    bool mixClip(int idToMove = -1, const QString &mixId = QStringLiteral("luma"), int delta = 0);
     Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
-    void requestResizeMix(int cid, int duration, MixAlignment align);
+    void requestResizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
     MixAlignment getMixAlign(int cid) const;
     std::shared_ptr<SubtitleModel> getSubtitleModel();
     /** @brief Get the frame size of the clip above a composition */

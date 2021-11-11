@@ -50,6 +50,7 @@ public:
     /** @brief Return mime type used for drag and drop. It can be kdenlive/effect,
       kdenlive/composition or kdenlive/transition*/
     virtual QString getMimeType(const QString &assetId) const = 0;
+    virtual bool isAudio(const QString &assetId) const = 0;
 
     QVariantMap getMimeData(const QString &assetId) const;
 
