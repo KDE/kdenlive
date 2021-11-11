@@ -106,6 +106,8 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
+    /** @brief Returns a pointer to the view of the active bin (or main bin on no focus). */
+    Bin *activeBin();
     /** @brief Select a clip in the Bin from its id. */
     void selectBinClip(const QString &id, bool activateMonitor = true, int frame = -1, const QPoint &zone = QPoint());
     /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
@@ -330,7 +332,7 @@ public slots:
     /** @brief Refresh the monitor profile when project profile changes. */
     void updateMonitorProfile();
     /** @brief Add a new Bin Widget. */
-    void addBin();
+    void addBin(const QString &id = QString());
 
 signals:
     void coreIsReady();

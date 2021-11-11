@@ -331,9 +331,14 @@ Bin *Core::bin()
     return m_mainWindow->getBin().get();
 }
 
+Bin *Core::activeBin()
+{
+    return m_mainWindow->activeBin().get();
+}
+
 void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame, const QPoint &zone)
 {
-    m_mainWindow->getBin()->selectClipById(clipId, frame, zone, activateMonitor);
+    m_mainWindow->activeBin()->selectClipById(clipId, frame, zone, activateMonitor);
 }
 
 void Core::selectTimelineItem(int id)
@@ -1182,13 +1187,11 @@ int Core::getNewStuff(const QString &config)
     return m_mainWindow->getNewStuff(config);
 }
 
-void Core::addBin()
+void Core::addBin(const QString &id)
 {
     std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow, false));
     bin->setupMenu();
     bin->setMonitor(m_monitorManager->clipMonitor());
-    bin->setDocument(pCore->currentDoc());
-    int ix = m_mainWindow->binCount() + 1;
-    QDockWidget *binDock = m_mainWindow->addDock(i18n("Project Bin %1", ix), QString("project_bin_%1").arg(ix), bin.get());
+    bin->setDocument(pCore->currentDoc(), id);
     m_mainWindow->addBin(bin);
 }

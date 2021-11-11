@@ -4298,7 +4298,7 @@ void TimelineController::finishRecording(const QString &recordedFile)
         if (!clip) {
             return;
         }
-        pCore->bin()->selectClipById(binId);
+        pCore->activeBin()->selectClipById(binId);
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track

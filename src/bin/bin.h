@@ -202,7 +202,7 @@ public:
     bool isLoading;
     void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
-    void setDocument(KdenliveDoc *project);
+    void setDocument(KdenliveDoc *project, const QString &id = QString());
     /** @brief Delete all project related data, to be called before setDocument  */
     void cleanDocument();
 
@@ -502,6 +502,7 @@ private:
     QAction *m_locateAction;
     QAction *m_proxyAction;
     QAction *m_deleteAction;
+    QAction *m_openInBin;
     QAction *m_addClip;
     QAction *m_createFolderAction;
     QAction *m_renameAction;

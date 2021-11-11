@@ -54,7 +54,7 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
 
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->bin()->selectClipById(binId);
+        pCore->activeBin()->selectClipById(binId);
     };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"), callBack);
     return res ? id : QStringLiteral("-1");
@@ -69,7 +69,7 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->bin()->selectClipById(binId);
+        pCore->activeBin()->selectClipById(binId);
     };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
     return res ? id : QStringLiteral("-1");
@@ -168,7 +168,7 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
 
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->bin()->selectClipById(binId);
+        pCore->activeBin()->selectClipById(binId);
     };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"), callBack);
     return res ? id : QStringLiteral("-1");
@@ -204,7 +204,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->bin()->selectClipById(binId);
+        pCore->activeBin()->selectClipById(binId);
     };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"), callBack);
     return res ? id : QStringLiteral("-1");
@@ -361,7 +361,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             std::function<void(const QString &)> callBack = [](const QString &) {};
             if (firstClip) {
                 callBack = [](const QString &binId) {
-                    pCore->bin()->selectClipById(binId);
+                    pCore->activeBin()->selectClipById(binId);
                 };
                 firstClip = false;
             }
