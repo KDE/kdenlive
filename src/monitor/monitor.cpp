@@ -468,27 +468,27 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_trimmingOffset = new QLabel();
     m_trimmingbar->addWidget(m_trimmingOffset);
 
-    QAction *fiveLess = new QAction(i18n("-5"), this);
-    m_trimmingbar->addAction(fiveLess);
-    connect(fiveLess, &QAction::triggered, this, [&](){
+    m_fiveLess = new QAction(i18n("-5"), this);
+    m_trimmingbar->addAction(m_fiveLess);
+    connect(m_fiveLess, &QAction::triggered, this, [&](){
         slotTrimmingPos(-5);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-5, true);
     });
-    QAction *oneLess = new QAction(i18n("-1"), this);
-    m_trimmingbar->addAction(oneLess);
-    connect(oneLess, &QAction::triggered, this, [&](){
+    m_oneLess = new QAction(i18n("-1"), this);
+    m_trimmingbar->addAction(m_oneLess);
+    connect(m_oneLess, &QAction::triggered, this, [&](){
         slotTrimmingPos(-1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
     });
-    QAction *oneMore = new QAction(i18n("+1"), this);
-    m_trimmingbar->addAction(oneMore);
-    connect(oneMore, &QAction::triggered, this, [&](){
+    m_oneMore = new QAction(i18n("+1"), this);
+    m_trimmingbar->addAction(m_oneMore);
+    connect(m_oneMore, &QAction::triggered, this, [&](){
         slotTrimmingPos(1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
     });
-    QAction *fiveMore = new QAction(i18n("+5"), this);
-    m_trimmingbar->addAction(fiveMore);
-    connect(fiveMore, &QAction::triggered, this, [&](){
+    m_fiveMore = new QAction(i18n("+5"), this);
+    m_trimmingbar->addAction(m_fiveMore);
+    connect(m_fiveMore, &QAction::triggered, this, [&](){
         slotTrimmingPos(5);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(5, true);
     });
@@ -2358,6 +2358,17 @@ void Monitor::slotSwitchTrimming(bool enable)
         loadQmlScene(MonitorSceneTrimming);
         m_toolbar->setVisible(false);
         m_trimmingbar->setVisible(true);
+        if (pCore->activeTool() == ToolType::RippleTool) {
+            m_oneLess->setVisible(false);
+            m_oneMore->setVisible(false);
+            m_fiveLess->setVisible(false);
+            m_fiveMore->setVisible(false);
+        } else {
+            m_oneLess->setVisible(true);
+            m_oneMore->setVisible(true);
+            m_fiveLess->setVisible(true);
+            m_fiveMore->setVisible(true);
+        }
         m_glMonitor->switchRuler(false);
     } else if (m_trimmingbar->isVisible()) {
         loadQmlScene(MonitorSceneDefault);

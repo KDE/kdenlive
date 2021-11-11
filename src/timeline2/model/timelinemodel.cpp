@@ -18,6 +18,11 @@
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
+// TODO
+#include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/model/timelinefunctions.hpp"
 
 #include "monitor/monitormanager.h"
 
@@ -252,6 +257,14 @@ int TimelineModel::getItemTrackId(int itemId) const
         return getCompositionTrackId(itemId);
     }
     return -1;
+}
+
+bool TimelineModel::hasClipEndMix(int clipId) const {
+    int tid = getClipTrackId(clipId);
+    if (tid > -1) {
+        return getTrackById_const(tid)->hasEndMix(clipId);
+    }
+    return false;
 }
 
 int TimelineModel::getClipPosition(int clipId) const
@@ -3319,6 +3332,361 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else if (isSubTitle(itemId)) {
         result = m_subtitleModel->requestResize(itemId, size, right, local_undo, local_redo, logUndo);
+    }
+    if (result) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return result;
+}
+
+int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    Q_ASSERT(isItem(itemId));
+    if (size <= 0) {
+        TRACE_RES(-1)
+        return -1;
+    }
+    int in = 0;
+    int offset = getItemPlaytime(itemId);
+    int tid = getItemTrackId(itemId);
+    int out = offset;
+    qDebug()<<"======= REQUESTING NEW CLIP SIZE (RIPPLE): "<<size;
+    if (tid != -1 || !isClip(itemId)) {
+        in = qMax(0, getItemPosition(itemId));
+        out += in;
+        //size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance); //TODO: implement snapping
+    }
+    qDebug()<<"======= ADJUSTED NEW CLIP SIZE (RIPPLE): "<<size;
+    offset -= size;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    Fun sync_mix = []() { return true; };
+    Fun adjust_mix = []() { return true; };
+    Fun sync_end_mix = []() { return true; };
+    Fun sync_end_mix_undo = []() { return true; };
+    PUSH_LAMBDA(sync_mix, undo);
+    std::unordered_set<int> all_items;
+    QList <int> tracksWithMixes;
+    all_items.insert(itemId);
+    if (logUndo && isClip(itemId)) {
+        /*if (tid > -1) {
+            if (right) {
+                if (getTrackById_const(tid)->hasEndMix(itemId)) {
+                    tracksWithMixes << tid;
+                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                    if (in + size <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
+                        // Clip resized outside of mix zone, mix will be deleted
+                        bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+                        if (res) {
+                            size = m_allClips[itemId]->getPlaytime();
+                        } else {
+                            return -1;
+                        }
+                    } else {
+                        // Mix was resized, update cut position
+                        int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
+                        int currentMixCut = m_allClips[mixData.second.secondClipId]->getMixCutPosition();
+                        adjust_mix = [this, tid, mixData, currentMixCut, itemId]() {
+                            MixInfo secondMixData = getTrackById_const(tid)->getMixInfo(itemId).second;
+                            int offset = mixData.second.firstClipInOut.second - secondMixData.firstClipInOut.second;
+                            getTrackById_const(tid)->setMixDuration(secondMixData.secondClipId, secondMixData.firstClipInOut.second - secondMixData.secondClipInOut.first, currentMixCut - offset);
+                            QModelIndex ix = makeClipIndexFromID(secondMixData.secondClipId);
+                            emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                            return true;
+                        };
+                        Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
+                            getTrackById_const(tid)->setMixDuration(mixData.second.secondClipId, currentMixDuration, currentMixCut);
+                            QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
+                            emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                            return true;
+                        };
+                        PUSH_LAMBDA(adjust_mix_undo, undo);
+                    }
+                }
+            } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
+                tracksWithMixes << tid;
+                std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                if (out - size >= mixData.first.firstClipInOut.second) {
+                    // Moved outside mix, delete
+                    Fun sync_mix_undo = [this, tid, mixData]() {
+                        getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                        getTrackById_const(tid)->syncronizeMixes(true);
+                        return true;
+                    };
+                    bool switchPlaylist = getTrackById_const(tid)->hasEndMix(itemId) == false && m_allClips[itemId]->getSubPlaylistIndex() == 1;
+                    if (switchPlaylist) {
+                        sync_end_mix = [this, tid, mixData]() {
+                            return getTrackById_const(tid)->switchPlaylist(mixData.first.secondClipId, m_allClips[mixData.first.secondClipId]->getPosition(), 1, 0);
+                        };
+                        sync_end_mix_undo = [this, tid, mixData]() {
+                            return getTrackById_const(tid)->switchPlaylist(mixData.first.secondClipId, m_allClips[mixData.first.secondClipId]->getPosition(), 0, 1);
+                        };
+                    }
+                    PUSH_LAMBDA(sync_mix_undo, undo);
+
+                }
+            }
+        }*/
+    }
+    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        std::unordered_set<int> items = m_groups->getLeaves(groupId);
+        /*if (m_groups->getType(groupId) == GroupType::AVSplit) {
+            // Only resize group elements if it is an avsplit
+            items = m_groups->getLeaves(groupId);
+        }*/
+        for (int id : items) {
+            if (id == itemId) {
+                continue;
+            }
+            int start = getItemPosition(id);
+            int end = start + getItemPlaytime(id);
+            bool resizeMix = false;
+            if (right) {
+                if (out == end) {
+                    all_items.insert(id);
+                    resizeMix = true;
+                }
+            } else if (start == in) {
+                all_items.insert(id);
+                resizeMix = true;
+            }
+            if (logUndo && resizeMix && isClip(id)) {
+                int tid = getItemTrackId(id);
+                if (tid > -1) {
+                    if (right) {
+                        if (getTrackById_const(tid)->hasEndMix(id)) {
+                            if (!tracksWithMixes.contains(tid)) {
+                                tracksWithMixes << tid;
+                            }
+                            std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                            if (end - offset <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
+                                // Resized outside mix
+                                removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+                                Fun sync_mix_undo = [this, tid, mixData]() {
+                                    getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                                    getTrackById_const(tid)->syncronizeMixes(true);
+                                    return true;
+                                };
+                                bool switchPlaylist = getTrackById_const(tid)->hasEndMix(mixData.second.secondClipId) == false && m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex() == 1;
+                                if (switchPlaylist) {
+                                    Fun sync_end_mix2 = [this, tid, mixData]() {
+                                        return getTrackById_const(tid)->switchPlaylist(mixData.second.secondClipId, mixData.second.secondClipInOut.first, 1, 0);
+                                    };
+                                    Fun sync_end_mix_undo2 = [this, tid, mixData]() {
+                                        return getTrackById_const(tid)->switchPlaylist(mixData.second.secondClipId, m_allClips[mixData.second.secondClipId]->getPosition(), 0, 1);
+                                    };
+                                    PUSH_LAMBDA(sync_end_mix2, sync_end_mix);
+                                    PUSH_LAMBDA(sync_end_mix_undo2, sync_end_mix_undo);
+                                }
+                                PUSH_LAMBDA(sync_mix_undo, undo);
+                            } else {
+                                // Mix was resized, update cut position
+                                int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
+                                int currentMixCut = m_allClips[mixData.second.secondClipId]->getMixCutPosition();
+                                Fun adjust_mix2 = [this, tid, mixData, currentMixCut, id]() {
+                                    MixInfo secondMixData = getTrackById_const(tid)->getMixInfo(id).second;
+                                    int offset = mixData.second.firstClipInOut.second - secondMixData.firstClipInOut.second;
+                                    getTrackById_const(tid)->setMixDuration(secondMixData.secondClipId, secondMixData.firstClipInOut.second - secondMixData.secondClipInOut.first, currentMixCut - offset);
+                                    QModelIndex ix = makeClipIndexFromID(secondMixData.secondClipId);
+                                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                                    return true;
+                                };
+                                Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
+                                    getTrackById_const(tid)->setMixDuration(mixData.second.secondClipId, currentMixDuration, currentMixCut);
+                                    QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
+                                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                                    return true;
+                                };
+                                PUSH_LAMBDA(adjust_mix2, adjust_mix);
+                                PUSH_LAMBDA(adjust_mix_undo, undo);
+                            }
+                        }
+                    } else if (getTrackById_const(tid)->hasStartMix(id)) {
+                        if (!tracksWithMixes.contains(tid)) {
+                            tracksWithMixes << tid;
+                        }
+                        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                        if (start + offset >= mixData.first.firstClipInOut.second) {
+                            // Moved outside mix, remove
+                            Fun sync_mix_undo = [this, tid, mixData]() {
+                                getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                                getTrackById_const(tid)->syncronizeMixes(true);
+                                return true;
+                            };
+                            bool switchPlaylist = getTrackById_const(tid)->hasEndMix(id) == false && m_allClips[id]->getSubPlaylistIndex() == 1;
+                            if (switchPlaylist) {
+                                Fun sync_end_mix2 = [this, tid, mixData]() {
+                                    return getTrackById_const(tid)->switchPlaylist(mixData.first.secondClipId, m_allClips[mixData.first.secondClipId]->getPosition(), 1, 0);
+                                };
+                                Fun sync_end_mix_undo2 = [this, tid, mixData]() {
+                                    return getTrackById_const(tid)->switchPlaylist(mixData.first.secondClipId, m_allClips[mixData.first.secondClipId]->getPosition(), 0, 1);
+                                };
+                                PUSH_LAMBDA(sync_end_mix2, sync_end_mix);
+                                PUSH_LAMBDA(sync_end_mix_undo2, sync_end_mix_undo);
+                            }
+                            PUSH_LAMBDA(sync_mix_undo, undo);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (logUndo && !tracksWithMixes.isEmpty()) {
+        sync_mix = [this, tracksWithMixes]() {
+            for (auto &t : tracksWithMixes) {
+                getTrackById_const(t)->syncronizeMixes(true);
+            }
+            return true;
+        };
+    }
+    bool result = true;
+    int finalPos = right ? in + size : out - size;
+    int finalSize;
+    int resizedCount = 0;
+    for (int id : all_items) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        if (tid == -2 && m_subtitleModel && m_subtitleModel->isLocked()) {
+            continue;
+        }
+        if (right) {
+            finalSize = finalPos - qMax(0, getItemPosition(id));
+        } else {
+            finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
+        }
+        result = result && requestItemRippleResize(id, finalSize, right, logUndo, undo, redo);
+        resizedCount++;
+    }
+    if (!result || resizedCount == 0) {
+        qDebug() << "resize aborted" << result;
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1)
+        return -1;
+    }
+    if (result && logUndo) {
+        if (isClip(itemId)) {
+            sync_end_mix();
+            sync_mix();
+            adjust_mix();
+            PUSH_LAMBDA(sync_end_mix, redo);
+            PUSH_LAMBDA(adjust_mix, redo);
+            PUSH_LAMBDA(sync_mix, redo);
+            PUSH_LAMBDA(undo, sync_end_mix_undo);
+            PUSH_UNDO(sync_end_mix_undo, redo, i18n("Ripple resize clip"))
+        } else if (isComposition(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Ripple resize composition"))
+        } else if (isSubTitle(itemId)) {
+            PUSH_UNDO(undo, redo, i18n("Ripple resize subtitle"))
+        }
+    }
+    int res = result ? size : -1;
+    TRACE_RES(res)
+    return res;
+}
+
+bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+{
+    Q_UNUSED(blockUndo)
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = false;
+    if (isClip(itemId)) {
+        bool hasMix = false;
+        int tid = m_allClips[itemId]->getCurrentTrackId();
+        if (tid > -1) {
+            std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+            /*if (right && mixData.second.firstClipId > -1) {
+                hasMix = true;
+                size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
+            } else if (!right && mixData.first.firstClipId > -1) {
+                hasMix = true;
+                // We have a mix at clip start, limit size to previous clip start
+                size = qMin(size, mixData.first.secondClipInOut.second - mixData.first.firstClipInOut.first);
+                int currentMixDuration = mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first;
+                int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
+                Fun local_update = [this, itemId, tid, mixData, mixDuration] {
+                    getTrackById_const(tid)->setMixDuration(itemId, qMax(1, mixDuration), mixData.first.mixOffset);
+                    QModelIndex ix = makeClipIndexFromID(itemId);
+                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    return true;
+                };
+                Fun local_update_undo = [this, itemId, tid, mixData, currentMixDuration] {
+                    getTrackById_const(tid)->setMixDuration(itemId, currentMixDuration, mixData.first.mixOffset);
+                    QModelIndex ix = makeClipIndexFromID(itemId);
+                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                    return true;
+                };
+                local_update();
+                if (logUndo) {
+                    UPDATE_UNDO_REDO(local_update, local_update_undo, local_undo, local_redo);
+                }
+            } else {
+                hasMix = mixData.second.firstClipId > -1 || mixData.first.firstClipId > -1;
+            }*/
+        }
+        bool affectAllTracks = false;
+        size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
+        int delta = size - m_allClips[itemId]->getPlaytime();
+        qDebug() << "requestItemRippleResize logUndo: " << logUndo << " size: " << size << " playtime: " << m_allClips[itemId]->getPlaytime() <<" delta: " << delta;
+        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right](int position) {
+            int trackId = getItemTrackId(itemId);
+            if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
+                return true;
+            }
+            int cid = TimelineFunctions::requestSpacerStartOperation(pCore->window()->getCurrentTimeline()->model(), affectAllTracks ? -1 : trackId, position, true);
+            if (cid == -1) {
+                return false;
+            }
+            int endPos = getItemPosition(cid) + delta;
+            // Start undoable command
+            TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
+            return true;
+        };
+        if (delta > 0) {
+            if(right) {
+                int position = getItemPosition(itemId) + getItemPlaytime(itemId);
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            } else {
+                int position = getItemPosition(itemId);
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            }
+        }
+
+        result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo, hasMix);
+        if (!result && delta > 0) {
+            local_undo();
+        }
+        if (result && delta < 0) {
+            if(right) {
+                int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            } else {
+                int position = getItemPosition(itemId) + delta;
+                if (!spacerOperation(position)) {
+                    return false;
+                }
+            }
+        }
+
+    } else if (isComposition(itemId)) {
+        return false;
+        // TODO? Does it make sense?
+        // result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
+    } else if (isSubTitle(itemId)) {
+        return false;
+        // TODO?
+        // result = m_subtitleModel->requestResize(itemId, size, right, local_undo, local_redo, logUndo);
     }
     if (result) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);

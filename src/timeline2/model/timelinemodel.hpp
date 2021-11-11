@@ -271,6 +271,11 @@ public:
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getNextTrackId(int trackId);
 
+    /** @brief Returns true if the clip has a mix composition at the end
+       @param clipId Id of the clip to test
+    */
+    Q_INVOKABLE bool hasClipEndMix(int clipId) const;
+
     /** @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */
@@ -495,6 +500,11 @@ public:
 
     /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    /** @brief @todo TODO */
+    bool requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable

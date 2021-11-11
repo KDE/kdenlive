@@ -283,9 +283,11 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
+    } else if (isTrimming()) {
+        return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
             m_clipMonitor->slotRewindOneFrame();
@@ -297,9 +299,11 @@ void MonitorManager::slotRewindOneFrame()
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(1);
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
+    } else if (isTrimming()) {
+        return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
             m_clipMonitor->slotForwardOneFrame();
@@ -311,9 +315,11 @@ void MonitorManager::slotForwardOneFrame()
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-qRound(pCore->getCurrentFps()));
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-qRound(pCore->getCurrentFps()), true);
+    } else if (isTrimming()) {
+        return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
             m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
@@ -325,9 +331,11 @@ void MonitorManager::slotRewindOneSecond()
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (pCore->window()->getCurrentTimeline()->activeTool() == ToolType::SlipTool) {
+    if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(qRound(pCore->getCurrentFps()));
         pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(qRound(pCore->getCurrentFps()), true);
+    } else if (isTrimming()) {
+        return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
             m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));

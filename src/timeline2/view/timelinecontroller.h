@@ -255,7 +255,7 @@ public:
      * only return the id if timeline cursor is inside item
      */
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
-    int getMainSelectedClip() const;
+    int getMainSelectedClip();
 
     /** @brief Do we want to display video thumbnails
      */
@@ -359,10 +359,10 @@ public:
 
     /** @brief Set current item's start point to cursor position
      */
-    void setInPoint();
+    void setInPoint(bool ripple = false);
     /** @brief Set current item's end point to cursor position
      */
-    void setOutPoint();
+    void setOutPoint(bool ripple = false);
     /** @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
@@ -525,9 +525,12 @@ public:
      *  @returns The bounded offset
      */
     int trimmingBoundOffset(int offset);
-    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false);
+    /** @brief @todo TODO */
+    bool slipProcessSelection(int mainClipId, bool addToSelection);
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false, bool right = false);
     Q_INVOKABLE void requestEndTrimmingMode();
     Q_INVOKABLE void slipPosChanged(int offset);
+    Q_INVOKABLE void ripplePosChanged(int pos, bool right);
 
     /** @brief Add current timeline zone to preview rendering
      */

@@ -207,6 +207,10 @@ private:
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
     QToolBar *m_trimmingbar;
+    QAction *m_oneLess;
+    QAction *m_oneMore;
+    QAction *m_fiveLess;
+    QAction *m_fiveMore;
     QLabel *m_trimmingOffset;
     QSlider *m_audioSlider;
     QAction *m_editMarker;

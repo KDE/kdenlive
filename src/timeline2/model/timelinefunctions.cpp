@@ -313,7 +313,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     return count > 0;
 }
 
-int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
+int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
@@ -336,6 +336,8 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
                     if (pos + timeline->getItemPlaytime(l) < position) {
+                        leavesToRemove.insert(l);
+                    } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
                         leavesToRemove.insert(l);
                     } else {
                         leavesToKeep.insert(l);
@@ -430,7 +432,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo)
 {
     // Move group back to original position
     spacerMinPosition = -1;
@@ -492,10 +494,12 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     }
     timeline->requestClearSelection();
     if (final) {
-        if (startPosition < endPosition) {
-            pCore->pushUndo(undo, redo, i18n("Insert space"));
-        } else {
-            pCore->pushUndo(undo, redo, i18n("Remove space"));
+        if (pushUndo) {
+            if (startPosition < endPosition) {
+                pCore->pushUndo(undo, redo, i18n("Insert space"));
+            } else {
+                pCore->pushUndo(undo, redo, i18n("Remove space"));
+            }
         }
         // Regroup temporarily ungrouped items
         QMapIterator<int, int> i(spacerUngroupedItems);
