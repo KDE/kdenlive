@@ -3271,8 +3271,15 @@ void MainWindow::showToolMessage()
         toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</shortcut> for multiple selection");
-        toolLabel = i18n("Slip");
-    }  else if (m_buttonMulticamTool->isChecked()) {
+        toolLabel = i18nc("Timeline Tool", "Slip");
+    } /*else if (m_buttonSlideTool->isChecked()) { // TODO implement Slide
+        toolLabel = i18nc("Timeline Tool", "Slide");
+    }*/ else if (m_buttonRippleTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
+        toolLabel = i18nc("Timeline Tool", "Ripple");
+    } /*else if (m_buttonRollTool->isChecked()) { // TODO implement Slide
+        toolLabel = i18nc("Timeline Tool", "Roll");
+    }*/ else if (m_buttonMulticamTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
         toolLabel = i18n("Multicam");
     }
