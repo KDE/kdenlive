@@ -304,7 +304,7 @@ Item{
                 root.groupTrimData = controller.getGroupData(clip.clipId)
             }
             onTrimmingIn: {
-                if (controlTrim) {
+                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
                     if (!speedController.visible) {
                         // Store original speed
@@ -360,7 +360,7 @@ Item{
                         controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     }
 
-                    if (controlTrim) {
+                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                         // Update speed
                         speedController.visible = false
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
@@ -380,7 +380,7 @@ Item{
                 root.groupTrimData = undefined
             }
             onTrimmingOut: {
-                if (controlTrim) {
+                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     if (!speedController.visible) {
                         // Store original speed
                         speedController.originalSpeed = clip.speed
@@ -431,7 +431,7 @@ Item{
                         controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     }
 
-                    if (controlTrim) {
+                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                         speedController.visible = false
                         // Update speed
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
