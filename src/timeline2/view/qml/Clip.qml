@@ -134,10 +134,6 @@ Rectangle {
         }
     }
 
-    onInPointChanged: useFakeInOut = false;
-
-    onOutPointChanged: useFakeInOut = false;
-
     onModelStartChanged: {
         x = modelStart * timeScale;
     }

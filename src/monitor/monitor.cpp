@@ -1932,6 +1932,9 @@ void Monitor::enableEffectScene(bool enable)
 
 void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, QVariant sceneData)
 {
+    if (m_trimmingbar->isVisible()) {
+        return;
+    }
     if (sceneType == MonitorSceneNone) {
         // We just want to revert to normal scene
         if (m_qmlManager->sceneType() == MonitorSceneSplit || m_qmlManager->sceneType() == MonitorSceneDefault) {
