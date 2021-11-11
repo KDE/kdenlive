@@ -134,6 +134,10 @@ Rectangle {
         }
     }
 
+    onInPointChanged: useFakeInOut = false;
+
+    onOutPointChanged: useFakeInOut = false;
+
     onModelStartChanged: {
         x = modelStart * timeScale;
     }
@@ -257,10 +261,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool || root.activeTool === ProjectTool.RippleTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === ProjectTool.SelectTool
+        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         property bool shiftSlip: false
         property bool controlSlip: false
@@ -482,7 +486,9 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: container.height
-                        x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
+                        x: clipRoot.speed < 0
+                           ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width
+                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -501,7 +507,9 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
-                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
+                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
+                                                                               ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
+                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint))
                         }
                     }
                     TextMetrics {
@@ -529,7 +537,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === ProjectTool.SelectTool
+                visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0 && !controller.hasClipEndMix(clipRoot.clipId))
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -548,6 +556,9 @@ Rectangle {
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
+                    }
                     trimIn.opacity = 0
                 }
                 onReleased: {
@@ -556,12 +567,15 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim) {
+                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
                             endDrag()
                         }
                     } else {
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestEndTrimmingMode();
+                        }
                         root.groupTrimData = undefined
                     }
                 }
@@ -574,10 +588,15 @@ Rectangle {
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
-                            if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
-                                delta = -inPoint
+                            var newDuration = 0;
+                            if (root.activeTool === ProjectTool.RippleTool) {
+                                newDuration = clipRoot.originalDuration - delta
+                            } else {
+                                if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
+                                    delta = -inPoint
+                                }
+                                newDuration = clipDuration - delta
                             }
-                            var newDuration =  clipDuration - delta
                             sizeChanged = true
                             clipRoot.trimmingIn(clipRoot, newDuration, shiftTrim, controlTrim)
                         }
@@ -615,7 +634,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -643,7 +662,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: root.activeTool === ProjectTool.SelectTool
+                visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -662,6 +681,10 @@ Rectangle {
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
+                    }
+
                     trimOut.opacity = 0
                 }
                 onReleased: {
@@ -670,12 +693,15 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim) {
+                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
                             endDrag()
                         }
                     } else {
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestEndTrimmingMode();
+                        }
                         root.groupTrimData = undefined
                     }
                 }
@@ -747,7 +773,7 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
                 }
             }
 
@@ -1289,7 +1315,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === ProjectTool.SlipTool && selected && !isLocked && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: root.activeTool === ProjectTool.SlipTool && selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {

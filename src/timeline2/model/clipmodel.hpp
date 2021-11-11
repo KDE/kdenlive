@@ -89,14 +89,14 @@ public:
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    /** @brief The fake track is used in insrt/overwrote mode.
+    /** @brief The fake track is used in insert/overwrite mode.
      *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
      *  so we use a 'fake' track id to pass to the qml view
      */
     int getFakeTrackId() const;
     void setFakeTrackId(int fid);
+    void setFakePosition(int fpos);
     int getFakePosition() const;
-    void setFakePosition(int fid);
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
@@ -111,7 +111,7 @@ public:
     void allSnaps(std::vector<int> &snaps, int offset = 0);
 
 protected:
-    // helper functions that creates the lambda
+    /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
 
 public:
