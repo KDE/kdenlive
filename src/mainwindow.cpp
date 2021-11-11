@@ -100,6 +100,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
+#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -1190,11 +1191,13 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-    /* TODO Implement Ripple
-    // TODO icon available (and properly working) in KF 5.86
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
+#else
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple tool"), this);
+#endif
     m_buttonRippleTool->setCheckable(true);
-    m_buttonRippleTool->setChecked(false);*/
+    m_buttonRippleTool->setChecked(false);
 
     /* TODO Implement Roll
     // TODO icon available (and properly working) in KF 5.86
@@ -1203,9 +1206,11 @@ void MainWindow::setupActions()
     m_buttonRollTool->setCheckable(true);
     m_buttonRollTool->setChecked(false);*/
 
-    // TODO icon available (and properly working) in KF 5.86
-    //m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+#else
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
+#endif
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
@@ -1223,7 +1228,7 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonSelectTool);
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
-    //toolGroup->addAction(m_buttonRippleTool);
+    toolGroup->addAction(m_buttonRippleTool);
     //toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     //toolGroup->addAction(m_buttonSlideTool);
@@ -1370,7 +1375,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
-    //addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
+    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
     //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
     addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool);
@@ -3266,8 +3271,15 @@ void MainWindow::showToolMessage()
         toolLabel = i18n("Spacer");
     } else if (m_buttonSlipTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</shortcut> for multiple selection");
-        toolLabel = i18n("Slip");
-    }  else if (m_buttonMulticamTool->isChecked()) {
+        toolLabel = i18nc("Timeline Tool", "Slip");
+    } /*else if (m_buttonSlideTool->isChecked()) { // TODO implement Slide
+        toolLabel = i18nc("Timeline Tool", "Slide");
+    }*/ else if (m_buttonRippleTool->isChecked()) {
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to pan");
+        toolLabel = i18nc("Timeline Tool", "Ripple");
+    } /*else if (m_buttonRollTool->isChecked()) { // TODO implement Slide
+        toolLabel = i18nc("Timeline Tool", "Roll");
+    }*/ else if (m_buttonMulticamTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
         toolLabel = i18n("Multicam");
     }
@@ -3483,12 +3495,12 @@ QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
 
 void MainWindow::slotResizeItemStart()
 {
-    getMainTimeline()->controller()->setInPoint();
+    getMainTimeline()->controller()->setInPoint(m_activeTool == ToolType::RippleTool);
 }
 
 void MainWindow::slotResizeItemEnd()
 {
-    getMainTimeline()->controller()->setOutPoint();
+    getMainTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
 int MainWindow::getNewStuff(const QString &configFile)

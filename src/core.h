@@ -126,6 +126,7 @@ public:
     bool currentRemap(const QString &clipId);
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
+    ToolType::ProjectTool activeTool();
 
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository> &getMltRepository();

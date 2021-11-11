@@ -878,7 +878,7 @@ bool TimelineController::trimmingActive()
     return tool == ToolType::SlideTool || tool == ToolType::SlipTool || tool == ToolType::RippleTool || tool == ToolType::RollTool;
 }
 
-void TimelineController::setInPoint()
+void TimelineController::setInPoint(bool ripple)
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
@@ -886,7 +886,14 @@ void TimelineController::setInPoint()
         qDebug()<< "Cannot operate while dragging";
         return;
     }
-
+    auto requestResize = [this, ripple](int id, int size){
+        if (ripple) {
+            m_model->requestItemRippleResize(id, size, false, true, 0, false);
+            setPosition(m_model->getItemPosition(id));
+        } else {
+            m_model->requestItemResize(id, size, false, true, 0, false);
+        }
+    };
     int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
@@ -897,7 +904,7 @@ void TimelineController::setInPoint()
                 continue;
             }
             int size = start + m_model->getItemPlaytime(id) - cursorPos;
-            m_model->requestItemResize(id, size, false, true, 0, false);
+            requestResize(id, size);
             selectionFound = true;
         }
     }
@@ -915,7 +922,7 @@ void TimelineController::setInPoint()
                 int start = m_model->getItemPosition(cid);
                 if (start != cursorPos) {
                     int size = start + m_model->getItemPlaytime(cid) - cursorPos;
-                    m_model->requestItemResize(cid, size, false, true, 0, false);
+                    requestResize(cid, size);
                     selectionFound = true;
                 }
             }
@@ -939,7 +946,7 @@ void TimelineController::setInPoint()
                     int start = m_model->getItemPosition(sid);
                     if (start != cursorPos) {
                         int size = start + m_model->getItemPlaytime(sid) - cursorPos;
-                        m_model->requestItemResize(sid, size, false, true, 0, false);
+                        requestResize(sid, size);
                         selectionFound = true;
                     }
                 }
@@ -951,7 +958,7 @@ void TimelineController::setInPoint()
     }
 }
 
-void TimelineController::setOutPoint()
+void TimelineController::setOutPoint(bool ripple)
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
@@ -959,6 +966,13 @@ void TimelineController::setOutPoint()
         qDebug() << "Cannot operate while dragging";
         return;
     }
+    auto requestResize = [this, ripple](int id, int size){
+        if (ripple) {
+            m_model->requestItemRippleResize(id, size, true, true, 0, false);
+        } else {
+            m_model->requestItemResize(id, size, true, true, 0, false);
+        }
+    };
     int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
@@ -969,7 +983,7 @@ void TimelineController::setOutPoint()
                 continue;
             }
             int size = cursorPos - start;
-            m_model->requestItemResize(id, size, true, true, 0, false);
+            requestResize(id, size);
             selectionFound = true;
         }
     }
@@ -988,7 +1002,7 @@ void TimelineController::setOutPoint()
                 int start = m_model->getItemPosition(cid);
                 if (start + m_model->getItemPlaytime(cid) != cursorPos) {
                     int size = cursorPos - start;
-                    m_model->requestItemResize(cid, size, true, true, 0, false);
+                    requestResize(cid, size);
                     selectionFound = true;
                 }
             }
@@ -1012,7 +1026,7 @@ void TimelineController::setOutPoint()
                     int start = m_model->getItemPosition(sid);
                     if (start + m_model->getItemPlaytime(sid) != cursorPos) {
                         int size = cursorPos - start;
-                        m_model->requestItemResize(sid, size, true, true, 0, false);
+                        requestResize(sid, size);
                         selectionFound = true;
                     }
                 }
@@ -1078,10 +1092,10 @@ void TimelineController::addMarker(int cid, int position)
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
 }
 
-int TimelineController::getMainSelectedClip() const
+int TimelineController::getMainSelectedClip()
 {
     int clipId = m_root->property("mainItemId").toInt();
-    if (clipId == -1) {
+    if (clipId == -1 || !isInSelection(clipId)) {
         std::unordered_set<int> sel = m_model->getCurrentSelection();
         for (int i : sel) {
             if (m_model->isClip(i)) {
@@ -1944,8 +1958,30 @@ void TimelineController::slipPosChanged(int offset) {
     pCore->displayMessage(info, DirectMessage);
 }
 
-bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection)
-{  
+void TimelineController::ripplePosChanged(int size, bool right) {
+    if (!m_model->isClip(m_trimmingMainClip) || !pCore->monitorManager()->isTrimming()) {
+        return;
+    }
+    if (size < 0) {
+        return;
+    }
+    qDebug() << "ripplePosChanged" << size << right;
+    std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
+    int delta = size - mainClip->getPlaytime();
+    if (!right) {
+        delta *= -1;
+    }
+    int pos = right ? mainClip->getOut() : mainClip->getIn();
+    pos += delta;
+    if (mainClip->getMaxDuration() > -1) {
+        pos = qBound(0, pos, mainClip->getMaxDuration());
+    } else {
+        pos = qMax(0, pos);
+    }
+    pCore->monitorManager()->projectMonitor()->slotTrimmingPos(pos + 1, delta, right ? mainClip->getIn() : pos, right ? pos : mainClip->getOut());
+}
+
+bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelection) {
     std::unordered_set<int> sel = m_model->getCurrentSelection();
     std::unordered_set<int> newSel;
 
@@ -1998,13 +2034,11 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         }
     }
 
-
     if (mainClipId == -1) {
         pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return false;
     }
 
-    std::vector<std::shared_ptr<Mlt::Producer>> producers;
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
 
     if (mainClip->getMaxDuration() == -1) {
@@ -2019,10 +2053,34 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 
     m_trimmingMainClip = mainClip->getId();
     emit trimmingMainClipChanged();
+    return true;
+}
+
+bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSelection, bool right)
+{
+
+    if (pCore->monitorManager()->isTrimming() && m_trimmingMainClip == mainClipId) {
+        return true;
+    }
+
+    if (pCore->activeTool() == ToolType::SlipTool && !slipProcessSelection(mainClipId, addToSelection)) {
+        return false;
+    }
+
+    if (pCore->activeTool() == ToolType::RippleTool) {
+        if (m_model.get()->isClip(mainClipId)) {
+            m_trimmingMainClip = mainClipId;
+            emit trimmingMainClipChanged();
+        } else {
+            return false;
+        }
+    }
+
+    std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(m_trimmingMainClip);
 
     const int previousClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() - 1);
     std::shared_ptr<Mlt::Producer> previousFrame;
-    if (previousClipId > -1) {
+    if (pCore->activeTool() == ToolType::SlipTool && previousClipId > -1) {
         std::shared_ptr<ClipModel> previousClip = m_model->getClipPtr(previousClipId);
         previousFrame = std::shared_ptr<Mlt::Producer>(previousClip->getProducer()->cut(0));
         Mlt::Filter filter(*m_model->m_tractor->profile(), "freeze");
@@ -2035,7 +2093,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 
     const int nextClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() + mainClip->getPlaytime());
     std::shared_ptr<Mlt::Producer> nextFrame;
-    if (nextClipId > -1) {
+    if (pCore->activeTool() == ToolType::SlipTool && nextClipId > -1) {
         std::shared_ptr<ClipModel> nextClip = m_model->getClipPtr(nextClipId);
         nextFrame = std::shared_ptr<Mlt::Producer>(nextClip->getProducer()->cut(0));
         Mlt::Filter filter(*m_model->m_tractor->profile(), "freeze");
@@ -2046,8 +2104,18 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         nextFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
     }
 
+    std::shared_ptr<Mlt::Producer> inOutFrame;
+    if (pCore->activeTool() == ToolType::RippleTool) {
+        inOutFrame = std::shared_ptr<Mlt::Producer>(mainClip->getProducer()->cut(0));
+        Mlt::Filter filter(*m_model->m_tractor->profile(), "freeze");
+        filter.set("mlt_service", "freeze");
+        filter.set("frame", right ? mainClip->getIn() : mainClip->getOut());
+        inOutFrame->attach(filter);
+    }
+
+    std::vector<std::shared_ptr<Mlt::Producer>> producers;
     int previewLength = 0;
-    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+    switch (pCore->activeTool()) {
     case ToolType::SlipTool:
         // Get copy of timeline producer
         /* This is an example using a playlist. This does not work with switch -> use if else instead
@@ -2066,6 +2134,16 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     case ToolType::RollTool:
     break;
     case ToolType::RippleTool:
+        if (right) {
+            producers.push_back(std::shared_ptr<Mlt::Producer>(inOutFrame));
+        }
+        producers.push_back(std::shared_ptr<Mlt::Producer>(mainClip->getProducer()->cut(0)));
+        if (!right) {
+            producers.push_back(std::shared_ptr<Mlt::Producer>(inOutFrame));
+            previewLength = producers[0]->get_length();
+        } else {
+            previewLength = producers[1]->get_length();
+        }
     break;
     default:
         return false;
@@ -2076,6 +2154,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 
     // Now that we know the length of the preview create and add black background producer
     std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
+    black->set("length", previewLength);
     black->set_in_and_out(0, previewLength);
     trac.set_track(*black.get(), 0);
     //trac.set_track( 1);
@@ -2101,7 +2180,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
             //transition.set("internal_added", 200);
 
             QString geometry;
-            switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+            switch (pCore->activeTool()) {
             case ToolType::RollTool:
             case ToolType::RippleTool:
                 switch (i) {
@@ -2160,9 +2239,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);
 
-    switch (pCore->window()->getCurrentTimeline()->activeTool()) {
+    switch (pCore->activeTool()) {
     case ToolType::RollTool:
     case ToolType::RippleTool:
+        ripplePosChanged(mainClip->getPlaytime(), right);
         break;
     case ToolType::SlipTool:
         slipPosChanged(0);

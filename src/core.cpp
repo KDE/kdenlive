@@ -398,6 +398,10 @@ void Core::initLocale()
     QLocale::setDefault(systemLocale);
 }
 
+ToolType::ProjectTool Core::activeTool() {
+    return m_mainWindow->getCurrentTimeline()->activeTool();
+}
+
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 {
     return MltConnection::self()->getMltRepository();

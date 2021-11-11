@@ -1269,9 +1269,9 @@ int ClipModel::getFakePosition() const
     return m_fakePosition;
 }
 
-void ClipModel::setFakePosition(int fid)
+void ClipModel::setFakePosition(int fpos)
 {
-    m_fakePosition = fid;
+    m_fakePosition = fpos;
 }
 
 QDomElement ClipModel::toXml(QDomDocument &document)
