@@ -259,6 +259,14 @@ int TimelineModel::getItemTrackId(int itemId) const
     return -1;
 }
 
+bool TimelineModel::hasClipEndMix(int clipId) const {
+    int tid = getClipTrackId(clipId);
+    if (tid > -1) {
+        return getTrackById_const(tid)->hasEndMix(clipId);
+    }
+    return false;
+}
+
 int TimelineModel::getClipPosition(int clipId) const
 {
     READ_LOCK();
@@ -3676,7 +3684,7 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
         // result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     } else if (isSubTitle(itemId)) {
         return false;
-        // TODO
+        // TODO?
         // result = m_subtitleModel->requestResize(itemId, size, right, local_undo, local_redo, logUndo);
     }
     if (result) {

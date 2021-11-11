@@ -270,6 +270,11 @@ public:
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getNextTrackId(int trackId);
 
+    /** @brief Returns true if the clip has a mix composition at the end
+       @param clipId Id of the clip to test
+    */
+    Q_INVOKABLE bool hasClipEndMix(int clipId) const;
+
     /** @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */
