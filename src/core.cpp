@@ -61,7 +61,6 @@ Core::~Core()
     if (m_monitorManager) {
         delete m_monitorManager;
     }
-    // delete m_binWidget;
     if (m_projectManager) {
         delete m_projectManager;
     }
@@ -130,13 +129,26 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
     
     m_projectManager = new ProjectManager(this);
-    m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
+    std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow));
+    m_mainWindow->addBin(bin);
+
+    connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin().get(), &Bin::refreshPanel);
+    connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin().get(), &Bin::refreshClip);
+    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin().get(),
+            static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
+    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin().get(),
+            static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
+    connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin().get(), &Bin::slotEffectDropped);
+    connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin().get(), &Bin::slotTagDropped);
+    connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin().get(), &Bin::slotItemEdited);
+
+    qDebug()<<"::::::::: ADDED NEW FIRST BIN";
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     m_textEditWidget = new TextBasedEdit(m_mainWindow);
     m_timeRemapWidget = new TimeRemap(m_mainWindow);
-    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin().get(), SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
@@ -316,12 +328,12 @@ Monitor *Core::getMonitor(int id)
 
 Bin *Core::bin()
 {
-    return m_binWidget;
+    return m_mainWindow->getBin().get();
 }
 
 void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame, const QPoint &zone)
 {
-    m_binWidget->selectClipById(clipId, frame, zone, activateMonitor);
+    m_mainWindow->getBin()->selectClipById(clipId, frame, zone, activateMonitor);
 }
 
 void Core::selectTimelineItem(int id)
@@ -467,8 +479,8 @@ void Core::checkProfileValidity()
     int offset = (getCurrentProfile()->profile().width() % 2) + (getCurrentProfile()->profile().height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
-        if (m_binWidget) {
-            emit m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+        if (m_mainWindow->getBin()) {
+            emit m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
         }
     }
 }
@@ -599,7 +611,7 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
     case ObjectType::TimelineComposition:
         return PlaylistState::VideoOnly;
     case ObjectType::BinClip:
-        return m_binWidget->getClipState(id.second);
+        return m_mainWindow->getBin()->getClipState(id.second);
     case ObjectType::TimelineTrack:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     case ObjectType::Master:
@@ -626,7 +638,7 @@ int Core::getItemDuration(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        return int(m_binWidget->getClipDuration(id.second));
+        return int(m_mainWindow->getBin()->getClipDuration(id.second));
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
@@ -653,7 +665,7 @@ QSize Core::getItemFrameSize(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        return m_binWidget->getFrameSize(id.second);
+        return m_mainWindow->getBin()->getFrameSize(id.second);
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
     case ObjectType::TimelineComposition:
@@ -787,12 +799,12 @@ void Core::loadingClips(int count)
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
+    m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
 {
-    m_binWidget->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
+    m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
 }
 
 void Core::clearAssetPanel(int itemId)
@@ -809,7 +821,7 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
     case int(ObjectType::TimelineTrack):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackEffectStackModel(itemId);
     case int(ObjectType::BinClip):
-        return m_binWidget->getClipEffectStack(itemId);
+        return m_mainWindow->getBin()->getClipEffectStack(itemId);
     case int(ObjectType::Master):
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectStackModel();
     default:
@@ -868,7 +880,7 @@ void Core::invalidateItem(ObjectId itemId)
         m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.second);
         break;
     case ObjectType::BinClip:
-        m_binWidget->invalidateClip(QString::number(itemId.second));
+        m_mainWindow->getBin()->invalidateClip(QString::number(itemId.second));
         break;
     case ObjectType::Master:
         m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(0, -1);
@@ -1137,9 +1149,9 @@ void Core::testProxies()
     dialog->exec();
 }
 
-void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
+void Core::resizeMix(int cid, int duration, MixAlignment align, int rightFrames)
 {
-    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, rightFrames);
 }
 
 MixAlignment Core::getMixAlign(int cid) const
@@ -1164,4 +1176,15 @@ void Core::cleanup()
 int Core::getNewStuff(const QString &config)
 {
     return m_mainWindow->getNewStuff(config);
+}
+
+void Core::addBin()
+{
+    std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow, false));
+    bin->setupMenu();
+    bin->setMonitor(m_monitorManager->clipMonitor());
+    bin->setDocument(pCore->currentDoc());
+    int ix = m_mainWindow->binCount() + 1;
+    QDockWidget *binDock = m_mainWindow->addDock(i18n("Project Bin %1", ix), QString("project_bin_%1").arg(ix), bin.get());
+    m_mainWindow->addBin(bin);
 }

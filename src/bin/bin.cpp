@@ -888,9 +888,10 @@ void ClipWidget::init(QDockWidget* m_DockClipWidget)
     ClipCreationDialog::clipWidget(m_DockClipWidget);
 }
 
-Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
+Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBin)
     : QWidget(parent)
     , isLoading(false)
+    , m_isMainBin(isMainBin)
     , m_itemModel(std::move(model))
     , m_itemView(nullptr)
     , m_binTreeViewDelegate(nullptr)
@@ -958,16 +959,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(leventEater, &LineEventEater::showClearButton, this, &Bin::showClearButton);
 
     setFocusPolicy(Qt::ClickFocus);
-
-    connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
-    connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
-    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
-            static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
-            static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
-    connect(m_itemModel.get(), &ProjectItemModel::addTag, this, &Bin::slotTagDropped);
-    connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
     // Zoom slider
@@ -1003,6 +994,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         listType->setCurrentAction(treeViewAction);
     }
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_tree"), treeViewAction);
+    QAction *profileAction = new QAction(i18n("Adjust Profile to Current Clip"), this);
+    connect(profileAction, &QAction::triggered, this, &Bin::adjustProjectProfileToItem);
+    pCore->window()->actionCollection()->addAction(QStringLiteral("project_adjust_profile"), profileAction);
 
     QAction *iconViewAction = listType->addAction(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18n("Icon View"));
     iconViewAction->setData(BinIconView);
@@ -1119,11 +1113,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_showRating->setCheckable(true);
     m_showRating->setData(7);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
+
+    QAction *duplicateBin = new QAction(i18n("New Project Bin"), this);
+    connect(duplicateBin, &QAction::triggered, pCore.get(), &Core::addBin);
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(m_showRating);
     settingsMenu->addAction(disableEffects);
     settingsMenu->addAction(hoverPreview);
+    settingsMenu->addAction(duplicateBin);
 
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
@@ -1248,39 +1246,40 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     button->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(button);
 
-    // small info button for pending jobs
-    m_infoLabel = new SmallJobLabel(this);
-    m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
-    connect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
-    QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
-    m_jobsMenu = new QMenu(this);
-    // connect(m_jobsMenu, &QMenu::aboutToShow, this, &Bin::slotPrepareJobsMenu);
-    m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
-    m_cancelJobs->setCheckable(false);
-    m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
-    m_discardCurrentClipJobs->setCheckable(false);
-    m_discardPendingJobs = new QAction(i18n("Cancel Pending Jobs"), this);
-    m_discardPendingJobs->setCheckable(false);
-    m_jobsMenu->addAction(m_cancelJobs);
-    m_jobsMenu->addAction(m_discardCurrentClipJobs);
-    m_jobsMenu->addAction(m_discardPendingJobs);
-    m_infoLabel->setMenu(m_jobsMenu);
-    m_infoLabel->setAction(infoAction);
+    if (m_isMainBin) {
+        // small info button for pending jobs
+        m_infoLabel = new SmallJobLabel(this);
+        m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
+        connect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
+        QAction *infoAction = m_toolbar->addWidget(m_infoLabel);
+        m_jobsMenu = new QMenu(this);
+        // connect(m_jobsMenu, &QMenu::aboutToShow, this, &Bin::slotPrepareJobsMenu);
+        m_cancelJobs = new QAction(i18n("Cancel All Jobs"), this);
+        m_cancelJobs->setCheckable(false);
+        m_discardCurrentClipJobs = new QAction(i18n("Cancel Current Clip Jobs"), this);
+        m_discardCurrentClipJobs->setCheckable(false);
+        m_discardPendingJobs = new QAction(i18n("Cancel Pending Jobs"), this);
+        m_discardPendingJobs->setCheckable(false);
+        m_jobsMenu->addAction(m_cancelJobs);
+        m_jobsMenu->addAction(m_discardCurrentClipJobs);
+        m_jobsMenu->addAction(m_discardPendingJobs);
+        m_infoLabel->setMenu(m_jobsMenu);
+        m_infoLabel->setAction(infoAction);
 
-    connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
-        const QString currentId = m_monitor->activeClipId();
-        if (!currentId.isEmpty()) {
-            pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
-        }
-    });
-    connect(m_cancelJobs, &QAction::triggered, [&]() {
-        pCore->taskManager.slotCancelJobs();
-    });
-    connect(m_discardPendingJobs, &QAction::triggered, [&]() {
-        // TODO: implement pending only deletion
-        pCore->taskManager.slotCancelJobs();
-    });
-
+        connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
+            const QString currentId = m_monitor->activeClipId();
+            if (!currentId.isEmpty()) {
+                pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
+            }
+        });
+        connect(m_cancelJobs, &QAction::triggered, [&]() {
+            pCore->taskManager.slotCancelJobs();
+        });
+        connect(m_discardPendingJobs, &QAction::triggered, [&]() {
+            // TODO: implement pending only deletion
+            pCore->taskManager.slotCancelJobs();
+        });
+    }
     // Hack, create toolbar spacer
     QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -1311,13 +1310,20 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
 
 Bin::~Bin()
 {
-    pCore->taskManager.slotCancelJobs();
-    blockSignals(true);
-    m_proxyModel->selectionModel()->blockSignals(true);
-    setEnabled(false);
-    m_propertiesPanel = nullptr;
-    abortOperations();
-    m_itemModel->clean();
+    if (m_isMainBin) {
+        pCore->taskManager.slotCancelJobs();
+        blockSignals(true);
+        m_proxyModel->selectionModel()->blockSignals(true);
+        setEnabled(false);
+        delete m_propertiesDock;
+        m_propertiesPanel = nullptr;
+        abortOperations();
+        m_itemModel->clean();
+    } else {
+        blockSignals(true);
+        setEnabled(false);
+        delete m_propertiesDock;
+    }
 }
 
 QDockWidget *Bin::clipPropertiesDock()
@@ -1771,7 +1777,9 @@ void Bin::cleanDocument()
 void Bin::setDocument(KdenliveDoc *project)
 {
     m_doc = project;
-    m_infoLabel->slotSetJobCount(0);
+    if (m_isMainBin) {
+        m_infoLabel->slotSetJobCount(0);
+    }
     int iconHeight = int(QFontInfo(font()).pixelSize() * 3.5);
     m_iconSize = QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight);
     setEnabled(true);
