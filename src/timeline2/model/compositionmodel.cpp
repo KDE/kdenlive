@@ -108,7 +108,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     if (m_assetId == QLatin1String("slide")) {
         // Slide composition uses a keyframe at end of composition, so update last keyframe
         refresh = [this]() {
-            QString animation = qstrdup(m_asset->get("rect"));
+            QString animation(m_asset->get("rect"));
             if (animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) {
                 QString result = animation.section(QLatin1Char(';'), 0, 0);
                 result.append(QStringLiteral(";-1="));
@@ -121,7 +121,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     } else if (m_assetId == QLatin1String("wipe")) {
         // Slide composition uses a keyframe at end of composition, so update last keyframe
         refresh = [this]() {
-            QString animation = qstrdup(m_asset->get("geometry"));
+            QString animation(m_asset->get("geometry"));
             if (animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) {
                 QString result = animation.section(QLatin1Char(';'), 0, 0);
                 result.append(QStringLiteral(";-1="));
