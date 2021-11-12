@@ -596,11 +596,6 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             if (!ok) {
                 qDebug() << "QLocale: Could not convert animated rect opacity" << data;
             }
-            if (auto ptr = m_model.lock()) {
-                if (ptr->getAssetId() != QLatin1String("qtblend")) {
-                    converted /= 100.;
-                }
-            }
             return converted;
         }
         double val = it->second.second.toDouble();
@@ -1194,7 +1189,7 @@ QString KeyframeModel::realValue(double normalizedValue) const
         value *= ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         QString result;
         if (decimals == 0) {
-            if (ptr->getAssetId() == QLatin1String("qtblend")) {
+            if (m_paramType == ParamType::AnimatedRect) {
                 value = qRound(value * 100.);
             }
             // Fix rounding erros in double > int conversion
