@@ -198,7 +198,7 @@ QList<int> TimelineModel::getTracksIds(bool audio) const
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack() == audio) {
-            trackIds.insert(-1, (*it)->getId());
+            trackIds.insert(0, (*it)->getId());
         }
         ++it;
     }

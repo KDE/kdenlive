@@ -22,7 +22,7 @@ ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent)
     m_progressFont = font();
     m_progressFont.setPixelSize(m_iconSize / 2);
     initStyleOption(&m_buttonStyle);
-    QPixmap pix(1, 1);
+    QPixmap pix(m_iconSize, m_iconSize);
     pix.fill(Qt::transparent);
     m_dummyAction = new QAction(QIcon(pix), text, this);
 }
