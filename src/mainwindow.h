@@ -135,7 +135,7 @@ public:
     /** @brief Raise (show) the project bin*/
     void raiseBin();
     /** @brief Add a bin widget*/
-    void addBin(std::shared_ptr<Bin> bin);
+    void addBin(std::shared_ptr<Bin> bin, const QString &binName = QString());
     /** @brief Get the main (first) bin*/
     std::shared_ptr<Bin> getBin();
     /** @brief Get the active (focused) bin or first one if none is active*/

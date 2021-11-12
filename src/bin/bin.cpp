@@ -1775,9 +1775,10 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
 }
 
-void Bin::setDocument(KdenliveDoc *project, const QString &id)
+const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
 {
     m_doc = project;
+    QString folderName;
     if (m_isMainBin) {
         m_infoLabel->slotSetJobCount(0);
     }
@@ -1808,15 +1809,19 @@ void Bin::setDocument(KdenliveDoc *project, const QString &id)
     m_itemModel->setBinEffectsEnabled(!binEffectsDisabled);
     if (!id.isEmpty()) {
         // Open view in a specific folder
-        std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(id);
-        auto parentIx = m_itemModel->getIndexFromItem(clip);
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+        auto parentIx = m_itemModel->getIndexFromItem(item);
         m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+        folderName = item->name();
+        m_upAction->setEnabled(true);
+        m_upAction->setVisible(true);
     }
 
     //setBinEffectsEnabled(!binEffectsDisabled, false);
     QMap <QString, QString> projectTags = m_doc->getProjectTags();
     m_tagsWidget->rebuildTags(projectTags);
     rebuildFilters(projectTags);
+    return folderName;
 }
 
 void Bin::rebuildFilters(QMap <QString, QString> tags)
@@ -2545,10 +2550,19 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
     if (m_listType == BinIconView) {
         if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
             m_itemView->setRootIndex(ix);
+            parentWidget()->setWindowTitle(item->name());
             m_upAction->setEnabled(true);
             return;
         }
-    } else {
+    }
+    else {
+        if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
+            // Double click a folder in secondary bin will set it as bin root
+            m_itemView->setRootIndex(ix);
+            parentWidget()->setWindowTitle(item->name());
+            m_upAction->setEnabled(true);
+            return;
+        }
         if (ix.column() == 0 && item->childCount() > 0) {
             QRect IconRect = m_itemView->visualRect(ix);
             IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
@@ -4478,10 +4492,12 @@ void Bin::slotBack()
         QModelIndex parentId = getIndexForId(parentItem->clipId(), parentItem->itemType() == AbstractProjectItem::FolderItem);
         if (parentId.isValid()) {
             m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentId));
+            parentWidget()->setWindowTitle(parentItem->name());
         }
     } else {
         m_itemView->setRootIndex(QModelIndex());
         m_upAction->setEnabled(false);
+        parentWidget()->setWindowTitle(i18n("Project Bin"));
     }
 }
 

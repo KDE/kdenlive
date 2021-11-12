@@ -202,7 +202,7 @@ public:
     bool isLoading;
     void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
-    void setDocument(KdenliveDoc *project, const QString &id = QString());
+    const QString setDocument(KdenliveDoc *project, const QString &id = QString());
     /** @brief Delete all project related data, to be called before setDocument  */
     void cleanDocument();
 
