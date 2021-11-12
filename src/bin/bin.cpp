@@ -418,7 +418,12 @@ public:
         if (!index.data().isNull()) {
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-            QStyledItemDelegate::paint(painter, option, index);
+            // Draw usage counter
+            int usage = index.data(AbstractProjectItem::UsageCount).toInt();
+            if (usage > 0) {
+                opt.font.setBold(true);
+            }
+            QStyledItemDelegate::paint(painter, opt, index);
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
             if (adjust > 0 && adjust < rect.width()) {
