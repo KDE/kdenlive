@@ -1107,16 +1107,13 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     }
     if (enable) {
         int count = 0;
+
         for (int tid : videoTracks) {
             int b_track = timeline->getTrackMltIndex(tid);
-            Mlt::Transition transition(*timeline->m_tractor->profile(), "composite");
-            transition.set("mlt_service", "composite");
+            Mlt::Transition transition(*timeline->m_tractor->profile(), "qtblend");
+            //transition.set("mlt_service", "composite");
             transition.set("a_track", 0);
             transition.set("b_track", b_track);
-            transition.set("distort", 0);
-            transition.set("aligned", 1);
-            transition.set("halign", 1);
-            transition.set("valign", 1);
             // 200 is an arbitrary number so we can easily remove these transition later
             transition.set("internal_added", 200);
             QString geometry;
@@ -1125,39 +1122,39 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
             case 0:
                 switch (videoTracks.size()) {
                 case 1:
-                    geometry = QStringLiteral("0 0 100% 100%");
+                    geometry = QStringLiteral("0 0 100% 100% 100%");
                     break;
                 case 2:
-                    geometry = QStringLiteral("0 0 50% 100%");
+                    geometry = QStringLiteral("0 0 50% 100% 100%");
                     break;
                 case 3:
                 case 4:
-                    geometry = QStringLiteral("0 0 50% 50%");
+                    geometry = QStringLiteral("0 0 50% 50% 100%");
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("0 0 33% 50%");
+                    geometry = QStringLiteral("0 0 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("0 0 33% 33%");
+                    geometry = QStringLiteral("0 0 33% 33% 100%");
                     break;
                 }
                 break;
             case 1:
                 switch (videoTracks.size()) {
                 case 2:
-                    geometry = QStringLiteral("50% 0 50% 100%");
+                    geometry = QStringLiteral("50% 0 50% 100% 100%");
                     break;
                 case 3:
                 case 4:
-                    geometry = QStringLiteral("50% 0 50% 50%");
+                    geometry = QStringLiteral("50% 0 50% 50% 100%");
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("33% 0 33% 50%");
+                    geometry = QStringLiteral("33% 0 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("33% 0 33% 33%");
+                    geometry = QStringLiteral("33% 0 33% 33% 100%");
                     break;
                 }
                 break;
@@ -1165,28 +1162,28 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                 switch (videoTracks.size()) {
                 case 3:
                 case 4:
-                    geometry = QStringLiteral("0 50% 50% 50%");
+                    geometry = QStringLiteral("0 50% 50% 50% 100%");
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("66% 0 33% 50%");
+                    geometry = QStringLiteral("66% 0 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("66% 0 33% 33%");
+                    geometry = QStringLiteral("66% 0 33% 33% 100%");
                     break;
                 }
                 break;
             case 3:
                 switch (videoTracks.size()) {
                 case 4:
-                    geometry = QStringLiteral("50% 50% 50% 50%");
+                    geometry = QStringLiteral("50% 50% 50% 50% 100%");
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("0 50% 33% 50%");
+                    geometry = QStringLiteral("0 50% 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("0 33% 33% 33%");
+                    geometry = QStringLiteral("0 33% 33% 33% 100%");
                     break;
                 }
                 break;
@@ -1194,36 +1191,36 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                 switch (videoTracks.size()) {
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("33% 50% 33% 50%");
+                    geometry = QStringLiteral("33% 50% 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("33% 33% 33% 33%");
+                    geometry = QStringLiteral("33% 33% 33% 33% 100%");
                     break;
                 }
                 break;
             case 5:
                 switch (videoTracks.size()) {
                 case 6:
-                    geometry = QStringLiteral("66% 50% 33% 50%");
+                    geometry = QStringLiteral("66% 50% 33% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("66% 33% 33% 33%");
+                    geometry = QStringLiteral("66% 33% 33% 33% 100%");
                     break;
                 }
                 break;
             case 6:
-                geometry = QStringLiteral("0 66% 33% 33%");
+                geometry = QStringLiteral("0 66% 33% 33% 100%");
                 break;
             case 7:
-                geometry = QStringLiteral("33% 66% 33% 33%");
+                geometry = QStringLiteral("33% 66% 33% 33% 100%");
                 break;
             default:
-                geometry = QStringLiteral("66% 66% 33% 33%");
+                geometry = QStringLiteral("66% 66% 33% 33% 100%");
                 break;
             }
             count++;
             // Add transition to track:
-            transition.set("geometry", geometry.toUtf8().constData());
+            transition.set("rect", geometry.toUtf8().constData());
             transition.set("always_active", 1);
             field->plant_transition(transition, 0, b_track);
         }
