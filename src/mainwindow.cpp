@@ -4548,7 +4548,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     return QObject::eventFilter(object, event);
 }
 
-void MainWindow::addBin(std::shared_ptr<Bin> bin)
+void MainWindow::addBin(std::shared_ptr<Bin> bin, const QString &binName)
 {
     connect(bin.get(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
     connect(bin.get(), &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
@@ -4558,11 +4558,13 @@ void MainWindow::addBin(std::shared_ptr<Bin> bin)
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;
-        QDockWidget *binDock = addDock(i18n("Project Bin %1", ix), QString("project_bin_%1").arg(ix), bin.get());
+        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin.get());
         bin->setupGeneratorMenu();
         connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
         connect(bin.get(), &Bin::requestShowClipProperties, getBin().get(), &Bin::showClipProperties);
         tabifyDockWidget(m_projectBinDock, binDock);
+        // Disable title bar since it is tabbed
+        binDock->setTitleBarWidget(new QWidget);
         // Update dock list
         updateDockMenu();
         loadDockActions();

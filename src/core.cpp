@@ -1192,6 +1192,6 @@ void Core::addBin(const QString &id)
     std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow, false));
     bin->setupMenu();
     bin->setMonitor(m_monitorManager->clipMonitor());
-    bin->setDocument(pCore->currentDoc(), id);
-    m_mainWindow->addBin(bin);
+    const QString folderName = bin->setDocument(pCore->currentDoc(), id);
+    m_mainWindow->addBin(bin, folderName);
 }
