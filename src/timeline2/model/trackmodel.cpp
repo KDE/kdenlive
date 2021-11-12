@@ -708,6 +708,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     clip->parent().set("length", out + 1);
                     clip->parent().set("out", out);
                     clip->set("length", out + 1);
+                    clip->set("out", out);
                 }
                 int err = m_playlists[target_track].resize_clip(target_clip, in, out);
                 if (err == 0) {
@@ -751,6 +752,8 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (err == 0) {
                     QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip_mutable));
                     if (out >= clip->get_length()) {
+                        clip->parent().set("length", out + 1);
+                        clip->parent().set("out", out);
                         clip->set("length", out + 1);
                         clip->set("out", out);
                     }
