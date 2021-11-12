@@ -423,6 +423,7 @@ public slots:
     void slotOpenClip();
     void slotDuplicateClip();
     void slotLocateClip();
+    void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Add extra data to a clip. */
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = nullptr);
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
@@ -543,7 +544,6 @@ private:
     QFuture<void> m_audioThumbsThread;
     QAction *addAction(const QString &name, const QString &text, const QIcon &icon);
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
-    void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
@@ -562,6 +562,7 @@ signals:
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
     void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    void requestShowClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Request that the given clip is displayed in the clip monitor */
     void requestClipShow(std::shared_ptr<ProjectClip>);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);

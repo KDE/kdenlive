@@ -1741,6 +1741,7 @@ void MainWindow::setupActions()
 
     // Keyframe actions
     m_assetPanel = new AssetPanel(this);
+    connect(getBin().get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), actionCollection());
     addAction(QStringLiteral("keyframe_add"), i18n("Add/Remove Keyframe"), m_assetPanel, SLOT(slotAddRemoveKeyframe()),
                                      QIcon::fromTheme(QStringLiteral("keyframe-add")), QKeySequence(), kfActions);
@@ -4579,12 +4580,13 @@ void MainWindow::addBin(std::shared_ptr<Bin> bin)
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     );
-    connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;
         QDockWidget *binDock = addDock(i18n("Project Bin %1", ix), QString("project_bin_%1").arg(ix), bin.get());
         bin->setupGeneratorMenu();
+        connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+        connect(bin.get(), &Bin::requestShowClipProperties, getBin().get(), &Bin::showClipProperties);
         tabifyDockWidget(m_projectBinDock, binDock);
         // Update dock list
         updateDockMenu();
