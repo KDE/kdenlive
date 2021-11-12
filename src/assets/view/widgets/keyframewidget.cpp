@@ -464,6 +464,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
     m_buttonCenter->setEnabled(!atKeyframe);
+    m_buttonCopy->setEnabled(!atKeyframe);
     emit updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
