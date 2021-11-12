@@ -335,6 +335,10 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             if (m_hoverZoom) {
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
             }
+            // When not zoomed, allow seek by clicking on zoombar
+            if (qFuzzyCompare(m_zoomFactor, 1.) && pos != m_position) {
+                emit seekToPos(pos);
+            }
             return;
         }
     } else if (event->button() == Qt::RightButton && event->y() > m_zoomHeight + 2) {
