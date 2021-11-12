@@ -807,7 +807,6 @@ void MainWindow::init(const QString &mltPath)
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
-    updateActionsToolTip();
     if (firstRun) {
         // Load editing layout
         layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
@@ -869,29 +868,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         // We need to reload icon theme
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-    }
-}
-
-void MainWindow::updateActionsToolTip()
-{
-    // Add shortcut to action tooltips
-    QList<KActionCollection *> collections = KActionCollection::allCollections();
-    for (int i = 0; i < collections.count(); ++i) {
-        KActionCollection *coll = collections.at(i);
-        foreach (QAction *tempAction, coll->actions()) {
-            if (tempAction == m_timeFormatButton) {
-                continue;
-            }
-            // find the shortcut pattern and delete (note the preceding space in the QRegularExpression)
-            QString toolTip = KLocalizedString::removeAcceleratorMarker(tempAction->toolTip());
-            QString strippedTooltip = toolTip.remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
-            QKeySequence shortCut = tempAction->shortcut();
-            if (shortCut == QKeySequence()) {
-                tempAction->setToolTip(strippedTooltip);
-            } else {
-                tempAction->setToolTip(QString("%1 (%2)").arg(strippedTooltip, shortCut.toString()));
-            }
-        }
     }
 }
 
@@ -2496,7 +2472,6 @@ void MainWindow::slotEditKeys()
     }
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
-    updateActionsToolTip();
 }
 
 void MainWindow::slotPreferences(int page, int option)

@@ -290,7 +290,6 @@ private:
     EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
-    void updateActionsToolTip();
 
 public slots:
     void slotReloadEffects(const QStringList &paths);
