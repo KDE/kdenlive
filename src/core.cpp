@@ -132,6 +132,7 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow));
     m_mainWindow->addBin(bin);
 
+    connect(bin.get(), &Bin::requestShowClipProperties, bin.get(), &Bin::showClipProperties);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin().get(), &Bin::refreshPanel);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin().get(), &Bin::refreshClip);
     connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin().get(),
@@ -142,7 +143,6 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin().get(), &Bin::slotTagDropped);
     connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin().get(), &Bin::slotItemEdited);
 
-    qDebug()<<"::::::::: ADDED NEW FIRST BIN";
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);

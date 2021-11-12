@@ -1776,11 +1776,19 @@ void TitleWidget::slotInsertUnicodeString(const QString &string)
 void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
+    QString selected = font.family();
+    if (!QFontDatabase().families().contains(selected)) {
+        QSignalBlocker bk(font_family);
+        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+        font_family->setCurrentFont(font);
+    }
     font.setPixelSize(font_size->value());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
     font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
-    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
+    if (letter_spacing->value() != 0) {
+        font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
+    }
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
     QString gradientData;
@@ -2406,7 +2414,11 @@ void TitleWidget::readChoices()
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
-    font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
+    QFont font = titleConfig.readEntry("font_family", font_family->currentFont());
+    if (!QFontDatabase().families().contains(font.family())) {
+        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+    }
+    font_family->setCurrentFont(font);
     font_size->setValue(titleConfig.readEntry("font_pixel_size", m_frameHeight > 0 ? m_frameHeight / 20 : font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));

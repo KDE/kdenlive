@@ -1767,7 +1767,7 @@ void Bin::cleanDocument()
     }
     setEnabled(false);
     // Cleanup references in the cli properties dialog
-    showClipProperties(nullptr);
+    requestShowClipProperties(nullptr);
 
     // Cleanup previous project
     m_itemModel->clean();
@@ -2065,7 +2065,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_tagsWidget->setTagData(clip->tags());
                 ClipType::ProducerType type = clip->clipType();
                 m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::Text || type == ClipType::TextTemplate);
-                showClipProperties(clip, false);
+                requestShowClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
                 //TODO: testing only, we should check clip type...
@@ -2086,7 +2086,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_proxyAction->setText(i18n("Proxy Folder"));
             } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
                 m_tagsWidget->setTagData(currentItem->tags());
-                showClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
+                requestShowClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_replaceAction->setEnabled(false);
@@ -2111,7 +2111,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         m_openAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
         m_renameAction->setEnabled(false);
-        showClipProperties(nullptr);
+        requestShowClipProperties(nullptr);
         emit requestClipShow(nullptr);
         // clear effect stack
         emit requestShowEffectStack(QString(), nullptr, QSize(), false);
@@ -2602,7 +2602,7 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this, clip.get());
     } else {
         m_propertiesPanel->setEnabled(true);
-        showClipProperties(clip);
+        requestShowClipProperties(clip);
         m_propertiesDock->show();
         m_propertiesDock->raise();
     }
@@ -2614,7 +2614,7 @@ void Bin::doRefreshPanel(const QString &id)
 {
     std::shared_ptr<ProjectClip> currentItem = getFirstSelectedClip();
     if ((currentItem != nullptr) && currentItem->AbstractProjectItem::clipId() == id) {
-        showClipProperties(currentItem, true);
+        requestShowClipProperties(currentItem, true);
     }
 }
 
@@ -2700,7 +2700,7 @@ void Bin::reloadMonitorIfActive(const QString &id)
     if (m_monitor->activeClipId() == id || m_monitor->activeClipId().isEmpty()) {
         slotOpenCurrent();
         if (m_monitor->activeClipId() == id) {
-            showClipProperties(getBinClip(id), true);
+            requestShowClipProperties(getBinClip(id), true);
         }
     }
 }
@@ -4340,7 +4340,7 @@ QString Bin::getCurrentFolder()
         QModelIndex parentIx = m_itemView->rootIndex();
         if (parentIx.isValid()) {
             std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(parentIx));
-            if (item) {
+            if (item && item != parentFolder) {
                 parentFolder = std::static_pointer_cast<ProjectFolder>(item->getEnclosingFolder());
             }
         }
