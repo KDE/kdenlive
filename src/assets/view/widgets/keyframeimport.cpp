@@ -101,6 +101,10 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             continue;
         }
         QString name = entryObj[QLatin1String("name")].toString();
+        QString displayName = entryObj[QLatin1String("DisplayName")].toString();
+        if (displayName.isEmpty()) {
+            displayName = name;
+        }
         QString value = entryObj[QLatin1String("value")].toString();
         int type = entryObj[QLatin1String("type")].toInt(0);
         double min = entryObj[QLatin1String("min")].toDouble(0);
@@ -111,7 +115,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         if (out == -1) {
             out = entryObj[QLatin1String("out")].toInt(0);
         }
-        m_dataCombo->insertItem(ix, name);
+        m_dataCombo->insertItem(ix, displayName);
         m_dataCombo->setItemData(ix, value, Qt::UserRole);
         m_dataCombo->setItemData(ix, type, Qt::UserRole + 1);
         m_dataCombo->setItemData(ix, min, Qt::UserRole + 2);
@@ -216,7 +220,6 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     l1->addWidget(lab2);
     l1->addWidget(m_targetCombo);
     l1->addWidget(m_alignTargetCombo);
-    l1->addStretch(10);
     ix = 0;
     QMap<QString, QModelIndex>::const_iterator j = m_geometryTargets.constBegin();
     while (j != m_geometryTargets.constEnd()) {
@@ -972,6 +975,7 @@ void KeyframeImport::importSelectedData()
                         kfrData[1] = locale.toString(int(rect.y));
                         kfrData[2] = locale.toString(int(rect.w));
                         kfrData[3] = locale.toString(int(rect.h));
+                        kfrData[4] = QString::number(rect.o);
                         break;
                     case ImportRoles::Position:
                         kfrData[0] = locale.toString(int(rect.x));
@@ -1211,6 +1215,7 @@ void KeyframeImport::updateView()
                 kfrData[1] = locale.toString(int(rect.y));
                 kfrData[2] = locale.toString(int(rect.w));
                 kfrData[3] = locale.toString(int(rect.h));
+                kfrData[4] = QString::number(rect.o);
                 break;
             case ImportRoles::Position:
                 kfrData[0] = locale.toString(int(rect.x));

@@ -912,6 +912,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         }
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
+        currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
         currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble()) : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
