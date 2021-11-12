@@ -4563,6 +4563,8 @@ void MainWindow::addBin(std::shared_ptr<Bin> bin)
         connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
         connect(bin.get(), &Bin::requestShowClipProperties, getBin().get(), &Bin::showClipProperties);
         tabifyDockWidget(m_projectBinDock, binDock);
+        // Disable title bar since it is tabbed
+        binDock->setTitleBarWidget(new QWidget);
         // Update dock list
         updateDockMenu();
         loadDockActions();
