@@ -418,7 +418,12 @@ public:
         if (!index.data().isNull()) {
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-            QStyledItemDelegate::paint(painter, option, index);
+            // Draw usage counter
+            int usage = index.data(AbstractProjectItem::UsageCount).toInt();
+            if (usage > 0) {
+                opt.font.setBold(true);
+            }
+            QStyledItemDelegate::paint(painter, opt, index);
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
             if (adjust > 0 && adjust < rect.width()) {
@@ -444,10 +449,13 @@ public:
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
             if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
-                QRect thumbRect = m_thumbRect;
+                QRect thumbRect = m_thumbRect.adjusted(0, 0, 0, 2);
                 int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
                 thumbRect.setLeft(opt.rect.right() - iconSize - 4);
                 thumbRect.setWidth(iconSize);
+                QColor bgColor = option.palette.window().color();
+                bgColor.setAlphaF(.7);
+                painter->fillRect(thumbRect, bgColor);
                 thumbRect.setBottom(m_thumbRect.top() + iconSize);
                 QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
                 m_audioDragRect = thumbRect;
