@@ -75,6 +75,7 @@ private:
     double m_zoomFactor;
     double m_zoomStart;
     bool m_moveKeyframeMode;
+    bool m_keyframeZonePress;
     int m_clickPoint;
     int m_clickEnd;
     /** @brief The zoom factor (start, end - between 0 and 1) */
