@@ -261,7 +261,7 @@ bool DocumentChecker::hasErrorInClips()
                 original.prepend(root);
             }
             // Check for slideshows
-            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
+            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("\\.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
             if (slideshow && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
                 original = QFileInfo(original).absolutePath();
             }
@@ -282,7 +282,7 @@ bool DocumentChecker::hasErrorInClips()
         }
         // Check for slideshows
         QString slidePattern;
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if (slideshow) {
             if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
                 slidePattern = QFileInfo(resource).fileName();
@@ -505,7 +505,7 @@ bool DocumentChecker::hasErrorInClips()
             resource =
             service == QLatin1String("timewarp") ? Xml::getXmlProperty(e, QStringLiteral("warp_resource")) : Xml::getXmlProperty(e, QStringLiteral("resource"));
         }
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if (service.startsWith(QLatin1String("avformat")) || service == QLatin1String("framebuffer") ||
             service == QLatin1String("timewarp")) {
             clipType = i18n("Video clip");
