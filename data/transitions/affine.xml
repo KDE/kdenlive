@@ -3,7 +3,7 @@
     <name context="Affine Transform Transition Name">Transform</name>
         <description>Perform an affine transform on for compositing.</description>
         <author>Charles Yates</author>
-    <parameter type="animatedrect" name="rect" default="0 0 %width %height 100">
+    <parameter type="animatedrect" name="rect" default="0 0 %width %height 1">
         <name>Rectangle</name>
     </parameter>
     <parameter type="keyframe" name="rotate_x" max="1800" min="-1800" default="0" factor="10" notintimeline="1">

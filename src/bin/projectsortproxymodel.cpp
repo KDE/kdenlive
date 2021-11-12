@@ -177,11 +177,11 @@ void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModel
 }
 
 
-void ProjectSortProxyModel::selectAll()
+void ProjectSortProxyModel::selectAll(QModelIndex rootIndex)
 {
-        QModelIndex topLeft = index(0, 0, QModelIndex());
-        QModelIndex bottomRight = index(rowCount(QModelIndex()) - 1,
-            columnCount(QModelIndex()) - 1, QModelIndex());
-        QItemSelection selection(topLeft, bottomRight);
-        m_selection->select(selection, QItemSelectionModel::Select);
+    QModelIndex topLeft = index(0, 0, rootIndex);
+    QModelIndex bottomRight = index(rowCount(rootIndex) - 1,
+        columnCount(rootIndex) - 1, rootIndex);
+    QItemSelection selection(topLeft, bottomRight);
+    m_selection->select(selection, QItemSelectionModel::Select);
 }

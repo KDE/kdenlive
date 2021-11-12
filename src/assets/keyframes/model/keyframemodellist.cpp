@@ -252,11 +252,6 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
                 if (isRectParam) {
                     if (normalizedVal.isValid()) {
                         double newValue = normalizedVal.toDouble();
-                        if (auto ptr = m_model.lock()) {
-                            if (ptr->getAssetId() != QLatin1String("qtblend")) {
-                                newValue *= 100.;
-                            }
-                        }
                         value = param->getInterpolatedValue(oldPos);
                         value = param->updateInterpolated(value, newValue);
                     }

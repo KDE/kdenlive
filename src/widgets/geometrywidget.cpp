@@ -13,14 +13,14 @@
 #include <QGridLayout>
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                               bool useOpacity, bool percentOpacity, QWidget *parent)
+                               bool useOpacity, QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
     , m_opacity(nullptr)
-    , m_opacityFactor(percentOpacity ? 1. : 100.)
+    , m_opacityFactor(100.)
 {
     Q_UNUSED(useRatioLock)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);

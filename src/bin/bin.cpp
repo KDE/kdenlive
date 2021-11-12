@@ -905,6 +905,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_inTimelineAction(nullptr)
     , m_listType(BinViewType(KdenliveSettings::binMode()))
     , m_iconSize(160, 90)
+    , m_propertiesDock(nullptr)
     , m_propertiesPanel(nullptr)
     , m_blankThumb()
     , m_clipWidget()
@@ -916,7 +917,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
-    , m_propertiesDock(nullptr)
 {
     m_layout = new QVBoxLayout(this);
 
@@ -2005,7 +2005,18 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
 
 void Bin::selectAll()
 {
-    m_proxyModel->selectAll();
+    QModelIndex rootIndex = m_itemView->rootIndex();
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+        if (currentItem) {
+            std::shared_ptr<ProjectFolder>parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+            if (parentFolder) {
+                rootIndex = m_proxyModel->mapFromSource(getIndexForId(parentFolder->clipId(), true));
+            }
+        }
+    }
+    m_proxyModel->selectAll(rootIndex);
 }
 
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, bool activateMonitor)
@@ -2157,7 +2168,35 @@ QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
 
 void Bin::slotInitView(QAction *action)
 {
+    QString rootFolder;
+    QString selectedItem;
+    QStringList selectedItems;
     if (action) {
+        QModelIndex currentSelection;
+        if (m_itemView && m_proxyModel) {
+            // Check currently selected item
+            QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+            for (auto &ix : indexes) {
+                if (!ix.isValid()) {
+                    continue;
+                }
+                std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+                if (currentItem) {
+                    selectedItems << currentItem->clipId();
+                }
+            }
+            currentSelection = m_proxyModel->selectionModel()->currentIndex();
+            if (currentSelection.isValid()) {
+                std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+                if (currentItem) {
+                    selectedItem = currentItem->clipId();
+                    std::shared_ptr<ProjectFolder>parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+                    if (parentFolder) {
+                        rootFolder = parentFolder->clipId();
+                    }
+                }
+            }
+        }
         if (m_proxyModel) {
             m_proxyModel->selectionModel()->clearSelection();
         }
@@ -2308,6 +2347,25 @@ void Bin::slotInitView(QAction *action)
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
         connect(view, &MyListView::processDragEnd, this, &Bin::processDragEnd);
+        if (!rootFolder.isEmpty()) {
+            // Open view in a specific folder
+            std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(rootFolder);
+            auto parentIx = m_itemModel->getIndexFromItem(folder);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+            m_upAction->setEnabled(rootFolder != QLatin1String("-1"));
+        }
+    }
+    if (!selectedItems.isEmpty()) {
+        for (auto &item : selectedItems) {
+            std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(item);
+            QModelIndex ix = m_itemModel->getIndexFromItem(clip);
+            int row = ix.row();
+            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+            const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+            if (id.isValid() && id2.isValid()) {
+                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
+            }
+        }
     }
     m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); // DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);

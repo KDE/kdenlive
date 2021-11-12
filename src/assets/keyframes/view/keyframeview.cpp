@@ -29,6 +29,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_zoomFactor(1)
     , m_zoomStart(0)
     , m_moveKeyframeMode(false)
+    , m_keyframeZonePress(false)
     , m_clickPoint(-1)
     , m_clickEnd(-1)
     , m_zoomHandle(0,1)
@@ -285,6 +286,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
     int pos = int(((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale);
     pos = qBound(0, pos, m_duration - 1);
     m_moveKeyframeMode = false;
+    m_keyframeZonePress = false;
     if (event->button() == Qt::LeftButton) {
         if (event->y() < m_lineHeight) {
             // mouse click in keyframes area
@@ -294,6 +296,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 m_clickPoint = pos;
                 return;
             }
+            m_keyframeZonePress = true;
             auto keyframe = m_model->getClosestKeyframe(position, &ok);
             if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 int currentIx = m_model->getIndexForPos(keyframe.first);
@@ -331,6 +334,10 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             // click on zoom area
             if (m_hoverZoom) {
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
+            }
+            // When not zoomed, allow seek by clicking on zoombar
+            if (qFuzzyCompare(m_zoomFactor, 1.) && pos != m_position) {
+                emit seekToPos(pos);
             }
             return;
         }
@@ -400,7 +407,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         if (m_model->activeKeyframe() == pos) {
             return;
         }
-        if (m_model->activeKeyframe() > 0 && m_currentKeyframeOriginal > -1 && m_clickPoint == -1 && (m_moveKeyframeMode || qAbs(pos - (m_currentKeyframeOriginal - offset)) * m_scale * m_zoomFactor < QApplication::startDragDistance())) {
+        if (m_model->activeKeyframe() > 0 && m_currentKeyframeOriginal > -1 && m_clickPoint == -1 && (m_moveKeyframeMode || (qAbs(pos - (m_currentKeyframeOriginal - offset)) * m_scale * m_zoomFactor < QApplication::startDragDistance() && m_keyframeZonePress))) {
             m_moveKeyframeMode = true;
             if (!m_model->hasKeyframe(pos + offset)) {
                 int delta = pos - (m_model->getPosAtIndex(m_model->activeKeyframe()).frames(pCore->getCurrentFps()) - offset);
@@ -554,6 +561,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
         qDebug() << "RELEASING keyframe move" << delta;
     }
     m_moveKeyframeMode = false;
+    m_keyframeZonePress = false;
 }
 
 void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)

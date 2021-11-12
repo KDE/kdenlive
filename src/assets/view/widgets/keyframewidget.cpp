@@ -464,6 +464,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
     m_buttonCenter->setEnabled(!atKeyframe);
+    m_buttonCopy->setEnabled(!atKeyframe);
     emit updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
@@ -528,9 +529,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             }
         }
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
-        bool integerOpacity = m_model->getAssetId() != QLatin1String("qtblend");
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
-                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), integerOpacity, this);
+                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 this, [this, index](const QString v) {
                     emit activateEffect();
