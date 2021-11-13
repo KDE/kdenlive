@@ -533,6 +533,302 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     pCore->m_projectManager = nullptr;
 }
 
+TEST_CASE("Spacer operations", "[Spacer]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock)
+
+    QString binId = createProducer(profile_trimming, "red", binModel);
+    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+    QString binId3 = createProducerWithSound(profile_trimming, binModel);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int tid1 = TrackModel::construct(timeline);
+
+    // Add an audio track
+    //int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    //int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+
+    SECTION("Simple one track space insertion")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 20;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, false, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, false, undo, redo));
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
+    }
+
+    SECTION("Simple one track space insertion with guides")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 20;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        guideModel->addMarker(GenTime(l/2, profile_trimming.fps()), "guide1");
+        guideModel->addMarker(GenTime(l+2, profile_trimming.fps()), "guide2");
+        guideModel->addMarker(GenTime(l+7, profile_trimming.fps()), "guide3");
+        guideModel->addMarker(GenTime(p2 + l/2, profile_trimming.fps()), "guide4");
+        guideModel->addMarker(GenTime(p3, profile_trimming.fps()), "guide5");
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, true, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space});
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, true, undo, redo));
+        auto state2 = [&]() {
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space + space2});
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
+    }
+
+    SECTION("Simple one track space deletion")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 10;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        // space to remove is larger than possible (at the end only 10 frames should be removed)
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space, tid1, false, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 - 10);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 - 10);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(!TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space2, tid1, false, undo, redo));
+        state1();
+
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+    }
+
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+
 TEST_CASE("Insert/delete", "[Trimming2]")
 {
     auto binModel = pCore->projectItemModel();
