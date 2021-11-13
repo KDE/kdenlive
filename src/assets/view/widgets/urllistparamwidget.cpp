@@ -92,7 +92,7 @@ void UrlListParamWidget::slotRefresh()
     filter.remove(filter.indexOf(")")-1, -1);
     m_fileExt = filter.split(" ");
 
-    if (values.first() == QLatin1String("%lumaPaths")) {
+    if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
         values.clear();
         names.clear();
@@ -110,7 +110,7 @@ void UrlListParamWidget::slotRefresh()
         }
         m_list->addItem(i18n("None (Dissolve)"));
     }
-    if (values.first() == QLatin1String("%lutPaths")) {
+    if (!values.isEmpty() && values.first() == QLatin1String("%lutPaths")) {
         // special case: LUT files
         values.clear();
         names.clear();
