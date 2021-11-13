@@ -1392,12 +1392,10 @@ Bin::~Bin()
         blockSignals(true);
         m_proxyModel->selectionModel()->blockSignals(true);
         setEnabled(false);
-        delete m_propertiesDock;
         m_propertiesPanel = nullptr;
         abortOperations();
         m_itemModel->clean();
     } else {
-        qDebug()<<":::::: CLOSING SECONDARY BIN\n\n:::::::::::::::::::";
         blockSignals(true);
         setEnabled(false);
         m_proxyModel->selectionModel()->blockSignals(true);
