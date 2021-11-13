@@ -152,6 +152,7 @@ void MainWindow::init(const QString &mltPath)
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager);
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
+    emit pCore->updatePalette();
 
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
@@ -861,6 +862,7 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_audioSpectrum) {
         m_audioSpectrum->refreshPixmap();
     }
+    emit pCore->updatePalette();
 
     KSharedConfigPtr kconfig = KSharedConfig::openConfig();
     KConfigGroup initialGroup(kconfig, "version");

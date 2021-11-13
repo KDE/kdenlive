@@ -147,7 +147,7 @@ void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool r
 void ClipModel::deregisterClipToBin()
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    binClip->deregisterTimelineClip(m_id);
+    binClip->deregisterTimelineClip(m_id, isAudioOnly());
 }
 
 ClipModel::~ClipModel() = default;

@@ -53,6 +53,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KXMLGUIFactory>
 #include <KIO/OpenFileManagerWindowJob>
+#include <KIconTheme>
+#include <KIconEffect>
 
 #include <QToolBar>
 #include <QCryptographicHash>
@@ -67,6 +69,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 #include <utility>
 #include <jobs/audiolevelstask.h>
+
+static QImage m_videoIcon;
+static QImage m_audioIcon;
+static QImage m_audioUsedIcon;
+static QImage m_videoUsedIcon;
 
 /**
  * @class BinItemDelegate
@@ -270,17 +277,25 @@ public:
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
+                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
                         bounding.moveLeft(bounding.right() + (2 * textMargin));
                         bounding.adjust(0, textMargin, 0, -textMargin);
-                        QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
                         m_audioDragRect = bounding.toRect();
                         m_audioDragRect.setWidth(m_audioDragRect.height());
-                        aDrag.paint(painter, m_audioDragRect, Qt::AlignLeft);
                         m_videoDragRect = m_audioDragRect;
                         m_videoDragRect.moveLeft(m_audioDragRect.right());
-                        QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
-                        vDrag.paint(painter, m_videoDragRect, Qt::AlignLeft);
+                        if (opt.state & QStyle::State_MouseOver) {
+                            painter->drawImage(m_audioDragRect.topLeft(), m_audioIcon);
+                            painter->drawImage(m_videoDragRect.topLeft(), m_videoIcon);
+                        } else if (usage > 0) {
+                            int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
+                            if (audioUsage > 0) {
+                                painter->drawImage(m_audioDragRect.topLeft(), m_audioUsedIcon);
+                            }
+                            if (usage - audioUsage > 0) {
+                                painter->drawImage(m_videoDragRect.topLeft(), m_videoUsedIcon);
+                            }
+                        }
                     } else {
                         //m_audioDragRect = QRect();
                         //m_videoDragRect = QRect();
@@ -420,9 +435,6 @@ public:
             initStyleOption(&opt, index);
             // Draw usage counter
             int usage = index.data(AbstractProjectItem::UsageCount).toInt();
-            if (usage > 0) {
-                opt.font.setBold(true);
-            }
             QStyledItemDelegate::paint(painter, opt, index);
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
@@ -448,22 +460,32 @@ public:
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
+            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
                 QRect thumbRect = m_thumbRect.adjusted(0, 0, 0, 2);
                 int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
                 thumbRect.setLeft(opt.rect.right() - iconSize - 4);
                 thumbRect.setWidth(iconSize);
-                QColor bgColor = option.palette.window().color();
-                bgColor.setAlphaF(.7);
-                painter->fillRect(thumbRect, bgColor);
+                if (opt.state & QStyle::State_MouseOver) {
+                    QColor bgColor = option.palette.window().color();
+                    bgColor.setAlphaF(.7);
+                    painter->fillRect(thumbRect, bgColor);
+                }
                 thumbRect.setBottom(m_thumbRect.top() + iconSize);
-                QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
                 m_audioDragRect = thumbRect;
-                aDrag.paint(painter, m_audioDragRect, Qt::AlignRight);
                 m_videoDragRect = m_audioDragRect;
                 m_videoDragRect.moveTop(thumbRect.bottom());
-                QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
-                vDrag.paint(painter, m_videoDragRect, Qt::AlignRight);
+                if (opt.state & QStyle::State_MouseOver) {
+                    painter->drawImage(m_audioDragRect.topLeft(), m_audioIcon);
+                    painter->drawImage(m_videoDragRect.topLeft(), m_videoIcon);
+                } else if (usage > 0) {
+                    int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
+                    if (audioUsage > 0) {
+                        painter->drawImage(m_audioDragRect.topLeft(), m_audioUsedIcon);
+                    }
+                    if (usage - audioUsage > 0) {
+                        painter->drawImage(m_videoDragRect.topLeft(), m_videoUsedIcon);
+                    }
+                }
             } else {
                 //m_audioDragRect = QRect();
                 //m_videoDragRect = QRect();
@@ -936,6 +958,16 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_layout->addWidget(m_toolbar);
 
+    // Init icons
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+    m_audioIcon = audioIcon.pixmap(iconSize).toImage();
+    m_audioUsedIcon = m_audioIcon;
+    KIconEffect::toMonochrome(m_audioUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    m_videoIcon = videoIcon.pixmap(iconSize).toImage();
+    m_videoUsedIcon = m_videoIcon;
+    KIconEffect::toMonochrome(m_videoUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
+
     // Tags panel
     m_tagsWidget = new TagWidget(this);
     connect(m_tagsWidget, &TagWidget::switchTag, this, &Bin::switchTag);
@@ -1314,6 +1346,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
+    connect(pCore.get(), &Core::updatePalette, this, &Bin::slotUpdatePalette);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
     wheelAccumulatedDelta = 0;
 }
@@ -1333,6 +1366,21 @@ Bin::~Bin()
         blockSignals(true);
         setEnabled(false);
     }
+}
+
+void Bin::slotUpdatePalette()
+{
+    // Refresh icons
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+    m_audioIcon = audioIcon.pixmap(iconSize).toImage();
+    m_audioUsedIcon = m_audioIcon;
+    KIconEffect::toMonochrome(m_audioUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    m_videoIcon = videoIcon.pixmap(iconSize).toImage();
+    m_videoUsedIcon = m_videoIcon;
+    KIconEffect::toMonochrome(m_videoUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
 }
 
 QDockWidget *Bin::clipPropertiesDock()
@@ -4282,7 +4330,7 @@ void Bin::resetUsageCount()
 {
     const QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : clipList) {
-        clip->setRefCount(0);
+        clip->setRefCount(0, 0);
     }
 }
 

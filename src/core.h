@@ -358,6 +358,8 @@ signals:
     void remapClip(int cid);
     /** @brief A monitor property changed, check if we need to reset */
     void monitorProfileUpdated();
+    /** @brief Color theme changed, process refresh */
+    void updatePalette();
 };
 
 #endif

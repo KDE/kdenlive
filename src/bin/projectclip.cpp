@@ -71,6 +71,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, std::move(producer))
     , m_resetTimelineOccurences(false)
+    , m_audioCount(0)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     if (producer->get_int("_placeholder") == 1) {
@@ -1659,14 +1660,22 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
 {
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
+    if (auto ptr = timeline.lock()) {
+        if (ptr->getClipState(clipId) == PlaylistState::AudioOnly) {
+            m_audioCount++;
+        }
+    }
     m_registeredClips[clipId] = std::move(timeline);
-    setRefCount(uint(m_registeredClips.size()));
+    setRefCount(uint(m_registeredClips.size()), m_audioCount);
 }
 
-void ProjectClip::deregisterTimelineClip(int clipId)
+void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
 {
     qDebug() << " ** * DEREGISTERING TIMELINE CLIP: " << clipId;
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
+    if (audioClip) {
+        m_audioCount--;
+    }
     m_registeredClips.erase(clipId);
     if (m_videoProducers.count(clipId) > 0) {
         m_effectStack->removeService(m_videoProducers[clipId]);
@@ -1676,7 +1685,7 @@ void ProjectClip::deregisterTimelineClip(int clipId)
         m_effectStack->removeService(m_audioProducers[clipId]);
         m_audioProducers.erase(clipId);
     }
-    setRefCount(uint(m_registeredClips.size()));
+    setRefCount(uint(m_registeredClips.size()), m_audioCount);
 }
 
 QList<int> ProjectClip::timelineInstances() const
