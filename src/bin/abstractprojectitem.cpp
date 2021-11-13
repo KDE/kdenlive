@@ -49,9 +49,10 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
     return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
-void AbstractProjectItem::setRefCount(uint count)
+void AbstractProjectItem::setRefCount(uint count, uint audioCount)
 {
     m_usage = count;
+    m_AudioUsage = audioCount;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
@@ -62,17 +63,23 @@ uint AbstractProjectItem::refCount() const
     return m_usage;
 }
 
-void AbstractProjectItem::addRef()
+void AbstractProjectItem::addRef(bool isAudio)
 {
     m_usage++;
+    if (isAudio) {
+        m_AudioUsage++;
+    }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
 }
 
-void AbstractProjectItem::removeRef()
+void AbstractProjectItem::removeRef(bool isAudio)
 {
     m_usage--;
+    if (isAudio) {
+        m_AudioUsage--;
+    }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
@@ -135,6 +142,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case UsageCount:
         data = QVariant(m_usage);
+        break;
+    case AudioUsageCount:
+        data = QVariant(m_AudioUsage);
         break;
     case ItemTypeRole:
         data = QVariant(m_itemType);

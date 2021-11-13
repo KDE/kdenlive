@@ -247,7 +247,7 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip(int clipId);
+    void deregisterTimelineClip(int clipId, bool audioClip);
 
     void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
     void replaceInTimeline();
@@ -302,6 +302,7 @@ private:
     void createDisabledMasterProducer();
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
+    uint m_audioCount;
 
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */

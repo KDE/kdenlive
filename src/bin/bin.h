@@ -398,6 +398,7 @@ private slots:
     /** @brief Switch a tag on  a clip list
      */
     void editTags(QList <QString> allClips, const QString &tag, bool add);
+    void slotUpdatePalette();
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
