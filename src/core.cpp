@@ -129,26 +129,26 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
     
     m_projectManager = new ProjectManager(this);
-    std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow));
+    Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
     m_mainWindow->addBin(bin);
 
-    connect(bin.get(), &Bin::requestShowClipProperties, bin.get(), &Bin::showClipProperties);
-    connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin().get(), &Bin::refreshPanel);
-    connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin().get(), &Bin::refreshClip);
-    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin().get(),
+    connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
+    connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
+    connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin(), &Bin::refreshClip);
+    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin(),
             static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin().get(),
+    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), m_mainWindow->activeBin(),
             static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin().get(), &Bin::slotEffectDropped);
-    connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin().get(), &Bin::slotTagDropped);
-    connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin().get(), &Bin::slotItemEdited);
+    connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin(), &Bin::slotEffectDropped);
+    connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin(), &Bin::slotTagDropped);
+    connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin(), &Bin::slotItemEdited);
 
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     m_textEditWidget = new TextBasedEdit(m_mainWindow);
     m_timeRemapWidget = new TimeRemap(m_mainWindow);
-    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin().get(), SLOT(droppedUrls(QList<QUrl>)));
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin(), SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
@@ -328,12 +328,12 @@ Monitor *Core::getMonitor(int id)
 
 Bin *Core::bin()
 {
-    return m_mainWindow->getBin().get();
+    return m_mainWindow->getBin();
 }
 
 Bin *Core::activeBin()
 {
-    return m_mainWindow->activeBin().get();
+    return m_mainWindow->activeBin();
 }
 
 void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame, const QPoint &zone)
@@ -1189,7 +1189,7 @@ int Core::getNewStuff(const QString &config)
 
 void Core::addBin(const QString &id)
 {
-    std::shared_ptr<Bin> bin(new Bin(m_projectItemModel, m_mainWindow, false));
+    Bin *bin = new Bin(m_projectItemModel, m_mainWindow, false);
     bin->setupMenu();
     bin->setMonitor(m_monitorManager->clipMonitor());
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);

@@ -824,6 +824,7 @@ void MainWindow::init(const QString &mltPath)
             getMainTimeline()->regainFocus();
         }
     });
+    connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
 
@@ -1719,7 +1720,7 @@ void MainWindow::setupActions()
 
     // Keyframe actions
     m_assetPanel = new AssetPanel(this);
-    connect(getBin().get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(getBin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), actionCollection());
     addAction(QStringLiteral("keyframe_add"), i18n("Add/Remove Keyframe"), m_assetPanel, SLOT(slotAddRemoveKeyframe()),
                                      QIcon::fromTheme(QStringLiteral("keyframe-add")), QKeySequence(), kfActions);
@@ -3342,7 +3343,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
 
 void MainWindow::raiseBin()
 {
-    std::shared_ptr<Bin> bin = activeBin();
+    Bin *bin = activeBin();
     if (bin && !bin->isVisible()) {
         bin->parentWidget()->setVisible(true);
         bin->parentWidget()->raise();
@@ -4550,20 +4551,43 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     return QObject::eventFilter(object, event);
 }
 
-void MainWindow::addBin(std::shared_ptr<Bin> bin, const QString &binName)
+void MainWindow::slotRemoveBinDock(const QString &name)
 {
-    connect(bin.get(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
-    connect(bin.get(), &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
+    QWidget *toDelete = nullptr;
+    Bin *prev = nullptr;
+    int ix = 0;
+    for (auto &b : m_binWidgets) {
+        if (b->parentWidget()->objectName() == name) {
+            toDelete = b->parentWidget();
+            prev = m_binWidgets.takeAt(ix);
+            break;
+        }
+        ix++;
+    }
+    if (toDelete) {
+        toDelete->deleteLater();
+    }
+    updateDockMenu();
+    loadDockActions();
+}
+
+void MainWindow::addBin(Bin *bin, const QString &binName)
+{
+    connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
+    connect(bin, &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     );
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;
-        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin.get());
+        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin);
         bin->setupGeneratorMenu();
-        connect(bin.get(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-        connect(bin.get(), &Bin::requestShowClipProperties, getBin().get(), &Bin::showClipProperties);
+        connect(bin, &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+        connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
+        connect(bin, &Bin::requestBinClose, this, [this, binDock]() {
+            emit removeBinDock(binDock->objectName());
+        });
         tabifyDockWidget(m_projectBinDock, binDock);
         // Disable title bar since it is tabbed
         binDock->setTitleBarWidget(new QWidget);
@@ -4576,7 +4600,7 @@ void MainWindow::addBin(std::shared_ptr<Bin> bin, const QString &binName)
     m_binWidgets << bin;
 }
 
-std::shared_ptr<Bin> MainWindow::getBin()
+Bin *MainWindow::getBin()
 {
     if (m_binWidgets.isEmpty()) {
         return nullptr;
@@ -4584,12 +4608,12 @@ std::shared_ptr<Bin> MainWindow::getBin()
     return m_binWidgets.first();
 }
 
-std::shared_ptr<Bin> MainWindow::activeBin()
+Bin *MainWindow::activeBin()
 {
     QWidget* wid = QApplication::focusWidget();
     if (wid) {
         for (auto &bin : m_binWidgets) {
-            if (bin.get() == wid || bin->isAncestorOf(wid)) {
+            if (bin == wid || bin->isAncestorOf(wid)) {
                 return bin;
             }
         }
