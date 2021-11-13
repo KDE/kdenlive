@@ -136,6 +136,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
     , m_resetTimelineOccurences(false)
+    , m_audioCount(0)
 {
     m_clipStatus = FileStatus::StatusWaiting;
     m_thumbnail = thumb;
@@ -1660,9 +1661,11 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
 {
     Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
-    if (auto ptr = timeline.lock()) {
-        if (ptr->getClipState(clipId) == PlaylistState::AudioOnly) {
-            m_audioCount++;
+    if (m_hasAudio) {
+        if (auto ptr = timeline.lock()) {
+            if (ptr->getClipState(clipId) == PlaylistState::AudioOnly) {
+                m_audioCount++;
+            }
         }
     }
     m_registeredClips[clipId] = std::move(timeline);
@@ -1673,7 +1676,7 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
 {
     qDebug() << " ** * DEREGISTERING TIMELINE CLIP: " << clipId;
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
-    if (audioClip) {
+    if (m_hasAudio && audioClip) {
         m_audioCount--;
     }
     m_registeredClips.erase(clipId);
