@@ -297,8 +297,21 @@ public:
                             }
                         }
                     } else {
-                        //m_audioDragRect = QRect();
-                        //m_videoDragRect = QRect();
+                        if (usage > 0) {
+                            bounding.moveLeft(bounding.right() + (2 * textMargin));
+                            bounding.adjust(0, textMargin, 0, -textMargin);
+                            QRect audioRect = bounding.toRect();
+                            audioRect.setWidth(audioRect.height());
+                            QRect videoRect = audioRect;
+                            videoRect.moveLeft(audioRect.right());
+                            int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
+                            if (audioUsage > 0) {
+                                painter->drawImage(audioRect.topLeft(), m_audioUsedIcon);
+                            }
+                            if (usage - audioUsage > 0) {
+                                painter->drawImage(videoRect.topLeft(), m_videoUsedIcon);
+                            }
+                        }
                     }
                 }
                 if (type == AbstractProjectItem::ClipItem) {
@@ -487,8 +500,23 @@ public:
                     }
                 }
             } else {
-                //m_audioDragRect = QRect();
-                //m_videoDragRect = QRect();
+                if (usage > 0) {
+                    QRect thumbRect = m_thumbRect.adjusted(0, 0, 0, 2);
+                    int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
+                    thumbRect.setLeft(opt.rect.right() - iconSize - 4);
+                    thumbRect.setWidth(iconSize);
+                    thumbRect.setBottom(m_thumbRect.top() + iconSize);
+                    QRect audioRect = thumbRect;
+                    QRect videoRect = audioRect;
+                    videoRect.moveTop(thumbRect.bottom());
+                    int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
+                    if (audioUsage > 0) {
+                        painter->drawImage(audioRect.topLeft(), m_audioUsedIcon);
+                    }
+                    if (usage - audioUsage > 0) {
+                        painter->drawImage(videoRect.topLeft(), m_videoUsedIcon);
+                    }
+                }
             }
             // Draw frame in case of missing source
             FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
@@ -1163,6 +1191,12 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     settingsMenu->addAction(disableEffects);
     settingsMenu->addAction(hoverPreview);
 
+    if (!m_isMainBin) {
+        // Add close action
+        QAction *close = KStandardAction::close(this, SIGNAL(requestBinClose()), this);
+        settingsMenu->addAction(close);
+    }
+
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
     m_tagAction->setCheckable(true);
@@ -1363,8 +1397,10 @@ Bin::~Bin()
         abortOperations();
         m_itemModel->clean();
     } else {
+        qDebug()<<":::::: CLOSING SECONDARY BIN\n\n:::::::::::::::::::";
         blockSignals(true);
         setEnabled(false);
+        m_proxyModel->selectionModel()->blockSignals(true);
     }
 }
 
@@ -4808,4 +4844,3 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     }
     return ok;
 }
-
