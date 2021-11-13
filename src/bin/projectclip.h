@@ -46,7 +46,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
-    friend bool TimelineModel::checkConsistency(); // for testing
+    friend bool TimelineModel::checkConsistency(std::vector<int> guideSnaps); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */

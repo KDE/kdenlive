@@ -4994,7 +4994,7 @@ bool TimelineModel::unplantComposition(int compoId)
     return ret != 0;
 }
 
-bool TimelineModel::checkConsistency()
+bool TimelineModel::checkConsistency(std::vector<int> guideSnaps)
 {
     // We store all in/outs of clips to check snap points
     std::map<int, int> snaps;
@@ -5059,6 +5059,10 @@ bool TimelineModel::checkConsistency()
             snaps[clip->getPosition()] += 1;
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
         }
+    }
+
+    for (auto p : guideSnaps) {
+        snaps[p] += 1;
     }
     
     

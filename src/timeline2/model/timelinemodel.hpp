@@ -857,7 +857,7 @@ protected:
 
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
-    bool checkConsistency();
+    bool checkConsistency(std::vector<int> guideSnaps = {});
 
 protected:
     /** @brief Refresh project monitor if cursor was inside range */
