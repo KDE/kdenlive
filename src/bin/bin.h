@@ -584,6 +584,7 @@ signals:
     void deleteMarkers();
     /** @brief Selected all markers in clip properties dialog. */
     void selectMarkers();
+    void requestBinClose();
 };
 
 #endif

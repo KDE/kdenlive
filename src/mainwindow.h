@@ -135,11 +135,11 @@ public:
     /** @brief Raise (show) the project bin*/
     void raiseBin();
     /** @brief Add a bin widget*/
-    void addBin(std::shared_ptr<Bin> bin, const QString &binName = QString());
+    void addBin(Bin *bin, const QString &binName = QString());
     /** @brief Get the main (first) bin*/
-    std::shared_ptr<Bin> getBin();
+    Bin *getBin();
     /** @brief Get the active (focused) bin or first one if none is active*/
-    std::shared_ptr<Bin> activeBin();
+    Bin *activeBin();
     int binCount() const;
 
     /** @brief Hide subtitle track */
@@ -214,7 +214,7 @@ private:
     KSelectAction *m_compositeAction;
 
     TimelineTabs *m_timelineTabs{nullptr};
-    QVector <std::shared_ptr<Bin> >m_binWidgets;
+    QVector <Bin*>m_binWidgets;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList<QDockWidget *> m_gfxScopesList;
@@ -555,6 +555,7 @@ private slots:
     void slotSpeechRecognition();
     /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */
     void slotCopyDebugInfo();
+    void slotRemoveBinDock(const QString &name);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
@@ -573,6 +574,7 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
+    void removeBinDock(const QString &name);
 };
 
 #endif
