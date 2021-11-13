@@ -52,7 +52,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : qAsConst(allTransitions)) {
-        m_switchCompoButton->addItem(transition.second, transition.first);
+        if (transition.first != QLatin1String("mix")) {
+            m_switchCompoButton->addItem(transition.second, transition.first);
+        }
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
