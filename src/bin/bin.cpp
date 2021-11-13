@@ -100,9 +100,10 @@ public:
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (index.column() == 0) {
-                if (m_audioDragRect.contains(me->pos())) {
+                QPoint pos = me->pos();
+                if (m_audioDragRect.contains(pos)) {
                     dragType = PlaylistState::AudioOnly;
-                } else if (m_videoDragRect.contains(me->pos())) {
+                } else if (m_videoDragRect.contains(pos)) {
                     dragType = PlaylistState::VideoOnly;
                 } else {
                     dragType = PlaylistState::Disabled;
@@ -278,22 +279,26 @@ public:
                     // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
-                        bounding.moveLeft(bounding.right() + (2 * textMargin));
-                        bounding.adjust(0, textMargin, 0, -textMargin);
-                        m_audioDragRect = bounding.toRect();
-                        m_audioDragRect.setWidth(m_audioDragRect.height());
-                        m_videoDragRect = m_audioDragRect;
-                        m_videoDragRect.moveLeft(m_audioDragRect.right());
+                        QRect iconRect(0, 0, m_audioIcon.width() + 2, m_audioIcon.height() + 2);
+                        iconRect.moveLeft(bounding.right() + (2 * textMargin));
+                        iconRect.moveTop(bounding.top());
+                        QRect videoIconRect = iconRect;
+                        videoIconRect.moveLeft(iconRect.right() + 2);
                         if (opt.state & QStyle::State_MouseOver) {
-                            painter->drawImage(m_audioDragRect.topLeft(), m_audioIcon);
-                            painter->drawImage(m_videoDragRect.topLeft(), m_videoIcon);
+                            m_audioDragRect = iconRect;
+                            m_videoDragRect = videoIconRect;
+                            painter->drawImage(m_audioDragRect.topLeft() + QPoint(1, 1), m_audioIcon);
+                            painter->drawImage(m_videoDragRect.topLeft() + QPoint(1, 1), m_videoIcon);
+                            painter->setPen(opt.palette.highlight().color());
+                            painter->drawRect(m_audioDragRect);
+                            painter->drawRect(m_videoDragRect);
                         } else if (usage > 0) {
                             int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
                             if (audioUsage > 0) {
-                                painter->drawImage(m_audioDragRect.topLeft(), m_audioUsedIcon);
+                                painter->drawImage(iconRect.topLeft(), m_audioUsedIcon);
                             }
                             if (usage - audioUsage > 0) {
-                                painter->drawImage(m_videoDragRect.topLeft(), m_videoUsedIcon);
+                                painter->drawImage(videoIconRect.topLeft(), m_videoUsedIcon);
                             }
                         }
                     } else {
@@ -475,28 +480,28 @@ public:
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
             if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
                 QRect thumbRect = m_thumbRect.adjusted(0, 0, 0, 2);
-                int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
-                thumbRect.setLeft(opt.rect.right() - iconSize - 4);
-                thumbRect.setWidth(iconSize);
+                thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
                 if (opt.state & QStyle::State_MouseOver) {
                     QColor bgColor = option.palette.window().color();
                     bgColor.setAlphaF(.7);
                     painter->fillRect(thumbRect, bgColor);
                 }
-                thumbRect.setBottom(m_thumbRect.top() + iconSize);
-                m_audioDragRect = thumbRect;
-                m_videoDragRect = m_audioDragRect;
-                m_videoDragRect.moveTop(thumbRect.bottom());
+                thumbRect.setSize(m_audioIcon.size());
+                thumbRect.translate(0, 2);
+                QRect videoThumbRect = thumbRect;
+                videoThumbRect.moveTop(thumbRect.bottom() + 2);
                 if (opt.state & QStyle::State_MouseOver) {
+                    m_audioDragRect = thumbRect;
+                    m_videoDragRect = videoThumbRect;
                     painter->drawImage(m_audioDragRect.topLeft(), m_audioIcon);
                     painter->drawImage(m_videoDragRect.topLeft(), m_videoIcon);
                 } else if (usage > 0) {
                     int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
                     if (audioUsage > 0) {
-                        painter->drawImage(m_audioDragRect.topLeft(), m_audioUsedIcon);
+                        painter->drawImage(thumbRect.topLeft(), m_audioUsedIcon);
                     }
                     if (usage - audioUsage > 0) {
-                        painter->drawImage(m_videoDragRect.topLeft(), m_videoUsedIcon);
+                        painter->drawImage(videoThumbRect.topLeft(), m_videoUsedIcon);
                     }
                 }
             } else {
