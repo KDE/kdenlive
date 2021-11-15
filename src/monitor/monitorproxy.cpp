@@ -32,6 +32,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_clipId(-1)
     , m_seekFinished(true)
     , m_td(nullptr)
+    , m_boundsCount(0)
 {
 }
 
@@ -198,6 +199,9 @@ void MonitorProxy::resetZone()
 {
     m_zoneIn = 0;
     m_zoneOut = -1;
+    m_clipBounds = {};
+    m_boundsCount = 0;
+    emit clipBoundsChanged();
 }
 
 double MonitorProxy::fps() const
@@ -433,3 +437,21 @@ QByteArray MonitorProxy::getUuid() const
 {
     return QUuid::createUuid().toByteArray();
 }
+
+void MonitorProxy::updateClipBounds(QVector <QPoint>bounds)
+{
+    if (bounds == m_clipBounds) {
+        // Enforce refresh, in/out points may have changed
+        m_boundsCount = 0;
+        emit clipBoundsChanged();
+    }
+    m_clipBounds = bounds;
+    m_boundsCount = bounds.size();
+    emit clipBoundsChanged();
+}
+
+const QPoint MonitorProxy::clipBoundary(int ix)
+{
+    return m_clipBounds.at(ix);
+}
+

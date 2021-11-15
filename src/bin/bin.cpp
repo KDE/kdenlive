@@ -1850,6 +1850,9 @@ void Bin::setMonitor(Monitor *monitor)
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) {
         m_monitor->slotOpenClip(clip, in, out);
+        if (clip && clip->hasLimitedDuration()) {
+            clip->refreshBounds();
+        }
         pCore->textEditWidget()->openClip(clip);
     });
 }

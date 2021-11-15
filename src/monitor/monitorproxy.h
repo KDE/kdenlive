@@ -37,6 +37,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QString trimmingTC2 READ trimmingTC2 NOTIFY trimmingTC2Changed)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
+    Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
@@ -76,6 +77,7 @@ public:
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QByteArray getUuid() const;
+    Q_INVOKABLE const QPoint clipBoundary(int ix);
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
     void positionFromConsumer(int pos, bool playing);
@@ -152,6 +154,7 @@ signals:
     void trimmingTC1Changed();
     void trimmingTC2Changed();
     void speedChanged();
+    void clipBoundsChanged();
 
 private:
     GLWidget *q;
@@ -173,6 +176,11 @@ private:
     TimecodeDisplay *m_td;
     int m_trimmingFrames1;
     int m_trimmingFrames2;
+    QVector <QPoint> m_clipBounds;
+    int m_boundsCount;
+
+public slots:
+    void updateClipBounds(QVector <QPoint>bounds);
 };
 
 #endif

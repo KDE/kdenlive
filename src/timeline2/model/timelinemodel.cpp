@@ -298,6 +298,14 @@ int TimelineModel::getClipIn(int clipId) const
     return clip->getIn();
 }
 
+QPoint TimelineModel::getClipInDuration(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    return {clip->getIn(), clip->getPlaytime()};
+}
+
 PlaylistState::ClipState TimelineModel::getClipState(int clipId) const
 {
     READ_LOCK();
@@ -4181,6 +4189,7 @@ void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool re
     int id = clip->getId();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
+    qDebug()<<"::: REGISTERING CLIP TO BIN:::::\n::::::::::::::::::::::";
     clip->registerClipToBin(clip->getProducer(), registerProducer);
     m_groups->createGroupItem(id);
     clip->setTimelineEffectsEnabled(m_timelineEffectsEnabled);

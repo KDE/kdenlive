@@ -605,5 +605,18 @@ Item {
             bottom: root.bottom
         }
         height: controller.rulerHeight
+        Repeater {
+            model:controller.clipBounds
+            anchors.fill: parent
+            Rectangle {
+                anchors.top: parent.top
+                anchors.topMargin: 1
+                property point bd: controller.clipBoundary(model.index)
+                x: bd.x * root.timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                width: bd.y * root.timeScale
+                height: 2
+                color: 'goldenrod'
+            }
+        }
     }
 }
