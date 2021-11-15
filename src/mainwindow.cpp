@@ -4554,12 +4554,11 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
 void MainWindow::slotRemoveBinDock(const QString &name)
 {
     QWidget *toDelete = nullptr;
-    Bin *prev = nullptr;
     int ix = 0;
     for (auto &b : m_binWidgets) {
         if (b->parentWidget()->objectName() == name) {
             toDelete = b->parentWidget();
-            prev = m_binWidgets.takeAt(ix);
+            m_binWidgets.takeAt(ix);
             break;
         }
         ix++;
