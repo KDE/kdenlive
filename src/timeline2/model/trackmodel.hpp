@@ -320,6 +320,8 @@ protected:
     bool hasStartMix(int cid) const;
     /** @brief Returns true if this clip has a mix at end */
     bool hasEndMix(int cid) const;
+    /** @brief Returns the cid of the second partner or -1 if the given clip has no end mix */
+    int getSecondMixPartner(int cid) const;
     /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
     */
     int isOnCut(int cid);
