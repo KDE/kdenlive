@@ -53,6 +53,7 @@
         <file alias="preferred_effects.txt">../data/preferred_effects.txt</file>
         <file alias="kdenlive_renderprofiles.knsrc">../data/knewstuff/kdenlive_renderprofiles.knsrc</file>
         <file alias="kdenlive_titles.knsrc">../data/knewstuff/kdenlive_titles.knsrc</file>
+        <file alias="kdenlive_effects.knsrc">../data/knewstuff/kdenlive_effects.knsrc</file>
         <file alias="kdenlive_wipes.knsrc">../data/knewstuff/kdenlive_wipes.knsrc</file>
         <file alias="kdenlive_keyboardschemes.knsrc">../data/knewstuff/kdenlive_keyboardschemes.knsrc</file>
         <file alias="kdenlive_luts.knsrc">../data/knewstuff/kdenlive_luts.knsrc</file>

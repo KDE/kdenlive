@@ -31,6 +31,7 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
+    void downloadNewEffects();
     void reloadCustomEffectIx(const QModelIndex &index) override;
     void editCustomAsset(const QModelIndex &index) override;
     void exportCustomEffect(const QModelIndex &index);
@@ -74,6 +75,7 @@ public:
     Q_INVOKABLE void setFilterType(const QString &type) { q->setFilterType(type); }
     Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
     Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
+    Q_INVOKABLE void downloadNewEffects() { q->downloadNewEffects(); }
     bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 
     void setShowDescription(bool show)
