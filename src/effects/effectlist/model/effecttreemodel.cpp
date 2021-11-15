@@ -21,6 +21,7 @@
 EffectTreeModel::EffectTreeModel(QObject *parent)
     : AssetTreeModel(parent)
     , m_customCategory(nullptr)
+    , m_templateCategory(nullptr)
 {
 }
 
@@ -62,11 +63,13 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         miscCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
         audioCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Audio"), QStringLiteral("root")});
         self->m_customCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Custom"), QStringLiteral("root")});
+        self->m_templateCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Templates"), QStringLiteral("root")});
     } else {
         // Flat view
         miscCategory = self->rootItem;
         audioCategory = self->rootItem;
         self->m_customCategory = self->rootItem;
+        self->m_templateCategory = self->rootItem;
     }
 
     // We parse effects
@@ -83,6 +86,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
             targetCategory = self->m_customCategory;
+        }
+        if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
+            targetCategory = self->m_templateCategory;
         }
 
         // we create the data list corresponding to this profile

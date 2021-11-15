@@ -81,9 +81,17 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             }
             QString type = base.attribute(QStringLiteral("type"), QString());
             if (type == QLatin1String("customAudio")) {
-                result.type = AssetListType::AssetType::CustomAudio;
+                if (file_name.contains(QStringLiteral("effect-templates"))) {
+                    result.type = AssetListType::AssetType::TemplateAudio;
+                } else {
+                    result.type = AssetListType::AssetType::CustomAudio;
+                }
             } else {
-                result.type = AssetListType::AssetType::Custom;
+                if (file_name.contains(QStringLiteral("effect-templates"))) {
+                    result.type = AssetListType::AssetType::Template;
+                } else {
+                    result.type = AssetListType::AssetType::Custom;
+                }
             }
             result.id = base.attribute(QStringLiteral("id"), QString());
             if (result.id.isEmpty()) {
@@ -165,7 +173,9 @@ std::unique_ptr<EffectsRepository> &EffectsRepository::get()
 
 QStringList EffectsRepository::assetDirs() const
 {
-    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
+    dirs.append(QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory));
+    return dirs;
 }
 
 void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
@@ -394,7 +404,7 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
 {
     if (m_assets.count(assetId) > 0) {
         AssetListType::AssetType type = m_assets.at(assetId).type;
-        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio ;
     }
     return false;
 }

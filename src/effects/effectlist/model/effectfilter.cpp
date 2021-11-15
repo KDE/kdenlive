@@ -44,7 +44,7 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
         return item->dataColumn(AssetTreeModel::preferredCol).toBool();
     }
     if (m_type_value == AssetListType::AssetType::Custom) {
-        return itemType == m_type_value || itemType == AssetListType::AssetType::CustomAudio;
+        return itemType == m_type_value || itemType == AssetListType::AssetType::CustomAudio || itemType == AssetListType::Template || itemType == AssetListType::TemplateAudio;
     }
     return itemType == m_type_value;
 }
