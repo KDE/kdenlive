@@ -241,6 +241,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_recManager = new RecManager(this);
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
+        // Show timeline clip usage
+        connect(pCore.get(), &Core::clipInstanceResized, this, [this](const QString &binId) {
+            if (m_controller && activeClipId() == binId) {
+                m_controller->checkClipBounds();
+            }
+        });
 
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
@@ -1650,6 +1656,10 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                    SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+        if (m_controller->hasLimitedDuration()) {
+            disconnect(m_controller.get(), &ProjectClip::boundsChanged, m_glMonitor->getControllerProxy(), &MonitorProxy::updateClipBounds);
+            disconnect(m_controller.get(), &ProjectClip::registeredClipChanged, m_controller.get(), &ProjectClip::checkClipBounds);
+        }
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
@@ -1704,6 +1714,10 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             //m_audioChannels->menuAction()->setVisible(false);
         }
         connect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
+        if (m_controller->hasLimitedDuration()) {
+            connect(m_controller.get(), &ProjectClip::boundsChanged, m_glMonitor->getControllerProxy(), &MonitorProxy::updateClipBounds);
+            connect(m_controller.get(), &ProjectClip::registeredClipChanged, m_controller.get(), &ProjectClip::checkClipBounds);
+        }
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this,
                 SLOT(checkOverlay()));
         connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(checkOverlay()));

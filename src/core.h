@@ -360,6 +360,8 @@ signals:
     void monitorProfileUpdated();
     /** @brief Color theme changed, process refresh */
     void updatePalette();
+    /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
+    void clipInstanceResized(const QString &binId);
 };
 
 #endif

@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFuture>
 #include <QMutex>
+#include <QTimer>
 #include <memory>
 
 class ClipPropertiesController;
@@ -231,6 +232,8 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
+    /** @brief Refresh zones of insertion in timeline. */
+    void refreshBounds();
 
 protected:
     friend class ClipModel;
@@ -287,6 +290,8 @@ public slots:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer);
     
     void importJsonMarkers(const QString &json);
+    /** @brief Refresh zones of insertion in timeline. */
+    void checkClipBounds();
 
 private:
     /** @brief Generate and store file hash if not available. */
@@ -303,6 +308,7 @@ private:
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
     uint m_audioCount;
+    QTimer m_boundaryTimer;
 
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */
@@ -321,6 +327,8 @@ signals:
     void loadPropertiesPanel();
     void audioThumbReady();
     void updateStreamInfo(int ix);
+    void boundsChanged(QVector <QPoint>bounds);
+    void registeredClipChanged();
 };
 
 #endif

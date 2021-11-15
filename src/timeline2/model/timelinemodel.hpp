@@ -280,6 +280,10 @@ public:
        @param clipId Id of the clip to test
     */
     int getClipIn(int clipId) const;
+    /** @brief Returns the in and playtime of a clip
+       @param clipId Id of the clip to test
+    */
+    QPoint getClipInDuration(int clipId) const;
 
     /** @brief Returns the clip state (audio/video only)
      */

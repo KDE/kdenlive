@@ -96,6 +96,12 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     }
     // Make sure we have a hash for this clip
     hash();
+
+    if (m_hasLimitedDuration) {
+        connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
+        m_boundaryTimer.setSingleShot(true);
+        m_boundaryTimer.setInterval(500);
+    }
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this, [&]() {
         setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
     });
@@ -547,6 +553,13 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     m_videoProducers.clear();
     m_timewarpProducers.clear();
     emit refreshPropertiesPanel();
+    if (m_hasLimitedDuration) {
+        connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
+        m_boundaryTimer.setSingleShot(true);
+        m_boundaryTimer.setInterval(500);
+    } else {
+        disconnect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
+    }
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
     bool generateProxy = false;
@@ -1670,11 +1683,30 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     }
     m_registeredClips[clipId] = std::move(timeline);
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
+    emit registeredClipChanged();
+}
+
+void ProjectClip::checkClipBounds()
+{
+    m_boundaryTimer.start();
+}
+
+void ProjectClip::refreshBounds()
+{
+    QVector <QPoint> boundaries;
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            QPoint point = ptr->getClipInDuration(registeredClip.first);
+            if (!boundaries.contains(point)) {
+                boundaries << point;
+            }
+        }
+    }
+    emit boundsChanged(boundaries);
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
 {
-    qDebug() << " ** * DEREGISTERING TIMELINE CLIP: " << clipId;
     Q_ASSERT(m_registeredClips.count(clipId) > 0);
     if (m_hasAudio && audioClip) {
         m_audioCount--;
@@ -1689,13 +1721,14 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
         m_audioProducers.erase(clipId);
     }
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
+    emit registeredClipChanged();
 }
 
 QList<int> ProjectClip::timelineInstances() const
 {
     QList<int> ids;
-    for (const auto &m_registeredClip : m_registeredClips) {
-        ids.push_back(m_registeredClip.first);
+    for (const auto &registeredClip : m_registeredClips) {
+        ids.push_back(registeredClip.first);
     }
     return ids;
 }

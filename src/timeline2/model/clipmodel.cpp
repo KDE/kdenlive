@@ -248,6 +248,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         }
                     }
                 }
+                if (logUndo && !m_endlessResize) {
+                    emit pCore->clipInstanceResized(m_binClipId);
+                }
             }
             return true;
         }
@@ -292,6 +295,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                                 }
                             }
                         }
+                    }
+                    if (logUndo && !m_endlessResize) {
+                        emit pCore->clipInstanceResized(m_binClipId);
                     }
                 }
                 return true;
