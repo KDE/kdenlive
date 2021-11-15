@@ -1,0 +1,51 @@
+<effectgroup id="Shut-off" parentIn="1">
+    <effect id="frei0r.lenscorrection">
+        <property name="brightness">1=0;10=0</property>
+        <property name="correctionnearedges">1=0.5;10=1</property>
+        <property name="correctionnearcenter">1=0.5;10=1</property>
+        <property name="kdenlive:collapsed">1</property>
+        <property name="ycenter">1=0.5;10=0.5</property>
+        <property name="xcenter">1=0.5;10=0.5</property>
+    </effect>
+    <effect id="frei0r.rgbsplit0r">
+        <property name="kdenlive:collapsed">1</property>
+        <property name="1">1=0.5;10=0.472843</property>
+        <property name="0">1=0.5;10=0.769968</property>
+    </effect>
+    <effect id="frei0r.levels">
+        <property name="Histogram position">0.3</property>
+        <property name="kdenlive:collapsed">1</property>
+        <property name="Show histogram">0</property>
+        <property name="White output">1=1;10=1;12=1</property>
+        <property name="Black output">1=0;10=0;12=0</property>
+        <property name="Gamma">1=0.25;10=0.2455;12=0.485</property>
+        <property name="Input white level">1=1;10=0.075;12=0.032</property>
+        <property name="Input black level">1=0;10=0;12=0</property>
+        <property name="Channel">0.3</property>
+    </effect>
+    <effect id="boxblur">
+        <property name="blur">1=0;10=15</property>
+        <property name="kdenlive:collapsed">1</property>
+        <property name="vert">1=1;10=1</property>
+        <property name="hori">1=1;10=1</property>
+    </effect>
+    <effect id="frei0r.scanline0r"/>
+    <effect id="qtblend">
+        <property name="rotate_center">1</property>
+        <property name="kdenlive:collapsed">1</property>
+        <property name="distort">1</property>
+        <property name="compositing">0</property>
+        <property name="rotation">1=0;10=0;14=0;17=0;20=0;21=0;22=0</property>
+        <property name="rect">
+        1=0 0 1920 1080 1.000000;10=-1527 -861 4974 2798 1.000000;14=452 407 1010 266 1.000000;17=-290 534 2500 12 1.000000;20=935 537 50 5 1.000000;21=957 537 5 5 1.000000;22=935 537 1 1 0.000000
+        </property>
+    </effect>
+    <effect id="frei0r.softglow">
+        <property name="kdenlive:collapsed">1</property>
+        <property name="blurblend">1=0;10=0;15=0.329073;16=0.329073;18=0.329073</property>
+        <property name="sharpness">1=0;10=0;15=0.507987;16=0.507987;18=0.507987</property>
+        <property name="brightness">1=0;10=0;15=0.728435;16=0.728435;18=0.728435</property>
+        <property name="blur">1=0;10=0;15=0.0670927;16=0.02;18=0</property>
+    </effect>
+    <description>CRT monitor shut off effect</description>
+</effectgroup>
