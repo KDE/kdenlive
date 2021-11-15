@@ -440,7 +440,7 @@ QByteArray MonitorProxy::getUuid() const
 
 void MonitorProxy::updateClipBounds(QVector <QPoint>bounds)
 {
-    if (bounds == m_clipBounds) {
+    if (bounds.size() == m_boundsCount) {
         // Enforce refresh, in/out points may have changed
         m_boundsCount = 0;
         emit clipBoundsChanged();

@@ -96,11 +96,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     }
     // Make sure we have a hash for this clip
     hash();
-
+    m_boundaryTimer.setSingleShot(true);
+    m_boundaryTimer.setInterval(500);
     if (m_hasLimitedDuration) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
-        m_boundaryTimer.setSingleShot(true);
-        m_boundaryTimer.setInterval(500);
     }
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this, [&]() {
         setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
@@ -162,6 +161,8 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     } else {
         m_name = i18n("Untitled");
     }
+    m_boundaryTimer.setSingleShot(true);
+    m_boundaryTimer.setInterval(500);
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
 }
 
@@ -555,8 +556,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     emit refreshPropertiesPanel();
     if (m_hasLimitedDuration) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
-        m_boundaryTimer.setSingleShot(true);
-        m_boundaryTimer.setInterval(500);
     } else {
         disconnect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
     }
