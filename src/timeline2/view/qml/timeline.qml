@@ -359,6 +359,13 @@ Rectangle {
     Keys.onUpPressed: {
         root.moveSelectedTrack(-1)
     }
+    Keys.onShortcutOverride: event.accepted = focus && event.key === Qt.Key_F2
+    Keys.onPressed: {
+        if (event.key == Qt.Key_F2) {
+            Logic.getTrackHeaderById(timeline.activeTrack).editName()
+            event.accepted = true;
+        }
+    }
 
     property int activeTool: ProjectTool.SelectTool
     property real baseUnit: Math.max(12, fontMetrics.font.pixelSize)
