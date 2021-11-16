@@ -146,7 +146,11 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
         custom_folder->setChecked(KdenliveSettings::customprojectfolder());
-        project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        if (!KdenliveSettings::defaultprojectfolder().isEmpty()) {
+            project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+        } else {
+            project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        }
         same_folder->setChecked(KdenliveSettings::sameprojectfolder());
     }
 

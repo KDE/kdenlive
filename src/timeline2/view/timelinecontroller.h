@@ -99,8 +99,10 @@ public:
         @param type is the type of the object (clip or composition)
         @param select: true if the object should be selected and false if it should be deselected
         @param addToCurrent: if true, the object will be added to the new selection
+        @param showErrorMsg inform the user that no item was selected
+        @return false if no item was found under timeline cursor in active track
     */
-    void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
+    bool selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false, bool showErrorMsg = true);
 
     /** @brief Select all timeline items
      */
@@ -461,7 +463,7 @@ public:
     void switchTargetTrack();
 
     const QString getTrackNameFromIndex(int trackIndex);
-    /** @brief Seeks to selected clip start / end
+    /** @brief Seeks to selected clip start / end or, if none is selected, to the start / end of the clip under the cursor
      */
     void seekCurrentClip(bool seekToEnd = false);
     /** @brief Seeks to a clip start (or end) based on it's clip id

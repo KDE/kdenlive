@@ -1162,6 +1162,24 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
+QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath)
+{
+    QMap<QString, QString> existingProxies;
+    QList<std::shared_ptr<ProjectClip>> clipList;
+    for (auto &id : ids) {
+        auto clip = pCore->projectItemModel()->getClipByBinID(id);
+        QMap<QString, QString> newProps;
+        if (!proxy) {
+            newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+            existingProxies.insert(id, clip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
+        } else if (proxyPath.contains(id)) {
+            newProps.insert(QStringLiteral("kdenlive:proxy"), proxyPath.value(id));
+        }
+        clip->setProperties(newProps);
+    }
+    return existingProxies;
+}
+
 void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList, bool force, QUndoCommand *masterCommand)
 {
     if (clipList.isEmpty()) {

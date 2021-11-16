@@ -228,6 +228,7 @@ public slots:
      * 
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
+    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath = QMap<QString, QString>());
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.

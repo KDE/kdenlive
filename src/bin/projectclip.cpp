@@ -1273,6 +1273,11 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             } else {
                 reload = true;
                 refreshOnly = false;
+                // Restore original url
+                QString resource = getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+                if (!resource.isEmpty()) {
+                    setProducerProperty(QStringLiteral("resource"), resource);
+                }
             }
         } else {
             // A proxy was requested, make sure to keep original url

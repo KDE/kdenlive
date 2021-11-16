@@ -58,6 +58,16 @@ function getTrackIndexFromId(id) {
     return i
 }
 
+function getTrackHeaderById(id) {
+    var i = 0;
+    for (; i < trackHeaderRepeater.count; i++) {
+        if (trackHeaderRepeater.itemAt(i).trackId === id) {
+            return trackHeaderRepeater.itemAt(i);
+        }
+    }
+    return 0
+}
+
 function getTrackById(id) {
     var i = 0;
     for (; i < tracksRepeater.count; i++) {

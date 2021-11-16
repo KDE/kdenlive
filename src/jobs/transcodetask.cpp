@@ -58,8 +58,27 @@ void TranscodeTask::run()
     }
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
-    const QString source = binClip->url();
     ClipType::ProducerType type = binClip->clipType();
+    QString source;
+    QTemporaryFile src;
+    if (type == ClipType::Text) {
+        src.setFileTemplate(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+        if (src.open()) {
+            source = src.fileName();
+            QDomDocument doc;
+            binClip->getProducerXML(doc, false, true);
+            QTextStream out(&src);
+            out.setCodec("UTF-8");
+            out << doc.toString();
+            src.close();
+        }
+    } else {
+        source = binClip->url();
+    }
+    if (source.isEmpty()) {
+        return;
+    }
+
     QString transcoderExt = m_transcodeParams.section(QLatin1String("%1"), 1).section(QLatin1Char(' '), 0, 0);
     if (transcoderExt.isEmpty()) {
         qDebug()<<"// INVALID TRANSCODING PROFILE";
@@ -68,8 +87,15 @@ void TranscodeTask::run()
         return;
     }
     QFileInfo finfo(source);
-    QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
-    QDir dir = finfo.absoluteDir();
+    QString fileName;
+    QDir dir;
+    if (type == ClipType::Text) {
+        fileName = binClip->name();
+        dir = QDir(pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
+    } else {
+        fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
+        dir = finfo.absoluteDir();
+    }
     int fileCount = 1;
     QString num = QString::number(fileCount).rightJustified(4, '0', false);
     QString path = fileName + num + transcoderExt;
@@ -82,7 +108,7 @@ void TranscodeTask::run()
     destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
 
     bool result;
-    if (type == ClipType::Playlist || type == ClipType::SlideShow) {
+    if (type == ClipType::Playlist || type == ClipType::SlideShow || type == ClipType::Text) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         // insert transcoded filename
