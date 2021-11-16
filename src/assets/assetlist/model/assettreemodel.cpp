@@ -41,6 +41,18 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     return item->dataColumn(AssetTreeModel::nameCol).toString();
 }
 
+QString AssetTreeModel::getAssetId(const QModelIndex &index) const
+{
+    if (!index.isValid()) {
+        return QString();
+    }
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
+    if (item->depth() == 1) {
+        return QString();
+    }
+    return item->dataColumn(AssetTreeModel::idCol).toString();
+}
+
 bool AssetTreeModel::isFavorite(const QModelIndex &index) const
 {
     if (!index.isValid()) {

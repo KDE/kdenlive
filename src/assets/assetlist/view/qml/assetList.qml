@@ -341,6 +341,14 @@ Rectangle {
                         assetlist.editCustomEffectInfo(sel.currentIndex)
                     }
                 }
+                MenuItem {
+                    id: exportMenu
+                    text: i18n("Export XML…")
+                    visible: isEffectList && assetContextMenu.isCustom
+                    onTriggered: {
+                        assetlist.exportCustomEffect(sel.currentIndex)
+                    }
+                }
             }
 
             TableViewColumn { role: "identifier"; title: i18n("Name"); }

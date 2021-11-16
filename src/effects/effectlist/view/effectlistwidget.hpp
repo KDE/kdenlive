@@ -33,6 +33,7 @@ public:
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
     void reloadCustomEffectIx(const QModelIndex &index) override;
     void editCustomAsset(const QModelIndex &index) override;
+    void exportCustomEffect(const QModelIndex &index);
 public slots:
     void reloadCustomEffect(const QString &path);
 
@@ -66,6 +67,7 @@ public:
     Q_INVOKABLE void deleteCustomEffect(const QModelIndex &index) { q->deleteCustomEffect(index); }
     Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(true, index); }
     Q_INVOKABLE void editCustomEffectInfo(const QModelIndex &index){ q->editCustomAsset(index); }
+    Q_INVOKABLE void exportCustomEffect(const QModelIndex &index){ q->exportCustomEffect(index); }
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 
     Q_INVOKABLE void activate(const QModelIndex &ix) { q->activate(ix); }

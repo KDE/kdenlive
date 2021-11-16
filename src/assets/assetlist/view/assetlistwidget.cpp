@@ -50,6 +50,11 @@ QString AssetListWidget::getName(const QModelIndex &index) const
     return m_model->getName(m_proxyModel->mapToSource(index));
 }
 
+QString AssetListWidget::getAssetId(const QModelIndex &index) const
+{
+    return m_model->getName(m_proxyModel->mapToSource(index));
+}
+
 bool AssetListWidget::isFavorite(const QModelIndex &index) const
 {
     return m_model->isFavorite(m_proxyModel->mapToSource(index));

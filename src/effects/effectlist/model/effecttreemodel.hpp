@@ -30,6 +30,7 @@ public:
 
 protected:
     std::shared_ptr<TreeItem> m_customCategory;
+    std::shared_ptr<TreeItem> m_templateCategory;
 };
 
 #endif

@@ -309,8 +309,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
-        AssetListType::AssetType type = EffectsRepository::get()->getType(effectId);
-        bool isAudioEffect = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+        bool isAudioEffect = EffectsRepository::get()->isAudioEffect(effectId);
         if (isAudioEffect) {
             if (state != PlaylistState::AudioOnly) {
                 continue;

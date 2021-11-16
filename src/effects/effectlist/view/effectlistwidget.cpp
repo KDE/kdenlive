@@ -18,6 +18,10 @@
 #include <QDialogButtonBox>
 #include <QLineEdit>
 #include <QTextEdit>
+#include <QFileDialog>
+#include <KIO/FileCopyJob>
+#include <KRecentDirs>
+#include <KMessageBox>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -121,5 +125,27 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
            return;
         }
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
+    }
+}
+
+void EffectListWidget::exportCustomEffect(const QModelIndex &index) {
+    QString id = getAssetId(index);
+    if (id.isEmpty()) {
+        return;
+    }
+
+    QString filter = QString("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
+    QFileDialog dialog(this, i18n("Export Custom Effect"));
+    QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveExportCustomEffect"));
+    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(id));
+    startFolder.append(source.fileName());
+    QString filename = QFileDialog::getSaveFileName(this, i18n("Export Custom Effect"), startFolder, filter);
+    QUrl target = QUrl::fromLocalFile(filename);
+    if (source.isValid() && target.isValid()) {
+        KRecentDirs::add(QStringLiteral(":KdenliveExportCustomEffect"), target.adjusted(QUrl::RemoveFilename).toLocalFile());
+        KIO::FileCopyJob *copyjob = KIO::file_copy(source, target);
+        if (!copyjob->exec()) {
+            KMessageBox::sorry(this, i18n("Unable to write to file %1", target.toLocalFile()));
+        }
     }
 }

@@ -222,8 +222,7 @@ bool EffectItemModel::hasForcedInOut() const
 
 bool EffectItemModel::isAudio() const
 {
-    AssetListType::AssetType type = EffectsRepository::get()->getType(m_assetId);
-    return  type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+    return EffectsRepository::get()->isAudioEffect(m_assetId);
 }
 
 bool EffectItemModel::isUnique() const
