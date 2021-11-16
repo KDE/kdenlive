@@ -249,7 +249,7 @@
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
-  <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
+  <url type="help">https://docs.kdenlive.org</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
