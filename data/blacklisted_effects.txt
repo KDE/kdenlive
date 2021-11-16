@@ -31,7 +31,6 @@ resize
 resample
 # mono
 transition
-typewriter
 
 # DEPRECATED
 videostab
@@ -220,6 +219,7 @@ avfilter.fspp
 # frei0r.vertigo
 # rescale
 # spot_remover
+# typewriter #don't blacklist (this is independent from the titler's build in typewriter effect)
 
 # NOT WORKING, OR  NOT USEFUL ON THE TIMELINE OR HEAVY
 avfilter.ass

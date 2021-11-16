@@ -2377,6 +2377,11 @@ bool TrackModel::hasEndMix(int cid) const
     return m_mixList.contains(cid);
 }
 
+int TrackModel::getSecondMixPartner(int cid) const
+{
+    return hasEndMix(cid) ? m_mixList.find(cid).value() : -1;
+}
+
 QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
 {
     QDomElement container = document.createElement(QStringLiteral("mix"));

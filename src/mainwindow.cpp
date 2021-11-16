@@ -2957,7 +2957,10 @@ void MainWindow::slotSelectTimelineClip()
 
 void MainWindow::slotSelectTimelineTransition()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true);
+    bool res = getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true, false, false);
+    if (!res) {
+        getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineMix, true);
+    }
 }
 
 void MainWindow::slotDeselectTimelineClip()
@@ -2967,7 +2970,10 @@ void MainWindow::slotDeselectTimelineClip()
 
 void MainWindow::slotDeselectTimelineTransition()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, false);
+    bool res = getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, false, false, false);
+    if (!res) {
+        getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineMix, false);
+    }
 }
 
 void MainWindow::slotSelectAddTimelineClip()

@@ -27,6 +27,12 @@ Rectangle {
     border.width: 1
     border.color: root.frameColor
 
+    function editName() {
+        nameEdit.visible = true
+        nameEdit.focus = true
+        nameEdit.selectAll()
+    }
+
     onIsLockedChanged: {
         flashLock.restart();
     }
@@ -521,11 +527,7 @@ Rectangle {
                     hoverEnabled: true
                     propagateComposedEvents: true
                     cursorShape: Qt.IBeamCursor
-                    onDoubleClicked: {
-                        nameEdit.visible = true
-                        nameEdit.focus = true
-                        nameEdit.selectAll()
-                    }
+                    onDoubleClicked: editName()
                     onClicked: {
                         timeline.showTrackAsset(trackId)
                         timeline.activeTrack = trackId
@@ -573,6 +575,7 @@ Rectangle {
                     }*/
                     onEditingFinished: {
                         controller.setTrackName(trackId, text)
+                        tracksArea.focus = true
                         visible = false
                     }
                 }

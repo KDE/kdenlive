@@ -279,18 +279,53 @@ int TimelineController::selectedTrack() const
     return selected_tracks.front().second;
 }
 
-void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
+bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
 {
     int currentClip = -1;
     if (type == ObjectType::TimelineClip) {
         currentClip = m_activeTrack == -2 ? m_model->getSubtitleByPosition(pCore->getTimelinePosition()) : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
     } else if (type == ObjectType::TimelineComposition) {
         currentClip =  m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
+    } else if (type == ObjectType::TimelineMix) {
+        if (m_activeTrack >= 0) {
+            currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
+        }
+        if (currentClip > -1) {
+            if (m_model->hasClipEndMix(currentClip)) {
+                int mixPartner = m_model->getTrackById_const(m_activeTrack)->getSecondMixPartner(currentClip);
+                int clipEnd = m_model->getClipPosition(currentClip) + m_model->getClipPlaytime(currentClip);
+                int mixStart = clipEnd - m_model->getMixDuration(mixPartner);
+                if (mixStart < pCore->getTimelinePosition() && pCore->getTimelinePosition() < clipEnd) {
+                    if (select) {
+                        m_model->requestMixSelection(mixPartner);
+                        return true;
+                    } else if (selectedMix() == mixPartner) {
+                        m_model->requestClearSelection();
+                        return true;
+                    }
+                }
+            }
+            int delta = pCore->getTimelinePosition() - m_model->getClipPosition(currentClip);
+            if (m_model->getMixDuration(currentClip) >= delta) {
+                if (select) {
+                    m_model->requestMixSelection(currentClip);
+                    return true;
+                } else if (selectedMix() == currentClip) {
+                    m_model->requestClearSelection();
+                    return true;
+                }
+                return true;
+            } else {
+                currentClip = -1;
+            }
+         }
     }
 
     if (currentClip == -1) {
-        pCore->displayMessage(i18n("No item under timeline cursor in active track"), ErrorMessage, 500);
-        return;
+        if (showErrorMsg) {
+            pCore->displayMessage(i18n("No item under timeline cursor in active track"), ErrorMessage, 500);
+        }
+        return false;
     }
     if (!select) {
         m_model->requestRemoveFromSelection(currentClip);
@@ -302,6 +337,7 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
             showAsset(currentClip);
         }
     }
+    return true;
 }
 
 QList<int> TimelineController::selection() const
@@ -1709,13 +1745,21 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
     const auto selection = m_model->getCurrentSelection();
+    int cid = -1;
     if (!selection.empty()) {
-        int cid = *selection.begin();
-        int start = m_model->getItemPosition(cid);
-        if (seekToEnd) {
-            start += m_model->getItemPlaytime(cid);
+        cid = *selection.begin();
+    } else {
+        int cursorPos = pCore->getTimelinePosition();
+        cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+        if (cid < 0) {
+            /* If the cursor is at the clip end it is one frame after the clip,
+             * make it possible to jump to the clip start in that situation too
+             */
+            cid = m_model->getClipByPosition(m_activeTrack, cursorPos - 1);
         }
-        setPosition(start);
+    }
+    if (cid > -1) {
+        seekToClip(cid, seekToEnd);
     }
 }
 
