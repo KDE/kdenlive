@@ -463,7 +463,7 @@ public:
     void switchTargetTrack();
 
     const QString getTrackNameFromIndex(int trackIndex);
-    /** @brief Seeks to selected clip start / end
+    /** @brief Seeks to selected clip start / end or, if none is selected, to the start / end of the clip under the cursor
      */
     void seekCurrentClip(bool seekToEnd = false);
     /** @brief Seeks to a clip start (or end) based on it's clip id

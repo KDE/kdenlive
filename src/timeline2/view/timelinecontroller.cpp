@@ -1745,13 +1745,21 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
     const auto selection = m_model->getCurrentSelection();
+    int cid = -1;
     if (!selection.empty()) {
-        int cid = *selection.begin();
-        int start = m_model->getItemPosition(cid);
-        if (seekToEnd) {
-            start += m_model->getItemPlaytime(cid);
+        cid = *selection.begin();
+    } else {
+        int cursorPos = pCore->getTimelinePosition();
+        cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+        if (cid < 0) {
+            /* If the cursor is at the clip end it is one frame after the clip,
+             * make it possible to jump to the clip start in that situation too
+             */
+            cid = m_model->getClipByPosition(m_activeTrack, cursorPos - 1);
         }
-        setPosition(start);
+    }
+    if (cid > -1) {
+        seekToClip(cid, seekToEnd);
     }
 }
 
