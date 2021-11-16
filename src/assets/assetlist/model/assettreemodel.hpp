@@ -24,8 +24,6 @@ public:
 
     /** @brief Helper function to retrieve name */
     QString getName(const QModelIndex &index) const;
-    /** @brief Helper function to retrieve asset id */
-    QString getAssetId(const QModelIndex &index) const;
     /** @brief  Helper function to retrieve description */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
     /** @brief Helper function to retrieve if an effect is categorized as favorite */

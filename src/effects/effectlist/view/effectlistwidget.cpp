@@ -136,18 +136,19 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
 }
 
 void EffectListWidget::exportCustomEffect(const QModelIndex &index) {
-    QString id = getAssetId(index);
-    if (id.isEmpty()) {
+    QString name = getName(index);
+    if (name.isEmpty()) {
         return;
     }
 
     QString filter = QString("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
-    QFileDialog dialog(this, i18n("Export Custom Effect"));
     QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveExportCustomEffect"));
-    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(id));
+    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(name));
     startFolder.append(source.fileName());
+
     QString filename = QFileDialog::getSaveFileName(this, i18n("Export Custom Effect"), startFolder, filter);
     QUrl target = QUrl::fromLocalFile(filename);
+
     if (source.isValid() && target.isValid()) {
         KRecentDirs::add(QStringLiteral(":KdenliveExportCustomEffect"), target.adjusted(QUrl::RemoveFilename).toLocalFile());
         KIO::FileCopyJob *copyjob = KIO::file_copy(source, target);

@@ -31,9 +31,6 @@ public:
     /** @brief Returns the name of the asset given its model index */
     QString getName(const QModelIndex &index) const;
 
-    /** @brief Returns the asset id of the asset given its model index */
-    QString getAssetId(const QModelIndex &index) const;
-
     /** @brief Returns true if this effect belongs to favorites */
     bool isFavorite(const QModelIndex &index) const;
 
