@@ -22,11 +22,13 @@ public:
 
     enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole };
 
-    // Helper function to retrieve name
+    /** @brief Helper function to retrieve name */
     QString getName(const QModelIndex &index) const;
-    // Helper function to retrieve description
+    /** @brief Helper function to retrieve asset id */
+    QString getAssetId(const QModelIndex &index) const;
+    /** @brief  Helper function to retrieve description */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
-    // Helper function to retrieve if an effect is categorized as favorite
+    /** @brief Helper function to retrieve if an effect is categorized as favorite */
     bool isFavorite(const QModelIndex &index) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
