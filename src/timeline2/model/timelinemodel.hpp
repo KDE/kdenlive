@@ -439,6 +439,9 @@ public:
     /**  @brief Returns a list of the master effects zones
      */
     QVariantList getMasterEffectZones() const;
+    /**  @brief Returns a list of proxied clips at position pos
+     */
+    QStringList getProxiesAt(int position);
 
 protected:
     /** @brief Creates a new clip instance without inserting it.

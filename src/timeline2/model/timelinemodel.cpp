@@ -6242,3 +6242,42 @@ const QSize TimelineModel::getCompositionSizeOnTrack(const ObjectId &id)
     }
     return QSize();
 }
+
+QStringList TimelineModel::getProxiesAt(int position)
+{
+    QStringList done;
+    QStringList proxied;
+    auto it = m_allTracks.begin();
+    while (it != m_allTracks.end()) {
+        if ((*it)->isAudioTrack()) {
+            ++it;
+            continue;
+        }
+        int clip1 = (*it)->getClipByPosition(position, 0);
+        int clip2 = (*it)->getClipByPosition(position, 1);
+        if (clip1 > -1) {
+            // Check if proxied
+            const QString binId = m_allClips[clip1]->binId();
+            if (!done.contains(binId)) {
+                done << binId;
+                std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
+                if (binClip->hasProxy()) {
+                    proxied << binId;
+                }
+            }
+        }
+        if (clip2 > -1) {
+            // Check if proxied
+            const QString binId = m_allClips[clip2]->binId();
+            if (!done.contains(binId)) {
+                done << binId;
+                std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
+                if (binClip->hasProxy()) {
+                    proxied << binId;
+                }
+            }
+        }
+        ++it;
+    }
+    return proxied;
+}

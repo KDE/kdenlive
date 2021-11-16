@@ -223,6 +223,7 @@ private:
     double m_displayedFps;
     int m_speedIndex;
     QMetaObject::Connection m_switchConnection;
+    QMetaObject::Connection m_captureConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());

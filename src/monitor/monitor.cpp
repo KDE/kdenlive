@@ -1257,7 +1257,41 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                                                                         m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1,
                                                                         b != nullptr ? b->isChecked() : false);
             } else {
-                frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
+                if (m_id == Kdenlive::ProjectMonitor) {
+                    // Check if we have proxied clips at position
+                    QStringList proxiedClips = pCore->window()->getCurrentTimeline()->model()->getProxiesAt(m_glMonitor->getCurrentPos());
+                    // Temporarily disable proxy on those clips
+                    QMap<QString, QString> existingProxies;
+                    if (!proxiedClips.isEmpty()) {
+                        existingProxies = pCore->currentDoc()->proxyClipsById(proxiedClips, false);
+                    }
+                    disconnect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+                    bool analysisStatus = m_glMonitor->sendFrameForAnalysis;
+                    m_glMonitor->sendFrameForAnalysis = true;
+                    if (m_captureConnection) {
+                        QObject::disconnect( m_captureConnection );
+                    }
+                    m_captureConnection = connect(m_glMonitor, &GLWidget::analyseFrame, [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus](const QImage &img) {
+                        m_glMonitor->sendFrameForAnalysis = analysisStatus;
+                        m_glMonitor->releaseAnalyse();
+                        img.save(selectedFile);
+                        // Re-enable proxy on those clips
+                        if (!proxiedClips.isEmpty()) {
+                            pCore->currentDoc()->proxyClipsById(proxiedClips, true, existingProxies);
+                        }
+                        QObject::disconnect( m_captureConnection );
+                        connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+                        KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
+                        if (addToProject) {
+                            QString folderInfo = pCore->bin()->getCurrentFolder();
+                            pCore->bin()->droppedUrls(QList<QUrl> {QUrl::fromLocalFile(selectedFile)}, folderInfo);
+                        }
+                    });
+                    refreshMonitor();
+                    return;
+                } else {
+                    frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
+                }
             }
             frame.save(selectedFile);
             if (b != nullptr) {
