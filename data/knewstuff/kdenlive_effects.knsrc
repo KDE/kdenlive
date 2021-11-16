@@ -1,0 +1,7 @@
+[KNewStuff3]
+Name=Kdenlive Effect Templates
+Name[de]=Kdenlive Effekt Vorlagen
+ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
+Categories=Kdenlive Effect Templates
+TargetDir=kdenlive/effect-templates
+Uncompress=archive

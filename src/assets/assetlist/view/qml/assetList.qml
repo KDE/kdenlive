@@ -120,6 +120,15 @@ Rectangle {
                     assetlist.downloadNewLumas()
                 }
             }
+            ToolButton {
+                id: downloadEffecs
+                visible: isEffectList
+                iconName: "edit-download"
+                tooltip: i18n("Download New Effects...")
+                onClicked: {
+                    assetlist.downloadNewEffects()
+                }
+            }
             Rectangle {
                 //This is a spacer
                 Layout.fillHeight: false

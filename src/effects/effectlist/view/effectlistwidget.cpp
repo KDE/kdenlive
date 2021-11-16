@@ -95,6 +95,13 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
     m_proxyModel->sort(0, Qt::AscendingOrder);
 }
 
+void EffectListWidget::downloadNewEffects()
+{
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_effects.knsrc")) > 0) {
+        // reloadCustomEffect();
+    }
+}
+
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     m_model->reloadAssetMenu(effectsMenu, effectActions);
