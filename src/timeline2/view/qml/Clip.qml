@@ -483,8 +483,8 @@ Rectangle {
                         width: 1
                         height: container.height
                         x: clipRoot.speed < 0
-                           ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width
-                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint) * timeScale - clipRoot.border.width;
+                           ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width
+                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -504,7 +504,7 @@ Rectangle {
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                                                               ? (clipRoot.maxDuration - clipRoot.switchedInPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
+                                                                               ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
                                                                                : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint))
                         }
                     }
