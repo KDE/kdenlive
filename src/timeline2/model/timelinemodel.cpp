@@ -2962,7 +2962,7 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
 
 bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
 {
-    if (pos >= getTrackById_const(tid)->trackDuration() - 1) {
+    if (pos > getTrackById_const(tid)->trackDuration() - 1) {
         return true;
     }
     return getTrackById_const(tid)->isBlankAt(pos, playlist);
@@ -5925,6 +5925,7 @@ bool TimelineModel::resizeStartMix(int cid, int duration, bool singleResize)
         if (mixData.first.firstClipId > -1) {
             int clipToResize = mixData.first.firstClipId;
             Q_ASSERT(isClip(clipToResize));
+            duration = qMin(duration, m_allClips.at(cid)->getPlaytime() - 1);
             int updatedDuration = m_allClips.at(cid)->getPosition() + duration - m_allClips[clipToResize]->getPosition();
             int result = requestItemResize(clipToResize, updatedDuration, true, true, 0, singleResize);
             return result > -1;
@@ -5999,7 +6000,16 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
             // The mix cut position shoud never change through a resize operation
             int cutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getMixCutPosition();
             int maxLengthLeft = m_allClips.at(clipToResize)->getMaxDuration();
+            // Maximum space for expanding the right clip part
             int leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips.at(clipToResize)->getOut()) : -1;
+            // Maximum space available on the right clip
+            int availableLeft = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - (m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime());
+            if (leftMax == -1) {
+                leftMax = availableLeft;
+            } else {
+                leftMax = qMin(leftMax, availableLeft);
+            }
+
             int maxLengthRight = m_allClips.at(cid)->getMaxDuration();
             int rightMax = maxLengthRight > -1 ? (m_allClips.at(cid)->getIn()) : -1;
             Fun adjust_mix_undo = [this, tid, cid, prevCut = m_allClips.at(cid)->getMixCutPosition(), prevDuration = m_allClips.at(cid)->getMixDuration()]() {
@@ -6175,6 +6185,12 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 }
                 updatedDurationLeft -= (m_allClips.at(cid)->getMixDuration() - m_allClips.at(cid)->getMixCutPosition());
                 updatedDurationRight -= m_allClips.at(cid)->getMixCutPosition();
+                if (leftMax > -1) {
+                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
+                }
+                if (rightMax > -1) {
+                    updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
+                }
                 if (updatedDurationLeft != 0) {
                     requestItemResize(cid, m_allClips.at(cid)->getPlaytime() + updatedDurationLeft, false, true, undo, redo);
                 }
