@@ -2962,7 +2962,7 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
 
 bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
 {
-    if (pos >= getTrackById_const(tid)->trackDuration() - 1) {
+    if (pos > getTrackById_const(tid)->trackDuration() - 1) {
         return true;
     }
     return getTrackById_const(tid)->isBlankAt(pos, playlist);
