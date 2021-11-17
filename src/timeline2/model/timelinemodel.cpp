@@ -6011,7 +6011,14 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
             }
 
             int maxLengthRight = m_allClips.at(cid)->getMaxDuration();
+            // maximum space to resize clip on the left
+            int availableRight = m_allClips.at(cid)->getPosition() - m_allClips.at(clipToResize)->getPosition();
             int rightMax = maxLengthRight > -1 ? (m_allClips.at(cid)->getIn()) : -1;
+            if (rightMax == -1) {
+                rightMax = availableRight;
+            } else {
+                rightMax = qMin(rightMax, availableRight);
+            }
             Fun adjust_mix_undo = [this, tid, cid, prevCut = m_allClips.at(cid)->getMixCutPosition(), prevDuration = m_allClips.at(cid)->getMixDuration()]() {
                 getTrackById_const(tid)->setMixDuration(cid, prevDuration, prevCut);
                 QModelIndex ix = makeClipIndexFromID(cid);
