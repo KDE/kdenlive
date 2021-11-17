@@ -142,6 +142,8 @@ public slots:
     /** @brief Dis/enable all timeline effects */
     void slotDisableTimelineEffects(bool disable);
 
+    /** @brief Mute/Unmute or Hide/Show current timeline track */
+    void slotSwitchTrackDisabled();
     /** @brief Un/Lock current timeline track */
     void slotSwitchTrackLock();
     void slotSwitchAllTrackLock();

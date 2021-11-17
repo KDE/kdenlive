@@ -1861,6 +1861,8 @@ void MainWindow::setupActions()
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
 
+    addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
+              Qt::SHIFT + Qt::Key_H);
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
               Qt::SHIFT + Qt::Key_L);
     addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),

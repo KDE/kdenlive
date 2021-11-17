@@ -72,7 +72,7 @@ public:
        @param text is the new track name.
     */
     Q_INVOKABLE void setTrackName(int trackId, const QString &text);
-    Q_INVOKABLE void hideTrack(int trackId, const QString state);
+    Q_INVOKABLE void hideTrack(int trackId, bool hide);
     /** @brief returns the lower video track index in timeline.
      **/
     int getFirstVideoTrackIndex() const;

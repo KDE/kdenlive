@@ -3217,6 +3217,18 @@ void TimelineController::makeAllTrackActive()
     m_activeSnaps.clear();
 }
 
+void TimelineController::switchTrackDisabled()
+{
+    if (m_activeTrack == -2) {
+        // Subtitle track
+        switchSubtitleDisable();
+    } else {
+        bool isAudio = m_model->getTrackById_const(m_activeTrack)->isAudioTrack();
+        bool enabled = isAudio ? m_model->getTrackById_const(m_activeTrack)->isMute() : m_model->getTrackById_const(m_activeTrack)->isHidden();
+        m_model->hideTrack(m_activeTrack, enabled);
+    }
+}
+
 void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {

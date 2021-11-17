@@ -834,6 +834,11 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
     pCore->monitorManager()->refreshProjectMonitor();
 }
 
+void ProjectManager::slotSwitchTrackDisabled()
+{
+    pCore->window()->getMainTimeline()->controller()->switchTrackDisabled();
+}
+
 void ProjectManager::slotSwitchTrackLock()
 {
     pCore->window()->getMainTimeline()->controller()->switchTrackLock();

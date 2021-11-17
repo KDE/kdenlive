@@ -459,6 +459,7 @@ public:
     void switchAllTrackActive();
     /** @brief Make all tracks active or inactive */
     void makeAllTrackActive();
+    void switchTrackDisabled();
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 

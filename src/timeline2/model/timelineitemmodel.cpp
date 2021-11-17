@@ -475,9 +475,11 @@ void TimelineItemModel::setTrackName(int trackId, const QString &text)
     PUSH_UNDO(undo_lambda, redo_lambda, i18n("Rename Track"));
 }
 
-void TimelineItemModel::hideTrack(int trackId, const QString state)
+void TimelineItemModel::hideTrack(int trackId, bool hide)
 {
     QWriteLocker locker(&m_lock);
+    bool isAudio = isAudioTrack(trackId);
+    QString state = hide ? (isAudio ? "1" : "2") : "3";
     QString previousState = getTrackProperty(trackId, QStringLiteral("hide")).toString();
     Fun undo_lambda = [this, trackId, previousState]() {
         setTrackProperty(trackId, QStringLiteral("hide"), previousState);

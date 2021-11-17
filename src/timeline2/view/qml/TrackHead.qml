@@ -428,7 +428,7 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: controller.hideTrack(trackId, isDisabled ? (isAudio ? '1' : '2') : '3')
+                onClicked: controller.hideTrack(trackId, isDisabled)
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
