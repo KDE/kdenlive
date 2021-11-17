@@ -506,7 +506,7 @@ Rectangle {
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
                                                                                ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
-                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.switchedInPoint))
+                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
                     TextMetrics {
