@@ -396,7 +396,7 @@ Rectangle {
                         color: "navy"
                     }
                     MouseArea {
-                        // Left resize handle
+                        // Right mix resize handle
                         id: trimInMixArea
                         anchors.left: parent.left
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
@@ -409,6 +409,7 @@ Rectangle {
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
+                        drag.maximumX: clipRoot.width - 1
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
