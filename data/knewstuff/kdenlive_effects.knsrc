@@ -1,5 +1,11 @@
 [KNewStuff3]
 Name=Kdenlive Effect Templates
+Name[ca]=Plantilles d'efectes del Kdenlive
+Name[nl]=Effectsjablonen van Kdenlive
+Name[sl]=Predloge učinkov za Kdenlive
+Name[sv]=Kdenlive-effektmallar
+Name[uk]=Шаблони ефектів Kdenlive
+Name[x-test]=xxKdenlive Effect Templatesxx
 ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=Kdenlive Effect Templates
 TargetDir=kdenlive/effect-templates
