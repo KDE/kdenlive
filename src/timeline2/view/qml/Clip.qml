@@ -410,6 +410,7 @@ Rectangle {
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
                         drag.maximumX: clipRoot.width - 1
+                        drag.minimumX: (clipRoot.mixDuration - clipRoot.mixCut) * clipRoot.timeScale
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
@@ -585,6 +586,9 @@ Rectangle {
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
+                            if (delta > 0 && (clipRoot.mixDuration - clipRoot.mixCut - delta < 0)) {
+                                return
+                            }
                             var newDuration = 0;
                             if (root.activeTool === ProjectTool.RippleTool) {
                                 newDuration = clipRoot.originalDuration - delta

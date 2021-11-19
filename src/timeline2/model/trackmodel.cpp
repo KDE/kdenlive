@@ -654,7 +654,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (delta == 0) {
         return []() { return true; };
     }
-    // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta<<", ON PLAYLIST: "<<target_track;
     if (delta > 0) { // we shrink clip
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
             if (isLocked()) return false;
@@ -686,10 +685,19 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         };
     }
     int blank = -1;
-    int other_blank_end = getBlankEnd(clip_position, 1 - target_track);
+    int startPos = clip_position;
+    if (hasMix) {
+        startPos += m_allClips[clipId]->getMixCutPosition();
+    }
+    int endPos = m_allClips[clipId]->getPosition() + out;
+    int other_blank_end = getBlankEnd(startPos, 1 - target_track);
     if (right) {
-        if (target_clip == m_playlists[target_track].count() - 1 && (hasMix || other_blank_end >= out)) {
+        if (target_clip == m_playlists[target_track].count() - 1 && (hasMix || other_blank_end >= endPos)) {
             // clip is last, it can always be extended
+            if (hasMix && other_blank_end < endPos && !hasEndMix(clipId)) {
+                // If clip has a start mix only, limit to next clip on other track
+                return []() { return false; };
+            }
             return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
                 if (isLocked()) return false;
                 // color, image and title clips can have unlimited resize

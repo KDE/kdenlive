@@ -3579,9 +3579,10 @@ void TimelineController::editItemDuration(int id)
                 result = m_model->requestCompositionMove(id, trackId, m_model->m_allCompositions[id]->getForcedTrack(), newPos, true, true, undo, redo);
             }
             if (result && newIn != in) {
-                m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                int updatedDuration = duration + (in - newIn);
+                m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
                 }
             }
             if (newDuration != duration + (in - newIn)) {
@@ -3593,9 +3594,10 @@ void TimelineController::editItemDuration(int id)
         } else {
             // perform resize first
             if (newIn != in) {
-                result = m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
+                int updatedDuration = duration + (in - newIn);
+                result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, duration + (in - newIn), false, true, undo, redo);
+                    result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
                 }
             }
             if (newDuration != duration + (in - newIn)) {

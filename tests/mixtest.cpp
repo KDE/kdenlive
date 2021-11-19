@@ -46,9 +46,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     int tid4 = TrackModel::construct(timeline);
     
     // Create clip with audio
-    QString binId = createProducerWithSound(profile_mix, binModel, 50);
+    QString binId = createProducerWithSound(profile_mix, binModel, 100);
     
-    // Create clip with audio
+    // Create video clip
     QString binId2 = createProducer(profile_mix, "red", binModel, 50, false);
     // Setup insert stream data
     QMap <int, QString>audioInfo;
@@ -317,6 +317,21 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
         undoStack->undo();
         state2();
+        // Resize right clip before left clip, should limit the resize to left clip position
+        REQUIRE(timeline->requestItemResize(cid4, 50, false, true) == 40);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state2();
+        // Resize left clip past right clip, should limit the resize to left clip position
+        REQUIRE(timeline->requestItemResize(cid3, 100, true, true) == 40);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state2();
+
         undoStack->undo();
         state0();
     }
@@ -327,7 +342,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // CID 1 length=10, pos=100, CID2 length=10, pos=110
         REQUIRE(timeline->m_allClips[cid1]->getPlaytime() == 10);
         REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 10);
-        REQUIRE(timeline->requestItemResize(cid2, 50, true, true) == 50);
+        // Resize clip in to have some space for mix
+        REQUIRE(timeline->requestItemResize(cid2, 90, true, true) == 90);
         REQUIRE(timeline->requestItemResize(cid2, 30, false, true) == 30);
         REQUIRE(timeline->requestClipMove(cid2, tid2, 130));
         REQUIRE(timeline->requestItemResize(cid1, 30, true, true) == 30);
@@ -368,6 +384,23 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
         undoStack->undo();
         state3();
+        // Resize right clip before left clip, should limit to left clip position
+        REQUIRE(timeline->requestItemResize(cid2, 80, false, true) == 60);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state3();
+        // Resize left clip after right clip, should limit to right clip duration
+        REQUIRE(timeline->requestItemResize(cid1, 80, true, true) == 60);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state3();
+        undoStack->undo();
         undoStack->undo();
         undoStack->undo();
         undoStack->undo();

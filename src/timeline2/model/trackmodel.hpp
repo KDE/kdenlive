@@ -158,6 +158,7 @@ protected:
        @param in is the new starting on the clip
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
+       @param hasMix is true if we change the right side of the clip, false otherwise
     */
     Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false);
 
