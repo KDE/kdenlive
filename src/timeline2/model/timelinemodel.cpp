@@ -1586,9 +1586,11 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         int initLength = m_allClips[clipId]->getPlaytime();
         bool res = true;
         if (in != 0) {
-            res = requestItemResize(clipId, initLength - in, false, true, local_undo, local_redo);
+            initLength -= in;
+            res = requestItemResize(clipId, initLength, false, true, local_undo, local_redo);
         }
-        res = res && requestItemResize(clipId, out - in + 1, true, true, local_undo, local_redo);
+        int updatedDuration = out - in + 1;
+        res = res && requestItemResize(clipId, updatedDuration, true, true, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
@@ -2796,7 +2798,8 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
     }
     for (int id : qAsConst(changedItems)) {
         QPair<int, int> endItemPos = endData.value(id);
-        result = result & requestItemResize(id, endItemPos.second, right, true, undo, redo, false);
+        int duration = endItemPos.second;
+        result = result & requestItemResize(id, duration, right, true, undo, redo, false);
         if (!result) {
             break;
         }
@@ -3079,7 +3082,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 if (getTrackById_const(tid)->hasEndMix(itemId)) {
                     tracksWithMixes << tid;
                     std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
-                    if (in + size <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
+                    if (in + size < mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
                         // Clip resized outside of mix zone, mix will be deleted
                         bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
                         if (res) {
@@ -3263,6 +3266,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
         }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
+        if (id == itemId) {
+            size = finalSize;
+        }
         resizedCount++;
     }
     if (!result || resizedCount == 0) {
@@ -3293,7 +3299,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     return res;
 }
 
-bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+bool TimelineModel::requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
     Fun local_undo = []() { return true; };
@@ -6199,10 +6205,12 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                     updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
                 }
                 if (updatedDurationLeft != 0) {
-                    requestItemResize(cid, m_allClips.at(cid)->getPlaytime() + updatedDurationLeft, false, true, undo, redo);
+                    int updatedDurL = m_allClips.at(cid)->getPlaytime() + updatedDurationLeft;
+                    requestItemResize(cid, updatedDurL, false, true, undo, redo);
                 }
                 if (updatedDurationRight != 0) {
-                    requestItemResize(clipToResize, m_allClips.at(clipToResize)->getPlaytime() + updatedDurationRight, true, true, undo, redo);
+                    int updatedDurR = m_allClips.at(clipToResize)->getPlaytime() + updatedDurationRight;
+                    requestItemResize(clipToResize, updatedDurR, true, true, undo, redo);
                 }
                 int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
                 int updatedDuration = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getPosition();

@@ -79,8 +79,8 @@ bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &time
     int duration = timeline->getClipPlaytime(clipId);
     int init_duration = timeline->getClipPlaytime(newId);
     if (duration != init_duration) {
-        int in = timeline->m_allClips[clipId]->getIn();
-        res = res && timeline->requestItemResize(newId, init_duration - in, false, true, undo, redo);
+        init_duration -= timeline->m_allClips[clipId]->getIn();
+        res = res && timeline->requestItemResize(newId, init_duration, false, true, undo, redo);
         res = res && timeline->requestItemResize(newId, duration, true, true, undo, redo);
     }
     if (!res) {
@@ -133,14 +133,16 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     // Check if clip has an end Mix
     bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
     timeline->m_blockRefresh = true;
-    res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
+    int updatedDuration = position - start;
+    res = res && timeline->requestItemResize(clipId, updatedDuration, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
     // parse effects
     std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
     sourceStack->cleanFadeEffects(true, undo, redo);
     std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
     destStack->cleanFadeEffects(false, undo, redo);
-    res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
+    updatedDuration = duration - newDuration;
+    res = res && timeline->requestItemResize(newId, updatedDuration, false, true, undo, redo);
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
     timeline->m_allClips[newId]->setSubPlaylistIndex(timeline->m_allClips[clipId]->getSubPlaylistIndex(), trackId);
