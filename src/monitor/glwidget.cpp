@@ -739,7 +739,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
+    if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mousePressEvent(event);

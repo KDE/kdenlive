@@ -23,6 +23,7 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0

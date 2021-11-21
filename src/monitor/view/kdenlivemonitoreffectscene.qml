@@ -22,6 +22,7 @@ Item {
     property point center
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -196,7 +197,7 @@ Item {
         property bool isMoving : false
         anchors.centerIn: root
         hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        acceptedButtons: Qt.LeftButton
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
         onWheel: {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
@@ -280,6 +281,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               property double handleRatio: 1
+              acceptedButtons: Qt.LeftButton
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
