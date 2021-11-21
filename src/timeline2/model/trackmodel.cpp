@@ -1232,7 +1232,7 @@ int TrackModel::getBlankEnd(int position, int track)
     int count = m_playlists[track].count();
     if (clip_index < count) {
         int blank_start = m_playlists[track].clip_start(clip_index);
-        int blank_length = m_playlists[track].clip_length(clip_index);
+        int blank_length = m_playlists[track].clip_length(clip_index) - 1;
         return blank_start + blank_length;
     }
     return INT_MAX;
