@@ -837,6 +837,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             Q_ASSERT(undone);
             qWarning() << "clip deletion failed";
             return false;
+        } else {
         }
     }
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, allowedClipMixes);

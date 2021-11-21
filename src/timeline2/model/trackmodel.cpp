@@ -147,7 +147,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (auto ptr = m_parent.lock()) {
         Q_ASSERT(ptr->getClipPtr(clipId)->getCurrentTrackId() == -1);
         target_playlist = ptr->getClipPtr(clipId)->getSubPlaylistIndex();
-        length = ptr->getClipPtr(clipId)->getPlaytime();
+        length = ptr->getClipPtr(clipId)->getPlaytime() - 1;
         /*if (target_playlist == 1 && ptr->getClipPtr(clipId)->getMixDuration() == 0) {
             target_playlist = 0;
         }*/
