@@ -586,7 +586,7 @@ Rectangle {
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
-                            if (delta > 0 && (clipRoot.mixDuration - clipRoot.mixCut - delta < 0)) {
+                            if (delta > 0 && clipRoot.mixDuration > 0 && (clipRoot.mixDuration - clipRoot.mixCut - delta < 0)) {
                                 return
                             }
                             var newDuration = 0;

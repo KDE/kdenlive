@@ -16,6 +16,7 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false

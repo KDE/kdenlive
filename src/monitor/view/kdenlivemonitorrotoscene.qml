@@ -23,6 +23,7 @@ Item {
     property color overlayColor: 'cyan'
     property double scalex : 1
     property double scaley : 1
+    property bool captureRightClick: true
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
