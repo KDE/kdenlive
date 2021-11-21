@@ -3867,6 +3867,13 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
     bool res = true;
     if (currentTrack > -1) {
+        std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(currentTrack)->getMixInfo(clipId);
+        if (mixData.first.secondClipId > -1) {
+            m_model->removeMixWithUndo(mixData.first.secondClipId, undo, redo);
+        }
+        if (mixData.second.firstClipId > -1) {
+            m_model->removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+        }
         res = m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
     }
     if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
