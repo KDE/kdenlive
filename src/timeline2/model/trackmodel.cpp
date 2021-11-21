@@ -689,7 +689,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (hasMix) {
         startPos += m_allClips[clipId]->getMixDuration();
     }
-    int endPos = m_allClips[clipId]->getPosition() + out;
+    int endPos = m_allClips[clipId]->getPosition() + (out - in);
     int other_blank_end = getBlankEnd(startPos, 1 - target_track);
     if (right) {
         if (target_clip == m_playlists[target_track].count() - 1 && (hasMix || other_blank_end >= endPos)) {
