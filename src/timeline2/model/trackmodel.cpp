@@ -2513,6 +2513,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
         int in = transition.get_in();
         int out = transition.get_out();
+        int mixCutPos = transition.get_int("kdenlive:mixcut");
         QScopedPointer<Mlt::Field> field(m_track->field());
         field->lock();
         field->disconnect_service(transition);
@@ -2522,6 +2523,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
             std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(composition);
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
+            t->set("kdenlive:mixcut", mixCutPos);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
