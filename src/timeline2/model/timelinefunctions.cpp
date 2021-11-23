@@ -337,12 +337,41 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
+                    int checkedParent = timeline->m_groups->getDirectAncestor(l);
                     if (pos + timeline->getItemPlaytime(l) < position) {
-                        leavesToRemove.insert(l);
+                        if (checkedParent == r) {
+                            leavesToRemove.insert(l);
+                        } else {
+                            int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            while (grandParent != r) {
+                                checkedParent = grandParent;
+                                grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            }
+                            leavesToRemove.insert(checkedParent);
+                        }
                     } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
+                        if (checkedParent == r) {
+                            leavesToRemove.insert(l);
+                        } else {
+                            int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            while (grandParent != r) {
+                                checkedParent = grandParent;
+                                grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            }
+                            leavesToRemove.insert(checkedParent);
+                        }
                         leavesToRemove.insert(l);
                     } else {
-                        leavesToKeep.insert(l);
+                        if (checkedParent == r) {
+                            leavesToKeep.insert(l);
+                        } else {
+                            int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            while (grandParent != r) {
+                                checkedParent = grandParent;
+                                grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
+                            }
+                            leavesToKeep.insert(checkedParent);
+                        }
                         int tid = timeline->getItemTrackId(l);
                         // Check space in all tracks
                         if (!firstPositions.contains(tid)) {
@@ -392,13 +421,15 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         for (int r : groupsToRemove) {
             roots.erase(r);
         }
+
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         QMapIterator<int, int> i(spacerUngroupedItems);
         while (i.hasNext()) {
             i.next();
-            timeline->m_groups->ungroupItem(i.key(), undo, redo);
+            timeline->m_groups->ungroupItem(i.value(), undo, redo, false);
         }
+
         timeline->requestSetSelection(roots);
         if (!firstPositions.isEmpty()) {
             // Find minimum position, parse all tracks
@@ -510,8 +541,13 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         while (i.hasNext()) {
             i.next();
             if (timeline->isGroup(i.value())) {
-                timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
-            } else {
+                if (timeline->isGroup(i.key())) {
+                    std::unordered_set<int> items = {i.key(), i.value()};
+                    timeline->m_groups->groupItems(items, local_undo, local_redo);
+                } else {
+                    timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
+                }
+            } else if (timeline->isItem(i.value())) {
                 std::unordered_set<int> items = {i.key(), i.value()};
                 timeline->m_groups->groupItems(items, local_undo, local_redo);
             }

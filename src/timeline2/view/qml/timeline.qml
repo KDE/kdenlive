@@ -405,7 +405,7 @@ Rectangle {
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
-    property var selectedGuides
+    property var selectedGuides: []
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
