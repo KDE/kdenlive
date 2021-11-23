@@ -49,7 +49,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun &undo, Fun &redo);
+    bool ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan = true);
 
     /** @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem

@@ -87,7 +87,6 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
     std::unordered_set<int> roots;
-    qDebug()<<"==========GROUPING ITEMS: "<<ids.size();
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
     if (roots.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -104,7 +103,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan)
 {
     QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
@@ -113,7 +112,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
         return false;
     }
 
-    return destructGroupItem(gid, true, undo, redo);
+    return destructGroupItem(gid, deleteOrphan, undo, redo);
 }
 
 void GroupsModel::createGroupItem(int id)

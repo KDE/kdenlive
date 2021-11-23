@@ -5727,7 +5727,6 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 {
     QWriteLocker locker(&m_lock);
     TRACE(ids);
-
     requestClearSelection();
     // if the items are in groups, we must retrieve their topmost containing groups
     std::unordered_set<int> roots;
