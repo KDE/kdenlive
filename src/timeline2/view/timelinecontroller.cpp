@@ -2748,8 +2748,17 @@ void TimelineController::extract(int clipId)
     }
     int in = m_model->getClipPosition(clipId);
     int out = in + m_model->getClipPlaytime(clipId);
-    QVector <int> tracks;
-    tracks << m_model->getClipTrackId(clipId);
+    int tid = m_model->getClipTrackId(clipId);
+    std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(clipId);
+    if (mixData.first.firstClipId > -1) {
+        // Clip has a start mix, adjust in point
+        in += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+    }
+    if (mixData.second.firstClipId > -1) {
+        // Clip has end mix, adjust out point
+        out -= mixData.second.mixOffset;
+    }
+    QVector <int> tracks = {tid};
     if (m_model->m_groups->isInGroup(clipId)) {
         int targetRoot = m_model->m_groups->getRootId(clipId);
         if (m_model->isGroup(targetRoot)) {
@@ -2760,9 +2769,19 @@ void TimelineController::extract(int clipId)
                 }
                 if (m_model->isClip(current_id)) {
                     int newIn = m_model->getClipPosition(current_id);
+                    int newOut = newIn + m_model->getClipPlaytime(current_id);
                     int tk = m_model->getClipTrackId(current_id);
+                    std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                    if (mixData.first.firstClipId > -1) {
+                        // Clip has a start mix, adjust in point
+                        newIn += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+                    }
+                    if (mixData.second.firstClipId > -1) {
+                        // Clip has end mix, adjust out point
+                        newOut -= mixData.second.mixOffset;
+                    }
                     in = qMin(in, newIn);
-                    out = qMax(out, newIn + m_model->getClipPlaytime(current_id));
+                    out = qMax(out, newOut);
                     if (!tracks.contains(tk)) {
                         tracks << tk;
                     }

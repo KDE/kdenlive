@@ -696,18 +696,46 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
-            qDebug() << "/// CUTTING AT START: " << zone.x() << ", ID: " << startClipId;
-            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
-            qDebug() << "/// CUTTING AT START DONE";
+            // Check if we have a mix
+            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(startClipId);
+            bool abortCut = false;
+            if (mixData.first.firstClipId > -1) {
+                // Clip has a start mix
+                if (mixData.first.secondClipInOut.first + (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first) - mixData.first.mixOffset >= zone.x()) {
+                    // Cut pos is in the mix zone before clip cut, completely remove clip
+                    abortCut = true;
+                }
+            }
+            if (!abortCut) {
+                TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
+            } else {
+                // Remove the clip now, so that the mix is deleted before checking items in range
+                timeline->requestClipUngroup(startClipId, undo, redo);
+                timeline->requestItemDeletion(startClipId, undo, redo);
+            }
         }
     }
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
-            qDebug() << "/// CUTTING AT END: " << zone.y() << ", ID: " << endClipId;
-            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
-            qDebug() << "/// CUTTING AT END DONE";
+            // Check if we have a mix
+            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(endClipId);
+            bool abortCut = false;
+            if (mixData.second.firstClipId > -1) {
+                // Clip has an end mix
+                if (mixData.second.firstClipInOut.second - (mixData.second.firstClipInOut.second - mixData.second.secondClipInOut.first) - mixData.first.mixOffset <= zone.y()) {
+                    // Cut pos is in the mix zone after clip cut, completely remove clip
+                    abortCut = true;
+                }
+            }
+            if (!abortCut) {
+                TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
+            } else {
+                // Remove the clip now, so that the mix is deleted before checking items in range
+                timeline->requestClipUngroup(endClipId, undo, redo);
+                timeline->requestItemDeletion(endClipId, undo, redo);
+            }
         }
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
