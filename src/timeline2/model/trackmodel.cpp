@@ -801,7 +801,22 @@ int TrackModel::getClipByPosition(int position, int playlist)
     if (!prod || prod->is_blank()) {
         return -1;
     }
-    return prod->get_int("_kdenlive_cid");
+    int cid = prod->get_int("_kdenlive_cid");
+    if (playlist == -1) {
+        if (hasStartMix(cid)) {
+            if (position < m_allClips[cid]->getPosition() + m_allClips[cid]->getMixCutPosition()) {
+                return m_mixList.key(cid, -1);
+            }
+        }
+        if (m_mixList.contains(cid)) {
+            // Clip has end mix
+            int otherId = m_mixList.value(cid);
+            if (position >= m_allClips[cid]->getPosition() + m_allClips[cid]->getPlaytime() - m_allClips[otherId]->getMixCutPosition()) {
+                return otherId;
+            }
+        }
+    }
+    return cid;
 }
 
 QSharedPointer<Mlt::Producer> TrackModel::getClipProducer(int clipId)
