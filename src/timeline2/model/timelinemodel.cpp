@@ -698,7 +698,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     }
-    bool hadMix = mixData.first.firstClipId > -1 || mixData.second.secondClipId > -1;
+    bool hadMix = mixData.first.firstClipId > -1 || mixData.second.firstClipId > -1;
     if (!finalMove && !revertMove) {
         QVector <int>exceptions = {clipId};
         if (mixData.first.firstClipId > -1) {
@@ -825,6 +825,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 allowedClipMixes << mixData.second.secondClipId;
             }
         }
+    } else {
     }
 
     if (old_trackId != -1) {
@@ -1357,6 +1358,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
             position = snapped;
         }
     }
+    bool isInGroup = m_groups->isInGroup(clipId);
     if (sourceTrackId == trackId) {
         // Same track move, check if there is a mix and limit move
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(trackId)->getMixInfo(clipId);
@@ -1364,7 +1366,15 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
             // Clip has start mix
             int clipDuration = m_allClips[clipId]->getPlaytime();
             // ensure we don't move into clip
-            if (position + clipDuration > mixData.first.firstClipInOut.first && position < mixData.first.firstClipInOut.second) {
+            bool allowMove = false;
+            if (isInGroup) {
+                // Check if in same group as clip mix
+                int groupId = m_groups->getRootId(clipId);
+                if (groupId == m_groups->getRootId(mixData.first.firstClipId)) {
+                    allowMove = true;
+                }
+            }
+            if (!allowMove && position + clipDuration > mixData.first.firstClipInOut.first && position < mixData.first.firstClipInOut.second) {
                 // Abort move
                 return {currentPos, sourceTrackId};
             }
@@ -1372,7 +1382,15 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         if (mixData.second.firstClipId > -1) {
             // Clip has end mix
             int clipDuration = m_allClips[clipId]->getPlaytime();
-            if (position + clipDuration > mixData.second.secondClipInOut.first && position < mixData.second.secondClipInOut.second) {
+            bool allowMove = false;
+            if (isInGroup) {
+                // Check if in same group as clip mix
+                int groupId = m_groups->getRootId(clipId);
+                if (groupId == m_groups->getRootId(mixData.second.secondClipId)) {
+                    allowMove = true;
+                }
+            }
+            if (!allowMove && position + clipDuration > mixData.second.secondClipInOut.first && position < mixData.second.secondClipInOut.second) {
                 // Abort move
                 return {currentPos, sourceTrackId};
             }
@@ -1395,7 +1413,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         return {currentPos, -1};
     }
     // Find best possible move
-    if (!m_groups->isInGroup(clipId)) {
+    if (!isInGroup) {
         // Try same track move
         if (trackId != sourceTrackId && sourceTrackId != -1) {
             trackId = sourceTrackId;
