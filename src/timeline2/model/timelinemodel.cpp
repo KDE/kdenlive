@@ -779,10 +779,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
         if (mixData.second.firstClipId > -1) {
             // We have a mix at clip end
-            /*sync_mix = [this, old_trackId, finalMove]() {
-                getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
-                return true;
-            };*/
             if (old_trackId == trackId) {
                 int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition() + m_allClips[mixData.second.secondClipId]->getMixDuration();
                 if (position > mixEnd || position < m_allClips[mixData.second.secondClipId]->getPosition()) {
@@ -2288,7 +2284,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_track_id = getClipTrackId(affectedItemId);
             // Check if we have a mix in the group
             if (getTrackById_const(current_track_id)->hasMix(affectedItemId)) {
-
                 std::pair<MixInfo, MixInfo> mixData = getTrackById_const(current_track_id)->getMixInfo(affectedItemId);
                 mixDataArray.insert(affectedItemId, mixData);
                 if (delta_track != 0) {
