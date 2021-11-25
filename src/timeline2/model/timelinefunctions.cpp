@@ -337,9 +337,9 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
-                    int checkedParent = timeline->m_groups->getDirectAncestor(l);
+                    //int checkedParent = timeline->m_groups->getDirectAncestor(l);
                     if (pos + timeline->getItemPlaytime(l) < position) {
-                        if (checkedParent == r) {
+                        /*if (checkedParent == r) {
                             leavesToRemove.insert(l);
                         } else {
                             int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
@@ -348,9 +348,9 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                                 grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
                             }
                             leavesToRemove.insert(checkedParent);
-                        }
+                        }*/
                     } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
-                        if (checkedParent == r) {
+                        /*if (checkedParent == r) {
                             leavesToRemove.insert(l);
                         } else {
                             int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
@@ -361,8 +361,9 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                             leavesToRemove.insert(checkedParent);
                         }
                         leavesToRemove.insert(l);
+                        */
                     } else {
-                        if (checkedParent == r) {
+                        /*if (checkedParent == r) {
                             leavesToKeep.insert(l);
                         } else {
                             int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
@@ -371,7 +372,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                                 grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
                             }
                             leavesToKeep.insert(checkedParent);
-                        }
+                        }*/
                         int tid = timeline->getItemTrackId(l);
                         // Check space in all tracks
                         if (!firstPositions.contains(tid)) {
@@ -388,7 +389,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         }
                     }
                 }
-                if (leavesToKeep.size() == 1) {
+                /*if (leavesToKeep.size() == 1) {
                     // Only 1 item left in group, group will be deleted
                     int master = *leavesToKeep.begin();
                     roots.insert(master);
@@ -400,7 +401,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                     for (int l : leavesToRemove) {
                         spacerUngroupedItems.insert(l, r);
                     }
-                }
+                }*/
             } else {
                 int pos = timeline->getItemPosition(r);
                 int tid = timeline->getItemTrackId(r);
@@ -418,7 +419,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 }
             }
         }
-        for (int r : groupsToRemove) {
+        /*for (int r : groupsToRemove) {
             roots.erase(r);
         }
 
@@ -428,7 +429,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         while (i.hasNext()) {
             i.next();
             timeline->m_groups->ungroupItem(i.value(), undo, redo, false);
-        }
+        }*/
 
         timeline->requestSetSelection(roots);
         if (!firstPositions.isEmpty()) {

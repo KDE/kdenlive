@@ -1320,7 +1320,7 @@ void MainWindow::setupActions()
     m_trimLabel = new QLabel(QString(), this);
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
-    m_trimLabel->setFixedWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
+    m_trimLabel->setMinimumWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
     m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
 
 
