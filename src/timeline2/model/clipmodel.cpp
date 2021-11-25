@@ -32,6 +32,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_currentState(state)
     , m_speed(speed)
     , m_fakeTrack(-1)
+    , m_fakePosition(-1)
     , m_positionOffset(0)
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
