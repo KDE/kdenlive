@@ -612,16 +612,10 @@ bool TimelineController::pasteItem(int position, int tid)
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
     if (tid == -1) {
-        tid = getMouseTrack();
-    }
-    if (position == -1) {
-        position = getMousePos();
-    }
-    if (tid == -1) {
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = getMenuOrTimelinePos();
     }
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
@@ -2524,7 +2518,7 @@ QMap<QString, QString> TimelineController::documentProperties()
 
 int TimelineController::getMenuOrTimelinePos() const
 {
-    int frame = m_root->property("mainFrame").toInt();
+    int frame = m_root->property("clickFrame").toInt();
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
@@ -3028,7 +3022,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
         }
     }
     if (offset == -1) {
-        offset = m_root->property("mainFrame").toInt();
+        offset = m_root->property("clickFrame").toInt();
     }
     int track = clipId > -1 ? m_model->getClipTrackId(clipId) : m_activeTrack;
     int compoId = -1;
