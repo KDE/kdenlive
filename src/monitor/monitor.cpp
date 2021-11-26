@@ -1247,6 +1247,12 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     if (dlg->exec() == QDialog::Accepted) {
         QString selectedFile = fileWidget->selectedFile();
         if (!selectedFile.isEmpty()) {
+            // Disable monitor preview scaling if any
+            int previewScale = KdenliveSettings::previewScaling();
+            if (previewScale > 0) {
+                KdenliveSettings::setPreviewScaling(0);
+                m_glMonitor->updateScaling();
+            }
             // Create Qimage with frame
             QImage frame;
             // check if we are using a proxy
@@ -1256,6 +1262,10 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                 frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(),
                                                                         m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1,
                                                                         b != nullptr ? b->isChecked() : false);
+                if (previewScale > 0) {
+                    KdenliveSettings::setPreviewScaling(previewScale);
+                    m_glMonitor->updateScaling();
+                }
             } else {
                 if (m_id == Kdenlive::ProjectMonitor) {
                     // Check if we have proxied clips at position
@@ -1271,10 +1281,14 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     if (m_captureConnection) {
                         QObject::disconnect( m_captureConnection );
                     }
-                    m_captureConnection = connect(m_glMonitor, &GLWidget::analyseFrame, [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus](const QImage &img) {
+                    m_captureConnection = connect(m_glMonitor, &GLWidget::analyseFrame, [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus, previewScale](const QImage &img) {
                         m_glMonitor->sendFrameForAnalysis = analysisStatus;
                         m_glMonitor->releaseAnalyse();
                         img.save(selectedFile);
+                        if (previewScale > 0) {
+                            KdenliveSettings::setPreviewScaling(previewScale);
+                            m_glMonitor->updateScaling();
+                        }
                         // Re-enable proxy on those clips
                         if (!proxiedClips.isEmpty()) {
                             pCore->currentDoc()->proxyClipsById(proxiedClips, true, existingProxies);
@@ -1291,6 +1305,10 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     return;
                 } else {
                     frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
+                    if (previewScale > 0) {
+                        KdenliveSettings::setPreviewScaling(previewScale);
+                        m_glMonitor->updateScaling();
+                    }
                 }
             }
             frame.save(selectedFile);
