@@ -132,9 +132,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     // Fix qml focus issue
     connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineClipMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineCompositionMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineSubtitleClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
@@ -426,15 +428,21 @@ void TimelineWidget::slotUngrabHack()
 {
     // Workaround bug: https://bugreports.qt.io/browse/QTBUG-59044
     // https://phabricator.kde.org/D5515
+    QTimer::singleShot(250, this, [this]() {
+        // Reset menu position, necessary if user closes the menu without selecting any action
+        rootObject()->setProperty("clickFrame", -1);
+    });
     if (quickWindow() && quickWindow()->mouseGrabberItem()) {
         quickWindow()->mouseGrabberItem()->ungrabMouse();
-        // Reset menu position
-        QTimer::singleShot(200, this, [this]() {
-            rootObject()->setProperty("mainFrame", -1);
-        });
         QPoint mousePos = mapFromGlobal(QCursor::pos());
         QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));
     }
+}
+
+void TimelineWidget::slotResetContextPos(QAction *)
+{
+    rootObject()->setProperty("clickFrame", -1);
+    m_clickPos = QPoint();
 }
 
 int TimelineWidget::zoomForScale(double value) const

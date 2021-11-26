@@ -67,6 +67,7 @@ public slots:
 
 private slots:
     void slotUngrabHack();
+    void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
     void showCompositionMenu();
     void showTimelineMenu();

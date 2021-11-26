@@ -271,7 +271,7 @@ Rectangle {
                 if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
+                root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu(clipRoot.clipId)
                 root.autoScrolling = timeline.autoScroll
             }

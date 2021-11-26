@@ -388,7 +388,7 @@ Rectangle {
     property color thumbColor1: timeline.thumbColor1
     property color thumbColor2: timeline.thumbColor2
     property int mainItemId: -1
-    property int mainFrame: -1
+    property int clickFrame: -1
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -1254,7 +1254,7 @@ Rectangle {
                         } else {
                             timeline.activeTrack = -2
                         }
-                        root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                        root.clickFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
                     } else {
                         // ruler menu
