@@ -117,13 +117,13 @@ void KeyframeView::slotDuplicateKeyframe()
     }
 }
 
-void KeyframeView::slotAddKeyframe(int pos)
+bool KeyframeView::slotAddKeyframe(int pos)
 {
     if (pos < 0) {
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+    return m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
 }
 
 const QString KeyframeView::getAssetId()
@@ -143,7 +143,14 @@ void KeyframeView::slotAddRemove()
             slotRemoveKeyframe({m_position});
         }
     } else {
-        slotAddKeyframe(m_position);
+        if (slotAddKeyframe(m_position)) {
+            int offset = pCore->getItemIn(m_model->getOwnerId());
+            GenTime position(m_position + offset, pCore->getCurrentFps());
+            int currentIx = m_model->getIndexForPos(position);
+            if (currentIx > -1) {
+                m_model->setSelectedKeyframes({currentIx});
+            }
+        }
     }
 }
 
