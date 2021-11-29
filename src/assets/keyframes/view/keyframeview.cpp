@@ -149,6 +149,7 @@ void KeyframeView::slotAddRemove()
             int currentIx = m_model->getIndexForPos(position);
             if (currentIx > -1) {
                 m_model->setSelectedKeyframes({currentIx});
+                m_model->setActiveKeyframe(currentIx);
             }
         }
     }
