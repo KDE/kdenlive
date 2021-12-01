@@ -174,7 +174,9 @@ Kdenlive test coverage is focused mostly on timeline model code (extending tests
 ### Fuzzer
 
 Kdenlive embeds a fuzzing engine that can detect crashes and auto-generate tests. It requires to have clang installed (generally in `/usr/bin/clang++`). This can be activated in `cmake` line with:
-`-DBUILD_FUZZING=ON -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DECM_ENABLE_SANITIZERS='address'`
+`-DBUILD_FUZZING=ON -DCMAKE_CXX_COMPILER=/usr/bin/clang++`
+
+To learn more fuzzing especially in the context of Kdenlive read this [blog post][fuzzer-blog].
 
 ### Help file for QtCreator, KDevelop, etc.
 
@@ -253,3 +255,5 @@ exit
 ## Translating Kdenlive
 
 TODO
+
+[fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/
