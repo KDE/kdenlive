@@ -37,6 +37,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     , m_indexes(indexes)
     , m_supportsAnim(false)
     , m_previewLabel(nullptr)
+    , m_sourceCombo(nullptr)
+    , m_targetCombo(nullptr)
     , m_isReady(false)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -1285,6 +1287,11 @@ void KeyframeImport::updateView()
 
 void KeyframeImport::reject()
 {
+    if (m_targetCombo == nullptr) {
+        // no data to import, close
+        QDialog::reject();
+        return;
+    }
     for (int i = 0; i < m_targetCombo->count(); i++) {
         QPersistentModelIndex ix = m_targetCombo->itemData(i).toModelIndex();
         if (m_originalParams.contains(ix)) {
