@@ -117,11 +117,13 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         if (out == -1) {
             out = entryObj[QLatin1String("out")].toInt(0);
         }
+        bool opacity = entryObj[QLatin1String("opacity")].toBool(true);
         m_dataCombo->insertItem(ix, displayName);
         m_dataCombo->setItemData(ix, value, Qt::UserRole);
         m_dataCombo->setItemData(ix, type, Qt::UserRole + 1);
         m_dataCombo->setItemData(ix, min, Qt::UserRole + 2);
         m_dataCombo->setItemData(ix, max, Qt::UserRole + 3);
+        m_dataCombo->setItemData(ix, opacity, Qt::UserRole + 4);
         ix++;
     }
     m_previewLabel = new QLabel(this);
@@ -648,15 +650,14 @@ QString KeyframeImport::selectedData() const
                 keyPos = anim2->next_key(keyPos);
             }
             anim2->interpolate();
-            int length = lastKeyframe;
+            int length = lastKeyframe - firstKeyframe;
             double interval = double(length) / (m_limitNumber->value() - 1);
             int pos = 0;
             for (int i = 0; i < m_limitNumber->value(); i++) {
-                pos = firstKeyframe + in + i * interval;
-                pos = qMin(pos, length - 1);
+                pos = firstKeyframe + i * interval;
+                pos = qMin(pos, lastKeyframe);
                 mlt_rect rect = animData->anim_get_rect("key", pos);
                 animData2->anim_set("key", rect, pos);
-                
             }
             anim2->interpolate();
             return anim2->serialize_cut();
@@ -828,7 +829,7 @@ void KeyframeImport::importSelectedData()
 
         // wether we are mapping to a fake rectangle
         bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
-
+        bool useOpacity = m_dataCombo->currentData(Qt::UserRole + 4).toBool();
         if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes
             int frame = 0;
@@ -885,6 +886,9 @@ void KeyframeImport::importSelectedData()
                         break;
                 }
                 mlt_rect rect = animData->anim_get_rect("key", frame);
+                if (!useOpacity) {
+                    rect.o = 1;
+                }
                 if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
                     switch (sourceAlign) {
                     case 1:
@@ -977,7 +981,9 @@ void KeyframeImport::importSelectedData()
                         kfrData[1] = locale.toString(int(rect.y));
                         kfrData[2] = locale.toString(int(rect.w));
                         kfrData[3] = locale.toString(int(rect.h));
-                        kfrData[4] = QString::number(rect.o);
+                        if (size > 4) {
+                            kfrData[4] = QString::number(rect.o);
+                        }
                         break;
                     case ImportRoles::Position:
                         kfrData[0] = locale.toString(int(rect.x));

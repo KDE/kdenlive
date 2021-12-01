@@ -920,6 +920,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
         int in = data(ix, AssetParameterModel::ParentInRole).toInt();
         int out = in + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+        bool opacity = data(ix, AssetParameterModel::OpacityRole).toBool();
         if (factor > 0) {
             min /= factor;
             max /= factor;
@@ -929,6 +930,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         currentParam.insert(QLatin1String("max"), QJsonValue(max));
         currentParam.insert(QLatin1String("in"), QJsonValue(in));
         currentParam.insert(QLatin1String("out"), QJsonValue(out));
+        currentParam.insert(QLatin1String("opacity"), QJsonValue(opacity));
         list.push_back(currentParam);
     }
     if(!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
