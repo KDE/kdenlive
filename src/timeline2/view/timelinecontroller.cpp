@@ -2717,12 +2717,15 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     if (tracks.isEmpty()) {
         pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
     }
-    if (m_zone == QPoint()) {
+    if (m_zone.isNull()) {
         // Use current timeline position and clip zone length
         zone.setY(pCore->getTimelinePosition() + zone.y() - zone.x());
         zone.setX(pCore->getTimelinePosition());
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, liftOnly);
+    if (!liftOnly && !m_zone.isNull()) {
+        setPosition(m_zone.x());
+    }
 }
 
 void TimelineController::extract(int clipId)
