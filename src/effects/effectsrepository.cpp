@@ -160,6 +160,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 }
                 file.close();
             }
+        } else if (type == QLatin1String("text")) {
+            result.type = AssetListType::AssetType::Text;
         }
         customAssets[result.id] = result;
     }
