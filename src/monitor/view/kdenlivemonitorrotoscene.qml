@@ -69,7 +69,7 @@ Item {
     property string defaultKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Double click</shortcut> on center to resize, <shortcut>Double click</shortcut> on line segment to add new point, <shortcut>Double click</shortcut> point to delete it, <shortcut>Double click</shortcut> background to create new keyframe, <shortcut>Hover right</shortcut> for toolbar");
     property string resizeKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
     onCenterPointsTypesChanged: checkDefined()
-    signal effectPolygonChanged()
+    signal effectPolygonChanged(var points, var centers)
     signal seekToKeyframe()
 
     onDurationChanged: {
@@ -421,7 +421,7 @@ Item {
                     if (root.centerPoints.length > 3) {
                         root.centerPoints.splice(root.requestedKeyFrame, 1)
                         root.centerPointsTypes.splice(2 * root.requestedKeyFrame, 2)
-                        root.effectPolygonChanged()
+                        root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                         root.requestedKeyFrame = -1
                         canvas.requestPaint()
                     }
@@ -448,7 +448,7 @@ Item {
                         root.centerPointsTypes.splice(2 * root.addedPointIndex, 0, Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
                         root.centerPointsTypes.splice(2 * root.addedPointIndex, 0, Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
                     }
-                    root.effectPolygonChanged()
+                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                     canvas.requestPaint()
                 }
             }
@@ -477,7 +477,7 @@ Item {
                         root.centerPointsTypes.push(Qt.point(p1.x + ctrl2.x, p1.y + ctrl2.y))
                     }
                     root.isDefined = true;
-                    root.effectPolygonChanged()
+                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                     canvas.requestPaint()
                 } else if (root.requestedKeyFrame < 0) {
                     var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
@@ -552,7 +552,7 @@ Item {
                         }
                     }
                     canvas.requestPaint()
-                    root.effectPolygonChanged()
+                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                     return
                 }
                 if (centerContainsMouse) {
@@ -568,7 +568,7 @@ Item {
                         root.centerPointsTypes[j * 2 + 1].y += yDiff
                     }
                     canvas.requestPaint()
-                    root.effectPolygonChanged()
+                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                     return
                 }
                 if (root.requestedKeyFrame >= 0) {
@@ -584,13 +584,13 @@ Item {
                     }
                     canvas.requestPaint()
                     if (root.isDefined) {
-                        root.effectPolygonChanged()
+                        root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                     }
                 } else if (root.requestedSubKeyFrame >= 0) {
                     root.centerPointsTypes[root.requestedSubKeyFrame].x = (mouseX - frame.x) / root.scalex
                     root.centerPointsTypes[root.requestedSubKeyFrame].y = (mouseY - frame.y) / root.scaley
                     canvas.requestPaint()
-                    root.effectPolygonChanged()
+                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                 }
             } else if ((root.iskeyframe || controller.autoKeyframe) && root.centerPoints.length > 0) {
               // Check if we are over a keyframe
