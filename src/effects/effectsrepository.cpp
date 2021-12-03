@@ -410,3 +410,13 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
     }
     return false;
 }
+
+bool EffectsRepository::isTextEffect(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        if (m_assets.at(assetId).type == AssetListType::AssetType::Text) {
+            return true;
+        }
+    }
+    return false;
+}

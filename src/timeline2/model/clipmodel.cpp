@@ -727,7 +727,7 @@ bool ClipModel::addEffect(const QString &effectId)
     } else if (m_currentState == PlaylistState::AudioOnly) {
         return false;
     }
-    if (type == AssetListType::AssetType::Text && m_clipType != ClipType::Text) {
+    if (EffectsRepository::get()->isTextEffect(effectId) && m_clipType != ClipType::Text) {
         return false;
     }
     m_effectStack->appendEffect(effectId, true);
