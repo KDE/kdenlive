@@ -2092,16 +2092,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // Parse some MLT's profiles
     parseMltPresets();
     QStringList filter = {QStringLiteral("*.xml")};
-#ifdef Q_OS_WIN
-    // Windows downloaded profiles are saved in AppLocalDataLocation
-    QString localExportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
-    QDir winDir(localExportFolder);
-    QStringList winFileList = winDir.entryList(filter, QDir::Files);
-    for (const QString &filename : winFileList) {
-        parseFile(winDir.absoluteFilePath(filename), true);
-    }
-#endif
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/");
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
     QDir directory(exportFolder);
     QStringList fileList = directory.entryList(filter, QDir::Files);
     // We should parse customprofiles.xml in last position, so that user profiles

@@ -666,11 +666,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     }
 
     // system templates
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-    // Windows: downloaded templatates are saved in AppLocalDataLocation
-    titleTemplates.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory));
-#endif
+    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
     titleTemplates.removeDuplicates();
     for (const QString &folderpath : qAsConst(titleTemplates)) {
         QDir folder(folderpath);

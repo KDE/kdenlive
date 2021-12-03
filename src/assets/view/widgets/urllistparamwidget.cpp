@@ -115,13 +115,9 @@ void UrlListParamWidget::slotRefresh()
         // special case: LUT files
         values.clear();
         names.clear();
-        // check for Kdenlive installed luts files
 
-        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-        // Windows downloaded lumas are saved in AppLocalDataLocation
-        customLuts.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory));
-#endif
+        // check for Kdenlive installed luts files
+        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
         for (const QString &folderpath : qAsConst(customLuts)) {
             QDir dir(folderpath);
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
