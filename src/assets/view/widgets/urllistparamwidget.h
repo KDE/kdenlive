@@ -60,6 +60,7 @@ public:
 
 private:
     QStringList m_fileExt;
+    int m_currentIndex;
 
 public slots:
     /** @brief Toggle the comments on or off

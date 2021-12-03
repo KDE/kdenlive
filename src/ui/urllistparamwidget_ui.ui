@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>UrlListParamWidget_UI</class>
  <widget class="QWidget" name="UrlListParamWidget_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>143</width>
+    <height>43</height>
+   </rect>
+  </property>
   <layout class="QGridLayout">
    <property name="leftMargin">
     <number>0</number>
@@ -102,17 +110,6 @@
         </property>
         <property name="sizeAdjustPolicy">
          <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="m_open">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="document-open">
-          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>

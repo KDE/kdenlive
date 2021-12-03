@@ -32,15 +32,17 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     slotRefresh();
 
     connect(m_download, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
-    connect(m_open, &QToolButton::clicked, this, &UrlListParamWidget::openFile);
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
-    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, [this](int) {
-                emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true);
+    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index) {
+        if (m_list->currentData() == QStringLiteral("custom_file")) {
+            openFile();
+        } else {
+            m_currentIndex = index;
+            emit valueChanged(m_index, m_list->currentData().toString(), true);
+        }
     });
-
 }
 
 void UrlListParamWidget::setCurrentIndex(int index)
@@ -91,7 +93,6 @@ void UrlListParamWidget::slotRefresh()
     filter.remove(0, filter.indexOf("(")+1);
     filter.remove(filter.indexOf(")")-1, -1);
     m_fileExt = filter.split(" ");
-
     if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
         values.clear();
@@ -148,26 +149,30 @@ void UrlListParamWidget::slotRefresh()
     }
     for (int i = 0; i < values.count(); i++) {
         const QString &entry = values.at(i);
-        m_list->addItem(names.at(i), entry);
+        QString name = QFileInfo(names.at(i)).baseName();
+        m_list->addItem(name, entry);
+        int ix = m_list->findData(entry);
         // Create thumbnails
         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (MainWindow::m_lumacache.contains(entry)) {
-                m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             } else {
                 QImage pix(entry);
                 if (!pix.isNull()) {
                     MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 }
             }
         }
     }
+    m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
 
     // select current value
     if (!value.isEmpty()) {
         int ix = m_list->findData(value);
         if (ix > -1)  {
             m_list->setCurrentIndex(ix);
+            m_currentIndex = ix;
         }
     }
 }
@@ -187,6 +192,8 @@ void UrlListParamWidget::openFile()
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         emit valueChanged(m_index, urlString, true);
         slotRefresh();
+    } else {
+        m_list->setCurrentIndex(m_currentIndex);
     }
 }
 
