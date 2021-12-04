@@ -2,8 +2,9 @@
   "app-id": "org.kde.kdenlive",
   "default-branch": "master",
   "runtime": "org.kde.Platform",
-  "runtime-version": "5.15",
+  "runtime-version": "5.15-21.08",
   "sdk": "org.kde.Sdk",
+  "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm12" ],
   "command": "kdenlive",
   "rename-icon": "kdenlive",
   "desktop-file-name-suffix": " (Nightly)",
@@ -575,6 +576,10 @@
         "--enable-nvdec",
         "--enable-cuvid"
       ],
+      "build-options": {
+        "prepend-path": "/usr/lib/sdk/llvm12/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm12/lib"
+      },
       "cleanup": [
         "/share/ffmpeg/examples"
       ],

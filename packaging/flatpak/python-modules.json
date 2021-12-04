@@ -19,7 +19,7 @@
         "name": "OpenTimelineIO",
         "buildsystem": "simple",
         "build-commands": [
-          "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.8'|\" -i setup.py",
+          "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.9'|\" -i setup.py",
           "python3 setup.py install --prefix=/app --root=/ --cxx-install-root=/app"
         ],
         "sources": [
