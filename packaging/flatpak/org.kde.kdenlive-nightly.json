@@ -93,8 +93,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.bz2",
-          "sha256": "0fa5cafe78f66d2b501b43016858070d52ba47bd9b1016b0165a7b8e04675677"
+          "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
+          "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626"
         }
       ]
     },
@@ -129,8 +129,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "http://www.fftw.org/fftw-3.3.9.tar.gz",
-          "sha256": "bf2c7ce40b04ae811af714deb512510cc2c17b9ab9d6ddcf49fe4487eea7af3d"
+          "url": "http://www.fftw.org/fftw-3.3.10.tar.gz",
+          "sha256": "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467"
         }
       ]
     },
@@ -159,8 +159,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.2.tar.gz",
-          "sha256": "b9eadf1df12ae8395ba781f2468965d411b21abbebbebeae3651d492227d4633"
+          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
+          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7"
         }
       ]
     },
@@ -177,8 +177,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.exiv2.org/builds/exiv2-0.27.4-Source.tar.gz",
-          "sha256": "84366dba7c162af9a7603bcd6c16f40fe0e9af294ba2fd2f66ffffb9fbec904e"
+          "url": "https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz",
+          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2"
         }
       ]
     },
@@ -214,8 +214,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/jackaudio/jack2/archive/v1.9.18.tar.gz",
-          "sha256": "5a1d64118034d58529d68a9af42710f9d4843536257c496118065ea3d3e4ae2c"
+          "url": "https://github.com/jackaudio/jack2/archive/v1.9.19.tar.gz",
+          "sha256": "9030f4dc11773351b6ac96affd9c89803a5587ebc1b091e5ff866f433327e4b0"
         }
       ]
     },
@@ -228,8 +228,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "http://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-5.1.0.tar.gz",
-          "sha256": "ff138b2b6ed2b700b04b406be718df213052d4c952190280cf4e2fab4b61fe09"
+          "url": "http://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-5.2.0.tar.gz",
+          "sha256": "d6089c214e5dbff136ab21f3f5efc284e93475ebd198c54d4b9b6c44419ef4e6"
         }
       ]
     },
@@ -330,9 +330,9 @@
       ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://github.com/werman/noise-suppression-for-voice.git",
-          "branch": "master"
+          "type": "archive",
+          "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v0.91.tar.gz",
+          "sha256": "4f3a112534d4abb5ee2b6c328cde89193dbdb2146cffc98505972c3b5397a35e"
         }
       ]
     },
@@ -349,8 +349,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.20.0.tar.bz2",
-          "sha256": "956118713f7ccb405c55c7088a6a2490c32d54300dd9a30d8d5008c28d3726f7"
+          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.0.tar.bz2",
+          "sha256": "1069e5d7909bcc563baeaadc3a5c496f0e658524c413cf7818816e37bfcea344"
         }
       ]
     },
@@ -359,8 +359,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/libass/libass/releases/download/0.15.1/libass-0.15.1.tar.xz",
-          "sha256": "1cdd39c9d007b06e737e7738004d7f38cf9b1e92843f37307b24e7ff63ab8e53"
+          "url": "https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz",
+          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd"
         }
       ]
     },
@@ -390,8 +390,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_3.4.orig.tar.gz",
-          "sha256": "c2047f23a6b729e5c70280d23223cb61b57bfe4ad4e8f1471eeee2a61d148672"
+          "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_3.5.orig.tar.gz",
+          "sha256": "e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8"
         }
       ]
     },
@@ -413,8 +413,8 @@
         {
           "type": "git",
           "url": "https://aomedia.googlesource.com/aom.git",
-          "commit": "7fadc0e77130efb05f52979b0deaba9b6a1bba6d",
-          "tag": "v3.1.1"
+          "commit": "287164de79516c25c8c84fd544f67752c170082a",
+          "tag": "v3.2.0"
         }
       ]
     },
@@ -427,8 +427,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva/archive/refs/tags/2.12.0.tar.gz",
-          "sha256": "7bca8c8a854653e15e602f243e2452e84e4b454b26549bf80a932ab29d7d6b21"
+          "url": "https://github.com/intel/libva/archive/refs/tags/2.13.0.tar.gz",
+          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1"
         }
       ]
     },
@@ -441,8 +441,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.12.0.tar.gz",
-          "sha256": "bcab647f42147aa5cf83b324b6c3fe69e392e44d34aababfafcb6c3b4310377d"
+          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.13.0.tar.gz",
+          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731"
         }
       ] 
     },
@@ -461,8 +461,8 @@
       "sources": [
          {
            "type": "archive",
-           "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/refs/tags/intel-mediasdk-21.2.3.tar.gz",
-           "sha256": "7791be83e5e9f6d55f31d6ad9037012fc78b846724644b9db2087d1b7dfec078"
+           "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/refs/tags/intel-mediasdk-21.3.5.tar.gz",
+           "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c"
          }
       ]
     },
@@ -481,8 +481,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.35.tar.gz",
-          "sha256": "0790ff82158837124150ab4034db37433a92caac0f145f249d2f194d8ccba3ca"
+          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.35.1.tar.gz",
+          "sha256": "673636da98a4fd5c3e3dc5267da5429e986f53089ed6c33cdca5751f56d9416b"
         }
       ]
     },
@@ -509,8 +509,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v.1.4.21.tar.gz",
-          "sha256": "ffbd24e6e6bc47faff8e91061357046544c32733048b459f227986ea5fe30456"
+          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz",
+          "sha256": "7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a"
         }
       ]
     },
@@ -527,8 +527,8 @@
         {
           "type": "git",
           "url": "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-          "commit": "315ad740ac77282c7cea67ba31f2e4b373132919",
-          "tag": "n11.0.10.1"
+          "commit": "b641a195edbe3ac9788e681e22c2e2fad8aacddb",
+          "tag": "n11.1.5.0"
         }
       ]
     },
@@ -577,8 +577,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.ffmpeg.org/releases/ffmpeg-4.4.tar.xz",
-          "sha256": "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+          "url": "https://www.ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz",
+          "sha256": "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
         }
       ]
     },
@@ -597,13 +597,13 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv/archive/4.5.3.tar.gz",
-          "sha256": "77f616ae4bea416674d8c373984b20c8bd55e7db887fd38c6df73463a0647bab"
+          "url": "https://github.com/opencv/opencv/archive/4.5.4.tar.gz",
+          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d"
         },
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.3.tar.gz",
-          "sha256": "73da052fd10e73aaba2560eaff10cc5177e2dcc58b27f8aedf7c649e24c233bc"
+          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.4.tar.gz",
+          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81"
         }
       ]
     },
@@ -628,8 +628,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/libmediainfo/21.03/libmediainfo_21.03.tar.xz",
-          "sha256": "56b7e9abf80cba48032165cd7a46fd8d43dd63e3af35765f66c3f134caaca4ca"
+          "url": "https://mediaarea.net/download/source/libmediainfo/21.09/libmediainfo_21.09.tar.xz",
+          "sha256": "69be9444f6a03a1bdf56713ee31d56e987c502a7ec18eb54ee70fcc171b7f126"
         }
       ]
     },
@@ -640,8 +640,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/mediainfo/21.03/mediainfo_21.03.tar.xz",
-          "sha256": "de50ca0b2c607b8999d3c9e542d27c97030a59f31859b612335315be6850021e"
+          "url": "https://mediaarea.net/download/source/mediainfo/21.09/mediainfo_21.09.tar.xz",
+          "sha256": "7b8fd9a502ec64afe1315072881b6385ba57ca69f2f82c625b1672e151c50c57"
         }
       ]
     },
@@ -651,8 +651,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://breakfastquay.com/files/releases/rubberband-1.9.2.tar.bz2",
-          "sha256": "b3cff5968517141fcf9e1ef6b5a1fdb06a5511f148000609216cf182ff4ab612"
+          "url": "https://breakfastquay.com/files/releases/rubberband-2.0.0.tar.bz2",
+          "sha256": "eccbf0545496ce3386a2433ceec31e6576a76ed6884310e4b465003bfe260286"
         }
       ]
     },
@@ -665,7 +665,7 @@
         {
           "type": "git",
           "url": "http://git.sesse.net/movit",
-          "commit": "f0c77209245aa206996c7ef5395888e2859ff4bf"
+          "commit": "0b1705581552217b0e387bd687d65e4e3410ab91"
         }
       ]
     },
