@@ -135,6 +135,17 @@
       ]
     },
     {
+      "name": "zimg",
+      "buildsystem": "autotools",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
+          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7"
+        }
+      ]
+    },
+    {
       "name": "sox",
       "config-opts": [
         "--disable-static"
@@ -150,35 +161,6 @@
           "mirror-urls": [
             "http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2"
           ]
-        }
-      ]
-    },
-    {
-      "name": "zimg",
-      "buildsystem": "autotools",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
-          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7"
-        }
-      ]
-    },
-    {
-      "name": "exiv2",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
-      ],
-      "cleanup": [
-        "/bin"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz",
-          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2"
         }
       ]
     },
@@ -262,6 +244,38 @@
           "commands": [
             "autoreconf -vfi"
           ]
+        }
+      ]
+    },
+    {
+      "name": "exiv2",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      ],
+      "cleanup": [
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz",
+          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2"
+        }
+      ]
+    },
+    {
+      "name": "libass",
+      "config-opts": [
+        "--enable-harfbuzz",
+        "--enable-fontconfig"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz",
+          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd"
         }
       ]
     },
@@ -355,16 +369,6 @@
       ]
     },
     {
-      "name": "libass",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz",
-          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd"
-        }
-      ]
-    },
-    {
       "name": "x264",
       "config-opts": [
         "--disable-cli",
@@ -393,77 +397,6 @@
           "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_3.5.orig.tar.gz",
           "sha256": "e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8"
         }
-      ]
-    },
-    {
-      "name": "aom",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DCMAKE_INSTALL_PREFIX=/app",
-        "-DBUILD_SHARED_LIBS=1",
-        "-DENABLE_DOCS=0",
-        "-DENABLE_EXAMPLES=0",
-        "-DENABLE_TESTDATA=0",
-        "-DENABLE_TESTS=0",
-        "-DENABLE_TOOLS=0"
-      ],
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://aomedia.googlesource.com/aom.git",
-          "commit": "287164de79516c25c8c84fd544f67752c170082a",
-          "tag": "v3.2.0"
-        }
-      ]
-    },
-    {
-      "name": "libva",
-      "skip-arches": [
-        "aarch64"
-      ],
-      "buildsystem": "meson",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/intel/libva/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1"
-        }
-      ]
-    },
-    {
-      "name": "libva-utils",
-      "skip-arches": [
-        "aarch64"
-      ],
-      "buildsystem": "meson",
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731"
-        }
-      ] 
-    },
-    {
-      "name": "mediasdk",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DBUILD_SAMPLES=OFF",
-        "-DBUILD_TESTS=OFF",
-        "-DBUILD_TOOLS=OFF",
-        "-DBUILD_TESTS=OFF",
-        "-DMFX_ENABLE_SW_FALLBACK=OFF"
-      ],
-      "sources": [
-         {
-           "type": "archive",
-           "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/refs/tags/intel-mediasdk-21.3.5.tar.gz",
-           "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c"
-         }
       ]
     },
     {
@@ -533,6 +466,77 @@
       ]
     },
     {
+      "name": "aom",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_INSTALL_PREFIX=/app",
+        "-DBUILD_SHARED_LIBS=1",
+        "-DENABLE_DOCS=0",
+        "-DENABLE_EXAMPLES=0",
+        "-DENABLE_TESTDATA=0",
+        "-DENABLE_TESTS=0",
+        "-DENABLE_TOOLS=0"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://aomedia.googlesource.com/aom.git",
+          "commit": "287164de79516c25c8c84fd544f67752c170082a",
+          "tag": "v3.2.0"
+        }
+      ]
+    },
+    {
+      "name": "libva",
+      "skip-arches": [
+        "aarch64"
+      ],
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/intel/libva/archive/refs/tags/2.13.0.tar.gz",
+          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1"
+        }
+      ]
+    },
+    {
+      "name": "libva-utils",
+      "skip-arches": [
+        "aarch64"
+      ],
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.13.0.tar.gz",
+          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731"
+        }
+      ] 
+    },
+    {
+      "name": "mediasdk",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_SAMPLES=OFF",
+        "-DBUILD_TESTS=OFF",
+        "-DBUILD_TOOLS=OFF",
+        "-DBUILD_TESTS=OFF",
+        "-DMFX_ENABLE_SW_FALLBACK=OFF"
+      ],
+      "sources": [
+         {
+           "type": "archive",
+           "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz",
+           "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c"
+         }
+      ]
+    },
+    {
       "name": "ffmpeg",
       "config-opts": [
         "--enable-rpath",
@@ -551,19 +555,19 @@
         "--enable-libxml2",
         "--enable-libx264",
         "--enable-libx265",
-        "--enable-libopenjpeg",
         "--enable-libdav1d",
         "--enable-libv4l2",
         "--enable-libmp3lame",
-        "--enable-libass",
-        "--enable-gnutls",
         "--enable-libzimg",
-        "--enable-libaom",
-        "--enable-libvidstab",
         "--enable-vaapi",
         "--enable-libmfx",
         "--enable-amf",
         "--enable-opencl",
+        "--enable-libass",
+        "--enable-gnutls",
+        "--enable-libvidstab",
+        "--enable-libaom",
+        "--enable-libopenjpeg",
         "--enable-ffnvcodec",
         "--enable-cuda-llvm",
         "--enable-nvenc",
@@ -579,31 +583,6 @@
           "type": "archive",
           "url": "https://www.ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz",
           "sha256": "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
-        }
-      ]
-    },
-    {
-      "name": "opencv",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DOPENCV_GENERATE_PKGCONFIG=ON",
-        "-DBUILD_LIST=tracking"
-      ],
-      "cleanup": [
-        "/bin"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/opencv/opencv/archive/4.5.4.tar.gz",
-          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d"
-        },
-        {
-          "type": "archive",
-          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.4.tar.gz",
-          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81"
         }
       ]
     },
@@ -642,6 +621,31 @@
           "type": "archive",
           "url": "https://mediaarea.net/download/source/mediainfo/21.09/mediainfo_21.09.tar.xz",
           "sha256": "7b8fd9a502ec64afe1315072881b6385ba57ca69f2f82c625b1672e151c50c57"
+        }
+      ]
+    },
+    {
+      "name": "opencv",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DOPENCV_GENERATE_PKGCONFIG=ON",
+        "-DBUILD_LIST=tracking"
+      ],
+      "cleanup": [
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/opencv/opencv/archive/4.5.4.tar.gz",
+          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d"
+        },
+        {
+          "type": "archive",
+          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.4.tar.gz",
+          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81"
         }
       ]
     },
