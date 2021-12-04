@@ -238,6 +238,35 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     m_lastSave.start();
 }
 
+void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
+{
+    m_project = doc;
+    m_mainTimelineModel = timeline;
+}
+
+bool ProjectManager::testSaveFileAs(const QString &outputFileName)
+{
+    QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    QMap<QString,QString>docProperties;
+    docProperties.insert(QStringLiteral("version"), QString::number(m_project->getDocumentVersion()));
+    pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString,QString>(),
+                                                      m_project->getGuideModel());
+    QString scene = m_mainTimelineModel->sceneList(saveFolder);
+    
+    QSaveFile file(outputFileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug()<<"//////  ERROR writing to file: " << outputFileName;
+        return false;
+    }
+
+    file.write(scene.toUtf8());
+    if (!file.commit()) {
+        qDebug()<<"Cannot write to file %1";
+        return false;
+    }
+    return true;
+}
+
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 {
     // Disable autosave
@@ -746,7 +775,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getMainTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
-    QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder, QString(), overlayData);
+    QString scene = m_mainTimelineModel->sceneList(outputFolder, QString(), overlayData);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
@@ -762,7 +791,9 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 
 void ProjectManager::setDocumentNotes(const QString &notes)
 {
-    m_notesPlugin->widget()->setHtml(notes);
+    if (m_notesPlugin) {
+        m_notesPlugin->widget()->setHtml(notes);
+    }
 }
 
 QString ProjectManager::documentNotes() const

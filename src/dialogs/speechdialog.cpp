@@ -120,7 +120,7 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
         audio = m_tmpAudio->fileName();
     }
     m_tmpAudio->close();
-    pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(QDir::temp().absolutePath(), sceneList);
+    m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
     qDebug()<<"=== STARTING RENDER B";
     Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());

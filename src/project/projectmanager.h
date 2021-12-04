@@ -94,6 +94,12 @@ public:
     /** @brief Add requested audio tracks number to project.
      */
     void addAudioTracks(int tracksCount);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    void testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    bool testSaveFileAs(const QString &outputFileName);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);

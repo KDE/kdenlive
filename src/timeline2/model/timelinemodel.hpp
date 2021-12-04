@@ -442,6 +442,9 @@ public:
     /**  @brief Returns a list of proxied clips at position pos
      */
     QStringList getProxiesAt(int position);
+    /**  @brief Returns the current project xml playlist for saving
+     */
+    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
 
 protected:
     /** @brief Creates a new clip instance without inserting it.

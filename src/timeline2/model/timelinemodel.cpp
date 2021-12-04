@@ -39,6 +39,7 @@
 #include <set>
 
 #include "macros.hpp"
+#include <localeHandling.h>
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
@@ -3280,6 +3281,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
         }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
+        if (!result) {
+            break;
+        }
         if (id == itemId) {
             size = finalSize;
         }
@@ -5237,6 +5241,39 @@ void TimelineModel::setTimelineEffectsEnabled(bool enabled)
 std::shared_ptr<Mlt::Producer> TimelineModel::producer()
 {
     return std::make_shared<Mlt::Producer>(tractor());
+}
+
+const QString TimelineModel::sceneList(const QString &root, const QString &fullPath, QString filterData)
+{
+    LocaleHandling::resetLocale();
+    QString playlist;
+    Mlt::Consumer xmlConsumer(*m_profile, "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+    if (!root.isEmpty()) {
+        xmlConsumer.set("root", root.toUtf8().constData());
+    }
+    if (!xmlConsumer.is_valid()) {
+        return QString();
+    }
+    xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("time_format", "clock");
+    // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
+    // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
+    // xmlConsumer.set("no_meta", 1);
+    Mlt::Service s(m_tractor->get_service());
+    std::unique_ptr<Mlt::Filter> filter = nullptr;
+    if (!filterData.isEmpty()) {
+        filter = std::make_unique<Mlt::Filter>(*m_profile, QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter->set("fgcolour", "#ffffff");
+        filter->set("bgcolour", "#bb333333");
+        s.attach(*filter.get());
+    }
+    xmlConsumer.connect(s);
+    xmlConsumer.run();
+    if (filter) {
+        s.detach(*filter.get());
+    }
+    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
+    return playlist;
 }
 
 void TimelineModel::checkRefresh(int start, int end)

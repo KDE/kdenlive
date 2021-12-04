@@ -76,9 +76,6 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    /** @brief Get the current MLT producer playlist.
-     * @return A string describing the playlist */
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();

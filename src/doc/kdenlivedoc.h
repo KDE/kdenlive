@@ -167,6 +167,10 @@ public:
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
     const QString subTitlePath(bool final);
+    /** @brief Creates a new project. */
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    /** @brief Return the document version. */
+    double getDocumentVersion() const;
 
 private:
     QUrl m_url;
@@ -204,7 +208,6 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */

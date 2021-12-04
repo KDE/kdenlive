@@ -6,12 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "previewmanager.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <KLocalizedString>
 #include <QProcess>
@@ -516,7 +518,7 @@ void PreviewManager::startPreviewRender()
         // clear log
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
+        pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
         m_previewTimer.stop();
         doPreviewRender(sceneList);
     }

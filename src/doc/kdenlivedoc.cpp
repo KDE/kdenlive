@@ -1289,6 +1289,11 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     }
 }
 
+double KdenliveDoc::getDocumentVersion() const
+{
+    return DOCUMENTVERSION;
+}
+
 QMap<QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));

@@ -5,6 +5,7 @@ add_executable(runTests
     abortutil.cpp
     compositiontest.cpp
     effectstest.cpp
+    filetest.cpp
     mixtest.cpp
     groupstest.cpp
     keyframetest.cpp

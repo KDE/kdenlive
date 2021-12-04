@@ -47,7 +47,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
     pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
-    pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
     for (const QString &folderId : expandedFolders) {
@@ -55,7 +54,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             foldersToExpand << binIdCorresp.at(folderId);
         }
     }
-    pCore->bin()->loadFolderState(foldersToExpand);
+    if (pCore->window()) {
+        pCore->bin()->checkMissingProxies();
+        pCore->bin()->loadFolderState(foldersToExpand);
+    }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"), QLatin1String("black_track"), QLatin1String("overlay_track")};
     bool ok = true;
@@ -373,7 +375,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
             bool ok = false;
             int cid = -1;
-            if (pCore->bin()->getBinClip(binId)) {
+            if (pCore->projectItemModel()->getClipByBinID(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
                 bool enforceTopPlaylist = false;
                 if (playlist > 0) {

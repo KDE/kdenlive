@@ -2910,13 +2910,7 @@ QStringList Bin::getBinFolderClipIds(const QString &id) const
 
 std::shared_ptr<ProjectClip> Bin::getBinClip(const QString &id)
 {
-    std::shared_ptr<ProjectClip> clip = nullptr;
-    if (id.contains(QLatin1Char('_'))) {
-        clip = m_itemModel->getClipByBinID(id.section(QLatin1Char('_'), 0, 0));
-    } else if (!id.isEmpty()) {
-        clip = m_itemModel->getClipByBinID(id);
-    }
-    return clip;
+    return m_itemModel->getClipByBinID(id);
 }
 
 const QString Bin::getBinClipName(const QString &id) const
