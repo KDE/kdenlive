@@ -174,5 +174,7 @@ if(BUILD_TESTING)
 endif()
 if(BUILD_FUZZING AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     add_subdirectory(fuzzer)
+elseif(BUILD_FUZZING)
+    message(STATUS "Fuzzing build was requested but not enabled because compiler is ${CMAKE_CXX_COMPILER_ID} and not Clang")
 endif()
 
