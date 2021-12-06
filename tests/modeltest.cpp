@@ -1134,7 +1134,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     int length = 20;
-    int nclips = timeline->m_allClips.size();
+    unsigned long nclips = timeline->m_allClips.size();
 
     SECTION("requestCreateClip")
     {
@@ -1624,7 +1624,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 
-    int clipCount = timeline->m_allClips.size();
+    unsigned long clipCount = timeline->m_allClips.size();
     SECTION("Clip creation and resize")
     {
         int cid6;
