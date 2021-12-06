@@ -3762,7 +3762,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    TRACE(itemId, offset, logUndo, allowSingleResize)
     Q_ASSERT(isClip(itemId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
