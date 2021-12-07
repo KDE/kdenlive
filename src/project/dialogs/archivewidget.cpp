@@ -360,7 +360,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         if(file.isEmpty() || fileName.isEmpty()) {
             continue;
         }
-        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
+        auto *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
@@ -528,8 +528,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
-    KDiskFreeSpaceInfo inf = KDiskFreeSpaceInfo::freeSpaceInfo(archive_url->url().toLocalFile());
-    KIO::filesize_t freeSize = inf.available();
+    QStorageInfo info(archive_url->url().toLocalFile());
+    auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);

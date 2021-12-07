@@ -697,9 +697,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     int base = int(tickOffset / frameSize);
     tickOffset = frameSize - (tickOffset - (base * frameSize));
     // Draw frame ticks
-    int scaledTick = 0;
     for (int i = 0; i < maxWidth / frameSize; i++) {
-        scaledTick = int(m_offset + (i * frameSize) + tickOffset);
+        int scaledTick = int(m_offset + (i * frameSize) + tickOffset);
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }

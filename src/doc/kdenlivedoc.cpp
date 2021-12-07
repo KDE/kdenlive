@@ -268,7 +268,7 @@ KdenliveDoc::~KdenliveDoc()
     if (m_url.isEmpty()) {
         // Document was never saved, delete cache folder
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-        bool ok;
+        bool ok = false;
         documentId.toLongLong(&ok, 10);
         if (ok && !documentId.isEmpty()) {
             QDir baseCache = getCacheDir(CacheBase, &ok);
@@ -1361,7 +1361,7 @@ void KdenliveDoc::loadDocumentProperties()
         QDir dir(path);
         dir.cdUp();
         m_projectFolder = dir.absolutePath();
-        bool ok;
+        bool ok = false;
         // Ensure document storage folder is writable
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
         documentId.toLongLong(&ok, 10);

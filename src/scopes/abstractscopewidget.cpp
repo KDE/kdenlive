@@ -48,13 +48,13 @@ const QString AbstractScopeWidget::directions[] = {QStringLiteral("North"), QStr
 
 AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent)
     : QWidget(parent)
+    , m_scopePalette(QPalette())
     , m_mousePos(0, 0)
     , m_semaphoreHUD(1)
     , m_semaphoreScope(1)
     , m_semaphoreBackground(1)
 
 {
-    m_scopePalette = QPalette();
     m_scopePalette.setBrush(QPalette::Window, QBrush(dark2));
     m_scopePalette.setBrush(QPalette::Base, QBrush(dark));
     m_scopePalette.setBrush(QPalette::Button, QBrush(dark));
