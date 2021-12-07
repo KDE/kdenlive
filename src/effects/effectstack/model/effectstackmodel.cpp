@@ -19,13 +19,13 @@
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
+    , m_masterService(std::move(service))
     , m_effectStackEnabled(true)
     , m_ownerId(std::move(ownerId))
     , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
 {
-    m_masterService = std::move(service);
 }
 
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
@@ -871,7 +871,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     QWriteLocker locker(&m_lock);
     // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
-    QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
         if (!m_loadingExisting) {
@@ -889,7 +888,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             m_fadeOuts.insert(effectItem->getId());
         }
-        ix = getIndexFromItem(effectItem);
+        QModelIndex ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);

@@ -108,7 +108,6 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
                 updatedLink.prepend(QString("%1#").arg(binId));
             }
         } else {
-            updatedLink = a;
             position = a.toInt();
             if (!binId.isEmpty()) {
                 updatedLink.prepend(QString("%1#").arg(binId));

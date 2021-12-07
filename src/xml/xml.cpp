@@ -122,12 +122,10 @@ void Xml::setXmlParameter(QDomElement element, const QString &propertyName, cons
 {
     QDomNodeList params = element.elementsByTagName(QStringLiteral("parameter"));
     // Update property if it already exists
-    bool found = false;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("name")) == propertyName) {
             e.setAttribute(QStringLiteral("value"), value);
-            found = true;
             break;
         }
     }

@@ -1022,7 +1022,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::ColorWheel) {
             continue;
         }
 

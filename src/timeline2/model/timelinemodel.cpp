@@ -1260,12 +1260,12 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isSubTitle(subId));
     int currentPos = getSubtitlePosition(subId);
-    int offset = 0;
     if (currentPos == position || m_subtitleModel->isLocked()) {
         return position;
     }
     int newPos = position;
     if (snapDistance > 0) {
+        int offset = 0;
         std::vector<int> ignored_pts;
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::unordered_set<int> all_items = {subId};
@@ -1813,8 +1813,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         bool canMirrorDrop = !useTargets && ((mirror > -1 && (audioDrop || !keys.isEmpty())) || keys.count() > 1);
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
-            int streamsCount = 0;
             if (!useTargets) {
+                int streamsCount = 0;
                 target_track.clear();
                 QList <int> audioTids;
                 if (!audioDrop) {

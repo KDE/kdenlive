@@ -953,8 +953,8 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
         }
         propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
+            bool found = false;
             // Title with images, replace paths
             QDomDocument titleXML;
             titleXML.setContent(src);

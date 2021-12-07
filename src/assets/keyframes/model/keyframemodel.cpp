@@ -665,7 +665,7 @@ bool KeyframeModel::singleKeyframe() const
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
-    if (m_keyframeList.count(pos) <= 0) {
+    if (m_keyframeList.count(pos) == 0) {
         // return empty marker
         *ok = false;
         return {GenTime(), KeyframeType::Linear};
@@ -1408,9 +1408,8 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
     update_redo_start();
-    bool res = true;
     for (const auto &p : all_pos) {
-        res = removeKeyframe(p, local_undo, local_redo, false);
+        bool res = removeKeyframe(p, local_undo, local_redo, false);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);

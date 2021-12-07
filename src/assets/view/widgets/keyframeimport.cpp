@@ -602,9 +602,8 @@ QString KeyframeImport::selectedData() const
             anim2->interpolate();
             int length = lastKeyframe;
             double interval = double(length) / (m_limitNumber->value() - 1);
-            int pos = 0;
             for (int i = 0; i < m_limitNumber->value(); i++) {
-                pos = firstKeyframe + in + i * interval;
+                int pos = firstKeyframe + in + i * interval;
                 pos = qMin(pos, length - 1);
                 double dval = animData->anim_get_double("key", pos);
                 animData2->anim_set("key", dval, pos);
@@ -652,9 +651,8 @@ QString KeyframeImport::selectedData() const
             anim2->interpolate();
             int length = lastKeyframe - firstKeyframe;
             double interval = double(length) / (m_limitNumber->value() - 1);
-            int pos = 0;
             for (int i = 0; i < m_limitNumber->value(); i++) {
-                pos = firstKeyframe + i * interval;
+                int pos = firstKeyframe + i * interval;
                 pos = qMin(pos, lastKeyframe);
                 mlt_rect rect = animData->anim_get_rect("key", pos);
                 animData2->anim_set("key", rect, pos);

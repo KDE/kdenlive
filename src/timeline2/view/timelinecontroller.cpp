@@ -3263,11 +3263,10 @@ void TimelineController::switchTrackLock(bool applyToAll)
         int toBeLockedCount =
             std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
         auto subtitleModel = pCore->getSubtitleModel();
-        bool subLocked = false;
         bool hasSubtitleTrack = false;
         if (subtitleModel) {
             hasSubtitleTrack = true;
-            subLocked= subtitleModel->isLocked();
+            bool subLocked = subtitleModel->isLocked();
             if (!subLocked) {
                 toBeLockedCount++;
             }
@@ -4015,7 +4014,6 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         int old_trackId = m_model->getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            bool updateThisView = true;
             if (m_model->isClip(item)) {
                 int current_track_position = m_model->getTrackPosition(old_trackId);
                 int d = m_model->getTrackById_const(old_trackId)->isAudioTrack() ? audio_delta : video_delta;
@@ -4029,7 +4027,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 int duration = m_model->m_allClips[item]->getPlaytime();
                 min = min < 0 ? old_position[item] + delta_pos : qMin(min, old_position[item] + delta_pos);
                 max = max < 0 ? old_position[item] + delta_pos + duration : qMax(max, old_position[item] + delta_pos + duration);
-                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo, false, false);
+                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, true, finalMove, undo, redo, false, false);
                 if (m_model->m_editMode == TimelineMode::InsertEdit) {
                     // Lift space left by removed clip
                     ok = ok && TimelineFunctions::removeSpace(m_model, {old_position[item],old_position[item] + duration}, undo, redo, {old_trackId}, false);

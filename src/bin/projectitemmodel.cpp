@@ -840,7 +840,6 @@ bool ProjectItemModel::requestCleanupUnused()
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
@@ -852,7 +851,7 @@ bool ProjectItemModel::requestCleanupUnused()
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
     for (const auto &c : to_delete) {
-        res = requestBinClipDeletion(c, undo, redo);
+        bool res = requestBinClipDeletion(c, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -868,7 +867,6 @@ bool ProjectItemModel::requestTrashClips(QStringList &urls)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
@@ -881,7 +879,7 @@ bool ProjectItemModel::requestTrashClips(QStringList &urls)
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
     for (const auto &c : to_delete) {
-        res = requestBinClipDeletion(c, undo, redo);
+        bool res = requestBinClipDeletion(c, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);

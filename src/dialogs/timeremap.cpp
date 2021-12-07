@@ -1375,9 +1375,8 @@ void RemapView::paintEvent(QPaintEvent *event)
     int base = int(tickOffset / frameSize);
     tickOffset = frameSize - (tickOffset - (base * frameSize));
     // Draw frame ticks
-    int scaledTick = 0;
     for (int i = 0; i < maxWidth / frameSize; i++) {
-        scaledTick = int(m_offset + (i * frameSize) + tickOffset);
+        int scaledTick = int(m_offset + (i * frameSize) + tickOffset);
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }
@@ -1476,10 +1475,9 @@ void RemapView::paintEvent(QPaintEvent *event)
 
     if (m_bottomPosition >= 0 && m_bottomPosition < m_duration) {
         p.setBrush(m_colSelected);
-        int topPos = -1;
         double scaledPos = -1;
         if (m_remapLink && !m_keyframes.isEmpty()) {
-            topPos = GenTime(m_remapLink->anim_get_double("map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
+            int topPos = GenTime(m_remapLink->anim_get_double("map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
             scaledPos = topPos * m_scale;
             scaledPos -= m_zoomStart;
             scaledPos *= m_zoomFactor;
@@ -1753,8 +1751,8 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         return;
     }
     m_view->m_remapLink.reset();
-    bool keyframesLoaded = false;
     if (clip != nullptr) {
+        bool keyframesLoaded = false;
         int min = in == -1 ? 0 : in;
         int max = out == -1 ? clip->getFramePlaytime() : out;
         m_in->setRange(0, max - min);

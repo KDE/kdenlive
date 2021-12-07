@@ -33,17 +33,16 @@
 
 KisCurveWidget::KisCurveWidget(QWidget *parent)
     : AbstractCurveWidget(parent)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
+    , m_grabOriginalX(0)
+    , m_grabOriginalY(0)
+    , m_draggedAwayPointIndex(0)
+    , m_guideVisible(false)
+
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
-    m_guideVisible = false;
 
-    m_maxPoints = -1;
-
-    m_grabOffsetX = 0;
-    m_grabOffsetY = 0;
-    m_grabOriginalX = 0;
-    m_grabOriginalY = 0;
-    m_draggedAwayPointIndex = 0;
     m_pixmapIsDirty = false;
     m_pixmapCache = nullptr;
     m_maxPoints = 0;

@@ -24,19 +24,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
+    , m_originalProfile(QStringLiteral("invalid"))
 {
-    m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
-    QLabel *fpsLabel = new QLabel(i18n("Fps"), this);
+    auto *fpsLabel = new QLabel(i18n("Fps"), this);
     m_fpsFilt = new QComboBox(this);
     fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
     labelLay->addWidget(m_fpsFilt);
 
-    QLabel *scanningLabel = new QLabel(i18n("Scanning"), this);
+    auto *scanningLabel = new QLabel(i18n("Scanning"), this);
     m_scanningFilt = new QComboBox(this);
     scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
@@ -64,7 +64,8 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
-        QModelIndex current, old;
+        QModelIndex current;
+        QModelIndex old;
         if (!selected.indexes().isEmpty()) {
             current = selected.indexes().front();
         }

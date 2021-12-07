@@ -364,7 +364,6 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         const int h = m_innerScopeRect.height();
         const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        int windowSize;
         int y;
         bool completeRedraw = true;
 
@@ -384,14 +383,13 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         y = 0;
         if ((newData != 0) || m_parameterChanged) {
             m_parameterChanged = false;
-            bool peak = false;
 
             QVector<float> dbMap;
             uint right;
             ////////////////FIXME
             for (auto &it : m_fftHistory) {
 
-                windowSize = it.size();
+                int windowSize = it.size();
 
                 // Interpolate the frequency data to match the pixel coordinates
                 right = uint(m_freqMax / (m_freq / 2.f) * (windowSize - 1));
@@ -400,7 +398,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
                 for (int i = 0; i < dbMap.size(); ++i) {
                     float val;
                     val = dbMap[i];
-                    peak = val > m_dBmax;
+                    bool peak = val > m_dBmax;
 
                     // Normalize dB value to [0 1], 1 corresponding to dbMax dB and 0 to dbMin dB
                     val = (val - m_dBmax) / (m_dBmax - m_dBmin) + 1.f;
