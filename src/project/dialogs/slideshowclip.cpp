@@ -54,6 +54,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), QStringLiteral("tif"));
     m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), QStringLiteral("tiff"));
     m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), QStringLiteral("exr"));
+    m_view.image_type->addItem(i18n("Preview from CR2 (*.cr2)"), QStringLiteral("cr2"));
+    m_view.image_type->addItem(i18n("Preview from ARW (*.arw)"), QStringLiteral("arw"));
     m_view.animation->addItem(i18n("None"), QString());
     m_view.animation->addItem(i18nc("Image Pan", "Pan"), QStringLiteral("Pan"));
     m_view.animation->addItem(i18n("Pan, low-pass"), QStringLiteral("Pan, low-pass"));
