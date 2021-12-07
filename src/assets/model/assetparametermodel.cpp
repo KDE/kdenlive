@@ -186,7 +186,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
-        if (currentRow.type == ParamType::UrlList) {
+        if (currentRow.type == ParamType::UrlList && !m_asset->property_exists(name.toUtf8().constData())) {
             QString values = currentParameter.attribute(QStringLiteral("paramlist"));
             if (values == QLatin1String("%lutPaths")) {
                 QString filter = currentParameter.attribute(QStringLiteral("filter"));;
