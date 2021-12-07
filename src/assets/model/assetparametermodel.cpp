@@ -14,6 +14,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
+#include <QDir>
+#include <QDirIterator>
 #include <QRegularExpression>
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
@@ -184,6 +186,30 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
+        if (currentRow.type == ParamType::UrlList) {
+            QString values = currentParameter.attribute(QStringLiteral("paramlist"));
+            if (values == QLatin1String("%lutPaths")) {
+                QString filter = currentParameter.attribute(QStringLiteral("filter"));;
+                filter.remove(0, filter.indexOf("(")+1);
+                filter.remove(filter.indexOf(")")-1, -1);
+                QStringList fileExt = filter.split(" ");
+                // check for Kdenlive installed luts files
+                QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+                QStringList results;
+                for (const QString &folderpath : qAsConst(customLuts)) {
+                    QDir dir(folderpath);
+                    QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
+                    while (it.hasNext()) {
+                        results.append(it.next());
+                        break;
+                    }
+                }
+                if (!results.isEmpty()) {
+                    value = results.first();
+                }
+            }
+        }
+
         if (!isFixed) {
             currentRow.value = value;
             QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
