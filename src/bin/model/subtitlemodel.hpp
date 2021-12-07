@@ -69,10 +69,10 @@ public:
     bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /** @brief Edit subtitle text
-        @param startPos is start timing position of subtitles
+        @param id the model id of the subtitle
         @param newSubtitleText is (new) subtitle text
     */
-    void editSubtitle(GenTime startPos, QString newSubtitleText);
+    bool editSubtitle(int id, QString newSubtitleText);
 
     /** @brief Remove subtitle at start position (pos) */
     bool removeSubtitle(int id, bool temporary = false, bool updateFilter = true);
@@ -107,7 +107,8 @@ public:
     bool isSelected(int id) const;
     /** @brief Cut a subtitle */
     bool cutSubtitle(int position);
-    bool cutSubtitle(int position, Fun &undo, Fun &redo);
+    /** @brief Cut a subtitle, return the id of newly created subtitle */
+    int cutSubtitle(int position, Fun &undo, Fun &redo);
     QString getText(int id) const;
     int getRowForId(int id) const;
     GenTime getStartPosForId(int id) const;
@@ -136,6 +137,8 @@ public:
     void clearGrab();
     /** @brief Release timeline model pointer */
     void unsetModel();
+    /** @brief Get in/out of a subtitle item */
+    QPair<int, int> getInOut(int sid) const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */

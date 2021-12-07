@@ -85,7 +85,7 @@ Item {
                 timeline.showKeyBinding()
             }
             onPressed: {
-                console.log('ENTERED ITEM CLCKD')
+                console.log('ENTERED ITEM CLCKD:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRM: ', subtitleRoot.startFrame)
                 root.autoScrolling = false
                 oldStartX = mouseX
                 oldStartFrame = subtitleRoot.startFrame
@@ -105,7 +105,7 @@ Item {
             onPositionChanged: {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     newStart = Math.max(0, oldStartFrame + (mouseX - oldStartX)/ root.timeScale)
-                    snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
+                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, newStart, root.consumerPosition, root.snapping)
                 }
             }
             onReleased: {
@@ -120,8 +120,8 @@ Item {
                         subtitleBase.x = 0
                     if (oldStartFrame != snappedFrame) {
                         console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
-                        controller.requestSubtitleMove(subId, oldStartFrame, false, false);
-                        controller.requestSubtitleMove(subId, snappedFrame, true, true);
+                        controller.requestSubtitleMove(subtitleRoot.subId, oldStartFrame, false, false);
+                        controller.requestSubtitleMove(subtitleRoot.subId, snappedFrame, true, true);
                         x = snappedFrame * root.timeScale
                     }
                 }
@@ -176,7 +176,7 @@ Item {
                 subtitleEdit.focus = false
                 parent.textEditBegin = false
                 if (subtitleRoot.subtitle != subtitleEdit.text) {
-                    timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor, subtitleEdit.text, subtitleRoot.subtitle)
+                    timeline.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
                 }
             }
             anchors.fill: parent
@@ -244,7 +244,7 @@ Item {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / root.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        var frame = controller.requestItemResize(subId, newDuration , false, false, root.snapping);
+                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -256,8 +256,8 @@ Item {
                 root.autoScrolling = timeline.autoScroll
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
-                    controller.requestItemResize(subId, subtitleRoot.endFrame - oldStartFrame, false, false);
-                    controller.requestItemResize(subId, subtitleRoot.endFrame - newStart, false, true);
+                    controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
+                    controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true);
                 }
             }
             onEntered: {
@@ -329,7 +329,7 @@ Item {
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
                         newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX)/timeScale)
                         // Perform resize without changing model
-                        var frame = controller.requestItemResize(subId, newDuration , true, false, root.snapping);
+                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -342,9 +342,9 @@ Item {
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
                     // Restore original size
-                    controller.requestItemResize(subId, originalDuration , true, false);
+                    controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
                     // Perform real resize
-                    controller.requestItemResize(subId, newDuration , true, true)
+                    controller.requestItemResize(subtitleRoot.subId, newDuration , true, true)
                     sizeChanged = false
                 }
             }
