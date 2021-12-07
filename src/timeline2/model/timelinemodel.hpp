@@ -604,6 +604,9 @@ public:
        Must be called for example when the doc change
     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
+    /** @brief Calculate timeline hash based on clips, mixes and compositions
+    */
+    QByteArray timelineHash();
 
 protected:
     /** @brief Requests the best snapped position for a clip

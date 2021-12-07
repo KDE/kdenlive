@@ -1095,10 +1095,10 @@ bool TrackModel::checkConsistency()
             // Check that the mix has correct in/out
             int mainId = -1;
             int mixIn = t.get_in();
-            for (auto & m_sameComposition : m_sameCompositions) {
-                if (static_cast<Mlt::Transition *>(m_sameComposition.second->getAsset())->get_in() == mixIn) {
+            for (auto &sameComposition : m_sameCompositions) {
+                if (static_cast<Mlt::Transition *>(sameComposition.second->getAsset())->get_in() == mixIn) {
                     // Found mix in list
-                    mainId = m_sameComposition.first;
+                    mainId = sameComposition.first;
                     break;
                 }
             }
@@ -2589,4 +2589,22 @@ bool TrackModel::hasClipStart(int pos)
         }
     }
     return false;
+}
+
+
+QByteArray TrackModel::trackHash()
+{
+    QByteArray fileData;
+    // Parse clips
+    for (auto &clip : m_allClips) {
+        QString clipData = QString("%1 %2 %3 %4").arg(QString::number(clip.second->getPosition()), QString::number(clip.second->getPlaytime()), QString::number(clip.second->getSubPlaylistIndex()), clip.second->effectNames());
+        fileData.append(clipData.toLatin1()); 
+    }
+    // Parse mixes
+    for (auto &sameComposition : m_sameCompositions) {
+        Mlt::Transition *tr = static_cast<Mlt::Transition *>(sameComposition.second->getAsset());
+        QString mixData = QString("%1 %2 %3").arg(QString::number(tr->get_in()), QString::number(tr->get_out()), sameComposition.second->getAssetId());
+        fileData.append(mixData.toLatin1());
+    }
+    return fileData;
 }

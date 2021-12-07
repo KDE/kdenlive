@@ -11,6 +11,7 @@
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -6365,4 +6366,27 @@ QStringList TimelineModel::getProxiesAt(int position)
         ++it;
     }
     return proxied;
+}
+
+QByteArray TimelineModel::timelineHash()
+{
+    QByteArray fileData;
+    // Get track hashes
+    auto it = m_allTracks.begin();
+    while (it != m_allTracks.end()) {
+        fileData.append((*it)->trackHash());
+        ++it;
+    }
+    // Compositions hash
+    for (auto &compo : m_allCompositions) {
+        int track = getTrackPosition(compo.second->getCurrentTrackId());
+        QString compoData = QString("%1 %2 %3 %4").arg(QString::number(compo.second->getATrack()), QString::number(track), QString::number(compo.second->getPosition()), QString::number(compo.second->getPlaytime()));
+        compoData.append(compo.second->getAssetId());
+        fileData.append(compoData.toLatin1()); 
+    }
+    // Guides
+    QString guidesData = pCore->currentDoc()->getGuideModel()->toJson();
+    fileData.append(guidesData.toUtf8().constData());
+    QByteArray fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+    return fileHash;
 }

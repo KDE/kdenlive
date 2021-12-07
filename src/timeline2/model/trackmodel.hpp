@@ -142,6 +142,8 @@ public:
     QVariantList stackZones() const;
     /** @brief Return true if a clip starts at pos in one of the trak playlists */
     bool hasClipStart(int pos);
+    /** @brief Calculate a hash based on all clips an d mixes positions/playtime */
+    QByteArray trackHash();
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
