@@ -2142,8 +2142,8 @@ QStringList ProjectClip::getAudioStreamEffect(int streamIndex) const
 void ProjectClip::updateTimelineOnReload()
 {
     if (m_registeredClips.size() > 0 && m_registeredClips.size() < 3) {
-        bool reloadProducer = true;
         for (const auto &clip : m_registeredClips) {
+            bool reloadProducer = true;
             if (auto timeline = clip.second.lock()) {
                 if (timeline->getClipPlaytime(clip.first) < static_cast<int>(frameDuration())) {
                     reloadProducer = false;

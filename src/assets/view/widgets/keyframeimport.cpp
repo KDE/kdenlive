@@ -830,7 +830,6 @@ void KeyframeImport::importSelectedData()
         bool useOpacity = m_dataCombo->currentData(Qt::UserRole + 4).toBool();
         if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes
-            int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
             if (convertMode == ImportRoles::RotoData && m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
                 QJsonObject json = QJsonDocument::fromJson(selectedData().toLocal8Bit()).object();
@@ -843,6 +842,7 @@ void KeyframeImport::importSelectedData()
             mlt_keyframe_type type;
             mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
             for (int i = 0; i < anim->key_count(); i++) {
+                int frame = 0;
                 int error = anim->key_get(i, frame, type);
                 if (error) {
                     continue;
@@ -1080,8 +1080,7 @@ void KeyframeImport::updateView()
         qDebug()<<"=== Original parameter not found";
         return;
     }
-    QString kfrData = m_originalParams.value(ix);
-    animData->set("original", kfrData.toUtf8().constData());
+    animData->set("original", m_originalParams.value(ix).toUtf8().constData());
     std::shared_ptr<Mlt::Animation> animo(new Mlt::Animation(animData->get_animation("original")));
     animo->interpolate();
     // wether we are mapping to a fake rectangle

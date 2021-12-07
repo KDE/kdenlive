@@ -1900,7 +1900,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
         if (binEffectsDisabled != disableEffects->isChecked()) {
-            QSignalBlocker bk(disableEffects);
+            QSignalBlocker effectBk(disableEffects);
             disableEffects->setChecked(binEffectsDisabled);
         }
     }
@@ -1940,26 +1940,25 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
     }
     // Add rating filters
     m_filterMenu->addSeparator();
-    QAction *rateFilter;
-    for (int i = 1; i< 6; ++i) {
-        rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 star", "%1 stars", i), &m_filterRateGroup);
+    for (int i = 1; i < 6; ++i) {
+        auto *rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 star", "%1 stars", i), &m_filterRateGroup);
         rateFilter->setData(QString(".%1").arg(2 * i));
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
     // Add unused filter
     m_filterMenu->addSeparator();
-    QAction *unusedFilter = new QAction(i18n("Unused clips"), this);
+    auto *unusedFilter = new QAction(i18n("Unused clips"), this);
     unusedFilter->setData(QStringLiteral("unused"));
     unusedFilter->setCheckable(true);
     m_filterMenu->addAction(unusedFilter);
 
     // Add type filters
     m_filterMenu->addSeparator();
-    QMenu *typeMenu = new QMenu(i18n("Filter by type"), m_filterMenu);
+    auto *typeMenu = new QMenu(i18n("Filter by type"), m_filterMenu);
     m_filterMenu->addMenu(typeMenu);
     m_filterMenu->addSeparator();
-    QAction *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), &m_filterTypeGroup);
+    auto *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::AV);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
@@ -3478,7 +3477,7 @@ void Bin::switchTag(const QString &tag, bool add)
             for (auto &clp : children) {
                 allClips <<clp->clipId();
             }
-        } else if (parentItem->itemType() != AbstractProjectItem::FolderItem) {
+        } else {
             allClips <<parentItem->clipId();
         }
     }
@@ -4812,8 +4811,7 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     Fun redo = []() { return true; };
     // Check if folder exists
 
-    QString folderId = QStringLiteral("-1");
-    bool found = false;
+    QString folderId = QStringLiteral("-1"); 
     // We first try to see if it exists
     std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
     if (!baseFolder) {
@@ -4823,6 +4821,7 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
         // Put clip in parentFolder
         folderId = baseFolder->clipId();
     } else {
+        bool found = false;
         for (int i = 0; i < baseFolder->childCount(); ++i) {
             auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
             if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {

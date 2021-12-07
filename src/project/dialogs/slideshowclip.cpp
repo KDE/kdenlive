@@ -278,8 +278,7 @@ void SlideshowClip::parseFolder()
             if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
-                    int ix = p.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
-                    ix = p.section(filter, 1).section('.', 0, 0).toInt();
+                    int ix = p.section(filter, 1).section('.', 0, 0).toInt();
                     if (ix < offset) {
                         continue;
                     }

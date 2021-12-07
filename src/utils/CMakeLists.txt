@@ -3,7 +3,7 @@ set(kdenlive_SRCS
   utils/clipboardproxy.cpp
   utils/devices.cpp
   utils/flowlayout.cpp
-  utils/negqcolor.cpp
+  utils/qcolorutils.cpp
   utils/otioconvertions.cpp
   utils/thememanager.cpp
   utils/thumbnailcache.cpp

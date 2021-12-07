@@ -51,7 +51,7 @@ signals:
 public slots:
     /** @brief Toggle the comments on or off
      */
-    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
+    virtual void slotShowComment(bool /*show*/) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
 
     /** @brief refresh the properties to reflect changes in the model
      */

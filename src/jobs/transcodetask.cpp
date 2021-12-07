@@ -216,8 +216,6 @@ void TranscodeTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
-            QString id = QString::number(m_owner.second);
-            auto binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (m_replaceProducer && binClip) {
                 QMap <QString, QString> sourceProps;
                 QMap <QString, QString> newProps;
@@ -225,7 +223,8 @@ void TranscodeTask::run()
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
                 newProps.insert(QStringLiteral("resource"), destUrl);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
-                pCore->bin()->slotEditClipCommand(id, sourceProps, newProps);
+                QString id = QString::number(m_owner.second);
+                pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
             } else {
                 QString folder = QStringLiteral("-1");
                 if (binClip) {
@@ -252,7 +251,6 @@ void TranscodeTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
-    int progress = 0;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -267,6 +265,7 @@ void TranscodeTask::processLogInfo()
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
+            int progress = 0;
             QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));
@@ -288,7 +287,6 @@ void TranscodeTask::processLogInfo()
         if (buffer.contains(QLatin1String("percentage:"))) {
             m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            //emit jobProgress(progress);
         }
     }
 }

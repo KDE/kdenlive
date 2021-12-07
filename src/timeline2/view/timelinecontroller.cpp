@@ -1573,7 +1573,6 @@ void TimelineController::setZoneOut(int outPoint)
 void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions, bool selectSubTitles)
 {
     std::unordered_set<int> itemsToSelect;
-    std::unordered_set<int> subtitlesToSelect;
     if (addToSelect) {
         itemsToSelect = m_model->getCurrentSelection();
     }
@@ -3607,7 +3606,7 @@ void TimelineController::editItemDuration(int id)
             }
             if (result && newIn != in) {
                 int updatedDuration = duration + (in - newIn);
-                m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
+                result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
                 if (result && partner > -1) {
                     result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
                 }

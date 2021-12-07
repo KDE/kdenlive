@@ -40,7 +40,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
     bool needsLocaleConversion = false;
-    QChar separator, oldSeparator;
+    QChar separator;
+    QChar oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK

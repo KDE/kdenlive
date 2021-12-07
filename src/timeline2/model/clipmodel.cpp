@@ -349,7 +349,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
     Q_ASSERT(inPoint < outPoint);
     Q_ASSERT(out - in == outPoint - inPoint);
-    int trackDuration = 0;
+    int trackDuration = 0; //TODO something is wrong here since trackDuration is always 0
 
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
@@ -473,12 +473,12 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
 {
     Mlt::Chain fromChain(m_producer->parent());
     int count = fromChain.link_count();
-    for (int i = 0; i < count; i++) {
-        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+    for (int ix = 0; ix < count; ix++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(ix));
         if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
             if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                 // Found a timeremap effect, read params
-                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(ix)->get_link());
                 (void)link->anim_get_rect("map", 0);
                 Mlt::Animation anim = link->get_animation("map");
                 QString oldKfrData = anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length());

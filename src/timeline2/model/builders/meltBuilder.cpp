@@ -400,7 +400,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             }
                         }
                         if (startMixToFind || endMixToFind) {
-                            // A mix for this clip is missing
+                            // A mix for this clip is missing                           
                             QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>").arg(QString::number(position), QString::number(timeline->getTrackPosition(tid)+1), timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
                             // Try to resize clip and put it on playlist 0
                             if (hasEndMix && endMixToFind) {
@@ -438,7 +438,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                     // Move to top playlist
                                     cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, hasEndMix ? playlist : 0);
                                     ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
-                                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>").arg(QString::number(position), QString::number(timeline->getTrackPosition(tid)+1), timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
                                     if (!ok && cid > -1) {
                                         timeline->requestItemDeletion(cid, false);
                                         m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"), position);

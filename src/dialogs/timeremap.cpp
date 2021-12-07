@@ -955,13 +955,13 @@ void RemapView::wheelEvent(QWheelEvent *event)
         update();
         return;
     }
-    int change = event->angleDelta().y() > 0 ? -1 : 1;
-    int pos = qBound(0, m_position + change, m_duration - 1);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     if (event->position().y() < m_bottomView) {
 #else
     if (event->y() < m_bottomView) {
 #endif
+        int change = event->angleDelta().y() > 0 ? -1 : 1;
+        int pos = qBound(0, m_position + change, m_duration - 1);
         emit seekToPos(pos + m_inFrame, -1);
     } else {
         // Wheel on zoom bar, scroll
@@ -1425,9 +1425,9 @@ void RemapView::paintEvent(QPaintEvent *event)
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
-        double outPos = (double)(i.key() - m_inFrame) * m_scale;
-        double inPos = (double)(i.value() - m_inFrame) * m_scale;
-        if ((inPos < m_zoomStart && outPos < m_zoomStart) || (qFloor(inPos) > zoomEnd && qFloor(outPos) > zoomEnd)) {
+        double kfOutPos = (double)(i.key() - m_inFrame) * m_scale;
+        double kfInPos = (double)(i.value() - m_inFrame) * m_scale;
+        if ((kfInPos < m_zoomStart && kfOutPos < m_zoomStart) || (qFloor(kfInPos) > zoomEnd && qFloor(kfOutPos) > zoomEnd)) {
             continue;
         }
         if (m_currentKeyframe.first == i.key()) {
@@ -1440,18 +1440,18 @@ void RemapView::paintEvent(QPaintEvent *event)
             p.setPen(m_colKeyframe);
             p.setBrush(m_colKeyframe);
         }
-        inPos -= m_zoomStart;
-        inPos *= m_zoomFactor;
-        inPos += m_offset;
-        outPos -= m_zoomStart;
-        outPos *= m_zoomFactor;
-        outPos += m_offset;
+        kfInPos -= m_zoomStart;
+        kfInPos *= m_zoomFactor;
+        kfInPos += m_offset;
+        kfOutPos -= m_zoomStart;
+        kfOutPos *= m_zoomFactor;
+        kfOutPos += m_offset;
 
-        p.drawLine(inPos, m_lineHeight + m_lineHeight * 0.75, outPos, m_bottomView - m_lineHeight * 1.75);
-        p.drawLine(inPos, m_lineHeight, inPos, m_lineHeight + m_lineHeight / 2);
-        p.drawLine(outPos, m_bottomView - m_lineHeight, outPos, m_bottomView - m_lineHeight * 1.5);
-        p.drawEllipse(QRectF(inPos - m_lineHeight / 4.0, m_lineHeight + m_lineHeight / 2, m_lineHeight / 2, m_lineHeight / 2));
-        p.drawEllipse(QRectF(outPos - m_lineHeight / 4.0, m_bottomView - 2 * m_lineHeight, m_lineHeight / 2, m_lineHeight / 2));
+        p.drawLine(kfInPos, m_lineHeight + m_lineHeight * 0.75, kfOutPos, m_bottomView - m_lineHeight * 1.75);
+        p.drawLine(kfInPos, m_lineHeight, kfInPos, m_lineHeight + m_lineHeight / 2);
+        p.drawLine(kfOutPos, m_bottomView - m_lineHeight, kfOutPos, m_bottomView - m_lineHeight * 1.5);
+        p.drawEllipse(QRectF(kfInPos - m_lineHeight / 4.0, m_lineHeight + m_lineHeight / 2, m_lineHeight / 2, m_lineHeight / 2));
+        p.drawEllipse(QRectF(kfOutPos - m_lineHeight / 4.0, m_bottomView - 2 * m_lineHeight, m_lineHeight / 2, m_lineHeight / 2));
     }
 
     /*
@@ -1771,12 +1771,12 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                         case mlt_service_chain_type: {
                             Mlt::Chain fromChain(*track.get());
                             int count = fromChain.link_count();
-                            for (int i = 0; i < count; i++) {
-                                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                            for (int j = 0; j < count; j++) {
+                                QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
                                 if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                     if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                         // Found a timeremap effect, read params
-                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
                                         QString mapData(fromLink->get("map"));
                                         m_view->loadKeyframes(mapData);
                                         keyframesLoaded = true;
@@ -1789,20 +1789,20 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                         case mlt_service_playlist_type: {
                             // that is a single track
                             Mlt::Playlist local_playlist(*track);
-                            int max = local_playlist.count();
-                            qDebug()<<"==== PLAYLIST COUNT: "<<max;
-                            if (max == 1) {
+                            int count = local_playlist.count();
+                            qDebug()<<"==== PLAYLIST COUNT: "<<count;
+                            if (count == 1) {
                                 Mlt::Producer prod = local_playlist.get_clip(0)->parent();
                                 qDebug()<<"==== GOT PROD TYPE: "<<prod.type()<<" = "<<prod.get("mlt_service")<<" = "<<prod.get("resource");
                                 if (prod.type() == mlt_service_chain_type) {
                                     Mlt::Chain fromChain(prod);
                                     int count = fromChain.link_count();
-                                    for (int i = 0; i < count; i++) {
-                                        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                                    for (int j = 0; j < count; j++) {
+                                        QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
                                         if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                             if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                                 // Found a timeremap effect, read params
-                                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
                                                 QString mapData(fromLink->get("map"));
                                                 m_view->loadKeyframes(mapData);
                                                 keyframesLoaded = true;

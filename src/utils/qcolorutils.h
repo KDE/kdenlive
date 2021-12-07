@@ -3,13 +3,20 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef NEGQCOLOR_H
-#define NEGQCOLOR_H
+#ifndef QCOLORUTILS_H
+#define QCOLORUTILS_H
 
 #include <QtGlobal>
 #include <QColor>
 
 class QColor;
+
+class QColorUtils
+{
+public:
+    static QColor stringToColor(QString strColor);
+    static QString colorToString(const QColor &color, bool alpha);
+};
 
 class NegQColor
 {
@@ -34,4 +41,4 @@ public:
     qreal saturationF() const;
 };
 
-#endif // NEGQCOLOR_H
+#endif // QCOLORUTILS_H

@@ -402,10 +402,10 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
 double ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
 {
     READ_LOCK();
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            auto clip = std::static_pointer_cast<ProjectClip>(c);
+    for (const auto &item : m_allItems) {
+        auto i = std::static_pointer_cast<AbstractProjectItem>(item.second.lock());
+        if (i->itemType() == AbstractProjectItem::ClipItem && i->clipId() == binId) {
+            auto clip = std::static_pointer_cast<ProjectClip>(i);
             if (clip) {
                 return clip->getAudioMax(stream);
             }

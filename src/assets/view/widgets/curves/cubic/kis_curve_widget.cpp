@@ -236,18 +236,6 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-double KisCurveWidget::io2sp(int x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return double(x - m_inOutMin) / rangeLen;
-}
-
-int KisCurveWidget::sp2io(double x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return int(x * rangeLen + 0.5) + m_inOutMin;
-}
-
 bool KisCurveWidget::jumpOverExistingPoints(QPointF &pt, int skipIndex)
 {
     for (QPointF &it : m_curve.points()) {

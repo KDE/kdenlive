@@ -10,7 +10,7 @@
 #ifndef COLORWHEELITEM_H
 #define COLORWHEELITEM_H
 
-#include "utils/negqcolor.h"
+#include "utils/qcolorutils.h"
 
 #include <QImage>
 #include <QQuickPaintedItem>

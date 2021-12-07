@@ -907,7 +907,7 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     if (isArchive) {
         basePath = QStringLiteral("$CURRENTPATH");
     } else {
-        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash | QUrl::StripTrailingSlash).toLocalFile();
+        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile();
     }
     // Switch to relative path
     mlt.removeAttribute(QStringLiteral("root"));

@@ -967,7 +967,7 @@ void TextBasedEdit::slotProcessSpeech()
                     }
                     val = obj2.last();
                     if (val.isObject() && val.toObject().keys().contains("end")) {
-                        double ms = val.toObject().value("end").toDouble() + m_clipOffset;
+                        ms = val.toObject().value("end").toDouble() + m_clipOffset;
                         sentenceZone.second = ms;
                         m_lastPosition = GenTime(ms).frames(pCore->getCurrentFps());
                         if (m_clipDuration > 0.) {
