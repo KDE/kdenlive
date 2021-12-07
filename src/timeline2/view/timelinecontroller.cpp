@@ -1667,15 +1667,15 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
         firstText.truncate(cursorPos);
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        bool res = subtitleModel->cutSubtitle(timelinePos, undo, redo);
-        if (res) {
-            Fun local_redo = [subtitleModel, start, position, firstText, secondText]() {
-                subtitleModel->editSubtitle(start, firstText);
-                subtitleModel->editSubtitle(position, secondText);
+        int newId = subtitleModel->cutSubtitle(timelinePos, undo, redo);
+        if (newId > -1) {
+            Fun local_redo = [subtitleModel, id, newId, firstText, secondText]() {
+                subtitleModel->editSubtitle(id, firstText);
+                subtitleModel->editSubtitle(newId, secondText);
                 return true;
             };
-            Fun local_undo = [subtitleModel, start, originalText]() {
-                subtitleModel->editSubtitle(start, originalText);
+            Fun local_undo = [subtitleModel, id, originalText]() {
+                subtitleModel->editSubtitle(id, originalText);
                 return true;
             };
             local_redo();
@@ -4668,23 +4668,23 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
     }
 }
 
-void TimelineController::editSubtitle(int startFrame, int endFrame, QString newText, QString oldText)
+void TimelineController::editSubtitle(int id, QString newText, QString oldText)
 {
-    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame;
+    qDebug()<<"Editing existing subtitle :"<<id;
     if (oldText == newText) {
         return;
     }
     auto subtitleModel = pCore->getSubtitleModel();
-    Fun local_redo = [subtitleModel, startFrame, endFrame, newText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText);
-        QPair<int, int> range = {startFrame, endFrame};
+    Fun local_redo = [subtitleModel, id, newText]() {
+        subtitleModel->editSubtitle(id, newText);
+        QPair<int, int> range = subtitleModel->getInOut(id);
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
         return true;
     };
-    Fun local_undo = [subtitleModel, startFrame, endFrame, oldText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), oldText);
-        QPair<int, int> range = {startFrame, endFrame};
+    Fun local_undo = [subtitleModel, id, oldText]() {
+        subtitleModel->editSubtitle(id, oldText);
+        QPair<int, int> range = subtitleModel->getInOut(id);
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
         return true;

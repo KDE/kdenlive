@@ -632,7 +632,7 @@ public:
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(QList<int> clipIds, bool hide);
     /** @brief Edit the subtitle text*/
-    Q_INVOKABLE void editSubtitle(int startFrame, int endFrame, QString newText, QString oldText);
+    Q_INVOKABLE void editSubtitle(int id, QString newText, QString oldText);
     /** @brief Edit the subtitle end */
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Add subtitle clip at cursor's position in timeline */
