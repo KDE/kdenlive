@@ -99,7 +99,7 @@ public:
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);
     void restart();
-    void mute(bool, bool updateIconOnly = false) override;
+    void mute(bool) override;
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();

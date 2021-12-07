@@ -232,11 +232,11 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 void MyTextItem::updateTW(bool enabled, int step, int mode, int sigma, int seed)
 {
-    tw_enabled = enabled;
-    tw_step = step;
-    tw_mode = mode;
-    tw_sigma = sigma;
-    tw_seed = seed;
+    m_tw_enabled = enabled;
+    m_tw_step = step;
+    m_tw_mode = mode;
+    m_tw_sigma = sigma;
+    m_tw_seed = seed;
 }
 
 void MyTextItem::loadTW(const QStringList &info)
@@ -251,9 +251,9 @@ void MyTextItem::loadTW(const QStringList &info)
 QStringList MyTextItem::twInfo() const
 {
     QStringList info;
-    info << QString::number(tw_enabled) << QString::number(tw_step)
-         << QString::number(tw_mode)
-         << QString::number(tw_sigma) << QString::number(tw_seed);
+    info << QString::number(int(m_tw_enabled)) << QString::number(m_tw_step)
+         << QString::number(m_tw_mode)
+         << QString::number(m_tw_sigma) << QString::number(m_tw_seed);
     return info;
 }
 

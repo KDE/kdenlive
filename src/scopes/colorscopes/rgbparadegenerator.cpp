@@ -59,7 +59,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     const uint partH = wh - distBottom;
 
     // Statistics
-    uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0, r, g, b;
+    uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0;
 
     // Number of input pixels that will fall on one scope pixel.
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
@@ -79,9 +79,9 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
         auto *col = reinterpret_cast<const QRgb *>(bits);
-        r = uchar(qRed(*col));
-        g = uchar(qGreen(*col));
-        b = uchar(qBlue(*col));
+        auto r = uchar(qRed(*col));
+        auto g = uchar(qGreen(*col));
+        auto b = uchar(qBlue(*col));
 
         double dx = x * double(wPrediv);
 

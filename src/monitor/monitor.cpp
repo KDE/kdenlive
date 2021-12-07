@@ -546,8 +546,6 @@ void Monitor::slotGetCurrentImage(bool request)
     if (request) {
         slotActivateMonitor();
         refreshMonitor(true);
-    }
-    if (request) {
         // Update analysis state
         QTimer::singleShot(500, m_monitorManager, &MonitorManager::checkScopes);
     } else {
@@ -1504,18 +1502,10 @@ void Monitor::stop()
     m_glMonitor->stop();
 }
 
-void Monitor::mute(bool mute, bool updateIconOnly)
+void Monitor::mute(bool mute)
 {
     // TODO: we should set the "audio_off" property to 1 to mute the consumer instead of changing volume
-    QIcon icon;
-    if (mute || KdenliveSettings::volume() == 0) {
-        icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
-    } else {
-        icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
-    }
-    if (!updateIconOnly) {
-        m_glMonitor->setVolume(mute ? 0 : KdenliveSettings::volume() / 100.0);
-    }
+    m_glMonitor->setVolume(mute ? 0 : KdenliveSettings::volume() / 100.0);
 }
 
 void Monitor::start()

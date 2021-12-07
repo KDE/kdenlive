@@ -47,7 +47,7 @@ public:
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
     void loadShadow(const QStringList &info);
-    void updateTW(bool enabled, int mode, int step, int sigma, int seed);
+    void updateTW(bool enabled, int step, int mode, int sigma, int seed);
     QStringList twInfo() const;
     void loadTW(const QStringList &info);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt) override;
@@ -67,11 +67,11 @@ private:
     void updateShadow();
     void blurShadow(QImage &image, int radius);
     void refreshFormat();
-    bool tw_enabled;
-    int tw_step;
-    int tw_mode;
-    int tw_sigma;
-    int tw_seed;
+    bool m_tw_enabled;
+    int m_tw_step;
+    int m_tw_mode;
+    int m_tw_sigma;
+    int m_tw_seed;
 
 public slots:
     void updateGeometry(int, int, int);
