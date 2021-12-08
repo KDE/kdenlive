@@ -1796,8 +1796,8 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                 qDebug()<<"==== GOT PROD TYPE: "<<prod.type()<<" = "<<prod.get("mlt_service")<<" = "<<prod.get("resource");
                                 if (prod.type() == mlt_service_chain_type) {
                                     Mlt::Chain fromChain(prod);
-                                    int count = fromChain.link_count();
-                                    for (int j = 0; j < count; j++) {
+                                    int linkCount = fromChain.link_count();
+                                    for (int j = 0; j < linkCount; j++) {
                                         QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
                                         if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                             if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {

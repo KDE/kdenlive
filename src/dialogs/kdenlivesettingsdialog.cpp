@@ -2134,8 +2134,8 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
         }
     } else {
         // Test if it is a folder
-        QDir dir(archiveFile);
-        if (dir.exists()) {
+        QDir testDir(archiveFile);
+        if (testDir.exists()) {
             
         }
         qDebug()<<"=== CANNOT OPEN ARCHIVE!!";

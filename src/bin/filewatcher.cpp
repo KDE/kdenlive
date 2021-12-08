@@ -47,8 +47,7 @@ void FileWatcher::removeFile(const QString &binId)
 
 void FileWatcher::slotUrlModified(const QString &path)
 {
-    if (m_modifiedUrls.count(path) == 0) {
-        m_modifiedUrls.insert(path);
+    if (m_modifiedUrls.insert(path).second) {
         for (const QString &id : m_occurences[path]) {
             emit binClipWaiting(id);
         }

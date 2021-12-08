@@ -736,7 +736,6 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
 bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     int kfrCount = int(m_keyframeList.size()) - 1;
@@ -768,9 +767,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     };
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
-    for (const auto &m : m_keyframeList) {
-        all_pos.push_back(m.first);
-    }
+    QList<GenTime> all_pos = getKeyframePos();
     update_redo_start();
     bool res = true;
     bool first = true;

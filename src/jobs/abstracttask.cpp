@@ -73,7 +73,7 @@ AbstractTask::~AbstractTask()
 {
 }
 
-bool AbstractTask::operator==(AbstractTask &b)
+bool AbstractTask::operator==(const AbstractTask &b)
 {
     return m_owner == b.ownerId();
 }

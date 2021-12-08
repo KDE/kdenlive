@@ -888,7 +888,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             m_fadeOuts.insert(effectItem->getId());
         }
-        QModelIndex ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);

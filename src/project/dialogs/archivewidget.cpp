@@ -882,14 +882,12 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 QUrl src = QUrl::fromLocalFile(item->text(0));
-                QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
+                QUrl dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 if (isSlideshow) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
                                                QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
-                } else {
-                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }

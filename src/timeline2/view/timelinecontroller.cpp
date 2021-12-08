@@ -725,12 +725,12 @@ void TimelineController::deleteMultipleTracks(int tid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = true;
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
     if (tid == -1) {
         tid = m_activeTrack;
     }
     if (d->exec() == QDialog::Accepted) {
+        bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
         for (int selectedTrackIx : qAsConst(allIds)) {
             result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
@@ -2767,14 +2767,14 @@ void TimelineController::extract(int clipId)
                     int newIn = m_model->getClipPosition(current_id);
                     int newOut = newIn + m_model->getClipPlaytime(current_id);
                     int tk = m_model->getClipTrackId(current_id);
-                    std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
-                    if (mixData.first.firstClipId > -1) {
+                    std::pair<MixInfo,MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                    if (cMixData.first.firstClipId > -1) {
                         // Clip has a start mix, adjust in point
-                        newIn += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+                        newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
                     }
-                    if (mixData.second.firstClipId > -1) {
+                    if (cMixData.second.firstClipId > -1) {
                         // Clip has end mix, adjust out point
-                        newOut -= mixData.second.mixOffset;
+                        newOut -= cMixData.second.mixOffset;
                     }
                     in = qMin(in, newIn);
                     out = qMax(out, newOut);

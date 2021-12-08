@@ -32,9 +32,9 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_clipId(-1)
     , m_seekFinished(true)
     , m_td(nullptr)
-    , m_boundsCount(0)
     , m_trimmingFrames1(0)
     , m_trimmingFrames2(0)
+    , m_boundsCount(0)
 {
 }
 

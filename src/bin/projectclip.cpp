@@ -69,7 +69,7 @@ RTTR_REGISTRATION
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id, std::move(producer))
+    , ClipController(id, producer)
     , m_resetTimelineOccurences(false)
     , m_audioCount(0)
 {

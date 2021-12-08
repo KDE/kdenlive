@@ -38,7 +38,7 @@ public:
     virtual ~AbstractTask();
     static void closeAll();
     const ObjectId ownerId() const;
-    bool operator==(AbstractTask& b);
+    bool operator==(const AbstractTask& b);
 
 protected:
     ObjectId m_owner;

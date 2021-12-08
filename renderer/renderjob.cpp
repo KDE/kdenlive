@@ -30,9 +30,9 @@ public:
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, QObject *parent)
     : QObject(parent)
     , m_scenelist(scenelist)
-    , m_dest(std::move(target))
+    , m_dest(target)
     , m_progress(0)
-    , m_prog(std::move(render))
+    , m_prog(render)
     , m_player()
     #ifndef NODBUS
     , m_jobUiserver(nullptr)
@@ -41,7 +41,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_kdenlivesocket(new QLocalSocket(this))
     #endif
     , m_usekuiserver(true)
-    , m_logfile(target + QStringLiteral(".log"))
+    , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
     , m_seconds(0)
     , m_frame(in)

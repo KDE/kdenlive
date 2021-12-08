@@ -283,16 +283,13 @@ QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
         if (buffer.format().sampleSize() == 8) {
             values = getBufferLevels(buffer.constData<quint8>(), buffer.frameCount(), channelCount);
         }
-        for (double &value : values) {
-            value = qAbs(value - peak_value / 2) / (peak_value / 2);
-        }
+        std::transform(values.begin(), values.end(), values.begin(),
+                       [peak_value](double val) { return qAbs(val - peak_value / 2) / (peak_value / 2); });
         break;
     case QAudioFormat::Float:
         if (buffer.format().sampleSize() == 32) {
             values = getBufferLevels(buffer.constData<float>(), buffer.frameCount(), channelCount);
-            for (double &value : values) {
-                value /= peak_value;
-            }
+            std::transform(values.begin(), values.end(), values.begin(), [peak_value](double val) { return val / peak_value; });
         }
         break;
     case QAudioFormat::SignedInt:
@@ -305,9 +302,7 @@ QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
         if (buffer.format().sampleSize() == 8) {
             values = getBufferLevels(buffer.constData<qint8>(), buffer.frameCount(), channelCount);
         }
-        for (double &value : values) {
-            value /= peak_value;
-        }
+        std::transform(values.begin(), values.end(), values.begin(), [peak_value](double val) { return val / peak_value; });
         break;
     }
     return values;
