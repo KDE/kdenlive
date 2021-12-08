@@ -186,29 +186,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
-        if (currentRow.type == ParamType::UrlList && !m_asset->property_exists(name.toUtf8().constData())) {
-            QString values = currentParameter.attribute(QStringLiteral("paramlist"));
-            if (values == QLatin1String("%lutPaths")) {
-                QString filter = currentParameter.attribute(QStringLiteral("filter"));;
-                filter.remove(0, filter.indexOf("(")+1);
-                filter.remove(filter.indexOf(")")-1, -1);
-                QStringList fileExt = filter.split(" ");
-                // check for Kdenlive installed luts files
-                QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-                QStringList results;
-                for (const QString &folderpath : qAsConst(customLuts)) {
-                    QDir dir(folderpath);
-                    QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
-                    while (it.hasNext()) {
-                        results.append(it.next());
-                        break;
-                    }
-                }
-                if (!results.isEmpty()) {
-                    value = results.first();
-                }
-            }
-        }
 
         if (!isFixed) {
             currentRow.value = value;
@@ -745,6 +722,30 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     }
     ParamType type = paramTypeFromStr(element.attribute(QStringLiteral("type")));
     QString content = element.attribute(attribute);
+    if (type == ParamType::UrlList && attribute == QLatin1String("default")) {
+        QString values = element.attribute(QStringLiteral("paramlist"));
+        if (values == QLatin1String("%lutPaths")) {
+            QString filter = element.attribute(QStringLiteral("filter"));;
+            filter.remove(0, filter.indexOf("(")+1);
+            filter.remove(filter.indexOf(")")-1, -1);
+            QStringList fileExt = filter.split(" ");
+            // check for Kdenlive installed luts files
+            QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+            QStringList results;
+            for (const QString &folderpath : qAsConst(customLuts)) {
+                QDir dir(folderpath);
+                QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
+                while (it.hasNext()) {
+                    results.append(it.next());
+                    break;
+                }
+            }
+            if (!results.isEmpty()) {
+                return results.first();
+            }
+            return defaultValue;
+        }
+    }
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     int width = profile->width();
     int height = profile->height();
