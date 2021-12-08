@@ -19,7 +19,6 @@ class SpeedTask : public AbstractTask
 public:
     SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object);
     static void start(QObject* object, bool force = false);
-    int length;
 
 private slots:
     void processLogInfo();

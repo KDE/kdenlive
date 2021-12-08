@@ -49,7 +49,7 @@ public:
     void setText(const QString &str) { m_label->setText(str); }
     void slotRefresh() override {}
 
-protected:
+private:
     QLabel *m_label;
 };
 

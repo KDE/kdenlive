@@ -310,12 +310,11 @@ void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
-    QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto *ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
@@ -331,12 +330,11 @@ void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
-    QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {

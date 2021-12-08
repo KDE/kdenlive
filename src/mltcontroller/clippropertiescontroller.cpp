@@ -295,8 +295,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_analysisPage->setLayout(aBox);
 
     // Force properties
-    auto *vbox = new QVBoxLayout;
-    vbox->setSpacing(0);
+    auto *fpBox = new QVBoxLayout;
+    fpBox->setSpacing(0);
 
     // Force Audio properties
     auto *audioVbox = new QVBoxLayout;
@@ -305,7 +305,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
-        vbox->addWidget(editButton);
+        fpBox->addWidget(editButton);
     }
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
@@ -329,7 +329,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             timePos->setEnabled(false);
         }
         hlay->addWidget(timePos);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
         connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
@@ -346,7 +346,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             box->setObjectName(QStringLiteral("disable_exif"));
             box->setChecked(autorotate == 1);
             hlay->addWidget(box);
-            vbox->addLayout(hlay);
+            fpBox->addLayout(hlay);
         }
         // connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
     }
@@ -358,16 +358,16 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_textEdit->setAcceptRichText(false);
         m_textEdit->setPlainText(currentText);
         m_textEdit->setPlaceholderText(i18n("Enter template text here"));
-        vbox->addWidget(m_textEdit);
+        fpBox->addWidget(m_textEdit);
         QPushButton *button = new QPushButton(i18n("Apply"), this);
-        vbox->addWidget(button);
+        fpBox->addWidget(button);
         connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
     } else if (m_type == ClipType::Color) {
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
         mlt_color color = m_properties->get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
-        vbox->addWidget(choosecolor);
+        fpBox->addWidget(choosecolor);
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, static_cast<void (ClipPropertiesController::*)(const QColor &)>(&ClipPropertiesController::modified), choosecolor,
@@ -382,7 +382,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Aspect ratio"), this);
         box->setObjectName(QStringLiteral("force_ar"));
-        vbox->addWidget(box);
+        fpBox->addWidget(box);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         auto *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
@@ -417,7 +417,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
         connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
         connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image || m_type == ClipType::Playlist) {
@@ -508,7 +508,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         groupLay->addWidget(tb);
         bg->setLayout(groupLay);
         hlay->addWidget(bg);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video) {
@@ -534,7 +534,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         spin->setEnabled(!force_fps.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(spin);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Scanning
         QString force_prog = m_properties->get("force_progressive");
@@ -556,7 +556,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo->setEnabled(!force_prog.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Field order
         QString force_tff = m_properties->get("force_tff");
@@ -578,7 +578,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo->setEnabled(!force_tff.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Autorotate
         QString autorotate = m_properties->get("autorotate");
@@ -589,7 +589,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setObjectName(QStringLiteral("autorotate"));
         box->setChecked(autorotate == QLatin1String("0"));
         hlay->addWidget(box);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Decoding threads
         QString threads = m_properties->get("threads");
@@ -608,7 +608,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
                 static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Video index
         if (!m_videoStreams.isEmpty()) {
@@ -658,7 +658,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 m_originalProperties = properties;
             });
             hlay->addWidget(videoStream);
-            vbox->addLayout(hlay);
+            fpBox->addLayout(hlay);
         }
 
         // Audio index
@@ -954,7 +954,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Full luma
         QString force_luma = m_properties->get("set.force_full_luma");
@@ -965,12 +965,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setObjectName(QStringLiteral("set.force_full_luma"));
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
         hlay->addStretch(10);
     }
     // Force properties page
     QWidget *forceProp = new QWidget(this);
-    forceProp->setLayout(vbox);
+    forceProp->setLayout(fpBox);
     forcePage->setWidget(forceProp);
     forcePage->setWidgetResizable(true);
     // Force audio properties page
@@ -979,7 +979,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     forceAudioPage->setWidget(forceAudioProp);
     forceAudioPage->setWidgetResizable(true);
 
-    vbox->addStretch(10);
+    fpBox->addStretch(10);
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(forcePage, QString());
     m_tabWidget->addTab(forceAudioPage, QString());

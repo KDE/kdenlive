@@ -518,7 +518,6 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
                 cursor.setPosition(end, QTextCursor::KeepAnchor);
                 cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
             }
-            pos = cursor.position();
             if (!cursor.atBlockEnd() && document()->characterAt(pos - 1) != QLatin1Char(' ')) {
                 // Remove trailing space
                 cursor.setPosition(pos + 1, QTextCursor::KeepAnchor);
@@ -968,7 +967,7 @@ void TextBasedEdit::slotProcessSpeech()
                     }
                     val = obj2.last();
                     if (val.isObject() && val.toObject().keys().contains("end")) {
-                        double ms = val.toObject().value("end").toDouble() + m_clipOffset;
+                        ms = val.toObject().value("end").toDouble() + m_clipOffset;
                         sentenceZone.second = ms;
                         m_lastPosition = GenTime(ms).frames(pCore->getCurrentFps());
                         if (m_clipDuration > 0.) {
@@ -1102,8 +1101,8 @@ void TextBasedEdit::previewPlaylist(bool createNew)
         playZones << QString("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
-    int ix = 1;
     if (createNew) {
+        int ix = 1;
         m_playlist = QString("%1-cut%2.kdenlive").arg(sourcePath).arg(ix);
         while (QFile::exists(m_playlist)) {
             ix++;

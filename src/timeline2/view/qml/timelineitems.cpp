@@ -164,7 +164,6 @@ public:
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
-            double level;
             int j = 0;
             QPainterPath path;
             if (m_drawInPoint > 0) {
@@ -174,6 +173,7 @@ public:
                 path.moveTo(j - 1, height());
             }
             for (; i <= width() && i < m_drawOutPoint; j++) {
+                double level;
                 i = j * increment;
                 int idx = qCeil((startPos + i) * indicesPrPixel);
                 idx += idx % m_channels;
@@ -199,12 +199,11 @@ public:
             double channelHeight = height() / m_channels;
             // Draw separate channels
             scaleFactor = channelHeight / (2 * scaleFactor);
-            double i = 0;
-            double level;
             QRectF bgRect(0, 0, width(), channelHeight);
             // Path for vector drawing
             //qDebug()<<"==== DRAWING FROM: "<<m_drawInPoint<<" - "<<m_drawOutPoint<<", FIRST: "<<m_firstChunk;
             for (int channel = 0; channel < m_channels; channel++) {
+                double level;
                 // y is channel median pos
                 double y = (channel * channelHeight) + channelHeight / 2;
                 QPainterPath path;
@@ -225,7 +224,7 @@ public:
                 pen.setWidth(int(ceil(increment)));
                 painter->setPen(pathDraw ? Qt::NoPen : pen);
                 painter->setOpacity(1);
-                i = 0;
+                double i = 0;
                 int j = 0;
                 if (m_drawInPoint > 0) {
                     j = int(m_drawInPoint / increment);

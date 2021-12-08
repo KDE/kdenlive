@@ -8,7 +8,7 @@
 #ifndef COLORWHEELPARAM_H
 #define COLORWHEELPARAM_H
 
-#include "utils/negqcolor.h"
+#include "utils/qcolorutils.h"
 
 #include <QPainter>
 #include <QResizeEvent>

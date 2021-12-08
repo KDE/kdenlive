@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
+    , length(0)
     , m_binId(binId)
     , m_inPoint(in)
     , m_outPoint(out)

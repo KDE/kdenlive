@@ -1197,9 +1197,6 @@ void DocumentChecker::acceptDialog()
     // prepare transitions
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
 
-    // prepare filters
-    QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
-
     // Mark document as modified
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
 

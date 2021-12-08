@@ -19,7 +19,6 @@ class CutTask : public AbstractTask
 public:
     CutTask(const ObjectId &owner, const QString &destination, const QStringList encodingParams, int in ,int out, bool addToProject, QObject* object);
     static void start(const ObjectId &owner, int in , int out, QObject* object, bool force = false);
-    int length;
 
 private slots:
     void processLogInfo();

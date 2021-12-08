@@ -203,11 +203,9 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
     QDomElement effect = EffectsRepository::get()->getXml(currentName);
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    QString oldpath =  dir.absoluteFilePath(currentName + QStringLiteral(".xml"));
+    QString oldpath = dir.absoluteFilePath(currentName + QStringLiteral(".xml"));
 
     doc.appendChild(doc.importNode(effect, true));
-
-
 
     if(!newDescription.trimmed().isEmpty()){
         QDomElement root = doc.documentElement();
@@ -224,7 +222,6 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
     if(!newName.trimmed().isEmpty() && newName != currentName)
     {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }

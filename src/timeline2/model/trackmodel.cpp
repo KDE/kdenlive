@@ -1580,10 +1580,10 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
 {
     if (playlist == -1) {
         // Check on both playlists
-        for (auto &playlist : m_playlists) {
-            int start_clip = playlist.get_clip_index_at(position);
-            int end_clip = playlist.get_clip_index_at(position + duration - 1);
-            if (start_clip != end_clip || !playlist.is_blank(start_clip)) {
+        for (auto &pl : m_playlists) {
+            int start_clip = pl.get_clip_index_at(position);
+            int end_clip = pl.get_clip_index_at(position + duration - 1);
+            if (start_clip != end_clip || !pl.is_blank(start_clip)) {
                 return false;
             }
         }
@@ -2415,7 +2415,6 @@ QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(firstClipId);
         container.setAttribute(QStringLiteral("firstClipPosition"), clip->getPosition());
     }
-    std::shared_ptr<AssetParameterModel> asset = m_sameCompositions.at(cid);
     const QString assetId = m_sameCompositions.at(cid)->getAssetId();
     QVector<QPair<QString, QVariant>> params = m_sameCompositions.at(cid)->getAllParameters();
     container.setAttribute(QStringLiteral("asset"), assetId);

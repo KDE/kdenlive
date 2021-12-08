@@ -144,7 +144,6 @@ void KeyframeView::slotAddRemove()
         }
     } else {
         if (slotAddKeyframe(m_position)) {
-            int offset = pCore->getItemIn(m_model->getOwnerId());
             GenTime position(m_position + offset, pCore->getCurrentFps());
             int currentIx = m_model->getIndexForPos(position);
             if (currentIx > -1) {
@@ -456,8 +455,8 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             double fps = pCore->getCurrentFps();
             int kfrIx = 0;
             for (const auto &keyframe : *m_model.get()) {
-                int pos = keyframe.first.frames(fps) - offset;
-                if (pos > min && pos <= max) {
+                int kfPos = keyframe.first.frames(fps) - offset;
+                if (kfPos > min && kfPos <= max) {
                     m_model->appendSelectedKeyframe(kfrIx);
                 }
                 kfrIx++;

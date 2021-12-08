@@ -10,6 +10,8 @@
 
 ProfileFilter::ProfileFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
+    , m_interlaced_value()
+    , m_fps_value()
 {
     m_interlaced_enabled = m_fps_enabled = false;
 }

@@ -2164,18 +2164,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
     if (anim_end->isChecked()) {
         slotAnimEnd(false);
     }
-    bool embed_image = false;
-
     // If we have images in the title, ask for embed
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
-    QGraphicsPixmapItem pix;
-    int pixmapType = pix.type();
-    for (const QGraphicsItem *item : qAsConst(list)) {
-        if (item->type() == pixmapType && item != m_frameImage) {
-            embed_image = true;
-            break;
-        }
-    }
+    auto is_embedable = [&](QGraphicsItem *item){ return item->type() == QGraphicsPixmapItem::Type && item != m_frameImage; };
+    bool embed_image = std::any_of(list.begin(), list.end(), is_embedable);
     if (embed_image && KMessageBox::questionYesNo(
                 this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
         embed_image = false;

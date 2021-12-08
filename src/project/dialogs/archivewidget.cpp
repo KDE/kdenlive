@@ -882,14 +882,12 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 QUrl src = QUrl::fromLocalFile(item->text(0));
-                QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
+                QUrl dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 if (isSlideshow) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
                                                QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
-                } else {
-                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
@@ -907,7 +905,7 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     if (isArchive) {
         basePath = QStringLiteral("$CURRENTPATH");
     } else {
-        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash | QUrl::StripTrailingSlash).toLocalFile();
+        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile();
     }
     // Switch to relative path
     mlt.removeAttribute(QStringLiteral("root"));
@@ -953,8 +951,8 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
         }
         propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
+            bool found = false;
             // Title with images, replace paths
             QDomDocument titleXML;
             titleXML.setContent(src);

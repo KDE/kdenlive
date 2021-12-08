@@ -725,12 +725,12 @@ void TimelineController::deleteMultipleTracks(int tid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = true;
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
     if (tid == -1) {
         tid = m_activeTrack;
     }
     if (d->exec() == QDialog::Accepted) {
+        bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
         for (int selectedTrackIx : qAsConst(allIds)) {
             result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
@@ -1573,7 +1573,6 @@ void TimelineController::setZoneOut(int outPoint)
 void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions, bool selectSubTitles)
 {
     std::unordered_set<int> itemsToSelect;
-    std::unordered_set<int> subtitlesToSelect;
     if (addToSelect) {
         itemsToSelect = m_model->getCurrentSelection();
     }
@@ -2768,14 +2767,14 @@ void TimelineController::extract(int clipId)
                     int newIn = m_model->getClipPosition(current_id);
                     int newOut = newIn + m_model->getClipPlaytime(current_id);
                     int tk = m_model->getClipTrackId(current_id);
-                    std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
-                    if (mixData.first.firstClipId > -1) {
+                    std::pair<MixInfo,MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                    if (cMixData.first.firstClipId > -1) {
                         // Clip has a start mix, adjust in point
-                        newIn += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+                        newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
                     }
-                    if (mixData.second.firstClipId > -1) {
+                    if (cMixData.second.firstClipId > -1) {
                         // Clip has end mix, adjust out point
-                        newOut -= mixData.second.mixOffset;
+                        newOut -= cMixData.second.mixOffset;
                     }
                     in = qMin(in, newIn);
                     out = qMax(out, newOut);
@@ -3263,11 +3262,10 @@ void TimelineController::switchTrackLock(bool applyToAll)
         int toBeLockedCount =
             std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
         auto subtitleModel = pCore->getSubtitleModel();
-        bool subLocked = false;
         bool hasSubtitleTrack = false;
         if (subtitleModel) {
             hasSubtitleTrack = true;
-            subLocked= subtitleModel->isLocked();
+            bool subLocked = subtitleModel->isLocked();
             if (!subLocked) {
                 toBeLockedCount++;
             }
@@ -3608,7 +3606,7 @@ void TimelineController::editItemDuration(int id)
             }
             if (result && newIn != in) {
                 int updatedDuration = duration + (in - newIn);
-                m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
+                result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
                 if (result && partner > -1) {
                     result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
                 }
@@ -4015,7 +4013,6 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         int old_trackId = m_model->getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            bool updateThisView = true;
             if (m_model->isClip(item)) {
                 int current_track_position = m_model->getTrackPosition(old_trackId);
                 int d = m_model->getTrackById_const(old_trackId)->isAudioTrack() ? audio_delta : video_delta;
@@ -4029,7 +4026,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 int duration = m_model->m_allClips[item]->getPlaytime();
                 min = min < 0 ? old_position[item] + delta_pos : qMin(min, old_position[item] + delta_pos);
                 max = max < 0 ? old_position[item] + delta_pos + duration : qMax(max, old_position[item] + delta_pos + duration);
-                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo, false, false);
+                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, true, finalMove, undo, redo, false, false);
                 if (m_model->m_editMode == TimelineMode::InsertEdit) {
                     // Lift space left by removed clip
                     ok = ok && TimelineFunctions::removeSpace(m_model, {old_position[item],old_position[item] + duration}, undo, redo, {old_trackId}, false);

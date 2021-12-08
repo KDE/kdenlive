@@ -37,7 +37,6 @@ public slots:
     void assignProjectNote();
 
 private:
-    QAction *m_markerAction;
     void createMarker(QStringList anchors);
     QPair <QStringList, QList <QPoint> > getSelectedAnchors();
 

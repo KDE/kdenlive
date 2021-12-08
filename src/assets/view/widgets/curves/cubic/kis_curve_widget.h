@@ -81,10 +81,6 @@ private:
 
     bool m_guideVisible;
     QColor m_colorGuide;
-
-    /* Working range of them */
-    int m_inOutMin;
-    int m_inOutMax;
 };
 
 #endif /* KIS_CURVE_WIDGET_H */

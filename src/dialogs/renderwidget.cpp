@@ -1572,7 +1572,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         QString playlistName = playlistPath;
         myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
         if (passes == 2 && i == 1) {
-            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(i + 1) + playlistName.section(QLatin1Char('.'), -1);
+            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(2) + playlistName.section(QLatin1Char('.'), -1);
         }
         playlists << playlistName;
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);

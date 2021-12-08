@@ -12,10 +12,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <cstdlib>
 
 AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
+    : m_list(QList<AudioStreamInfo *>())
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(nullptr);
-    m_list = QList<AudioStreamInfo *>();
     // Get the number of streams and add the information of each of them if it is an audio stream.
     int streams = producer->get_int("meta.media.nb_streams");
     for (int i = 0; i < streams; ++i) {

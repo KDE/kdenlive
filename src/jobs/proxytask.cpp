@@ -381,7 +381,6 @@ void ProxyTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
-    int progress = 0;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -396,6 +395,7 @@ void ProxyTask::processLogInfo()
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
+            int progress = 0;
             QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));

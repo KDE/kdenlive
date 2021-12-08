@@ -23,7 +23,7 @@ std::unique_ptr<ProvidersRepository> &ProvidersRepository::get()
 
 void ProvidersRepository::refresh(bool fullRefresh) {
 
-    //Lock to avoid changes to config files while reading them
+    // Lock to avoid changes to config files while reading them
     QWriteLocker locker(&m_mutex);
 
     if (fullRefresh) {

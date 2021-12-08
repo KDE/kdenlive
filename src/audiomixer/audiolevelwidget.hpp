@@ -21,7 +21,6 @@ public:
     ~AudioLevelWidget() override;
     void refreshPixmap();
     int audioChannels;
-    bool isValid;
     void setVisibility(bool enable);
 
 protected:

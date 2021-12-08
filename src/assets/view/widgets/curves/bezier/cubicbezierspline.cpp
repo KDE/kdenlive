@@ -19,8 +19,8 @@ CubicBezierSpline::CubicBezierSpline()
 }
 
 CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline &spline)
+    : m_points(spline.m_points)
 {
-    m_points = spline.m_points;
 }
 
 CubicBezierSpline &CubicBezierSpline::operator=(const CubicBezierSpline &spline) = default;

@@ -88,7 +88,7 @@ void UrlListParamWidget::slotRefresh()
     m_list->clear();
     QStringList names = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
-    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString currentValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
     filter.remove(0, filter.indexOf("(")+1);
     filter.remove(filter.indexOf(")")-1, -1);
@@ -127,14 +127,14 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     // add all matching files in the location of the current item too
-    if (!value.isEmpty()) {
-        QString path = QUrl(value).adjusted(QUrl::RemoveFilename).toString();
+    if (!currentValue.isEmpty()) {
+        QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
         QDir dir(path);
         for (const auto &filename : dir.entryList(m_fileExt, QDir::Files)) {
             values.append(dir.filePath(filename));
         }
         // make sure the current value is added. If it is a duplicate we remove it later
-        values << value;
+        values << currentValue;
     }
 
     values.removeDuplicates();
@@ -164,8 +164,8 @@ void UrlListParamWidget::slotRefresh()
     m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
 
     // select current value
-    if (!value.isEmpty()) {
-        int ix = m_list->findData(value);
+    if (!currentValue.isEmpty()) {
+        int ix = m_list->findData(currentValue);
         if (ix > -1)  {
             m_list->setCurrentIndex(ix);
             m_currentIndex = ix;

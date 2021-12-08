@@ -27,6 +27,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
     , m_binId(binId)
     , m_filterParams(filterParams)
     , m_destination(destination)
+    , m_addToFolder(KdenliveSettings::add_new_clip_to_folder())
 {
     m_speed = filterParams.at(QStringLiteral("warp_speed")).toDouble();
     m_inPoint = in > -1 ? qRound(in / m_speed) : -1;
@@ -134,14 +135,14 @@ void SpeedTask::start(QObject* object, bool force)
                 continue;
             }
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
-            auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
+            binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             if (binClip) {
                 task = new SpeedTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
             }
         } else {
             // Process full clip
             owner = ObjectId(ObjectType::BinClip, id.toInt());
-            auto binClip = pCore->projectItemModel()->getClipByBinID(id);
+            binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (binClip) {
                 task = new SpeedTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
             }

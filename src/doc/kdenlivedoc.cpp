@@ -1710,7 +1710,7 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
         // Use specified folder to store all files
         kdenliveCacheDir = m_projectFolder;
     }
-    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId;
+    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId; // CacheBase
     switch (type) {
     case SystemCacheRoot:
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
