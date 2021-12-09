@@ -2596,8 +2596,7 @@ QByteArray TrackModel::trackHash()
     QByteArray fileData;
     // Parse clips
     for (auto &clip : m_allClips) {
-        QString clipData = QString("%1 %2 %3 %4").arg(QString::number(clip.second->getPosition()), QString::number(clip.second->getPlaytime()), QString::number(clip.second->getSubPlaylistIndex()), clip.second->effectNames());
-        fileData.append(clipData.toLatin1()); 
+        fileData.append(clip.second->clipHash().toUtf8());
     }
     // Parse mixes
     for (auto &sameComposition : m_sameCompositions) {

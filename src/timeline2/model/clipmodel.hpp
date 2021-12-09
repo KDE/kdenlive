@@ -108,11 +108,13 @@ public:
     QDomElement toXml(QDomDocument &document);
 
     /** @brief Retrieve a list of all snaps for this clip */
-    void allSnaps(std::vector<int> &snaps, int offset = 0);
+    void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
 protected:
     /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
+    /** @brief Returns a clip hash, useful for regression testing */
+    QString clipHash() const;
 
 public:
     /** @brief returns the length of the item on the timeline

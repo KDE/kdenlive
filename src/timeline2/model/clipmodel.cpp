@@ -86,7 +86,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-void ClipModel::allSnaps(std::vector<int> &snaps, int offset)
+void ClipModel::allSnaps(std::vector<int> &snaps, int offset) const
 {
     m_clipMarkerModel->allSnaps(snaps, offset);
 }
@@ -1463,4 +1463,28 @@ FileStatus::ClipStatus ClipModel::clipStatus() const
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     return binClip->clipStatus();
+}
+
+QString ClipModel::clipHash() const
+{
+    QDomDocument document;
+    QDomElement container = document.createElement(QStringLiteral("clip"));
+    container.setAttribute(QStringLiteral("service"), m_producer->parent().get("mlt_service"));
+    container.setAttribute(QStringLiteral("in"), getIn());
+    container.setAttribute(QStringLiteral("out"), getOut());
+    container.setAttribute(QStringLiteral("position"), getPosition());
+    container.setAttribute(QStringLiteral("state"), m_currentState);
+    container.setAttribute(QStringLiteral("playlist"), m_subPlaylistIndex);
+    container.setAttribute(QStringLiteral("speed"), QString::number(m_speed, 'f'));
+    container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
+    std::vector<int> snaps;
+    allSnaps(snaps);
+    QString snapData;
+    for (auto &s : snaps) {
+        snapData.append(QString::number(s));
+    }
+    container.setAttribute(QStringLiteral("markers"), snapData);
+    document.appendChild(container);
+    container.appendChild(m_effectStack->toXml(document));
+    return document.toString();
 }

@@ -38,7 +38,7 @@ public:
     void updateSnapModelInOut(std::vector<int> borderSnaps);
     void updateSnapMixPosition(int mixPos);
     /** @brief Retrieve all snap points */
-    void allSnaps(std::vector<int> &snaps, int offset = 0);
+    void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
 
 private:
