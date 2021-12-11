@@ -1365,7 +1365,6 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 // Fix clip
                 setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
                 setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
-                break;
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {

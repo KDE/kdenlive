@@ -856,12 +856,27 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             chain->attach(link);
             warpProducer.reset(chain);
         } else {
-            QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+            QString url;
+            QString original_resource;
+            if (m_clipStatus == FileStatus::StatusMissing) {
+                url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QString("qtext"));
+                original_resource = originalProducer()->get("resource");
+                
+            } else {
+                if (resource.endsWith(QLatin1String(":qtext"))) {
+                    resource.replace(QLatin1String("qtext"), originalProducer()->get("warp_resource"));
+                }
+                url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+            }
             warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
-            warpProducer->set("length", int(original_length / std::abs(speed) + 0.5));
-            qDebug() << "new producer: " << url;
-            qDebug() << "warp LENGTH before" << warpProducer->get_length();
+            int updated_length = int(original_length / std::abs(speed) + 0.5);
+            warpProducer->set("length", updated_length);
+            if (!original_resource.isEmpty()) {
+                // Don't lose original resource for placeholder clips
+                //warpProducer->set("warp_resource", original_resource.toUtf8().constData());
+                warpProducer->set("text", i18n("Invalid").toUtf8().constData());   
+            }
         }
         // this is a workaround to cope with Mlt erroneous rounding
         Mlt::Properties original(m_masterProducer->get_properties());
@@ -901,7 +916,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         // check whether it's a timewarp
         double speed = 1.0;
         bool timeWarp = false;
-        if (QString::fromUtf8(master->parent().get("mlt_service")) == QLatin1String("timewarp")) {
+        if (master->parent().property_exists("warp_speed")) {
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
         } else if (master->parent().type() == mlt_service_chain_type) {
@@ -927,6 +942,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             master->parent().set("_loaded", 1);
             if (timeWarp) {
                 m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
+                QString resource = m_timewarpProducers[clipId]->get("resource");
+                if (resource.endsWith(QLatin1String("qtext"))) {
+                    // This was a placeholder clip, reset producer
+                    std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed));
+                    m_timewarpProducers[clipId] = prod;
+                }
                 m_effectStack->loadService(m_timewarpProducers[clipId]);
                 return {master, true};
             }

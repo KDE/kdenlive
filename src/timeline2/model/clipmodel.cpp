@@ -110,7 +110,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 
     double speed = 1.0;
     bool warp_pitch = false;
-    if (QString::fromUtf8(producer->parent().get("mlt_service")) == QLatin1String("timewarp")) {
+    if (producer->parent().property_exists("warp_speed")) {
         speed = producer->parent().get_double("warp_speed");
         warp_pitch = producer->parent().get_int("warp_pitch");
     }
