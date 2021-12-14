@@ -1098,7 +1098,7 @@ bool Core::enableMultiTrack(bool enable)
     }
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     if (isMultiTrack || enable) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, enable);
+        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, true);
         return true;
     }
     return false;

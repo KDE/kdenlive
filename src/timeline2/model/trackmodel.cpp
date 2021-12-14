@@ -1628,19 +1628,24 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     int secondInPos;
     int mixPosition;
     int src_track = 0;
-    bool clipHasEndMix = false;
+    int first_src_track = 0;
+    bool secondClipHasEndMix = false;
+    bool firstClipHasStartMix = false;
     QList <int> allowedMixes = {clipIds.first};
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
+        std::shared_ptr<ClipModel> firstClip(ptr->getClipPtr(clipIds.first));
         std::shared_ptr<ClipModel> secondClip(ptr->getClipPtr(clipIds.second));
         mixDuration = secondClip->getMixDuration();
         mixCutPos = secondClip->getMixCutPosition();
         mixPosition = secondClip->getPosition();
+        firstInPos = firstClip->getPosition();
         secondInPos = mixPosition + mixDuration - mixCutPos;
-        firstInPos = ptr->getClipPtr(clipIds.first)->getPosition();
         endPos = mixPosition + secondClip->getPlaytime();
-        clipHasEndMix = hasEndMix(clipIds.second);
+        secondClipHasEndMix = hasEndMix(clipIds.second);
+        firstClipHasStartMix = hasStartMix(clipIds.first);
         src_track = secondClip->getSubPlaylistIndex();
+        first_src_track = firstClip->getSubPlaylistIndex();
     } else {
         return false;
     }
@@ -1663,10 +1668,18 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         QString assetId = m_sameCompositions[clipIds.second]->getAssetId();
         QVector<QPair<QString, QVariant>> params = m_sameCompositions[clipIds.second]->getAllParameters();
         bool switchSecondTrack = false;
-        if (src_track == 1 && !clipHasEndMix && !closing) {
+        bool switchFirstTrack = false;
+        if (src_track == 1 && !secondClipHasEndMix && !closing) {
             switchSecondTrack = true;
         }
-        Fun replay = [this, clipIds, secondInPos, switchSecondTrack]() {
+        if (first_src_track == 1 && !firstClipHasStartMix && !closing) {
+            switchFirstTrack = true;
+        }
+        Fun replay = [this, clipIds, firstInPos, secondInPos, switchFirstTrack, switchSecondTrack]() {
+            if (switchFirstTrack) {
+                // Revert clip to playlist 0 since it has no mix
+                switchPlaylist(clipIds.first, firstInPos, 1, 0);
+            }
             if (switchSecondTrack) {
                 // Revert clip to playlist 0 since it has no mix
                 switchPlaylist(clipIds.second, secondInPos, 1, 0);
@@ -1690,8 +1703,12 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             return true;
         };
         replay();
-        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, switchSecondTrack]() {
+        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, firstInPos, secondInPos, switchFirstTrack, switchSecondTrack]() {
             // First restore correct playlist
+            if (switchFirstTrack) {
+                // Revert clip to playlist 1
+                switchPlaylist(clipIds.first, firstInPos, 0, 1);
+            }
             if (switchSecondTrack) {
                 // Revert clip to playlist 1
                 switchPlaylist(clipIds.second, secondInPos, 0, 1);
