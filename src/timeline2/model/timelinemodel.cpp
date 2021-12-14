@@ -932,13 +932,26 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             // Make sure we have enough space in clip to resize
             int maxLengthLeft = m_allClips[previousClip]->getMaxDuration();
             int maxLengthRight = m_allClips[s]->getMaxDuration();
-            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[previousClip]->getOut()) : -1;
-            rightMax = maxLengthRight > -1 ? (m_allClips[s]->getIn()) : -1;
+            // leftMax is the maximum frames we have to expand first clip on the right
+            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[previousClip]->getOut()) : m_allClips[s]->getPlaytime();
+            // rightMax is the maximum frames we have to expand second clip on the left
+            rightMax = maxLengthRight > -1 ? (m_allClips[s]->getIn()) : m_allClips[previousClip]->getPlaytime();
+            if (getTrackById_const(selectedTrack)->hasStartMix(previousClip)) {
+                int spaceBeforeMix = m_allClips[s]->getPosition() - (m_allClips[previousClip]->getPosition() + m_allClips[previousClip]->getMixDuration());
+                rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
+            }
+            if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
+                MixInfo mixData = getTrackById_const(selectedTrack)->getMixInfo(s).second;
+                if (mixData.secondClipId > -1) {
+                    int spaceAfterMix = m_allClips[s]->getPlaytime() - m_allClips[mixData.secondClipId]->getMixDuration();
+                    leftMax = leftMax == -1 ? spaceAfterMix : qMin(leftMax, spaceAfterMix);
+                }
+            }
             if (leftMax > -1 && rightMax > -1 && (leftMax + rightMax < 3)) {
                 noSpaceInClip = 1;
                 continue;
             }
-            // Mix at start of selected clip
+            // Create Mix at start of selected clip
             clipsToMix.first = previousClip;
             clipsToMix.second = s;
             idToMove = s;
@@ -948,8 +961,21 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             // Make sure we have enough space in clip to resize
             int maxLengthLeft = m_allClips[s]->getMaxDuration();
             int maxLengthRight = m_allClips[nextClip]->getMaxDuration();
-            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[s]->getOut()) : -1;
-            rightMax = maxLengthRight > -1 ? (m_allClips[nextClip]->getIn()) : -1;
+            // leftMax is the maximum frames we have to expand first clip on the right
+            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[s]->getOut()) : m_allClips[nextClip]->getPlaytime();
+            // rightMax is the maximum frames we have to expand second clip on the left
+            rightMax = maxLengthRight > -1 ? (m_allClips[nextClip]->getIn()) : m_allClips[s]->getPlaytime();
+            if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
+                int spaceBeforeMix = m_allClips[nextClip]->getPosition() - (m_allClips[s]->getPosition() + m_allClips[s]->getMixDuration());
+                rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
+            }
+            if (getTrackById_const(selectedTrack)->hasEndMix(nextClip)) {
+                MixInfo mixData = getTrackById_const(selectedTrack)->getMixInfo(nextClip).second;
+                if (mixData.secondClipId > -1) {
+                    int spaceAfterMix = m_allClips[nextClip]->getPlaytime() - m_allClips[mixData.secondClipId]->getMixDuration();
+                    leftMax = leftMax == -1 ? spaceAfterMix : qMin(leftMax, spaceAfterMix);
+                }
+            }
             if (leftMax > -1 && rightMax > -1 && (leftMax + rightMax < 3)) {
                 noSpaceInClip = 2;
                 continue;
@@ -993,7 +1019,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
     } else {
         if (rightMax > -1) {
             mixDurations.second = qMin(mixDuration - mixDuration / 2, rightMax);
-            mixDurations.first= mixDuration - mixDurations.first;
+            mixDurations.first = mixDuration - mixDurations.second;
         } else {
             mixDurations.first = mixDuration / 2;
             mixDurations.second = mixDuration - mixDurations.first;
@@ -2523,7 +2549,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
                 if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart, subPlaylist)) {
-                    qDebug()<<"===== REQUESTING GRP MOVE ABORT 5, POSITION: "<<moveStart<<" - "<<(moveEnd - moveStart)<<" ON PLAYL: "<<subPlaylist<<" FOR CLIP: "<<item.first;
                     int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime, subPlaylist);
                     if (newStart == current_in + playtime) {
                         // No move possible, abort

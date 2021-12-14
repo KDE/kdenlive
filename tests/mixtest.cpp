@@ -200,6 +200,57 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
+
+    SECTION("Create mix on color clips and move some to another track")
+    {
+        state0();
+        // insert third color clip
+        int cid5;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->getClipPosition(cid5) == 540);
+
+        // CID 3 length=20, pos=500, CID4 length=20, pos=520, CID% length=20, pos=540
+        // Default mix duration = 25 frames (12 before / 13 after)
+
+        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid5));
+        REQUIRE(timeline->getClipPosition(cid5) < 540);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPosition(cid5) == 540);
+        undoStack->redo();
+        REQUIRE(timeline->getClipPosition(cid5) < 540);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+
+        // Move middle clip to another track, should delete the mixes
+        REQUIRE(timeline->requestClipMove(cid4, tid4, 500));
+        REQUIRE(timeline->getClipPosition(cid5) == 540);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+
+        // Undo track move
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+
+        // Undo mixes
+        undoStack->undo();
+        undoStack->undo();
+        // undo 3rd clip resize & insert
+        undoStack->undo();
+        undoStack->undo();
+        state0();
+    }
     
     SECTION("Create mix on color clips and group move")
     {
