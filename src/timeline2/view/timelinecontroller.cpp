@@ -4144,6 +4144,10 @@ bool TimelineController::exists(int itemId)
 void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
     QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
+    if (!refresh) {
+        // This is just a temporary state (disable multitrack view for playlist save, don't change scene
+        return;
+    }
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
     QObject::disconnect( m_connection );
     if (enable) {
