@@ -71,7 +71,19 @@ struct TimelineFunctions
     */
     static bool requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks);
 
-    static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups = false);
+    /** @brief Starts a spacer operation. Should be used together with requestSpacerEndOperation
+        @returns clipId of the position-wise first clip in the temporary group
+        @param timeline TimelineItemModel where the operation should be performed on
+        @param trackId
+        @param position
+        @param ignoreMultiTrackGroups
+        @param allowGroupBreaking Whether independant move of grouped items is allowed
+        @see requestSpacerEndOperation
+    */
+    static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups = false, bool allowGroupBreaking = false);
+    /**
+        @see requestSpacerStartOperation
+     */
     static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo = true);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
     static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);

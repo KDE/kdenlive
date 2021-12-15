@@ -535,6 +535,9 @@ public:
     Q_INVOKABLE void slipPosChanged(int offset);
     Q_INVOKABLE void ripplePosChanged(int pos, bool right);
 
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+
     /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);

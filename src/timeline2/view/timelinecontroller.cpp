@@ -918,7 +918,7 @@ void TimelineController::setInPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(id, size, false, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, false, true, 0, false);
             setPosition(m_model->getItemPosition(id));
         } else {
             m_model->requestItemResize(id, size, false, true, 0, false);
@@ -998,7 +998,7 @@ void TimelineController::setOutPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(id, size, true, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, true, true, 0, false);
         } else {
             m_model->requestItemResize(id, size, true, true, 0, false);
         }
@@ -1966,6 +1966,10 @@ void TimelineController::removeSplitOverlay()
     // disconnect
     m_timelinePreview->removeOverlayTrack();
     m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+}
+
+int TimelineController::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+    return m_model->requestItemRippleResize(m_model, itemId, size, right, logUndo, snapDistance, allowSingleResize);
 }
 
 void TimelineController::updateTrimmingMode() {

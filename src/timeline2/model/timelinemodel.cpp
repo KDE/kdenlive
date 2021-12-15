@@ -20,9 +20,9 @@
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 // TODO
-#include "mainwindow.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+//#include "mainwindow.h"
+//#include "timeline2/view/timelinewidget.h"
+//#include "timeline2/view/timelinecontroller.h"
 #include "timeline2/model/timelinefunctions.hpp"
 
 #include "monitor/monitormanager.h"
@@ -3386,7 +3386,7 @@ bool TimelineModel::requestItemResize(int itemId, int &size, bool right, bool lo
     return result;
 }
 
-int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
@@ -3605,7 +3605,7 @@ int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, boo
         } else {
             finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
         }
-        result = result && requestItemRippleResize(id, finalSize, right, logUndo, undo, redo);
+        result = result && requestItemRippleResize(timeline, id, finalSize, right, logUndo, undo, redo);
         resizedCount++;
     }
     result = result && resizedCount != 0;
@@ -3634,7 +3634,7 @@ int TimelineModel::requestItemRippleResize(int itemId, int size, bool right, boo
     return res;
 }
 
-bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
     Fun local_undo = []() { return true; };
@@ -3678,18 +3678,18 @@ bool TimelineModel::requestItemRippleResize(int itemId, int size, bool right, bo
         size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
         int delta = size - m_allClips[itemId]->getPlaytime();
         qDebug() << "requestItemRippleResize logUndo: " << logUndo << " size: " << size << " playtime: " << m_allClips[itemId]->getPlaytime() <<" delta: " << delta;
-        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right](int position) {
+        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right, timeline](int position) {
             int trackId = getItemTrackId(itemId);
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            int cid = TimelineFunctions::requestSpacerStartOperation(pCore->window()->getCurrentTimeline()->model(), affectAllTracks ? -1 : trackId, position, true);
+            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
             if (cid == -1) {
                 return false;
             }
             int endPos = getItemPosition(cid) + delta;
             // Start undoable command
-            TimelineFunctions::requestSpacerEndOperation(pCore->window()->getCurrentTimeline()->model(), cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
+            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
             return true;
         };
         if (delta > 0) {
