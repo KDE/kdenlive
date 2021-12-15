@@ -260,11 +260,11 @@ int TimelineModel::getItemTrackId(int itemId) const
 }
 
 bool TimelineModel::hasClipEndMix(int clipId) const {
+    if (!isClip(clipId)) return false;
     int tid = getClipTrackId(clipId);
-    if (tid > -1) {
-        return getTrackById_const(tid)->hasEndMix(clipId);
-    }
-    return false;
+    if (tid < 0) return false;
+
+    return getTrackById_const(tid)->hasEndMix(clipId);
 }
 
 int TimelineModel::getClipPosition(int clipId) const
