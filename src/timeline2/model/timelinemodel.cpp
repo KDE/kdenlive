@@ -3691,7 +3691,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true);
+            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
             if (cid == -1) {
                 return false;
             }
