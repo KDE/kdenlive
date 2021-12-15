@@ -10,8 +10,8 @@
         "sources": [
           {
             "type": "archive",
-            "url": "https://files.pythonhosted.org/packages/fb/c1/67ceeba190efa1e6281b214c7d827cd05e7c8b82ba456a043f0ba5cc3eb4/pyaaf2-1.2.0.tar.gz",
-            "sha256": "08cba1f96caa41e23570e6961761ac192a42910fb2991dda3004550c931a610c"
+            "url": "https://files.pythonhosted.org/packages/69/0a/64f466f1517c9e5d63f8d65545aca085a2dfa47d5c0332d5dafea25d7785/pyaaf2-1.4.0.tar.gz",
+            "sha256": "160d3c26c7cfef7176d0bdb0e55772156570435982c3abfa415e89639f76e71b"
           }
         ]
       },
@@ -20,13 +20,13 @@
         "buildsystem": "simple",
         "build-commands": [
           "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.9'|\" -i setup.py",
-          "python3 setup.py install --prefix=/app --root=/ --cxx-install-root=/app"
+          "python3 setup.py install --prefix=/app --root=/"
         ],
         "sources": [
           {
             "type": "archive",
-            "url": "https://files.pythonhosted.org/packages/9e/bb/a3b1f7c94b42f20a59a0d5dbc693ebfeb7623f0f86953f0d946595e2b03d/OpenTimelineIO-0.13.0.tar.gz",
-            "sha256": "c29c947479687cad7844684016aecc2a640daa67cbefb2dbf5c6a1aca45bfe1b"
+            "url": "https://files.pythonhosted.org/packages/9c/6a/d74b3ab7e7b21cafafb7f746ce50fd414fcc2a8abee7a53701a1ab3975ea/OpenTimelineIO-0.14.1.tar.gz",
+            "sha256": "0b9adc0fd303b978af120259d6b1d23e0623800615b4a3e2eb9f9fb2c70d5d13"
           }
         ]
       },
@@ -40,13 +40,13 @@
         "sources": [
           {
               "type": "file",
-              "url": "https://files.pythonhosted.org/packages/2e/92/87bb61538d7e60da8a7ec247dc048f7671afe17016cd0008b3b710012804/cffi-1.14.6.tar.gz",
-              "sha256": "c9a875ce9d7fe32887784274dd533c57909b7b1dcadcc128a2ac21331a9765dd"
+              "url": "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz",
+              "sha256": "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
           },
           {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/0f/86/e19659527668d70be91d0369aeaa055b4eb396b0f387a4f92293a20035bd/pycparser-2.20.tar.gz",
-            "sha256": "2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"
+            "url": "https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl",
+            "sha256": "8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"
           }
         ]
       },
@@ -60,13 +60,13 @@
         "sources": [
           {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/e1/93/4d3b1843897f0290a2c93d48b9124058ae156b8e82aaf8b0764c536997b3/vosk-0.3.30-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
-            "sha256": "8883a61abc4d12278378fc23bc7041adcfb43e90aa90327ca41d5554426a01a0"
+            "url": "https://files.pythonhosted.org/packages/e0/d8/73fa801ee551a2aadc859e07d1e81031407317b3d34dd9f49b49734158ed/vosk-0.3.32-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+            "sha256": "cbc18e23abba1db37db5545c167f00133df8c040b54df7b11d53a1167b9bdbde"
           },
           {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/dd/6b/d82b1fd391a9851b637e6889b05cd6ff1af66fa60af3e170bd1fcc27d2c4/vosk-0.3.30-py3-none-linux_armv7l.whl",
-            "sha256": "c7702a52d3f940b50131069cf2f82ef5930cf0d40bd3129922e15f8da515f661"
+            "url": "https://files.pythonhosted.org/packages/22/67/73c70f4ba6e32c6e089888086a29078d53123cec4c7d8ef050355d24020f/vosk-0.3.32-py3-none-linux_armv7l.whl",
+            "sha256": "12978cd72ef01923434e42a26b572a1e4ffbb90aaa41e71fdbd990da612b929f"
           }
         ]
       },
@@ -80,8 +80,8 @@
         "sources": [
           {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/3b/dd/0629a23b11da7696ce69e4432a2de6a1d1277bf2ba5cda624009069d4bb3/srt-3.4.1.tar.gz",
-            "sha256": "aa507439bf593adb1b207d21c5975c9774263da97489f8b90d8a016bfa67ee94"
+            "url": "https://files.pythonhosted.org/packages/c6/7f/cff94ab26fffeacf1f64d9ba1ef0d3045e958159e450360b0d8a9e1a3b7e/srt-3.5.0.tar.gz",
+            "sha256": "9378e67fcc7c110eca7ec12bdb17a174085f67e3b371f7e586a4c68a0dda245b"
           }
         ]
       }
