@@ -700,7 +700,8 @@
       "buildsystem": "cmake-ninja",
       "builddir": true,
       "config-opts": [
-        "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DRELEASE_BUILD=OFF"
       ],
       "post-install": [
         "install -d /app/extensions/Plugins"
