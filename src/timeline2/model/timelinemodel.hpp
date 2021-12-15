@@ -509,9 +509,9 @@ public:
     bool requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief @todo TODO */
-    Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    int requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
     /** @brief @todo TODO */
-    bool requestItemRippleResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+    bool requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable

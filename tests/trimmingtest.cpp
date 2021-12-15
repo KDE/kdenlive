@@ -1469,18 +1469,18 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
         };
         state();
 
-        REQUIRE(timeline->requestItemRippleResize(cid1, l1 + 5, true));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l1 + 5, true));
         state();
 
-        REQUIRE(timeline->requestItemRippleResize(cid1, l1 + 5, false));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l1 + 5, false));
         state();
 
-        REQUIRE(timeline->requestItemRippleResize(cid2, l2 + 5, true));
-        REQUIRE(timeline->requestItemRippleResize(cid1, l2 + 5, false));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 + 5, true));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l2 + 5, false));
         state();
 
-        REQUIRE(timeline->requestItemRippleResize(cid3, l3 + 5, true));
-        REQUIRE(timeline->requestItemRippleResize(cid3, l3 + 5, false));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid3, l3 + 5, true));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid3, l3 + 5, false));
         state();
 
         undoStack->undo();
@@ -1543,7 +1543,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
             REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
         };
-        qDebug() << "Wauf" << timeline->requestItemRippleResize(cid2, l2 - 5, true);
+        qDebug() << "Wauf" << timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true);
         //REQUIRE( == l2 - 5);
         stateA1();
         stateB();
@@ -1561,7 +1561,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
         };
 
-        REQUIRE(timeline->requestItemRippleResize(cid2, l2 - 8, false));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
         stateA1();
         stateC();
 
