@@ -10,7 +10,10 @@
 
 4. Build `docker build -t kde-binary-factory .`
 
-5. Create the container and start it `docker run -i -t kde-binary-factory:latest /bin/bash`
+5. Create the container and start it `docker run -i -t kde-binary-factory:latest /bin/bash`.
+
+If you want to access the container's filesystem more easily you can use volumes.
+Just add `-v $HOME/appimage-home:/home/appimage` to the `docker run` command and whatever would be written to `/home/appimage` will be redirected to `$HOME/appimage-home` in the host filesystem.
 
 ### Prepare Container
 Inside the container:
@@ -21,7 +24,7 @@ Inside the container:
 
 3. Create work directory `mkdir appimage-workspace`
 
-4. Clone kdenlive repository `https://invent.kde.org/multimedia/kdenlive.git`
+4. Clone kdenlive repository `git clone https://invent.kde.org/multimedia/kdenlive.git`
 
 5. If you want to build a specific branch, now is the time, for example: `cd kdenlive && git checkout -b timeline2 origin/refactoring_timeline` (Otherwise skip this step)
 
