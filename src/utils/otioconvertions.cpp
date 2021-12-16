@@ -72,7 +72,7 @@ void OtioConvertions::slotExportProject()
     QString exportFile = QFileDialog::getSaveFileName(
                 pCore->window(), i18n("Export Project"),
                 pCore->currentDoc()->projectDataFolder(),
-                i18n("OpenTimelineIO adapters (%1)", m_adapters));
+                i18n("OpenTimelineIO adapters (%1)(%1)", m_adapters));
     if (exportFile.isNull()) {
         return;
     }
@@ -87,6 +87,8 @@ void OtioConvertions::slotExportProject()
         KMessageBox::error(pCore->window(), i18n("Unable to write to temporary kdenlive file for export: %1",
                                    tmp.fileName()));
         return;
+    } else {
+        tmp.close();
     }
     QProcess convert;
     convert.start(QStringLiteral("otioconvert"), {"-i", tmp.fileName(), "-o", exportFile});
@@ -109,7 +111,7 @@ void OtioConvertions::slotImportProject()
     QString importFile = QFileDialog::getOpenFileName(
                 pCore->window(), i18n("Project to import"),
                 pCore->currentDoc()->projectDataFolder(),
-                i18n("OpenTimelineIO adapters (%1)", m_adapters));
+                i18n("OpenTimelineIO adapters (%1)(%1)", m_adapters));
     if (importFile.isNull() || !QFile::exists(importFile)) {
         return;
     }
