@@ -604,11 +604,11 @@ DocumentChecker::~DocumentChecker()
     delete m_dialog;
 }
 
-QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder)
+QString DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
-        return QStringList();
+        return QString();
     }
         if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).isEmpty()) {
             // This should not happen, try to recover the producer id
@@ -659,12 +659,12 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
                         }
                     }
                 }
-                return QStringList();
+                return QString();
             }
 
             checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
                                        e.attribute(QStringLiteral("name")));
-            return QStringList();
+            return QString();
         }
         if (service == QLatin1String("kdenlivetitle")) {
             // TODO: Check is clip template is missing (xmltemplate) or hash changed
@@ -672,11 +672,11 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
             QStringList images = TitleWidget::extractImageList(xml);
             QStringList fonts = TitleWidget::extractFontList(xml);
             checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
-            return QStringList();
+            return QString();
         }
         QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
         if (resource.isEmpty()) {
-            return QStringList();
+            return QString();
         }
         if (service == QLatin1String("timewarp")) {
             // slowmotion clip, trim speed info
@@ -695,7 +695,7 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
             if (missingPaths.contains(resource)) {
                 m_missingClips.append(e);
             }
-            return QStringList();
+            return QString();
         }
         QString producerResource = resource;
         QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
@@ -741,8 +741,7 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
             } else if (!proxyFound) {
                 m_missingProxies.append(e);
             }
-            verifiedPaths.append(resource);
-            return QStringList();
+            return resource;
         }
         // Check for slideshows
         QString slidePattern;
@@ -773,8 +772,7 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
                     // Fix timewarp producer
                     Xml::setXmlProperty(e, QStringLiteral("warp_resource"), original);
                     Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + QStringLiteral(":") + original);
-                    verifiedPaths.append(original);
-                    return QStringList();
+                    return original;
                 }
             }
             // Missing clip found, make sure to omit timeline preview
@@ -802,8 +800,7 @@ QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList ent
             }
         }
         // Make sure we don't query same path twice
-        verifiedPaths.append(producerResource);
-        return verifiedPaths;
+        return producerResource;
 }
 
 QString DocumentChecker::getProperty(const QDomElement &effect, const QString &name)

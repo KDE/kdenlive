@@ -81,7 +81,7 @@ private:
     /** @brief Remove _missingsourcec flag in fixed clips */
     void fixMissingSource(const QString &id, QDomNodeList producers);
     /** @brief Check for various missing elements */
-    QStringList getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder);
+    QString getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder);
 
 signals:
     void showScanning(const QString);
