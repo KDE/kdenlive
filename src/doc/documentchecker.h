@@ -48,6 +48,7 @@ private slots:
 private:
     QUrl m_url;
     QDomDocument m_doc;
+    QString m_documentid;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
     QPair<QString, QString> m_rootReplacement;
@@ -64,16 +65,23 @@ private:
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
     QStringList m_changedClips;
+    // List clips whose proxy is missing
+    QList<QDomElement> m_missingProxies;
+    // List clips who have a working proxy but no source clip
+    QList<QDomElement> m_missingSources;
     bool m_abortSearch;
     bool m_checkRunning;
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
-    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers);
+    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
+    void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
     /** @brief Returns list of transitions containing luma files */
     QMap<QString, QString> getLumaPairs() const;
     /** @brief Remove _missingsourcec flag in fixed clips */
     void fixMissingSource(const QString &id, QDomNodeList producers);
+    /** @brief Check for various missing elements */
+    QStringList getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder);
 
 signals:
     void showScanning(const QString);
