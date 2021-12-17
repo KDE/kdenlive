@@ -91,25 +91,24 @@ bool DocumentChecker::hasErrorInClips()
     // Check if strorage folder for temp files exists
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
-    QString documentid;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
-            documentid = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
-            if (documentid.isEmpty()) {
+            m_documentid = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
+            if (m_documentid.isEmpty()) {
                 // invalid document id, recreate one
-                documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
+                m_documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
                 // TODO: Warn on invalid doc id
-                Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), documentid);
+                Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), m_documentid);
             }
             storageFolder = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(documentid)) {
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(m_documentid)) {
                 storageFolder = projectDir.absolutePath();
                 Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"),
-                                    projectDir.absoluteFilePath(documentid));
+                                    projectDir.absoluteFilePath(m_documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
             }
             break;
@@ -117,6 +116,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
     QDomElement profile = baseElement.firstChildElement(QStringLiteral("profile"));
     bool hdProfile = true;
@@ -125,220 +125,22 @@ bool DocumentChecker::hasErrorInClips()
             hdProfile = false;
         }
     }
-    // List clips whose proxy is missing
-    QList<QDomElement> missingProxies;
-    // List clips who have a working proxy but no source clip
-    QList<QDomElement> missingSources;
     m_safeImages.clear();
     m_safeFonts.clear();
     m_missingFonts.clear();
     m_changedClips.clear();
-    max = documentProducers.count();
     QStringList verifiedPaths;
     QStringList missingPaths;
-    QStringList serviceToCheck;
-    serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp")
-                   << QStringLiteral("framebuffer") << QStringLiteral("xml") << QStringLiteral("qtext");
+    QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("timewarp"), QStringLiteral("framebuffer"), QStringLiteral("xml"), QStringLiteral("qtext")};
+    max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
-        QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-        if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
-            continue;
-        }
-        if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).isEmpty()) {
-            // This should not happen, try to recover the producer id
-            int max2 = entries.count();
-            QString producerName = e.attribute(QStringLiteral("id"));
-            for (int j = 0; j < max2; j++) {
-                QDomElement e2 = entries.item(j).toElement();
-                if (e2.attribute(QStringLiteral("producer")) == producerName) {
-                    // Matche found
-                    QString entryName = Xml::getXmlProperty(e2, QStringLiteral("kdenlive:id"));
-                    if (!entryName.isEmpty()) {
-                        Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), entryName);
-                        break;
-                    }
-                }
-            }
-        }
-        if (service == QLatin1String("qtext")) {
-            QString text = Xml::getXmlProperty(e, QStringLiteral("text"));
-            if (text == QLatin1String("INVALID")) {
-                // Warning, this is an invalid clip (project saved with missing source)
-                // Check if source clip is now available
-                QString resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
-                if (resource.isEmpty()) {
-                    resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-                }
-                // Make sure to have absolute paths
-                if (QFileInfo(resource).isRelative()) {
-                    resource.prepend(root);
-                }
-                if (QFile::exists(resource)) {
-                    // Reset to original service
-                    Xml::removeXmlProperty(e, QStringLiteral("text"));
-                    QString original_service = Xml::getXmlProperty(e, QStringLiteral("kdenlive:orig_service"));
-                    if (!original_service.isEmpty()) {
-                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), original_service);
-                    } else {
-                        // Try to guess service
-                        if (Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
-                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
-                        }
-                        else if (resource.endsWith(QLatin1String(".kdenlivetitle"))) {
-                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("kdenlivetitle"));
-                        } else if (resource.endsWith(QLatin1String(".kdenlive")) || resource.endsWith(QLatin1String(".mlt"))) {
-                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("xml"));
-                        } else {
-                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-                        }
-                    }
-                }
-                continue;
-            }
-
-            checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
-                                       e.attribute(QStringLiteral("name")));
-            continue;
-        }
-        if (service == QLatin1String("kdenlivetitle")) {
-            // TODO: Check is clip template is missing (xmltemplate) or hash changed
-            QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-            QStringList images = TitleWidget::extractImageList(xml);
-            QStringList fonts = TitleWidget::extractFontList(xml);
-            checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
-            continue;
-        }
-        QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-        if (resource.isEmpty()) {
-            continue;
-        }
-        if (service == QLatin1String("timewarp")) {
-            // slowmotion clip, trim speed info
-            resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
-        } else if (service == QLatin1String("framebuffer")) {
-            // slowmotion clip, trim speed info
-            resource = resource.section(QLatin1Char('?'), 0, 0);
-        }
-
-        // Make sure to have absolute paths
-        if (QFileInfo(resource).isRelative()) {
-            resource.prepend(root);
-        }
-        if (verifiedPaths.contains(resource)) {
-            // Don't check same url twice (for example track producers)
-            if (missingPaths.contains(resource)) {
-                m_missingClips.append(e);
-            }
-            continue;
-        }
-        QString producerResource = resource;
-        QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
-        if (proxy.length() > 1) {
-            bool proxyFound = true;
-            if (QFileInfo(proxy).isRelative()) {
-                proxy.prepend(root);
-            }
-            if (!QFile::exists(proxy)) {
-                // Missing clip found
-                // Check if proxy exists in current storage folder
-                bool fixed = false;
-                if (!storageFolder.isEmpty()) {
-                    QDir dir(storageFolder + QStringLiteral("/proxy/"));
-                    if (dir.exists(QFileInfo(proxy).fileName())) {
-                        QString updatedPath = dir.absoluteFilePath(QFileInfo(proxy).fileName());
-                        fixProxyClip(e.attribute(QStringLiteral("id")), Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy")), updatedPath,
-                                     documentProducers);
-                        fixed = true;
-                    }
-                }
-                if (!fixed) {
-                    proxyFound = false;
-                }
-            }
-            QString original = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-            if (QFileInfo(original).isRelative()) {
-                original.prepend(root);
-            }
-            // Check for slideshows
-            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("\\.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
-            if (slideshow && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
-                original = QFileInfo(original).absolutePath();
-            }
-            if (!QFile::exists(original)) {
-                if (!proxyFound) {
-                    // Neither proxy nor original file found
-                    m_missingClips.append(e);
-                } else {
-                    // clip has proxy but original clip is missing
-                    missingSources.append(e);
-                }
-                missingPaths.append(original);
-            } else if (!proxyFound) {
-                missingProxies.append(e);
-            }
-            verifiedPaths.append(resource);
-            continue;
-        }
-        // Check for slideshows
-        QString slidePattern;
-        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
-        if (slideshow) {
-            if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
-                slidePattern = QFileInfo(resource).fileName();
-                resource = QFileInfo(resource).absolutePath();
-            } else if ((service.startsWith(QLatin1String("avformat")) || service == QLatin1String("timewarp")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
-                // Fix MLT 6.20 avformat slideshows
-                if (service.startsWith(QLatin1String("avformat"))) {
-                    Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
-                }
-                slidePattern = QFileInfo(resource).fileName();
-                resource = QFileInfo(resource).absolutePath();
-            } else {
-                slideshow = false;
-            }
-        }
-        if (!QFile::exists(resource)) {
-            if (service == QLatin1String("timewarp") && proxy == QLatin1String("-")) {
-                // In some corrupted cases, clips with speed effect kept a reference to proxy clip in warp_resource
-                QString original = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-                if (QFileInfo(original).isRelative()) {
-                    original.prepend(root);
-                }
-                if (original != resource && QFile::exists(original)) {
-                    // Fix timewarp producer
-                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), original);
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + QStringLiteral(":") + original);
-                    verifiedPaths.append(original);
-                    continue;
-                }
-            }
-            // Missing clip found, make sure to omit timeline preview
-            if (QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(documentid))) {
-                // This is a timeline preview missing chunk, ignore
-            } else {
-                m_missingClips.append(e);
-                missingPaths.append(resource);
-            }
-        } else if (service.startsWith(QLatin1String("avformat")) || slideshow) {
-            // Check if file changed
-            const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
-            if (!hash.isEmpty()) {
-                const QByteArray fileData = slideshow ? ProjectClip::getFolderHash(QDir(resource), slidePattern).toHex() : ProjectClip::calculateHash(resource).first.toHex();
-                if (hash != fileData) {
-                    // For slideshow clips, silently upgrade hash
-                    if (slideshow) {
-                        Xml::setXmlProperty(e, "kdenlive:file_hash", fileData);
-                    } else {
-                        // Clip was changed, notify and trigger clip reload
-                        Xml::removeXmlProperty(e, "kdenlive:file_hash");
-                        m_changedClips.append(resource);
-                    }
-                }
-            }
-        }
-        // Make sure we don't query same path twice
-        verifiedPaths.append(producerResource);
+        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
+    }
+    max = documentChains.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentChains.item(i).toElement();
+        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
     }
 
     // Get list of used Luma files
@@ -472,7 +274,7 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty() &&
+    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty() && m_missingFonts.isEmpty() &&
         m_missingFilters.isEmpty() && m_changedClips.isEmpty()) {
         return false;
     }
@@ -487,7 +289,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
     }
-    m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty());
+    m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty());
     max = m_missingClips.count();
     m_missingProxyIds.clear();
     QStringList processedIds;
@@ -619,14 +421,14 @@ bool DocumentChecker::hasErrorInClips()
         infoLabel.append(i18np("Missing effect: %2 will be removed from project.", "Missing effects: %2 will be removed from project.",
                                m_missingFilters.count(), m_missingFilters.join(",")));
     }
-    if (!missingProxies.isEmpty()) {
+    if (!m_missingProxies.isEmpty()) {
         if (!infoLabel.isEmpty()) {
             infoLabel.append(QStringLiteral("\n"));
         }
         infoLabel.append(i18n("Missing proxies can be recreated on opening."));
         m_ui.rebuildProxies->setChecked(true);
-        connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, [missingProxies] (int state) {
-            for (QDomElement e : missingProxies) {
+        connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, [this] (int state) {
+            for (QDomElement e : m_missingProxies) {
                 if (state == Qt::Checked) {
                     e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
                 } else {
@@ -637,12 +439,12 @@ bool DocumentChecker::hasErrorInClips()
     } else {
         m_ui.rebuildProxies->setVisible(false);
     }
-    if (!missingSources.isEmpty()) {
+    if (!m_missingSources.isEmpty()) {
         if (!infoLabel.isEmpty()) {
             infoLabel.append(QStringLiteral("\n"));
         }
         infoLabel.append(i18np("The project file contains a missing clip, you can still work with its proxy.",
-                               "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
+                               "The project file contains %1 missing clips, you can still work with their proxies.", m_missingSources.count()));
     }
     if (!m_changedClips.isEmpty()) {
         if (!infoLabel.isEmpty()) {
@@ -658,16 +460,17 @@ bool DocumentChecker::hasErrorInClips()
     }
     m_ui.recursiveSearch->setCheckable(true);
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
-    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty() || !missingSources.isEmpty());
+    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty() || !m_missingSources.isEmpty());
     m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
     m_ui.manualSearch->setEnabled(!m_missingClips.isEmpty());
 
     // Check missing proxies
-    max = missingProxies.count();
+    max = m_missingProxies.count();
     for (int i = 0; i < max; ++i) {
-        QDomElement e = missingProxies.at(i).toElement();
+        QDomElement e = m_missingProxies.at(i).toElement();
         QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
         QString id = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
         m_missingProxyIds << id;
         // Tell Kdenlive to recreate proxy
         e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
@@ -686,9 +489,38 @@ bool DocumentChecker::hasErrorInClips()
                     prefix = Xml::getXmlProperty(mltProd, QStringLiteral("warp_speed"));
                     prefix.append(QLatin1Char(':'));
                     Xml::setXmlProperty(mltProd, QStringLiteral("warp_resource"), prefix + realPath);
+                } else if (!originalService.isEmpty()) {
+                    Xml::setXmlProperty(mltProd, QStringLiteral("mlt_service"), originalService);
                 }
-                Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix + realPath);
+                prefix.append(realPath);
+                Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix);
                 Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                
+                if (missingPaths.contains(realPath)) {
+                    // Proxy AND source missing
+                    setProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                    setProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, "mlt_service"));
+                }
+            }
+        }
+        prodsCount = documentChains.count();
+        for (int j = 0; j < prodsCount; ++j) {
+            mltProd = documentChains.at(j).toElement();
+            QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
+            if (parentId == id) {
+                // Hit, we must replace url
+                QString prefix;
+                if (Xml::getXmlProperty(mltProd, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
+                    prefix = Xml::getXmlProperty(mltProd, QStringLiteral("warp_speed"));
+                    prefix.append(QLatin1Char(':'));
+                    Xml::setXmlProperty(mltProd, QStringLiteral("warp_resource"), prefix + realPath);
+                } else if (!originalService.isEmpty()) {
+                    Xml::setXmlProperty(mltProd, QStringLiteral("mlt_service"), originalService);
+                }
+                prefix.append(realPath);
+                Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix);
+                Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                
                 if (missingPaths.contains(realPath)) {
                     // Proxy AND source missing
                     setProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
@@ -714,7 +546,7 @@ bool DocumentChecker::hasErrorInClips()
     }
 
     // Check clips with available proxies but missing original source clips
-    max = missingSources.count();
+    max = m_missingSources.count();
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Source clip"));
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-warning")));
@@ -723,7 +555,7 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, statusRole, SOURCEMISSING);
         item->setToolTip(0, i18n("Missing source clip"));
         for (int i = 0; i < max; ++i) {
-            QDomElement e = missingSources.at(i).toElement();
+            QDomElement e = m_missingSources.at(i).toElement();
             QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
             // Tell Kdenlive the source is missing
             if (QFileInfo(realPath).isRelative()) {
@@ -770,6 +602,208 @@ bool DocumentChecker::hasErrorInClips()
 DocumentChecker::~DocumentChecker()
 {
     delete m_dialog;
+}
+
+QStringList DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder)
+{
+    QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+    if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
+        return QStringList();
+    }
+        if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).isEmpty()) {
+            // This should not happen, try to recover the producer id
+            int max2 = entries.count();
+            QString producerName = e.attribute(QStringLiteral("id"));
+            for (int j = 0; j < max2; j++) {
+                QDomElement e2 = entries.item(j).toElement();
+                if (e2.attribute(QStringLiteral("producer")) == producerName) {
+                    // Matche found
+                    QString entryName = Xml::getXmlProperty(e2, QStringLiteral("kdenlive:id"));
+                    if (!entryName.isEmpty()) {
+                        Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), entryName);
+                        break;
+                    }
+                }
+            }
+        }
+        if (service == QLatin1String("qtext")) {
+            QString text = Xml::getXmlProperty(e, QStringLiteral("text"));
+            if (text == QLatin1String("INVALID")) {
+                // Warning, this is an invalid clip (project saved with missing source)
+                // Check if source clip is now available
+                QString resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+                if (resource.isEmpty()) {
+                    resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+                }
+                // Make sure to have absolute paths
+                if (QFileInfo(resource).isRelative()) {
+                    resource.prepend(root);
+                }
+                if (QFile::exists(resource)) {
+                    // Reset to original service
+                    Xml::removeXmlProperty(e, QStringLiteral("text"));
+                    QString original_service = Xml::getXmlProperty(e, QStringLiteral("kdenlive:orig_service"));
+                    if (!original_service.isEmpty()) {
+                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), original_service);
+                    } else {
+                        // Try to guess service
+                        if (Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
+                        }
+                        else if (resource.endsWith(QLatin1String(".kdenlivetitle"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("kdenlivetitle"));
+                        } else if (resource.endsWith(QLatin1String(".kdenlive")) || resource.endsWith(QLatin1String(".mlt"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("xml"));
+                        } else {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+                        }
+                    }
+                }
+                return QStringList();
+            }
+
+            checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
+                                       e.attribute(QStringLiteral("name")));
+            return QStringList();
+        }
+        if (service == QLatin1String("kdenlivetitle")) {
+            // TODO: Check is clip template is missing (xmltemplate) or hash changed
+            QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+            QStringList images = TitleWidget::extractImageList(xml);
+            QStringList fonts = TitleWidget::extractFontList(xml);
+            checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
+            return QStringList();
+        }
+        QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        if (resource.isEmpty()) {
+            return QStringList();
+        }
+        if (service == QLatin1String("timewarp")) {
+            // slowmotion clip, trim speed info
+            resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+        } else if (service == QLatin1String("framebuffer")) {
+            // slowmotion clip, trim speed info
+            resource = resource.section(QLatin1Char('?'), 0, 0);
+        }
+
+        // Make sure to have absolute paths
+        if (QFileInfo(resource).isRelative()) {
+            resource.prepend(root);
+        }
+        if (verifiedPaths.contains(resource)) {
+            // Don't check same url twice (for example track producers)
+            if (missingPaths.contains(resource)) {
+                m_missingClips.append(e);
+            }
+            return QStringList();
+        }
+        QString producerResource = resource;
+        QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
+        if (proxy.length() > 1) {
+            bool proxyFound = true;
+            if (QFileInfo(proxy).isRelative()) {
+                proxy.prepend(root);
+            }
+            if (!QFile::exists(proxy)) {
+                // Missing clip found
+                // Check if proxy exists in current storage folder
+                bool fixed = false;
+                if (!storageFolder.isEmpty()) {
+                    QDir dir(storageFolder + QStringLiteral("/proxy/"));
+                    if (dir.exists(QFileInfo(proxy).fileName())) {
+                        QString updatedPath = dir.absoluteFilePath(QFileInfo(proxy).fileName());
+                        fixProxyClip(e.attribute(QStringLiteral("id")), Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy")), updatedPath);
+                        fixed = true;
+                    }
+                }
+                if (!fixed) {
+                    proxyFound = false;
+                }
+            }
+            QString original = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
+            if (QFileInfo(original).isRelative()) {
+                original.prepend(root);
+            }
+            // Check for slideshows
+            bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("\\.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
+            if (slideshow && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+                original = QFileInfo(original).absolutePath();
+            }
+            if (!QFile::exists(original)) {
+                if (!proxyFound) {
+                    // Neither proxy nor original file found
+                    m_missingClips.append(e);
+                } else {
+                    // clip has proxy but original clip is missing
+                    m_missingSources.append(e);
+                }
+                missingPaths.append(original);
+            } else if (!proxyFound) {
+                m_missingProxies.append(e);
+            }
+            verifiedPaths.append(resource);
+            return QStringList();
+        }
+        // Check for slideshows
+        QString slidePattern;
+        bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
+        if (slideshow) {
+            if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+                slidePattern = QFileInfo(resource).fileName();
+                resource = QFileInfo(resource).absolutePath();
+            } else if ((service.startsWith(QLatin1String("avformat")) || service == QLatin1String("timewarp")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+                // Fix MLT 6.20 avformat slideshows
+                if (service.startsWith(QLatin1String("avformat"))) {
+                    Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
+                }
+                slidePattern = QFileInfo(resource).fileName();
+                resource = QFileInfo(resource).absolutePath();
+            } else {
+                slideshow = false;
+            }
+        }
+        if (!QFile::exists(resource)) {
+            if (service == QLatin1String("timewarp") && proxy == QLatin1String("-")) {
+                // In some corrupted cases, clips with speed effect kept a reference to proxy clip in warp_resource
+                QString original = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
+                if (QFileInfo(original).isRelative()) {
+                    original.prepend(root);
+                }
+                if (original != resource && QFile::exists(original)) {
+                    // Fix timewarp producer
+                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), original);
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + QStringLiteral(":") + original);
+                    verifiedPaths.append(original);
+                    return QStringList();
+                }
+            }
+            // Missing clip found, make sure to omit timeline preview
+            if (QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(m_documentid))) {
+                // This is a timeline preview missing chunk, ignore
+            } else {
+                m_missingClips.append(e);
+                missingPaths.append(resource);
+            }
+        } else if (service.startsWith(QLatin1String("avformat")) || slideshow) {
+            // Check if file changed
+            const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
+            if (!hash.isEmpty()) {
+                const QByteArray fileData = slideshow ? ProjectClip::getFolderHash(QDir(resource), slidePattern).toHex() : ProjectClip::calculateHash(resource).first.toHex();
+                if (hash != fileData) {
+                    // For slideshow clips, silently upgrade hash
+                    if (slideshow) {
+                        Xml::setXmlProperty(e, "kdenlive:file_hash", fileData);
+                    } else {
+                        // Clip was changed, notify and trigger clip reload
+                        Xml::removeXmlProperty(e, "kdenlive:file_hash");
+                        m_changedClips.append(resource);
+                    }
+                }
+            }
+        }
+        // Make sure we don't query same path twice
+        verifiedPaths.append(producerResource);
+        return verifiedPaths;
 }
 
 QString DocumentChecker::getProperty(const QDomElement &effect, const QString &name)
@@ -1215,12 +1249,14 @@ void DocumentChecker::acceptDialog()
     // QDialog::accept();
 }
 
-void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers)
+void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl)
 {
     QDomElement e, property;
     QDomNodeList properties;
-    for (int i = 0; i < producers.count(); ++i) {
-        e = producers.item(i).toElement();
+    QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < documentProducers.count(); ++i) {
+        e = documentProducers.item(i).toElement();
         QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
         if (parentId.isEmpty()) {
             // This is probably an old project file
@@ -1228,26 +1264,43 @@ void DocumentChecker::fixProxyClip(const QString &id, const QString &oldUrl, con
             parentId = sourceId.section(QLatin1Char('_'), 0, 0);
         }
         if (parentId == id) {
-            // Fix clip
-            QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-            bool timewarp = false;
-            if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
-                timewarp = true;
-                resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
-            }
-            if (resource == oldUrl) {
-                if (timewarp) {
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + ":" + newUrl);
-                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), newUrl);
-                } else {
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), newUrl);
-                }
-            }
-            if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy")).isEmpty()) {
-                // Only set originalurl on master producer
-                Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), newUrl);
-            }
+            doFixProxyClip(e, oldUrl, newUrl);
         }
+    }
+    for (int i = 0; i < documentChains.count(); ++i) {
+        e = documentChains.item(i).toElement();
+        QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        if (parentId.isEmpty()) {
+            // This is probably an old project file
+            QString sourceId = e.attribute(QStringLiteral("id"));
+            parentId = sourceId.section(QLatin1Char('_'), 0, 0);
+        }
+        if (parentId == id) {
+            doFixProxyClip(e, oldUrl, newUrl);
+        }
+    }
+}
+
+void DocumentChecker::doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl)
+{
+    // Fix clip
+    QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+    bool timewarp = false;
+    if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
+        timewarp = true;
+        resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+    }
+    if (resource == oldUrl) {
+        if (timewarp) {
+            Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + ":" + newUrl);
+            Xml::setXmlProperty(e, QStringLiteral("warp_resource"), newUrl);
+        } else {
+            Xml::setXmlProperty(e, QStringLiteral("resource"), newUrl);
+        }
+    }
+    if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy")).isEmpty()) {
+        // Only set originalurl on master producer
+        Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), newUrl);
     }
 }
 
