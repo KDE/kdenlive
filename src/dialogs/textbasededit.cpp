@@ -578,6 +578,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         button_insert->setEnabled(hasSelection);
     });
 
+    button_start->setEnabled(false);
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
@@ -1150,7 +1151,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
         // TODO: ask for job cancelation
         return;
     }
-    if (clip) {
+    if (clip && clip->isValid() && clip->hasAudio()) {
         QString refId = clip->getProducerProperty(QStringLiteral("kdenlive:baseid"));
         if (!refId.isEmpty() && refId == m_refId) {
             // We opened a resulting playlist, do not clear text edit
@@ -1183,6 +1184,10 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
         }
         m_visualEditor->rebuildZones();
         button_add->setEnabled(!speech.isEmpty());
+        button_start->setEnabled(true);
+    } else {
+        button_start->setEnabled(false);
+        clipNameLabel->clear();
     }
 }
 
