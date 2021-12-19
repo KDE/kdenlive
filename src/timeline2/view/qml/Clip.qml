@@ -414,6 +414,7 @@ Rectangle {
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
+                            root.trimInProgress = true;
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
                             mixOut.color = 'red'
@@ -432,6 +433,7 @@ Rectangle {
                             mixBackground.anchors.bottom = mixContainer.bottom
                             mixOut.color = clipRoot.border.color
                             mixCutPos.anchors.right = mixCutPos.parent.right
+                            root.trimInProgress = false;
                         }
                         onPositionChanged: {
                             if (mouse.buttons === Qt.LeftButton) {
@@ -547,6 +549,7 @@ Rectangle {
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -576,6 +579,7 @@ Rectangle {
                         }
                         root.groupTrimData = undefined
                     }
+                    root.trimInProgress = false;
                 }
                 onDoubleClicked: {
                     timeline.mixClip(clipRoot.clipId, -1)
@@ -675,6 +679,7 @@ Rectangle {
 
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -705,6 +710,7 @@ Rectangle {
                         }
                         root.groupTrimData = undefined
                     }
+                    root.trimInProgress = false;
                 }
                 onDoubleClicked: {
                     timeline.mixClip(clipRoot.clipId, 1)
