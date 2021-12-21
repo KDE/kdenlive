@@ -547,7 +547,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
             int kfPos = m_model->getPosAtIndex(kf).frames(pCore->getCurrentFps());
             GenTime initPos(kfPos - delta, pCore->getCurrentFps());
             GenTime targetPos(kfPos, pCore->getCurrentFps());
-            m_model->moveKeyframe(targetPos, initPos, false, false);
+            m_model->moveKeyframe(targetPos, initPos, false, true);
             break;
         }
         // Move all keyframes to their new positions
