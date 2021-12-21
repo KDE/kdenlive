@@ -256,6 +256,7 @@ Item {
                 drag.smoothed: false
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
                     compositionRoot.originalDuration = clipDuration
                     anchors.left = undefined
@@ -267,6 +268,7 @@ Item {
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
                     updateDrag()
+                    root.trimInProgress = false;
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -322,6 +324,7 @@ Item {
 
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     compositionRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     trimOut.opacity = 0
@@ -331,6 +334,7 @@ Item {
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     updateDrag()
+                    root.trimInProgress = false;
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
