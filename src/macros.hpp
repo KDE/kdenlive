@@ -6,7 +6,7 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-/*  This file contains a collection of macros that can be used in model related classes.
+/** This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
     - For Push_undo : std::weak_ptr<DocUndoStack> m_undoStack;  this is a pointer to the undoStack
     - For Update_undo_redo: mutable QReadWriteLock m_lock; This is a lock that ensures safety in case of concurrent access. Note that the mutex must be
@@ -17,7 +17,7 @@
     Note that there also exists a version of update_undo_redo without the need for a lock (but prefer the mutex version where applicable)
 */
 
-/* This convenience macro adds lock/unlock ability to a given lambda function
+/** This convenience macro adds lock/unlock ability to a given lambda function
    Note that it is automatically called when you push the lambda so you shouldn't have
    to call it directly yourself
 */
@@ -29,7 +29,7 @@
         return res_lambda;                                                                                                                                     \
     };
 
-/*This convenience macro locks the mutex for reading.
+/** This convenience macro locks the mutex for reading.
 Note that it might happen that a thread is executing a write operation that requires
 reading a Read-protected property. In that case, we try to write lock it first (this will be granted since the lock is recursive)
 */

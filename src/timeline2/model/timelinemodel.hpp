@@ -560,7 +560,7 @@ public:
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
     bool requestClipUngroup(int itemId, bool logUndo = true);
-    /* Same function, but accumulates undo and redo*/
+    /** Same function, but accumulates undo and redo @see requestClipUngroup*/
     bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
     /** @brief convenience functions for several ids at the same time */
     bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
