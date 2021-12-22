@@ -1580,8 +1580,8 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
         stateC();
     }
 
-    // ripple resize a fullsized clip shorter should resize the clip and move following clips
-    SECTION("Ripple resize fullsized group (shorter)")
+    // ripple resize a grouped clip should move the affect all group partners on other tracks with same position as well
+    SECTION("Ripple resize fullsized multitrack group (shorter)")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         int l1 = timeline->getClipPlaytime(cid1);
@@ -1699,6 +1699,100 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
             REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
             REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+        };
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
+        stateA1();
+        stateC();
+
+        undoStack->undo();
+        stateA1();
+        stateB();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateA1();
+        stateB();
+
+        undoStack->redo();
+        stateA1();
+        stateC();
+    }
+
+    SECTION("Ripple resize fullsized single track group (shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 80));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        int gid1 = timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid2, cid3}), true, GroupType::Normal);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 80);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 75);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
+        stateA1();
+        stateB();
+
+        auto stateC = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 72);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
         };
 
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
