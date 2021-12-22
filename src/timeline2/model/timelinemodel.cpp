@@ -262,11 +262,11 @@ int TimelineModel::getItemTrackId(int itemId) const
 }
 
 bool TimelineModel::hasClipEndMix(int clipId) const {
+    if (!isClip(clipId)) return false;
     int tid = getClipTrackId(clipId);
-    if (tid > -1) {
-        return getTrackById_const(tid)->hasEndMix(clipId);
-    }
-    return false;
+    if (tid < 0) return false;
+
+    return getTrackById_const(tid)->hasEndMix(clipId);
 }
 
 int TimelineModel::getClipPosition(int clipId) const
@@ -3683,7 +3683,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
+            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position + 1, true, true);
             if (cid == -1) {
                 return false;
             }
@@ -3693,7 +3693,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             return true;
         };
         if (delta > 0) {
-            if(right) {
+            if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId);
                 if (!spacerOperation(position)) {
                     return false;
@@ -3711,7 +3711,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             local_undo();
         }
         if (result && delta < 0) {
-            if(right) {
+            if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
                 if (!spacerOperation(position)) {
                     return false;
