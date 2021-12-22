@@ -291,8 +291,10 @@ Item {
                 onExited: {
                     trimIn.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimInMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -351,8 +353,10 @@ Item {
                 onExited: {
                     trimOut.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimOutMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
