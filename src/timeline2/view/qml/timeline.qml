@@ -10,6 +10,7 @@ Rectangle {
     objectName: "timelineview"
     SystemPalette { id: activePalette }
     color: activePalette.window
+    property bool debugmode: false
     property bool validMenu: false
     property color textColor: activePalette.text
     property var groupTrimData

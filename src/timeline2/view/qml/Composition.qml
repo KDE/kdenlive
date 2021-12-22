@@ -374,6 +374,28 @@ Item {
             anchors.margins: displayRect.border.width
             clip: true
             Rectangle {
+                // Debug: Clip Id background
+                id: debugCidRect
+                color: 'magenta'
+                width: debugCid.width
+                height: debugCid.height
+                visible: root.debugmode
+                anchors.left: labelRect.right
+                Text {
+                    // Composition ID text
+                    id: debugCid
+                    text: compositionRoot.clipId
+                    font: miniFont
+                    anchors {
+                        top: debugCidRect.top
+                        left: debugCidRect.left
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'white'
+                }
+            }
+            Rectangle {
                 // text background
                 id: labelRect
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
