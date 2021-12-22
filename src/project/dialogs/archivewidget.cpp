@@ -579,12 +579,17 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
     int items = 0;
+    bool isLastCategory = false;
 
     // We parse all files going into one folder, then start the copy job
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
         if (parentItem->isDisabled()) {
             parentItem->setExpanded(false);
+            if (i == files_list->topLevelItemCount() - 1) {
+                isLastCategory = true;
+                break;
+            }
             continue;
         }
         if (parentItem->childCount() > 0) {
@@ -631,7 +636,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         if (!dir.mkpath(QStringLiteral("."))) {
                             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
                         }
-                        QFile file(destUrl.toLocalFile() + filename);
+                        QFile file(dir.absoluteFilePath(filename));
                         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                             qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
                             KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
@@ -657,6 +662,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         // We have processed all slideshows
                         parentItem->setDisabled(true);
                     }
+                    // Slideshows are processed one by one, we call slotStartArchiving after each item
+                    break;
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     files << QUrl::fromLocalFile(item->text(0));
                 } else {
@@ -671,12 +678,18 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 }
             }
             if (!isSlideshow) {
+                // Slideshow is processed one by one and parent is disabled only once all items are done
                 parentItem->setDisabled(true);
             }
+        } else {
+            parentItem->setDisabled(true);
+            continue;
         }
+        // We process each clip category one by one and call slotStartArchiving recursively
+        break;
     }
 
-    if (items == 0) {
+    if (items == 0 && isLastCategory) {
         // No clips to archive
         slotArchivingFinished(nullptr, true);
         return true;
