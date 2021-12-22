@@ -3691,7 +3691,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
+            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position + 1, true, true);
             if (cid == -1) {
                 return false;
             }
@@ -3701,7 +3701,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             return true;
         };
         if (delta > 0) {
-            if(right) {
+            if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId);
                 if (!spacerOperation(position)) {
                     return false;
@@ -3719,7 +3719,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             local_undo();
         }
         if (result && delta < 0) {
-            if(right) {
+            if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
                 if (!spacerOperation(position)) {
                     return false;
@@ -3783,7 +3783,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo) {
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    TRACE(itemId, offset, logUndo, allowSingleResize)
     Q_ASSERT(isClip(itemId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
