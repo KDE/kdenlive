@@ -55,6 +55,10 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
 
 # Qt
 set(QT_MIN_VERSION 5.11.0)
+if (NOT DEFINED QT_MAJOR_VERSION)
+    set(QT_MAJOR_VERSION 5)
+endif()
+
 find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
 if(NOT NODBUS)
     find_package(KF5 REQUIRED COMPONENTS DBusAddons)
