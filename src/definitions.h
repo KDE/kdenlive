@@ -144,7 +144,7 @@ enum MonitorSceneType {
     MonitorSplitTrack
 };
 
-enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, DirectMessage };
+enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
 
 namespace BinMessage {
     enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };
