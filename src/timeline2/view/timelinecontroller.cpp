@@ -1996,8 +1996,7 @@ void TimelineController::slipPosChanged(int offset) {
     int inPoint = mainClip->getIn() - offset;
 
     pCore->monitorManager()->projectMonitor()->slotTrimmingPos(inPoint, offset, inPoint, outPoint);
-    QString info = i18n("In:%1, Out:%2 (%3%4)", simplifiedTC(inPoint), simplifiedTC(outPoint), (offset < 0 ? "-" : "+"), simplifiedTC(qFabs(offset)));
-    pCore->displayMessage(info, DirectMessage);
+    showToolTip(i18n("In:%1, Out:%2 (%3%4)", simplifiedTC(inPoint), simplifiedTC(outPoint), (offset < 0 ? "-" : "+"), simplifiedTC(qFabs(offset))));
 }
 
 void TimelineController::ripplePosChanged(int size, bool right) {
@@ -4877,7 +4876,7 @@ bool TimelineController::guidesLocked() const
 
 void TimelineController::showToolTip(const QString &info) const
 {
-    pCore->displayMessage(info, DirectMessage);
+    pCore->displayMessage(info, TooltipMessage);
 }
 
 void TimelineController::showKeyBinding(const QString &info) const
