@@ -4607,6 +4607,16 @@ void MainWindow::addBin(Bin *bin, const QString &binName)
     m_binWidgets << bin;
 }
 
+void MainWindow::tabifyBins()
+{
+    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
+    for (auto dock : qAsConst(docks)) {
+        if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
+            tabifyDockWidget(m_projectBinDock, dock);
+        }
+    }
+}
+
 Bin *MainWindow::getBin()
 {
     if (m_binWidgets.isEmpty()) {
