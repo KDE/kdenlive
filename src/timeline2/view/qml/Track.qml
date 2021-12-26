@@ -357,7 +357,7 @@ Item{
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     } else {
-                        timeline.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                        controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     }
 
                     if (root.activeTool === ProjectTool.SelectTool && controlTrim) {

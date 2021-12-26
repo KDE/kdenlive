@@ -326,6 +326,18 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
     }
 }
 
+QString GroupsModel::debugString() {
+    QString string;
+    for (auto item : m_downLink) {
+        QStringList leafs;
+        for (auto leaf : item.second) {
+            leafs << QString::number(leaf);
+        }
+        string.append((QStringLiteral("ID: %1 Leafs: %2; ").arg(item.first).arg(leafs.join(" "))));
+    }
+    return string;
+}
+
 void GroupsModel::removeFromGroup(int id)
 {
     QWriteLocker locker(&m_lock);

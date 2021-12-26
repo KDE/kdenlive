@@ -814,13 +814,34 @@ Rectangle {
                 id: nameContainer
                 clip: true
                 Rectangle {
+                    // Debug: Clip Id background
+                    id: debugCidRect
+                    color: 'magenta'
+                    width: debugCid.width + (2 * clipRoot.border.width)
+                    height: debugCid.height
+                    visible: root.debugmode
+                    anchors.left: parent.left
+                    anchors.leftMargin: clipRoot.timeremap ? debugCidRect.height : 0
+                    Text {
+                        // Clip ID text
+                        id: debugCid
+                        text: clipRoot.clipId
+                        font: miniFont
+                        anchors {
+                            left: debugCidRect.left
+                            leftMargin: clipRoot.border.width
+                        }
+                        color: 'white'
+                    }
+                }
+                Rectangle {
                     // Clip name background
                     id: labelRect
                     color: clipRoot.selected ? 'darkred' : '#66000000'
                     width: label.width + (2 * clipRoot.border.width)
                     height: label.height
                     visible: clipRoot.width > width / 2
-                    anchors.left: parent.left
+                    anchors.left: debugCidRect.visible ? debugCidRect.right : parent.left
                     anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
                         // Clip name text

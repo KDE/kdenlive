@@ -291,8 +291,10 @@ Item {
                 onExited: {
                     trimIn.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimInMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -351,8 +353,10 @@ Item {
                 onExited: {
                     trimOut.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimOutMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -373,6 +377,28 @@ Item {
             anchors.fill: parent
             anchors.margins: displayRect.border.width
             clip: true
+            Rectangle {
+                // Debug: Clip Id background
+                id: debugCidRect
+                color: 'magenta'
+                width: debugCid.width
+                height: debugCid.height
+                visible: root.debugmode
+                anchors.left: labelRect.right
+                Text {
+                    // Composition ID text
+                    id: debugCid
+                    text: compositionRoot.clipId
+                    font: miniFont
+                    anchors {
+                        top: debugCidRect.top
+                        left: debugCidRect.left
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'white'
+                }
+            }
             Rectangle {
                 // text background
                 id: labelRect

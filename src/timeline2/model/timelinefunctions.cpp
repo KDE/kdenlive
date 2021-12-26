@@ -337,47 +337,17 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
+                    bool outOfRange = pos + timeline->getItemPlaytime(l) < position;
+                    int tid = timeline->getItemTrackId(l);
+                    bool unaffectedTrack = ignoreMultiTrackGroups && trackId > -1 && tid != trackId;
                     if (allowGroupBreaking) {
-                        int checkedParent = timeline->m_groups->getDirectAncestor(l);
-                        if (pos + timeline->getItemPlaytime(l) < position) {
-                            if (checkedParent == r) {
-                                leavesToRemove.insert(l);
-                            } else {
-                                int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                while (grandParent != r) {
-                                    checkedParent = grandParent;
-                                    grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                }
-                                leavesToRemove.insert(checkedParent);
-                            }
-                        } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
-                            if (checkedParent == r) {
-                                leavesToRemove.insert(l);
-                            } else {
-                                int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                while (grandParent != r) {
-                                    checkedParent = grandParent;
-                                    grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                }
-                                leavesToRemove.insert(checkedParent);
-                            }
+                        if (outOfRange || unaffectedTrack) {
                             leavesToRemove.insert(l);
-
                         } else {
-                            if (checkedParent == r) {
-                                leavesToKeep.insert(l);
-                            } else {
-                                int grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                while (grandParent != r) {
-                                    checkedParent = grandParent;
-                                    grandParent = timeline->m_groups->getDirectAncestor(checkedParent);
-                                }
-                                leavesToKeep.insert(checkedParent);
-                            }
+                            leavesToKeep.insert(l);
                         }
                     }
-                    if (!(pos + timeline->getItemPlaytime(l) < position || (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId))) {
-                        int tid = timeline->getItemTrackId(l);
+                    if (!outOfRange && !unaffectedTrack) {
                         // Check space in all tracks
                         if (!firstPositions.contains(tid)) {
                             firstPositions.insert(tid, pos);
@@ -393,18 +363,16 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         }
                     }
                 }
+                for (int l : leavesToRemove) {
+                    int checkedParent = timeline->m_groups->getDirectAncestor(l);
+                    if (checkedParent < 0) {
+                        checkedParent = l;
+                    }
+                    spacerUngroupedItems.insert(l, checkedParent);
+                }
                 if (leavesToKeep.size() == 1) {
-                    // Only 1 item left in group, group will be deleted
-                    int master = *leavesToKeep.begin();
-                    roots.insert(master);
-                    for (int l : leavesToRemove) {
-                        spacerUngroupedItems.insert(l, master);
-                    }
+                    roots.insert(*leavesToKeep.begin());
                     groupsToRemove.insert(r);
-                } else {
-                    for (int l : leavesToRemove) {
-                        spacerUngroupedItems.insert(l, r);
-                    }
                 }
             } else {
                 int pos = timeline->getItemPosition(r);
@@ -432,7 +400,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         QMapIterator<int, int> i(spacerUngroupedItems);
         while (i.hasNext()) {
             i.next();
-            timeline->m_groups->ungroupItem(i.value(), undo, redo, false);
+            timeline->m_groups->removeFromGroup(i.key());
         }
 
         timeline->requestSetSelection(roots);
@@ -543,18 +511,26 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         QMapIterator<int, int> i(spacerUngroupedItems);
         Fun local_undo = []() { return true; };
         Fun local_redo = []() { return true; };
+        std::unordered_set<int> newlyGrouped;
         while (i.hasNext()) {
             i.next();
-            if (timeline->isGroup(i.value())) {
+            if (timeline->isItem(i.value())) {
+                if (newlyGrouped.count(i.value()) > 0) {
+                    Q_ASSERT(timeline->m_groups->isInGroup(i.value()));
+                    timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
+                } else {
+                    std::unordered_set<int> items = {i.key(), i.value()};
+                    timeline->m_groups->groupItems(items, local_undo, local_redo);
+                    newlyGrouped.insert(i.value());
+                }
+            } else {
+                // i.value() is either a group (detectable via timeline->isGroup) or an empty group
                 if (timeline->isGroup(i.key())) {
                     std::unordered_set<int> items = {i.key(), i.value()};
                     timeline->m_groups->groupItems(items, local_undo, local_redo);
                 } else {
-                    timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
+                    timeline->m_groups->setGroup(i.key(), i.value());
                 }
-            } else if (timeline->isItem(i.value())) {
-                std::unordered_set<int> items = {i.key(), i.value()};
-                timeline->m_groups->groupItems(items, local_undo, local_redo);
             }
         }
         spacerUngroupedItems.clear();

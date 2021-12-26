@@ -156,6 +156,20 @@ public:
     */
     bool checkConsistency(bool failOnSingleGroups = true, bool checkTimelineConsistency = false);
 
+    /** @brief Remove an item from all the groups it belongs to.
+       @param id of the groupItem
+    */
+    void removeFromGroup(int id);
+
+    /** @brief change the group of a given item
+       @param id of the groupItem
+       @param groupId id of the group to assign it to
+       @param changeState when false, the grouped role for item won't be updated (for selection)
+    */
+    void setGroup(int id, int groupId, bool changeState = true);
+
+    QString debugString();
+
 protected:
     /** @brief Destruct a groupItem in the hierarchy.
        All its children will become their own roots
@@ -168,18 +182,6 @@ protected:
     bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
-
-    /** @brief change the group of a given item
-       @param id of the groupItem
-       @param groupId id of the group to assign it to
-       @param changeState when false, the grouped role for item won't be updated (for selection)
-    */
-    void setGroup(int id, int groupId, bool changeState = true);
-
-    /** @brief Remove an item from all the groups it belongs to.
-       @param id of the groupItem
-    */
-    void removeFromGroup(int id);
 
     /** @brief This is the actual recursive implementation of the copy function. */
     bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
