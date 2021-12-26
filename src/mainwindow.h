@@ -140,6 +140,8 @@ public:
     Bin *getBin();
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
+    /** @brief Ensure all bin widgets are tabbed together*/
+    void tabifyBins();
     int binCount() const;
 
     /** @brief Hide subtitle track */

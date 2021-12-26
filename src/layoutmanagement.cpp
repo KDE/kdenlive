@@ -215,6 +215,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     }
     pCore->window()->centralWidget()->setHidden(!timelineVisible);
     pCore->window()->restoreState(state);
+    pCore->window()->tabifyBins();
     if (selectButton) {
         // Activate layout button
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
