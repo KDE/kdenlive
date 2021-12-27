@@ -48,7 +48,7 @@ include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.82.0")
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
     include(QtVersionOption)
 endif()
 
