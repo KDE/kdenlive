@@ -1,6 +1,7 @@
 INSTALL (FILES 
 
 audiobalance.xml
+audiolevelgraph.xml
 audiomap.xml
 audiopan.xml
 audiospectrum.xml
