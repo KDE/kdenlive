@@ -314,29 +314,34 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
+    m_selectAll->setToolTip(i18n("Select All"));
     connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
     buttonSelectAll->setDefaultAction(m_selectAll);
 
     m_selectText = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-texts")), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
+    m_selectText->setToolTip(i18n("Keep only text items selected"));
     connect(m_selectText, &QAction::triggered, this, &TitleWidget::slotSelectText);
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
     m_selectRects = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-rects")), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
+    m_selectRects->setToolTip(i18n("Keep only rect items selected"));
     connect(m_selectRects, &QAction::triggered, this, &TitleWidget::slotSelectRects);
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
     m_selectImages = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-images")), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
+    m_selectImages->setToolTip(i18n("Keep only image items selected"));
     connect(m_selectImages, &QAction::triggered, this, &TitleWidget::slotSelectImages);
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
     m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
+    m_unselectAll->setToolTip(i18n("Deselect"));
     connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
     buttonUnselectAll->setDefaultAction(m_unselectAll);
     buttonUnselectAll->setEnabled(false);

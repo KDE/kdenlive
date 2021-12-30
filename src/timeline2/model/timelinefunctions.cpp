@@ -330,6 +330,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         int firstCid = -1;
         int firstPosition = -1;
         QMap<int,int>firstPositions;
+        std::unordered_set<int> toSelect;
         for (int r : roots) {
             if (timeline->isGroup(r)) {
                 std::unordered_set<int> leaves = timeline->m_groups->getLeaves(r);
@@ -371,7 +372,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                     spacerUngroupedItems.insert(l, checkedParent);
                 }
                 if (leavesToKeep.size() == 1) {
-                    roots.insert(*leavesToKeep.begin());
+                    toSelect.insert(*leavesToKeep.begin());
                     groupsToRemove.insert(r);
                 }
             } else {
@@ -391,8 +392,9 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 }
             }
         }
+        toSelect.insert(roots.begin(), roots.end());
         for (int r : groupsToRemove) {
-            roots.erase(r);
+            toSelect.erase(r);
         }
 
         Fun undo = []() { return true; };
@@ -403,7 +405,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
             timeline->m_groups->removeFromGroup(i.key());
         }
 
-        timeline->requestSetSelection(roots);
+        timeline->requestSetSelection(toSelect);
         if (!firstPositions.isEmpty()) {
             // Find minimum position, parse all tracks
             if (trackId > -1) {
