@@ -339,6 +339,8 @@ public:
     void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &url, const QString &id);
+    // Do some checks on the profile
+    static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
 
 private slots:
     void slotAddClip();
@@ -453,6 +455,8 @@ public slots:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
+    /** @brief Check if a clip profile matches project, propose switch otherwise */
+    void slotCheckProfile(const QString binId);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

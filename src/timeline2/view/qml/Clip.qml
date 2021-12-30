@@ -66,6 +66,7 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
     property bool forceReloadThumb
+    property bool forceReloadAudioThumb
     property bool isComposition: false
     property bool hideClipViews: false
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
@@ -157,6 +158,19 @@ Rectangle {
 
     onForceReloadThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
+        if (isAudio) {
+            return;
+        }
+        if (thumbsLoader.item) {
+            thumbsLoader.item.reload(0)
+        }
+    }
+
+    onForceReloadAudioThumbChanged: {
+        // TODO: find a way to force reload of clip thumbs
+        if (!isAudio) {
+            return;
+        }
         if (thumbsLoader.item) {
             thumbsLoader.item.reload(0)
         }
@@ -253,6 +267,8 @@ Rectangle {
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
+            updateDrag()
+            //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
     }
     MouseArea {
@@ -991,36 +1007,48 @@ Rectangle {
                     property: "kfrModel"
                     value: clipRoot.hideClipViews ? undefined : clipRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "selected"
                     value: clipRoot.selected
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "inPoint"
                     value: clipRoot.inPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "outPoint"
                     value: clipRoot.outPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "clipId"
                     value: clipRoot.clipId
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
             }
             Connections {

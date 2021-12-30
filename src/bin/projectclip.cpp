@@ -209,7 +209,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail()
+void ProjectClip::updateAudioThumbnail(bool cachedThumb)
 {
     emit audioThumbReady();
     if (m_clipType == ClipType::Audio) {
@@ -263,7 +263,10 @@ void ProjectClip::updateAudioThumbnail()
         return;
     }
     m_audioThumbCreated = true;
-    updateTimelineClips({TimelineModel::ReloadThumbRole});
+    if (!cachedThumb) {
+        // Audio was just created
+        updateTimelineClips({TimelineModel::ReloadAudioThumbRole});
+    }
 }
 
 bool ProjectClip::audioThumbCreated() const
@@ -436,7 +439,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
     return prod;
 }
 
-void ProjectClip::setThumbnail(const QImage &img, int in, int out)
+void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
 {
     if (img.isNull()) {
         return;
@@ -466,6 +469,10 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out)
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::DataThumbnail);
+    }
+    if (!inCache && (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate)) {
+        // Title clips always use the same thumb as bin, refresh
+        updateTimelineClips({TimelineModel::ReloadThumbRole});
     }
 }
 
@@ -498,10 +505,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     updateProducer(producer);
     emit producerChanged(m_binId, producer);
-    if (producer->get_int("kdenlive:transcodingrequired") == 1) {
-        pCore->bin()->requestTranscoding(clipUrl(), clipId());
-        producer->set("kdenlive:transcodingrequired", nullptr);
-    }
     m_thumbsProducer.reset();
     connectEffectStack();
 

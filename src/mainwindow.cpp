@@ -3766,6 +3766,39 @@ void MainWindow::slotTranscode(const QStringList &urls)
     d->show();
 }
 
+void MainWindow::slotFriendlyTranscode(const QString binId, bool checkProfile)
+{
+    QString params;
+    QString desc;
+    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
+    if (clip == nullptr) {
+        qDebug()<<"// NO CLIP FOUND FOR BIN ID: "<<binId;
+    }
+    QStringList urls = {clip->url()};
+    // Prepare clip properties
+    QMap <QString, QString> sourceProps;
+    sourceProps.insert(QStringLiteral("resource"), clip->url());
+    sourceProps.insert(QStringLiteral("kdenlive:originalurl"), clip->url());
+    sourceProps.insert(QStringLiteral("kdenlive:clipname"), clip->clipName());
+    sourceProps.insert(QStringLiteral("kdenlive:proxy"), clip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
+    sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getCurrentFolder());
+    connect(d, &ClipTranscode::addClip, [&, binId, sourceProps](const QUrl &url, const QString&/*folderInfo*/) {
+        QMap <QString, QString> newProps;
+        newProps.insert(QStringLiteral("resource"), url.toLocalFile());
+        newProps.insert(QStringLiteral("kdenlive:originalurl"), url.toLocalFile());
+        newProps.insert(QStringLiteral("kdenlive:clipname"), url.fileName());
+        newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
+        QMetaObject::invokeMethod(pCore->bin(), "slotEditClipCommand", Qt::QueuedConnection, Q_ARG(QString, binId), Q_ARG(stringMap, sourceProps), Q_ARG(stringMap, newProps));
+
+    });
+    d->exec();
+    if (checkProfile) {
+        pCore->bin()->slotCheckProfile(binId);
+    }
+}
+
 void MainWindow::slotTranscodeClip()
 {
     const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));

@@ -333,6 +333,8 @@ public slots:
     void updateMonitorProfile();
     /** @brief Add a new Bin Widget. */
     void addBin(const QString &id = QString());
+    /** @brief Transcode a bin clip video. */
+    void transcodeFriendlyFile(const QString binId, bool checkProfile);
 
 signals:
     void coreIsReady();

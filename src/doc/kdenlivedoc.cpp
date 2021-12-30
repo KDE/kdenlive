@@ -1500,12 +1500,11 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
         }
 
         // Build actions for the info message (switch / cancel)
-        QList<QAction *> list;
         const QString profilePath = profile->path();
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
-        list << ac << ac2;
+        QList<QAction *> list = {ac,ac2};
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
@@ -1827,4 +1826,3 @@ void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
 {
     m_subtitleModel = m_subtitle;
 }
-

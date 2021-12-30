@@ -4066,10 +4066,11 @@ void Bin::slotResetInfoMessage()
 {
     m_errorLog.clear();
     m_currentMessage = BinMessage::BinCategory::NoMessage;
-    QList<QAction *> actions = m_infoMessage->actions();
+    // We cannot delete actions here because of concurrency, it might delete actions meant for the upcoming message
+    /*QList<QAction *> actions = m_infoMessage->actions();
     for (int i = 0; i < actions.count(); ++i) {
         m_infoMessage->removeAction(actions.at(i));
-    }
+    }*/
 }
 
 
@@ -4519,7 +4520,61 @@ void Bin::adjustProjectProfileToItem()
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(current));
         auto clip = std::static_pointer_cast<ProjectClip>(item);
         if (clip) {
-            ClipLoadTask::checkProfile(clip->originalProducer());
+            checkProfile(clip->originalProducer());
+        }
+    }
+}
+
+void Bin::slotCheckProfile(const QString binId)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
+    if (clip) {
+        checkProfile(clip->originalProducer());
+    }
+}
+
+// static
+void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
+{
+    // Check if clip profile matches
+    QString service = producer->get("mlt_service");
+    // Check for image producer
+    if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+        // This is an image, create profile from image size
+        int width = producer->get_int("meta.media.width");
+        if (width % 2 > 0) {
+            width += width % 2;
+        }
+        int height = producer->get_int("meta.media.height");
+        height += height % 2;
+        if (width > 100 && height > 100) {
+            std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+            projectProfile->m_width = width;
+            projectProfile->m_height = height;
+            projectProfile->m_sample_aspect_num = 1;
+            projectProfile->m_sample_aspect_den = 1;
+            projectProfile->m_display_aspect_num = width;
+            projectProfile->m_display_aspect_den = height;
+            projectProfile->m_description.clear();
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(projectProfile.get())));
+        } else {
+            // Very small image, we probably don't want to use this as profile
+        }
+    } else if (service.contains(QStringLiteral("avformat"))) {
+        std::unique_ptr<Mlt::Profile> blankProfile(new Mlt::Profile());
+        blankProfile->set_explicit(0);
+        blankProfile->from_producer(*producer);
+        std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile.get()));
+        std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+        clipProfile->adjustDimensions();
+        if (*clipProfile.get() == *projectProfile.get()) {
+            if (KdenliveSettings::default_profile().isEmpty()) {
+                // Confirm default project format
+                KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
+            }
+        } else {
+            // Profiles do not match, propose profile adjustment
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(clipProfile.get())));
         }
     }
 }

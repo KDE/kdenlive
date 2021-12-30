@@ -237,6 +237,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "forceReloadAudioThumb"
+                    value: model.reloadAudioThumb
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "binId"
                     value: model.binId
                     when: loader.status == Loader.Ready && clipItem

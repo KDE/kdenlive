@@ -146,6 +146,7 @@ public:
         FileHashRole,       /// clip only
         SpeedRole,          /// clip only
         ReloadThumbRole,    /// clip only
+        ReloadAudioThumbRole,    /// clip only
         PositionOffsetRole, /// clip only
         TimeRemapRole,      /// clip only
         ItemATrack,         /// composition only

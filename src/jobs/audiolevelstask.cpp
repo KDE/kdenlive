@@ -188,7 +188,7 @@ void AudioLevelsTask::run()
                 QString key = QString("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                 producer->unlock();
-                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
             }
         }
         
@@ -232,12 +232,12 @@ void AudioLevelsTask::run()
             }
             image.save(cachePath);
             audioCreated = true;
-            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
         }
     }
     if (!audioCreated) {
         // Audio was cached, ensure the bin thumbnail is loaded
-        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, true));
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");

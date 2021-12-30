@@ -259,14 +259,14 @@ protected:
 public slots:
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail();
+    void updateAudioThumbnail(bool cachedThumb);
     /** @brief Delete the proxy file */
     void deleteProxy();
     /** @brief A clip job progressed, update display */
     void updateJobProgress();
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &, int in, int out);
+    void setThumbnail(const QImage &, int in, int out, bool inCache = false);
     void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /** @brief A proxy clip is available or disabled, update path and reload */

@@ -1134,6 +1134,11 @@ void Core::transcodeFile(const QString url)
     window()->slotTranscode({url});
 }
 
+void Core::transcodeFriendlyFile(const QString binId, bool checkProfile)
+{
+    window()->slotFriendlyTranscode(binId, checkProfile);
+}
+
 void Core::setWidgetKeyBinding(const QString &mess)
 {
     window()->setWidgetKeyBinding(mess);

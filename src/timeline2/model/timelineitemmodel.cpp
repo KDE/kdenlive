@@ -229,6 +229,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeAudioRole] = "canBeAudio";
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
+    roles[ReloadAudioThumbRole] = "reloadAudioThumb";
     roles[PositionOffsetRole] = "positionOffset";
     roles[ThumbsFormatRole] = "thumbsFormat";
     roles[AudioRecordRole] = "audioRecord";
@@ -340,6 +341,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case MixCutRole:
             return clip->getMixCutPosition();
         case ReloadThumbRole:
+            return clip->forceThumbReload;
+        case ReloadAudioThumbRole:
             return clip->forceThumbReload;
         case PositionOffsetRole:
             return clip->getOffset();
