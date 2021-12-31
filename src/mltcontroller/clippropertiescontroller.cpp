@@ -218,6 +218,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         KIO::highlightInFileManager({QUrl::fromLocalFile(link)});
     });
     lay->addWidget(m_clipLabel);
+    lay->addWidget(&m_warningMessage);
+    m_warningMessage.setCloseButtonVisible(false);
+    m_warningMessage.setWordWrap(true);
+    m_warningMessage.hide();
     m_tabWidget = new QTabWidget(this);
     lay->addWidget(m_tabWidget);
     setLayout(lay);
@@ -967,6 +971,20 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         fpBox->addLayout(hlay);
         hlay->addStretch(10);
+        
+        // Check for variable frame rate
+        if (m_properties->get_int("meta.media.variable_frame_rate")) {
+            m_warningMessage.setText(i18n("File uses a variable frame rate, not recommanded"));
+            QAction *ac = new QAction(i18n("Transcode"));
+            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(bool, false));
+            });
+            m_warningMessage.setMessageType(KMessageWidget::Warning);
+            m_warningMessage.addAction(ac);
+            m_warningMessage.show();
+        } else {
+            m_warningMessage.hide();
+        }
     }
     // Force properties page
     QWidget *forceProp = new QWidget(this);

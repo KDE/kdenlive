@@ -324,9 +324,8 @@ public:
                     QVariant v = index.data(AbstractProjectItem::IconOverlay);
                     if (!v.isNull()) {
                         QIcon reload = QIcon::fromTheme(v.toString());
-                        r.setTop(int(r.bottom() - bounding.height()));
-                        r.setWidth(int(bounding.height()));
-                        reload.paint(painter, r);
+                        int size = style->pixelMetric(QStyle::PM_SmallIconSize);
+                        reload.paint(painter, QRect(r.left() + 2, r.bottom() - size - 2, size, size));
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
@@ -4830,24 +4829,27 @@ void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> z
     }
 }
 
-void Bin::requestTranscoding(const QString &url, const QString &id)
+void Bin::requestTranscoding(const QString &url, const QString &id, bool checkProfile)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [=] () {
-            qDebug()<<"==== STARTING TCODE JOB: "<<m_transcodingDialog->ids().front()<<" = "<<m_transcodingDialog->params();
-            //pCore->jobManager()->startJob<TranscodeJob>(m_transcodingDialog->ids(), -1, QString(), m_transcodingDialog->params(), true);
+            QString firstId = m_transcodingDialog->ids().front();
             std::vector<QString> ids = m_transcodingDialog->ids();
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get());
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get(), false, id == firstId ? checkProfile : false);
             }
             delete m_transcodingDialog;
             m_transcodingDialog = nullptr;
         });
         connect(m_transcodingDialog, &QDialog::rejected, this, [=] () {
+            QString firstId = m_transcodingDialog->ids().front();
             delete m_transcodingDialog;
             m_transcodingDialog = nullptr;
+            if (checkProfile) {
+                pCore->bin()->slotCheckProfile(firstId);
+            }
         });
     }
     m_transcodingDialog->addUrl(url, id);

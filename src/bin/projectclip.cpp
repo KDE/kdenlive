@@ -1524,6 +1524,9 @@ QVariant ProjectClip::getData(DataType type) const
             if (m_clipStatus == FileStatus::StatusWaiting) {
                 return QVariant("view-refresh");
             }
+            if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
+                return QVariant("emblem-warning");
+            }
             return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
         default:
             return AbstractProjectItem::getData(type);

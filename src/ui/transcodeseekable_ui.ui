@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
-    <height>328</height>
+    <width>498</width>
+    <height>270</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>The following clips are not usable for editing. Do you want to transcode them in an edit friendly format ? The converted clips will replace the original ones in your project once created.</string>
+      <string>The following clips are not usable for editing. This will transcode them in an edit friendly format and replace the original ones in your project.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>

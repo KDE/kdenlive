@@ -557,26 +557,6 @@ void ClipLoadTask::run()
             producer->set("out", fixedLength - 1);
         }
     } else if (mltService == QLatin1String("avformat")) {
-        // Check if file is seekable
-        seekable = producer->get_int("seekable");
-        bool checkProfile = false;
-        if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1) {
-            checkProfile = true;
-        }
-        if (!seekable) {
-            QAction *ac = new QAction(i18n("Transcode to edit friendly format"));
-            QAction *ac2 = new QAction(i18n("Discard"));
-            QObject::connect(ac, &QAction::triggered, [id = m_owner.second, resource, checkProfile]() {
-                QMetaObject::invokeMethod(pCore.get(), "transcodeFriendlyFile", Qt::QueuedConnection, Q_ARG(QString, QString::number(id)), Q_ARG(bool, checkProfile));
-            });
-            if (checkProfile) {
-                QObject::connect(ac2, &QAction::triggered, [id = m_owner.second]() {
-                    QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(id)));
-                });
-            }
-            QList<QAction*>actions = {ac,ac2};
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("File <b>%1</b> is not seekable, not recommended for editing.", QFileInfo(resource).fileName())), Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
-        }
         // Get a frame to init properties
         mlt_image_format format = mlt_image_none;
         QSize frameSize = pCore->getCurrentFrameSize();
@@ -585,24 +565,22 @@ void ClipLoadTask::run()
         std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
         frame->get_image(format, w, h);
         frame.reset();
+        // Check if file is seekable
+        seekable = producer->get_int("seekable");
+        vindex = producer->get_int("video_index");
+        bool checkProfile = false;
+        if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && vindex > -1) {
+            checkProfile = true;
+        }
+        if (!seekable) {
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
+        }
         // Check for variable frame rate
         isVariableFrameRate = producer->get_int("meta.media.variable_frame_rate");
-        if (isVariableFrameRate) {
-            QAction *ac = new QAction(i18n("Transcode to edit friendly format"));
-            QAction *ac2 = new QAction(i18n("Discard"));
-            QObject::connect(ac, &QAction::triggered, [id = m_owner.second, resource, checkProfile]() {
-                QMetaObject::invokeMethod(pCore.get(), "transcodeFriendlyFile", Qt::QueuedConnection, Q_ARG(QString, QString::number(id)), Q_ARG(bool, checkProfile));
-            });
-            if (checkProfile) {
-                QObject::connect(ac2, &QAction::triggered, [id = m_owner.second]() {
-                    QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(id)));
-                });
-            }
-            QList<QAction*>actions = {ac,ac2};
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("File <b>%1</b> uses a variable framerate and is not recommended for editing.", QFileInfo(resource).fileName())), Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
+        if (isVariableFrameRate && seekable) {
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
         }
         // check if there are multiple streams
-        vindex = producer->get_int("video_index");
         // List streams
         int streams = producer->get_int("meta.media.nb_streams");
         QList<int> audio_list, video_list;

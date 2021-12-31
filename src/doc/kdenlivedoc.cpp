@@ -1511,7 +1511,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
-        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(),
+        if (KMessageBox::warningContinueCancel(pCore->window(),
                                                i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile->m_width,
                                                     profile->m_height, QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {

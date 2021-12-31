@@ -3773,6 +3773,7 @@ void MainWindow::slotFriendlyTranscode(const QString binId, bool checkProfile)
     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
     if (clip == nullptr) {
         qDebug()<<"// NO CLIP FOUND FOR BIN ID: "<<binId;
+        return;
     }
     QStringList urls = {clip->url()};
     // Prepare clip properties

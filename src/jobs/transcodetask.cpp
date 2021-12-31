@@ -23,7 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object)
+TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
@@ -31,13 +31,14 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int 
     , m_replaceProducer(replaceProducer)
     , m_inPoint(in)
     , m_outPoint(out)
+    , m_checkProfile(checkProfile)
     , m_jobProcess(nullptr)
 {
 }
 
-void TranscodeTask::start(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool force)
+void TranscodeTask::start(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
-    TranscodeTask* task = new TranscodeTask(owner, params, in, out, replaceProducer, object);
+    TranscodeTask* task = new TranscodeTask(owner, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
         delete task;
@@ -221,10 +222,15 @@ void TranscodeTask::run()
                 QMap <QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), binClip->url());
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
+                sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 newProps.insert(QStringLiteral("resource"), destUrl);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
+                newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 QString id = QString::number(m_owner.second);
                 pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
+                if (m_checkProfile) {
+                    QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
+                }
             } else {
                 QString folder = QStringLiteral("-1");
                 if (binClip) {
