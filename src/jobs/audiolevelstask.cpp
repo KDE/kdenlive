@@ -235,7 +235,7 @@ void AudioLevelsTask::run()
             QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
         }
     }
-    if (!audioCreated) {
+    if (!audioCreated && !m_isCanceled) {
         // Audio was cached, ensure the bin thumbnail is loaded
         QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, true));
     }

@@ -1489,7 +1489,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
                 pCore->taskManager.slotCancelJobs();
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
-                updateProjectProfile(true);
+                updateProjectProfile(true, true);
                 emit docModified(true);
                 return;
             case KMessageBox::No:
@@ -1523,7 +1523,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
             // Discard all current jobs
             pCore->taskManager.slotCancelJobs();
             pCore->setCurrentProfile(profilePath);
-            updateProjectProfile(true);
+            updateProjectProfile(true, true);
             emit docModified(true);
         }
     }
