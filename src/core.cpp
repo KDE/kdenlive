@@ -464,7 +464,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
             m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
             m_projectProfile->set_width(getCurrentProfile()->width());
-            m_projectProfile->get_profile()->description = qstrdup(profilePath.toUtf8().constData());
+            m_projectProfile->get_profile()->description = qstrdup(getCurrentProfile()->description().toUtf8().constData());
             m_projectProfile->set_explicit(true);
             updateMonitorProfile();
         }
