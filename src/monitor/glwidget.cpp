@@ -861,7 +861,7 @@ void GLWidget::startGlsl()
     }
 }
 
-static void onThreadStarted(mlt_properties owner, GLWidget *self)
+static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->startGlsl();
@@ -892,7 +892,7 @@ void GLWidget::stopGlsl()
     m_texture[0] = 0;
 }
 
-static void onThreadStopped(mlt_properties owner, GLWidget *self)
+static void onThreadStopped(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->stopGlsl();
@@ -1434,11 +1434,10 @@ void GLWidget::on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data
     }
 }
 
-void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_nosync_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1446,11 +1445,10 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
     }
 }
 
-void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
