@@ -1840,11 +1840,15 @@ Rectangle {
                     }
                     ZoomBar {
                         id: horZoomBar
+                        visible: root.zoomBarWidth < 1
                         anchors {
                             left: parent.left
                             right: parent.right
                             top: scrollView.bottom
                         }
+                        height: Math.round(root.baseUnit * 0.7)
+                        barMinWidth: root.baseUnit
+                        flickable: scrollView
                     }
                 }
             }

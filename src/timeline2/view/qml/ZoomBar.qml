@@ -1,3 +1,10 @@
+/*
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.0
 import QtQml.Models 2.11
 import QtQuick.Controls 2.4
@@ -5,15 +12,13 @@ import QtQuick.Controls 2.4
 Rectangle {
     id: zoomContainer
     SystemPalette { id: barPalette; colorGroup: SystemPalette.Disabled }
-    height: Math.round(root.baseUnit * 0.7)
-    property bool hoveredBar: barArea.containsMouse || zoomArea.containsMouse || zoomArea.pressed || zoomStart.isActive || zoomEnd.isActive
-    color: hoveredBar ? barPalette.text : activePalette.window
-    //border.color: activePalette.dark
-    //border.width: 1
+    property int barMinWidth: 1
+    property bool hoveredBar: barArea.containsMouse || barArea.pressed || zoomStart.isActive || zoomEnd.isActive
+    color: hoveredBar || containerArea.containsMouse ? barPalette.text : activePalette.window
     radius: height / 2
-    visible: root.zoomBarWidth < 1
+    property Flickable flickable: undefined
     MouseArea {
-        id: barArea
+        id: containerArea
         anchors.fill: parent
         hoverEnabled: true
         onWheel: {
@@ -25,16 +30,16 @@ Rectangle {
                 } else {
                     var newPos = Math.max(0, zoomBar.x - 10)
                 }
-                scrollView.contentX = newPos / zoomHandleContainer.width * scrollView.contentWidth
+                flickable.contentX = newPos / zoomHandleContainer.width * flickable.contentWidth
 
             }
         }
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 if (mouseX > zoomEnd.x + zoomEnd.width) {
-                    scrollView.contentX = (zoomBar.x + zoomBar.width) / zoomHandleContainer.width * scrollView.contentWidth
+                    flickable.contentX = (zoomBar.x + zoomBar.width) / zoomHandleContainer.width * flickable.contentWidth
                 } else if (mouseX < zoomBar.x) {
-                    scrollView.contentX = Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width * scrollView.contentWidth)
+                    flickable.contentX = Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width * flickable.contentWidth)
                 }
             }
         }
@@ -44,17 +49,15 @@ Rectangle {
         property int previousX: 0
         property double previousScale: -1
         anchors.fill: parent
-        //anchors.margins: 1
-        Rectangle {
+        Item {
             id: zoomBar
-            color: (zoomArea.containsMouse || zoomArea.pressed || zoomStart.isActive || zoomEnd.isActive) ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.text
-            opacity: hoveredBar ? 0.6 : 1
             height: parent.height
-            property bool placeHolderBar: !zoomStart.pressed && !zoomEnd.pressed && root.zoomBarWidth * zoomHandleContainer.width < root.baseUnit
-            width: placeHolderBar ? root.baseUnit : root.zoomBarWidth * zoomHandleContainer.width
+            property int minWidth: barMinWidth + zoomEnd.width + zoomStart.width
+            property int preferedWidth: root.zoomBarWidth * zoomHandleContainer.width
+            width: !zoomStart.pressed && !zoomEnd.pressed && preferedWidth < minWidth ? minWidth : preferedWidth
             x: root.zoomStart * zoomHandleContainer.width
             MouseArea {
-                id: zoomArea
+                id: barArea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -65,7 +68,7 @@ Rectangle {
                 drag.maximumX: zoomHandleContainer.width - zoomBar.width
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        scrollView.contentX = zoomBar.x / zoomHandleContainer.width * scrollView.contentWidth
+                        flickable.contentX = zoomBar.x / zoomHandleContainer.width * flickable.contentWidth
                     }
                 }
                 onDoubleClicked: {
@@ -77,11 +80,18 @@ Rectangle {
                             timeline.scaleFactor = zoomHandleContainer.previousScale
                         }
                     } else {
-                        zoomHandleContainer.previousX = Math.round(zoomBar.x / (zoomHandleContainer.width) * scrollView.contentWidth / timeline.scaleFactor)
+                        zoomHandleContainer.previousX = Math.round(zoomBar.x / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
                         zoomHandleContainer.previousScale = timeline.scaleFactor
                         root.zoomOnBar = 0
                         timeline.scaleFactor = root.fitZoom()
                     }
+                }
+                Rectangle {
+                    color: hoveredBar ? activePalette.highlight : containerArea.containsMouse ? activePalette.text : barPalette.text
+                    opacity: hoveredBar || containerArea.containsMouse ? 0.6 : 1
+                    x: parent.x + parent.height
+                    height: parent.height
+                    width: parent.width - parent.height * 2
                 }
             }
         }
@@ -90,37 +100,28 @@ Rectangle {
             id: zoomStart
             property bool isActive: zoomStart.containsMouse || zoomStart.pressed
             anchors.right: pressed ? undefined : zoomBar.left
-            anchors.rightMargin: zoomBar.x < width ? -width : 0
+            anchors.rightMargin: -width
             anchors.bottom: zoomBar.bottom
             width: zoomBar.height
             height: zoomBar.height
             hoverEnabled: true
-            drag.axis: Drag.XAxis
-            drag.smoothed: false
-            drag.maximumX: zoomEnd.x - width
             cursorShape: Qt.SizeHorCursor
-            onPressed: {
-                startHandleRect.anchors.fill = undefined
-            }
-            onReleased: {
-                startHandleRect.anchors.fill = zoomStart
-            }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var updatedPos = Math.max(0, x + mouseX + width)
-                    updatedPos = Math.min(updatedPos, zoomEnd.x - 1)
-                    var firstFrame = Math.round(updatedPos / (zoomHandleContainer.width) * scrollView.contentWidth / timeline.scaleFactor)
-                    var lastFrame = Math.round((zoomBar.x + zoomBar.width) / (zoomHandleContainer.width) * scrollView.contentWidth / timeline.scaleFactor)
+                    var updatedPos = Math.max(0, x + mouseX)
+                    updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
+                    var firstFrame = Math.round(updatedPos / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
+                    var lastFrame = Math.round((zoomBar.x + zoomBar.width) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
                     root.zoomOnBar = firstFrame
-                    timeline.scaleFactor = scrollView.width / (lastFrame - firstFrame)
-                    startHandleRect.x = updatedPos - x - width
+                    timeline.scaleFactor = flickable.width / (lastFrame - firstFrame)
+                    startHandleRect.x = updatedPos - x
                 }
             }
             Rectangle {
                 id: startHandleRect
-                anchors.fill: parent
+                anchors.fill: parent.pressed ? undefined : parent
                 radius: height / 2
-                color: zoomStart.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.text
+                color: zoomStart.isActive ? activePalette.highlight : hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: height / 2
@@ -133,35 +134,28 @@ Rectangle {
             id: zoomEnd
             property bool isActive: zoomEnd.containsMouse || zoomEnd.pressed
             anchors.left: pressed ? undefined : zoomBar.right
-            anchors.leftMargin: zoomBar.x + zoomBar.width > zoomHandleContainer.width - width ? -width : 0
+            anchors.leftMargin: -width
             anchors.bottom: zoomBar.bottom
             width: zoomBar.height
             height: zoomBar.height
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            drag.minimumX: zoomStart.x + width
-            onPressed: {
-                endHandleRect.anchors.fill = undefined
-            }
-            onReleased: {
-                endHandleRect.anchors.fill = zoomEnd
-            }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
-                    updatedPos = Math.max(updatedPos, zoomBar.x + 1)
-                    var lastFrame = Math.round(updatedPos / (zoomHandleContainer.width) * scrollView.contentWidth / timeline.scaleFactor)
-                    var firstFrame = Math.round((zoomBar.x) / (zoomHandleContainer.width) * scrollView.contentWidth / timeline.scaleFactor)
+                    updatedPos = Math.max(updatedPos, zoomBar.x + width * 2 + 1)
+                    var lastFrame = Math.round(updatedPos / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
+                    var firstFrame = Math.round((zoomBar.x) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
                     root.zoomOnBar = firstFrame
-                    timeline.scaleFactor = scrollView.width / (lastFrame - firstFrame)
-                    endHandleRect.x = updatedPos - x
+                    timeline.scaleFactor = flickable.width / (lastFrame - firstFrame)
+                    endHandleRect.x = updatedPos - x - width
                 }
             }
             Rectangle {
                 id: endHandleRect
-                anchors.fill: parent
+                anchors.fill: parent.pressed ? undefined : parent
                 radius: height / 2
-                color: zoomEnd.isActive ? activePalette.highlight : hoveredBar ? activePalette.text : barPalette.text
+                color: zoomEnd.isActive ? activePalette.highlight : hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors.fill: parent
                     anchors.rightMargin: height / 2
@@ -170,19 +164,5 @@ Rectangle {
             }
         }
     }
-    /*ToolTip {
-        visible: zoomArea.containsMouse
-        delay: 1000
-        timeout: 5000
-        background: Rectangle {
-            color: activePalette.alternateBase
-            border.color: activePalette.light
-        }
-        contentItem: Label {
-            color: activePalette.text
-            font: fixedFont
-            text: controller.toTimecode((root.duration + 1 )* root.zoomFactor)
-        }
-    }*/
 }
 
