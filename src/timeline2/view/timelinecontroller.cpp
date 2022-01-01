@@ -2962,19 +2962,13 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
         int currentPos = pCore->getTimelinePosition();
         Fun redoPos = [this, newPos]() {
-            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-            pCore->monitorManager()->refreshProjectMonitor();
             setPosition(newPos);
-            pCore->monitorManager()->activateMonitor(activeMonitor);
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitorIfActive();
             return true;
         };
         Fun undoPos = [this, currentPos]() {
-            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-            pCore->monitorManager()->refreshProjectMonitor();
             setPosition(currentPos);
-            pCore->monitorManager()->activateMonitor(activeMonitor);
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitorIfActive();
             return true;
         };
         redoPos();

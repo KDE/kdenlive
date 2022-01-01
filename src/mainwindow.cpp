@@ -4016,10 +4016,12 @@ void MainWindow::triggerKey(QKeyEvent *ev)
                 // Trigger action
                 tempAction->trigger();
                 ev->accept();
+                activateWindow();
                 return;
             }
         }
     }
+    QWidget::keyPressEvent(ev);
 }
 
 QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area, const QKeySequence &shortcut)
