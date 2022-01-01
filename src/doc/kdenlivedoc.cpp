@@ -1443,17 +1443,17 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
     } else {
         // Check for 23.98, 29.97, 59.94
         if (qFuzzyCompare(fps_int, 23.0)) {
-            if (qFuzzyCompare(fps, 23.98)) {
+            if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 24000;
                 profile->m_frame_rate_den = 1001;
             }
         } else if (qFuzzyCompare(fps_int, 29.0)) {
-            if (qFuzzyCompare(fps, 29.97)) {
+            if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 30000;
                 profile->m_frame_rate_den = 1001;
             }
         } else if (qFuzzyCompare(fps_int, 59.0)) {
-            if (qFuzzyCompare(fps, 59.94)) {
+            if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
                 profile->m_frame_rate_num = 60000;
                 profile->m_frame_rate_den = 1001;
             }

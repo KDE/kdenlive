@@ -56,7 +56,7 @@ const QString ProfileInfo::descriptiveString() const
     if (frame_rate_num() % frame_rate_den() == 0) {
         fps_str = QString::number(frame_rate_num() / frame_rate_den());
     } else {
-        fps_str = QString::number(frame_rate_num() / frame_rate_den(), 'f', 2);
+        fps_str = QString::number(double(frame_rate_num()) / frame_rate_den(), 'f', 2);
     }
     data.append(QStringLiteral("(%1x%2, %3fps)").arg(width()).arg(height()).arg(fps_str));
     return data;
