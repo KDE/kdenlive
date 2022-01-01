@@ -43,7 +43,6 @@
         <file alias="BuiltStack.qml">effects/effectstack/view/qml/BuiltStack.qml</file>
         <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
         <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
-        <file alias="splash.qml">qml/splash.qml</file>
         <file alias="ZoomBar.qml">timeline2/view/qml/ZoomBar.qml</file>
         <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
     </qresource>
