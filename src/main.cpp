@@ -94,9 +94,8 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
 
-    QPixmap pixmap(":/pics/splash-background.png");
     qApp->processEvents(QEventLoop::AllEvents);
-    Splash splash(pixmap);
+    Splash splash;
     qApp->processEvents(QEventLoop::AllEvents);
     splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();

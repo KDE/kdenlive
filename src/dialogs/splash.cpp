@@ -5,11 +5,16 @@
 
 #include "splash.hpp"
 #include <QStyle>
+#include <QPainter>
+#include <KLocalizedString>
+#include <QDebug>
 
-Splash::Splash(const QPixmap &pixmap)
-    : QSplashScreen(pixmap)
+Splash::Splash()
+    : QSplashScreen()
     , m_progress(0)
 {
+    QPixmap pixmap(":/pics/splash-background.png");
+
     // Set style for progressbar...
     m_pbStyle.initFrom(this);
     m_pbStyle.state = QStyle::State_Enabled;
@@ -19,6 +24,16 @@ Splash::Splash(const QPixmap &pixmap)
     m_pbStyle.progress = 0;
     m_pbStyle.invertedAppearance = false;
     m_pbStyle.rect = QRect(4, pixmap.height() - 24, pixmap.width() / 2, 20); // Where is it.
+
+    // Add KDE branding to pixmap
+    QPainter *paint = new QPainter(&pixmap);
+    paint->setPen(Qt::white);
+    QPixmap kde(":/pics/kde-logo.png");
+    const int logoSize = 32;
+    QPoint pos(12, 12);
+    paint->drawPixmap(pos.x(), pos.y(), logoSize, logoSize, kde);
+    paint->drawText(pos.x() + logoSize, pos.y() + (logoSize / 2) + paint->fontMetrics().strikeOutPos(), i18n("Made by KDE"));
+    setPixmap(pixmap);
 }
 
 
