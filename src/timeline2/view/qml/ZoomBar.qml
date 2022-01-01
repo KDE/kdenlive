@@ -53,9 +53,9 @@ Rectangle {
             id: zoomBar
             height: parent.height
             property int minWidth: barMinWidth + zoomEnd.width + zoomStart.width
-            property int preferedWidth: root.zoomBarWidth * zoomHandleContainer.width
+            property int preferedWidth: scrollView.visibleArea.widthRatio * zoomHandleContainer.width
             width: !zoomStart.pressed && !zoomEnd.pressed && preferedWidth < minWidth ? minWidth : preferedWidth
-            x: root.zoomStart * zoomHandleContainer.width
+            x: scrollView.visibleArea.xPosition * zoomHandleContainer.width
             MouseArea {
                 id: barArea
                 anchors.fill: parent
@@ -99,9 +99,11 @@ Rectangle {
         MouseArea {
             id: zoomStart
             property bool isActive: zoomStart.containsMouse || zoomStart.pressed
-            anchors.right: pressed ? undefined : zoomBar.left
-            anchors.rightMargin: -width
-            anchors.bottom: zoomBar.bottom
+            anchors {
+                right: pressed ? undefined : zoomBar.left
+                rightMargin: -width
+                bottom: zoomBar.bottom
+            }
             width: zoomBar.height
             height: zoomBar.height
             hoverEnabled: true
@@ -111,7 +113,7 @@ Rectangle {
                     var updatedPos = Math.max(0, x + mouseX)
                     updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
                     var firstFrame = Math.round(updatedPos / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                    var lastFrame = Math.round((zoomBar.x + zoomBar.width) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
+                    var lastFrame = Math.round((zoomBar.x + zoomBar.width + 0.5) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
                     root.zoomOnBar = firstFrame
                     timeline.scaleFactor = flickable.width / (lastFrame - firstFrame)
                     startHandleRect.x = updatedPos - x
@@ -133,9 +135,11 @@ Rectangle {
         MouseArea {
             id: zoomEnd
             property bool isActive: zoomEnd.containsMouse || zoomEnd.pressed
-            anchors.left: pressed ? undefined : zoomBar.right
-            anchors.leftMargin: -width
-            anchors.bottom: zoomBar.bottom
+            anchors {
+                left: pressed ? undefined : zoomBar.right
+                leftMargin: -width
+                bottom: zoomBar.bottom
+            }
             width: zoomBar.height
             height: zoomBar.height
             hoverEnabled: true

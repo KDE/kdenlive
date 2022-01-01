@@ -32,10 +32,6 @@ Rectangle {
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
 
-    // Zoombar properties
-    property double zoomStart: scrollView.visibleArea.xPosition
-    property double zoomBarWidth: scrollView.visibleArea.widthRatio
-
     FontMetrics {
         id: fontMetrics
         font: miniFont
@@ -1840,7 +1836,7 @@ Rectangle {
                     }
                     ZoomBar {
                         id: horZoomBar
-                        visible: root.zoomBarWidth < 1
+                        visible: scrollView.visibleArea.widthRatio < 1
                         anchors {
                             left: parent.left
                             right: parent.right
