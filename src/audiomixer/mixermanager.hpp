@@ -69,7 +69,7 @@ private:
     bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector <int> m_soloMuted;
-    int m_recommandedWidth;
+    int m_recommendedWidth;
 
 };
 
