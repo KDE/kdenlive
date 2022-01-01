@@ -974,7 +974,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         
         // Check for variable frame rate
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
-            m_warningMessage.setText(i18n("File uses a variable frame rate, not recommanded"));
+            m_warningMessage.setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
             QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
                 QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(bool, false));
