@@ -5,18 +5,28 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.0
-import QtQml.Models 2.11
+import QtQuick 2.11
 import QtQuick.Controls 2.4
 
 Rectangle {
     id: zoomContainer
     SystemPalette { id: barPalette; colorGroup: SystemPalette.Disabled }
-    property int barMinWidth: 1
     property bool hoveredBar: barArea.containsMouse || barArea.pressed || zoomStart.isActive || zoomEnd.isActive
+    property int barMinWidth: 1
+    required property real contentPos
+    required property real zoomFactor
+    required property bool fitsZoom
+    property string toolTipText
+    signal proposeContentPos(real proposedValue)
+    signal proposeZoomFactor(real proposedValue)
+    signal zoomByWheel(var wheel)
+    signal fitZoom()
     color: hoveredBar || containerArea.containsMouse ? barPalette.text : activePalette.window
     radius: height / 2
-    property Flickable flickable: undefined
+    border {
+        color: activePalette.window
+        width: 1
+    }
     MouseArea {
         id: containerArea
         anchors.fill: parent
@@ -25,73 +35,74 @@ Rectangle {
             if (wheel.modifiers & Qt.ControlModifier) {
                 zoomByWheel(wheel)
             } else {
+                var newPos = zoomBar.x
                 if (wheel.angleDelta.y < 0) {
-                    var newPos = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + 10)
+                    newPos = Math.min(zoomHandleContainer.width - zoomBar.width, newPos + 10)
                 } else {
-                    var newPos = Math.max(0, zoomBar.x - 10)
+                    newPos = Math.max(0, newPos - 10)
                 }
-                flickable.contentX = newPos / zoomHandleContainer.width * flickable.contentWidth
-
+                proposeContentPos(newPos / zoomHandleContainer.width)
             }
         }
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 if (mouseX > zoomEnd.x + zoomEnd.width) {
-                    flickable.contentX = (zoomBar.x + zoomBar.width) / zoomHandleContainer.width * flickable.contentWidth
+                    proposeContentPos((zoomBar.x + zoomBar.width) / zoomHandleContainer.width)
                 } else if (mouseX < zoomBar.x) {
-                    flickable.contentX = Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width * flickable.contentWidth)
+                    proposeContentPos(Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width))
                 }
             }
         }
     }
     Item {
         id: zoomHandleContainer
-        property int previousX: 0
-        property double previousScale: -1
         anchors.fill: parent
         Item {
             id: zoomBar
             height: parent.height
             property int minWidth: barMinWidth + zoomEnd.width + zoomStart.width
-            property int preferedWidth: scrollView.visibleArea.widthRatio * zoomHandleContainer.width
+            property int preferedWidth: zoomFactor * zoomHandleContainer.width
             width: !zoomStart.pressed && !zoomEnd.pressed && preferedWidth < minWidth ? minWidth : preferedWidth
-            x: scrollView.visibleArea.xPosition * zoomHandleContainer.width
+            x: contentPos * zoomHandleContainer.width
             MouseArea {
                 id: barArea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                drag.target: zoomBar
-                drag.axis: Drag.XAxis
-                drag.smoothed: false
-                drag.minimumX: 0
-                drag.maximumX: zoomHandleContainer.width - zoomBar.width
+                property real previousPos: 0
+                property real previousFactor: -1
+                drag {
+                    target: zoomBar
+                    axis: Drag.XAxis
+                    smoothed: false
+                    minimumX: 0
+                    maximumX: zoomHandleContainer.width - zoomBar.width
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        flickable.contentX = zoomBar.x / zoomHandleContainer.width * flickable.contentWidth
+                        proposeContentPos(zoomBar.x / zoomHandleContainer.width)
                     }
                 }
                 onDoubleClicked: {
-                    // Switch between current zoom and fit all project
-                    if (zoomBar.x == 0 && timeline.scaleFactor === root.fitZoom()) {
+                    // Switch between current zoom and fit whole content
+                    if (zoomBar.x == 0 && fitsZoom) {
                         // Restore previous pos
-                        if (zoomHandleContainer.previousScale > -1) {
-                            root.zoomOnBar = zoomHandleContainer.previousX
-                            timeline.scaleFactor = zoomHandleContainer.previousScale
+                        if (previousFactor > -1) {
+                            proposeZoomFactor(previousFactor)
+                            proposeContentPos(previousPos)
                         }
                     } else {
-                        zoomHandleContainer.previousX = Math.round(zoomBar.x / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                        zoomHandleContainer.previousScale = timeline.scaleFactor
-                        root.zoomOnBar = 0
-                        timeline.scaleFactor = root.fitZoom()
+                        previousPos = contentPos
+                        previousFactor = zoomFactor
+                        fitZoom()
                     }
                 }
                 Rectangle {
                     color: hoveredBar ? activePalette.highlight : containerArea.containsMouse ? activePalette.text : barPalette.text
                     opacity: hoveredBar || containerArea.containsMouse ? 0.6 : 1
-                    x: parent.x + parent.height
+                    x: parent.x + zoomStart.width
                     height: parent.height
-                    width: parent.width - parent.height * 2
+                    width: parent.width - zoomStart.width - zoomEnd.width
                 }
             }
         }
@@ -112,10 +123,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.max(0, x + mouseX)
                     updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
-                    var firstFrame = Math.round(updatedPos / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                    var lastFrame = Math.round((zoomBar.x + zoomBar.width + 0.5) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                    root.zoomOnBar = firstFrame
-                    timeline.scaleFactor = flickable.width / (lastFrame - firstFrame)
+                    proposeZoomFactor((zoomBar.x + zoomBar.width + 0.5 - updatedPos) / zoomHandleContainer.width)
+                    proposeContentPos(updatedPos / zoomHandleContainer.width)
                     startHandleRect.x = updatedPos - x
                 }
             }
@@ -148,10 +157,9 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
                     updatedPos = Math.max(updatedPos, zoomBar.x + width * 2 + 1)
-                    var lastFrame = Math.round(updatedPos / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                    var firstFrame = Math.round((zoomBar.x) / (zoomHandleContainer.width) * flickable.contentWidth / timeline.scaleFactor)
-                    root.zoomOnBar = firstFrame
-                    timeline.scaleFactor = flickable.width / (lastFrame - firstFrame)
+                    var zoomBarX = zoomBar.x // we need to save the value before we change zoomFactor, but apply it afterwards
+                    proposeZoomFactor((updatedPos - zoomBar.x) / zoomHandleContainer.width)
+                    proposeContentPos(zoomBarX / zoomHandleContainer.width)
                     endHandleRect.x = updatedPos - x - width
                 }
             }
@@ -161,12 +169,27 @@ Rectangle {
                 radius: height / 2
                 color: zoomEnd.isActive ? activePalette.highlight : hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
                 Rectangle {
-                    anchors.fill: parent
-                    anchors.rightMargin: height / 2
+                    anchors {
+                        fill: parent
+                        rightMargin: height / 2
+                    }
                     color: parent.color
                 }
             }
         }
     }
+    ToolTip {
+        visible: barArea.containsMouse && toolTipText
+        delay: 1000
+        timeout: 5000
+        background: Rectangle {
+            color: activePalette.alternateBase
+            border.color: activePalette.light
+        }
+        contentItem: Label {
+            color: activePalette.text
+            font: fixedFont
+            text: toolTipText
+        }
+    }
 }
-

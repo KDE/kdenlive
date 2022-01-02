@@ -369,7 +369,7 @@ void TimelineWidget::slotFitZoom()
     double scale = returnedValue.toDouble();
     QMetaObject::invokeMethod(rootObject(), "scrollPos", Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    if (qFuzzyCompare(prevScale, scale)) {
+    if (qFuzzyCompare(prevScale, scale) && scrollPos == 0) {
         scale = m_prevScale;
         scrollPos = m_scrollPos;
     } else {

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import 'Timeline.js' as Logic
 import com.enums 1.0
+import org.kde.kdenlive 1.0 as Kdenlive
 
 Rectangle {
     id: root
@@ -407,8 +408,7 @@ Rectangle {
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
-    // The first visible frame in case of scaling triggered by zoombar
-    property int zoomOnBar: -1
+    property bool zoomOnBar: false // Whether the scaling was done with the zoombar
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
@@ -439,9 +439,8 @@ Rectangle {
         if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - getMouseX())
             root.zoomOnMouse = -1
-        } else if (root.zoomOnBar >= 0) {
-            scrollView.contentX = Math.max(0, root.zoomOnBar * timeline.scaleFactor )
-            root.zoomOnBar = -1
+        } else if (root.zoomOnBar) {
+            root.zoomOnBar = false
         } else {
             scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
         }
@@ -1834,7 +1833,7 @@ Rectangle {
                             x: root.consumerPosition * timeline.scaleFactor
                         }
                     }
-                    ZoomBar {
+                    Kdenlive.ZoomBar {
                         id: horZoomBar
                         visible: scrollView.visibleArea.widthRatio < 1
                         anchors {
@@ -1844,7 +1843,20 @@ Rectangle {
                         }
                         height: Math.round(root.baseUnit * 0.7)
                         barMinWidth: root.baseUnit
-                        flickable: scrollView
+                        fitsZoom: timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
+                        zoomFactor: scrollView.visibleArea.widthRatio
+                        onProposeZoomFactor: {
+                            timeline.scaleFactor = scrollView.width / Math.round(proposedValue * scrollView.contentWidth / timeline.scaleFactor)
+                            zoomOnBar = true
+                        }
+                        contentPos: scrollView.contentX / scrollView.contentWidth
+                        onProposeContentPos: scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth)
+                        onZoomByWheel: root.zoomByWheel(wheel)
+                        onFitZoom: {
+                            timeline.scaleFactor = root.fitZoom()
+                            scrollView.contentX = 0
+                            zoomOnBar = true
+                        }
                     }
                 }
             }
