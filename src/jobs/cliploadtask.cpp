@@ -564,7 +564,19 @@ void ClipLoadTask::run()
         int h = frameSize.height();
         std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
         frame->get_image(format, w, h);
+        // Check audio / video
+        bool hasAudio = frame->get_int("test_audio") == 0;
+        bool hasVideo = frame->get_int("test_image") == 0;
         frame.reset();
+        if (hasAudio) {
+            if (hasVideo) {
+                producer->set("kdenlive:clip_type", 0);
+            } else {
+                producer->set("kdenlive:clip_type", 1);
+            }
+        } else if (hasVideo) {
+            producer->set("kdenlive:clip_type", 2);
+        }
         // Check if file is seekable
         seekable = producer->get_int("seekable");
         vindex = producer->get_int("video_index");
