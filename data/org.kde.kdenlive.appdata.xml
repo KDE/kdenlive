@@ -4,7 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LicenseRef-KDE-Accepted-GPL</project_license>
   <name>Kdenlive</name>
-  <name xml:lang="ar">كدينلايڤ</name>
+  <name xml:lang="ar">كدينلايف</name>
   <name xml:lang="az">Kdenlive</name>
   <name xml:lang="bs">Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
@@ -73,7 +73,7 @@
   <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
-    <p xml:lang="ar">«كدينلايڤ» هو محرّر فيديوهات غير خطّي. بُني على إطار عمل MLT ويقبل العديد من نُسق الصّوت والفيديو. كما ويسمح بإضافة التّأثيرات والانتقالات.</p>
+    <p xml:lang="ar">«كدينلايف» هو محرّر فيديوهات غير خطّي. بُني على إطار عمل MLT ويقبل العديد من نُسق الصّوت والفيديو. كما ويسمح بإضافة التّأثيرات والانتقالات.</p>
     <p xml:lang="az">Kdenlive xətti olmayan bir video redaktorudur. MLT platformasına əsaslanır və bir çox səs və video formatını dəstəkləyir, effektlər, keçidlər əlavə etməyə və seçdiyiniz formata çevirməyə imkan verir.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
@@ -254,6 +254,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Kdenlive Timeline</caption>
+      <caption xml:lang="ar">الخط الزمني في كدينلايڤ</caption>
       <caption xml:lang="az">Kdenlive zaman qrafiki</caption>
       <caption xml:lang="ca">Línia de temps del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Línia de temps del Kdenlive</caption>
@@ -286,6 +287,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
+      <caption xml:lang="ar">تضبيط اللصوت في كدينلايف</caption>
       <caption xml:lang="az">Kdenlive səs tənzimləmələri</caption>
       <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Ajustaments de l'àudio del Kdenlive</caption>
@@ -318,6 +320,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Effects</caption>
+      <caption xml:lang="ar">تأثيرات كدينلايف</caption>
       <caption xml:lang="az">Kdenlive effekti</caption>
       <caption xml:lang="ca">Efectes del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Efectes del Kdenlive</caption>
