@@ -476,6 +476,11 @@ Item {
                 }
                 padding:4
                 horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: inPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
             }
             Label {
                 id: outPoint
@@ -493,6 +498,11 @@ Item {
                 }
                 padding: 4
                 horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: outPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
             }
             TextField {
                 id: marker
@@ -533,7 +543,8 @@ Item {
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse
+                      || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV
             onOpacityChanged: {
                 if (opacity == 1) {
