@@ -251,6 +251,11 @@
       <default>Lossy x264 I frame only</default>
     </entry>
 
+    <entry name="transcodeFriendlyRotate" type="Bool">
+      <label>If true, autorotate is disabled on transcoding.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="previewextension" type="String">
       <label>File extension for timeline preview.</label>
       <default></default>

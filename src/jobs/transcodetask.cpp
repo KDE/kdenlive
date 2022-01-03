@@ -23,11 +23,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
+TranscodeTask::TranscodeTask(const ObjectId &owner, const QString preParams, const QString params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
     , m_transcodeParams(params)
+    , m_transcodePreParams(preParams)
     , m_replaceProducer(replaceProducer)
     , m_inPoint(in)
     , m_outPoint(out)
@@ -36,9 +37,9 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, QString params, int in, int 
 {
 }
 
-void TranscodeTask::start(const ObjectId &owner, QString params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
+void TranscodeTask::start(const ObjectId &owner, const QString preParams, const QString params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
-    TranscodeTask* task = new TranscodeTask(owner, params, in, out, replaceProducer, object, checkProfile);
+    TranscodeTask* task = new TranscodeTask(owner, preParams, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
         delete task;
@@ -180,14 +181,17 @@ void TranscodeTask::run()
         if (m_inPoint > -1) {
             parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
         }
-        parameters << QStringLiteral("-stats") << QStringLiteral("-i") << source;
+        parameters << QStringLiteral("-stats");
+        if (!m_transcodePreParams.isEmpty()) {
+            parameters << m_transcodePreParams.split(QStringLiteral(" "));
+        }
+        parameters << QStringLiteral("-i") << source;
         if (m_outPoint > -1) {
             parameters << QStringLiteral("-to") << QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds());
         }
         // Only output error data
         parameters << QStringLiteral("-v") << QStringLiteral("error");
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
-        QStringList finalParams{QStringLiteral("-i"),source};
         for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (t.startsWith(QLatin1String("%1"))) {

@@ -24,6 +24,7 @@ public:
     void addUrl(const QString &file, const QString &id);
     std::vector<QString> ids() const;
     QString params() const;
+    QString preParams() const;
     
 private:
     QMap<QString, QString> m_encodeParams;

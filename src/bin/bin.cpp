@@ -4837,7 +4837,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
             std::vector<QString> ids = m_transcodingDialog->ids();
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->params(), -1, -1, true, clip.get(), false, id == firstId ? checkProfile : false);
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, id == firstId ? checkProfile : false);
             }
             delete m_transcodingDialog;
             m_transcodingDialog = nullptr;

@@ -30,6 +30,7 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     if (ix > -1) {
         encodingprofiles->setCurrentIndex(ix);
     }
+    autorotate->setChecked(KdenliveSettings::transcodeFriendlyRotate());
 }
 
 TranscodeSeek::~TranscodeSeek()
@@ -55,4 +56,10 @@ QString TranscodeSeek::params() const
 {
     KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
     return m_encodeParams.value(encodingprofiles->currentText());
+}
+
+QString TranscodeSeek::preParams() const
+{
+    KdenliveSettings::setTranscodeFriendlyRotate(autorotate->isChecked());
+    return autorotate->isChecked() ? QStringLiteral("-noautorotate") : QString();
 }
