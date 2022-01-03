@@ -7,7 +7,6 @@
 #define FILEWATCHER_H
 
 #include "definitions.h"
-#include <KDirWatch>
 #include <QTimer>
 #include <unordered_map>
 #include <unordered_set>
@@ -47,8 +46,6 @@ private slots:
     void slotProcessModifiedUrls();
 
 private:
-    // This is a handle to the watcher singleton, not owned by this class.
-    std::unique_ptr<KDirWatch> m_fileWatcher;
     // A list with urls as keys, and the corresponding clip ids as value
     std::unordered_map<QString, std::unordered_set<QString>> m_occurences;
     // keys are binId, keys are stored paths

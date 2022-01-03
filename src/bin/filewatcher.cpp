@@ -5,17 +5,17 @@
 
 #include "filewatcher.hpp"
 
+#include <KDirWatch>
 #include <QFileInfo>
 
 FileWatcher::FileWatcher(QObject *parent)
     : QObject(parent)
-    , m_fileWatcher(new KDirWatch())
 {
     // Init clip modification tracker
     m_modifiedTimer.setInterval(1500);
-    connect(m_fileWatcher.get(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
-    connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
-    connect(m_fileWatcher.get(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
+    connect(KDirWatch::self(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
+    connect(KDirWatch::self(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
+    connect(KDirWatch::self(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
 }
 
@@ -25,7 +25,7 @@ void FileWatcher::addFile(const QString &binId, const QString &url)
         return;
     }
     if (m_occurences.count(url) == 0) {
-        m_fileWatcher->addFile(url);
+        KDirWatch::self()->addFile(url);
     }
     m_occurences[url].insert(binId);
     m_binClipPaths[binId] = url;
@@ -40,7 +40,7 @@ void FileWatcher::removeFile(const QString &binId)
     m_occurences[url].erase(binId);
     m_binClipPaths.erase(binId);
     if (m_occurences[url].empty()) {
-        m_fileWatcher->removeFile(url);
+        KDirWatch::self()->removeFile(url);
         m_occurences.erase(url);
     }
 }
@@ -75,7 +75,7 @@ void FileWatcher::slotProcessModifiedUrls()
 {
     auto checkList = m_modifiedUrls;
     for (const QString &path : checkList) {
-        if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
+        if (KDirWatch::self()->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
             for (const QString &id : m_occurences[path]) {
                 emit binClipModified(id);
             }
@@ -89,17 +89,17 @@ void FileWatcher::slotProcessModifiedUrls()
 
 void FileWatcher::clear()
 {
-    m_fileWatcher->stopScan();
+    KDirWatch::self()->stopScan();
     for (const auto &f : m_occurences) {
-        m_fileWatcher->removeFile(f.first);
+        KDirWatch::self()->removeFile(f.first);
     }
     m_occurences.clear();
     m_modifiedUrls.clear();
     m_binClipPaths.clear();
-    m_fileWatcher->startScan();
+    KDirWatch::self()->startScan();
 }
 
 bool FileWatcher::contains(const QString &path) const
 {
-    return m_fileWatcher->contains(path);
+    return KDirWatch::self()->contains(path);
 }
