@@ -319,11 +319,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            drag.target: parent
-            drag.axis: Drag.XAxis
-            drag.smoothed: false
-            drag.minimumX: 0
-            drag.maximumX: ruler.width
+            drag {
+                target: parent
+                axis: Drag.XAxis
+                smoothed: false
+                minimumX: 0
+                maximumX: ruler.width
+            }
             onPressed: {
                 controller.startZoneMove()
             }
@@ -352,11 +354,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            drag.target: parent
-            drag.axis: Drag.XAxis
-            drag.smoothed: false
-            drag.minimumX: 0
-            drag.maximumX: ruler.width - trimOut.width
+            drag {
+                target: parent
+                axis: Drag.XAxis
+                smoothed: false
+                minimumX: 0
+                maximumX: ruler.width - trimOut.width
+            }
             onPressed: {
                 controller.startZoneMove()
             }
@@ -403,9 +407,11 @@ Rectangle {
                     asynchronous: true
                     height: visible ? 4 * mlabel.height : 0
                     fillMode: Image.PreserveAspectFit
-                    anchors.horizontalCenter: markerTooltip.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: 1
+                    anchors {
+                        horizontalCenter: markerTooltip.horizontalCenter
+                        top: parent.top
+                        topMargin: 1
+                    }
                 }
                 Text {
                     id: mlabel
@@ -413,9 +419,11 @@ Rectangle {
                     font: fixedFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                    }
                     color: '#000'
                 }
                 MouseArea {

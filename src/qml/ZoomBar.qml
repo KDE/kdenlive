@@ -188,7 +188,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            font: fixedFont
+            //font: fixedFont
             text: toolTipText
         }
     }
