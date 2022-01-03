@@ -1,2 +1,2 @@
-module org.kdenlive
+module org.kde.kdenlive
 ZoomBar 1.0 ZoomBar.qml
