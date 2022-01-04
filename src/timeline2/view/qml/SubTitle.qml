@@ -1,3 +1,9 @@
+/*
+    SPDX-FileCopyrightText: 2020-2021 Jean-Baptiste Mardelle
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 

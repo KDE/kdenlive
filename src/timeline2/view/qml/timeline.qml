@@ -1,3 +1,12 @@
+/*
+    SPDX-FileCopyrightText: 2017-2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartlab.uber.space>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtQml.Models 2.11
 import QtQuick.Controls 2.4

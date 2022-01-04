@@ -1,5 +1,4 @@
 /*
-    This file is part of KDevPlatform
     SPDX-FileCopyrightText: 2016 Zhigalin Alexander <alexander@zhigalin.tk>
 
     SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL

@@ -1,5 +1,4 @@
 /*
-    this file is part of Kdenlive, the Libre Video Editor by KDE
     SPDX-FileCopyrightText: 2019 Vincent Pinon <vpinon@kde.org>
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
