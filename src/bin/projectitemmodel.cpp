@@ -681,7 +681,6 @@ bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item,
     Q_ASSERT(item->isInModel());
     if (res) {
         Fun checkAudio = item->getAudio_lambda();
-        checkAudio();
         PUSH_LAMBDA(checkAudio, operation);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }

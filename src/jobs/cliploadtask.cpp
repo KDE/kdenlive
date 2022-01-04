@@ -432,6 +432,9 @@ void ClipLoadTask::run()
     default:
         if (!service.isEmpty()) {
             service.append(QChar(':'));
+            if (service == QLatin1String("avformat-novalidate:")) {
+                service = QStringLiteral("avformat:");
+            }
             producer = loadResource(resource, service);
         } else {
             producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());

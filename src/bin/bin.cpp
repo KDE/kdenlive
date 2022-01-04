@@ -4317,7 +4317,8 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
-        if (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Audio || clip->clipType() == ClipType::Playlist) {
+        ClipType::ProducerType type = clip->clipType();
+        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio || type == ClipType::Playlist) {
             xml.removeAttribute(QStringLiteral("out"));
             Xml::removeXmlProperty(xml, QStringLiteral("length"));
         }
@@ -4331,8 +4332,6 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             clip->setClipStatus(FileStatus::StatusWaiting);
             pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true);
             clip->discardAudioThumb();
-            // We need to set a temporary id before all outdated producers are replaced;
-            //int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
             if (reloadThumbs) {
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
