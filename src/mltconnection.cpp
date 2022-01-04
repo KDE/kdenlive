@@ -82,6 +82,7 @@ MltConnection::MltConnection(const QString &mltPath)
     mlt_log_set_level(MLT_LOG_WARNING);
     mlt_log_set_callback(mlt_log_handler);
     refreshLumas();
+    reloadCodecLists();
 }
 
 void MltConnection::construct(const QString &mltPath)
@@ -312,4 +313,35 @@ void MltConnection::refreshLumas()
     MainWindow::m_lumaFiles.insert(QStringLiteral("PAL"), sdLumas);
     allImagefiles.removeDuplicates();
     QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
+}
+
+void MltConnection::reloadCodecLists()
+{
+    Mlt::Profile p;
+    auto *consumer = new Mlt::Consumer(p, "avformat");
+    if (consumer) {
+        consumer->set("vcodec", "list");
+        consumer->set("acodec", "list");
+        consumer->set("f", "list");
+        consumer->start();
+        m_vCodecsList.clear();
+        Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
+        m_vCodecsList.reserve(vcodecs.count());
+        for (int i = 0; i < vcodecs.count(); ++i) {
+            m_vCodecsList << QString(vcodecs.get(i));
+        }
+        m_aCodecsList.clear();
+        Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
+        m_aCodecsList.reserve(acodecs.count());
+        for (int i = 0; i < acodecs.count(); ++i) {
+            m_aCodecsList << QString(acodecs.get(i));
+        }
+        m_supportedFormats.clear();
+        Mlt::Properties formats(mlt_properties(consumer->get_data("f")));
+        m_supportedFormats.reserve(formats.count());
+        for (int i = 0; i < formats.count(); ++i) {
+            m_supportedFormats << QString(formats.get(i));
+        }
+        delete consumer;
+    }
 }

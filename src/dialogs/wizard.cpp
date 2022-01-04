@@ -51,9 +51,6 @@ const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
 
 static const char kdenlive_version[] = KDENLIVE_VERSION;
 
-static QStringList acodecsList;
-static QStringList vcodecsList;
-
 MyWizardPage::MyWizardPage(QWidget *parent)
     : QWizardPage(parent)
 
@@ -495,18 +492,6 @@ void Wizard::checkMltComponents()
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         } else {
-            consumer->set("vcodec", "list");
-            consumer->set("acodec", "list");
-            consumer->set("f", "list");
-            consumer->start();
-            Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
-            for (int i = 0; i < vcodecs.count(); ++i) {
-                vcodecsList << QString(vcodecs.get(i));
-            }
-            Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
-            for (int i = 0; i < acodecs.count(); ++i) {
-                acodecsList << QString(acodecs.get(i));
-            }
             checkMissingCodecs();
             delete consumer;
         }
@@ -545,11 +530,11 @@ void Wizard::checkMltComponents()
 void Wizard::checkMissingCodecs()
 {
     bool replaceVorbisCodec = false;
-    if (acodecsList.contains(QStringLiteral("libvorbis"))) {
+    if (pCore->mltACodecs().contains(QStringLiteral("libvorbis"))) {
         replaceVorbisCodec = true;
     }
     bool replaceLibfaacCodec = false;
-    if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) {
+    if (!pCore->mltACodecs().contains(QStringLiteral("aac")) && pCore->mltACodecs().contains(QStringLiteral("libfaac"))) {
         replaceLibfaacCodec = true;
     }
     QStringList profilesList;
@@ -610,11 +595,11 @@ void Wizard::checkMissingCodecs()
             requiredACodecs.replace(ix, QStringLiteral("libfaac"));
         }
     }
-    for (int i = 0; i < acodecsList.count(); ++i) {
-        requiredACodecs.removeAll(acodecsList.at(i));
+    for (auto codec : pCore->mltACodecs()) {
+        requiredACodecs.removeAll(codec);
     }
-    for (int i = 0; i < vcodecsList.count(); ++i) {
-        requiredVCodecs.removeAll(vcodecsList.at(i));
+    for (auto codec : pCore->mltVCodecs()) {
+        requiredACodecs.removeAll(codec);
     }
     /*
      * Info about missing codecs is given in render widget, no need to put this at first start
