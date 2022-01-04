@@ -2314,94 +2314,6 @@ void MainWindow::connectDocument()
     });
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
-    // TODO REFAC: reconnect to new timeline
-    /*
-    Timeline *trackView = pCore->projectManager()->currentTimeline();
-    connect(trackView, &Timeline::configTrack, this, &MainWindow::slotConfigTrack);
-    connect(trackView, &Timeline::updateTracksInfo, this, &MainWindow::slotUpdateTrackInfo);
-    connect(trackView, &Timeline::mousePosition, this, &MainWindow::slotUpdateMousePosition);
-    connect(pCore->producerQueue(), &ProducerQueue::infoProcessingFinished, trackView->projectView(), &CustomTrackView::slotInfoProcessingFinished,
-    Qt::DirectConnection);
-
-    connect(trackView->projectView(), &CustomTrackView::importKeyframes, this, &MainWindow::slotProcessImportKeyframes);
-    connect(trackView->projectView(), &CustomTrackView::updateTrimMode, this, &MainWindow::setTrimMode);
-    connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
-    connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
-
-    connect(trackView->projectView(), &CustomTrackView::guidesUpdated, this, &MainWindow::slotGuidesUpdated);
-    connect(trackView->projectView(), &CustomTrackView::loadMonitorScene, m_projectMonitor, &Monitor::slotShowEffectScene);
-    connect(trackView->projectView(), &CustomTrackView::setQmlProperty, m_projectMonitor, &Monitor::setQmlProperty);
-    connect(project, &KdenliveDoc::saveTimelinePreview, trackView, &Timeline::slotSaveTimelinePreview);
-
-    connect(trackView, SIGNAL(showTrackEffects(int, TrackInfo)), this, SLOT(slotTrackSelected(int, TrackInfo)));
-
-    connect(trackView->projectView(), &CustomTrackView::clipItemSelected, this, &MainWindow::slotTimelineClipSelected, Qt::DirectConnection);
-    connect(trackView->projectView(), &CustomTrackView::setActiveKeyframe, m_effectStack, &EffectStackView2::setActiveKeyframe);
-    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition *, int, QPoint, bool)), m_effectStack, SLOT(slotTransitionItemSelected(Transition
-    *, int, QPoint, bool)), Qt::DirectConnection);
-
-    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition *, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
-
-    connect(trackView->projectView(), &CustomTrackView::zoomIn, this, &MainWindow::slotZoomIn);
-    connect(trackView->projectView(), &CustomTrackView::zoomOut, this, &MainWindow::slotZoomOut);
-    connect(trackView, SIGNAL(setZoom(int)), this, SLOT(slotSetZoom(int)));
-
-    connect(trackView, SIGNAL(displayMessage(QString, MessageType)), m_messageLabel, SLOT(setMessage(QString, MessageType)));
-    connect(trackView->projectView(), SIGNAL(displayMessage(QString, MessageType)), m_messageLabel, SLOT(setMessage(QString, MessageType)));
-    connect(pCore->bin(), &Bin::clipNameChanged, trackView->projectView(), &CustomTrackView::clipNameChanged);
-
-    connect(trackView->projectView(), SIGNAL(showClipFrame(QString, int)), pCore->bin(), SLOT(selectClipById(QString, int)));
-    connect(trackView->projectView(), SIGNAL(playMonitor()), m_projectMonitor, SLOT(slotPlay()));
-    connect(trackView->projectView(), &CustomTrackView::pauseMonitor, m_projectMonitor, &Monitor::pause, Qt::DirectConnection);
-
-    connect(m_projectMonitor, &Monitor::addEffect, trackView->projectView(), &CustomTrackView::slotAddEffectToCurrentItem);
-
-    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition *, int, QPoint, bool)), m_projectMonitor, SLOT(slotSetSelectedClip(Transition
-    *)));
-
-    connect(pCore->bin(), SIGNAL(gotFilterJobResults(QString, int, int, stringMap, stringMap)), trackView->projectView(), SLOT(slotGotFilterJobResults(QString,
-    int, int, stringMap, stringMap)));
-
-    //TODO
-    //connect(m_projectList, SIGNAL(addMarkers(QString,QList<CommentedTime>)), trackView->projectView(), SLOT(slotAddClipMarker(QString,QList<CommentedTime>)));
-
-    // Effect stack signals
-    connect(m_effectStack, &EffectStackView2::updateEffect, trackView->projectView(), &CustomTrackView::slotUpdateClipEffect);
-    connect(m_effectStack, &EffectStackView2::updateClipRegion, trackView->projectView(), &CustomTrackView::slotUpdateClipRegion);
-    connect(m_effectStack, SIGNAL(removeEffect(ClipItem *, int, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem *, int, QDomElement)));
-    connect(m_effectStack, SIGNAL(removeEffectGroup(ClipItem *, int, QDomDocument)), trackView->projectView(), SLOT(slotDeleteEffectGroup(ClipItem *, int,
-    QDomDocument)));
-
-    connect(m_effectStack, SIGNAL(addEffect(ClipItem *, QDomElement, int)), trackView->projectView(), SLOT(slotAddEffect(ClipItem *, QDomElement, int)));
-    connect(m_effectStack, SIGNAL(changeEffectState(ClipItem *, int, QList<int>, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem *, int,
-    QList<int>, bool)));
-    connect(m_effectStack, SIGNAL(changeEffectPosition(ClipItem *, int, QList<int>, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem *,
-    int, QList<int>, int)));
-
-    connect(m_effectStack, &EffectStackView2::refreshEffectStack, trackView->projectView(), &CustomTrackView::slotRefreshEffects);
-    connect(m_effectStack, &EffectStackView2::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
-    connect(m_effectStack, SIGNAL(importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString>)), trackView->projectView(),
-    SLOT(slotImportClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, QMap<QString, QString>)));
-
-    // Transition config signals
-    connect(m_effectStack->transitionConfig(), SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView(),
-    SLOT(slotTransitionUpdated(Transition *, QDomElement)));
-    connect(m_effectStack->transitionConfig(), &TransitionSettings::seekTimeline, trackView->projectView(), &CustomTrackView::seekCursorPos);
-
-    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(slotActivateMonitor()), Qt::DirectConnection);
-    connect(project, &KdenliveDoc::updateFps, this,
-            [this](double changed) {
-        if (changed == 0.0) {
-            slotUpdateProfile(false);
-        } else {
-            slotUpdateProfile(true);
-        }
-    }, Qt::DirectConnection);
-    connect(trackView, &Timeline::zoneMoved, this, &MainWindow::slotZoneMoved);
-    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineClipActions, m_timelineContextTransitionMenu, m_clipTypeGroup,
-    static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)));
-    */
-
     getMainTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
@@ -2426,16 +2338,6 @@ void MainWindow::connectDocument()
     
     // Load master effect zones
     getMainTimeline()->controller()->updateMasterZones(getMainTimeline()->controller()->getModel()->getMasterEffectZones());
-
-    // TODO REFAC: fix
-    // trackView->updateProfile(1.0);
-    // Init document zone
-    // m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
-    // Update the mouse position display so it will display in DF/NDF format by default based on the project setting.
-    // slotUpdateMousePosition(0);
-
-    // Update guides info in render widget
-    // slotGuidesUpdated();
 
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -3416,69 +3318,6 @@ void MainWindow::hideEvent(QHideEvent * /*event*/)
         pCore->monitorManager()->pauseActiveMonitor();
     }
 }
-
-/*void MainWindow::slotSaveZone(Render *render, const QPoint &zone, DocClipBase *baseClip, QUrl path)
-{
-    QPointer<QDialog> dialog = new QDialog(this);
-    dialog->setWindowTitle("Save clip zone");
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    dialog->setLayout(mainLayout);
-
-    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-    okButton->setDefault(true);
-    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    dialog->connect(buttonBox, SIGNAL(accepted()), dialog, SLOT(accept()));
-    dialog->connect(buttonBox, SIGNAL(rejected()), dialog, SLOT(reject()));
-
-    QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
-    if (path.isEmpty()) {
-        QString tmppath = pCore->currentDoc()->projectFolder().path() + QDir::separator();
-        if (baseClip == nullptr) {
-            tmppath.append("untitled.mlt");
-        } else {
-            tmppath.append((baseClip->name().isEmpty() ? baseClip->fileURL().fileName() : baseClip->name()) + '-' + QString::number(zone.x()).rightJustified(4,
-'0') + QStringLiteral(".mlt"));
-        }
-        path = QUrl(tmppath);
-    }
-    KUrlRequester *url = new KUrlRequester(path, this);
-    url->setFilter("video/mlt-playlist");
-    QLabel *label2 = new QLabel(i18n("Description:"), this);
-    QLineEdit *edit = new QLineEdit(this);
-    mainLayout->addWidget(label1);
-    mainLayout->addWidget(url);
-    mainLayout->addWidget(label2);
-    mainLayout->addWidget(edit);
-    mainLayout->addWidget(buttonBox);
-
-    if (dialog->exec() == QDialog::Accepted) {
-        if (QFile::exists(url->url().path())) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", url->url().path())) == KMessageBox::No) {
-                slotSaveZone(render, zone, baseClip, url->url());
-                delete dialog;
-                return;
-            }
-        }
-        if (baseClip && !baseClip->fileURL().isEmpty()) {
-            // create zone from clip url, so that we don't have problems with proxy clips
-            QProcess p;
-            QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-            env.remove("MLT_PROFILE");
-            p.setProcessEnvironment(env);
-            p.start(KdenliveSettings::rendererpath(), QStringList() << baseClip->fileURL().toLocalFile() << "in=" + QString::number(zone.x()) << "out=" +
-QString::number(zone.y()) << "-consumer" << "xml:" + url->url().path());
-            if (!p.waitForStarted(3000)) {
-                KMessageBox::sorry(this, i18n("Cannot start MLT's renderer:\n%1", KdenliveSettings::rendererpath()));
-            }
-            else if (!p.waitForFinished(5000)) {
-                KMessageBox::sorry(this, i18n("Timeout while creating xml output"));
-            }
-        }
-        else render->saveZone(url->url(), edit->text(), zone);
-    }
-    delete dialog;
-}*/
 
 void MainWindow::slotResizeItemStart()
 {
