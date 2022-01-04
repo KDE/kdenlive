@@ -66,10 +66,7 @@ TEST_CASE("Save File", "[SF]")
         QString binId = createProducerWithSound(profile_file, binModel);
         QString binId2 = createProducer(profile_file, "red", binModel, 20, false);
 
-        int tid2b = TrackModel::construct(timeline, -1, -1, QString(), true);
-        int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid1 = TrackModel::construct(timeline);
-        int tid1b = TrackModel::construct(timeline);
     
         // Setup timeline audio drop info
         QMap <int, QString>audioInfo;

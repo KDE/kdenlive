@@ -1858,38 +1858,37 @@ void RenderWidget::refreshView()
                     }
                 }
             }
-            if (!pCore->mltACodecs().isEmpty()) {
-                QString format;
-                if (params.startsWith(QLatin1String("acodec="))) {
-                    format = params.section(QStringLiteral("acodec="), 1, 1);
-                } else if (params.contains(QStringLiteral(" acodec="))) {
-                    format = params.section(QStringLiteral(" acodec="), 1, 1);
-                }
-                if (!format.isEmpty()) {
-                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!pCore->mltACodecs().contains(format)) {
-                        item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        item->setBackground(0, disabledbg);
-                    }
+
+            // check for missing audio codecs
+            QString format;
+            if (params.startsWith(QLatin1String("acodec="))) {
+                format = params.section(QStringLiteral("acodec="), 1, 1);
+            } else if (params.contains(QStringLiteral(" acodec="))) {
+                format = params.section(QStringLiteral(" acodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                format = format.section(QLatin1Char(' '), 0, 0).toLower();
+                if (!pCore->mltACodecs().contains(format)) {
+                    item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
+                    item->setIcon(0, brokenIcon);
+                    item->setForeground(0, disabled);
+                    item->setBackground(0, disabledbg);
                 }
             }
-            if (!pCore->mltVCodecs().isEmpty()) {
-                QString format;
-                if (params.startsWith(QLatin1String("vcodec="))) {
-                    format = params.section(QStringLiteral("vcodec="), 1, 1);
-                } else if (params.contains(QStringLiteral(" vcodec="))) {
-                    format = params.section(QStringLiteral(" vcodec="), 1, 1);
-                }
-                if (!format.isEmpty()) {
-                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!pCore->mltVCodecs().contains(format)) {
-                        item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        continue;
-                    }
+            // check for missing video codecs
+            format.clear();
+            if (params.startsWith(QLatin1String("vcodec="))) {
+                format = params.section(QStringLiteral("vcodec="), 1, 1);
+            } else if (params.contains(QStringLiteral(" vcodec="))) {
+                format = params.section(QStringLiteral(" vcodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                format = format.section(QLatin1Char(' '), 0, 0).toLower();
+                if (!pCore->mltVCodecs().contains(format)) {
+                    item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
+                    item->setIcon(0, brokenIcon);
+                    item->setForeground(0, disabled);
+                    continue;
                 }
             }
             if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {

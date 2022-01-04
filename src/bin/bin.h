@@ -426,7 +426,7 @@ public slots:
     void slotLocateClip();
     void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Add extra data to a clip. */
-    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = nullptr);
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString());
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotAddEffect(QString id, const QStringList &effectData);

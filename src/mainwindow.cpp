@@ -481,7 +481,7 @@ void MainWindow::init(const QString &mltPath)
     m_undoViewDock->close();
     m_mixerDock->close();
 
-    /// Tabify Widgets
+    // Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     tabifyDockWidget(m_compositionListDock, m_effectListDock);
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
@@ -1824,8 +1824,7 @@ void MainWindow::setupActions()
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
 
-    act = KStandardAction::quit(this, SLOT(close()), actionCollection());
-    // act->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
+    KStandardAction::quit(this, SLOT(close()), actionCollection());
 
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
     KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
@@ -3082,10 +3081,10 @@ void MainWindow::slotClipEnd()
 
 void MainWindow::slotChangeTool(QAction *action)
 {
-    ToolType::ProjectTool activeTool;
-    if (action == m_buttonSelectTool) {
-        activeTool = ToolType::SelectTool;
-    } else if (action == m_buttonRazorTool) {
+    ToolType::ProjectTool activeTool = ToolType::SelectTool;
+
+    // if(action == m_buttonSelectTool) covered by default value
+    if (action == m_buttonRazorTool) {
         activeTool = ToolType::RazorTool;
     } else if (action == m_buttonSpacerTool) {
         activeTool = ToolType::SpacerTool;

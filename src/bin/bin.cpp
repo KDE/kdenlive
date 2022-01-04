@@ -1864,7 +1864,7 @@ void Bin::cleanDocument()
     }
     setEnabled(false);
     // Cleanup references in the cli properties dialog
-    requestShowClipProperties(nullptr);
+    emit requestShowClipProperties(nullptr);
 
     // Cleanup previous project
     m_itemModel->clean();
@@ -2177,7 +2177,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_tagsWidget->setTagData(clip->tags());
                 ClipType::ProducerType type = clip->clipType();
                 m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::Text || type == ClipType::TextTemplate);
-                requestShowClipProperties(clip, false);
+                emit requestShowClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
                 //TODO: testing only, we should check clip type...
@@ -2198,7 +2198,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_proxyAction->setText(i18n("Proxy Folder"));
             } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
                 m_tagsWidget->setTagData(currentItem->tags());
-                requestShowClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
+                emit requestShowClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_replaceAction->setEnabled(false);
@@ -2223,7 +2223,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         m_openAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
         m_renameAction->setEnabled(false);
-        requestShowClipProperties(nullptr);
+        emit requestShowClipProperties(nullptr);
         emit requestClipShow(nullptr);
         // clear effect stack
         emit requestShowEffectStack(QString(), nullptr, QSize(), false);
@@ -2770,7 +2770,7 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this, clip.get());
     } else {
         m_propertiesPanel->setEnabled(true);
-        requestShowClipProperties(clip);
+        emit requestShowClipProperties(clip);
         m_propertiesDock->show();
         m_propertiesDock->raise();
     }
@@ -2782,7 +2782,7 @@ void Bin::doRefreshPanel(const QString &id)
 {
     std::shared_ptr<ProjectClip> currentItem = getFirstSelectedClip();
     if ((currentItem != nullptr) && currentItem->AbstractProjectItem::clipId() == id) {
-        requestShowClipProperties(currentItem, true);
+        emit requestShowClipProperties(currentItem, true);
     }
 }
 
@@ -2868,7 +2868,7 @@ void Bin::reloadMonitorIfActive(const QString &id)
     if (m_monitor->activeClipId() == id || m_monitor->activeClipId().isEmpty()) {
         slotOpenCurrent();
         if (m_monitor->activeClipId() == id) {
-            requestShowClipProperties(getBinClip(id), true);
+            emit requestShowClipProperties(getBinClip(id), true);
         }
     }
 }
@@ -4135,7 +4135,7 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, QDomElement(), true, -1, -1, this);
 }
 
-void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData, QUndoCommand *groupCommand)
+void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
@@ -4146,10 +4146,8 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
     oldProps.insert(key, oldValue);
     QMap<QString, QString> newProps;
     newProps.insert(key, clipData);
-    auto *command = new EditClipCommand(this, id, oldProps, newProps, true, groupCommand);
-    if (!groupCommand) {
-        m_doc->commandStack()->push(command);
-    }
+    auto *command = new EditClipCommand(this, id, oldProps, newProps, true);
+    m_doc->commandStack()->push(command);
 }
 
 void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel)

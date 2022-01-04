@@ -427,8 +427,8 @@ bool DocumentChecker::hasErrorInClips()
         }
         infoLabel.append(i18n("Missing proxies can be recreated on opening."));
         m_ui.rebuildProxies->setChecked(true);
-        connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, [this] (int state) {
-            for (QDomElement e : m_missingProxies) {
+        connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, this, [this] (int state) {
+            for (auto e : qAsConst(m_missingProxies)) {
                 if (state == Qt::Checked) {
                     e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
                 } else {

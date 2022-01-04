@@ -8,8 +8,8 @@
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
-#include <utility>
 #include <klocalizedstring.h>
+#include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)

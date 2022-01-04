@@ -771,7 +771,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     update_redo_start();
     bool res = true;
     bool first = true;
-    for (const auto &p : all_pos) {
+    for (const auto &p : qAsConst(all_pos)) {
         if (first) { // skip first point
             first = false;
             continue;

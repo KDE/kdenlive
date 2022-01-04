@@ -6,24 +6,26 @@
 */
 
 #include "kdenlivesettings.h"
-#include "core.h"
 #include "bin/projectitemmodel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QPainterPath>
 #include <QQuickPaintedItem>
-#include <QElapsedTimer>
 #include <QtMath>
 #include <cmath>
-#include "kdenlivesettings.h"
-
-const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
 
 class TimelineTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color)
 public:
-    TimelineTriangle() { setAntialiasing(true); }
+    TimelineTriangle(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+    {
+        setAntialiasing(true);
+    }
     void paint(QPainter *painter) override
     {
         QPainterPath path;
@@ -45,7 +47,11 @@ class TimelinePlayhead : public QQuickPaintedItem
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
 
 public:
-    TimelinePlayhead() { connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update())); }
+    TimelinePlayhead(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+    {
+        connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update()));
+    }
 
     void paint(QPainter *painter) override
     {
@@ -82,7 +88,8 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
 public:
-    TimelineWaveform()
+    TimelineWaveform(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
     {
         setAntialiasing(false);
         // setClip(true);
@@ -253,6 +260,7 @@ public:
                     painter->drawPath(tr.map(path));
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
+                    const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
                     painter->drawText(2, int(y + channelHeight / 2), chanelNames[channel]);
                 }
             }

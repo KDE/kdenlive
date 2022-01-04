@@ -86,7 +86,7 @@ public:
     int duration() const;
 
     /** @brief Retrieves a list of all available title templates. */
-    static void refreshTitleTemplates(const QString &projectPath);
+    void refreshTitleTemplates(const QString &projectPath);
 
     /** @brief Returns a title name suggestion based on content */
     const QString titleSuggest();
@@ -153,6 +153,8 @@ private:
     QList<QGraphicsLineItem *> m_guides;
 
     PatternsModel *m_patternsModel;
+
+    QList<TitleTemplate> m_titleTemplates;
 
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 

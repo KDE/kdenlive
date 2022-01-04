@@ -237,7 +237,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     }
     for (int cid : qAsConst(clipsToCut)) {
         count++;
-        int newId;
+        int newId = -1;
         bool res = processClipCut(timeline, cid, position, newId, undo, redo);
         if (!res) {
             bool undone = undo();
@@ -2280,7 +2280,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         }
         track++;
     }
-    track = audioTracks;
     if (!isAudio) {
         // Compositions
         QDomNodeList compositions = sourceDoc.elementsByTagName(QLatin1String("transition"));

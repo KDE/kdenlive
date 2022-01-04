@@ -187,6 +187,7 @@ public:
 
 private:
     QTreeWidget *m_tree;
+    Q_DISABLE_COPY(ExtractionResult)
 };
 #endif
 

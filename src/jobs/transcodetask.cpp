@@ -230,7 +230,6 @@ void TranscodeTask::run()
                 newProps.insert(QStringLiteral("resource"), destUrl);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
                 newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
-                QString id = QString::number(m_owner.second);
                 pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
                 if (m_checkProfile) {
                     QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));

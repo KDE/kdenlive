@@ -391,7 +391,10 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         }
         QDomDocument doc;
         QDomElement xml;
-        QString resource(m_properties->get("resource"));
+        QString resource;
+        if (m_properties) {
+            resource = m_properties->get("resource");
+        }
         if (m_service.isEmpty() && !resource.isEmpty()) {
             xml = ClipCreator::getXmlFromUrl(resource).documentElement();
         } else {
@@ -2170,16 +2173,12 @@ void ProjectClip::updateTimelineOnReload()
 {
     if (m_registeredClips.size() > 0 && m_registeredClips.size() < 3) {
         for (const auto &clip : m_registeredClips) {
-            bool reloadProducer = true;
             if (auto timeline = clip.second.lock()) {
                 if (timeline->getClipPlaytime(clip.first) < static_cast<int>(frameDuration())) {
-                    reloadProducer = false;
-                    break;
+                    break; // don't reload producer
                 }
             }
-            if (reloadProducer) {
-                m_resetTimelineOccurences = true;
-            }
+            m_resetTimelineOccurences = true;
         }
     }
 }

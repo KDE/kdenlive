@@ -726,9 +726,6 @@ void TimelineController::deleteMultipleTracks(int tid)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
-    if (tid == -1) {
-        tid = m_activeTrack;
-    }
     if (d->exec() == QDialog::Accepted) {
         bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
@@ -1444,11 +1441,9 @@ void TimelineController::assignCurrentTarget(int index)
             m_model->m_audioTarget.remove(m_activeTrack);
             emit audioTargetChanged();
         }
-        return;
     } else {
         // Select video target stream
         setVideoTarget(m_activeTrack);
-        return;
     }
 }
 

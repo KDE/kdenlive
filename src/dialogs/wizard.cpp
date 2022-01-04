@@ -45,12 +45,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 // Recommended MLT version
-const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
-const int mltVersionMinor = MLT_MIN_MINOR_VERSION;
-const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
-
-static const char kdenlive_version[] = KDENLIVE_VERSION;
-
 MyWizardPage::MyWizardPage(QWidget *parent)
     : QWizardPage(parent)
 
@@ -78,7 +72,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     setOption(QWizard::NoBackButtonOnLastPage, true);
     // setOption(QWizard::ExtendedWatermarkPixmap, false);
     m_page = new MyWizardPage(this);
-    m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
+    m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(KDENLIVE_VERSION)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
     setPixmap(QWizard::LogoPixmap, QIcon::fromTheme(QStringLiteral(":/pics/kdenlive.png")).pixmap(logoHeight, logoHeight));
     m_startLayout = new QVBoxLayout;
@@ -389,11 +383,11 @@ void Wizard::checkMltComponents()
         m_errors.append(i18n("<li>Cannot start MLT backend, check your installation</li>"));
         m_systemCheckIsOk = false;
     } else {
-        int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
+        int mltVersion = QT_VERSION_CHECK(MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION);
         int runningVersion = mlt_version_get_int();
         if (runningVersion < mltVersion) {
             m_errors.append(
-                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
+                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION));
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
@@ -947,7 +941,8 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp2.close();
-    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",           "smptebars=duration=5:size=1280x720:rate=25",
+    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",
+                      "smptebars=duration=5:size=1280x720:rate=25",
                       "-c:v", "h264_nvenc", "-an",   "-f", "mp4",   tmp2.fileName()};
     qDebug() << "// FFMPEG ARGS: " << args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);

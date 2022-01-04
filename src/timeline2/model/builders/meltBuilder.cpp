@@ -415,7 +415,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                     if (!startMixToFind) {
                                         // Move to top playlist
                                         cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, hasStartMix ? playlist : 0);
-                                        ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
+                                        timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
                                         m_notesLog << i18n("%1 Clip (%2) with missing mix found and resized", tcInfo, clip->parent().get("id"));
                                         m_errorMessage << i18n("Clip without mix %1 found and resized on track %2 at %3.", clip->parent().get("id"), timeline->getTrackTagById(tid), position);
                                         continue;

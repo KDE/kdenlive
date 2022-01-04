@@ -13,8 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #endif
 
-const QString EXTENSION_PNG = QStringLiteral(".png");
-
 ColorPlaneExport::ColorPlaneExport(QWidget *parent)
     : QDialog(parent)
 {
@@ -154,7 +152,7 @@ void ColorPlaneExport::slotExportPlane()
 #endif
     if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) &&
         !lower.endsWith(QLatin1String(".tiff"))) {
-        if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", EXTENSION_PNG)) == KMessageBox::Yes) {
+        if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", QStringLiteral(".png"))) == KMessageBox::Yes) {
             kurlrequester->setUrl(QUrl(kurlrequester->text() + QStringLiteral(".png")));
         }
     }

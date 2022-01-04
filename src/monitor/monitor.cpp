@@ -1278,7 +1278,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     if (m_captureConnection) {
                         QObject::disconnect( m_captureConnection );
                     }
-                    m_captureConnection = connect(m_glMonitor, &GLWidget::analyseFrame, [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus, previewScale](const QImage &img) {
+                    m_captureConnection = connect(m_glMonitor, &GLWidget::analyseFrame, this, [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus, previewScale](const QImage &img) {
                         m_glMonitor->sendFrameForAnalysis = analysisStatus;
                         m_glMonitor->releaseAnalyse();
                         img.save(selectedFile);

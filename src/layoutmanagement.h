@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define LAYOUTMANAGEMENT_H
 
 #include <QObject>
+#include <QMap>
 
 class KSelectAction;
 class QAction;
@@ -44,11 +45,13 @@ private:
     std::pair<QString, QString> saveLayout(QString layout, QString suggestedName);
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
+    const QString translatedName(const QString &name);
     QWidget *m_container;
     QButtonGroup *m_containerGrp;
     QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
+    QMap <QString, QString> m_translatedNames;
 
 signals:
     /** @brief Layout changed, ensure title bars are correctly displayed. */

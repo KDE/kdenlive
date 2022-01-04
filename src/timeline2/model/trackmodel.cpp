@@ -2474,8 +2474,6 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     int clipOut = m_allClips[cid1]->getPosition() + m_allClips[cid1]->getPlaytime();
     if (in != clipIn || out != clipOut) {
         t->set_in_and_out(clipIn, clipOut);
-        in = clipIn;
-        out = clipOut;
     }
     QString assetId(t->get("kdenlive_id"));
     if (assetId.isEmpty()) {

@@ -56,8 +56,6 @@
 #include <mlt++/MltProfile.h>
 #include <utility>
 
-static QList<TitleTemplate> titletemplates;
-
 // What exactly is this variable good for?
 int settingUp = 0;
 
@@ -77,7 +75,7 @@ void TitleWidget::refreshTemplateBoxContents()
 {
     templateBox->clear();
     templateBox->addItem(QString());
-    for (const TitleTemplate &t : qAsConst(titletemplates)) {
+    for (const TitleTemplate &t : qAsConst(m_titleTemplates)) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
 }
@@ -657,7 +655,7 @@ QStringList TitleWidget::extractFontList(const QString &xml)
 void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
     QStringList filters = QStringList() << QStringLiteral("*.kdenlivetitle");
-    titletemplates.clear();
+    m_titleTemplates.clear();
 
     // project templates
     QDir dir(projectPath);
@@ -667,7 +665,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
         t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-        titletemplates.append(t);
+        m_titleTemplates.append(t);
     }
 
     // system templates
@@ -681,7 +679,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
             t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-            titletemplates.append(t);
+            m_titleTemplates.append(t);
         }
     }
 }

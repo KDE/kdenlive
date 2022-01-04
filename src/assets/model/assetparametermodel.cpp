@@ -20,8 +20,6 @@
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
 
-static QVector<int> bypassRoles = {AssetParameterModel::InRole,AssetParameterModel::OutRole,AssetParameterModel::ParentInRole,AssetParameterModel::ParentDurationRole,AssetParameterModel::ParentPositionRole,AssetParameterModel::HideKeyframesFirstRole};
-
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString& originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
@@ -216,7 +214,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    modelChanged();
+    emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
@@ -434,6 +432,15 @@ AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
+    const QVector<int> bypassRoles = {
+        AssetParameterModel::InRole,
+        AssetParameterModel::OutRole,
+        AssetParameterModel::ParentInRole,
+        AssetParameterModel::ParentDurationRole,
+        AssetParameterModel::ParentPositionRole,
+        AssetParameterModel::HideKeyframesFirstRole
+    };
+
     if (bypassRoles.contains(role)) {
         switch (role) {
             case InRole:

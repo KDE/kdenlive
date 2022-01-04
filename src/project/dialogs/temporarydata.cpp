@@ -29,8 +29,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProgressBar>
 #include <QSpinBox>
 
-static QList<QColor> chartColors;
-
 ChartWidget::ChartWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -62,7 +60,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
             ix++;
             continue;
         }
-        painter.setBrush(chartColors.at(ix));
+        painter.setBrush(colorAt(ix));
         painter.drawPie(pieRect, previous, val * 16);
         previous = val * 16;
         ix++;
@@ -76,7 +74,6 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
-    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     m_currentSizes << 0 << 0 << 0 << 0;
 
     // Setup page for current project
@@ -89,25 +86,25 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     // Timeline preview data
     previewColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(0));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(0));
     previewColor->setPalette(pal);
     connect(delPreview, &QToolButton::clicked, this, &TemporaryData::deletePreview);
 
     // Proxy clips
     proxyColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(1));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(1));
     proxyColor->setPalette(pal);
     connect(delProxy, &QToolButton::clicked, this, &TemporaryData::deleteProjectProxy);
 
     // Audio Thumbs
     audioColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(2));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(2));
     audioColor->setPalette(pal);
     connect(delAudio, &QToolButton::clicked, this, &TemporaryData::deleteAudio);
 
     // Video Thumbs
     thumbColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(3));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(3));
     thumbColor->setPalette(pal);
     connect(delThumb, &QToolButton::clicked, this, &TemporaryData::deleteThumbs);
 
@@ -136,13 +133,13 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     // Total Cache data
     pal = palette();
     gTotalColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(0));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(0));
     gTotalColor->setPalette(pal);
     connect(gClean, &QToolButton::clicked, this, &TemporaryData::cleanCache);
 
     // Selection
     gSelectedColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(1));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(1));
     gSelectedColor->setPalette(pal);
     connect(gDelete, &QToolButton::clicked, this, &TemporaryData::deleteSelected);
 
