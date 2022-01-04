@@ -759,8 +759,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
-    event->accept();
     QQuickView::mousePressEvent(event);
+    event->accept();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)

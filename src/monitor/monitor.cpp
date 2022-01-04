@@ -167,7 +167,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
-    connect(m_glMonitor, &GLWidget::monitorPlay, this, &Monitor::slotPlay);
     connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
     connect(m_glMonitor, &GLWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
     connect(m_glMonitor, &GLWidget::zoomChanged, this, &Monitor::setZoom);
@@ -334,6 +333,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     m_playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+    connect(m_glMonitor, &GLWidget::monitorPlay, m_playAction, &QAction::trigger);
 
     QString strippedTooltip = m_playAction->toolTip().remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
     // append shortcut if it exists for action
@@ -1010,11 +1010,17 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     }
 }
 
+void Monitor::fixFocus()
+{
+    m_videoWidget->setFocus();
+}
+
 // virtual
 void Monitor::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_dragStarted) {
         event->ignore();
+        QWidget::mouseReleaseEvent(event);
         return;
     }
     if (event->button() != Qt::RightButton) {
@@ -1116,8 +1122,8 @@ void Monitor::wheelEvent(QWheelEvent *event)
 
 void Monitor::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    slotSwitchFullScreen();
     event->accept();
+    slotSwitchFullScreen();
 }
 
 void Monitor::keyPressEvent(QKeyEvent *event)
@@ -2503,7 +2509,8 @@ void Monitor::displayAudioMonitor(bool isActive)
     if (isActive && m_glWidget->isFullScreen()) {
         // If both monitors are fullscreen, this is necessary to do the switch
         m_glWidget->showFullScreen();
-        m_videoWidget->setFocus();
+        pCore->window()->activateWindow();
+        pCore->window()->setFocus();
     }
 }
 

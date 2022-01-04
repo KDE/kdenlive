@@ -142,8 +142,10 @@ public:
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
     void updateDocumentUuid();
-    /** @brief Focus the timecode to alllow editing*/
+    /** @brief Focus the timecode to allow editing*/
     void focusTimecode();
+    /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
+    void fixFocus();
     
 
 protected:

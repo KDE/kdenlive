@@ -174,6 +174,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
         if (name == Kdenlive::ClipMonitor) {
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 m_clipMonitor->parentWidget()->raise();
+            } else {
+                m_clipMonitor->fixFocus();
             }
             if (!m_clipMonitor->isVisible()) {
                 pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"), MessageType::InformationMessage);
@@ -186,6 +188,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
         } else if (name == Kdenlive::ProjectMonitor) {
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 m_projectMonitor->parentWidget()->raise();
+            } else {
+                m_projectMonitor->fixFocus();
             }
             if (!m_projectMonitor->isVisible()) {
                 pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"), MessageType::InformationMessage);
