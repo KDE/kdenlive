@@ -492,7 +492,6 @@ void Wizard::checkMltComponents()
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         } else {
-            checkMissingCodecs();
             delete consumer;
         }
 
@@ -525,93 +524,6 @@ void Wizard::checkMltComponents()
     } else {
         // OK
     }
-}
-
-void Wizard::checkMissingCodecs()
-{
-    bool replaceVorbisCodec = false;
-    if (pCore->mltACodecs().contains(QStringLiteral("libvorbis"))) {
-        replaceVorbisCodec = true;
-    }
-    bool replaceLibfaacCodec = false;
-    if (!pCore->mltACodecs().contains(QStringLiteral("aac")) && pCore->mltACodecs().contains(QStringLiteral("libfaac"))) {
-        replaceLibfaacCodec = true;
-    }
-    QStringList profilesList;
-    profilesList << QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
-    QStringList filter;
-    filter << QStringLiteral("*.xml");
-    const QStringList fileList = directory.entryList(filter, QDir::Files);
-    for (const QString &filename : fileList) {
-        profilesList << directory.absoluteFilePath(filename);
-    }
-
-    // We should parse customprofiles.xml in last position, so that user profiles
-    // can also override profiles installed by KNewStuff
-    QStringList requiredACodecs;
-    QStringList requiredVCodecs;
-    for (const QString &filename : qAsConst(profilesList)) {
-        QDomDocument doc;
-        QFile file(filename);
-        doc.setContent(&file, false);
-        file.close();
-        QString std;
-        QString format;
-        QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
-        for (int i = 0; i < profiles.count(); ++i) {
-            std = profiles.at(i).toElement().attribute(QStringLiteral("args"));
-            format.clear();
-            if (std.startsWith(QLatin1String("acodec="))) {
-                format = std.section(QStringLiteral("acodec="), 1, 1);
-            } else if (std.contains(QStringLiteral(" acodec="))) {
-                format = std.section(QStringLiteral(" acodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                requiredACodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
-            }
-            format.clear();
-            if (std.startsWith(QLatin1String("vcodec="))) {
-                format = std.section(QStringLiteral("vcodec="), 1, 1);
-            } else if (std.contains(QStringLiteral(" vcodec="))) {
-                format = std.section(QStringLiteral(" vcodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                requiredVCodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
-            }
-        }
-    }
-    requiredACodecs.removeDuplicates();
-    requiredVCodecs.removeDuplicates();
-    if (replaceVorbisCodec) {
-        int ix = requiredACodecs.indexOf(QStringLiteral("vorbis"));
-        if (ix > -1) {
-            requiredACodecs.replace(ix, QStringLiteral("libvorbis"));
-        }
-    }
-    if (replaceLibfaacCodec) {
-        int ix = requiredACodecs.indexOf(QStringLiteral("aac"));
-        if (ix > -1) {
-            requiredACodecs.replace(ix, QStringLiteral("libfaac"));
-        }
-    }
-    for (auto codec : pCore->mltACodecs()) {
-        requiredACodecs.removeAll(codec);
-    }
-    for (auto codec : pCore->mltVCodecs()) {
-        requiredACodecs.removeAll(codec);
-    }
-    /*
-     * Info about missing codecs is given in render widget, no need to put this at first start
-     * if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
-        QString missing = requiredACodecs.join(QLatin1Char(','));
-        if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) {
-            missing.append(',');
-        }
-        missing.append(requiredVCodecs.join(QLatin1Char(',')));
-        missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
-        m_infos.append(QString("<li>%1</li>").arg(missing));
-    }*/
 }
 
 void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
