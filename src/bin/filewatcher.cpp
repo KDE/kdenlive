@@ -17,14 +17,44 @@ FileWatcher::FileWatcher(QObject *parent)
     connect(KDirWatch::self(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
     connect(KDirWatch::self(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
+    m_queueTimer.setInterval(300);
+    m_queueTimer.setSingleShot(true);
+    connect(&m_queueTimer, &QTimer::timeout, this, &FileWatcher::slotProcessQueue);
+}
+
+
+void FileWatcher::slotProcessQueue()
+{
+    if (m_pendingUrls.size() == 0) {
+        return;
+    }
+    auto iter = m_pendingUrls.begin();
+    doAddFile(iter->first, iter->second);
+    m_pendingUrls.erase(iter->first);
+    if (m_pendingUrls.size() > 0 && !m_queueTimer.isActive()) {
+        m_queueTimer.start();
+    }
 }
 
 void FileWatcher::addFile(const QString &binId, const QString &url)
+{
+    if (m_occurences.count(url) > 0) {
+        // Already queued
+        return;
+    }
+    m_pendingUrls[binId] = url;
+    if (!m_queueTimer.isActive()) {
+        m_queueTimer.start();
+    }
+}
+
+void FileWatcher::doAddFile(const QString &binId, const QString &url)
 {
     if (url.isEmpty()) {
         return;
     }
     if (m_occurences.count(url) == 0) {
+        //QtConcurrent::run([=] { KDirWatch::self()->addFile(url); });
         KDirWatch::self()->addFile(url);
     }
     m_occurences[url].insert(binId);

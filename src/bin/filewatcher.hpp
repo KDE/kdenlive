@@ -22,7 +22,7 @@ class FileWatcher : public QObject
 public:
     // Constructor
     explicit FileWatcher(QObject *parent = nullptr);
-    // Add a file to the list of watched items
+    // Add a file to the queue for watched items
     void addFile(const QString &binId, const QString &url);
     // Remove a binId from the list of watched items
     void removeFile(const QString &binId);
@@ -44,6 +44,7 @@ private slots:
     void slotUrlMissing(const QString &path);
     void slotUrlAdded(const QString &path);
     void slotProcessModifiedUrls();
+    void slotProcessQueue();
 
 private:
     // A list with urls as keys, and the corresponding clip ids as value
@@ -53,8 +54,14 @@ private:
 
     // List of files for which we received an update since the last send
     std::unordered_set<QString> m_modifiedUrls;
+    
+    // When loading a project or adding many clips, adding many files to the watcher causes a freeze, so queue them
+    std::unordered_map<QString, QString> m_pendingUrls;
 
     QTimer m_modifiedTimer;
+    QTimer m_queueTimer;
+    // Add a file to the list of watched items
+    void doAddFile(const QString &binId, const QString &url);
 };
 
 #endif
