@@ -22,7 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "dockareaorientationmanager.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
-#include "effectslist/effectbasket.h"
+#include "effects/effectbasket.h"
 #include "hidetitlebars.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/transcodetask.h"

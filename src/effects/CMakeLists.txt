@@ -1,5 +1,6 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
+  effects/effectbasket.cpp
   effects/effectlist/model/effectfilter.cpp
   effects/effectlist/model/effecttreemodel.cpp
   effects/effectlist/view/effectlistwidget.cpp
@@ -15,4 +16,3 @@ set(kdenlive_SRCS
   effects/effectstack/view/builtstack.cpp
   #effects/effectstack/view/qml/colorwheelitem.cpp
   PARENT_SCOPE)
-
