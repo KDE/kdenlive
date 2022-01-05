@@ -119,6 +119,16 @@ void ProjectManager::slotLoadOnOpen()
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
+    // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
+    QTimer::singleShot(1000, this, []() {
+        QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
+        for (QTabBar *tab : qAsConst(tabbars)) {
+            // Fix tabbar tooltip containing ampersand
+            for (int i = 0; i < tab->count(); i++) {
+                tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+            }
+        }
+    });
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -294,27 +304,24 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-    ::mlt_pool_purge();
-    pCore->cleanup();
-    if (!quit && !qApp->isSavingSession()) {
-        if (m_project) {
+    if (m_project) {
+        ::mlt_pool_purge();
+        pCore->cleanup();
+        if (!quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-    }
-    pCore->window()->getMainTimeline()->unsetModel();
-    pCore->window()->resetSubtitles();
-    if (m_mainTimelineModel) {
-        m_mainTimelineModel->prepareClose();
+        pCore->window()->getMainTimeline()->unsetModel();
+        pCore->window()->resetSubtitles();
+        if (m_mainTimelineModel) {
+            m_mainTimelineModel->prepareClose();
+        }
     }
     pCore->bin()->cleanDocument();
-
-    if (!quit && !qApp->isSavingSession()) {
-        if (m_project) {
-            emit pCore->window()->clearAssetPanel();
-            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-            delete m_project;
-            m_project = nullptr;
-        }
+    if (!quit && !qApp->isSavingSession() && m_project) {
+        emit pCore->window()->clearAssetPanel();
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        delete m_project;
+        m_project = nullptr;
     }
     pCore->mixer()->unsetModel();
     // Release model shared pointers

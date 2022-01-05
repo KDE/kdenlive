@@ -812,7 +812,6 @@ void MainWindow::init(const QString &mltPath)
         // Load editing layout
         layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
     }
-    QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
@@ -3875,7 +3874,6 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
         dockWidget->setFocus();
     });
     addAction("raise_" + objectName, action, shortcut);
-
     return dockWidget;
 }
 
@@ -3955,7 +3953,12 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     for (QTabBar *tab : qAsConst(tabbars)) {
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
+        // Fix tabbar tooltip containing ampersand
+        for (int i = 0; i < tab->count(); i++) {
+            tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+        }
     }
+
     if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
         return;
     }
