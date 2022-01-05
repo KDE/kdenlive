@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef COLORPLANEEXPORT_H
 #define COLORPLANEEXPORT_H
 
-#include "colortools.h"
+#include "utils/colortools.h"
 #include "ui_colorplaneexport_ui.h"
 #include <QDialog>
 

@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "vectorscope.h"
 #include "colorplaneexport.h"
-#include "colortools.h"
+#include "utils/colortools.h"
 #include "vectorscopegenerator.h"
 
 #include "kdenlive_debug.h"

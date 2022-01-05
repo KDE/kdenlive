@@ -8,7 +8,7 @@
 
 #include "../abstractcurvewidget.h"
 #include "bpoint.h"
-#include "colortools.h"
+#include "utils/colortools.h"
 #include "cubicbezierspline.h"
 
 #include <QWidget>
