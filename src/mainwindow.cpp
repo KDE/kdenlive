@@ -1300,7 +1300,7 @@ void MainWindow::setupActions()
     m_zoomIn = KStandardAction::zoomIn(this, SLOT(slotZoomIn()), actionCollection());
     m_zoomOut = KStandardAction::zoomOut(this, SLOT(slotZoomOut()), actionCollection());
 
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSetZoom(int)));
+    connect(m_zoomSlider, &QSlider::valueChanged, this, [&](int value){ slotSetZoom(value); });
     connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
     connect(m_buttonFitZoom, &QAction::triggered, this, &MainWindow::slotFitZoom);
 
@@ -2313,8 +2313,9 @@ void MainWindow::connectDocument()
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
     getMainTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
-    connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
-    connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
+
+    connect(m_projectMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });
+    connect(m_clipMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });
     connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
 
     if (m_renderWidget) {
@@ -4020,7 +4021,7 @@ void MainWindow::configureToolbars()
     addToolBar(Qt::BottomToolBarArea, m_timelineToolBar);
     auto *toolBarEditor = new KEditToolBar(guiFactory(), this);
     toolBarEditor->setAttribute(Qt::WA_DeleteOnClose);
-    connect(toolBarEditor, SIGNAL(newToolBarConfig()), SLOT(saveNewToolbarConfig()));
+    connect(toolBarEditor, &KEditToolBar::newToolBarConfig, this, &MainWindow::saveNewToolbarConfig);
     connect(toolBarEditor, &QDialog::finished, this, &MainWindow::rebuildTimlineToolBar);
     toolBarEditor->show();
 }

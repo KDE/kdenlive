@@ -33,6 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
+#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <KConfigGroup>
@@ -942,7 +943,11 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
     m_project->moveProjectData(src, dest);
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
+#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5,80,0)
     connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
+#else
+    connect(copyJob, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
+#endif
 }
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)

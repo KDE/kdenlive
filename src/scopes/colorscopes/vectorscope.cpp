@@ -59,9 +59,9 @@ Vectorscope::Vectorscope(QWidget *parent)
     m_ui->sliderGain->setMinimum(0);
     m_ui->sliderGain->setMaximum(40);
 
-    connect(m_ui->backgroundMode, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBackgroundChanged()));
+    connect(m_ui->backgroundMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Vectorscope::slotBackgroundChanged);
     connect(m_ui->sliderGain, &QAbstractSlider::valueChanged, this, &Vectorscope::slotGainChanged);
-    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Vectorscope::forceUpdateScope);
     connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
     m_ui->sliderGain->setValue(0);
 

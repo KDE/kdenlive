@@ -73,7 +73,7 @@ Spectrogram::Spectrogram(QWidget *parent)
                                           "smearing. See Window function on Wikipedia."));
 
     connect(m_aResetHz, &QAction::triggered, this, &Spectrogram::slotResetMaxFreq);
-    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Spectrogram::forceUpdate);
     connect(this, &Spectrogram::signalMousePositionChanged, this, &Spectrogram::forceUpdateHUD);
 
     AbstractScopeWidget::init();

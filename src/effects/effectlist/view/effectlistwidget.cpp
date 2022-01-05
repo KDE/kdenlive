@@ -123,8 +123,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     if(dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();

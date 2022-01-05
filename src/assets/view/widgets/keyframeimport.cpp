@@ -270,7 +270,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addWidget(m_sourceRangeLabel);
 
     // update range info
-    connect(m_targetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDestinationRange()));
+
+    connect(m_targetCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateDestinationRange);
 
     // Destination range
     l1 = new QHBoxLayout;
@@ -300,8 +301,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addLayout(l1);
     connect(m_limitKeyframes, &QCheckBox::toggled, m_limitNumber, &QSpinBox::setEnabled);
     connect(m_limitKeyframes, &QAbstractButton::toggled, this, &KeyframeImport::updateDisplay);
-    connect(m_limitNumber, SIGNAL(valueChanged(int)), this, SLOT(updateDisplay()));
-    connect(m_dataCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDataDisplay()));
+    connect(m_limitNumber, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateDisplay);
+    connect(m_dataCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateDataDisplay);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);

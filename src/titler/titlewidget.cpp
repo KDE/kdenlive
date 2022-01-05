@@ -188,7 +188,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(gradient_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
-    connect(gradients_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
+    connect(gradients_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::slotUpdateText);
 
     connect(textOutlineColor, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(font_family, &QFontComboBox::currentFontChanged, this, &TitleWidget::slotUpdateText);
@@ -196,13 +196,13 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(letter_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
     connect(line_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
     connect(textOutline, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
-    connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
+    connect(font_weight_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::slotUpdateText);
 
     connect(rectFColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(rectBColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(plain_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
-    connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
+    connect(gradients_rect_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::rectChanged);
     connect(rectLineWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
 
     connect(zValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::zIndexChanged);
@@ -408,7 +408,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString());
-    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
+    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));    
 
     m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);

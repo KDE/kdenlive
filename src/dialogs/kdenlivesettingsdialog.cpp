@@ -1819,7 +1819,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     }
     KdenliveSettings::setShuttledevicenames(devNamesList);
     KdenliveSettings::setShuttledevicepaths(devPathList);
-    QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
+    QTimer::singleShot(200, this, [&](){ slotUpdateShuttleDevice(); });
 #endif // USE_JOGSHUTTLE
 }
 

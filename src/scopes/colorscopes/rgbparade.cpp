@@ -36,7 +36,7 @@ RGBParade::RGBParade(QWidget *parent)
     m_menu->addAction(m_aGradRef);
     connect(m_aGradRef, &QAction::changed, this, &RGBParade::forceUpdateScope);
 
-    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RGBParade::forceUpdateScope);
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
