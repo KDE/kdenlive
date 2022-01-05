@@ -59,7 +59,7 @@ public slots:
     /** Save all parameters to a preset */
     void slotLoadPreset();
     void slotUpdatePreset();
-    void slotDeletePreset();
+    void slotDeleteCurrentPreset();
     void slotDeletePreset(const QString &presetName);
 
 protected:

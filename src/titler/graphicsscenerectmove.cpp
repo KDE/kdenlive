@@ -62,7 +62,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
-    connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
+    connect(document(), &QTextDocument::contentsChange, this, [&](int, int, int) { updateGeometry(); });
     updateTW(false, 2, 1, 0, 0);
 }
 

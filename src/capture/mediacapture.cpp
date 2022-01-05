@@ -74,8 +74,8 @@ void MediaCapture::recordAudio(int tid, bool record)
         setCaptureOutputLocation();
         m_audioRecorder->setVolume(KdenliveSettings::audiocapturevolume()/100.0);
         //qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
-
-        connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
+        connect(m_audioRecorder.get(), static_cast<void (QAudioRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error),
+                this, &MediaCapture::displayErrorMessage);
 
         QAudioEncoderSettings audioSettings;
         //audioSettings.setCodec("audio/x-flac");
@@ -109,7 +109,8 @@ void MediaCapture::recordVideo(int tid, bool record)
     if (record && m_videoRecorder->state() == QMediaRecorder::StoppedState) {
         setCaptureOutputLocation();
         m_videoRecorder->setOutputLocation(m_path);
-        connect(m_videoRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
+        connect(m_videoRecorder.get(), static_cast<void (QMediaRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error),
+                this, &MediaCapture::displayErrorMessage);
         m_camera->setCaptureMode(QCamera::CaptureVideo);
         m_camera->start();
         // QString container = "video/mpeg";

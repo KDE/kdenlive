@@ -333,6 +333,8 @@ public slots:
     void showSubtitleTrack();
     /** @brief The path of the current document changed (save as), update render settings */
     void updateProjectPath(const QString &path);
+    /** @brief Update compositing action to display current project setting. */
+    void slotUpdateCompositeAction(int mode);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -522,8 +524,6 @@ private slots:
     void forceIconSet(bool force);
     /** @brief Toggle current project's compositing mode. */
     void slotUpdateCompositing(QAction *compose);
-    /** @brief Update compositing action to display current project setting. */
-    void slotUpdateCompositeAction(int mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();

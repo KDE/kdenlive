@@ -50,7 +50,7 @@ public:
     TimelinePlayhead(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
     {
-        connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update()));
+        connect(this, &TimelinePlayhead::colorChanged, this, [&](const QColor &){ update(); });
     }
 
     void paint(QPainter *painter) override
