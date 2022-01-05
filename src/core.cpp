@@ -407,21 +407,6 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
     return MltConnection::self()->getMltRepository();
 }
 
-QStringList Core::mltSupportedFormats()
-{
-    return MltConnection::self()->supportedFormats();
-}
-
-QStringList Core::mltACodecs()
-{
-    return MltConnection::self()->aCodecs();
-}
-
-QStringList Core::mltVCodecs()
-{
-    return MltConnection::self()->vCodecs();
-}
-
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
     return ProfileRepository::get()->getProfile(m_currentProfile);

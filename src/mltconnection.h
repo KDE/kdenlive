@@ -7,7 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define MLTCONNECTION_H
 
 #include <QString>
-#include <QStringList>
 #include <memory>
 
 namespace Mlt {
@@ -36,10 +35,6 @@ public:
      */
     static void refreshLumas();
 
-    QStringList vCodecs() { return m_vCodecsList; };
-    QStringList aCodecs() { return m_aCodecsList; };
-    QStringList supportedFormats() { return m_supportedFormats; };
-
 protected:
     /** @brief Open connection to the MLT framework
         This constructor should be called only once
@@ -47,29 +42,17 @@ protected:
     MltConnection(const QString &mltPath);
 
     /** @brief Locates the MLT environment.
-     *  @param mltPath (optional) path to MLT environment
+     * @param mltPath (optional) path to MLT environment
      *
-     *  It tries to set the paths of the MLT profiles and renderer, using
-     *  mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
-     *  user. It doesn't fill any list of profiles, while its name suggests so. */
+     * It tries to set the paths of the MLT profiles and renderer, using
+     * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
+     * user. It doesn't fill any list of profiles, while its name suggests so. */
     void locateMeltAndProfilesPath(const QString &mltPath = QString());
 
     static std::unique_ptr<MltConnection> m_self;
 
     /** @brief The MLT repository, useful for filter/producer requests */
     std::unique_ptr<Mlt::Repository> m_repository;
-
-private:
-    /** @brief Checks for available codecs and formats using the avformat producer.
-     *
-     *  Results are written to m_vCodecsList, m_aCodecsList and m_supportedFormats
-     *  and can be accessed through @ref vCodecs() @ref aCodecs() and @ref supportedFormats()
-    */
-    void reloadCodecLists();
-
-    QStringList m_vCodecsList;
-    QStringList m_aCodecsList;
-    QStringList m_supportedFormats;
 };
 
 #endif

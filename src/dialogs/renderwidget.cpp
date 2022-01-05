@@ -249,6 +249,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
 
+    checkCodecs();
     parseProfiles();
     parseScriptFiles();
     m_view.running_jobs->setUniformRowHeights(false);
@@ -1841,7 +1842,7 @@ void RenderWidget::refreshView()
             }
 
             // Make sure the selected profile uses an installed avformat codec / format
-            if (!pCore->mltSupportedFormats().isEmpty()) {
+            if (!m_supportedFormats.isEmpty()) {
                 QString format;
                 if (params.startsWith(QLatin1String("f="))) {
                     format = params.section(QStringLiteral("f="), 1, 1);
@@ -1850,7 +1851,7 @@ void RenderWidget::refreshView()
                 }
                 if (!format.isEmpty()) {
                     format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!pCore->mltSupportedFormats().contains(format)) {
+                    if (!m_supportedFormats.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
                         item->setIcon(0, brokenIcon);
                         item->setForeground(0, disabled);
@@ -1858,7 +1859,6 @@ void RenderWidget::refreshView()
                     }
                 }
             }
-
             // check for missing audio codecs
             QString format;
             if (params.startsWith(QLatin1String("acodec="))) {
@@ -1868,14 +1868,14 @@ void RenderWidget::refreshView()
             }
             if (!format.isEmpty()) {
                 format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                if (!pCore->mltACodecs().contains(format)) {
+                if (!m_acodecsList.contains(format)) {
                     item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
                     item->setIcon(0, brokenIcon);
                     item->setForeground(0, disabled);
                     item->setBackground(0, disabledbg);
                 }
             }
-            // check for missing video codecs
+            // check for missing audio codecs
             format.clear();
             if (params.startsWith(QLatin1String("vcodec="))) {
                 format = params.section(QStringLiteral("vcodec="), 1, 1);
@@ -1884,13 +1884,14 @@ void RenderWidget::refreshView()
             }
             if (!format.isEmpty()) {
                 format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                if (!pCore->mltVCodecs().contains(format)) {
+                if (!m_vcodecsList.contains(format)) {
                     item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
                     item->setIcon(0, brokenIcon);
                     item->setForeground(0, disabled);
                     continue;
                 }
             }
+
             if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {
                 // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
                 // (https://github.com/mltframework/mlt/commit/d8a3a5c9190646aae72048f71a39ee7446a3bd45)
@@ -2214,11 +2215,11 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
     QTreeWidgetItem *item = nullptr;
     bool replaceVorbisCodec = false;
-    if (pCore->mltACodecs().contains(QStringLiteral("libvorbis"))) {
+    if (m_acodecsList.contains(QStringLiteral("libvorbis"))) {
         replaceVorbisCodec = true;
     }
     bool replaceLibfaacCodec = false;
-    if (pCore->mltACodecs().contains(QStringLiteral("libfaac"))) {
+    if (m_acodecsList.contains(QStringLiteral("libfaac"))) {
         replaceLibfaacCodec = true;
     }
 
@@ -3117,6 +3118,37 @@ void RenderWidget::adjustSpeed(int speedIndex)
         if (speedIndex < speeds.count()) {
             m_view.speed->setToolTip(i18n("Codec speed parameters:\n%1", speeds.at(speedIndex)));
         }
+    }
+}
+
+void RenderWidget::checkCodecs()
+{
+    Mlt::Profile p;
+    auto *consumer = new Mlt::Consumer(p, "avformat");
+    if (consumer) {
+        consumer->set("vcodec", "list");
+        consumer->set("acodec", "list");
+        consumer->set("f", "list");
+        consumer->start();
+        m_vcodecsList.clear();
+        Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
+        m_vcodecsList.reserve(vcodecs.count());
+        for (int i = 0; i < vcodecs.count(); ++i) {
+            m_vcodecsList << QString(vcodecs.get(i));
+        }
+        m_acodecsList.clear();
+        Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
+        m_acodecsList.reserve(acodecs.count());
+        for (int i = 0; i < acodecs.count(); ++i) {
+            m_acodecsList << QString(acodecs.get(i));
+        }
+        m_supportedFormats.clear();
+        Mlt::Properties formats(mlt_properties(consumer->get_data("f")));
+        m_supportedFormats.reserve(formats.count());
+        for (int i = 0; i < formats.count(); ++i) {
+            m_supportedFormats << QString(formats.get(i));
+        }
+        delete consumer;
     }
 }
 

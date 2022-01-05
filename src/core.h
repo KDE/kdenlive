@@ -131,10 +131,6 @@ public:
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository> &getMltRepository();
 
-    QStringList mltSupportedFormats();
-    QStringList mltACodecs();
-    QStringList mltVCodecs();
-
     /** @brief Returns a pointer to the current profile */
     std::unique_ptr<ProfileModel> &getCurrentProfile() const;
     const QString &getCurrentProfilePath() const;
