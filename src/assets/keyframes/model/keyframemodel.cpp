@@ -11,10 +11,10 @@
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
-#include <QSize>
-#include <QLineF>
 #include <QDebug>
 #include <QJsonDocument>
+#include <QLineF>
+#include <QSize>
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -277,6 +277,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
             }
             return res;
         } else {
+            // We have only one selected keyframe
             if (pos > oldPos) {
                 // Moving right
                 bool ok = false;
@@ -471,7 +472,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, std::move(value), undo, redo);
+    bool res = updateKeyframe(pos, value, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -1099,28 +1100,25 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+
+    if (!animData.isEmpty() && (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel)) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+    }
+    if (!animData.isEmpty() && m_paramType == ParamType::AnimatedRect) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
+        QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+        if (useOpacity) {
+            res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
         }
-        return QVariant();
-    } else if (m_paramType == ParamType::AnimatedRect) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-            if (useOpacity) {
-                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
-            }
-            return QVariant(res);
-        }
-        return QVariant();
-    } else if (m_paramType == ParamType::Roto_spline) {
+        return QVariant(res);
+    }
+    if (m_paramType == ParamType::Roto_spline) {
         // interpolate
         auto next = m_keyframeList.upper_bound(pos);
         if (next == m_keyframeList.cbegin()) {

@@ -17,10 +17,10 @@
 #include <KMessageBox>
 
 #include <QComboBox>
-#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QMenu>
+#include <QScreen>
 #include <QStandardPaths>
 #include <QToolBar>
 #include <QToolButton>

@@ -8,19 +8,19 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
+#include <KMessageBox>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFile>
-#include <QJsonValue>
 #include <QJsonArray>
-#include <QUrlQuery>
-#include <KMessageBox>
-#include <klocalizedstring.h>
-#include <kio/storedtransferjob.h>
+#include <QJsonValue>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QDesktopServices>
+#include <QNetworkRequest>
+#include <QUrlQuery>
+#include <kio/storedtransferjob.h>
+#include <klocalizedstring.h>
 
 ProviderModel::ProviderModel(const QString &path)
     : m_path(path)

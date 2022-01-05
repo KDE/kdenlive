@@ -6,31 +6,31 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "cliploadtask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
-#include "kdenlivesettings.h"
-#include "doc/kthumb.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "utils/thumbnailcache.hpp"
+#include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
+#include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
-#include <QString>
-#include <QVariantList>
+#include <KMessageWidget>
+#include <QAction>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QTime>
-#include <QFile>
-#include <QAction>
-#include <QPainter>
-#include <QElapsedTimer>
 #include <QMimeDatabase>
+#include <QPainter>
+#include <QString>
+#include <QTime>
+#include <QVariantList>
+#include <klocalizedstring.h>
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
-#include <klocalizedstring.h>
-#include <KMessageWidget>
 
 
 ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object)
@@ -52,7 +52,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.

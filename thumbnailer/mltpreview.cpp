@@ -7,10 +7,10 @@
 #include "mltpreview.h"
 #include "../src/lib/localeHandling.h"
 
+#include <QDebug>
 #include <QImage>
 #include <QVarLengthArray>
 #include <QtGlobal>
-#include <QDebug>
 
 extern "C" {
 Q_DECL_EXPORT ThumbCreator *new_creator()

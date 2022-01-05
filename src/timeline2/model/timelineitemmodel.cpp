@@ -4,8 +4,8 @@
 */
 
 #include "timelineitemmodel.hpp"
-#include "audiomixer/mixermanager.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "clipmodel.hpp"
@@ -15,8 +15,8 @@
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "trackmodel.hpp"
 #include "snapmodel.hpp"
+#include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QFileInfo>

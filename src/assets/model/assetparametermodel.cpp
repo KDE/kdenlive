@@ -6,18 +6,18 @@
 #include "assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QDir>
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QString>
 #include <QDir>
 #include <QDirIterator>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QRegularExpression>
-#include <effects/effectsrepository.hpp>
+#include <QString>
 #define DEBUG_LOCALE false
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
@@ -551,8 +551,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         }
         QString value(m_asset->get(paramName.toUtf8().constData()));
         if (value.isEmpty()) {
-            if (element.hasAttribute("default")) {
-                return parseAttribute(m_ownerId, QStringLiteral("default"), element);
+            if (element.hasAttribute(QStringLiteral("default"))) {
+                value = parseAttribute(m_ownerId, QStringLiteral("default"), element).toString();
             } else {
                 value = element.attribute(QStringLiteral("value"));
             }
@@ -734,9 +734,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         QString values = element.attribute(QStringLiteral("paramlist"));
         if (values == QLatin1String("%lutPaths")) {
             QString filter = element.attribute(QStringLiteral("filter"));;
-            filter.remove(0, filter.indexOf("(")+1);
-            filter.remove(filter.indexOf(")")-1, -1);
-            QStringList fileExt = filter.split(" ");
+            filter.remove(0, filter.indexOf(QLatin1String("("))+1);
+            filter.remove(filter.indexOf(QLatin1String(")"))-1, -1);
+            QStringList fileExt = filter.split(QStringLiteral(" "));
             // check for Kdenlive installed luts files
             QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
             QStringList results;
@@ -759,18 +759,16 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     int height = profile->height();
     QSize frameSize = pCore->getItemFrameSize(owner);
     if(type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
-        int contentHeight;
-        int contentWidth;
+        int contentHeight = height;
+        int contentWidth = width;
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
             double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
             contentHeight = int(height * factor + 0.5);
-            contentWidth = width;
         } else {
             // Fit to height
             double factor = double(height) / frameSize.height();
-            contentHeight = height;
             contentWidth =int(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
         }
         // Center
@@ -931,18 +929,18 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
 
-        if(param.first.contains("Position X")) {
+        if(param.first.contains(QLatin1String("Position X"))) {
             x = param.second.value.toString();
             rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
             rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
         }
-        if(param.first.contains("Position Y")) {
+        if(param.first.contains(QLatin1String("Position Y"))) {
             y = param.second.value.toString();
         }
-        if(param.first.contains("Size X")) {
+        if(param.first.contains(QLatin1String("Size X"))) {
             w = param.second.value.toString();
         }
-        if(param.first.contains("Size Y")) {
+        if(param.first.contains(QLatin1String("Size Y"))) {
             h = param.second.value.toString();
         }
 
@@ -1039,19 +1037,19 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         auto value = m_keyframes->getInterpolatedValue(pos, ix);
 
-        if(param.first.contains("Position X")) {
+        if (param.first.contains("Position X")) {
             x = value.toDouble();
             count++;
         }
-        if(param.first.contains("Position Y")) {
+        if (param.first.contains("Position Y")) {
             y = value.toDouble();
             count++;
         }
-        if(param.first.contains("Size X")) {
+        if (param.first.contains("Size X")) {
             w = value.toDouble();
             count++;
         }
-        if(param.first.contains("Size Y")) {
+        if (param.first.contains("Size Y")) {
             h = value.toDouble();
             count++;
         }
@@ -1186,26 +1184,30 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
 const QStringList AssetParameterModel::getPresetList(const QString &presetFile) const
 {
     QFile loadFile(presetFile);
-    if (loadFile.exists() && loadFile.open(QIODevice::ReadOnly)) {
-        QByteArray saveData = loadFile.readAll();
-        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-        if (loadDoc.isObject()) {
-            qDebug() << "// PRESET LIST IS AN OBJECT!!!";
-            return loadDoc.object().keys();
-        } else if (loadDoc.isArray()) {
-            qDebug() << "// PRESET LIST IS AN ARRAY!!!";
-            QStringList result;
-            QJsonArray array = loadDoc.array();
-            for (auto &&i : array) {
-                QJsonValue val = i;
-                if (val.isObject()) {
-                    result << val.toObject().keys();
-                }
+    if (!(loadFile.exists() && loadFile.open(QIODevice::ReadOnly))) {
+        // could not open file
+        return QStringList();
+    }
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    if (loadDoc.isObject()) {
+        qDebug() << "// PRESET LIST IS AN OBJECT!!!";
+        return loadDoc.object().keys();
+    }
+
+    QStringList result;
+    if (loadDoc.isArray()) {
+        qDebug() << "// PRESET LIST IS AN ARRAY!!!";
+
+        QJsonArray array = loadDoc.array();
+        for (auto &&i : array) {
+            QJsonValue val = i;
+            if (val.isObject()) {
+                result << val.toObject().keys();
             }
-            return result;
         }
     }
-    return QStringList();
+    return result;
 }
 
 const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QString &presetFile, const QString &presetName)
@@ -1267,6 +1269,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         m_keyframes->refresh();
     }
     if (!update) {
+        // restore itemId
         m_ownerId.first = itemId;
     }
     emit dataChanged(index(0), index(m_rows.count()), {});

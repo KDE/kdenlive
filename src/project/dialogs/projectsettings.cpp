@@ -31,8 +31,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QFileDialog>
 #include <QInputDialog>
-#include <QTemporaryFile>
 #include <QStyledItemDelegate>
+#include <QTemporaryFile>
 
 class NoEditDelegate : public QStyledItemDelegate
 {

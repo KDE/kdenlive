@@ -32,8 +32,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJob>
 #include <KMessageBox>
 #include <KRecentDirs>
-#include <klocalizedstring.h>
 #include <kcoreaddons_version.h>
+#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <KConfigGroup>

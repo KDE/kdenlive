@@ -5,12 +5,12 @@
 #include "effectstackmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
-#include "mainwindow.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "timeline2/model/timelinemodel.hpp"
 #include <profiles/profilemodel.hpp>
 #include <stack>

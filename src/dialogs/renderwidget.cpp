@@ -5,8 +5,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "renderwidget.h"
-#include "bin/projectitemmodel.h"
 #include "bin/bin.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -38,6 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QKeyEvent>
+#include <QMenu>
 #include <QMimeDatabase>
 #include <QProcess>
 #include <QStandardPaths>
@@ -46,7 +47,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTreeWidgetItem>
 #include <qglobal.h>
 #include <qstring.h>
-#include <QMenu>
 
 #ifdef KF5_USE_PURPOSE
 #include <Purpose/AlternativesModel>
@@ -1439,7 +1439,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     if (m_view.speed->isEnabled() && m_view.formats->currentItem()) {
         QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
         if (m_view.speed->value() < speeds.count()) {
-            QString speedValue = speeds.at(m_view.speed->value());
+            const QString &speedValue = speeds.at(m_view.speed->value());
             if (speedValue.contains(QLatin1Char('='))) {
                 consumer.setAttribute(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
             }

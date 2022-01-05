@@ -6,25 +6,25 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "cuttask.h"
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
-#include "ui_cutjobdialog_ui.h"
 #include "bin/projectitemmodel.h"
-#include "profiles/profilemodel.hpp"
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "ui_cutjobdialog_ui.h"
 #include "xml/xml.hpp"
 
-#include <QThread>
-#include <QProcess>
 #include <KIO/RenameDialog>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <QComboBox>
 #include <QObject>
+#include <QProcess>
+#include <QThread>
 #include <klocalizedstring.h>
 
 CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in, int out, bool addToProject, QObject* object)

@@ -10,10 +10,10 @@
 #include "monitor/monitor.h"
 
 #include <QComboBox>
-#include <QSignalBlocker>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QSignalBlocker>
 #include <klocalizedstring.h>
 
 TransitionStackView::TransitionStackView(QWidget *parent)

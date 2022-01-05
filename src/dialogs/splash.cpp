@@ -4,10 +4,10 @@
 */
 
 #include "splash.hpp"
-#include <QStyle>
-#include <QPainter>
 #include <KLocalizedString>
 #include <QDebug>
+#include <QPainter>
+#include <QStyle>
 
 Splash::Splash()
     : QSplashScreen()

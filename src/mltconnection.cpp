@@ -11,8 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mlt_config.h"
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
-#include <klocalizedstring.h>
 #include <QtConcurrent>
+#include <klocalizedstring.h>
 
 #include <clocale>
 #include <lib/localeHandling.h>

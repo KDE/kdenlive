@@ -56,12 +56,12 @@ void TransitionTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *e
     for (int i = 0; i < rowCount(); i++) {
         std::shared_ptr<TreeItem> item = rootItem->child(i);
         if (item->childCount() > 0) {
-            QMenu *catMenu = new QMenu(item->dataColumn(nameCol).toString(), effectsMenu);
+            QMenu *catMenu = new QMenu(item->dataColumn(NameCol).toString(), effectsMenu);
             effectsMenu->addMenu(catMenu);
             for (int j = 0; j < item->childCount(); j++) {
                 std::shared_ptr<TreeItem> child = item->child(j);
-                QAction *a = new QAction(child->dataColumn(nameCol).toString(), catMenu);
-                const QString id = child->dataColumn(idCol).toString();
+                QAction *a = new QAction(child->dataColumn(NameCol).toString(), catMenu);
+                const QString id = child->dataColumn(IdCol).toString();
                 a->setData(id);
                 catMenu->addAction(a);
                 effectActions->addAction("transition_" + id, a);
@@ -79,8 +79,8 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     if (isEffect && item->depth() == 1) {
         return;
     }
-    item->setData(AssetTreeModel::favCol, favorite);
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    item->setData(AssetTreeModel::FavCol, favorite);
+    auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
     QStringList favs = KdenliveSettings::favorite_transitions();
     if (favorite) {
         favs << id;

@@ -7,14 +7,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "mediacapture.h"
 #include "audiomixer/mixermanager.hpp"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
+#include <QAudioOutput>
 #include <QAudioProbe>
-#include <QDir>
 #include <QCameraInfo>
+#include <QDir>
 #include <memory>
 #include <utility>
-#include <QAudioOutput>
 
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)

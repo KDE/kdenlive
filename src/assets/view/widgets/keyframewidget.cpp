@@ -5,36 +5,36 @@
 */
 
 #include "keyframewidget.hpp"
-#include "assets/keyframes/model/rect/recthelper.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
-#include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
+#include "assets/keyframes/model/rect/recthelper.hpp"
+#include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "lumaliftgainparam.hpp"
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
-#include "lumaliftgainparam.hpp"
-#include "effects/effectsrepository.hpp"
 
-#include <KSelectAction>
 #include <KActionCategory>
+#include <KSelectAction>
 #include <QApplication>
+#include <QCheckBox>
 #include <QClipboard>
+#include <QDialogButtonBox>
 #include <QJsonDocument>
 #include <QMenu>
 #include <QPointer>
-#include <QToolButton>
 #include <QStyle>
+#include <QToolButton>
 #include <QVBoxLayout>
-#include <QDialogButtonBox>
-#include <QCheckBox>
 #include <klocalizedstring.h>
 #include <utility>
 

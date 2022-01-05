@@ -10,8 +10,8 @@
 
 #include <QFontDatabase>
 #include <QQmlContext>
-#include <QQuickView>
 #include <QQuickItem>
+#include <QQuickView>
 
 QmlManager::QmlManager(QQuickView *view)
     : QObject(view)

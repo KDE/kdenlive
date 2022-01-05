@@ -27,11 +27,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
+#include <KDirOperator>
 #include <KFileWidget>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
-#include <KDirOperator>
 
 #include <QDialog>
 #include <QDir>

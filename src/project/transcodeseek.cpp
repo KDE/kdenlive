@@ -10,9 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "kxmlgui_version.h"
 
+#include <KMessageBox>
 #include <QFontDatabase>
 #include <QStandardPaths>
-#include <KMessageBox>
 #include <klocalizedstring.h>
 
 TranscodeSeek::TranscodeSeek(QWidget *parent)
@@ -46,6 +46,7 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id)
 std::vector<QString> TranscodeSeek::ids() const
 {
     std::vector<QString> urls;
+    urls.reserve(listWidget->count());
     for (int i = 0; i < listWidget->count(); i++) {
         urls.push_back(listWidget->item(i)->data(Qt::UserRole).toString());
     }

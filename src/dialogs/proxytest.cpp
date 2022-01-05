@@ -11,12 +11,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
+#include <QDialogButtonBox>
 #include <QFontDatabase>
+#include <QProcess>
 #include <QPushButton>
 #include <QTreeWidget>
-#include <QDialogButtonBox>
 #include <QWheelEvent>
-#include <QProcess>
 #include <QtConcurrent>
 
 #include "klocalizedstring.h"

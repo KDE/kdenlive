@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <QAction>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 #include <cmath>
 const double P75 = .75;
 

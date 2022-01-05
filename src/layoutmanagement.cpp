@@ -8,18 +8,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layoutmanagement.h"
 #include "core.h"
 #include "mainwindow.h"
-#include <QInputDialog>
-#include <QMenu>
+#include <KMessageBox>
+#include <QButtonGroup>
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QListWidget>
-#include <QMenuBar>
-#include <QButtonGroup>
-#include <KMessageBox>
 #include <QFileDialog>
+#include <QInputDialog>
+#include <QListWidget>
+#include <QMenu>
+#include <QMenuBar>
 
-#include <KConfigGroup>
 #include <KColorScheme>
+#include <KConfigGroup>
 #include <KSharedConfig>
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>

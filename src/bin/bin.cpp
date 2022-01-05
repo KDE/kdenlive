@@ -16,10 +16,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/transcodetask.h"
-#include "jobs/taskmanager.h"
 #include "jobs/abstracttask.h"
 #include "jobs/cliploadtask.h"
+#include "jobs/taskmanager.h"
+#include "jobs/transcodetask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -30,9 +30,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitormanager.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
-#include "project/transcodeseek.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
+#include "project/transcodeseek.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
@@ -49,26 +49,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <utils/thumbnailcache.hpp>
 
 #include <KColorScheme>
-#include <KRatingPainter>
-#include <KMessageBox>
-#include <KXMLGUIFactory>
 #include <KIO/OpenFileManagerWindowJob>
-#include <KIconTheme>
 #include <KIconEffect>
+#include <KIconTheme>
+#include <KMessageBox>
+#include <KRatingPainter>
+#include <KXMLGUIFactory>
 
-#include <QToolBar>
+#include <QActionGroup>
 #include <QCryptographicHash>
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
-#include <QActionGroup>
 #include <QSlider>
 #include <QTimeLine>
+#include <QToolBar>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <utility>
 #include <jobs/audiolevelstask.h>
+#include <utility>
 
 static QImage m_videoIcon;
 static QImage m_audioIcon;
@@ -4766,7 +4766,7 @@ QList<int> Bin::getUsedClipIds()
 {
     QList<int> timelineClipIds;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for(auto clip : qAsConst(allClipIds)) {
+    for(const auto &clip : qAsConst(allClipIds)) {
         if(clip->isIncludedInTimeline()) {
             timelineClipIds.push_back(clip->binId().toInt());
         }

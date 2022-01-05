@@ -8,8 +8,13 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include <klocalizedstring.h>
+#include <KFileItem>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <KRun>
+#include <KSelectAction>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QIcon>
@@ -17,12 +22,7 @@
 #include <QMenu>
 #include <QProgressDialog>
 #include <QToolBar>
-#include <QComboBox>
-#include <KFileItem>
-#include <KMessageBox>
-#include <KRecentDirs>
-#include <KRun>
-#include <KSelectAction>
+#include <klocalizedstring.h>
 
 #include <kcompletion_version.h>
 
@@ -490,8 +490,7 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
     if(!ok || name.isEmpty()) {
         return;
     }
-    QString url = urls.at(labels.indexOf(name));
-    slotSaveItem(url, accessToken);
+    slotSaveItem(urls.at(labels.indexOf(name)), accessToken);
 }
 
 /**

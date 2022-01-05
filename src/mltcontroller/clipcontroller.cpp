@@ -7,15 +7,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clipcontroller.h"
+#include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
-#include "bin/clipcreator.hpp"
-#include "doc/kthumb.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"

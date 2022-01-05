@@ -4,22 +4,22 @@
 */
 
 #include "mixermanager.hpp"
-#include "mixerwidget.hpp"
 #include "core.h"
-#include "mainwindow.h"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "mixerwidget.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
 
-#include <klocalizedstring.h>
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QModelIndex>
-#include <QScrollArea>
-#include <QApplication>
 #include <QScreen>
+#include <QScrollArea>
 #include <QTimer>
+#include <klocalizedstring.h>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 

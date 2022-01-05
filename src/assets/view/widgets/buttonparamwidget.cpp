@@ -4,16 +4,16 @@
 */
 
 #include "buttonparamwidget.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "jobs/filtertask.h"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
+#include "jobs/filtertask.h"
 #include <mlt++/Mlt.h>
 
 #include <KMessageWidget>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QProgressBar>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

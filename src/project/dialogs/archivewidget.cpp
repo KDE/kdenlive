@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "xml/xml.hpp"
 
-#include "kdenlive_debug.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlive_debug.h"
 #include <KDiskFreeSpaceInfo>
 #include <KGuiItem>
 #include <KMessageBox>
@@ -890,7 +890,7 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            //QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);

@@ -5,10 +5,10 @@
 */
 
 #include "lumaliftgainparam.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "colorwheel.h"
 #include "utils/flowlayout.h"
-#include "assets/keyframes/model/keyframemodellist.hpp"
 
 #include <KLocalizedString>
 

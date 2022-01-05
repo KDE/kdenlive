@@ -8,18 +8,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcreationdialog.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "doc/kdenlivedoc.h"
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+#include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 #include "wizard.h"
-#include "monitor/monitor.h"
-#include "doc/kdenlivedoc.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -36,26 +36,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KRun>
 #endif
 
-#include <KUrlRequesterDialog>
 #include <KArchive>
-#include <KZip>
-#include <KTar>
+#include <KArchiveDirectory>
 #include <KIO/FileCopyJob>
+#include <KIO/JobUiDelegate>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KOpenWithDialog>
-#include <KIO/JobUiDelegate>
-#include <KArchiveDirectory>
 #include <KService>
+#include <KTar>
+#include <KUrlRequesterDialog>
+#include <KZip>
 #include <QAction>
 #include <QDir>
 #include <QGuiApplication>
+#include <QRegularExpression>
 #include <QScreen>
 #include <QSize>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent>
-#include <QRegularExpression>
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>

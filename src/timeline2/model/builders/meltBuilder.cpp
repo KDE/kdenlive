@@ -16,16 +16,16 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <QApplication>
 #include <QDebug>
 #include <QProgressDialog>
 #include <QSet>
+#include <mlt++/MltField.h>
+#include <mlt++/MltFilter.h>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
-#include <mlt++/MltFilter.h>
-#include <mlt++/MltField.h>
 #include <mlt++/MltTransition.h>
-#include <QApplication>
 #include <project/projectmanager.h>
 
 static QStringList m_errorMessage;

@@ -40,7 +40,7 @@ public:
      @param id of the newly created item. If left to -1, the id is assigned automatically
      @return a ptr to the constructed item
     */
-    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, bool isRoot, int id = -1);
+    static std::shared_ptr<TreeItem> construct(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel>& model, bool isRoot, int id = -1);
 
     friend class AbstractTreeModel;
 

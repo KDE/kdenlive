@@ -9,19 +9,19 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KActionCategory>
+#include <KIO/FileCopyJob>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFileDialog>
+#include <QFormLayout>
+#include <QLineEdit>
 #include <QMenu>
 #include <QQmlContext>
 #include <QStandardPaths>
-#include <memory>
-#include <QFormLayout>
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QLineEdit>
 #include <QTextEdit>
-#include <QFileDialog>
-#include <KIO/FileCopyJob>
-#include <KRecentDirs>
-#include <KMessageBox>
+#include <memory>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)

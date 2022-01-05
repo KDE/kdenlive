@@ -12,16 +12,16 @@
  ***************************************************************************/
 
 #include "titlewidget.h"
-#include "core.h"
-#include "mainwindow.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
-#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "titler/patternsmodel.h"
 #include "profiles/profilemodel.hpp"
+#include "timecodedisplay.h"
+#include "titler/patternsmodel.h"
 
 #include <cmath>
 
@@ -43,26 +43,26 @@
 #include <QGraphicsSvgItem>
 #include <QImageReader>
 #include <QKeyEvent>
+#include <QMenu>
 #include <QSignalMapper>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QTimer>
 #include <QToolBar>
-#include <QMenu>
 
 #include <QStandardPaths>
 #include <iostream>
 #include <mlt++/MltProfile.h>
 #include <utility>
 
-// What exactly is this variable good for?
+// TODO What exactly is this variable good for?
 int settingUp = 0;
 
 const int IMAGEITEM = 7;
-const int RECTITEM = 3;
-const int TEXTITEM = 8;
-const int ELLIPSEITEM = 4;
+const int RECTITEM = QGraphicsRectItem::Type;
+const int TEXTITEM = QGraphicsTextItem::Type;
+const int ELLIPSEITEM = QGraphicsEllipseItem::Type;
 
 /*
 const int NOEFFECT = 0;

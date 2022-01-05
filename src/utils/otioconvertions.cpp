@@ -3,16 +3,16 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include <KLocalizedString>
 #include "otioconvertions.h"
+#include <KLocalizedString>
 
-#include "mainwindow.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "mainwindow.h"
 #include "project/projectmanager.h"
 
-#include <QStandardPaths>
 #include <KMessageBox>
+#include <QStandardPaths>
 
 OtioConvertions::OtioConvertions()
 = default;

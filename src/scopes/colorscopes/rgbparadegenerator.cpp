@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "rgbparadegenerator.h"
 #include "klocalizedstring.h"
 #include <QColor>
-#include <QPainter>
 #include <QDebug>
+#include <QPainter>
 
 #define CHOP255(a) ((255) < (a) ? (255) : int(a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))

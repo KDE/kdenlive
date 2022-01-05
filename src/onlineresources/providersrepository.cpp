@@ -5,8 +5,8 @@
 */
 
 #include "providersrepository.hpp"
-#include <QStandardPaths>
 #include <QDir>
+#include <QStandardPaths>
 
 std::unique_ptr<ProvidersRepository> ProvidersRepository::instance;
 std::once_flag ProvidersRepository::m_onceFlag;

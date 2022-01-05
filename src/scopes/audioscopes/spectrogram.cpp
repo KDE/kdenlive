@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "spectrogram.h"
 
 #include <QDebug>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>

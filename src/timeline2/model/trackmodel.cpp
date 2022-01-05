@@ -5,11 +5,11 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
-#include "core.h"
 #include "compositionmodel.hpp"
+#include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "transitions/transitionsrepository.hpp"
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
 #else

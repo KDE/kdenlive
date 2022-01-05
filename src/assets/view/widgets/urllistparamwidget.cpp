@@ -6,8 +6,8 @@
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "mltconnection.h"
 #include "mainwindow.h"
+#include "mltconnection.h"
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

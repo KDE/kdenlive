@@ -4,15 +4,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
+#include "dialogs/proxytest.h"
+#include "dialogs/subtitleedit.h"
+#include "dialogs/textbasededit.h"
+#include "dialogs/timeremap.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
-#include "audiomixer/mixermanager.hpp"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -23,16 +27,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "dialogs/subtitleedit.h"
-#include "dialogs/textbasededit.h"
-#include "dialogs/proxytest.h"
-#include "dialogs/timeremap.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
 #include <QCoreApplication>
-#include <QInputDialog>
 #include <QDir>
+#include <QInputDialog>
 #include <QQuickStyle>
 #include <locale>
 #ifdef Q_OS_MAC

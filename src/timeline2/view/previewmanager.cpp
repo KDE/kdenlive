@@ -6,19 +6,19 @@
 
 #include "previewmanager.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
 #include <KLocalizedString>
+#include <QCollator>
 #include <QProcess>
 #include <QStandardPaths>
-#include <QCollator>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
     : QObject()

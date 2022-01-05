@@ -6,16 +6,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "speechdialog.h"
 
-#include "core.h"
-#include "kdenlivesettings.h"
-#include "monitor/monitor.h"
-#include "mainwindow.h"
 #include "bin/model/subtitlemodel.hpp"
+#include "core.h"
 #include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
 
+#include "mlt++/MltConsumer.h"
 #include "mlt++/MltProfile.h"
 #include "mlt++/MltTractor.h"
-#include "mlt++/MltConsumer.h"
 
 #include <KLocalizedString>
 #include <KMessageWidget>

@@ -15,16 +15,16 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 
+#include <QDir>
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
+#include <QInputDialog>
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include <QInputDialog>
-#include <QDir>
 
 #include <KMessageBox>
 #include <utility>

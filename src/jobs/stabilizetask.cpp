@@ -5,22 +5,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "stabilizetask.h"
+#include "assets/model/assetparametermodel.hpp" 
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
-#include "project/clipstabilize.h"
 #include "bin/projectitemmodel.h"
-#include "profiles/profilemodel.hpp"
-#include "assets/model/assetparametermodel.hpp" 
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "project/clipstabilize.h"
 #include "xml/xml.hpp"
 
-#include <QThread>
 #include <QProcess>
+#include <QThread>
 
 #include <klocalizedstring.h>
 

@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "mainwindow.h"
 #include "assets/assetpanel.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/generators/generators.h"
 #include "bin/model/subtitlemodel.hpp"
@@ -16,28 +17,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/clipcreationdialog.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/renderwidget.h"
-#include "dialogs/wizard.h"
 #include "dialogs/subtitleedit.h"
+#include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "dockareaorientationmanager.h"
-#include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effects/effectbasket.h"
+#include "effects/effectlist/view/effectlistwidget.hpp"
 #include "hidetitlebars.h"
-#include "jobs/scenesplittask.h"
-#include "jobs/transcodetask.h"
-#include "jobs/stabilizetask.h"
-#include "jobs/speedtask.h"
 #include "jobs/audiolevelstask.h"
+#include "jobs/scenesplittask.h"
+#include "jobs/speedtask.h"
+#include "jobs/stabilizetask.h"
+#include "jobs/transcodetask.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
-#include "audiomixer/mixermanager.hpp"
 #ifdef NODBUS
 #include "render/renderserver.h"
 #else
 #include "mainwindowadaptor.h"
 #endif
+#include "dialogs/textbasededit.h"
+#include "dialogs/timeremap.h"
+#include "lib/localeHandling.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitor/monitor.h"
@@ -45,9 +48,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/scopes/audiographspectrum.h"
 #include "onlineresources/resourcewidget.hpp"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/projectsettings.h"
+#include "project/dialogs/temporarydata.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
 #include "scopes/scopemanager.h"
@@ -57,28 +62,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
-#include "lib/localeHandling.h"
-#include "profiles/profilerepository.hpp"
+#include "utils/thememanager.h"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
-#include "dialogs/textbasededit.h"
-#include "dialogs/timeremap.h"
-#include "project/dialogs/temporarydata.h"
 
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
 
 #include <KAboutData>
-#include <KCoreAddons>
 #include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KColorScheme>
 #include <KColorSchemeManager>
 #include <KConfigDialog>
+#include <KCoreAddons>
 #include <KDualAction>
 #include <KEditToolBar>
 #include <KIconTheme>
@@ -97,24 +97,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #else
 #include <kns3/qtquickdialogwrapper.h>
 #endif
+#include <kcoreaddons_version.h>
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
-#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
+#include <KConfigGroup>
 #include <QAction>
+#include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
-#include <QStatusBar>
-#include <QStyleFactory>
-#include <QUndoGroup>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScreen>
 #include <QStandardPaths>
+#include <QStatusBar>
+#include <QStyleFactory>
+#include <QUndoGroup>
 #include <QVBoxLayout>
 
 static const char version[] = KDENLIVE_VERSION;

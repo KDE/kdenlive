@@ -6,26 +6,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "tagwidget.hpp"
-#include "mainwindow.h"
 #include "core.h"
+#include "mainwindow.h"
 
-#include <KLocalizedString>
 #include <KActionCollection>
+#include <KLocalizedString>
 
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPainter>
-#include <QDebug>
-#include <QMimeData>
-#include <QMouseEvent>
-#include <QDomDocument>
-#include <QToolButton>
 #include <QApplication>
-#include <QFontDatabase>
+#include <QDebug>
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QListWidget>
+#include <QDomDocument>
 #include <QDrag>
+#include <QFontDatabase>
+#include <QLabel>
+#include <QListWidget>
+#include <QMimeData>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 DragButton::DragButton(int ix, const QString &tag, const QString &description, QWidget *parent)
     : QToolButton(parent)

@@ -6,18 +6,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clipstabilize.h"
+#include "assets/model/assetparametermodel.hpp"
+#include "assets/view/assetparameterview.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
-#include "assets/view/assetparameterview.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "effects/effectsrepository.hpp"
 
 #include "kdenlivesettings.h"
-#include <KMessageBox>
 #include <KIO/RenameDialog>
+#include <KMessageBox>
 #include <QFontDatabase>
 #include <memory>
 #include <mlt++/Mlt.h>

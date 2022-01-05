@@ -5,6 +5,7 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "clipmodel.hpp"
@@ -13,7 +14,6 @@
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
-#include "bin/model/subtitlemodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
@@ -28,8 +28,8 @@
 #include "monitor/monitormanager.h"
 
 #include <QDebug>
-#include <QThread>
 #include <QModelIndex>
+#include <QThread>
 #include <klocalizedstring.h>
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltField.h>

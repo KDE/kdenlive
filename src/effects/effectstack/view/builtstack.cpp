@@ -5,8 +5,8 @@
 
 #include <KLocalizedContext>
 
-#include "builtstack.hpp"
 #include "assets/assetpanel.hpp"
+#include "builtstack.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 //#include "qml/colorwheelitem.h"

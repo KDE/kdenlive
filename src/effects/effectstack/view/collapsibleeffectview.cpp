@@ -17,24 +17,24 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QInputDialog>
 #include <QLabel>
 #include <QMenu>
 #include <QMimeData>
+#include <QPointer>
 #include <QProgressBar>
 #include <QSpinBox>
 #include <QStandardPaths>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWheelEvent>
-#include <QPointer>
-#include <QFormLayout>
-#include <QTextEdit>
 
-#include <QComboBox>
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <klocalizedstring.h>
 
 CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)

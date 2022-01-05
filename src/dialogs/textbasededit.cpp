@@ -20,11 +20,11 @@
 
 #include "klocalizedstring.h"
 
+#include <KMessageBox>
+#include <KUrlRequesterDialog>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QToolButton>
-#include <KMessageBox>
-#include <KUrlRequesterDialog>
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)

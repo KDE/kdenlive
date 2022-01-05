@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
-#include <kwidgetsaddons_version.h>
 #include <KDualAction>
+#include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QObject>

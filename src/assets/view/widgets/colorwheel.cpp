@@ -11,12 +11,12 @@
 #include "colorwheel.h"
 
 #include <KLocalizedString>
-#include <QFrame>
-#include <QVBoxLayout>
-#include <QDoubleSpinBox>
-#include <QLabel>
 #include <QDebug>
+#include <QDoubleSpinBox>
 #include <QFontDatabase>
+#include <QFrame>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include <qmath.h>
 #include <utility>

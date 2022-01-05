@@ -6,6 +6,7 @@
 #include "clipcreator.hpp"
 #include "bin/bin.h"
 #include "core.h"
+#include "dialogs/clipcreationdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -13,7 +14,6 @@
 #include "mainwindow.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
-#include "dialogs/clipcreationdialog.h"
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
 #include <KMessageBox>

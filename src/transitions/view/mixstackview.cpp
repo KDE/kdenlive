@@ -8,15 +8,15 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
-#include "widgets/positionwidget.h"
 #include "timecodedisplay.h"
+#include "widgets/positionwidget.h"
 
 #include <QComboBox>
-#include <QSignalBlocker>
 #include <QDebug>
 #include <QHBoxLayout>
-#include <QToolButton>
 #include <QLabel>
+#include <QSignalBlocker>
+#include <QToolButton>
 #include <klocalizedstring.h>
 
 MixStackView::MixStackView(QWidget *parent)

@@ -15,9 +15,9 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #endif
+#include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
-#include <QDebug>
 #include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread

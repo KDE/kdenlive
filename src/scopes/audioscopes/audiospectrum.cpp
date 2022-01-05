@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/audio/fftTools.h"
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>

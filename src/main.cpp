@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
-#include "kxmlgui_version.h"
 #include "kcoreaddons_version.h"
+#include "kxmlgui_version.h"
 #include "mainwindow.h"
 
 #include <KAboutData>
@@ -35,8 +35,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDBusService>
 #endif
 #include <KIconTheme>
-#include <kiconthemes_version.h>
-#include <QResource>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -44,9 +42,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
-#include <QUrl> //new
-#include <klocalizedstring.h>
+#include <QResource>
 #include <QSplashScreen>
+#include <QUrl> //new
+#include <kiconthemes_version.h>
+#include <klocalizedstring.h>
 
 #ifdef Q_OS_WIN
 extern "C"

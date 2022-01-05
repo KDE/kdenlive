@@ -5,11 +5,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "wizard.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
-#include "effects/effectsrepository.hpp"
 
 #include "utils/thememanager.h"
 #ifdef USE_V4L
@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
+#include <QApplication>
 #include <QCheckBox>
 #include <QFile>
 #include <QLabel>
@@ -36,9 +37,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTimer>
-#include <QApplication>
-#include <kio_version.h>
 #include <QXmlStreamWriter>
+#include <kio_version.h>
 
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
 #include <KIO/OpenUrlJob>

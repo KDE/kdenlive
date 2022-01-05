@@ -11,9 +11,9 @@
 #include "monitor/monitormanager.h"
 #include "timecodedisplay.h"
 #include "widgets/geometrywidget.h"
-#include <mlt++/MltProperties.h>
-#include <framework/mlt_types.h>
 #include <QVBoxLayout>
+#include <framework/mlt_types.h>
+#include <mlt++/MltProperties.h>
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

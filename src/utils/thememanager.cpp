@@ -11,16 +11,16 @@
 #include "kdenlivesettings.h"
 
 #include <QAction>
+#include <QFileInfo>
 #include <QMenu>
 #include <QModelIndex>
 #include <QStringList>
-#include <QFileInfo>
 
+#include <KActionMenu>
 #include <KColorSchemeManager>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
-#include <KActionMenu>
 
 ThemeManager::ThemeManager(QObject *parent)
     : QAction(parent)

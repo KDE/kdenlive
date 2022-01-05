@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "timecodedisplay.h"
-#include <audio/audioStreamInfo.h>
 #include "widgets/choosecolorwidget.h"
+#include <audio/audioStreamInfo.h>
 
 #include <KDualAction>
 #include <KLocalizedString>
@@ -28,10 +28,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KFileMetaData/PropertyInfo>
 #endif
 
+#include "kdenlive_debug.h"
 #include <KIO/Global>
 #include <KIO/OpenFileManagerWindowJob>
-#include "kdenlive_debug.h"
 #include <KMessageBox>
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QClipboard>
 #include <QComboBox>
@@ -42,19 +43,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QListWidgetItem>
 #include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QProcess>
+#include <QResizeEvent>
 #include <QScrollArea>
+#include <QSortFilterProxyModel>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QUrl>
-#include <QListWidgetItem>
-#include <QButtonGroup>
 #include <QVBoxLayout>
-#include <QResizeEvent>
-#include <QSortFilterProxyModel>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)

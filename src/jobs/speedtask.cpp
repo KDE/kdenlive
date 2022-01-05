@@ -6,21 +6,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "speedtask.h"
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "xml/xml.hpp"
 
-#include <QThread>
-#include <QProcess>
 #include <KIO/RenameDialog>
-#include <klocalizedstring.h>
 #include <KLineEdit>
 #include <KUrlRequester>
+#include <QProcess>
+#include <QThread>
+#include <klocalizedstring.h>
 
 SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::SPEEDJOB, object)

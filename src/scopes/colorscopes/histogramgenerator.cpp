@@ -9,9 +9,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "colorconstants.h"
 
 #include "klocalizedstring.h"
+#include <QDebug>
 #include <QImage>
 #include <QPainter>
-#include <QDebug>
 #include <algorithm>
 #include <cmath>
 

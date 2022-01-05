@@ -5,10 +5,10 @@
 */
 
 #include "flowlayout.h"
-#include <QWidget>
 #include <QDebug>
-#include <QtMath>
 #include <QTimer>
+#include <QWidget>
+#include <QtMath>
 
 FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent)

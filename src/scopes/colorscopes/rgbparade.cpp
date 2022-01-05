@@ -8,9 +8,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QRect>
-#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>

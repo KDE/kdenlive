@@ -43,9 +43,9 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemId = item->dataColumn(AssetTreeModel::idCol).toString().toUtf8().constData();
+    QString itemId = item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8().constData();
     itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString itemText = i18n(item->dataColumn(AssetTreeModel::nameCol).toString().toUtf8().constData());
+    QString itemText = i18n(item->dataColumn(AssetTreeModel::NameCol).toString().toUtf8().constData());
     itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
     QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
@@ -58,7 +58,7 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
 
-    if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
+    if (item->dataColumn(AssetTreeModel::IdCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         if (!category.isValid()) {

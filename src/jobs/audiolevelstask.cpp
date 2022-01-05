@@ -6,23 +6,23 @@
 */
 
 #include "audiolevelstask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 
-#include <QString>
-#include <QVariantList>
+#include <KMessageWidget>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QRgb>
-#include <QThreadPool>
 #include <QMutex>
+#include <QRgb>
+#include <QString>
+#include <QThreadPool>
 #include <QTime>
-#include <QFile>
-#include <QElapsedTimer>
+#include <QVariantList>
 #include <klocalizedstring.h>
-#include <KMessageWidget>
 
 static QList<AudioLevelsTask*> tasksList;
 static QMutex tasksListMutex;
@@ -44,7 +44,7 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
         qDebug()<<"AUDIO LEVELS TASK STARTED TWICE!!!!";
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.

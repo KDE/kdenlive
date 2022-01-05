@@ -12,9 +12,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <cmath>
 
 #include <QFont>
+#include <QFontDatabase>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QFontDatabase>
 
 AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     : QWidget(parent)

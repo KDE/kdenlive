@@ -6,11 +6,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "notesplugin.h"
 #include "core.h"
 #include "dialogs/noteswidget.h"
-#include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "klocalizedstring.h"
+#include "mainwindow.h"
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
-#include "klocalizedstring.h"
 
 #include <QStyle>
 

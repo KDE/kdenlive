@@ -82,7 +82,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             }
         } else {
-            auto w = AbstractParamWidget::construct(model, index, frameSize, this);
+            auto *w = AbstractParamWidget::construct(model, index, frameSize, this);
             connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
@@ -190,10 +190,10 @@ void AssetParameterView::unsetModel()
 
     // clear layout
     m_widgets.clear();
-    QLayoutItem *child;
+    QLayoutItem *child = nullptr;
     while ((child = m_lay->takeAt(0)) != nullptr) {
         if (child->layout()) {
-            QLayoutItem *subchild;
+            QLayoutItem *subchild = nullptr;
             while ((subchild = child->layout()->takeAt(0)) != nullptr) {
                 delete subchild->widget();
                 delete subchild->spacerItem();

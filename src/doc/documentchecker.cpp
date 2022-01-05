@@ -6,11 +6,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "documentchecker.h"
 #include "bin/binplaylist.hpp"
+#include "bin/projectclip.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "titler/titlewidget.h"
-#include "bin/projectclip.h"
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -24,8 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
-#include <utility>
 #include <kurlrequester.h>
+#include <utility>
 
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;

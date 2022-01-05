@@ -328,7 +328,7 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
 
 QString GroupsModel::debugString() {
     QString string;
-    for (auto item : m_downLink) {
+    for (const auto &item : m_downLink) {
         QStringList leafs;
         for (auto leaf : item.second) {
             leafs << QString::number(leaf);

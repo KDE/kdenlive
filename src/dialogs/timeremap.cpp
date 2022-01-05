@@ -6,29 +6,29 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "timeremap.h"
 
+#include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kthumb.h"
-#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
-#include "bin/projectclip.h"
-#include "project/projectmanager.h"
+#include "macros.hpp"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
-#include "mainwindow.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
-#include "timeline2/model/groupsmodel.hpp"
+#include "project/projectmanager.h"
+#include "timecodedisplay.h"
 #include "timeline2/model/clipmodel.hpp"
-#include "macros.hpp"
+#include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
-#include <QWheelEvent>
 #include <QStylePainter>
+#include <QWheelEvent>
 #include <QtMath>
 
-#include <KColorScheme>
 #include "klocalizedstring.h"
+#include <KColorScheme>
 
 RemapView::RemapView(QWidget *parent)
     : QWidget(parent)

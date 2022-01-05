@@ -5,37 +5,37 @@
 
 #include <KLocalizedContext>
 
-#include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
-#include "monitor/monitorproxy.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
+#include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
-#include "effects/effectsrepository.hpp"
-#include "bin/model/markerlistmodel.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
 #include <QAction>
+#include <QActionGroup>
+#include <QFontDatabase>
+#include <QMenu>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QActionGroup>
-#include <QUuid>
-#include <QMenu>
-#include <QFontDatabase>
 #include <QSortFilterProxyModel>
+#include <QUuid>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 

@@ -34,7 +34,7 @@ void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::PROXYJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.

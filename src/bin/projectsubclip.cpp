@@ -6,14 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "projectsubclip.h"
-#include "projectclip.h"
-#include "projectitemmodel.h"
-#include "core.h"
-#include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
 #include "bincommands.h"
+#include "core.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
+#include "projectclip.h"
+#include "projectitemmodel.h"
 #include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>

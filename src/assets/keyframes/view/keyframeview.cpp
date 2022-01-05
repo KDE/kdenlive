@@ -9,8 +9,8 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include <QMouseEvent>
 #include <QApplication>
+#include <QMouseEvent>
 #include <QStylePainter>
 #include <QtMath>
 

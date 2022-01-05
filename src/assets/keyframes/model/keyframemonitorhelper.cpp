@@ -6,12 +6,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "keyframemonitorhelper.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "monitor/monitor.h"
 
-#include <utility>
 #include <core.h>
+#include <utility>
 KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)

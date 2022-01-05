@@ -6,21 +6,21 @@
 */
 
 #include "abstracttask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 
-#include <QString>
-#include <QVariantList>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QRgb>
-#include <QThreadPool>
 #include <QMutex>
+#include <QRgb>
+#include <QString>
+#include <QThreadPool>
 #include <QTime>
-#include <QFile>
-#include <QElapsedTimer>
+#include <QVariantList>
 
 AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     : QRunnable()

@@ -5,8 +5,8 @@
 
 #include "coloreditwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "widgets/colorpickerwidget.h"
 #include "utils/qcolorutils.h"
+#include "widgets/colorpickerwidget.h"
 
 #include <QHBoxLayout>
 #include <QLabel>

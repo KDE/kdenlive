@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 #include <QPoint>
 
 const QSize Waveform::m_textWidth(35, 0);

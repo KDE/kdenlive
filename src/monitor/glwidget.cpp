@@ -32,8 +32,8 @@
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"
 #include "timeline2/view/qmltypes/thumbnailprovider.h"
-#include <mlt++/Mlt.h>
 #include <lib/localeHandling.h>
+#include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
 #ifdef GL_UNPACK_ROW_LENGTH_EXT

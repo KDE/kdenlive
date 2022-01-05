@@ -21,6 +21,7 @@ public:
     explicit AssetTreeModel(QObject *parent = nullptr);
 
     enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole };
+    enum { NameCol = 0, IdCol = 1, TypeCol = 2, FavCol = 3, PreferredCol = 5};
 
     /** @brief Helper function to retrieve name */
     QString getName(const QModelIndex &index) const;
@@ -34,9 +35,6 @@ public:
     virtual void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) = 0;
     virtual void deleteEffect(const QModelIndex &index) = 0;
     virtual void editCustomAsset(const QString &newName,const QString &newDescription,const QModelIndex &index) = 0;
-
-    // for convenience, we store the column of each data field
-    static int nameCol, idCol, favCol, typeCol, preferredCol;
 
 protected:
 };

@@ -6,6 +6,7 @@
 #include "timelinecontroller.h"
 #include "../model/timelinefunctions.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
@@ -15,8 +16,9 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/spacerdialog.h"
-#include "dialogs/speeddialog.h"
 #include "dialogs/speechdialog.h"
+#include "dialogs/speeddialog.h"
+#include "dialogs/timeremap.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -33,16 +35,14 @@
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
-#include "transitions/transitionsrepository.hpp"
-#include "audiomixer/mixermanager.hpp"
-#include "ui_import_subtitle_ui.h"
 #include "timeline2/view/timelinewidget.h"
-#include "dialogs/timeremap.h"
+#include "transitions/transitionsrepository.hpp"
+#include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
 #include <KMessageBox>
-#include <KUrlRequesterDialog>
 #include <KRecentDirs>
+#include <KUrlRequesterDialog>
 #include <QApplication>
 #include <QClipboard>
 #include <QQuickItem>
@@ -233,7 +233,7 @@ void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
         m_scale = scale;
         emit scaleFactorChanged();
     } else {
-        qWarning("Timeline root not created, impossible to zoom in");
+        qWarning() << "Timeline root not created, impossible to zoom in";
     }
 }
 

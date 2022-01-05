@@ -9,8 +9,8 @@
 */
 
 #include "statusbarmessagelabel.h"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 
 #include <KNotification>

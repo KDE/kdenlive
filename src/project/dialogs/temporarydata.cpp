@@ -6,28 +6,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "temporarydata.h"
+#include "bin/bin.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#include "core.h"
-#include "bin/bin.h"
 
+#include <KDiskFreeSpaceInfo>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KDiskFreeSpaceInfo>
 #include <QDesktopServices>
 #include <QFontMetrics>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QProgressBar>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QStandardPaths>
 #include <QTabWidget>
 #include <QToolButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
-#include <QProgressBar>
-#include <QSpinBox>
 
 ChartWidget::ChartWidget(QWidget *parent)
     : QWidget(parent)

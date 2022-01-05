@@ -6,16 +6,16 @@
 #include "subtitlemodel.hpp"
 #include "bin/bin.h"
 #include "core.h"
-#include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
-#include "timeline2/model/snapmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
+#include "timeline2/model/snapmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "undohelper.hpp"
 
-#include <mlt++/MltProperties.h>
 #include <mlt++/Mlt.h>
+#include <mlt++/MltProperties.h>
 
 #include <KLocalizedString>
 #include <KMessageBox>
