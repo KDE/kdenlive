@@ -47,11 +47,11 @@ public:
     /** @brief Copy an existing effect and append it at the bottom of the stack
      */
     bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
-    bool copyXmlEffect(QDomElement effect);
+    bool copyXmlEffect(const QDomElement &effect);
     /** @brief Import all effects from the given effect stack
      */
     bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
-    void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false, QString originalDecimalPoint = QString());
+    void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false, const QString &originalDecimalPoint = QString());
     bool removeFade(bool fromStart);
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects

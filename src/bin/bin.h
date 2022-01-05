@@ -234,7 +234,7 @@ public:
     PlaylistState::ClipState getClipState(int itemId) const;
 
     /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
-    void addClipMarker(const QString binId, QList<int> positions, QStringList comments = {});
+    void addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments = {});
 
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
@@ -322,7 +322,7 @@ public:
     /** @brief Save folder state (expanded or not) */
     void saveFolderState();
     /** @brief Load folder state (expanded or not) */
-    void loadFolderState(QStringList foldersToExpand);
+    void loadFolderState(const QStringList &foldersToExpand);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
@@ -336,7 +336,7 @@ public:
      * @param zones the source cli pzones that will be put in the result playlist
      * @param properties some extra properties that will be set on the producer
      * @param createNew if true, the playlist will be added as a new clip in project binId */
-    void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
+    void savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew);
     // Do some checks on the profile
     static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
 
@@ -387,17 +387,17 @@ private slots:
     void showClearButton(bool show);
     /** @brief Display a defined frame in bin clip thumbnail
      */
-    void showBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
+    void showBinFrame(const QModelIndex &ix, int frame, bool storeFrame = false);
     /** @brief Switch a tag on/off on current selection
      */
     void switchTag(const QString &tag, bool add);
     /** @brief Update project tags
      */
-    void updateTags(QMap <QString, QString> tags);
-    void rebuildFilters(QMap <QString, QString> tags);
+    void updateTags(const QMap <QString, QString> &tags);
+    void rebuildFilters(const QMap <QString, QString> &tags);
     /** @brief Switch a tag on  a clip list
      */
-    void editTags(QList <QString> allClips, const QString &tag, bool add);
+    void editTags(const QList <QString> &allClips, const QString &tag, bool add);
     void slotUpdatePalette();
 
 public slots:
@@ -454,7 +454,7 @@ public slots:
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
-    void slotCheckProfile(const QString binId);
+    void slotCheckProfile(const QString &binId);
         /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &url, const QString &id, bool checkProfile);
 

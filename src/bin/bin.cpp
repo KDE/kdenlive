@@ -390,7 +390,7 @@ public:
         }
     }
 
-    int getFrame(QModelIndex index, int mouseX)
+    int getFrame(const QModelIndex &index, int mouseX)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)) {
@@ -556,7 +556,7 @@ public:
         }
     }
 
-    int getFrame(QModelIndex index, QPoint pos)
+    int getFrame(const QModelIndex &index, QPoint pos)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || !m_thumbRect.contains(pos)) {
@@ -1921,7 +1921,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     return folderName;
 }
 
-void Bin::rebuildFilters(QMap <QString, QString> tags)
+void Bin::rebuildFilters(const QMap <QString, QString> &tags)
 {
     m_filterMenu->clear();
     // Add tag filters
@@ -3483,13 +3483,13 @@ void Bin::switchTag(const QString &tag, bool add)
     editTags(allClips, tag, add);
 }
 
-void Bin::updateTags(QMap <QString, QString> tags)
+void Bin::updateTags(const QMap <QString, QString> &tags)
 {
     rebuildFilters(tags);
     pCore->updateProjectTags(tags);
 }
 
-void Bin::editTags(QList <QString> allClips, const QString &tag, bool add)
+void Bin::editTags(const QList <QString> &allClips, const QString &tag, bool add)
 {
     for (const QString &id : allClips) {
         std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(id);
@@ -4520,7 +4520,7 @@ void Bin::adjustProjectProfileToItem()
     }
 }
 
-void Bin::slotCheckProfile(const QString binId)
+void Bin::slotCheckProfile(const QString &binId)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
     if (clip) {
@@ -4574,7 +4574,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
     }
 }
 
-void Bin::showBinFrame(QModelIndex ix, int frame, bool storeFrame)
+void Bin::showBinFrame(const QModelIndex &ix, int frame, bool storeFrame)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (item) {
@@ -4686,7 +4686,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
     }
 }
 
-void Bin::addClipMarker(const QString binId, QList<int> positions, QStringList comments)
+void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (!clip) {
@@ -4745,7 +4745,7 @@ void Bin::saveFolderState()
     m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
 }
 
-void Bin::loadFolderState(QStringList foldersToExpand)
+void Bin::loadFolderState(const QStringList &foldersToExpand)
 {
     // Check folder state (expanded or not)
     if (m_itemView == nullptr || m_listType != BinTreeView) {
@@ -4782,7 +4782,7 @@ void Bin::dockWidgetInit(QDockWidget* m_DockClipWidget){
     m_clipWidget->init(m_DockClipWidget);
 }
 
-void Bin::savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew)
+void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
     if (!clip) {

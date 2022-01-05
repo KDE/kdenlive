@@ -23,7 +23,7 @@ public:
     void setDuration(int dur, int inPoint);
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
-    void copyCurrentValue(QModelIndex ix, const QString paramName);
+    void copyCurrentValue(const QModelIndex &ix, const QString &paramName);
 
 public slots:
     /** @brief moves the current position*/
@@ -31,7 +31,7 @@ public slots:
     /** @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
      */
-    void slotRemoveKeyframe(QVector<int> positions);
+    void slotRemoveKeyframe(const QVector<int> &positions);
     /** @brief Add a keyframe with given parameter value at given pos.
        If pos is negative, then keyframe is added at current position
     */

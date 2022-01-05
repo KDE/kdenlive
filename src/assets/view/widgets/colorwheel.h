@@ -25,7 +25,7 @@ public:
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
     NegQColor color() const;
-    void setColor(QList <double> values);
+    void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
     const QList <double> getNiceParamValues() const;
     void setRedColor(double value);
@@ -81,9 +81,9 @@ class ColorWheel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColorWheel(QString id, QString name, NegQColor color, QWidget *parent = nullptr);
+    explicit ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent = nullptr);
     NegQColor color() const;
-    void setColor(QList <double> values);
+    void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
 
 private:

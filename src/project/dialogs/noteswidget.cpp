@@ -57,7 +57,7 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void NotesWidget::createMarker(QStringList anchors)
+void NotesWidget::createMarker(const QStringList &anchors)
 {
     QMap <QString, QList<int>> clipMarkers;
     QList<int> guides;

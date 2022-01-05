@@ -79,9 +79,9 @@ private:
     /** @brief Returns list of transitions containing luma files */
     QMap<QString, QString> getLumaPairs() const;
     /** @brief Remove _missingsourcec flag in fixed clips */
-    void fixMissingSource(const QString &id, QDomNodeList producers);
+    void fixMissingSource(const QString &id, const QDomNodeList &producers);
     /** @brief Check for various missing elements */
-    QString getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder);
+    QString getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths, const QStringList &serviceToCheck, const QString &root, const QString &storageFolder);
 
 signals:
     void showScanning(const QString);

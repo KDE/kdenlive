@@ -45,7 +45,7 @@ public:
     /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
     void invalidatePreview(int startFrame, int endFrame);
     /** @brief: after a small  delay (some operations trigger several invalidatePreview calls), take care of these invalidated chunks. */
-    void invalidatePreviews(const QVariantList chunks);
+    void invalidatePreviews(const QVariantList &chunks);
     /** @brief: user adds current timeline zone to the preview zone. */
     void addPreviewRange(const QPoint zone, bool add);
     /** @brief: Remove all existing previews. */
@@ -108,7 +108,7 @@ private:
     /** @brief: The render process output, useful in case of failure */
     QString m_errorLog;
     /** @brief: After an undo/redo, if we have preview history, use it. */
-    void reloadChunks(const QVariantList chunks);
+    void reloadChunks(const QVariantList &chunks);
     /** @brief: A chunk failed to render, abort. */
     void corruptedChunk(int workingPreview, const QString &fileName);
     /** @brief: Re-enable timeline preview track. */

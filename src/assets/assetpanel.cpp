@@ -476,7 +476,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     emit m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString &/*id*/, const QString &message)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {

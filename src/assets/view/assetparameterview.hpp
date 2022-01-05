@@ -87,7 +87,7 @@ private slots:
        @param storeUndo: if true, an undo object is created
     */
     void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
-    void commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo);
+    void commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo);
     void disableCurrentFilter(bool disable);
 
 signals:

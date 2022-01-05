@@ -532,7 +532,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
-                this, [this, index](const QString v) {
+                this, [this, index](const QString &v) {
                     emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
@@ -544,7 +544,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged,
-                this, [this, index](const QList <QModelIndex> indexes, const QStringList& list, bool) {
+                this, [this, index](const QList <QModelIndex> &indexes, const QStringList& list, bool) {
             emit activateEffect();
             auto *parentCommand = new QUndoCommand();
             parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));

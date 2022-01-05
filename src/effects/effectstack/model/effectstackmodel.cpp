@@ -224,7 +224,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     }
 }
 
-bool EffectStackModel::copyXmlEffect(QDomElement effect)
+bool EffectStackModel::copyXmlEffect(const QDomElement &effect)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -975,7 +975,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     return found;
 }
 
-void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, QString originalDecimalPoint)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, const QString &originalDecimalPoint)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;

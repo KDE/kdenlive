@@ -94,6 +94,6 @@ void TransitionTreeModel::deleteEffect(const QModelIndex &)
 {
 }
 
-void TransitionTreeModel::editCustomAsset(const QString, const QString, const QModelIndex &)
+void TransitionTreeModel::editCustomAsset(const QString&, const QString&, const QModelIndex &)
 {
 }

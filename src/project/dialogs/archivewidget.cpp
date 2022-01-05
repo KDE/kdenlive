@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent>
 #include <memory>
 #include <utility>
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
@@ -881,7 +881,7 @@ bool ArchiveWidget::processProjectFile()
     return true;
 }
 
-QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefix)
+QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
@@ -1030,7 +1030,7 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     return playList;
 }
 
-void ArchiveWidget::propertyProcessUrl(QDomElement e, QString propertyName, QString root)
+void ArchiveWidget::propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root)
 {
     QString src = Xml::getXmlProperty(e, propertyName);
     if (!src.isEmpty()) {

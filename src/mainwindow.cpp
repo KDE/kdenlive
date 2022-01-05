@@ -3604,7 +3604,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
     d->show();
 }
 
-void MainWindow::slotFriendlyTranscode(const QString binId, bool checkProfile)
+void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
 {
     QString params;
     QString desc;
@@ -4319,7 +4319,7 @@ void MainWindow::resetSubtitles()
     }
 }
 
-void MainWindow::slotEditSubtitle(QMap<QString, QString> subProperties)
+void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {

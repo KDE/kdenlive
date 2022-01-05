@@ -248,7 +248,7 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
-const QString Core::nameForLumaFile(const QString filename) {
+const QString Core::nameForLumaFile(const QString &filename) {
     static QMap<QString, QString> names;
     names.insert("square2-bars.pgm", i18nc("Luma transition name", "Square 2 Bars"));
     names.insert("checkerboard_small.pgm", i18nc("Luma transition name", "Checkerboard Small"));
@@ -1064,12 +1064,12 @@ int Core::getDurationFromString(const QString &time)
     return m_timecode.getFrameCount(time);
 }
 
-void Core::processInvalidFilter(const QString service, const QString id, const QString message)
+void Core::processInvalidFilter(const QString &service, const QString &id, const QString &message)
 {
     if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
 }
 
-void Core::updateProjectTags(QMap <QString, QString> tags)
+void Core::updateProjectTags(const QMap <QString, QString> &tags)
 {
     // Clear previous tags
     for (int i = 1 ; i< 20; i++) {
@@ -1128,7 +1128,7 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(QList <int> guides)
+void Core::addGuides(const QList <int> &guides)
 {
     QMap <GenTime, QString> markers;
     for (int pos : guides) {
@@ -1138,18 +1138,18 @@ void Core::addGuides(QList <int> guides)
     currentDoc()->getGuideModel()->addMarkers(markers);
 }
 
-void Core::temporaryUnplug(QList<int> clipIds, bool hide)
+void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
 {
     window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
-void Core::transcodeFile(const QString url)
+void Core::transcodeFile(const QString &url)
 {
     qDebug()<<"=== TRANSCODING: "<<url;
     window()->slotTranscode({url});
 }
 
-void Core::transcodeFriendlyFile(const QString binId, bool checkProfile)
+void Core::transcodeFriendlyFile(const QString &binId, bool checkProfile)
 {
     window()->slotFriendlyTranscode(binId, checkProfile);
 }

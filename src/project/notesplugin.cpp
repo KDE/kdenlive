@@ -87,7 +87,7 @@ void NotesPlugin::slotInsertTimecode()
     }
 }
 
-void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
+void NotesPlugin::slotReAssign(const QStringList &anchors, const QList <QPoint> &points)
 {
     const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
     int ix = 0;

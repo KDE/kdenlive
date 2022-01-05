@@ -96,10 +96,10 @@ private slots:
     void slotUpdateAudioCaptureChannels(int index);
     void slotUpdateAudioCaptureSampleRate(int index);
     void slotParseVoskDictionaries();
-    void getDictionary(const QUrl sourceUrl = QUrl());
+    void getDictionary(const QUrl &sourceUrl = QUrl());
     void removeDictionary();
     void downloadModelFinished(KJob* job);
-    void processArchive(const QString path);
+    void processArchive(const QString &path);
     void checkVoskDependencies();
     void doShowSpeechMessage(const QString &message, int messageType);
     
@@ -149,7 +149,7 @@ private:
     /** @brief Init Speech to text settings */
     void initSpeechPage();
     /** @brief Check version of installed python modules for speech to text */
-    void checkVoskVersion(const QString pyExec);
+    void checkVoskVersion(const QString &pyExec);
 
 signals:
     void customChanged();

@@ -228,7 +228,7 @@ public:
        @param position is the timeline position
        @param transitionId is the data describing the dropped composition
     */
-    Q_INVOKABLE void insertNewMix(int tid, int position, const QString transitionId);
+    Q_INVOKABLE void insertNewMix(int tid, int position, const QString &transitionId);
     /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
     */
     Q_INVOKABLE int isOnCut(int cid) const;
@@ -399,13 +399,13 @@ public:
     Q_INVOKABLE QVector<int> spacerSelection(int startFrame);
     /** @brief Move a list of guides from a given offset
      */
-    Q_INVOKABLE void spacerMoveGuides(QVector<int> ids, int offset);
+    Q_INVOKABLE void spacerMoveGuides(const QVector<int> &ids, int offset);
     /** @brief Get the position of the first marker in the list
      */
     Q_INVOKABLE int getGuidePosition(int ids);
     /** @brief Request a spacer operation
      */
-    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector<int> selectedGuides = QVector<int>(), int guideStart = -1);
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, const QVector<int> &selectedGuides = QVector<int>(), int guideStart = -1);
     /** @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
@@ -589,7 +589,7 @@ public:
     /** @brief timeline preview params changed, reset */
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
-    void setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets);
+    void setTargetTracks(bool hasVideo, const QMap <int, QString> &audioTargets);
     /** @brief Restore Bin Clip original target tracks (video, audio) */
     void restoreTargetTracks();
     /** @brief Return asset's display name from it's id (effect or composition) */
@@ -633,9 +633,9 @@ public:
     /** @brief Create a mix transition with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
-    void temporaryUnplug(QList<int> clipIds, bool hide);
+    void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Edit the subtitle text*/
-    Q_INVOKABLE void editSubtitle(int id, QString newText, QString oldText);
+    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
     /** @brief Edit the subtitle end */
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Add subtitle clip at cursor's position in timeline */
@@ -643,9 +643,9 @@ public:
     /** @brief Cut a subtitle and split the text at \@param pos */
     void cutSubtitle(int id, int cursorPos);
     /** @brief Delete subtitle clip with frame as start position*/
-    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
+    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &Ctext);
     /** @brief Import a subtitle file*/
-    void importSubtitle(const QString path = QString());
+    void importSubtitle(const QString &path = QString());
     /** @brief Export a subtitle file*/
     void exportSubtitle();
     /** @brief Launch speech recognition on timeline zone*/
@@ -653,7 +653,7 @@ public:
     /** @brief Show active effect zone for current effect*/
     void showRulerEffectZone(QPair <int, int>inOut, bool checked);
     /** @brief Set the list of master effect zones */
-    void updateMasterZones(QVariantList zones);
+    void updateMasterZones(const QVariantList &zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
@@ -665,7 +665,7 @@ public:
 
 public slots:
     void resetView();
-    void setAudioTarget(QMap<int, int> tracks);
+    void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);

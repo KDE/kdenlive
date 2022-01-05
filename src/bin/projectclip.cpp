@@ -132,7 +132,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     return self;
 }
 
-void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint)
+void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, const QString &originalDecimalPoint)
 {
     m_effectStack->importEffects(producer, PlaylistState::Disabled, true, originalDecimalPoint);
 }
@@ -1137,7 +1137,7 @@ const QString ProjectClip::hash()
     return getFileHash();
 }
 
-const QByteArray ProjectClip::getFolderHash(QDir dir, QString fileName)
+const QByteArray ProjectClip::getFolderHash(const QDir &dir, QString fileName)
 {
     QStringList files = dir.entryList(QDir::Files);
     fileName.append(files.join(QLatin1Char(',')));
@@ -1197,7 +1197,7 @@ const QString ProjectClip::getFileHash()
 }
 
 
-const QPair<QByteArray, qint64> ProjectClip::calculateHash(const QString path)
+const QPair<QByteArray, qint64> ProjectClip::calculateHash(const QString &path)
 {
     QFile file(path);
     QByteArray fileHash;
@@ -1986,7 +1986,7 @@ void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
     }
 }
 
-void ProjectClip::renameAudioStream(int id, QString name)
+void ProjectClip::renameAudioStream(int id, const QString &name)
 {
     if (m_audioInfo) {
         m_audioInfo->renameStream(id, name);

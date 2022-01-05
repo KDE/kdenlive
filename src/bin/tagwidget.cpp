@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QListWidget>
 #include <QDrag>
 
-DragButton::DragButton(int ix, const QString tag, const QString description, QWidget *parent)
+DragButton::DragButton(int ix, const QString &tag, const QString &description, QWidget *parent)
     : QToolButton(parent)
     , m_tag(tag.toLower())
     , m_description(description)
@@ -124,7 +124,7 @@ TagWidget::TagWidget(QWidget *parent)
     setLayout(lay);
 }
 
-void TagWidget::setTagData(const QString tagData)
+void TagWidget::setTagData(const QString &tagData)
 {
     QStringList colors = tagData.toLower().split(QLatin1Char(';'));
     for (DragButton *tb : qAsConst(tags)) {
@@ -133,7 +133,7 @@ void TagWidget::setTagData(const QString tagData)
     }
 }
 
-void TagWidget::rebuildTags(QMap <QString, QString> newTags)
+void TagWidget::rebuildTags(const QMap <QString, QString> &newTags)
 {
     auto *lay = static_cast<QHBoxLayout *>(layout());
     qDeleteAll(tags);

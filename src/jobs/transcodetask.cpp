@@ -23,7 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, const QString preParams, const QString params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
+TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
@@ -37,7 +37,7 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString preParams, con
 {
 }
 
-void TranscodeTask::start(const ObjectId &owner, const QString preParams, const QString params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
+void TranscodeTask::start(const ObjectId &owner, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
     TranscodeTask* task = new TranscodeTask(owner, preParams, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.

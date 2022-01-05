@@ -240,7 +240,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     return true;
 }
 
-std::pair<QString, QString> LayoutManagement::saveLayout(QString layout, const QString suggestedName) {
+std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName) {
 
     QString visibleName = translatedName(suggestedName);
 

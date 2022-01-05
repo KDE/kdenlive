@@ -301,7 +301,7 @@ const QString & AbstractProjectItem::tags() const
     return m_tags;
 }
 
-void AbstractProjectItem::setTags(const QString tags)
+void AbstractProjectItem::setTags(const QString &tags)
 {
     m_tags = tags;
 }

@@ -49,7 +49,7 @@ public:
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist = 0);
+                         PlaylistState::ClipState state, int tid, const QString &originalDecimalPoint, int playlist = 0);
 
     /** @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -202,7 +202,7 @@ protected:
     
     bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
-    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, QMap<QString,QString> remapProperties);
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

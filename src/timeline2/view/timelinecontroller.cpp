@@ -133,7 +133,7 @@ void TimelineController::restoreTargetTracks()
     setTargetTracks(m_hasVideoTarget, m_model->m_binAudioTargets);
 }
 
-void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
+void TimelineController::setTargetTracks(bool hasVideo, const QMap <int, QString> &audioTargets)
 {
     int videoTrack = -1;
     m_model->m_binAudioTargets = audioTargets;
@@ -422,7 +422,7 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
     return clipIds;
 }
 
-void TimelineController::insertNewMix(int tid, int position, const QString transitionId)
+void TimelineController::insertNewMix(int tid, int position, const QString &transitionId)
 {
     int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
     if (clipId > 0) {
@@ -1391,7 +1391,7 @@ void TimelineController::setPosition(int position)
     emit seeked(position);
 }
 
-void TimelineController::setAudioTarget(QMap<int, int> tracks)
+void TimelineController::setAudioTarget(const QMap<int, int> &tracks)
 {
     // Clear targets before re-adding to trigger qml refresh
     m_model->m_audioTarget.clear();
@@ -1700,7 +1700,7 @@ int TimelineController::spacerMinPos() const
     return TimelineFunctions::spacerMinPos();
 }
 
-void TimelineController::spacerMoveGuides(QVector<int> ids, int offset)
+void TimelineController::spacerMoveGuides(const QVector<int> &ids, int offset)
 {
     pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(ids, offset);
 }
@@ -1715,7 +1715,7 @@ int TimelineController::getGuidePosition(int id)
     return pCore->currentDoc()->getGuideModel()->getMarkerPos(id);
 }
 
-bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector <int> selectedGuides, int guideStart)
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, const QVector <int> &selectedGuides, int guideStart)
 {
     QMutexLocker lk(&m_metaMutex);
     // Start undoable command
@@ -4646,7 +4646,7 @@ void TimelineController::mixClip(int cid, int delta)
     m_model->mixClip(cid, QStringLiteral("luma"), delta);
 }
 
-void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
+void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 {
     for (auto &cid : clipIds) {
         int tid = m_model->getItemTrackId(cid);
@@ -4661,7 +4661,7 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
     }
 }
 
-void TimelineController::editSubtitle(int id, QString newText, QString oldText)
+void TimelineController::editSubtitle(int id, const QString &newText, const QString &oldText)
 {
     qDebug()<<"Editing existing subtitle :"<<id;
     if (oldText == newText) {
@@ -4745,7 +4745,7 @@ void TimelineController::addSubtitle(int startframe, QString text)
     }
 }
 
-void TimelineController::importSubtitle(const QString path)
+void TimelineController::importSubtitle(const QString &path)
 {
     QPointer<QDialog> d = new QDialog;
     Ui::ImportSub_UI view;
@@ -4801,7 +4801,7 @@ void TimelineController::subtitleSpeechRecognition()
     d.exec();
 }
 
-void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
+void TimelineController::deleteSubtitle(int startframe, int endframe, const QString &text)
 {
     auto subtitleModel = pCore->getSubtitleModel();
     int id = subtitleModel->getIdForStartPos(GenTime(startframe, pCore->getCurrentFps()));
@@ -4898,7 +4898,7 @@ void TimelineController::showRulerEffectZone(QPair <int, int>inOut, bool checked
     emit effectZoneChanged();
 }
 
-void TimelineController::updateMasterZones(QVariantList zones)
+void TimelineController::updateMasterZones(const QVariantList &zones)
 {
     m_masterEffectZones = zones;
     emit masterZonesChanged();

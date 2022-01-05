@@ -71,7 +71,7 @@ public:
     const QString description() const;
     void setUrl(const QUrl &url);
     /** @brief Update path of subtitle url. */
-    void updateSubtitle(QString newUrl = QString());
+    void updateSubtitle(const QString &newUrl = QString());
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -231,7 +231,7 @@ public slots:
      * 
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath = QMap<QString, QString>());
+    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath = QMap<QString, QString>());
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.

@@ -293,7 +293,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(const QVariantList chunks)
+void PreviewManager::invalidatePreviews(const QVariantList &chunks)
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = KdenliveSettings::autopreview();
@@ -676,7 +676,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_previewGatherTimer.start();
 }
 
-void PreviewManager::reloadChunks(const QVariantList chunks)
+void PreviewManager::reloadChunks(const QVariantList &chunks)
 {
     if (m_previewTrack == nullptr || chunks.isEmpty()) {
         return;

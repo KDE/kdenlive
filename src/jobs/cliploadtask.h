@@ -26,7 +26,7 @@ class ClipLoadTask : public AbstractTask
 public:
     ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object);
     virtual ~ClipLoadTask();
-    static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force = false, std::function<void()> readyCallBack = []() {});
+    static void start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force = false, const std::function<void()> &readyCallBack = []() {});
     static ClipType::ProducerType getTypeForService(const QString &id, const QString &path);
     std::shared_ptr<Mlt::Producer> loadResource(QString resource, const QString &type);
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);

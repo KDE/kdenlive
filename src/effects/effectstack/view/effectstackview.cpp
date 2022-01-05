@@ -189,7 +189,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     // m_builtStack->setModel(model, stackOwner());
 }
 
-void EffectStackView::activateEffect(QModelIndex ix, bool active)
+void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
 {
     m_effectsTree->setCurrentIndex(ix);
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));

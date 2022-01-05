@@ -167,7 +167,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
     }
 }
 
-void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo)
+void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetMultiCommand(m_model, indexes, values);

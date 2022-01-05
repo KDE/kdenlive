@@ -118,7 +118,7 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
     return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId));
 }
 
-void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
+void TimelineItemModel::subtitleChanged(int subId, const QVector<int> &roles)
 {
     if (m_closing) {
         return;

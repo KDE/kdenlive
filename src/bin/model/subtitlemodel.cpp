@@ -68,7 +68,7 @@ void SubtitleModel::unsetModel()
     m_timeline.reset();
 }
 
-void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
+void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport)
 {
     QString start,end,comment;
     QString timeLine;
@@ -266,7 +266,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
     }
 }
 
-void SubtitleModel::parseSubtitle(const QString subPath)
+void SubtitleModel::parseSubtitle(const QString &subPath)
 {   
 	qDebug()<<"Parsing started";
     if (!subPath.isEmpty()) {
@@ -311,7 +311,7 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     return pos;
 }
 
-bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter)
+bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter)
 {
     if (isLocked()) {
         return false;
@@ -336,7 +336,7 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, F
     return true;
 }
 
-bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary, bool updateFilter)
+bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary, bool updateFilter)
 {
 	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0 || isLocked()) {
         qDebug()<<"Time error: is negative";
@@ -447,7 +447,7 @@ QString SubtitleModel::getText(int id) const
     return m_subtitleList.at(start).first;
 }
 
-bool SubtitleModel::setText(int id, const QString text)
+bool SubtitleModel::setText(int id, const QString &text)
 {
     if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end() || isLocked()) {
         return false;
@@ -754,7 +754,7 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
     return true;
 }
 
-bool SubtitleModel::editSubtitle(int id, QString newSubtitleText)
+bool SubtitleModel::editSubtitle(int id, const QString &newSubtitleText)
 {
     if (isLocked()) {
         return false;
@@ -1071,7 +1071,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
 }
 
-void SubtitleModel::updateSub(int id, QVector <int> roles)
+void SubtitleModel::updateSub(int id, const QVector <int> &roles)
 {
     int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), roles);
@@ -1176,7 +1176,7 @@ bool SubtitleModel::isLocked() const
     return m_subtitleFilter->get_int("kdenlive:locked") == 1;
 }
 
-void SubtitleModel::loadProperties(QMap<QString, QString> subProperties)
+void SubtitleModel::loadProperties(const QMap<QString, QString> &subProperties)
 {
     QMap<QString, QString>::const_iterator i = subProperties.constBegin();
     while (i != subProperties.constEnd()) {

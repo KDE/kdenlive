@@ -184,7 +184,7 @@ public:
     uint rating() const;
     virtual void setRating(uint rating);
     const QString &tags() const;
-    void setTags(const QString tags);
+    void setTags(const QString &tags);
 
 signals:
     void childAdded(AbstractProjectItem *child);

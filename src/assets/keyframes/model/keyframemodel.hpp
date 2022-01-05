@@ -88,7 +88,7 @@ public:
     bool moveKeyframe(int oldPos, int pos, bool logUndo);
     bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe

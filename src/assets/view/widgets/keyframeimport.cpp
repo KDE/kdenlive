@@ -31,7 +31,7 @@
 #include "mlt++/MltProperties.h"
 
 
-KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes, int parentIn, int parentDuration, QWidget *parent)
+KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, const QList<QPersistentModelIndex> &indexes, int parentIn, int parentDuration, QWidget *parent)
     : QDialog(parent)
     , m_model(std::move(model))
     , m_indexes(indexes)

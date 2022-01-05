@@ -143,7 +143,7 @@ public:
        To workaround that, we currently identify clips by their position + track
     */
     const QString toJson() const;
-    const QString toJson(std::unordered_set<int> roots) const;
+    const QString toJson(const std::unordered_set<int> &roots) const;
     bool fromJson(const QString &data);
     bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo);
 
@@ -206,7 +206,7 @@ protected:
     */
     void setType(int gid, GroupType type);
     
-    void adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap);
+    void adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

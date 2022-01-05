@@ -94,7 +94,7 @@ void RenderJob::slotAbort(const QString &url)
     }
 }
 
-void RenderJob::sendFinish(int status, QString error) {
+void RenderJob::sendFinish(int status, const QString &error) {
 #ifndef NODBUS
     if (m_kdenliveinterface) {
         m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), {m_dest, status, error});

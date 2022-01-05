@@ -133,7 +133,7 @@ public:
     /** @brief Remove a position from selected keyframes */
     void removeFromSelected(int pos);
     /** @brief Replace list of selected keyframes */
-    void setSelectedKeyframes(QVector<int> list);
+    void setSelectedKeyframes(const QVector<int> &list);
     /** @brief Append a keyframe to selection */
     void appendSelectedKeyframe(int frame);
 

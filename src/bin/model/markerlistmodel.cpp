@@ -104,7 +104,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     return false;
 }
 
-bool MarkerListModel::addMarkers(QMap <GenTime, QString> markers, int type)
+bool MarkerListModel::addMarkers(const QMap <GenTime, QString> &markers, int type)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -238,7 +238,7 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
     return true;
 }
 
-void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset, bool updateView)
+void MarkerListModel::moveMarkersWithoutUndo(const QVector<int> &markersId, int offset, bool updateView)
 {
     QWriteLocker locker(&m_lock);
     if(markersId.length() <= 0) {
@@ -246,7 +246,7 @@ void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset,
     }
     int firstRow = -1;
     int lastRow = -1;
-    for (int &mid : markersId) {
+    for (auto mid : markersId) {
         Q_ASSERT(m_markerList.count(mid) > 0);
         GenTime t = m_markerList.at(mid).time() + GenTime(offset, pCore->getCurrentFps());
         m_markerList[mid].setTime(t);
@@ -270,7 +270,7 @@ void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset,
     }
 }
 
-bool MarkerListModel::moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
+bool MarkerListModel::moveMarkers(const QList<CommentedTime> &markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
 

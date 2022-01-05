@@ -1849,7 +1849,7 @@ void TimeRemap::updateKeyframes(bool resize)
     }
 }
 
-void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes)
+void TimeRemap::updateKeyframesWithUndo(const QMap<int,int> &updatedKeyframes, const QMap<int,int> &previousKeyframes)
 {
     if (m_view->m_remapLink == nullptr) {
         return;

@@ -137,7 +137,7 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetFilters(const QStringList tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
+void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
 {
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
@@ -177,7 +177,7 @@ void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModel
 }
 
 
-void ProjectSortProxyModel::selectAll(QModelIndex rootIndex)
+void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)
 {
     QModelIndex topLeft = index(0, 0, rootIndex);
     QModelIndex bottomRight = index(rowCount(rootIndex) - 1,

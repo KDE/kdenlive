@@ -69,7 +69,7 @@ public:
        @param maxSnapDist maximal number of frames we are allowed to snap to
     */
     int proposeSize(int in, int out, int size, bool right, int maxSnapDist);
-    int proposeSize(int in, int out, const std::vector<int> boundaries, int size, bool right, int maxSnapDist);
+    int proposeSize(int in, int out, const std::vector<int> &boundaries, int size, bool right, int maxSnapDist);
 
     // For testing only
     std::map<int, int> _snaps() { return m_snaps; }

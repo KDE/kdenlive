@@ -382,7 +382,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>(), std::pair<MixInfo, MixInfo>mixData = {});
+    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool groupMove = false, const QMap <int, int> &moving_clips = QMap <int, int>(), std::pair<MixInfo, MixInfo>mixData = {});
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
@@ -425,7 +425,7 @@ public:
                               bool useTargets = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                              Fun &redo, QVector<int> allowedTracks = QVector<int>());
+                              Fun &redo, const QVector<int> &allowedTracks = QVector<int>());
 
     /** @brief Switch current composition type
      *  @param cid the id of the composition we want to change
@@ -445,7 +445,7 @@ public:
     QStringList getProxiesAt(int position);
     /**  @brief Returns the current project xml playlist for saving
      */
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
+    const QString sceneList(const QString &root, const QString &fullPath = QString(), const QString &filterData = QString());
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -484,7 +484,7 @@ public:
     */
     bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool revertMove = false);
     bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool moveMirrorTracks = true, 
-                          bool allowViewRefresh = true, QVector<int> allowedTracks = QVector<int>());
+                          bool allowViewRefresh = true, const QVector<int> &allowedTracks = QVector<int>());
 
     /** @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
@@ -662,7 +662,7 @@ public:
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, QString originalDecimalPoint = QString());
+                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, const QString &originalDecimalPoint = QString());
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
@@ -871,7 +871,7 @@ protected:
 
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
-    bool checkConsistency(std::vector<int> guideSnaps = {});
+    bool checkConsistency(const std::vector<int> &guideSnaps = {});
 
 protected:
     /** @brief Refresh project monitor if cursor was inside range */

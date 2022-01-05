@@ -749,7 +749,7 @@ const QString GroupsModel::toJson() const
     return QString(json.toJson());
 }
 
-const QString GroupsModel::toJson(std::unordered_set<int> roots) const
+const QString GroupsModel::toJson(const std::unordered_set<int> &roots) const
 {
     QJsonArray list;
     for (int r : roots) {
@@ -841,7 +841,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap)
+void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap)
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();

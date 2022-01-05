@@ -53,7 +53,7 @@ NegQColor WheelContainer::color() const
     return m_color;
 }
 
-void WheelContainer::setColor(QList <double> values)
+void WheelContainer::setColor(const QList <double> &values)
 {
     const NegQColor color = NegQColor::fromRgbF(values.at(0) / m_sizeFactor, values.at(1) / m_sizeFactor, values.at(2) / m_sizeFactor);
     m_color = color;
@@ -395,7 +395,7 @@ void WheelContainer::changeColor(const NegQColor &color)
 }
 
 
-ColorWheel::ColorWheel(QString id, QString name, NegQColor color, QWidget *parent)
+ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
     : QWidget(parent)
 {
     QFontInfo info(font());
@@ -468,7 +468,7 @@ NegQColor ColorWheel::color() const
     return m_container->color();
 }
 
-void ColorWheel::setColor(QList<double> values)
+void ColorWheel::setColor(const QList<double> &values)
 {
     m_container->setColor(values);
     m_redEdit->blockSignals(true);

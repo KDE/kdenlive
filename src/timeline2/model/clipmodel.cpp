@@ -50,7 +50,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     } else {
         m_endlessResize = false;
     }
-    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
+    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
         qDebug() << "// GOT CLIP STACK DATA CHANGE: " << roles;
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
@@ -92,7 +92,7 @@ void ClipModel::allSnaps(std::vector<int> &snaps, int offset) const
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist)
+                         PlaylistState::ClipState state, int tid, const QString &originalDecimalPoint, int playlist)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -935,7 +935,7 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     return false;
 }
 
-Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, QMap<QString,QString> remapProperties)
+Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties)
 {
     QWriteLocker locker(&m_lock);
     return [enable, audioStream, remapProperties,this]() {

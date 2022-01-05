@@ -54,7 +54,7 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     , m_abortSearch(false)
     , m_checkRunning(false)
 {
-    connect(this, &DocumentChecker::showScanning, [this](const QString message) {
+    connect(this, &DocumentChecker::showScanning, [this](const QString &message) {
         m_ui.infoLabel->setText(message);
         m_ui.infoLabel->setVisible(true);
     });
@@ -604,7 +604,7 @@ DocumentChecker::~DocumentChecker()
     delete m_dialog;
 }
 
-QString DocumentChecker::getMissingProducers(QDomElement e, QDomNodeList entries, QStringList verifiedPaths, QStringList missingPaths, const QStringList serviceToCheck, const QString root, const QString storageFolder)
+QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths, const QStringList &serviceToCheck, const QString &root, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
@@ -1207,7 +1207,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     }
 }
 
-void DocumentChecker::fixMissingSource(const QString &id, QDomNodeList producers)
+void DocumentChecker::fixMissingSource(const QString &id, const QDomNodeList &producers)
 {
     QDomElement e;
     for (int i = 0; i < producers.count(); ++i) {

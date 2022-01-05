@@ -190,7 +190,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     }
 }
 
-void ThumbnailCache::saveCachedThumbs(QStringList keys)
+void ThumbnailCache::saveCachedThumbs(const QStringList &keys)
 {
     bool ok;
     QDir thumbFolder = getDir(false, &ok);

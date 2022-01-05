@@ -239,7 +239,7 @@ void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
     }
 }
 
-void AudioStreamInfo::renameStream(int ix, const QString streamName)
+void AudioStreamInfo::renameStream(int ix, const QString &streamName)
 {
     if (m_audioStreams.contains(ix)) {
         m_audioStreams.insert(ix, streamName);

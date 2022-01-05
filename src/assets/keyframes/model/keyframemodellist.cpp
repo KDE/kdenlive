@@ -66,7 +66,7 @@ void KeyframeModelList::removeFromSelected(int ix)
     m_parameters.begin()->second->setSelectedKeyframe(ix, true);
 }
 
-void KeyframeModelList::setSelectedKeyframes(QVector<int> list)
+void KeyframeModelList::setSelectedKeyframes(const QVector<int> &list)
 {
     m_parameters.begin()->second->setSelectedKeyframes(list);
 }

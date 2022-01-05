@@ -133,7 +133,7 @@ void QmlManager::effectPolygonChanged()
     emit effectPointsChanged(points);
 }
 
-void QmlManager::effectRotoChanged(QVariant pts, QVariant centers)
+void QmlManager::effectRotoChanged(const QVariant &pts, const QVariant &centers)
 {
     if (!m_view->rootObject()) {
         return;

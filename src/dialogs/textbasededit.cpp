@@ -111,7 +111,7 @@ const QString VideoTextEdit::selectionEndAnchor(QTextCursor &cursor, int end, in
     return anchorAt(cursorRect(cursor).center());
 }
 
-void VideoTextEdit::processCutZones(QList <QPoint> loadZones)
+void VideoTextEdit::processCutZones(const QList <QPoint> &loadZones)
 {
     // Remove all outside load zones
     qDebug()<<"=== LOADING CUT ZONES: "<<loadZones<<"\n........................";
@@ -186,7 +186,7 @@ int VideoTextEdit::lineNumberAreaWidth()
     return space;
 }
 
-QVector<QPoint> VideoTextEdit::processedZones(QVector<QPoint> sourceZones)
+QVector<QPoint> VideoTextEdit::processedZones(const QVector<QPoint> &sourceZones)
 {
     QVector<QPoint> resultZones = sourceZones;
     for (auto &cut : cutZones) {
@@ -589,7 +589,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_tCodeJob->kill();
         }
     });
-    connect(pCore.get(), &Core::voskModelUpdate, this, [&](QStringList models) {
+    connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         language_box->clear();
         language_box->addItems(models);
         if (models.isEmpty()) {

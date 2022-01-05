@@ -16,7 +16,7 @@ static const double LIFT_FACTOR = 2.0;
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
-LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_index(index)

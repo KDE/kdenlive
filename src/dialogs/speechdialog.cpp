@@ -38,7 +38,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
-    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](QStringList models) {
+    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         language_box->clear();
         language_box->addItems(models);
         if (models.isEmpty()) {

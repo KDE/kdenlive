@@ -544,13 +544,13 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
 }
 
 
-bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, Fun &undo, Fun &redo)
 {
     // Check if we have grouped clips that are on unaffected tracks, and ungroup them
     bool result = true;
     std::unordered_set<int> affectedItems;
     // First find all affected items
-    for (int &trackId : tracks) {
+    for (auto trackId : tracks) {
         std::unordered_set<int> items = timeline->getItemsInRange(trackId, zone.x(), zone.y());
         affectedItems.insert(items.begin(), items.end());
     }
@@ -570,7 +570,7 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
     return result;
 }
 
-bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly)
+bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
@@ -578,7 +578,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     bool result = true;
     result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
 
-    for (int &trackId : tracks) {
+    for (auto trackId : tracks) {
         if (timeline->getTrackById_const(trackId)->isLocked()) {
             continue;
         }
@@ -591,7 +591,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, const QList<int> &trackIds, const QString &binId, int insertFrame, QPoint zone,
                                    bool overwrite, bool useTargets)
 {
     std::function<bool(void)> undo = []() { return true; };
@@ -729,7 +729,7 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     return true;
 }
 
-bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks, bool useTargets)
+bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks, bool useTargets)
 {
     std::unordered_set<int> clips;
     if (useTargets) {
@@ -743,7 +743,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
             ++it;
         }
     } else {
-        for (int &tid : allowedTracks) {
+        for (auto tid : allowedTracks) {
             std::unordered_set<int> subs = timeline->getItemsInRange(tid, zone.y() - 1, -1, true);
             clips.insert(subs.begin(), subs.end());
         }
@@ -772,7 +772,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks)
 {
     timeline->requestClearSelection();
     Fun local_undo = []() { return true; };
@@ -1862,7 +1862,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     return true;
 }
 
-bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position)
+bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, const QDomDocument &copiedItems, int position)
 {
     std::function<bool(void)> timeline_undo = []() { return true; };
     std::function<bool(void)> timeline_redo = []() { return true; };

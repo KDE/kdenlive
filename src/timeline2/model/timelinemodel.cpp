@@ -631,7 +631,8 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return false;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool revertMove, bool groupMove, QMap <int, int> moving_clips, std::pair<MixInfo,MixInfo>mixData)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove,
+                                    Fun &undo, Fun &redo, bool revertMove, bool groupMove, const QMap <int, int> &moving_clips, std::pair<MixInfo,MixInfo>mixData)
 {
     Q_UNUSED(moveMirrorTracks)
     if (trackId == -1) {
@@ -1673,7 +1674,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
-                                         Fun &undo, Fun &redo, QVector<int> allowedTracks)
+                                         Fun &undo, Fun &redo, const QVector<int> &allowedTracks)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -2019,8 +2020,8 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     auto operation = deregisterClip_lambda(clipId);
     auto clip = m_allClips[clipId];
     Fun reverse = [this, clip]() {
-        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
-        // sufficient to register it.
+        // We capture a shared_ptr to the clip, which means that as long as this undo object lives,
+        // the clip object is not deleted. To insert it back it is sufficient to register it.
         registerClip(clip, true);
         return true;
     };
@@ -2074,8 +2075,8 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
     int new_in = composition->getPosition();
     int new_out = new_in + composition->getPlaytime();
     Fun reverse = [this, composition, compositionId, trackId, new_in, new_out]() {
-        // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it
-        // back it is sufficient to register it.
+        // We capture a shared_ptr to the composition, which means that as long as this undo object lives,
+        // the composition object is not deleted. To insert it back it is sufficient to register it.
         registerComposition(composition);
         composition->setCurrentTrackId(trackId, true);
         replantCompositions(compositionId, false);
@@ -2262,8 +2263,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool revertMove, bool moveMirrorTracks,
-                                     bool allowViewRefresh, QVector<int> allowedTracks)
+bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool revertMove,
+                                     bool moveMirrorTracks, bool allowViewRefresh, const QVector<int> &allowedTracks)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
@@ -4697,7 +4698,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
 }
 
 bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                                std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove, QString originalDecimalPoint)
+                                                std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove, const QString &originalDecimalPoint)
 {
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
@@ -5036,7 +5037,7 @@ bool TimelineModel::unplantComposition(int compoId)
     return ret != 0;
 }
 
-bool TimelineModel::checkConsistency(std::vector<int> guideSnaps)
+bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
 {
     // We store all in/outs of clips to check snap points
     std::map<int, int> snaps;
@@ -5252,7 +5253,7 @@ std::shared_ptr<Mlt::Producer> TimelineModel::producer()
     return std::make_shared<Mlt::Producer>(tractor());
 }
 
-const QString TimelineModel::sceneList(const QString &root, const QString &fullPath, QString filterData)
+const QString TimelineModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData)
 {
     LocaleHandling::resetLocale();
     QString playlist;

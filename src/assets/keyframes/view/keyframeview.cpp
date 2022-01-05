@@ -162,7 +162,7 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
     }
 }
 
-void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
+void KeyframeView::slotRemoveKeyframe(const QVector<int> &positions)
 {
     if (m_model->singleKeyframe()) {
         // Don't allow zero keyframe
@@ -797,7 +797,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 }
 
 
-void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
+void KeyframeView::copyCurrentValue(const QModelIndex &ix, const  QString &paramName)
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
     const QString val = m_model->getInterpolatedValue(m_position + offset, ix).toString();

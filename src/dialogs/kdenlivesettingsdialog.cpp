@@ -1897,7 +1897,7 @@ void KdenliveSettingsDialog::initSpeechPage()
             slotParseVoskDictionaries();
         }
     });
-    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](QUrl url) {
+    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](const QUrl &url) {
         KdenliveSettings::setVosk_folder_path(url.toLocalFile());
         slotParseVoskDictionaries();
     });
@@ -1995,7 +1995,7 @@ void KdenliveSettingsDialog::checkVoskDependencies()
     }
 }
 
-void KdenliveSettingsDialog::checkVoskVersion(const QString pyExec)
+void KdenliveSettingsDialog::checkVoskVersion(const QString &pyExec)
 {
     emit showSpeechMessage(i18n("Checking configuration..."), KMessageWidget::Information);
     QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
@@ -2033,7 +2033,7 @@ void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int mes
     m_configSpeech.speech_info->animatedShow();
 }
 
-void KdenliveSettingsDialog::getDictionary(const QUrl sourceUrl)
+void KdenliveSettingsDialog::getDictionary(const QUrl &sourceUrl)
 {
     QUrl url = KUrlRequesterDialog::getUrl(sourceUrl, this, i18n("Enter url for the new dictionary"));
     if (url.isEmpty()) {
@@ -2099,7 +2099,7 @@ void KdenliveSettingsDialog::downloadModelFinished(KJob* job)
     }
 }
 
-void KdenliveSettingsDialog::processArchive(const QString archiveFile)
+void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
 {
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForFile(archiveFile);

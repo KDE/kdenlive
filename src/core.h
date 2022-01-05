@@ -228,9 +228,9 @@ public:
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */
-    void processInvalidFilter(const QString service, const QString id, const QString message);
+    void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(QMap <QString, QString> tags);
+    void updateProjectTags(const QMap <QString, QString> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
@@ -247,13 +247,13 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(QList <int> guides);
+    void addGuides(const QList <int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
-    void temporaryUnplug(QList<int> clipIds, bool hide);
+    void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Returns the current doc's subtitle model. */
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
-    void transcodeFile(const QString url);
+    void transcodeFile(const QString &url);
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
@@ -325,7 +325,7 @@ public slots:
      *  but also for others as it makes the visible name translatable.
      *  @return The name that fits to the filename or if none is found the filename it self
      */
-    const QString nameForLumaFile(const QString filename);
+    const QString nameForLumaFile(const QString &filename);
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
@@ -338,7 +338,7 @@ public slots:
     /** @brief Add a new Bin Widget. */
     void addBin(const QString &id = QString());
     /** @brief Transcode a bin clip video. */
-    void transcodeFriendlyFile(const QString binId, bool checkProfile);
+    void transcodeFriendlyFile(const QString &binId, bool checkProfile);
 
 signals:
     void coreIsReady();

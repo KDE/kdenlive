@@ -47,11 +47,11 @@ public:
     const QString selectionEndAnchor(QTextCursor &cursor, int end, int min);
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
-    QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
+    QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
     QVector<QPoint> getInsertZones();
     /** @brief Remove all text outside loadZones
      */
-    void processCutZones(QList <QPoint> loadZones);
+    void processCutZones(const QList <QPoint> &loadZones);
     void rebuildZones();
     QVector< QPair<double, double> > speechZones;
     QVector <QPoint> cutZones;

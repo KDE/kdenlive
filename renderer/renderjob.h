@@ -72,7 +72,7 @@ private:
 #else
     void initKdenliveDbusInterface();
 #endif
-    void sendFinish(int status, QString error);
+    void sendFinish(int status, const QString &error);
     void sendProgress();
 
 signals:

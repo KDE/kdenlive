@@ -1986,7 +1986,7 @@ void Monitor::enableEffectScene(bool enable)
     }
 }
 
-void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, QVariant sceneData)
+void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, const QVariant &sceneData)
 {
     if (m_trimmingbar->isVisible()) {
         return;
@@ -2332,7 +2332,7 @@ QSize Monitor::profileSize() const
     return m_glMonitor->profileSize();
 }
 
-void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
+void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
 {
     if (type == m_qmlManager->sceneType() && sceneData.isNull()) {
         return;
@@ -2717,7 +2717,7 @@ void Monitor::focusTimecode()
     m_timePos->selectAll();
 }
 
-void Monitor::seekTimeline(const QString frameAndTrack)
+void Monitor::seekTimeline(const QString &frameAndTrack)
 {
     int frame;
     if (frameAndTrack.contains(QLatin1Char('?'))) {

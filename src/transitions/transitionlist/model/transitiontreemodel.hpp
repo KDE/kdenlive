@@ -24,7 +24,7 @@ public:
     void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) override;
     void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) override;
     void deleteEffect(const QModelIndex &index) override;
-    void editCustomAsset(const QString newName, const QString newDescription, const QModelIndex &index) override;
+    void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) override;
 protected:
 };
 

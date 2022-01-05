@@ -160,8 +160,8 @@ public:
        @param in,out : zone that corresponds to the subclip
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
-    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
-    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId);
+    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId);
 
     /** @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename

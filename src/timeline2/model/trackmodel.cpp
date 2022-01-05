@@ -51,7 +51,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
         // m_effectStack->addService(m_subPlaylist);
-        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
                 qDebug()<<"==== TRACK ZONES CHANGED";
@@ -138,7 +138,7 @@ bool TrackModel::switchPlaylist(int clipId, int position, int sourcePlaylist, in
     return false;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove, QList<int> allowedClipMixes)
+Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
@@ -265,7 +265,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, QList<int> allowedClipMixes)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -430,7 +430,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     };
 }
 
-bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, QList<int> allowedClipMixes)
+bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -1597,7 +1597,7 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
     return m_playlists[playlist].is_blank(start_clip);
 }
 
-bool TrackModel::isAvailableWithExceptions(int position, int duration, QVector<int>exceptions)
+bool TrackModel::isAvailableWithExceptions(int position, int duration, const QVector<int> &exceptions)
 {
     // Check on both playlists
     QSharedPointer<Mlt::Producer> prod = nullptr;
@@ -2299,7 +2299,7 @@ int TrackModel::getMixDuration(int cid) const
     return transition.get_length() - 1;
 }
 
-void TrackModel::removeMix(MixInfo info)
+void TrackModel::removeMix(const MixInfo &info)
 {
     Q_ASSERT(m_sameCompositions.count(info.secondClipId) > 0);
     Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[info.secondClipId]->getAsset());
@@ -2531,7 +2531,7 @@ std::pair<QString,QVector<QPair<QString, QVariant>>> TrackModel::getMixParams(in
     return {assetId,params};
 }
 
-void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &redo)
+void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &redo)
 {
     // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor

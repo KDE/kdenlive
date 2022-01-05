@@ -747,13 +747,12 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
-void KdenliveDoc::updateSubtitle(QString newUrl)
+void KdenliveDoc::updateSubtitle(const QString &newUrl)
 {
     if (auto ptr = m_subtitleModel.lock()) {
-        QString subPath;
         bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
         QFileInfo info(newUrl);
-        subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+        QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
         ptr->copySubtitle(subPath, checkOverwrite);
     }
 }
@@ -1162,7 +1161,7 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath)
+QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath)
 {
     QMap<QString, QString> existingProxies;
     for (auto &id : ids) {

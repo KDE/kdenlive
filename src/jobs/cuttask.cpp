@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QObject>
 #include <klocalizedstring.h>
 
-CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList encodingParams, int in, int out, bool addToProject, QObject* object)
+CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in, int out, bool addToProject, QObject* object)
     : AbstractTask(owner, AbstractTask::CUTJOB, object)
     , m_inPoint(GenTime(in, pCore->getCurrentFps()))
     , m_outPoint(GenTime(out, pCore->getCurrentFps()))

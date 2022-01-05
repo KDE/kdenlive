@@ -103,7 +103,7 @@ private slots:
     void changeEnabledState();
     /** @brief Activate an effect in the view
      */
-    void activateEffect(QModelIndex ix, bool active);
+    void activateEffect(const QModelIndex &ix, bool active);
 
     //    void switchBuiltStack(bool show);
 

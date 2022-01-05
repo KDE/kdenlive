@@ -193,7 +193,7 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     KdenliveSettings::setFavorite_effects(favs);
 }
 
-void EffectTreeModel::editCustomAsset(const QString newName,const QString newDescription, const QModelIndex &index)
+void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newDescription, const QModelIndex &index)
 {
 
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
