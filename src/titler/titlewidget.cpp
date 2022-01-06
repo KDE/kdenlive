@@ -56,6 +56,8 @@
 #include <mlt++/MltProfile.h>
 #include <utility>
 
+static QList<TitleTemplate> titleTemplates;
+
 // TODO What exactly is this variable good for?
 int settingUp = 0;
 
@@ -75,7 +77,7 @@ void TitleWidget::refreshTemplateBoxContents()
 {
     templateBox->clear();
     templateBox->addItem(QString());
-    for (const TitleTemplate &t : qAsConst(m_titleTemplates)) {
+    for (const TitleTemplate &t : qAsConst(titleTemplates)) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
 }
@@ -655,7 +657,7 @@ QStringList TitleWidget::extractFontList(const QString &xml)
 void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
     QStringList filters = QStringList() << QStringLiteral("*.kdenlivetitle");
-    m_titleTemplates.clear();
+    titleTemplates.clear();
 
     // project templates
     QDir dir(projectPath);
@@ -665,13 +667,13 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
         t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-        m_titleTemplates.append(t);
+        titleTemplates.append(t);
     }
 
     // system templates
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-    titleTemplates.removeDuplicates();
-    for (const QString &folderpath : qAsConst(titleTemplates)) {
+    QStringList currentTitleTemplates = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
+    currentTitleTemplates.removeDuplicates();
+    for (const QString &folderpath : qAsConst(currentTitleTemplates)) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
         for (const QString &fname : qAsConst(filesnames)) {
@@ -679,7 +681,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
             t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-            m_titleTemplates.append(t);
+            titleTemplates.append(t);
         }
     }
 }
