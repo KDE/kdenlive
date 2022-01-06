@@ -7,24 +7,24 @@
     This file is part of Kdenlive. See www.kdenlive.org.
 */
 
-#include "hidetitlebars.h"
 #include "core.h"
+#include "docktitlebarmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include <klocalizedstring.h>
 
-HideTitleBars::HideTitleBars(QObject *parent)
+DockTitleBarManager::DockTitleBarManager(QObject *parent)
     : QObject(parent)
 {
     m_switchAction = new QAction(i18n("Show Title Bars"), this);
     m_switchAction->setCheckable(true);
     m_switchAction->setChecked(KdenliveSettings::showtitlebars());
     pCore->window()->addAction(QStringLiteral("show_titlebars"), m_switchAction);
-    connect(m_switchAction, &QAction::triggered, this, &HideTitleBars::slotShowTitleBars);
-    connect(pCore->window(), &MainWindow::GUISetupDone, this, &HideTitleBars::slotInstallRightClick);
+    connect(m_switchAction, &QAction::triggered, this, &DockTitleBarManager::slotShowTitleBars);
+    connect(pCore->window(), &MainWindow::GUISetupDone, this, &DockTitleBarManager::slotInstallRightClick);
 }
 
-void HideTitleBars::slotInstallRightClick()
+void DockTitleBarManager::slotInstallRightClick()
 {
     // install right click
     QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
@@ -32,25 +32,50 @@ void HideTitleBars::slotInstallRightClick()
         tab->setContextMenuPolicy(Qt::CustomContextMenu);
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
-        connect(tab, &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
+        connect(tab, &QWidget::customContextMenuRequested, this, &DockTitleBarManager::slotSwitchTitleBars);
     }
     
     // connect
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (QDockWidget *dock : qAsConst(docks)) {
-        connect(dock, &QDockWidget::dockLocationChanged, pCore->window(), &MainWindow::slotUpdateDockLocation);
-        connect(dock, &QDockWidget::topLevelChanged, pCore->window(), &MainWindow::updateDockTitleBars);
+        connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
+        connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
     }
     updateTitleBars();
 }
 
-void HideTitleBars::updateTitleBars()
+void DockTitleBarManager::updateTitleBars()
 {
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 }
 
-void HideTitleBars::slotShowTitleBars(bool show)
+void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
 {
+    slotUpdateTitleBars(dockLocationArea != Qt::NoDockWidgetArea);
+}
+
+void DockTitleBarManager::slotShowTitleBars(bool show) {
+    KdenliveSettings::setShowtitlebars(show);
+    slotUpdateTitleBars();
+}
+
+
+void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
+{
+    QList<QTabBar *> tabbars = findChildren<QTabBar *>();
+    for (QTabBar *tab : qAsConst(tabbars)) {
+        tab->setAcceptDrops(true);
+        tab->setChangeCurrentOnDrag(true);
+        // Fix tabbar tooltip containing ampersand
+        for (int i = 0; i < tab->count(); i++) {
+            tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+        }
+    }
+
+    if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
+        return;
+    }
+
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (QDockWidget *dock : qAsConst(docks)) {
         QWidget *bar = dock->titleBarWidget();
@@ -61,7 +86,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
             }
         };
 
-        if (!show) {
+        if (!KdenliveSettings::showtitlebars()) {
             if (!dock->isFloating() && bar == nullptr) {
                 dock->setTitleBarWidget(new QWidget());
             }
@@ -91,10 +116,9 @@ void HideTitleBars::slotShowTitleBars(bool show)
             dock->setTitleBarWidget(new QWidget());
         }
     }
-    KdenliveSettings::setShowtitlebars(show);
 }
 
-void HideTitleBars::slotSwitchTitleBars()
+void DockTitleBarManager::slotSwitchTitleBars()
 {
     m_switchAction->trigger();
 }

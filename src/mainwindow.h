@@ -312,9 +312,6 @@ public slots:
     void connectDocument();
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
-    void updateDockTitleBars(bool isTopLevel = true);
-    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
-    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     void configureToolbars() override;
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);

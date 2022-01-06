@@ -23,7 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
-#include "hidetitlebars.h"
+#include "docktitlebarmanager.h"
 #include "jobs/audiolevelstask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"
@@ -496,8 +496,8 @@ void MainWindow::init(const QString &mltPath)
 
     auto *scmanager = new ScopeManager(this);
 
-    auto *titleBars = new HideTitleBars(this);
-    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
+    auto *titleBars = new DockTitleBarManager(this);
+    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &DockTitleBarManager::updateTitleBars);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
@@ -3881,15 +3881,6 @@ bool MainWindow::isMixedTabbed() const
     return !tabifiedDockWidgets(m_mixerDock).isEmpty();
 }
 
-void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
-{
-    if (dockLocationArea == Qt::NoDockWidgetArea) {
-        updateDockTitleBars(false);
-    } else {
-        updateDockTitleBars(true);
-    }
-}
-
 void MainWindow::slotUpdateMonitorOverlays(int id, int code)
 {
     QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
@@ -3944,61 +3935,6 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
         }
     }
     return false;
-}
-
-void MainWindow::updateDockTitleBars(bool isTopLevel)
-{
-    QList<QTabBar *> tabbars = findChildren<QTabBar *>();
-    for (QTabBar *tab : qAsConst(tabbars)) {
-        tab->setAcceptDrops(true);
-        tab->setChangeCurrentOnDrag(true);
-        // Fix tabbar tooltip containing ampersand
-        for (int i = 0; i < tab->count(); i++) {
-            tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
-        }
-    }
-
-    if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
-        return;
-    }
-    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    //qDebug()<<"=== FOUND DOCKS: "<<docks.count();
-    for (QDockWidget *dock : qAsConst(docks)) {
-        QWidget *bar = dock->titleBarWidget();
-        if (dock->isFloating()) {
-            if (bar) {
-                dock->setTitleBarWidget(nullptr);
-                delete bar;
-            }
-            continue;
-        }
-        QList<QDockWidget *> docked = tabifiedDockWidgets(dock);
-        if (docked.isEmpty()) {
-            if (bar) {
-                dock->setTitleBarWidget(nullptr);
-                delete bar;
-            }
-            continue;
-        }
-        bool hasVisibleDockSibling = false;
-        for (QDockWidget *sub : qAsConst(docked)) {
-            if (sub->toggleViewAction()->isChecked() && !sub->isTopLevel()) {
-                // we have another docked widget, so tabs are visible and can be used instead of title bars
-                hasVisibleDockSibling = true;
-                break;
-            }
-        }
-        if (!hasVisibleDockSibling) {
-            if (bar) {
-                dock->setTitleBarWidget(nullptr);
-                delete bar;
-            }
-            continue;
-        }
-        if (!bar) {
-            dock->setTitleBarWidget(new QWidget);
-        }
-    }
 }
 
 void MainWindow::slotToggleAutoPreview(bool enable)
