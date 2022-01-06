@@ -35,6 +35,10 @@ private slots:
     void slotLoadLayout(QAction *action);
     /** @brief Manage layout. */
     void slotManageLayouts();
+    /** @brief Arrange the Qt::DockWidgetAreas in rows. */
+    void slotDockAreaRows();
+    /** @brief Arrange the Qt::DockWidgetAreas in columns. */
+    void slotDockAreaColumns();
 
 private:
     /** @brief Saves the given layout asking the user for a name.

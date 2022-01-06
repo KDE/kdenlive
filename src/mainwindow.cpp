@@ -21,7 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "dockareaorientationmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "hidetitlebars.h"
@@ -499,7 +498,6 @@ void MainWindow::init(const QString &mltPath)
 
     auto *titleBars = new HideTitleBars(this);
     connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
-    new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 

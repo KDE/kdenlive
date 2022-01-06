@@ -56,6 +56,17 @@ LayoutManagement::LayoutManagement(QObject *parent)
         QAction *load = new QAction(QIcon(), QString(), this);
         m_layoutActions <<layoutActions->addAction("load_layout" + QString::number(i), load);
     }
+
+    // Dock Area Oriantation
+    QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
+    pCore->window()->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
+    connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
+
+    QAction * colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
+    pCore->window()->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
+    connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
+
+    // Create layout switcher for the menu bar
     MainWindow *main = pCore->window();
     m_container = new QWidget(main);
     m_containerGrp = new QButtonGroup(m_container);
@@ -557,4 +568,22 @@ void LayoutManagement::slotManageLayouts()
 
 const QString LayoutManagement::translatedName(const QString &name) {
     return m_translatedNames.contains(name) ? m_translatedNames.constFind(name).value() : name;
+}
+
+void LayoutManagement::slotDockAreaRows()
+{
+    // Use the corners for top and bottom DockWidgetArea
+    pCore->window()->setCorner(Qt::TopRightCorner, Qt::TopDockWidgetArea);
+    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::TopDockWidgetArea);
+    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::BottomDockWidgetArea);
+}
+
+void LayoutManagement::slotDockAreaColumns()
+{
+    // Use the corners for left and right DockWidgetArea
+    pCore->window()->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    pCore->window()->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+    pCore->window()->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    pCore->window()->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 }
