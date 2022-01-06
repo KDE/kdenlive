@@ -24,7 +24,7 @@ public:
 
 public slots:
     /** @brief Correctly hide/show dock widget title bars depending on position (floating, tabbed, docked) */
-    void updateTitleBars();
+    void slotUpdateTitleBars(bool isTopLevel = true);
 
 private:
     QAction *m_switchAction;
@@ -37,7 +37,6 @@ private slots:
     void slotShowTitleBars(bool show);
     /** @brief Toggles the the global visible state of the DockWidget title bars */
     void slotSwitchTitleBars();
-    void slotUpdateTitleBars(bool isTopLevel = true);
 };
 
 #endif

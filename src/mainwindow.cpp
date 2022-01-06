@@ -497,7 +497,7 @@ void MainWindow::init(const QString &mltPath)
     auto *scmanager = new ScopeManager(this);
 
     auto *titleBars = new DockTitleBarManager(this);
-    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &DockTitleBarManager::updateTitleBars);
+    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&] () { titleBars->slotUpdateTitleBars(); });
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
