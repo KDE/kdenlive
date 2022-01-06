@@ -41,12 +41,7 @@ void DockTitleBarManager::slotInstallRightClick()
         connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
         connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
     }
-    updateTitleBars();
-}
-
-void DockTitleBarManager::updateTitleBars()
-{
-    slotShowTitleBars(KdenliveSettings::showtitlebars());
+    slotUpdateTitleBars();
 }
 
 void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
@@ -58,7 +53,6 @@ void DockTitleBarManager::slotShowTitleBars(bool show) {
     KdenliveSettings::setShowtitlebars(show);
     slotUpdateTitleBars();
 }
-
 
 void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
 {
