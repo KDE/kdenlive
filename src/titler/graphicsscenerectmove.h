@@ -74,7 +74,7 @@ private:
     int m_tw_seed;
 
 public slots:
-    void updateGeometry(int, int, int);
+    void doUpdateGeometry();
     void updateGeometry();
 };
 

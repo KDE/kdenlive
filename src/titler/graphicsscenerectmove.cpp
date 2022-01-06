@@ -62,7 +62,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
-    connect(document(), &QTextDocument::contentsChange, this, [&](int, int, int) { updateGeometry(); });
+    connect(document(), &QTextDocument::contentsChange, this, &MyTextItem::doUpdateGeometry);
     updateTW(false, 2, 1, 0, 0);
 }
 
@@ -147,7 +147,7 @@ void MyTextItem::refreshFormat()
     setTextCursor(cursor);
 }
 
-void MyTextItem::updateGeometry(int, int, int)
+void MyTextItem::doUpdateGeometry()
 {
     updateGeometry();
     // update gradient if necessary
