@@ -56,7 +56,7 @@ void DockTitleBarManager::slotShowTitleBars(bool show) {
 
 void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
 {
-    QList<QTabBar *> tabbars = findChildren<QTabBar *>();
+    QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
     for (QTabBar *tab : qAsConst(tabbars)) {
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
