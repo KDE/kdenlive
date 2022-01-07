@@ -214,17 +214,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                                       Fun &undo, Fun &redo, bool topLevel)
 {
     QString createdItem;
-    /*QScopedPointer<QProgressDialog> progressDialog;
-    if (topLevel) {
-        progressDialog.reset(new QProgressDialog(pCore->window()));
-        progressDialog->setWindowTitle(i18n("Loading clips"));
-        progressDialog->setCancelButton(nullptr);
-        progressDialog->setLabelText(i18n("Importing bin clips..."));
-        progressDialog->setMaximum(0);
-        progressDialog->show();
-        progressDialog->repaint();
-        qApp->processEvents();
-    }*/
     // Check for duplicates
     QList<QUrl> cleanList;
     QStringList duplicates;
@@ -247,9 +236,15 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
+    int urlsCount = cleanList.count();
+    int current = 0;
     for (const QUrl &file : qAsConst(cleanList)) {
+        current++;
         if (!QFile::exists(file.toLocalFile())) {
             continue;
+        }
+        if (urlsCount > 3) {
+            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100*current/urlsCount));
         }
         QFileInfo info(file.toLocalFile());
         if (info.isDir()) {
@@ -370,8 +365,9 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 createdItem = clipId;
             }
         }
-        //qApp->processEvents();
+        qApp->processEvents();
     }
+    pCore->displayMessage(QString(), OperationCompletedMessage);
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }
