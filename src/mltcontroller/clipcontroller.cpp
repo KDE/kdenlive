@@ -223,7 +223,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
         m_clipType = ClipType::Color;
         // Required for faster compositing
-        m_masterProducer->set("mlt_image_format", "rgb24");
+        m_masterProducer->set("mlt_image_format", "rgb");
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("kdenlivetitle")) {
         if (!m_path.isEmpty()) {
