@@ -644,6 +644,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
+    pCore->bin()->setDocument(doc);
+
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
     doc->loadDocumentGuides();

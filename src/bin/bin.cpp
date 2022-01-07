@@ -1863,7 +1863,7 @@ void Bin::cleanDocument()
         m_proxyModel->selectionModel()->blockSignals(true);
     }
     setEnabled(false);
-    // Cleanup references in the cli properties dialog
+    // Cleanup references in the clip properties dialog
     emit requestShowClipProperties(nullptr);
 
     // Cleanup previous project
