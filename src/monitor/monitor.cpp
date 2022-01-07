@@ -1894,23 +1894,6 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     switchPlay(true);
 }
 
-void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
-{
-    // TODO or deprecate
-    Q_UNUSED(profile)
-    m_timePos->updateTimeCode(tc);
-    if (/* DISABLES CODE */ (true)) {
-        return;
-    }
-    if (!slotActivateMonitor()) {
-        return;
-    }
-    // render->prepareProfileReset(tc.fps());
-    // TODO: this is a temporary profile for DVD preview, it should not alter project profile
-    // pCore->setCurrentProfile(profile);
-    m_glMonitor->reloadProfile();
-}
-
 void Monitor::resetProfile()
 {
     m_timePos->updateTimeCode(pCore->timecode());

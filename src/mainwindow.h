@@ -457,7 +457,6 @@ private slots:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
-    void slotUpdateClipType(QAction *action);
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscodeClip();

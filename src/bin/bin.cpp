@@ -3117,7 +3117,7 @@ void Bin::setupMenu()
         addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
     m_openAction->setData("edit_clip");
     m_openAction->setEnabled(false);
-    connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClip);
+    connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClipExtern);
 
     m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), pCore->window()->actionCollection());
     m_renameAction->setEnabled(false);
@@ -3808,7 +3808,7 @@ void Bin::focusBinView() const
     m_itemView->setFocus();
 }
 
-void Bin::slotOpenClip()
+void Bin::slotOpenClipExtern()
 {
     std::shared_ptr<ProjectClip> clip = getFirstSelectedClip();
     if (!clip) {

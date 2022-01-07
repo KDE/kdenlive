@@ -421,7 +421,7 @@ public slots:
     void slotTagDropped(const QString &tag, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     /** @brief Open current clip in an external editing application */
-    void slotOpenClip();
+    void slotOpenClipExtern();
     void slotDuplicateClip();
     void slotLocateClip();
     void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);

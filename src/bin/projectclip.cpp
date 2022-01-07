@@ -1945,6 +1945,7 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
     }
     return QVector <uint8_t>();
     
+    // TODO
     /*QString key = QString("%1:%2").arg(m_binId).arg(stream);
     QByteArray audioData;
     if (pCore->audioThumbCache.find(key, &audioData)) {

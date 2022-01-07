@@ -1660,13 +1660,6 @@ void KdenliveDoc::checkPreviewStack(int ix)
     emit removeInvalidUndo(ix);
 }
 
-void KdenliveDoc::saveMltPlaylist(const QString &fileName)
-{
-    Q_UNUSED(fileName)
-    // TODO REFAC
-    // m_render->preparePreviewRendering(fileName);
-}
-
 void KdenliveDoc::initCacheDirs()
 {
     bool ok = false;

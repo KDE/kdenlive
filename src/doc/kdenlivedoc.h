@@ -87,8 +87,6 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene);
-    /** @brief Saves only the MLT xml to a file for preview rendering. */
-    void saveMltPlaylist(const QString &fileName);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);

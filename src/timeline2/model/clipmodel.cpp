@@ -349,7 +349,6 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
     Q_ASSERT(inPoint < outPoint);
     Q_ASSERT(out - in == outPoint - inPoint);
-    int trackDuration = 0; //TODO something is wrong here since trackDuration is always 0
 
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
@@ -361,9 +360,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
             Q_ASSERT(false);
         }
     }
-    QVector<int> roles{TimelineModel::StartRole};
-    roles.push_back(TimelineModel::InPointRole);
-    roles.push_back(TimelineModel::OutPointRole);
+    QVector<int> roles{TimelineModel::StartRole, TimelineModel::InPointRole, TimelineModel::OutPointRole};
     Fun operation = [this, inPoint, outPoint, roles, logUndo]() {
         setInOut(inPoint, outPoint);
         if (m_currentTrackId > -1) {
@@ -385,19 +382,6 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     if (operation()) {
         Fun reverse = []() { return true; };
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        if (m_currentTrackId != -1) {
-            if (auto ptr = m_parent.lock()) {
-                if (trackDuration > 0) {
-                    // Operation changed parent track duration, update effect stack
-                    int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
-                    if (logUndo || trackDuration != newDuration) {
-                        // A clip move changed the track duration, update track effects
-                        ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
-                    }
-                }
-                //track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
-                }
-        }
         reverse = [this, old_in, old_out, logUndo, roles]() {
             setInOut(old_in, old_out);
             if (m_currentTrackId > -1) {

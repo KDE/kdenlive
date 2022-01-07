@@ -3400,18 +3400,6 @@ void MainWindow::slotAlignAudio()
     getMainTimeline()->controller()->alignAudio();
 }
 
-void MainWindow::slotUpdateClipType(QAction *action)
-{
-    Q_UNUSED(action)
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        PlaylistState::ClipState state = (PlaylistState::ClipState)action->data().toInt();
-        pCore->projectManager()->currentTimeline()->projectView()->setClipType(state);
-    }
-    */
-}
-
 void MainWindow::slotUpdateTimelineView(QAction *action)
 {
     int viewMode = action->data().toInt();
@@ -3499,14 +3487,6 @@ void MainWindow::buildDynamicActions()
                 this, [&]() { SpeedTask::start(this); });
     }
 
-    // TODO refac reimplement analyseclipjob
-    /*
-    QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());
-    QStringList stabJob(QString::number((int)AbstractClipJob::ANALYSECLIPJOB));
-    action->setData(stabJob);
-    ts->addAction(action->text(), action);
-    connect(action, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
-    */
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
 
     if (kdenliveCategoryMap.contains(QStringLiteral("transcoderslist"))) {

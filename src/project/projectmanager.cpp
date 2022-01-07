@@ -644,13 +644,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
-    // TODO refac delete this
-    pCore->bin()->setDocument(doc);
-    QList<QAction *> rulerActions;
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("clear_render_timeline_zone"));
-
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
     doc->loadDocumentGuides();
