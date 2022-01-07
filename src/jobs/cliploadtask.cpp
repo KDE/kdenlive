@@ -640,6 +640,10 @@ void ClipLoadTask::run()
         }
         generateThumbnail(binClip, producer);
         emit taskDone();
+    } else {
+        // Might be aborted by profile switch
+        abort();
+        return;
     }
     pCore->taskManager.taskDone(m_owner.second, this);
 }
@@ -654,7 +658,7 @@ void ClipLoadTask::abort()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
-            if (binClip->hash().isEmpty()) {
+            if (binClip->isValid() && binClip->hash().isEmpty()) {
                 // User tried to add an invalid clip, remove it.
                 pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
             } else {
