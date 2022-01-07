@@ -3832,6 +3832,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
                 // Trigger action
                 tempAction->trigger();
                 ev->accept();
+                activateWindow();
                 return;
             }
         }
