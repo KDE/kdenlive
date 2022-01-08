@@ -658,7 +658,7 @@ void ClipLoadTask::abort()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
-            if (binClip->isValid() && binClip->hash().isEmpty()) {
+            if (!m_isCanceled) {
                 // User tried to add an invalid clip, remove it.
                 pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
             } else {
