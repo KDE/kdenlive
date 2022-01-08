@@ -219,7 +219,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QStringList duplicates;
     bool firstClip = topLevel;
     for (const QUrl &url : list) {
-        if (!pCore->projectItemModel()->urlExists(url.toLocalFile())) {
+        if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
             cleanList << url;
         } else {
             duplicates << url.toLocalFile();
@@ -367,7 +367,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         }
         qApp->processEvents();
     }
-    pCore->displayMessage(QString(), OperationCompletedMessage);
+    pCore->displayMessage(i18n("Loading done"), OperationCompletedMessage, 100);
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }

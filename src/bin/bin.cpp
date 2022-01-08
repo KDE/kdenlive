@@ -4829,19 +4829,19 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
-        connect(m_transcodingDialog, &QDialog::accepted, this, [=] () {
+        connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile] () {
             QString firstId = m_transcodingDialog->ids().front();
             std::vector<QString> ids = m_transcodingDialog->ids();
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
                 TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, id == firstId ? checkProfile : false);
             }
-            delete m_transcodingDialog;
+            m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
-        connect(m_transcodingDialog, &QDialog::rejected, this, [=] () {
+        connect(m_transcodingDialog, &QDialog::rejected, this, [&, checkProfile] () {
             QString firstId = m_transcodingDialog->ids().front();
-            delete m_transcodingDialog;
+            m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
             if (checkProfile) {
                 pCore->bin()->slotCheckProfile(firstId);
