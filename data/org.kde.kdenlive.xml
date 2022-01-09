@@ -2,6 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
+    <comment xml:lang="ar">مستند مشروع «كدينلايف» فيديو</comment>
     <comment xml:lang="az">Kdenlive video layihəsi sənədi</comment>
     <comment xml:lang="ca">Document de projecte de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Document de projecte de vídeo del Kdenlive</comment>
@@ -29,6 +30,7 @@
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
+    <comment xml:lang="ar">عنوان فيديو «كدينلايف»</comment>
     <comment xml:lang="az">Kdenlive video başlığı</comment>
     <comment xml:lang="ca">Títol de vídeo del Kdenlive</comment>
     <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
@@ -55,6 +57,7 @@
   </mime-type>
   <mime-type type="application/kdenlivelayout">
     <comment>Kdenlive application layout</comment>
+    <comment xml:lang="ar">تخطيط برنامج كدينلايف</comment>
     <comment xml:lang="az">Kdenlive tətbiq qatı</comment>
     <comment xml:lang="ca">Disposició de l'aplicació Kdenlive</comment>
     <comment xml:lang="ca@valencia">Disposició de l'aplicació Kdenlive</comment>
