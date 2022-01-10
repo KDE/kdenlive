@@ -955,6 +955,7 @@ void ClipWidget::init(QDockWidget* m_DockClipWidget)
 Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBin)
     : QWidget(parent)
     , isLoading(false)
+    , shouldCheckProfile(false)
     , m_isMainBin(isMainBin)
     , m_itemModel(std::move(model))
     , m_itemView(nullptr)
@@ -1870,6 +1871,8 @@ void Bin::cleanDocument()
     m_itemModel->clean();
     delete m_itemView;
     m_itemView = nullptr;
+    isLoading = false;
+    shouldCheckProfile = false;
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
@@ -4542,7 +4545,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
         }
         int height = producer->get_int("meta.media.height");
         height += height % 2;
-        if (width > 100 && height > 100) {
+        if (width > 100 && height > 100 && pCore->getCurrentFrameSize() != QSize(width, height)) {
             std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
             projectProfile->m_width = width;
             projectProfile->m_height = height;
@@ -4551,7 +4554,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
             projectProfile->m_display_aspect_num = width;
             projectProfile->m_display_aspect_den = height;
             projectProfile->m_description.clear();
-            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(projectProfile.get())));
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(projectProfile.get())), Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
         } else {
             // Very small image, we probably don't want to use this as profile
         }
@@ -4569,7 +4572,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
             }
         } else {
             // Profiles do not match, propose profile adjustment
-            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(clipProfile.get())));
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(clipProfile.get())), Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
         }
     }
 }

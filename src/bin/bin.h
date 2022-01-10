@@ -337,8 +337,10 @@ public:
      * @param properties some extra properties that will be set on the producer
      * @param createNew if true, the playlist will be added as a new clip in project binId */
     void savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew);
-    // Do some checks on the profile
+    /** @brief Do some checks on the profile */
     static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
+    /** @brief Should we process a profile check for added clips */
+    std::atomic<bool> shouldCheckProfile;
 
 private slots:
     void slotAddClip();

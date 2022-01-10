@@ -463,7 +463,10 @@ void ClipLoadTask::run()
             producer.reset();
         }
         qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60)<<"; RES: "<<resource;
-        emit proposeTranscode(resource);
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, pCore->bin()->shouldCheckProfile));
+        if (pCore->bin()->shouldCheckProfile) {
+            pCore->bin()->shouldCheckProfile = false;
+        }
         abort();
         return;
     }
@@ -542,6 +545,7 @@ void ClipLoadTask::run()
     double fps = -1;
     bool isVariableFrameRate = false;
     bool seekable = true;
+    bool checkProfile = pCore->bin()->shouldCheckProfile;
     if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
         // MLT playlist, create producer with blank profile to get real profile info
         QString tmpPath = resource;
@@ -583,16 +587,21 @@ void ClipLoadTask::run()
         // Check if file is seekable
         seekable = producer->get_int("seekable");
         vindex = producer->get_int("video_index");
-        bool checkProfile = false;
-        if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && vindex > -1) {
-            checkProfile = true;
+        if (vindex <= -1) {
+            checkProfile = false;
         }
         if (!seekable) {
+            if (checkProfile) {
+                pCore->bin()->shouldCheckProfile = false;
+            }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
         }
         // Check for variable frame rate
         isVariableFrameRate = producer->get_int("meta.media.variable_frame_rate");
         if (isVariableFrameRate && seekable) {
+            if (checkProfile) {
+                pCore->bin()->shouldCheckProfile = false;
+            }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
         }
         // check if there are multiple streams
@@ -634,7 +643,8 @@ void ClipLoadTask::run()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer));
-            if (m_xml.hasAttribute(QStringLiteral("_checkProfile")) && producer->get_int("video_index") > -1 && !isVariableFrameRate && seekable) {
+            if (checkProfile && !isVariableFrameRate && seekable) {
+                pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
             }
         }
@@ -654,6 +664,8 @@ void ClipLoadTask::abort()
     Fun redo = []() { return true; };
     m_progress = 100;
     pCore->taskManager.taskDone(m_owner.second, this);
+    qDebug()<<pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second))->clipUrl();
+    QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {

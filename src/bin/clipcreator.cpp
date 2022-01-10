@@ -126,9 +126,6 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
     }
-    if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
-        prod.setAttribute(QStringLiteral("_checkProfile"), 1);
-    }
     return xml;
 }
 
@@ -218,6 +215,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QList<QUrl> cleanList;
     QStringList duplicates;
     bool firstClip = topLevel;
+    pCore->bin()->shouldCheckProfile = (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && pCore->bin()->isEmpty();
     for (const QUrl &url : list) {
         if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
             cleanList << url;
