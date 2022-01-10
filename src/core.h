@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include "mlt++/MltProfile.h"
 

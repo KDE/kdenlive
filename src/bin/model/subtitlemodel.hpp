@@ -8,7 +8,7 @@
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>

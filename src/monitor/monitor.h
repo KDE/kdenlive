@@ -10,9 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "scopes/sharedframe.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QTimer>
 #include <QToolBar>

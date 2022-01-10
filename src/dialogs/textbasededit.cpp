@@ -12,7 +12,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include <memory>

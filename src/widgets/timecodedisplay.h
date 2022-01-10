@@ -7,19 +7,18 @@
 #ifndef TIMECODEDISPLAY_H
 #define TIMECODEDISPLAY_H
 
-#include "gentime.h"
-#include "timecode.h"
+#include "utils/gentime.h"
+#include "utils/timecode.h"
 
 #include <QAbstractSpinBox>
 
-/** @class MyValidator
-    @brief \@todo Describe class MyValidator
-    @todo Describe class MyValidator
+/** @class TimecodeValidator
+    @brief Input validator for TimecodeDisplay
  */
-class MyValidator : public QValidator
+class TimecodeValidator : public QValidator
 {
 public:
-    explicit MyValidator(QObject *parent = nullptr);
+    explicit TimecodeValidator(QObject *parent = nullptr);
     void fixup(QString &str) const override;
     QValidator::State validate(QString &str, int &pos) const override;
 };

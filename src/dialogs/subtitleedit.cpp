@@ -9,7 +9,7 @@
 
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include "QTextEdit"
 #include "klocalizedstring.h"

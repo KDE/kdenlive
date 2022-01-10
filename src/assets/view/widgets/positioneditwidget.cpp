@@ -8,7 +8,7 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitormanager.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QHBoxLayout>
 #include <QLabel>

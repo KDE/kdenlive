@@ -12,7 +12,7 @@
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 class PositionWidget;
 class QComboBox;

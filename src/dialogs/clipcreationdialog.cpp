@@ -18,7 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"

@@ -7,7 +7,7 @@
 #define KEYFRAMELISTMODELLIST_H
 
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "keyframemodel.hpp"
 #include "undohelper.hpp"
 

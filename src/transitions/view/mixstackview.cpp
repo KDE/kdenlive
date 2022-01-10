@@ -8,7 +8,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/positionwidget.h"
 
 #include <QComboBox>

@@ -5,7 +5,7 @@
 
 #include "simplekeyframewidget.h"
 #include "simpletimelinewidget.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QGridLayout>
 #include <QToolButton>

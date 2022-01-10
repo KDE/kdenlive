@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "ui_saveprofile_ui.h"
 #include "xml/xml.hpp"
 

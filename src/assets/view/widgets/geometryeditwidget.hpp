@@ -6,7 +6,7 @@
 #ifndef GEOMEDITWIDGET_H
 #define GEOMEDITWIDGET_H
 
-#include "timecode.h"
+#include "utils/timecode.h"
 #include <QWidget>
 
 #include "abstractparamwidget.hpp"

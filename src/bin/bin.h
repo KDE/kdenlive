@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KMessageWidget>
 

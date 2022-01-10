@@ -9,7 +9,7 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/geometrywidget.h"
 #include <QVBoxLayout>
 #include <framework/mlt_types.h>

@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include "gentime.h"
+#include "utils/gentime.h"
 
 #include "kdenlive_debug.h"
 

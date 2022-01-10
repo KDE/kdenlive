@@ -20,7 +20,7 @@
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "titler/patternsmodel.h"
 
 #include <cmath>

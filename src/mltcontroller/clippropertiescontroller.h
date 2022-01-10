@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define CLIPPROPERTIESCONTROLLER_H
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KMessageWidget>
 

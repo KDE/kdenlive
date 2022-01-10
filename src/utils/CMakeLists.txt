@@ -4,10 +4,12 @@ set(kdenlive_SRCS
   utils/colortools.cpp
   utils/devices.cpp
   utils/flowlayout.cpp
-  utils/qcolorutils.cpp
+  utils/gentime.cpp
   utils/otioconvertions.cpp
+  utils/qcolorutils.cpp
   utils/thememanager.cpp
   utils/thumbnailcache.cpp
+  utils/timecode.cpp
   PARENT_SCOPE
 )
 

@@ -15,7 +15,7 @@
 #define TITLEWIDGET_H
 
 #include "graphicsscenerectmove.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"

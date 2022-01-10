@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"

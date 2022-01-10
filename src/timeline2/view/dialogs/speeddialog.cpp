@@ -7,7 +7,7 @@
 #include "speeddialog.h"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "ui_clipspeed_ui.h"
 
 #include <KMessageWidget>

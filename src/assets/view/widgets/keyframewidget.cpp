@@ -18,8 +18,8 @@
 #include "kdenlivesettings.h"
 #include "lumaliftgainparam.hpp"
 #include "monitor/monitor.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
+#include "utils/timecode.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 

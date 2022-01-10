@@ -8,7 +8,7 @@
 
 #include "abstractcollapsiblewidget.h"
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <QDomElement>
 #include <memory>

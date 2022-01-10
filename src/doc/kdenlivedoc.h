@@ -24,8 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "../bin/model/subtitlemodel.hpp"
 
 #include "definitions.h"
-#include "gentime.h"
-#include "timecode.h"
+#include "utils/gentime.h"
+#include "utils/timecode.h"
 
 class MainWindow;
 class TrackInfo;

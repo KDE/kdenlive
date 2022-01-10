@@ -16,7 +16,7 @@
 
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>

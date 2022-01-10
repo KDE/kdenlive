@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
-#include "timecodedisplay.h"
 #include "widgets/choosecolorwidget.h"
+#include "widgets/timecodedisplay.h"
 #include <audio/audioStreamInfo.h>
 
 #include <KDualAction>

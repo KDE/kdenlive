@@ -6,7 +6,7 @@
 #ifndef SIMPLEKEYFRAMEWIDGET_H
 #define SIMPLEKEYFRAMEWIDGET_H
 
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <QWidget>
 

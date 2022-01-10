@@ -8,7 +8,7 @@
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>

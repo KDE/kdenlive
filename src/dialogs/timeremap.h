@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_timeremap_ui.h"
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <QWidget>
 #include <QTimer>
