@@ -241,7 +241,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted composition
     */
-    Q_INVOKABLE int insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertNewCompositionAtPos(int tid, int position, const QString &transitionId);
     Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo);
 
     /** @brief Request deletion of the currently selected clips

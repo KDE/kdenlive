@@ -430,14 +430,9 @@ void TimelineController::insertNewMix(int tid, int position, const QString &tran
     }
 }
 
-int TimelineController::insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo)
+int TimelineController::insertNewCompositionAtPos(int tid, int position, const QString &transitionId)
 {
-    int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
-    if (clipId > 0) {
-        int minimum = m_model->getClipPosition(clipId);
-        return insertNewComposition(tid, clipId, position - minimum, transitionId, logUndo);
-    }
-    return insertComposition(tid, position, transitionId, logUndo);
+    return insertComposition(tid, position, transitionId, true);
 }
 
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)

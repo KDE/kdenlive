@@ -587,7 +587,7 @@ Rectangle {
                     // We want a same track composition
                     timeline.insertNewMix(track, sameCutPos, clipBeingDroppedData)
                 } else if (!isAudioDrag) {
-                    timeline.insertNewComposition(track, frame, clipBeingDroppedData, true)
+                    timeline.insertNewCompositionAtPos(track, frame, clipBeingDroppedData)
                 } else {
                     // Cannot insert an audio mix composition
                 }
