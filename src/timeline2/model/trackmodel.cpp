@@ -2390,8 +2390,9 @@ int TrackModel::isOnCut(int cid)
 {
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(cid);
-        int startPos = composition->getPosition();
-        int endPos = startPos + composition->getPlaytime() - 1;
+        // Start and end pos are incremented by 1 to account snapping
+        int startPos = composition->getPosition() - 1;
+        int endPos = startPos + composition->getPlaytime() + 1;
         int cid1 = getClipByPosition(startPos);
         int cid2 = getClipByPosition(endPos);
         if (cid1 == -1 || cid2 == -1 || cid1 == cid2) {
