@@ -241,7 +241,7 @@ private slots:
     void slotExtractCurrentZone();
     void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
-    void setZoom();
+    void setZoom(float zoomRatio);
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);

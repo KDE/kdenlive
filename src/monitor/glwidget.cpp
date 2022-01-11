@@ -622,21 +622,11 @@ void GLWidget::paintGL()
 void GLWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
-        if (qFuzzyCompare(m_zoom, 1.0f)) {
-            setZoom(2.0f);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(3.0f);
-        } else if (m_zoom < 1.0f) {
-            setZoom(m_zoom * 2);
+        if (m_zoom < 12.0f) {
+            setZoom(m_zoom * 1.2);
         }
-    } else {
-        if (qFuzzyCompare(m_zoom, 3.0f)) {
-            setZoom(2.0);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(1.0);
-        } else if (m_zoom > 0.2f) {
-            setZoom(m_zoom / 2);
-        }
+    } else if (m_zoom > 0.2f) {
+        setZoom(m_zoom / 1.2f);
     }
 }
 
@@ -1286,9 +1276,12 @@ QPoint GLWidget::offset() const
 
 void GLWidget::setZoom(float zoom)
 {
+    if (m_zoom == zoom) {
+        return;
+    }
     double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
-    emit zoomChanged();
+    emit zoomChanged(zoomRatio);
     if (rootObject()) {
         rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
