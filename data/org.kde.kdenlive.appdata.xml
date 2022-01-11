@@ -266,6 +266,7 @@
       <caption xml:lang="es">Línea de tiempo de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive ajatelg</caption>
       <caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption>
+      <caption xml:lang="fi">Kdenlive aikajana</caption>
       <caption xml:lang="fr">Montage Kdenlive</caption>
       <caption xml:lang="id">Linimasa Kdenlive</caption>
       <caption xml:lang="it">Linea temporale Kdenlive</caption>
@@ -299,6 +300,7 @@
       <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive helikohendused</caption>
       <caption xml:lang="eu">Kdenlive audio doikuntzak</caption>
+      <caption xml:lang="fi">Kdenlive äänen säädöt</caption>
       <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
       <caption xml:lang="id">Penyetelan Audio Kdenlive</caption>
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
@@ -332,6 +334,7 @@
       <caption xml:lang="es">Efectos de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive efektid</caption>
       <caption xml:lang="eu">Kdenlive efektuak</caption>
+      <caption xml:lang="fi">Kdenlive tehosteet</caption>
       <caption xml:lang="fr">Effets Kdenlive</caption>
       <caption xml:lang="id">Efek Kdenlive</caption>
       <caption xml:lang="it">Effetti Kdenlive</caption>
