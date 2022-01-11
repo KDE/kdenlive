@@ -10,6 +10,7 @@ add_subdirectory(titles)
 add_subdirectory(profiles)
 add_subdirectory(resourceproviders)
 add_subdirectory(shortcuts)
+add_subdirectory(luts)
 
 install(FILES
   meta_magiclantern.png
