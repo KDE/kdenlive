@@ -172,7 +172,7 @@ signals:
     void paused();
     void playing();
     void rectChanged();
-    void zoomChanged();
+    void zoomChanged(float zoomRatio);
     void offsetChanged();
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
