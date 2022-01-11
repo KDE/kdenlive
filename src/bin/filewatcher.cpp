@@ -10,12 +10,13 @@
 
 FileWatcher::FileWatcher(QObject *parent)
     : QObject(parent)
+    , m_fileWatcher(new KDirWatch)
 {
     // Init clip modification tracker
     m_modifiedTimer.setInterval(1500);
-    connect(KDirWatch::self(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
-    connect(KDirWatch::self(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
-    connect(KDirWatch::self(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
+    connect(m_fileWatcher.get(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
+    connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
+    connect(m_fileWatcher.get(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
     m_queueTimer.setInterval(300);
     m_queueTimer.setSingleShot(true);
@@ -55,7 +56,7 @@ void FileWatcher::doAddFile(const QString &binId, const QString &url)
     }
     if (m_occurences.count(url) == 0) {
         //QtConcurrent::run([=] { KDirWatch::self()->addFile(url); });
-        KDirWatch::self()->addFile(url);
+        m_fileWatcher->addFile(url);
     }
     m_occurences[url].insert(binId);
     m_binClipPaths[binId] = url;
