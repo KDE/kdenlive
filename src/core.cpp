@@ -1195,3 +1195,8 @@ void Core::addBin(const QString &id)
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);
     m_mainWindow->addBin(bin, folderName);
 }
+
+void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist)
+{
+    pCore->window()->getMainTimeline()->controller()->loadPreview(chunks, dirty, documentDate, enablePreview, playlist);
+}

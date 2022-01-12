@@ -127,7 +127,7 @@ bool PreviewManager::buildPreviewTrack()
     return true;
 }
 
-void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate)
+void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate, Mlt::Playlist &playlist)
 {
     if (previewChunks.isEmpty()) {
         previewChunks = m_renderedChunks;
@@ -135,21 +135,39 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (dirtyChunks.isEmpty()) {
         dirtyChunks = m_dirtyChunks;
     }
-    for (const auto &frame : qAsConst(previewChunks)) {
-        const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame.toInt()).arg(m_extension));
-        QFile file(fileName);
-        if (file.exists()) {
-            if (!documentDate.isNull() && QFileInfo(file).lastModified() > documentDate) {
-                // Timeline preview file was created after document, invalidate
-                file.remove();
-                dirtyChunks << frame;
-            } else {
-                gotPreviewRender(frame.toInt(), fileName, 1000);
-            }
+
+    // First chech if there are invalid chunks (created after document date)
+    QFileInfoList chunksList = m_cacheDir.entryInfoList({QString("*.%1").arg(m_extension)}, QDir::Files, QDir::Time);
+    for (auto &chunkFile : chunksList) {
+        if (chunkFile.lastModified() > documentDate) {
+            // This chunk is invalid
+            QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
+            previewChunks.removeAll(chunkName);
+            dirtyChunks << chunkName;
+            // Physically remove chunk file
+            m_cacheDir.remove(chunkFile.fileName());
         } else {
-            dirtyChunks << frame;
+            // Done
+            break;
         }
     }
+
+    int max = playlist.count();
+    std::shared_ptr<Mlt::Producer> clip;
+    m_tractor->lock();
+    for (int i = 0; i < max; i++) {
+        if (playlist.is_blank(i)) {
+            continue;
+        }
+        int position = playlist.clip_start(i);
+        if (previewChunks.contains(QString::number(position))) {
+            clip.reset(playlist.get_clip(i));
+            m_renderedChunks << position;
+            m_previewTrack->insert_at(position, clip.get(), 1);
+        }
+    }
+    m_previewTrack->consolidate_blanks();
+    m_tractor->unlock();
     if (!previewChunks.isEmpty()) {
         emit m_controller->renderedChunksChanged();
     }

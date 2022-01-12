@@ -36,7 +36,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QList<Mlt::Transition *> compositions, QProgressDialog *progressDialog = nullptr);
 
-bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint, bool *projectErrors)
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, bool *projectErrors)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -72,6 +72,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
         if (reserved_names.contains(playlist_name)) {
+            if (playlist_name == QLatin1String("timeline_preview")) {
+                Mlt::Playlist local_playlist(*track);
+                pCore->loadTimelinePreview(chunks, dirty, documentDate, enablePreview, local_playlist);
+            }
             continue;
         }
         switch (track->type()) {

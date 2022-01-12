@@ -2412,7 +2412,8 @@ void TimelineController::disablePreview(bool disable)
                 m_timelinePreview->reconnectTrack();
                 m_model->m_tractor->unlock();
             }
-            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), QDateTime());
+            Mlt::Playlist playlist;
+            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), QDateTime(), playlist);
             m_usePreview = true;
         }
     }
@@ -2452,7 +2453,7 @@ void TimelineController::resetPreview()
     }
 }
 
-void TimelineController::loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable)
+void TimelineController::loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable, Mlt::Playlist &playlist)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {
         return;
@@ -2490,7 +2491,7 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
             m_usePreview = true;
             m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
-        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
+        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate, playlist);
     }
 }
 

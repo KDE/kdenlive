@@ -22,7 +22,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <unordered_set>
 #include "timecode.h"
 
-#include "mlt++/MltProfile.h"
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltPlaylist.h>
 
 class Bin;
 class DocUndoStack;
@@ -271,6 +272,7 @@ public:
     int getNewStuff(const QString &configFile);
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
+    void loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist);
 
 private:
     explicit Core();
