@@ -1318,10 +1318,12 @@ void MainWindow::setupActions()
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
     m_trimLabel->setMinimumWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
-    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
+    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
+    m_trimLabel->setToolTip(i18n("Active tool and editing mode"));
 
 
     toolbar->addWidget(m_trimLabel);
+    toolbar->addSeparator();
     toolbar->addAction(m_buttonTimelineTags);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
@@ -3185,7 +3187,7 @@ void MainWindow::showToolMessage()
             m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
         }
     } else {
-        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().midlight().color().name()));
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
     }
     m_trimLabel->setText(toolLabel);
     m_messageLabel->setKeyMap(message);
