@@ -148,7 +148,7 @@ TEST_CASE("Save File", "[SF]")
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
         bool projectErrors;
-        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), &projectErrors);
+        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), QDateTime(), 0, &projectErrors);
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(2);
         int cid1 = timeline->getClipByStartPosition(tid1, 0);

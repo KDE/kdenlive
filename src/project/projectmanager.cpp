@@ -233,7 +233,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->bin()->setDocument(doc);
     m_project = doc;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    updateTimeline(0);
+    updateTimeline(0, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
@@ -648,19 +648,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
-    doc->loadDocumentGuides();
-    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt())) {
+    m_project->loadDocumentGuides();
+    QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
         return;
     }
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
-    QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
-    pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
-                                                                  m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
-                                                                  m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
-
     emit docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     if (openBackup) {
@@ -973,7 +969,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-bool ProjectManager::updateTimeline(int pos)
+bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
     pCore->window()->getMainTimeline()->loading = true;
@@ -1004,7 +1000,7 @@ bool ProjectManager::updateTimeline(int pos)
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     bool projectErrors = false;
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), &projectErrors)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
