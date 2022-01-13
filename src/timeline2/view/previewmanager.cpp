@@ -151,6 +151,10 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
             break;
         }
     }
+    QStringList existingChuncks;
+    if (!previewChunks.isEmpty()) {
+        existingChuncks = m_cacheDir.entryList(QDir::Files);
+    }
 
     int max = playlist.count();
     std::shared_ptr<Mlt::Producer> clip;
@@ -161,9 +165,13 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         }
         int position = playlist.clip_start(i);
         if (previewChunks.contains(QString::number(position))) {
-            clip.reset(playlist.get_clip(i));
-            m_renderedChunks << position;
-            m_previewTrack->insert_at(position, clip.get(), 1);
+            if (existingChuncks.contains(QString("%1.%2").arg(position).arg(m_extension))) {
+                clip.reset(playlist.get_clip(i));
+                m_renderedChunks << position;
+                m_previewTrack->insert_at(position, clip.get(), 1);
+            } else {
+                dirtyChunks << position;
+            }
         }
     }
     m_previewTrack->consolidate_blanks();
