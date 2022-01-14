@@ -668,7 +668,7 @@ void RenderWidget::slotSaveProfile()
 
 bool RenderWidget::saveProfile(QDomElement newprofile)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -2096,8 +2096,8 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     for (const QString &filename : qAsConst(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
-    if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
-        parseFile(exportFolder + QStringLiteral("customprofiles.xml"), true);
+    if (directory.exists(QStringLiteral("customprofiles.xml"))) {
+        parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
     }
 
     focusFirstVisibleItem(selectedProfile);
