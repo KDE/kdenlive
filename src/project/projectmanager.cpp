@@ -952,7 +952,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         return false;
     }
     m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
-    // Add snap point at projec start
+    // Add snap point at project start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     bool projectErrors = false;
@@ -960,6 +960,8 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
+    // Free memory used by original playlist
+    xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
@@ -1154,6 +1156,13 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
         bool ok;
+        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage") && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+            // Slideshow, duration is frame based, should be calculated again
+            Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
+            Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
+            e.setAttribute(QStringLiteral("out"), -1);
+            continue;
+        }
         int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
         if (ok && length > 0) {
             // calculate updated length
