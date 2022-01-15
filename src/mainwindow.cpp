@@ -1653,11 +1653,13 @@ void MainWindow::setupActions()
 
     act = addAction(QStringLiteral("edit_item_speed"), i18n("Change Speed"), this, SLOT(slotEditItemSpeed()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
+    // "Q" as data means this action should only be available if the item is not endless and has no time remap
+    act->setData('Q');
     act->setEnabled(false);
     
     act = addAction(QStringLiteral("edit_item_remap"), i18n("Time Remap"), this, SLOT(slotRemapItemTime()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
-    // "C" as data means this action should only be available for clips - not for compositions
+    // "R" as data means this action should only be available if the item is not endless and has no speed effect
     act->setData('R');
     act->setCheckable(true);
     act->setEnabled(false);
