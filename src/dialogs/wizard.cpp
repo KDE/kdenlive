@@ -42,6 +42,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
 #include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegate>
 #endif
 
 // Recommended MLT version
@@ -116,8 +117,18 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
         connect(lab, &QLabel::linkActivated, this, &Wizard::slotOpenManual);
         m_startLayout->addWidget(lab);
-    } else {
-        // Everything is ok, auto close the wizard
+    }
+    if (!m_infos.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Information);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
+    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
+        // Everything is ok only some info message, show codec status
         m_page->setComplete(true);
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
@@ -170,15 +181,6 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         auto *errorLabel = new KMessageWidget(this);
         errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Warning);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        errorLabel->show();
-    }
-    if (!m_infos.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Information);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
         m_startLayout->addWidget(errorLabel);
@@ -826,7 +828,12 @@ bool Wizard::isOk() const
 void Wizard::slotOpenManual()
 {
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
-    KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"));
+    auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")));
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
+    // exist in both classes
+    job->start();
+    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"));
 #else
     KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this, KRun::RunFlags());
 #endif
