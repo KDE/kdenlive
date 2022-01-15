@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QProcess>
+#include <QMutexLocker>
 #include <QStandardPaths>
 #include <QCollator>
 
@@ -180,6 +181,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         emit m_controller->renderedChunksChanged();
     }
     if (!dirtyChunks.isEmpty()) {
+        QMutexLocker lock(&m_dirtyMutex);
         for (const auto &i : qAsConst(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
@@ -317,7 +319,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(const QVariantList chunks)
+void PreviewManager::invalidatePreviews()
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = KdenliveSettings::autopreview();
@@ -333,7 +335,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         int ix = stackIx - 1;
         m_undoDir.mkdir(QString::number(ix));
         bool foundPreviews = false;
-        for (const auto &i : chunks) {
+        for (const auto &i : m_dirtyChunks) {
             QString current = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(ix).arg(current))) {
                 foundPreviews = true;
@@ -355,7 +357,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
                 lastUndo = true;
                 bool foundPreviews = false;
                 m_undoDir.mkdir(QString::number(stackMax));
-                for (const auto &i : chunks) {
+                for (const auto &i : m_dirtyChunks) {
                     QString current = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
                     if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(stackMax).arg(current))) {
                         foundPreviews = true;
@@ -372,7 +374,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
             moveFile = false;
         }
         QVariantList foundChunks;
-        for (const auto &i : chunks) {
+        for (const auto &i : m_dirtyChunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
@@ -380,8 +382,6 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
             if (moveFile) {
                 if (QFile::copy(tmpDir.absoluteFilePath(cacheFileName), m_cacheDir.absoluteFilePath(cacheFileName))) {
                     foundChunks << i;
-                    m_dirtyChunks.removeAll(i);
-                    m_renderedChunks << i;
                 } else {
                     qDebug() << "// ERROR PROCESSE CHUNK: " << i << ", " << cacheFileName;
                 }
@@ -389,6 +389,12 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         }
         if (!foundChunks.isEmpty()) {
             std::sort(foundChunks.begin(), foundChunks.end());
+            m_dirtyMutex.lock();
+            for (auto &ck : foundChunks) {
+                m_dirtyChunks.removeAll(ck);
+                m_renderedChunks << ck;
+            }
+            m_dirtyMutex.unlock();
             emit m_controller->dirtyChunksChanged();
             emit m_controller->renderedChunksChanged();
             reloadChunks(foundChunks);
@@ -428,6 +434,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     abortRendering();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
+    QMutexLocker lock(&m_dirtyMutex);
     for (const auto &ix : qAsConst(m_renderedChunks)) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
         if (!m_dirtyChunks.contains(ix)) {
@@ -463,6 +470,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     int endChunk = int(rintl(zone.y() / chunkSize));
     QList<int> toRemove;
     qDebug() << " // / RESUQEST CHUNKS; " << startChunk << " = " << endChunk;
+    QMutexLocker lock(&m_dirtyMutex);
     for (int i = startChunk; i <= endChunk; i++) {
         int frame = i * chunkSize;
         if (add) {
@@ -572,6 +580,7 @@ void PreviewManager::receivedStderr()
 void PreviewManager::doPreviewRender(const QString &scene)
 {
     // initialize progress bar
+    QMutexLocker lock(&m_dirtyMutex);
     std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     if (m_dirtyChunks.isEmpty()) {
         return;
@@ -626,7 +635,7 @@ void PreviewManager::slotProcessDirtyChunks()
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
-    invalidatePreviews(m_dirtyChunks);
+    invalidatePreviews();
     if (KdenliveSettings::autopreview()) {
         m_previewTimer.start();
     }
@@ -683,6 +692,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             QVariant val(i);
             m_renderedChunks.removeAll(val);
             if (!m_dirtyChunks.contains(val)) {
+                QMutexLocker lock(&m_dirtyMutex);
                 m_dirtyChunks << val;
                 chunksChanged = true;
             }
@@ -745,6 +755,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (m_previewTrack->is_blank_at(frame)) {
         Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
+            QMutexLocker lock(&m_dirtyMutex);
             m_dirtyChunks.removeAll(frame);
             m_renderedChunks << frame;
             emit m_controller->renderedChunksChanged();
@@ -777,6 +788,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     emit previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);
     if (!m_dirtyChunks.contains(frame)) {
+        QMutexLocker lock(&m_dirtyMutex);
         m_dirtyChunks << frame;
         std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     }
@@ -804,6 +816,7 @@ QPair<QStringList, QStringList> PreviewManager::previewChunks() const
     for (const QVariant &frame : m_renderedChunks) {
         renderedChunks << frame.toString();
     }
+    QMutexLocker lock(&m_dirtyMutex);
     for (const QVariant &frame : m_dirtyChunks) {
         dirtyChunks << frame.toString();
     }
