@@ -623,7 +623,7 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
     if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
         program = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
         if (program.isEmpty()) {
-            infos.append(i18n("<li>Missing app: <b>mediainfo</b><br/>optional for technical clip information/li>"));
+            infos.append(i18n("<li>Missing app: <b>mediainfo</b><br/>optional for technical clip information</li>"));
         } else {
             KdenliveSettings::setMediainfopath(program);
         }
