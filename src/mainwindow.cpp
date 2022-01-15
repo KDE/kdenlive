@@ -142,6 +142,17 @@ MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_activeTool(ToolType::SelectTool)
 {
+    // Init all action categories that are used by other parts of the software
+    // before we call MainWindow::init and therefore can't be initilized there
+    KActionCategory *category = new KActionCategory(i18n("Monitor"), actionCollection());
+    kdenliveCategoryMap.insert(QStringLiteral("monitor"), category);
+    category = new KActionCategory(i18n("Add Clip"), actionCollection());
+    kdenliveCategoryMap.insert(QStringLiteral("addclip"), category);
+    category = new KActionCategory(i18n("Navigation and Playback"), actionCollection());
+    kdenliveCategoryMap.insert(QStringLiteral("navandplayback"), category);
+    category = new KActionCategory(i18n("Bin Tags"), actionCollection());
+    kdenliveCategoryMap.insert(QStringLiteral("bintags"), category);
+
 }
 
 void MainWindow::init(const QString &mltPath)
@@ -1021,6 +1032,11 @@ void MainWindow::addAction(const QString &name, QAction *action, const QKeySeque
     actionCollection()->setDefaultShortcut(action, shortcut);
 }
 
+void MainWindow::addAction(const QString &name, QAction *action, const QKeySequence &shortcut, const QString &category)
+{
+    addAction(name, action, shortcut, kdenliveCategoryMap.value(category, nullptr));
+}
+
 QAction *MainWindow::addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
                                const QKeySequence &shortcut, KActionCategory *category)
 {
@@ -1032,6 +1048,12 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
     connect(action, SIGNAL(triggered(bool)), receiver, member);
 
     return action;
+}
+
+QAction *MainWindow::addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
+                               const QKeySequence &shortcut, const QString &category)
+{
+    return addAction(name, text, receiver, member, icon, shortcut, kdenliveCategoryMap.value(category, nullptr));
 }
 
 void MainWindow::setupActions()
@@ -1224,32 +1246,6 @@ void MainWindow::setupActions()
     
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
-    /*QWidget * actionWidget;
-    int max = toolbar->iconSizeDefault() + 2;
-    actionWidget = toolbar->widgetForAction(m_normalEditTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_insertEditTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_overwriteEditTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonRazorTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);
-
-    actionWidget = toolbar->widgetForAction(m_buttonSpacerTool);
-    actionWidget->setMaximumWidth(max);
-    actionWidget->setMaximumHeight(max - 4);*/
-
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
     m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
@@ -1347,16 +1343,19 @@ void MainWindow::setupActions()
     toolbar->layout()->setContentsMargins(0, 0, 0, 0);
     statusBar()->setContentsMargins(0, 0, 0, 0);
 
+
     addAction(QStringLiteral("normal_mode"), m_normalEditTool);
     addAction(QStringLiteral("overwrite_mode"), m_overwriteEditTool);
     addAction(QStringLiteral("insert_mode"), m_insertEditTool);
-    addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S);
-    addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
-    addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
-    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool);
-    //addAction(QStringLiteral("roll_tool"), m_buttonRollTool);
-    addAction(QStringLiteral("slip_tool"), m_buttonSlipTool);
-    addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool);
+
+    KActionCategory *toolsActionCategory = new KActionCategory(i18n("Tools"), actionCollection());
+    addAction(QStringLiteral("select_tool"), m_buttonSelectTool, Qt::Key_S, toolsActionCategory);
+    addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X, toolsActionCategory);
+    addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M, toolsActionCategory);
+    addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool, {}, toolsActionCategory);
+    //addAction(QStringLiteral("roll_tool"), m_buttonRollTool, QKeySequence(), toolsActionCategory);
+    addAction(QStringLiteral("slip_tool"), m_buttonSlipTool, {}, toolsActionCategory);
+    addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool, {}, toolsActionCategory);
     //addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
 
     addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
@@ -1412,9 +1411,9 @@ void MainWindow::setupActions()
     });
 
     m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space);
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space, QStringLiteral("navandplayback"));
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::SHIFT + Qt::Key_Space);
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::SHIFT + Qt::Key_Space, QStringLiteral("navandplayback"));
     m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
@@ -1435,27 +1434,27 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("document-open")));
 
     QAction *overlayInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
-    addAction(QStringLiteral("monitor_overlay"), overlayInfo);
+    addAction(QStringLiteral("monitor_overlay"), overlayInfo, {}, QStringLiteral("monitor"));
     overlayInfo->setCheckable(true);
     overlayInfo->setData(0x01);
 
     QAction *overlayTCInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
-    addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo);
+    addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo, {}, QStringLiteral("monitor"));
     overlayTCInfo->setCheckable(true);
     overlayTCInfo->setData(0x02);
 
     QAction *overlayFpsInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
-    addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo);
+    addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo, {}, QStringLiteral("monitor"));
     overlayFpsInfo->setCheckable(true);
     overlayFpsInfo->setData(0x20);
 
     QAction *overlayMarkerInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
-    addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo);
+    addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo, {}, QStringLiteral("monitor"));
     overlayMarkerInfo->setCheckable(true);
     overlayMarkerInfo->setData(0x04);
 
     QAction *overlayAudioInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
-    addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo);
+    addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo, {}, QStringLiteral("monitor"));
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
 
@@ -1527,7 +1526,7 @@ void MainWindow::setupActions()
     KSelectAction *monitorGamma = new KSelectAction(i18n("Monitor Gamma"), this);
     monitorGamma->addAction(i18n("sRGB (computer)"));
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
-    addAction(QStringLiteral("mlt_gamma"), monitorGamma);
+    addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
 #if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
     connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
@@ -1540,18 +1539,19 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
-              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
-    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Guide"), this, SLOT(slotGuideRewind()),
-              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL + Qt::Key_Left);
-    addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
-              Qt::Key_Home);
-    addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
-              Qt::Key_End);
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
-              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT + Qt::Key_Right);
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT + Qt::Key_Right, QStringLiteral("navandplayback"));
+    addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
+              Qt::Key_Home, QStringLiteral("navandplayback"));
+    addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
+              Qt::Key_End, QStringLiteral("navandplayback"));
+    addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Guide"), this, SLOT(slotGuideRewind()),
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL + Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Guide"), this, SLOT(slotGuideForward()),
-              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL + Qt::Key_Right);
-    addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P);
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL + Qt::Key_Right, QStringLiteral("navandplayback"));
+    addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(),
+              Qt::Key_P, QStringLiteral("navandplayback"));
 
     addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()), QIcon::fromTheme(QStringLiteral("transform-move")),
               Qt::SHIFT + Qt::Key_G);
@@ -1652,11 +1652,13 @@ void MainWindow::setupActions()
 
     act = addAction(QStringLiteral("edit_item_speed"), i18n("Change Speed"), this, SLOT(slotEditItemSpeed()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
+    // "Q" as data means this action should only be available if the item is not endless and has no time remap
+    act->setData('Q');
     act->setEnabled(false);
     
     act = addAction(QStringLiteral("edit_item_remap"), i18n("Time Remap"), this, SLOT(slotRemapItemTime()),
                              QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
-    // "C" as data means this action should only be available for clips - not for compositions
+    // "R" as data means this action should only be available if the item is not endless and has no speed effect
     act->setData('R');
     act->setCheckable(true);
     act->setEnabled(false);
@@ -1860,22 +1862,23 @@ void MainWindow::setupActions()
     disableEffects->setChecked(false);
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
-              Qt::SHIFT + Qt::Key_H);
+              Qt::SHIFT + Qt::Key_H, timelineActions);
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
-              Qt::SHIFT + Qt::Key_L);
+              Qt::SHIFT + Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
-              Qt::CTRL + Qt::SHIFT + Qt::Key_L);
+              Qt::CTRL + Qt::SHIFT + Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
-              Qt::SHIFT + Qt::Key_T);
+              Qt::SHIFT + Qt::Key_T, timelineActions);
     addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(),
-              Qt::Key_A);
+              Qt::Key_A, timelineActions);
     addAction(QStringLiteral("switch_all_targets"), i18n("Toggle All Tracks Active"), pCore->projectManager(), SLOT(slotSwitchAllTrackActive()), QIcon(),
-              Qt::SHIFT + Qt::Key_A);
+              Qt::SHIFT + Qt::Key_A, timelineActions);
     addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
-              Qt::SHIFT + Qt::ALT + Qt::Key_A);
-    addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()));
+              Qt::SHIFT + Qt::ALT + Qt::Key_A, timelineActions);
+    addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()),
+              {}, {}, timelineActions);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
-              QIcon::fromTheme(QStringLiteral("bookmark-new")));
+              QIcon::fromTheme(QStringLiteral("bookmark-new")), {}, timelineActions);
     
     
     // Build activate track shortcut sequences
@@ -3445,6 +3448,9 @@ void MainWindow::loadDockActions()
     QMap<QString, QAction *> sorted;
     QStringList sortedList;
     for (QAction *a : qAsConst(list)) {
+        if(a->objectName().startsWith(QStringLiteral("raise_"))) {
+            continue;
+        }
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
@@ -3562,6 +3568,12 @@ void MainWindow::updateDockMenu()
         }
         dockInformations->setChecked(!dock->isHidden());
         guiActions->addAction(dockInformations->text(), dockInformations);
+        QAction *action = new QAction(i18n("Raise %1", dockInformations->text()), this);
+        connect(action, &QAction::triggered, this, [dock](){
+            dock->raise();
+            dock->setFocus();
+        });
+        addAction("raise_" + dock->objectName(), action, {}, guiActions);
     }
     kdenliveCategoryMap.insert(QStringLiteral("interface"), guiActions);
 }
@@ -3841,7 +3853,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QWidget::keyPressEvent(ev);
 }
 
-QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area, const QKeySequence &shortcut)
+QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area)
 {
     QDockWidget *dockWidget = new QDockWidget(title, this);
     dockWidget->setObjectName(objectName);
@@ -3849,12 +3861,12 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     addDockWidget(area, dockWidget);
 
     // Add action to raise and focus the Dock (e.g. with a shortcut)
-    QAction *action = new QAction(i18n("Raise %1", title), this);
+    /*QAction *action = new QAction(i18n("Raise %1", title), this);
     connect(action, &QAction::triggered, this, [dockWidget](){
         dockWidget->raise();
         dockWidget->setFocus();
     });
-    addAction("raise_" + objectName, action, shortcut);
+    addAction("raise_" + objectName, action, {});*/
     return dockWidget;
 }
 

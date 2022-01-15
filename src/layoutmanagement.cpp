@@ -59,11 +59,11 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     // Dock Area Oriantation
     QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
-    pCore->window()->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
+    layoutActions->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
     connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
 
     QAction * colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
-    pCore->window()->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
+    layoutActions->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
     connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
 
     // Create layout switcher for the menu bar

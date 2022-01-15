@@ -549,7 +549,7 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    QAction *addAction(const QString &name, const QString &text, const QIcon &icon);
+    QAction *addAction(const QString &name, const QString &text, const QIcon &icon, const QString &category = {});
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
