@@ -2612,6 +2612,7 @@ void TimelineController::remapItemTime(int clipId)
         // Add remap effect
         emit pCore->remapClip(clipId);
     }
+    updateClipActions();
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -2654,7 +2655,10 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         pitchCompensate = d->getPitchCompensate();
         qDebug() << "requesting speed " << speed;
     }
-    m_model->requestClipTimeWarp(clipId, speed, pitchCompensate, true);
+    bool res = m_model->requestClipTimeWarp(clipId, speed, pitchCompensate, true);
+    if (res) {
+        updateClipActions();
+    }
 }
 
 void TimelineController::switchCompositing(int mode)
@@ -3783,11 +3787,16 @@ void TimelineController::updateClipActions()
             // Position actions should stay enabled in clip monitor
             enableAction = true;
         } else if (actionData == QLatin1Char('R')) {
-            // Time remap action
-            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image;
+            // Time remap action        
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image
+                    && qFuzzyCompare(1., m_model->m_allClips[item]->getSpeed());
             if (enableAction) {
                 act->setChecked(clip->isChain());
             }
+        } else if (actionData == QLatin1Char('Q')) {
+            // Speed change action
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image
+                    && !clip->isChain();
         }
         act->setEnabled(enableAction);
     }
