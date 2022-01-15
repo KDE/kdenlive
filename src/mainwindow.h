@@ -89,9 +89,14 @@ public:
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action, const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    void addAction(const QString &name, QAction *action, const QKeySequence &shortcut, const QString &category);
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
+                       const QKeySequence &shortcut, const QString &category);
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -102,7 +107,7 @@ public:
      * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea, const QKeySequence &shortcut = QKeySequence());
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     QUndoGroup *m_commandStack;
     QUndoView *m_undoView;

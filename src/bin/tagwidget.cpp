@@ -50,7 +50,7 @@ DragButton::DragButton(int ix, const QString &tag, const QString &description, Q
     ac->setIcon(QIcon(pix));
     ac->setCheckable(true);
     setDefaultAction(ac);
-    pCore->window()->actionCollection()->addAction(QString("tag_%1").arg(ix), ac);
+    pCore->window()->addAction(QString("tag_%1").arg(ix), ac, {}, QStringLiteral("bintags"));
     connect(ac, &QAction::triggered, this, [&] (bool checked) {
         emit switchTag(m_tag, checked);
     });

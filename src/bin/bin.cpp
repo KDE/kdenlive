@@ -2789,19 +2789,19 @@ void Bin::doRefreshPanel(const QString &id)
     }
 }
 
-QAction *Bin::addAction(const QString &name, const QString &text, const QIcon &icon)
+QAction *Bin::addAction(const QString &name, const QString &text, const QIcon &icon, const QString &category)
 {
     auto *action = new QAction(text, this);
     if (!icon.isNull()) {
         action->setIcon(icon);
     }
-    pCore->window()->addAction(name, action);
+    pCore->window()->addAction(name, action, {}, category);
     return action;
 }
 
 void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon)
 {
-    QAction *action = addAction(name, text, icon);
+    QAction *action = addAction(name, text, icon, QStringLiteral("addclip"));
     action->setData(static_cast<QVariant>(type));
     addClipMenu->addAction(action);
     connect(action, &QAction::triggered, this, &Bin::slotCreateProjectClip);
@@ -3067,7 +3067,7 @@ void Bin::setupMenu()
     auto *addClipMenu = new QMenu(this);
 
     m_addClip =
-        addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
+            addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
     addClipMenu->addAction(m_addClip);
     connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
