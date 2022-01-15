@@ -522,8 +522,6 @@ void Wizard::checkMltComponents()
 
 void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
 {
-    bool allIsOk = true;
-
     // Check first in same folder as melt exec
     const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
@@ -538,7 +536,6 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
             if (exepath.isEmpty()) {
                 warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
-                allIsOk = false;
             }
         }
     }
@@ -612,10 +609,24 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
             KdenliveSettings::setDefaultaudioapp(program);
         }
     }
-    if (allIsOk) {
-        // OK
-    } else {
-        // WRONG
+
+    if (KdenliveSettings::defaultaudioapp().isEmpty()) {
+        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
+        if (program.isEmpty()) {
+            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        }
+        if (!program.isEmpty()) {
+            KdenliveSettings::setDefaultaudioapp(program);
+        }
+    }
+
+    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
+        program = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
+        if (program.isEmpty()) {
+            infos.append(i18n("<li>Missing app: <b>mediainfo</b><br/>optional for technical clip information/li>"));
+        } else {
+            KdenliveSettings::setMediainfopath(program);
+        }
     }
 }
 
