@@ -942,14 +942,14 @@ bool Wizard::isOk() const
 void Wizard::slotOpenManual()
 {
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
-    auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")));
+    auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"));
+    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 #else
-    KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this, KRun::RunFlags());
+    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this, KRun::RunFlags());
 #endif
 }
 
