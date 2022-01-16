@@ -190,9 +190,10 @@ void RemapView::setBinClipDuration(std::shared_ptr<ProjectClip> clip, int durati
     m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
 }
 
-void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration)
+void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration)
 {
     m_clip = nullptr;
+    m_sourceDuration = sourceDuration;
     if (duration < 0) {
         // reset
         m_service = nullptr;
@@ -492,6 +493,13 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 int delta = realPos - m_currentKeyframe.second;
                 // Check that the move is possible
                 QMapIterator<int, int> i(m_selectedKeyframes);
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value() + delta > m_sourceDuration) {
+                        return;
+                    }
+                }
+                i.toFront();
                 QMap<int,int>updated;
                 while (i.hasNext()) {
                     i.next();
@@ -1670,7 +1678,7 @@ void TimeRemap::selectedClip(int cid)
     m_in->setRange(0, m_view->m_maxLength - prod->get_in());
     //m_in->setRange(0, m_lastLength - 1);
     m_out->setRange(0, INT_MAX);
-    m_view->setDuration(prod, m_lastLength);
+    m_view->setDuration(prod, m_lastLength, prod->parent().get_length());
     qDebug()<<"===== GOT PRODUCER TYPE: "<<prod->parent().type();
     if (prod->parent().type() == mlt_service_chain_type) {
         Mlt::Chain fromChain(prod->parent());

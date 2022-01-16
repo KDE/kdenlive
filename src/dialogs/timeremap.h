@@ -35,7 +35,7 @@ public:
     friend class TimeRemap;
     explicit RemapView(QWidget *parent = nullptr);
     void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
-    void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
+    void setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration = 0);
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData(QMap<int,int> keyframes = {}) const;
     int position() const;
@@ -81,6 +81,7 @@ public slots:
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};
     int m_duration;
+    int m_sourceDuration;
     int m_lastMaxDuration;
     int m_position;
     /** @brief the maximum duration of the parent (bin) clip */
