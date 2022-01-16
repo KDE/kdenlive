@@ -1520,7 +1520,13 @@ TimeRemap::TimeRemap(QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-
+    warningMessage->hide();
+    QAction *ac = new QAction(i18n("Transcode"), this);
+    warningMessage->addAction(ac);
+    connect(ac, &QAction::triggered, this, [&]() {
+        
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(bool, false));
+    });
     m_in = new TimecodeDisplay(pCore->timecode(), this);
     inLayout->addWidget(m_in);
     m_out = new TimecodeDisplay(pCore->timecode(), this);
@@ -1601,7 +1607,7 @@ TimeRemap::TimeRemap(QWidget *parent)
         m_out->setRange(0, INT_MAX);
         //m_in->setRange(0, duration - 1);
     });
-    setEnabled(false);
+    remap_box->setEnabled(false);
 }
 
 const QString &TimeRemap::currentClip() const
@@ -1641,29 +1647,41 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
 void TimeRemap::selectedClip(int cid)
 {
     if (cid == -1 && cid == m_cid) {
+        warningMessage->hide();
         return;
     }
     QObject::disconnect( m_seekConnection1 );
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
-    m_cid = cid;
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
     disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     if (cid == -1) {
         m_binId.clear();
         m_view->setDuration(nullptr, -1);
-        setEnabled(false);
+        remap_box->setEnabled(false);
         return;
     }
-    m_view->m_remapLink.reset();
-    connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
-    model->requestClipTimeRemap(cid);
-    m_splitId = model->m_groups->getSplitPartner(cid);
     m_binId = model->getClipBinId(cid);
+    std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
+    // Check for B Frames and warn
+    if (prod->parent().get_int("meta.media.has_b_frames") == 1) {
+        m_view->setDuration(nullptr, -1);
+        remap_box->setEnabled(false);
+        warningMessage->setText(i18n("Time remap does not work on clip with B frames."));
+        warningMessage->animatedShow();
+        return;
+    } else {
+        warningMessage->hide();
+        remap_box->setEnabled(true);
+    }
+    m_view->m_remapLink.reset();
+    m_splitId = model->m_groups->getSplitPartner(cid);
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
-    std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
+    model->requestClipTimeRemap(cid);
+    m_cid = cid;
+    connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     m_view->m_maxLength = prod->get_length();
     m_in->setRange(0, m_view->m_maxLength - prod->get_in());
     //m_in->setRange(0, m_lastLength - 1);
@@ -1705,7 +1723,7 @@ void TimeRemap::selectedClip(int cid)
                     QSignalBlocker bk2(frame_blending);
                     pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
                     frame_blending->setChecked(fromLink->get("image_mode") != QLatin1String("nearest"));
-                    setEnabled(true);
+                    remap_box->setEnabled(true);
                     break;
                 }
             }
@@ -1747,7 +1765,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     m_binId.clear();
     if (clip == nullptr || !clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         m_view->setDuration(nullptr, -1);
-        setEnabled(false);
+        remap_box->setEnabled(false);
         return;
     }
     m_view->m_remapLink.reset();
@@ -1828,9 +1846,9 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) {
             m_view->slotSetPosition(pos);
         });
-        setEnabled(m_view->m_remapLink != nullptr);
+        remap_box->setEnabled(m_view->m_remapLink != nullptr);
     } else {
-        setEnabled(false);
+        remap_box->setEnabled(false);
     }
 }
 

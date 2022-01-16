@@ -4851,7 +4851,15 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
             }
         });
     }
-    m_transcodingDialog->addUrl(url, id);
+    if (url.isEmpty()) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+        if (clip) {
+            QString resource = clip->clipUrl();
+            m_transcodingDialog->addUrl(resource, id);
+        }
+    } else {
+        m_transcodingDialog->addUrl(url, id);
+    }
     m_transcodingDialog->show();
 }
 
