@@ -352,8 +352,6 @@ signals:
     void closeSplash();
     /** @brief Trigger an update of the the speech models list */
     void voskModelUpdate(const QStringList models);
-    /** @brief This signal means that VOSK and/or SRT module availability changed*/
-    void updateVoskAvailability();
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */

@@ -24,6 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configcolors_ui.h"
 #include "ui_configspeech_ui.h"
 
+#include "pythoninterfaces/speechtotext.h"
+
 class ProfileWidget;
 class KJob;
 
@@ -100,7 +102,6 @@ private slots:
     void removeDictionary();
     void downloadModelFinished(KJob* job);
     void processArchive(const QString &path);
-    void checkVoskDependencies();
     void doShowSpeechMessage(const QString &message, int messageType);
     
 private:
@@ -132,6 +133,7 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
+    SpeechToText *m_stt;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     void initDevices();
@@ -149,14 +151,13 @@ private:
     /** @brief Init Speech to text settings */
     void initSpeechPage();
     /** @brief Check version of installed python modules for speech to text */
-    void checkVoskVersion(const QString &pyExec);
 
 signals:
     void customChanged();
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();
-    // Screengrab method changed between fullsceen and region, update rec monitor
+    /** @brief Screengrab method changed between fullsceen and region, update rec monitor */
     void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive(bool resetConfig = false);
@@ -169,8 +170,6 @@ signals:
     void updateMonitorBg();
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
-    /** @brief Show an info message regarding speech to text status */
-    void showSpeechMessage(const QString &message, int messageType);
 };
 
 #endif

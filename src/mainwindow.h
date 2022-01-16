@@ -33,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
-#include "utils/otioconvertions.h"
+#include "pythoninterfaces/otioconvertions.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;

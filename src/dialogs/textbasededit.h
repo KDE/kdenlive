@@ -8,6 +8,7 @@
 
 #include "ui_textbasededit_ui.h"
 #include "definitions.h"
+#include "pythoninterfaces/speechtotext.h"
 
 #include <QProcess>
 #include <QAction>
@@ -147,7 +148,6 @@ private slots:
     void startRecognition();
     void slotProcessSpeech();
     void slotProcessSpeechError();
-    void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
@@ -180,6 +180,7 @@ private:
     QTimer m_hideTimer;
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
+    SpeechToText *m_stt;
 };
 
 #endif

@@ -61,7 +61,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "transitions/transitionlist/view/transitionlistwidget.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "utils/otioconvertions.h"
+#include "pythoninterfaces/otioconvertions.h"
 #include "utils/thememanager.h"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>

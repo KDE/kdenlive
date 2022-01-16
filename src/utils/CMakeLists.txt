@@ -5,7 +5,6 @@ set(kdenlive_SRCS
   utils/devices.cpp
   utils/flowlayout.cpp
   utils/gentime.cpp
-  utils/otioconvertions.cpp
   utils/qcolorutils.cpp
   utils/thememanager.cpp
   utils/thumbnailcache.cpp
