@@ -26,9 +26,11 @@ OtioConvertions::OtioConvertions()
                                        "listed in PATH environment variable"));
             return;
         }
-        m_adapters = runScript(QStringLiteral("otiointerface.py"), {});
-        qInfo() << "OTIO adapters:" << m_adapters;
-        if (!m_adapters.contains("kdenlive")) {
+        m_importAdapters = runScript(QStringLiteral("otiointerface.py"), {"--import-suffixes"});
+        qInfo() << "OTIO import adapters:" << m_importAdapters;
+        m_exportAdapters = runScript(QStringLiteral("otiointerface.py"), {"--export-suffixes"});
+        qInfo() << "OTIO export adapters:" << m_exportAdapters;
+        if (!(m_exportAdapters.contains("kdenlive") && m_importAdapters.contains("kdenlive"))) {
             emit setupError(i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
                                        "Please install version >= 0.12\n"));
         }
@@ -38,7 +40,9 @@ OtioConvertions::OtioConvertions()
 bool OtioConvertions::wellConfigured()
 {
     checkDependencies();
-    return checkSetup() && missingDependencies().isEmpty() && !m_adapters.isEmpty() && m_adapters.contains("kdenlive");
+    return checkSetup() && missingDependencies().isEmpty()
+            && !m_importAdapters.isEmpty() && m_importAdapters.contains("kdenlive")
+            && !m_exportAdapters.isEmpty() && m_exportAdapters.contains("kdenlive");
 }
 
 bool OtioConvertions::configureSetup()
@@ -94,7 +98,7 @@ void OtioConvertions::slotExportProject()
     QString exportFile = QFileDialog::getSaveFileName(
                 pCore->window(), i18n("Export Project"),
                 pCore->currentDoc()->projectDataFolder(),
-                i18n("OpenTimelineIO adapters (%1)(%1)", m_adapters));
+                i18n("OpenTimelineIO adapters (%1)(%1)", m_exportAdapters));
     if (exportFile.isNull()) {
         return;
     }
@@ -125,7 +129,7 @@ void OtioConvertions::slotImportProject()
     QString importFile = QFileDialog::getOpenFileName(
                 pCore->window(), i18n("Project to import"),
                 pCore->currentDoc()->projectDataFolder(),
-                i18n("OpenTimelineIO adapters (%1)(%1)", m_adapters));
+                i18n("OpenTimelineIO adapters (%1)(%1)", m_importAdapters));
     if (importFile.isNull() || !QFile::exists(importFile)) {
         return;
     }

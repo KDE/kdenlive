@@ -9,6 +9,8 @@ import pkg_resources
 
 def print_help():
     print("""
+    THIS SCRIPT IS PART OF KDENLIVE (www.kdenlive.org)
+
     Usage: python3 checkpackages.py [mode] [packages]
 
     Where [packages] is a list of python package names separated by blank space
@@ -34,9 +36,8 @@ for arg in sys.argv[1:]:
         required.add(arg)
 
 if len(required) == 0:
-    print("Error: You need to provide at least one package name")
     print_help()
-    sys.exit()
+    sys.exit("Error: You need to provide at least one package name")
 
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
@@ -57,5 +58,5 @@ elif '--details' in sys.argv:
     python = sys.executable
     subprocess.check_call([python, '-m', 'pip', 'show', *required])
 else:
-    print("Error: You need to provide a mode")
     print_help()
+    sys.exit("Error: You need to provide a mode")

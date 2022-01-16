@@ -26,7 +26,8 @@ public:
     bool runOtioconvert(const QString &inputFile, const QString &outputFile);
 
 private:
-    QString m_adapters;
+    QString m_importAdapters;
+    QString m_exportAdapters;
 
 public slots:
     void slotExportProject();
