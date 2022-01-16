@@ -404,21 +404,59 @@ void Wizard::checkMltComponents()
         // Check that we have the frei0r effects installed
         Mlt::Properties *filters = pCore->getMltRepository()->filters();
         bool hasFrei0r = false;
-        QString filterName;
         for (int i = 0; i < filters->count(); ++i) {
-            filterName = filters->get_name(i);
+            QString filterName = filters->get_name(i);
             if (filterName.startsWith(QStringLiteral("frei0r."))) {
                 hasFrei0r = true;
                 break;
             }
         }
-        delete filters;
         if (!hasFrei0r) {
             // Frei0r effects not found
             qDebug() << "Missing Frei0r module";
             m_warnings.append(
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
+        if (!hasFrei0r) {
+            // Frei0r effects not found
+            qDebug() << "Missing Frei0r module";
+            m_warnings.append(
+                i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
+        }
+
+        // Check that we have the avfilter effects installed
+        bool hasAvfilter = false;
+        for (int i = 0; i < filters->count(); ++i) {
+            QString filterName = filters->get_name(i);
+            if (filterName.startsWith(QStringLiteral("avfilter."))) {
+                hasAvfilter = true;
+                break;
+            }
+        }
+        if (!hasAvfilter) {
+            // Frei0r effects not found
+            qDebug() << "Missing AVFilter module";
+            m_warnings.append(
+                i18n("<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install recommended</li>"));
+        } else {
+            // Check that we have the avfilter.subtitles effects installed
+            bool hasSubtitle = false;
+            for (int i = 0; i < filters->count(); ++i) {
+                QString filterName = filters->get_name(i);
+                if (filterName == QStringLiteral("avfilter.subtitles")) {
+                    hasSubtitle = true;
+                    break;
+                }
+            }
+            if (!hasAvfilter) {
+                // Frei0r effects not found
+                qDebug() << "Missing avfilter.subtitles module";
+                m_warnings.append(
+                    i18n("<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle feature. Install recommended</li>"));
+            }
+        }
+        delete filters;
+
 
 #if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
         // Check that we have the breeze icon theme installed

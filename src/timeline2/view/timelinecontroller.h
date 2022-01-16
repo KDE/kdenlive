@@ -71,6 +71,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor selectionColor READ selectionColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
+    Q_PROPERTY(bool subtitlesWarning READ subtitlesWarning)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
@@ -177,6 +178,9 @@ public:
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;
+    /** @brief Returns true if the avfilter.subtiles filter is not found */
+    bool subtitlesWarning() const;
+    Q_INVOKABLE void subtitlesWarningDetails();
     void switchSubtitleDisable();
     bool subtitlesDisabled() const;
     void switchSubtitleLock();

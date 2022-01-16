@@ -4806,6 +4806,18 @@ void TimelineController::subtitleSpeechRecognition()
     d.exec();
 }
 
+bool TimelineController::subtitlesWarning() const
+{
+    return !EffectsRepository::get()->hasInternalEffect("avfilter.subtitles");
+}
+
+void TimelineController::subtitlesWarningDetails()
+{
+    KMessageBox::error(nullptr, i18n("The avfilter.subtitles filter is required, but was not found."
+                                     " The subtitles feature will probably not work as expected."));
+    emit regainFocus();
+}
+
 void TimelineController::deleteSubtitle(int startframe, int endframe, const QString &text)
 {
     auto subtitleModel = pCore->getSubtitleModel();

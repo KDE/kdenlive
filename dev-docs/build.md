@@ -86,7 +86,7 @@ And if you want to build MLT manually:
 git clone https://github.com/mltframework/mlt.git
 
 # Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavutil-dev librtaudio-dev
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libsdl1.2-dev librtaudio-dev
 ```
 
 #### Build and install the projects

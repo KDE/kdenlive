@@ -428,6 +428,7 @@ Rectangle {
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
+    property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
@@ -944,6 +945,37 @@ Rectangle {
                         width: childrenRect.width
                         x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
                         spacing: 0
+                        ToolButton {
+                            id: warningButton
+                            visible: subtitlesWarning
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: "image://icon/data-warning"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            onClicked: timeline.subtitlesWarningDetails()
+                            ToolTip {
+                                visible: warningButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: i18n("Click to see details")
+                                }
+                            }
+                        }
                         ToolButton {
                             id: analyseButton
                             focusPolicy: Qt.NoFocus
