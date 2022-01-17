@@ -28,8 +28,18 @@ OtioConvertions::OtioConvertions()
         }
         m_importAdapters = runScript(QStringLiteral("otiointerface.py"), {"--import-suffixes"});
         qInfo() << "OTIO import adapters:" << m_importAdapters;
-        m_exportAdapters = runScript(QStringLiteral("otiointerface.py"), {"--export-suffixes"});
-        qInfo() << "OTIO export adapters:" << m_exportAdapters;
+        if (!m_importAdapters.isEmpty()) {
+            // no error occured so we can check export adapters as well
+            m_exportAdapters = runScript(QStringLiteral("otiointerface.py"), {"--export-suffixes"});
+            qInfo() << "OTIO export adapters:" << m_exportAdapters;
+        }
+        if (m_importAdapters.isEmpty() || m_exportAdapters.isEmpty()) {
+            // something is wrong. Maybe it is related to an old version?
+            proposeMaybeUpdate("opentimelineio", "0.14.0");
+            // versions < 0.14.0 do not work on windows properly
+            // see https://github.com/PixarAnimationStudios/OpenTimelineIO/issues/813
+            return;
+        }
         if (!(m_exportAdapters.contains("kdenlive") && m_importAdapters.contains("kdenlive"))) {
             emit setupError(i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
                                        "Please install version >= 0.12\n"));
