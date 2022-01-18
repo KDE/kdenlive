@@ -100,7 +100,6 @@ void RemapView::updateInPos(int pos)
 
 void RemapView::updateOutPos(int pos)
 {
-    qDebug()<<"=== MOVING TO POS: "<<pos<<", CURRENT KFR: "<<m_currentKeyframe.first;
     if (m_currentKeyframe.first > -1) {
         if (m_keyframes.contains(pos)) {
             // Cannot move kfr over an existing one
@@ -495,8 +494,23 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 QMapIterator<int, int> i(m_selectedKeyframes);
                 while (i.hasNext()) {
                     i.next();
-                    if (i.value() + delta > m_sourceDuration) {
-                        return;
+                    if (i.value() + delta >= m_sourceDuration) {
+                        delta = qMin(delta, m_sourceDuration - i.value() - 1);
+                        realPos = m_currentKeyframe.second + delta;
+                        pos = realPos - m_inFrame;
+                        if (delta == 0) {
+                            pCore->displayMessage(i18n("Cannot move last source keyframe past clip end"), MessageType::ErrorMessage, 500);
+                            return;
+                        }
+                    }
+                    if (i.value() + delta < 0) {
+                        delta = qMax(delta, -i.value());
+                        realPos = m_currentKeyframe.second + delta;
+                        pos = realPos - m_inFrame;
+                        if (delta == 0) {
+                            pCore->displayMessage(i18n("Cannot move first source keyframe before clip start"), MessageType::ErrorMessage, 500);
+                            return;
+                        }
                     }
                 }
                 i.toFront();
@@ -675,17 +689,26 @@ void RemapView::centerCurrentTopKeyframe()
     }
     //std::pair<int,int> range = getRange(m_currentKeyframe);
     QMap<int,int>nextKeyframes;
+    int offset = m_position + m_inFrame - m_currentKeyframe.second;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
         if (*it != m_keyframes.last() && it != m_keyframes.end()) {
             it++;
             while (it != m_keyframes.end()) {
                 nextKeyframes.insert(it.key(), it.value());
+                // Check that the move is possible
+                if (it.value() + offset >= m_sourceDuration) {
+                    pCore->displayMessage(i18n("Cannot move last source keyframe past clip end"), MessageType::ErrorMessage, 500);
+                    return;
+                }
+                if (it.value() + offset < 0) {
+                    pCore->displayMessage(i18n("Cannot move first source keyframe before clip start"), MessageType::ErrorMessage, 500);
+                    return;
+                }
                 it++;
             }
         }
     }
-    int offset = m_position + m_inFrame - m_currentKeyframe.second;
     m_currentKeyframe.second = m_position + m_inFrame;
     m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
     QMapIterator<int, int> i(nextKeyframes);
@@ -739,7 +762,6 @@ void RemapView::mouseReleaseEvent(QMouseEvent *event)
     if (keyframesEdited) {
         emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
     }
-    qDebug()<<"=== MOUSE RELEASE!!!!!!!!!!!!!";
 }
 
 void RemapView::mousePressEvent(QMouseEvent *event)
@@ -1103,10 +1125,12 @@ void RemapView::goPrev()
 
 void RemapView::updateBeforeSpeed(double speed)
 {
+    QMutexLocker lock(&m_kfrMutex);
     QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     QMap<int, int> updatedKfrs;
     QList<int> toDelete;
     if (*it != m_keyframes.first() && it != m_keyframes.end()) {
+        m_keyframesOrigin = m_keyframes;
         it--;
         int updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
         int offset = it.key() + updatedLength - m_currentKeyframe.first;
@@ -1116,12 +1140,15 @@ void RemapView::updateBeforeSpeed(double speed)
         m_bottomPosition = m_currentKeyframe.first;
         m_selectedKeyframes.clear();
         m_selectedKeyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
-        it+=2;
-        // Update all keyframes after that so that we don't alter the speeds
-        while (m_moveNext && it != m_keyframes.end()) {
-            toDelete << it.key();
-            updatedKfrs.insert(it.key() + offset, it.value());
+        it++;
+        if (*it != m_keyframes.last()) {
             it++;
+            // Update all keyframes after that so that we don't alter the speeds
+            while (m_moveNext && it != m_keyframes.end()) {
+                toDelete << it.key();
+                updatedKfrs.insert(it.key() + offset, it.value());
+                it++;
+            }
         }
         for (int p : qAsConst(toDelete)) {
             m_keyframes.remove(p);
@@ -1131,15 +1158,21 @@ void RemapView::updateBeforeSpeed(double speed)
             i.next();
             m_keyframes.insert(i.key(), i.value());
         }
-        emit updateKeyframes(true);
+        int maxWidth = width() - (2 * m_offset);
+        m_scale = maxWidth / double(qMax(1, remapMax()));
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+        emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
 
 void RemapView::updateAfterSpeed(double speed)
 {
+    QMutexLocker lock(&m_kfrMutex);
     QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     if (*it != m_keyframes.last()) {
+        m_keyframesOrigin = m_keyframes;
         it++;
         QMap<int, int> updatedKfrs;
         QList<int> toDelete;
@@ -1164,7 +1197,11 @@ void RemapView::updateAfterSpeed(double speed)
             i.next();
             m_keyframes.insert(i.key(), i.value());
         }
-        emit updateKeyframes(true);
+        int maxWidth = width() - (2 * m_offset);
+        m_scale = maxWidth / double(qMax(1, remapMax()));
+        m_zoomStart = m_zoomHandle.x() * maxWidth;
+        m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+        emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
@@ -1183,7 +1220,9 @@ const QString RemapView::getKeyframesData(QMap<int,int> keyframes) const
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        result << QString("%1=%2").arg(m_service->frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
+        Mlt::Properties props;
+        props.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+        result << QString("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
 }
@@ -1303,6 +1342,8 @@ void RemapView::addKeyframe()
 void RemapView::toggleMoveNext(bool moveNext)
 {
     m_moveNext = moveNext;
+    // Reset keyframe selection
+    m_selectedKeyframes.clear();
 }
 
 void RemapView::refreshOnDurationChanged(int remapDuration)

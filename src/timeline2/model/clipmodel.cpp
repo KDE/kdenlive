@@ -888,6 +888,7 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     std::function<bool(void)> local_redo = []() { return true; };
     int audioStream = getIntProperty(QStringLiteral("audio_index"));
     QMap<QString,QString> remapProperties;
+    remapProperties.insert(QStringLiteral("image_mode"), QStringLiteral("nearest"));
     if (!enable) {
         // Store the remap properties
         if (m_producer->parent().type() == mlt_service_chain_type) {

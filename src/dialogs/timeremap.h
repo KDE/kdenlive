@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QWidget>
 #include <QTimer>
+#include <QMutex>
 
 #include "mlt++/Mlt.h"
 
@@ -118,6 +119,7 @@ private:
     bool m_moveNext;
     int m_clickEnd;
     int m_offset;
+    QMutex m_kfrMutex;
     QMap <int,int>m_selectedKeyframes;
     QMap<int,int>m_previousSelection;
     std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
