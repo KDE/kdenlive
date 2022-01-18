@@ -49,6 +49,14 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         doShowMessage(messages.join(QStringLiteral("\n")), KMessageWidget::Warning);
     });
 
+    connect(m_interface, &AbstractPythonInterface::proposeUpdate, this, [&](const QString &message){
+        // only allow upgrading python modules once
+        m_installAction->setText(i18n("Check for update"));
+        m_installAction->setEnabled(true);
+        addAction(m_installAction);
+        doShowMessage(message, KMessageWidget::Warning);
+    });
+
     connect(m_interface, &AbstractPythonInterface::dependenciesAvailable, this, [&](){
         if (!m_updated) {
             // only allow upgrading python modules once
@@ -100,6 +108,7 @@ void PythonDependencyMessage::doShowMessage(const QString &message, KMessageWidg
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     : QObject{parent}
     , m_dependencies()
+    , m_versions(new QMap<QString, QString>())
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
@@ -202,7 +211,30 @@ void AbstractPythonInterface::updateDependencies() {
     runPackageScript(QStringLiteral("--upgrade"));
 }
 
-void AbstractPythonInterface::checkVersions()
+void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
+{
+    checkVersions(false);
+    QString currentVersion = m_versions->value(dependency);
+    if (currentVersion.isEmpty()) {
+        emit setupError(i18n("Error while checking version of module %1", dependency));
+        return;
+    }
+    if (versionToInt(currentVersion) < versionToInt(minVersion)) {
+        emit proposeUpdate(i18n("At least version %1 of module %2 is required, "
+                                "but your current version is %3", minVersion, dependency, currentVersion));
+    } else {
+        emit proposeUpdate(i18n("Please consider to update your setup."));
+    }
+}
+
+int AbstractPythonInterface::versionToInt(const QString &version) {
+    QStringList v = version.split(QStringLiteral("."));
+    return QT_VERSION_CHECK(v.length() > 0 ? v.at(0).toInt() : 0,
+                            v.length() > 1 ? v.at(1).toInt() : 0,
+                            v.length() > 2 ? v.at(2).toInt() : 0);
+}
+
+void AbstractPythonInterface::checkVersions(bool signalOnResult)
 {
     QString output = runPackageScript(QStringLiteral("--details"));
     if (output.isEmpty()) {
@@ -221,9 +253,16 @@ void AbstractPythonInterface::checkVersions()
             QString version = raw.at(i+1);
             version = version.simplified().section(QLatin1Char(' '), 0, 0);
             versions.append(QString("%1 %2").arg(name, version));
+            if (m_versions->contains(name)) {
+                (*m_versions)[name.toLower()] = version;
+            } else {
+                m_versions->insert(name.toLower(), version);
+            }
         }
     }
-    emit checkVersionsResult(versions);
+    if (signalOnResult) {
+        emit checkVersionsResult(versions);
+    }
 }
 
 QString AbstractPythonInterface::runPackageScript(const QString &mode) {
