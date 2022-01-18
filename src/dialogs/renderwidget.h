@@ -7,8 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
-#include <KMessageWidget>
-
 #include <QPainter>
 #include <QPushButton>
 #include <QStyledItemDelegate>
@@ -203,8 +201,6 @@ private:
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
-    KMessageWidget *m_infoMessage;
-    KMessageWidget *m_jobInfoMessage;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
 

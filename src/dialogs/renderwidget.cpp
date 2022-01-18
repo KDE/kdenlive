@@ -208,23 +208,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-    QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
-    m_view.errorBox->setStyleSheet(
-        QStringLiteral("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-    int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(QIcon::fromTheme(QStringLiteral("dialog-warning")).pixmap(height, height));
-    m_view.errorBox->setHidden(true);
-
-    m_infoMessage = new KMessageWidget;
-    m_view.info->addWidget(m_infoMessage);
-    m_infoMessage->setCloseButtonVisible(false);
-    m_infoMessage->hide();
-
-    m_jobInfoMessage = new KMessageWidget;
-    m_view.jobInfo->addWidget(m_jobInfoMessage);
-    m_jobInfoMessage->setCloseButtonVisible(false);
-    m_jobInfoMessage->hide();
 
     m_view.encoder_threads->setMinimum(0);
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
@@ -245,6 +228,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.abort_job->setEnabled(false);
     m_view.start_script->setEnabled(false);
     m_view.delete_script->setEnabled(false);
+
+    m_view.infoMessage->hide();
+    m_view.jobInfo->hide();
 
     connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
@@ -359,15 +345,15 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
 {
 #ifdef KF5_USE_PURPOSE
-    m_jobInfoMessage->hide();
+    m_view.jobInfo->hide();
     if (error) {
         KMessageBox::error(this, i18n("There was a problem sharing the document: %1", message), i18n("Share"));
     } else {
         const QString url = output["url"].toString();
         if (url.isEmpty()) {
-            m_jobInfoMessage->setMessageType(KMessageWidget::Positive);
-            m_jobInfoMessage->setText(i18n("Document shared successfully"));
-            m_jobInfoMessage->show();
+            m_view.jobInfo->setMessageType(KMessageWidget::Positive);
+            m_view.jobInfo->setText(i18n("Document shared successfully"));
+            m_view.jobInfo->show();
         } else {
             KMessageBox::information(this, i18n("You can find the shared document at: <a href=\"%1\">%1</a>", url), i18n("Share"), QString(),
                                      KMessageBox::Notify | KMessageBox::AllowLink);
@@ -395,8 +381,6 @@ RenderWidget::~RenderWidget()
     m_view.scripts_list->clear();
     delete m_jobsDelegate;
     delete m_scriptsDelegate;
-    delete m_infoMessage;
-    delete m_jobInfoMessage;
 }
 
 void RenderWidget::saveConfig()
@@ -1078,19 +1062,23 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
     Q_UNUSED(scriptPath)
     if (pCore->projectDuration() < 2) {
         // Empty project, don't attempt to render
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(i18n("Add a clip to timeline before rendering"));
+        m_view.infoMessage->animatedShow();
         return;
     }
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
-        KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(i18n("Cannot find the melt program required for rendering (part of Mlt)"));
+        m_view.infoMessage->animatedShow();
         return;
     }
-
+    m_view.infoMessage->hide();
     if (QFile::exists(m_view.out_file->url().toLocalFile())) {
         if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
             return;
         }
     }
-
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) {
         chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
@@ -2962,11 +2950,11 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
         }
     }
     if (!fullMessage.isEmpty()) {
-        m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->setText(fullMessage);
-        m_infoMessage->show();
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(fullMessage);
+        m_view.infoMessage->show();
     } else {
-        m_infoMessage->hide();
+        m_view.infoMessage->hide();
     }
 }
 
