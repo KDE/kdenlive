@@ -4156,6 +4156,10 @@ void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QStr
 void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+    if (!item) {
+        // Clip might have been deleted
+        return;
+    }
     if (item->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
         if (clip) {
