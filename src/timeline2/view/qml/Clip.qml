@@ -255,6 +255,7 @@ Rectangle {
         onEntered: {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
+            updateDrag()
         }
         onDropped: {
             console.log("Add effect: ", dropData)
@@ -267,8 +268,10 @@ Rectangle {
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
-            updateDrag()
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
+        }
+        onExited: {
+            endDrag()
         }
     }
     MouseArea {
