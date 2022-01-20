@@ -1191,7 +1191,7 @@ Rectangle {
                         trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / timeline.scaleFactor)
                         timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
-                    if (dragProxy.draggedItem > -1) {
+                    if (dragProxy.draggedItem > -1 && mouse.y > ruler.height) {
                         mouse.accepted = false
                         return
                     }

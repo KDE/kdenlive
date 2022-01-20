@@ -241,6 +241,7 @@ Rectangle {
         onEntered: {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
+            updateDrag()
         }
         onDropped: {
             console.log("Add effect: ", dropData)
@@ -252,7 +253,10 @@ Rectangle {
             }
             dropSource = ''
             dropRow = -1
-            drag.acceptProposedAction
+            drag.acceptProposedAction.
+        }
+        onExited: {
+            endDrag()
         }
     }
     MouseArea {
