@@ -648,12 +648,12 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 }
                 m_lastHoveredItem = index;
             }
-            pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+            pCore->bin()->updateKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
         } else {
-            pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
+            pCore->bin()->updateKeyBinding(i18n("<b>F2</b> to rename selected item"));
         }
     } else {
-        pCore->window()->showKeyBinding();
+        pCore->bin()->updateKeyBinding();
         if (m_lastHoveredItem.isValid()) {
             emit displayBinFrame(m_lastHoveredItem, -1);
             m_lastHoveredItem = QModelIndex();
@@ -733,16 +733,16 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
                         m_lastHoveredItem = QModelIndex();
                     }
                 }
-                pCore->window()->showKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
+                pCore->bin()->updateKeyBinding(i18n("<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to rename selected item"));
             } else {
-                pCore->window()->showKeyBinding(i18n("<b>F2</b> to rename selected item"));
+                pCore->bin()->updateKeyBinding(i18n("<b>F2</b> to rename selected item"));
             }
         } else {
             if (m_lastHoveredItem.isValid()) {
                 emit displayBinFrame(m_lastHoveredItem, -1);
                 m_lastHoveredItem = QModelIndex();
             }
-            pCore->window()->showKeyBinding();
+            pCore->bin()->updateKeyBinding();
         }
     }
     if (!dragged) {
@@ -1386,6 +1386,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_infoMessage->hide();
     connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
     connect(pCore.get(), &Core::updatePalette, this, &Bin::slotUpdatePalette);
+    connect(m_itemModel.get(), &QAbstractItemModel::rowsInserted, this, &Bin::updateClipsCount);
+    connect(m_itemModel.get(), &QAbstractItemModel::rowsRemoved, this, &Bin::updateClipsCount);
     connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
     wheelAccumulatedDelta = 0;
 }
@@ -2080,9 +2082,9 @@ void Bin::slotAddFolder()
 
 void Bin::ensureCurrent()
 {
-    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid()) {
+        if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
         m_itemView->setCurrentIndex(ix);
@@ -2233,6 +2235,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // Display black bg in clip monitor
         emit openClip(std::shared_ptr<ProjectClip>());
     }
+    updateClipsCount();
 }
 
 std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
@@ -4232,9 +4235,9 @@ void Bin::slotRenameItem()
         }
         return;
     }
-    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid()) {
+        if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
         m_itemView->setCurrentIndex(ix);
@@ -4912,4 +4915,40 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
         pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
     }
     return ok;
+}
+
+void Bin::updateClipsCount()
+{
+    int count = m_itemModel->clipsCount();
+    if (count < 2) {
+        m_clipsCountMessage = QString();
+    } else {
+        int selected = 0;
+        const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
+        for (const QModelIndex &ix : indexes) {
+            if (ix.isValid() && ix.column() == 0) {
+                std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+                if (item->itemType() == AbstractProjectItem::ClipItem) {
+                    selected++;
+                }
+            }
+        }
+        if (selected == 0) {
+            m_clipsCountMessage = i18n("<b>%1</b> clips | ", count);
+        } else {
+            m_clipsCountMessage = i18n("<b>%1</b> clips (%2 selected) | ", count, selected);
+        }
+    }
+    showBinInfo();
+}
+
+void Bin::updateKeyBinding(const QString &bindingMessage)
+{
+    m_keyBindingMessage = bindingMessage;
+    showBinInfo();
+}
+
+void Bin::showBinInfo()
+{
+    pCore->window()->showKeyBinding(QString("%1%2").arg(m_clipsCountMessage, m_keyBindingMessage));
 }

@@ -341,6 +341,8 @@ public:
     static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
     /** @brief Should we process a profile check for added clips */
     std::atomic<bool> shouldCheckProfile;
+    /** @brief Set the message for key binding info. */
+    void updateKeyBinding(const QString &bindingMessage = QString());
 
 private slots:
     void slotAddClip();
@@ -401,6 +403,8 @@ private slots:
      */
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
     void slotUpdatePalette();
+    /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
+    void updateClipsCount();
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
@@ -558,6 +562,10 @@ private:
     void processAudioThumbs();
     void updateSortingAction(int ix);
     int wheelAccumulatedDelta;
+    QString m_keyBindingMessage;
+    QString m_clipsCountMessage;
+    /** @brief Show the clip count and key binfing info in status bar. */
+    void showBinInfo();
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
