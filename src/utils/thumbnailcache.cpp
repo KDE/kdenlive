@@ -224,7 +224,6 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     bool ok = false;
     // Video thumbs
     QDir thumbFolder = getDir(false, &ok);
-    //QDir audioThumbFolder = getDir(true, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {

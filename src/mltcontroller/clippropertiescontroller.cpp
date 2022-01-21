@@ -596,6 +596,33 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         fpBox->addLayout(hlay);
 
+        // Rotate
+        int rotate = 0;
+        if (m_properties->property_exists("rotate")) {
+            rotate = m_properties->get_int("rotate");
+            m_originalProperties.insert(QStringLiteral("rotate"), QString::number(rotate));
+        }
+        hlay = new QHBoxLayout;
+        auto *label = new QLabel(i18n("Force rotate"), this);
+        combo = new QComboBox(this);
+        combo->setObjectName(QStringLiteral("rotate_value"));
+        combo->addItem(i18n("0"), 0);
+        combo->addItem(i18n("90"), 90);
+        combo->addItem(i18n("180"), 180);
+        combo->addItem(i18n("270"), 270);
+        if (rotate > 0) {
+            combo->setCurrentIndex(combo->findData(rotate));
+        }
+        // Disable force rotate when autorotate is disabled
+        combo->setEnabled(!box->isChecked());
+        connect(box, &QCheckBox::stateChanged, this, [combo](int state) {
+            combo->setEnabled(state != Qt::Unchecked);
+        });
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
+        hlay->addWidget(label);
+        hlay->addWidget(combo);
+        fpBox->addLayout(hlay);
+
         // Decoding threads
         QString threads = m_properties->get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
@@ -970,8 +997,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setObjectName(QStringLiteral("set.force_full_luma"));
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);
-        fpBox->addLayout(hlay);
         hlay->addStretch(10);
+        fpBox->addLayout(hlay);
         
         // Check for variable frame rate
         if (m_properties->get_int("meta.media.variable_frame_rate")) {

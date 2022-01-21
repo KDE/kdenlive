@@ -302,10 +302,10 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+        return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
                "colorspace,set.force_full_luma,file_hash,autorotate,disable_exif,xmldata,video_index,audio_index,set.test_image,set.test_audio";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+    return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
            "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
 }
 
