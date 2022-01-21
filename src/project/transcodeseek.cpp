@@ -37,18 +37,18 @@ TranscodeSeek::~TranscodeSeek()
 {
 }
 
-void TranscodeSeek::addUrl(const QString &file, const QString &id)
+void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString &suffix)
 {
     QListWidgetItem *it = new QListWidgetItem(file, listWidget);
     it->setData(Qt::UserRole, id);
+    it->setData(Qt::UserRole + 1, suffix);
 }
 
-std::vector<QString> TranscodeSeek::ids() const
+QMap<QString,QString> TranscodeSeek::ids() const
 {
-    std::vector<QString> urls;
-    urls.reserve(listWidget->count());
+    QMap<QString,QString> urls;
     for (int i = 0; i < listWidget->count(); i++) {
-        urls.push_back(listWidget->item(i)->data(Qt::UserRole).toString());
+        urls.insert(listWidget->item(i)->data(Qt::UserRole).toString(), listWidget->item(i)->data(Qt::UserRole + 1).toString());
     }
     return urls;
 }

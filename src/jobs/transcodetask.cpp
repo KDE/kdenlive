@@ -23,10 +23,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
+TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
+    , m_suffix(suffix)
     , m_transcodeParams(params)
     , m_transcodePreParams(preParams)
     , m_replaceProducer(replaceProducer)
@@ -37,9 +38,9 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &preParams, co
 {
 }
 
-void TranscodeTask::start(const ObjectId &owner, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
+void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
-    TranscodeTask* task = new TranscodeTask(owner, preParams, params, in, out, replaceProducer, object, checkProfile);
+    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
         delete task;
@@ -100,14 +101,19 @@ void TranscodeTask::run()
     }
     int fileCount = 1;
     QString num = QString::number(fileCount).rightJustified(4, '0', false);
-    QString path = fileName + num + transcoderExt;
+    QString path;
+    if (m_suffix.isEmpty()) {
+        path = fileName + num + transcoderExt;
+    } else {
+        path = fileName + m_suffix + transcoderExt;
+        fileCount = 0;
+    }
     while (dir.exists(path)) {
         ++fileCount;
         num = QString::number(fileCount).rightJustified(4, '0', false);
-        path = fileName + num + transcoderExt;
+        path = fileName + num + m_suffix + transcoderExt;
     }
-    QString destUrl = dir.absoluteFilePath(fileName);
-    destUrl.append(QString::number(fileCount).rightJustified(4, '0', false));
+    QString destUrl = dir.absoluteFilePath(path.section(QLatin1Char('.'), 0, -2));
 
     bool result;
     if (type == ClipType::Playlist || type == ClipType::SlideShow || type == ClipType::Text) {

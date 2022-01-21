@@ -3528,7 +3528,7 @@ void MainWindow::buildDynamicActions()
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, QString(), transcodeData.first(), -1, -1, false, clip.get());
+                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, QString(), QString(), transcodeData.first(), -1, -1, false, clip.get());
             }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {

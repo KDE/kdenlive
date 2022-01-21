@@ -4832,22 +4832,24 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
     }
 }
 
-void Bin::requestTranscoding(const QString &url, const QString &id, bool checkProfile)
+void Bin::requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile] () {
-            QString firstId = m_transcodingDialog->ids().front();
-            std::vector<QString> ids = m_transcodingDialog->ids();
-            for (const QString &id : ids) {
-                std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip,id.toInt()}, m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, id == firstId ? checkProfile : false);
+            QMap<QString,QString> ids = m_transcodingDialog->ids();
+            QString firstId = ids.firstKey();
+            QMapIterator<QString, QString> i(ids);
+            while (i.hasNext()) {
+                i.next();
+                std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value(), m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
         connect(m_transcodingDialog, &QDialog::rejected, this, [&, checkProfile] () {
-            QString firstId = m_transcodingDialog->ids().front();
+            QString firstId = m_transcodingDialog->ids().firstKey();
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
             if (checkProfile) {
@@ -4859,10 +4861,10 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
             QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id);
+            m_transcodingDialog->addUrl(resource, id, suffix);
         }
     } else {
-        m_transcodingDialog->addUrl(url, id);
+        m_transcodingDialog->addUrl(url, id, suffix);
     }
     m_transcodingDialog->show();
 }

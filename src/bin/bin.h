@@ -458,7 +458,7 @@ public slots:
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
         /** @brief A non seekable clip was added to project, propose transcoding */
-    void requestTranscoding(const QString &url, const QString &id, bool checkProfile);
+    void requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix = QString());
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

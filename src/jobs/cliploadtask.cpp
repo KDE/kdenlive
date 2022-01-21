@@ -596,14 +596,7 @@ void ClipLoadTask::run()
             }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
         }
-        // Check for variable frame rate
-        isVariableFrameRate = producer->get_int("meta.media.variable_frame_rate");
-        if (isVariableFrameRate && seekable) {
-            if (checkProfile) {
-                pCore->bin()->shouldCheckProfile = false;
-            }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
-        }
+
         // check if there are multiple streams
         // List streams
         int streams = producer->get_int("meta.media.nb_streams");
@@ -622,6 +615,20 @@ void ClipLoadTask::run()
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             fps = producer->get_double(property);
+        }
+
+        // Check for variable frame rate
+        isVariableFrameRate = producer->get_int("meta.media.variable_frame_rate");
+        if (isVariableFrameRate && seekable) {
+            if (checkProfile) {
+                pCore->bin()->shouldCheckProfile = false;
+            }
+            QString adjustedFpsString;
+            if (fps > 0) {
+                int integerFps = qRound(fps);
+                adjustedFpsString = QString("-%1fps").arg(integerFps);
+            }
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString));
         }
 
         if (fps <= 0 && !m_isCanceled) {
