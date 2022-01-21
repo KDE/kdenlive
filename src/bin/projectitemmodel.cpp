@@ -316,6 +316,9 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(ix);
+        if (!item->statusReady()) {
+            continue;
+        }
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
             ClipType::ProducerType cType = item->clipType();
