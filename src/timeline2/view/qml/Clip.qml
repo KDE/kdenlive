@@ -253,7 +253,7 @@ Rectangle {
             }
             dropSource = ''
             dropRow = -1
-            drag.acceptProposedAction.
+            drag.acceptProposedAction
         }
         onExited: {
             endDrag()
