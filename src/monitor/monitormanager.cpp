@@ -528,7 +528,7 @@ void MonitorManager::setupActions()
             emit m_projectMonitor->multitrackView(checked, true);
         }
     });
-    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack, Qt::SHIFT + Qt::Key_0, QStringLiteral("monitor"));
+    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack, Qt::Key_F12, QStringLiteral("monitor"));
 
     QAction *performMultiTrackOperation = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-pause")), i18n("Perform Multitrack Operation"), this);
     connect(performMultiTrackOperation, &QAction::triggered, this, &MonitorManager::slotPerformMultiTrackMode);
