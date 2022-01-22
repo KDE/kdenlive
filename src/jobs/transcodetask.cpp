@@ -197,6 +197,8 @@ void TranscodeTask::run()
         }
         // Only output error data
         parameters << QStringLiteral("-v") << QStringLiteral("error");
+        // Make sure we keep the stream order
+        parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
