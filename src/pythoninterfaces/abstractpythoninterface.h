@@ -22,6 +22,7 @@ public:
         shown to the user.
         @returns wether all checks succeeded.
     */
+    ~AbstractPythonInterface() override;
     bool checkSetup();
     /** @brief Check if all dependencies are installed.
         If everything is okay dependenciesAvailable() will be emitted,

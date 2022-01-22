@@ -114,6 +114,12 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     addScript(QStringLiteral("checkpackages.py"));
 }
 
+AbstractPythonInterface::~AbstractPythonInterface()
+{
+    delete m_versions;
+    delete m_scripts;
+}
+
 bool AbstractPythonInterface::checkSetup()
 {
     if (!(m_pyExec.isEmpty() || m_pip3Exec.isEmpty() || m_scripts->values().contains(QStringLiteral("")))) {
