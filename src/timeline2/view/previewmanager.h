@@ -72,7 +72,7 @@ public:
     /** @brief The current preview chunk being processed, -1 if none */
     int workingPreview;
     /** @brief Returns the list of existing chunks */
-    QPair<QStringList, QStringList> previewChunks() const;
+    QPair<QStringList, QStringList> previewChunks();
     bool hasOverlayTrack() const;
     bool hasPreviewTrack() const;
     int addedTracks() const;
@@ -115,6 +115,8 @@ private:
     void enable();
     /** @brief: Temporarily disable timeline preview track. */
     void disable();
+    /** @brief: Get a compressed list of chunks, like: "0-500,525,575". */
+    const QStringList getCompressedList(const QVariantList items) const;
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */

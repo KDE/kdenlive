@@ -811,18 +811,51 @@ void PreviewManager::removeOverlayTrack()
     reconnectTrack();
 }
 
-QPair<QStringList, QStringList> PreviewManager::previewChunks() const
+QPair<QStringList, QStringList> PreviewManager::previewChunks()
 {
-    QStringList renderedChunks;
-    QStringList dirtyChunks;
-    for (const QVariant &frame : m_renderedChunks) {
-        renderedChunks << frame.toString();
-    }
+    std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
+    const QStringList renderedChunks = getCompressedList(m_renderedChunks);
     QMutexLocker lock(&m_dirtyMutex);
-    for (const QVariant &frame : m_dirtyChunks) {
-        dirtyChunks << frame.toString();
-    }
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
+    lock.unlock();
     return {renderedChunks, dirtyChunks};
+}
+
+const QStringList PreviewManager::getCompressedList(const QVariantList items) const
+{
+    QStringList resultString;
+    int lastFrame = 0;
+    QString currentString;
+    for (const QVariant &frame : items) {
+        int current = frame.toInt();
+        if (current - 25 == lastFrame) {
+            lastFrame = current;
+            if (frame == items.last()) {
+                currentString.append(QString("-%1").arg(lastFrame));
+                resultString << currentString;
+                currentString.clear();
+            }
+            continue;
+        }
+        if (currentString.isEmpty()) {
+            currentString = frame.toString();
+        } else if (currentString == QString::number(lastFrame)) {
+            // Only one chunk, store it
+            resultString << currentString;
+            currentString = frame.toString();
+        } else {
+            // Range, store
+            currentString.append(QString("-%1").arg(lastFrame));
+            resultString << currentString;
+            currentString = frame.toString();
+        }
+        lastFrame = current;
+    }
+    if (!currentString.isEmpty()) {
+        resultString << currentString;
+    }
+    return resultString;
 }
 
 bool PreviewManager::hasOverlayTrack() const
