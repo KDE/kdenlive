@@ -38,15 +38,17 @@
   <profile name="Alpha VP8" extension="webm"
    qualities="15,45" defaultquality="25"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgb24a pix_fmt=yuva420p"
+   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha VP9" extension="webm"
    qualities="15,45" defaultquality="25"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality mlt_image_format=rgb24a pix_fmt=yuva420p"
+   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha MOV" extension="mov" 
    args="vcodec=qtrle pix_fmt=argb"/>
+  <profile name="Ut Video" extension="avi"
+   args="f=avi vcodec=utvideo mlt_image_format=rgba pix_fmt=gbrap g=1 bf=0 acodec=pcm_s24le"/>
  </group>
  <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
   <profile name="VOB (DVD)" extension="vob"
