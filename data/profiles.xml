@@ -36,14 +36,13 @@
  </group>
  <group name="Video with Alpha" renderer="avformat" type="av">
   <profile name="Alpha VP8" extension="webm"
-   qualities="15,45" defaultquality="25"
+   qualities="63,4" defaultquality="10"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgba pix_fmt=yuva420p"
+   args="f=webm vcodec=libvpx acodec=vorbis rc_lookahead=16 speed=0 g=120 crf=%quality vprofile=0 vb=2M qmin=11 qmax=51 slices=4 maxrate=24M minrate=100k quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha VP9" extension="webm"
-   qualities="15,45" defaultquality="25"
-   audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality mlt_image_format=rgba pix_fmt=yuva420p"
+   qualities="37,15" defaultquality="31"
+   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 ab=128k bf=2 threads=0 rc_lookahead=16 speed=3 vprofile=0 qmin=4 qmax=51 quality=good aq=%audioquality mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha MOV" extension="mov" 
    args="vcodec=qtrle pix_fmt=argb"/>
@@ -93,4 +92,3 @@
   <profile name="WAV" extension="wav" args="properties=WAV"/>
  </group>
 </profiles>
-
