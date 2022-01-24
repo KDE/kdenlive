@@ -62,7 +62,7 @@ bool MyWizardPage::isComplete() const
     return m_isComplete;
 }
 
-Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
+Wizard::Wizard(bool autoClose, QWidget *parent)
     : QWizard(parent)
     , m_systemCheckIsOk(false)
     , m_brokenModule(false)
@@ -112,7 +112,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             list->addItems(conversion.second);
         }
     }
-    if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty() && !appImageCheck)) {
+    if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty())) {
         QLabel *lab = new QLabel(this);
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
         connect(lab, &QLabel::linkActivated, this, &Wizard::slotOpenManual);

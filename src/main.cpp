@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
+        pCore->initGUI(parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();

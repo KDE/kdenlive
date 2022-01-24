@@ -113,7 +113,20 @@ bool Core::build(bool testMode)
     return true;
 }
 
-void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+bool Core::inSandbox()
+{
+    if (!qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        return false;
+    }
+    QString type = qgetenv("PACKAGE_TYPE");
+    type = type.toLower();
+    if (type == QStringLiteral("appimage") || type == QStringLiteral("flatpak") || type == QStringLiteral("snap")) {
+        return true;
+    }
+    return false;
+}
+
+void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
@@ -163,7 +176,8 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
 
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
-    if (isAppImage) {
+    if (inSandbox()) {
+        // In a sandbox enviroment we need to search some paths recursively
         QString appPath = qApp->applicationDirPath();
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
         KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));

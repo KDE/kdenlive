@@ -81,12 +81,19 @@ public:
     static bool build(bool testMode = false);
 
     /**
+     * @brief Whether the app runs in a sandbox
+     * Will be true for Appimage, Flatpak and Snap
+     * The detection works through the PACKAGE_TYPE envvar
+     */
+    bool inSandbox();
+
+    /**
      * @brief Init the GUI part of the app and show the main window
      * @param Url (optional) file to open
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
-    void initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();

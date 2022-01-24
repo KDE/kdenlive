@@ -1948,7 +1948,7 @@ bool MainWindow::readOptions()
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
 
         // this is our first run, show Wizard
-        QPointer<Wizard> w = new Wizard(true, false);
+        QPointer<Wizard> w = new Wizard(true);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             delete w;
@@ -1958,7 +1958,7 @@ bool MainWindow::readOptions()
         }
     } else if (!KdenliveSettings::ffmpegpath().isEmpty() && !QFile::exists(KdenliveSettings::ffmpegpath())) {
         // Invalid entry for FFmpeg, check system
-        QPointer<Wizard> w = new Wizard(true, config->name().contains(QLatin1String("appimage")));
+        QPointer<Wizard> w = new Wizard(true);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
         }
@@ -1970,7 +1970,7 @@ bool MainWindow::readOptions()
 
 void MainWindow::slotRunWizard()
 {
-    QPointer<Wizard> w = new Wizard(false, false, this);
+    QPointer<Wizard> w = new Wizard(false, this);
     if (w->exec() == QDialog::Accepted && w->isOk()) {
         w->adjustSettings();
     }
@@ -4331,6 +4331,9 @@ void MainWindow::slotSpeechRecognition()
 
 void MainWindow::slotCopyDebugInfo() {
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
+    QString packageType = qEnvironmentVariableIsSet("PACKAGE_TYPE") ? qgetenv("PACKAGE_TYPE") : QStringLiteral("Unknown/Other");
+    debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
+    debuginfo.append(QStringLiteral("Sandbox: %1\n").arg(pCore->inSandbox() ? QStringLiteral("yes") : QStringLiteral("no")));
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
