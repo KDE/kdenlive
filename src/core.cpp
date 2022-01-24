@@ -421,7 +421,7 @@ Mlt::Profile *Core::getProjectProfile()
 {
     if (!m_projectProfile) {
         m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
-        m_projectProfile->set_explicit(1);
+        m_projectProfile->set_explicit(true);
         updateMonitorProfile();
     }
     return m_projectProfile.get();
@@ -941,6 +941,7 @@ Mlt::Profile *Core::thumbProfile()
             width ++;
         }
         m_thumbProfile->set_width(width);
+        m_thumbProfile->set_explicit(true);
     }
     return m_thumbProfile.get();
 }
