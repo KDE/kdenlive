@@ -77,6 +77,9 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset theme="view-refresh"/>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">

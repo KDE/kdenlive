@@ -115,6 +115,9 @@
      <property name="text">
       <string>...</string>
      </property>
+     <property name="icon">
+      <iconset theme="view-refresh"/>
+     </property>
     </widget>
    </item>
    <item row="11" column="4">
