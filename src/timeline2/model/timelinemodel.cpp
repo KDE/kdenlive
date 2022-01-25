@@ -1949,13 +1949,12 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
 bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo)
 {
-    Q_UNUSED(logUndo)
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
         return requestGroupDeletion(itemId, undo, redo);
     }
     if (isClip(itemId)) {
-        return requestClipDeletion(itemId, undo, redo);
+        return requestClipDeletion(itemId, undo, redo, logUndo);
     }
     if (isComposition(itemId)) {
         return requestCompositionDeletion(itemId, undo, redo);
@@ -1994,7 +1993,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     return res;
 }
 
-bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
@@ -2011,7 +2010,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
                 res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
             }
         }
-        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, !m_closing, undo, redo, false, true);
+        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, logUndo && !m_closing, undo, redo, false, true);
         if (!res) {
             undo();
             return false;

@@ -856,7 +856,7 @@ protected:
     bool unplantComposition(int compoId);
 
     /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
-    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
     bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);
 

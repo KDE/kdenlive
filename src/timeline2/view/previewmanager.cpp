@@ -138,15 +138,20 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (dirtyChunks.isEmpty()) {
         dirtyChunks = m_dirtyChunks;
     }
-
     // First chech if there are invalid chunks (created after document date)
     QFileInfoList chunksList = m_cacheDir.entryInfoList({QString("*.%1").arg(m_extension)}, QDir::Files, QDir::Time);
     for (auto &chunkFile : chunksList) {
         if (chunkFile.lastModified() > documentDate) {
             // This chunk is invalid
             QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
+            bool ok;
+            int chunkFrame = chunkName.toInt(&ok);
+            if (!ok) {
+                // This is not one of our chunks
+                continue;
+            }
             previewChunks.removeAll(chunkName);
-            dirtyChunks << chunkName;
+            dirtyChunks << chunkFrame;
             // Physically remove chunk file
             m_cacheDir.remove(chunkFile.fileName());
         } else {
@@ -174,15 +179,14 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
                 m_previewTrack->insert_at(position, clip.get(), 1);
             } else {
                 dirtyChunks << position;
+
             }
         }
     }
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();
-    if (!previewChunks.isEmpty()) {
-        emit m_controller->renderedChunksChanged();
-    }
     if (!dirtyChunks.isEmpty()) {
+        std::sort(dirtyChunks.begin(), dirtyChunks.end());
         QMutexLocker lock(&m_dirtyMutex);
         for (const auto &i : qAsConst(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
@@ -190,6 +194,9 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
             }
         }
         emit m_controller->dirtyChunksChanged();
+    }
+    if (!previewChunks.isEmpty()) {
+        emit m_controller->renderedChunksChanged();
     }
 }
 
@@ -561,10 +568,10 @@ void PreviewManager::startPreviewRender()
 void PreviewManager::receivedStderr()
 {
     QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
+    resultList.removeAll(QString(""));
     for (auto &result : resultList) {
         if (result.startsWith(QLatin1String("START:"))) {
             workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
-            qDebug() << "// GOT START INFO: " << workingPreview;
             emit m_controller->workingPreviewChanged();
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
@@ -582,17 +589,14 @@ void PreviewManager::receivedStderr()
 void PreviewManager::doPreviewRender(const QString &scene)
 {
     // initialize progress bar
-    QMutexLocker lock(&m_dirtyMutex);
-    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
+    QMutexLocker lock(&m_dirtyMutex);
     Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
-
-    QStringList chunks;
-    for (QVariant &frame : m_dirtyChunks) {
-        chunks << frame.toString();
-    }
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    qDebug()<<":: got dirty chks: "<<m_dirtyChunks;
+    const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
     int chunkSize = KdenliveSettings::timelinechunks();
@@ -600,7 +604,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      scene,
                      m_cacheDir.absolutePath(),
                      QStringLiteral("-split"),
-                     chunks.join(QLatin1Char(',')),
+                     dirtyChunks.join(QLatin1Char(',')),
                      QString::number(chunkSize - 1),
                      pCore->getCurrentProfilePath(),
                      m_extension,
@@ -613,7 +617,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
 }
 
-void PreviewManager::processEnded(int, QProcess::ExitStatus status)
+void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
 {
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
@@ -757,8 +761,9 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (m_previewTrack->is_blank_at(frame)) {
         Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
-            QMutexLocker lock(&m_dirtyMutex);
-            m_dirtyChunks.removeAll(frame);
+            m_dirtyMutex.lock();
+            m_dirtyChunks.removeAll(QVariant(frame));
+            m_dirtyMutex.unlock();
             m_renderedChunks << frame;
             emit m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
@@ -813,9 +818,9 @@ void PreviewManager::removeOverlayTrack()
 
 QPair<QStringList, QStringList> PreviewManager::previewChunks()
 {
+    QMutexLocker lock(&m_dirtyMutex);
     std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     const QStringList renderedChunks = getCompressedList(m_renderedChunks);
-    QMutexLocker lock(&m_dirtyMutex);
     std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     lock.unlock();

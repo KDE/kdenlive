@@ -85,7 +85,36 @@ int main(int argc, char **argv)
             }
             const char *localename = prod.get_lcnumeric();
             QLocale::setDefault(QLocale(localename));
-            for (const QString &frame : qAsConst(chunks)) {
+
+            int currentFrame = 0;
+            int rangeStart = 0;
+            int rangeEnd = 0;
+            QString frame;
+            while (!chunks.isEmpty()) {
+                if (rangeEnd == 0) {
+                    // We are not processing a range
+                    frame = chunks.first();
+                }
+                if (rangeEnd > 0) {
+                    // We are processing a range
+                    currentFrame += chunkSize + 1;
+                    frame = QString::number(currentFrame);
+                    if (currentFrame >= rangeEnd) {
+                        // End of range
+                        rangeStart = 0;
+                        rangeEnd = 0;
+                        // Range is processed, remove from stack
+                        chunks.removeFirst();
+                    }
+                } else if (frame.contains(QLatin1Char('-'))) {
+                    rangeStart = frame.section(QLatin1Char('-'), 0, 0).toInt();
+                    rangeEnd = frame.section(QLatin1Char('-'), 1, 1).toInt();
+                    currentFrame = rangeStart;
+                    frame = QString::number(currentFrame);
+                } else {
+                    // Frame will be processed, remove from stack
+                    chunks.removeFirst();
+                }
                 fprintf(stderr, "START:%d \n", frame.toInt());
                 QString fileName = QStringLiteral("%1.%2").arg(frame,extension);
                 if (baseFolder.exists(fileName)) {
