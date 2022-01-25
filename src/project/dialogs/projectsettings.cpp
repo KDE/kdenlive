@@ -777,7 +777,7 @@ void ProjectSettings::slotDeleteMetadataField()
 
 void ProjectSettings::slotManageEncodingProfile()
 {
-    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(0);
+    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(EncodingProfilesManager::ProxyClips);
     d->exec();
     delete d;
     loadProxyProfiles();
@@ -785,7 +785,7 @@ void ProjectSettings::slotManageEncodingProfile()
 
 void ProjectSettings::slotManagePreviewProfile()
 {
-    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(1);
+    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(EncodingProfilesManager::TimelinePreview);
     d->exec();
     delete d;
     loadPreviewProfiles();

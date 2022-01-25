@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>579</width>
-    <height>250</height>
+    <height>269</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -17,6 +17,9 @@
    <property name="topMargin">
     <number>0</number>
    </property>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="kcfg_videotracks"/>
+   </item>
    <item row="0" column="0" colspan="7">
     <widget class="QGroupBox" name="profile_box">
      <property name="flat">
@@ -24,26 +27,34 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="7">
-    <widget class="QPlainTextEdit" name="previewparams">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="1" column="4">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Audio channels</string>
      </property>
-     <property name="readOnly">
-      <bool>true</bool>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_sameprojectfolder">
+     <property name="text">
+      <string>Use parent folder of the project file as project folder</string>
      </property>
     </widget>
    </item>
    <item row="1" column="3">
     <widget class="QSpinBox" name="kcfg_audiotracks"/>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="label">
+   <item row="1" column="2">
+    <widget class="QLabel" name="label_7">
      <property name="text">
-      <string>Audio channels</string>
+      <string>Audio tracks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Video tracks</string>
      </property>
     </widget>
    </item>
@@ -72,68 +83,7 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="kcfg_videotracks"/>
-   </item>
-   <item row="6" column="0" colspan="7">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label_25">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Timeline Preview</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="kcfg_preview_profile">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="preview_showprofileinfo">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="preview_manageprofile">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Audio tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Video tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
+   <item row="7" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -156,7 +106,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="projecturl" native="true">
+      <widget class="KUrlRequester" name="projecturl">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -164,12 +114,22 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="6">
-    <widget class="QCheckBox" name="kcfg_sameprojectfolder">
-     <property name="text">
-      <string>Use parent folder of the project file as project folder</string>
-     </property>
-    </widget>
+   <item row="6" column="0" colspan="6">
+    <layout class="QHBoxLayout" name="preview_profile_box">
+     <item>
+      <widget class="QLabel" name="label_25">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Timeline Preview</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
