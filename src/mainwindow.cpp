@@ -4331,9 +4331,8 @@ void MainWindow::slotSpeechRecognition()
 
 void MainWindow::slotCopyDebugInfo() {
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
-    QString packageType = qEnvironmentVariableIsSet("PACKAGE_TYPE") ? qgetenv("PACKAGE_TYPE") : QStringLiteral("Unknown/Other");
-    debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
-    debuginfo.append(QStringLiteral("Sandbox: %1\n").arg(pCore->inSandbox() ? QStringLiteral("yes") : QStringLiteral("no")));
+    QString packageType = pCore->packageType();
+    debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType.isEmpty() ? QStringLiteral("Unknown/Default") : packageType));
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));

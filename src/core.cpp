@@ -40,9 +40,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core()
+Core::Core(const QString &packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
+    , m_packageType(packageType)
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
@@ -67,12 +68,12 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-bool Core::build(bool testMode)
+bool Core::build(const QString &packageType, bool testMode)
 {
     if (m_self) {
         return true;
     }
-    m_self.reset(new Core());
+    m_self.reset(new Core(packageType));
     m_self->initLocale();
 
     qRegisterMetaType<audioShortVector>("audioShortVector");
@@ -88,7 +89,7 @@ bool Core::build(bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam*>("ProfileParam*");
-    
+
     if (!testMode) {
         // Check if we had a crash
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
@@ -113,20 +114,7 @@ bool Core::build(bool testMode)
     return true;
 }
 
-bool Core::inSandbox()
-{
-    if (!qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
-        return false;
-    }
-    QString type = qgetenv("PACKAGE_TYPE");
-    type = type.toLower();
-    if (type == QStringLiteral("appimage") || type == QStringLiteral("flatpak") || type == QStringLiteral("snap")) {
-        return true;
-    }
-    return false;
-}
-
-void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
@@ -176,7 +164,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
-    if (inSandbox()) {
+    if (inSandbox) {
         // In a sandbox enviroment we need to search some paths recursively
         QString appPath = qApp->applicationDirPath();
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));

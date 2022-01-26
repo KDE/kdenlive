@@ -125,6 +125,27 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = qApp->applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+        }
+    }
+
+    bool inSandbox = false;
+    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
+        inSandbox = true;
+        // use a dedicated config file for sandbox packages,
+        // however the next line has no effect if the --config cmd option is used
+        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
+    }
+
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
@@ -210,6 +231,7 @@ int main(int argc, char *argv[])
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
 
+    // config option is processed in KConfig (src/core/kconfig.cpp)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
@@ -270,7 +292,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     int result = 0;
-    if (!Core::build()) {
+    if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
@@ -278,7 +300,7 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
+        pCore->initGUI(inSandbox, parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();

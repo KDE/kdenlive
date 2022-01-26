@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     qputenv("MLT_TESTS", QByteArray("1"));
-    Core::build(true);
+    Core::build(QString(), true);
     MltConnection::construct(QString());
     pCore->projectItemModel()->buildPlaylist();
     // if Kdenlive is not installed, ensure we have one keyframable effect

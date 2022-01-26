@@ -74,26 +74,22 @@ public:
     /**
      * @brief Setup the basics of the application, in particular the connection
      * with Mlt
-     * @param isAppImage do we expect an AppImage (if yes, we use App path to deduce 
-     * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(bool testMode = false);
-
-    /**
-     * @brief Whether the app runs in a sandbox
-     * Will be true for Appimage, Flatpak and Snap
-     * The detection works through the PACKAGE_TYPE envvar
-     */
-    bool inSandbox();
+    static bool build(const QString &packageType, bool testMode = false);
 
     /**
      * @brief Init the GUI part of the app and show the main window
+     * @param inSandbox does the app run in a sanbox? If yes, we use App path to deduce
+     * other binaries paths (melt, ffmpeg, etc)
+     * @param MltPath
      * @param Url (optional) file to open
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
-     * a default new file will be created. */
-    void initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+     * a default new file will be created.
+     * @param clipsToLoad
+     */
+    void initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -281,8 +277,10 @@ public:
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist);
 
+    QString packageType() { return m_packageType; };
+
 private:
-    explicit Core();
+    explicit Core(const QString &packageType);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
@@ -302,6 +300,7 @@ private:
     QString m_currentProfile;
 
     QString m_profile;
+    QString m_packageType;
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
