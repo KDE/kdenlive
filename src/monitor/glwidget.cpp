@@ -584,6 +584,7 @@ void GLWidget::paintGL()
         if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
+            fmt.setSamples(1);
             m_fbo = new QOpenGLFramebufferObject(m_profileSize.width(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
