@@ -180,8 +180,12 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
+    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"), QStringLiteral("https://bugs.kde.org/"));
+    if (!packageType.isEmpty()) {
+        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
+    }
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2022 Kdenlive authors"), i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"), QStringLiteral("https://bugs.kde.org/")),
+                         i18n("Copyright © 2007–2022 Kdenlive authors"), otherText,
                          QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
