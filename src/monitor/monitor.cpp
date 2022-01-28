@@ -741,7 +741,9 @@ void Monitor::buildBackgroundedProducer(int pos) {
         Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
         QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
-        bg->set("length", m_controller->originalProducer()->get_length());
+        int maxLength = m_controller->originalProducer()->get_length();
+        bg->set("length", maxLength);
+        bg->set("out", maxLength - 1);
         trac.set_track(*bg.get(), 0);
         trac.set_track(*m_controller->originalProducer().get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();
