@@ -328,12 +328,19 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 #else
     m_view.shareButton->setEnabled(false);
 #endif
+
+    // Parallel rendering
     m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
     connect(m_view.parallel_process, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
     if (KdenliveSettings::gpu_accel()) {
         // Disable parallel rendering for movit
         m_view.parallel_process->setEnabled(false);
     }
+
+    // Preview res rendering
+    m_view.render_at_preview_res->setChecked(KdenliveSettings::render_at_preview_res());
+    connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setRender_at_preview_res(state == Qt::Checked); });
+
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
     loadConfig();
@@ -1560,6 +1567,11 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         }
         playlists << playlistName;
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);
+
+        // Preview rendering
+        if (KdenliveSettings::render_at_preview_res() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height()) {
+            myConsumer.setAttribute(QStringLiteral("scale"), double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height());
+        }
 
         // Prepare rendering args
         int pass = passes == 2 ? i + 1 : 0;

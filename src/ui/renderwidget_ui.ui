@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1029</width>
+    <width>1041</width>
     <height>573</height>
    </rect>
   </property>
@@ -388,6 +388,13 @@
           </item>
           <item row="4" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="render_at_preview_res">
+              <property name="text">
+               <string>Render at preview resolution</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QCheckBox" name="options">
               <property name="sizePolicy">
