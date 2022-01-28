@@ -36,9 +36,9 @@
  </group>
  <group name="Video with Alpha" renderer="avformat" type="av">
   <profile name="Alpha VP8" extension="webm"
-   qualities="11,51" defaultquality="10"
-   audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis rc_lookahead=16 speed=0 g=120 crf=%quality vprofile=0 vb=2M qmin=11 qmax=51 slices=4 maxrate=24M minrate=100k quality=good aq=%audioquality arnr_max_frames=7 arnr_strength=5 arnr_type=3 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
+   qualities="1,51" defaultquality="10"
+   audioqualities="3,7" defaultaudioquality="4"
+   args="f=webm acodec=vorbis aq=%audioquality vcodec=libvpx g=120 rc_lookahead=16 quality=good speed=0 vprofile=0 vb=2M qmin=1 qmax=51 crf=%quality slices=4 arnr_max_frames=7 arnr_strength=5 arnr_type=3 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha VP9" extension="webm"
    qualities="15,37" defaultquality="31"
