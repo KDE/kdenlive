@@ -276,11 +276,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="render_at_preview_res" type="Bool">
-      <label>Use preview resolution for faster/low quality rendering.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="vaapiEnabled" type="Bool">
       <label>Enables vaapi hw accel in encoders.</label>
       <default>false</default>

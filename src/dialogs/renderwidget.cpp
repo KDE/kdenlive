@@ -337,10 +337,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         m_view.parallel_process->setEnabled(false);
     }
 
-    // Preview res rendering
-    m_view.render_at_preview_res->setChecked(KdenliveSettings::render_at_preview_res());
-    connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setRender_at_preview_res(state == Qt::Checked); });
-
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
     loadConfig();
@@ -1136,6 +1132,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.video->value()));
     renderProps.insert(QStringLiteral("renderaudioquality"), QString::number(m_view.audio->value()));
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
+    renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
 
     emit selectedRenderProfile(renderProps);
 
@@ -1569,7 +1566,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);
 
         // Preview rendering
-        if (KdenliveSettings::render_at_preview_res() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height()) {
+        if (m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height()) {
             myConsumer.setAttribute(QStringLiteral("scale"), double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height());
         }
 
@@ -2836,6 +2833,12 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     }
     if (props.contains(QStringLiteral("rendertwopass"))) {
         m_view.checkTwoPass->setChecked(props.value(QStringLiteral("rendertwopass")).toInt() != 0);
+    }
+
+    if (props.contains(QStringLiteral("renderpreview"))) {
+        m_view.render_at_preview_res->setChecked(props.value(QStringLiteral("renderpreview")).toInt() != 0);
+    } else {
+        m_view.render_at_preview_res->setChecked(false);
     }
 
     if (props.value(QStringLiteral("renderzone")) == QLatin1String("1")) {
