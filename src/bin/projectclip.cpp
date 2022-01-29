@@ -2208,3 +2208,15 @@ void ProjectClip::importJsonMarkers(const QString &json)
 {
     getMarkerModel()->importFromJson(json, true);
 }
+
+const QStringList ProjectClip::enforcedParams() const
+{
+    QStringList params;
+    QStringList paramNames = {QStringLiteral("rotate"),QStringLiteral("autorotate")};
+    for (auto &name : paramNames) {
+        if (hasProducerProperty(name)) {
+            params << QString("%1=%2").arg(name, getProducerProperty(name));
+        }
+    }
+    return params;
+}

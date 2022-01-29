@@ -234,6 +234,8 @@ public:
     int getAudioMax(int stream);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
+    /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
+    const QStringList enforcedParams() const;
 
 protected:
     friend class ClipModel;

@@ -113,6 +113,8 @@ void StabilizeTask::run()
             return;
         }
         producerArgs << url;
+        producerArgs << binClip->enforcedParams();
+
         if (m_inPoint > -1) {
            producerArgs << QString("in=%1").arg(m_inPoint);
         }
