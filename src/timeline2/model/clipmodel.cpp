@@ -775,12 +775,12 @@ bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int 
     QWriteLocker locker(&m_lock);
     qDebug() << ".... ADJUSTING FADE LENGTH: " << duration << " / " << effectName;
     Fun operation = [this, duration, effectName, originalDuration]() {
-        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), audioEnabled(),
+        return m_effectStack->adjustFadeLength(duration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")), audioEnabled(),
                                                !isAudioOnly(), originalDuration > 0);
     };
     if (operation() && originalDuration > 0) {
         Fun reverse = [this, originalDuration, effectName]() {
-            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"),
+            return m_effectStack->adjustFadeLength(originalDuration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")),
                                                    audioEnabled(), !isAudioOnly(), true);
         };
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);

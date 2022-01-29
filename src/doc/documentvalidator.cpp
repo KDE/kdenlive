@@ -1839,7 +1839,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement t = effects.at(i).toElement();
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
             if (kdenliveId.startsWith(QLatin1String("fade_"))) {
-                bool fadeIn = kdenliveId == QLatin1String("fade_from_black");
+                bool fadeIn = kdenliveId.startsWith(QLatin1String("fade_from_"));
                 bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() ==  -1;
                 // Clear unused properties
                 Xml::removeXmlProperty(t, QStringLiteral("start"));

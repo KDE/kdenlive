@@ -880,6 +880,13 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 
     for (const auto &param : m_params) {
         if (!param.first.isEmpty()) {
+            QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+            if (m_params.at(param.first).type == ParamType::MultiSwitch) {
+                // Multiswitch param value is not updated on change, fo fetch real value now
+                QVariant multiVal = data(ix, AssetParameterModel::ValueRole).toString();
+                res.push_back(QPair<QString, QVariant>(param.first, multiVal));
+                continue;
+            }
             res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
         }
     }
@@ -1316,4 +1323,13 @@ void AssetParameterModel::setProgress(int progress)
 Mlt::Properties *AssetParameterModel::getAsset()
 {
     return m_asset.get();
+}
+
+const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
+{
+    QModelIndex ix = index(m_rows.indexOf(paramName), 0);
+    if (ix.isValid()) {
+        return data(ix, ValueRole);
+    }
+    return QVariant();
 }
