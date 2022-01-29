@@ -919,7 +919,7 @@ void Core::updateItemKeyframes(ObjectId id)
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
     if (m_guiConstructed && id.first == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
-        bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
+        bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
 }

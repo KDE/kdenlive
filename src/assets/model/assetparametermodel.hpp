@@ -149,6 +149,8 @@ public:
 
     /** @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;
+    /** @brief Get a parameter value from its name */
+    const QVariant getParamFromName(const QString &paramName);
     /** @brief Returns a json definition of the effect with all param values */
     QJsonDocument toJson(bool includeFixed = true) const;
     /** @brief Returns the interpolated value at the given position with all param values as json*/
