@@ -1518,7 +1518,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
             }
         } else {
             // Check space after the position
-            track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value() - 1;
+            track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value();
             if (blank_length == 0 || blank_length > track_space) {
                 blank_length = track_space;
             }
