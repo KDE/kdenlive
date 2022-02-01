@@ -21,6 +21,8 @@ Rectangle
     property int modelStart
     property bool selected
     property var kfrModel
+    property int scrollStart
+    property alias kfrCanvas: keyframecanvas
     signal seek(int position)
 
     onKfrCountChanged: {
@@ -288,7 +290,10 @@ Rectangle
         id: keyframecanvas
         contextType: "2d"
         renderStrategy: Canvas.Threaded
-        width: kfrCount > 1 ? parent.width : 0
+        property int offset: scrollStart < 0 || parent.width <= scrollView.width ? 0 : scrollStart
+        anchors.left: parent.left
+        anchors.leftMargin: offset
+        width: kfrCount > 1 ? Math.min(parent.width, scrollView.width) : 0
         height: kfrCount > 1 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
@@ -302,7 +307,8 @@ Rectangle
         property var paths : []
         Path {
             id: myPath
-            startX: 0; startY: parent.height
+            startX: 0
+            startY: parent.height
         }
 
         onPaint: {
@@ -317,8 +323,13 @@ Rectangle
             var ypos
             for(var i = 0; i < keyframes.count; i++)
             {
+                if (i + 1 < keyframes.count) {
+                    if (keyframes.itemAt(i + 1).tmpPos < offset) {
+                        continue;
+                    }
+                }
+                xpos = keyframes.itemAt(i).tmpPos - offset
                 var type = i > 0 ? keyframes.itemAt(i-1).frameType : keyframes.itemAt(i).frameType
-                xpos = keyframes.itemAt(i).tmpPos
                 if (type === 0) {
                     // discrete
                     paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
@@ -331,9 +342,12 @@ Rectangle
                     // curve
                     paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
                 }
+                if (xpos > scrollView.width) {
+                    break;
+                }
             }
-            paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": ypos} ))
-            paths.push(compline.createObject(keyframecanvas, {"x": parent.width, "y": parent.height} ))
+            paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": ypos} ))
+            paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": keyframecanvas.height} ))
             myPath.pathElements = paths
             ctx.clearRect(0,0, width, height);
             ctx.path = myPath;

@@ -83,6 +83,11 @@ Rectangle {
 
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
+        if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
 
     onIsGrabbedChanged: {
@@ -121,11 +126,11 @@ Rectangle {
         }
     }
 
-    onKeyframeModelChanged: {
-        if (effectRow.item && effectRow.item.keyframecanvas) {
-            effectRow.item.keyframecanvas.requestPaint()
+    /*onKeyframeModelChanged: {
+        if (effectRow.item && effectRow.item.kfrCanvas) {
+            effectRow.item.kfrCanvas.requestPaint()
         }
-    }
+    }*/
 
     onClipDurationChanged: {
         width = clipDuration * timeScale
@@ -180,6 +185,11 @@ Rectangle {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         updateLabelOffset()
+        if (!clipRoot.hideClipViews) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
     onScrollXChanged: {
         updateLabelOffset()
@@ -1041,6 +1051,14 @@ Rectangle {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "scrollStart"
+                    value: clipRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
                     // TODO: use restoreMode for Qt >= 5.15
                     // restoreMode: Binding.RestoreBindingOrValue
