@@ -2009,8 +2009,8 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) {
             slotSwitchAudioThumbs();
         }
-        if (project->getDocumentProperty(QStringLiteral("previewparameters")) != w->proxyParams() ||
-            project->getDocumentProperty(QStringLiteral("previewextension")) != w->proxyExtension()) {
+        if (project->getDocumentProperty(QStringLiteral("previewparameters")) != w->previewParams() ||
+            project->getDocumentProperty(QStringLiteral("previewextension")) != w->previewExtension()) {
             modified = true;
             project->setDocumentProperty(QStringLiteral("previewparameters"), w->previewParams());
             project->setDocumentProperty(QStringLiteral("previewextension"), w->previewExtension());
