@@ -60,14 +60,19 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
-        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.contentItem.width < 0
+        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.width < 0
+        if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
 
-    onKeyframeModelChanged: {
+    /*onKeyframeModelChanged: {
         if (effectRow.item && effectRow.item.keyframecanvas) {
             effectRow.item.keyframecanvas.requestPaint()
         }
-    }
+    }*/
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -101,6 +106,11 @@ Item {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        if (!compositionRoot.hideClipViews) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
@@ -433,6 +443,12 @@ Item {
                     target: effectRow.item
                     property: "modelStart"
                     value: compositionRoot.modelStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "scrollStart"
+                    value: compositionRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
                 Binding {
