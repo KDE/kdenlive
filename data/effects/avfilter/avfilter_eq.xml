@@ -16,16 +16,16 @@
 		<name>Gamma</name>
 	</parameter>
     <parameter type="constant" name="av.gamma_r" max="3" min="0" default="1" decimals="2">
-		<name>Red Gamma</name>
+		<name>Red gamma</name>
 	</parameter>
     <parameter type="constant" name="av.gamma_g" max="3" min="0" default="1" decimals="2">
-		<name>Green Gamma</name>
+		<name>Green gamma</name>
 	</parameter>
     <parameter type="constant" name="av.gamma_b" max="3" min="0" default="1" decimals="2">
-		<name>Blue Gamma</name>
+		<name>Blue gamma</name>
 	</parameter>
     <parameter type="constant" name="av.gamma_weight" max="1" min="0" default="1" decimals="2">
-		<name>Gamma Weight</name>
+		<name>Gamma weight</name>
 	</parameter>
 </effect>
 

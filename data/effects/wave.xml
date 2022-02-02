@@ -7,10 +7,10 @@
 		<name>Amplitude</name>
 	</parameter>
     <parameter type="animated" name="end" max="100" min="1" default="10">
-		<name>End Amplitude</name>
+		<name>End amplitude</name>
 	</parameter>
     <parameter type="animated" name="wave" max="100" min="1" default="10">
-		<name>Wave Amplitude</name>
+		<name>Wave amplitude</name>
 	</parameter>
     <parameter type="animated" name="speed" max="100" min="0" default="5">
 		<name>Speed</name>

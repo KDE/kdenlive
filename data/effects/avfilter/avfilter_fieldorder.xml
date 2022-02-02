@@ -4,7 +4,7 @@
 	<description>Transform the field order of the input video.</description>
 	<author>libavfilter</author>
 	<parameter type="list" name="av.order" default="tff" paramlist="tff;bff">
-                <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
-                <name>Field priority</name>
+                <paramlistdisplay>Top Field First,Bottom Field First</paramlistdisplay>
+                <name>Field priority:</name>
         </parameter>
 </effect>

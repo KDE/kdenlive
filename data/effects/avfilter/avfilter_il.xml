@@ -5,25 +5,25 @@
 	<author>libavfilter</author>
     <parameter type="list" name="av.l" default="none" paramlist="none;d;i">
         <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
-        <name>Luma Mode</name>
+        <name>Luma mode:</name>
     </parameter>
     
     <parameter type="list" name="av.c" default="none" paramlist="none;d;i">
         <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
-        <name>Chroma Mode</name>
+        <name>Chroma mode:</name>
     </parameter>
     
     <parameter type="list" name="av.a" default="none" paramlist="none;d;i">
         <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
-        <name>Alpha Mode</name>
+        <name>Alpha mode:</name>
     </parameter>
         <parameter type="bool" name="av.ls" default="0">
-        <name>Swap Luma Fields</name>
+        <name>Swap luma fields</name>
     </parameter>
     <parameter type="bool" name="av.cs" default="0">
-        <name>Swap Chroma Fields</name>
+        <name>Swap chroma fields</name>
     </parameter>
     <parameter type="bool" name="av.as" default="0">
-        <name>Swap Alpha Fields</name>
+        <name>Swap alpha fields</name>
     </parameter>
 </effect>

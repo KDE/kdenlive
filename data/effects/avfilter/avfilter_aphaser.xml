@@ -20,6 +20,6 @@
         </parameter>
         <parameter type="list" name="av.type" default="t" paramlist="t;s">
             <paramlistdisplay>Triangular,Sinusoidal</paramlistdisplay>    
-            <name>Modulation type</name>
+            <name>Modulation type:</name>
         </parameter>
 </effect>

@@ -13,8 +13,8 @@
         <name>Frequency</name><comment>How much of original frequency content to keep when de-essing. Allowed range is from 0 to 1.</comment>
         </parameter>
 	<parameter type="list" name="av.s" default="o" paramlist="i;o;e">
-        <paramlistdisplay>Input,Output,Ess only</paramlistdisplay>
-        <name>Output mode</name><comment>Set the output mode.</comment>
+        <paramlistdisplay>Input,Output,Ess Only</paramlistdisplay>
+        <name>Output mode:</name><comment>Set the output mode.</comment>
         </parameter>
 </effect>
 

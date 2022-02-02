@@ -4,7 +4,7 @@
 	<description>Microphone background noise removal filter</description>
 	<author>Danil Werman</author>
 	<parameter type="constant" name="2" default="49" min="0" max="99" suffix="%">
-                <name>VAD Threshold</name>
+                <name>VAD threshold</name>
         </parameter>
 	<parameter type="constant" name="wetness" default="1" min="0" max="1" decimals="3">
                 <name>Wet/Dry</name>

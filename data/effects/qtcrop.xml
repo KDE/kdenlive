@@ -13,6 +13,6 @@
 		<name>Circle</name>
 	</parameter>
 	<parameter type="color" name="color" default="0x00000000" alpha="1">
-		<name>Padding Color</name>
+		<name>Padding color:</name>
 	</parameter>
 </effect>

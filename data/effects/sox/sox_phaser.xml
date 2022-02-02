@@ -4,10 +4,10 @@
 	<description>Sox phaser audio effect</description>
 	<author>http://sox.sourceforge.net</author>
 	<parameter type="constant" name="gainin" max="10" min="1" default="1" factor="10">
-		<name>Gain In</name>
+		<name>Gain in</name>
 	</parameter>
 	<parameter type="constant" name="gainout" max="10" min="1" default="1" factor="10">
-		<name>Gain Out</name>
+		<name>Gain out</name>
 	</parameter>
 	<parameter type="constant" name="delay" max="5" min="0" default="2">
 		<name>Delay</name>

@@ -16,10 +16,10 @@
                 <name>Oscillation</name>
         </parameter>
      <parameter type="color" name="color.1">
-                <name>1st Color</name>
+                <name>1st color:</name>
         </parameter>
      <parameter type="color" name="color.2">
-                <name>2nd Color</name>
+                <name>2nd color:</name>
             </parameter>            
     <parameter type="rect" name="rect" default="0 0 100% 100%">
                 <name>Rectangle</name>

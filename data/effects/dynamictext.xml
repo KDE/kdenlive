@@ -7,39 +7,39 @@
         <name>Geometry</name>
     </parameter>
     <parameter type="fontfamily" name="family" default="DejaVu Sans">
-        <name>Font Family</name>
+        <name>Font family:</name>
     </parameter>
     <parameter type="constant" name="size" max="200" min="8" default="48">
-        <name>Font Size</name>
+        <name>Font size</name>
     </parameter>
     <parameter type="constant" name="weight" max="900" min="100" default="400">
-        <name>Font Weight</name>
+        <name>Font weight</name>
     </parameter>
     <parameter type="color" name="fgcolour" default="0x000000ff" alpha="1">
-        <name>Foreground Color</name>
+        <name>Foreground color:</name>
     </parameter>
     <parameter type="color" name="bgcolour" default="0x00000020" alpha="1">
-        <name>Background Color</name>
+        <name>Background color:</name>
     </parameter>
     <parameter type="color" name="olcolour" default="0x00000000" alpha="1">
-        <name>Outline Color</name>
+        <name>Outline color:</name>
     </parameter>
     <parameter type="constant" name="outline" max="3" min="0" default="0">
-        <name>Outline Width</name>
+        <name>Outline width</name>
     </parameter>
     <parameter type="constant" name="pad" max="500" min="0" default="0">
         <name>Padding</name>
     </parameter>
     <parameter type="list" name="halign" default="left" paramlist="left;centre;right">
         <paramlistdisplay>Left,Center,Right</paramlistdisplay>
-        <name>Horizontal Alignment</name>
+        <name>Horizontal alignment:</name>
     </parameter>
     <parameter type="list" name="valign" default="top" paramlist="top;middle;bottom">
         <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
-        <name>Vertical Alignment</name>
+        <name>Vertical alignment:</name>
     </parameter>
     <parameter type="keywords" name="argument" default="#timecode#" paramlist="#timecode#;#frame#;#filedate#;#localfiledate#;#meta.media.0.stream.frame_rate#;#meta.media.0.codec.name#;#meta.media.0.codec.bit_rate#;#meta.media.width#;#meta.media.height#;#meta.attr.comment.markup#">
         <name>Text</name>
-        <paramlistdisplay>timecode,frame,file date,local file date,source frame rate,source codec,source bit rate,source width,source height,source comment</paramlistdisplay>
+        <paramlistdisplay>Timecode,Frame,File Date,Local File Date,Source Frame rate,Source Codec,Source Bit Rate,Source Width,Source Height,Source Comment</paramlistdisplay>
     </parameter>
 </effect>

@@ -14,8 +14,8 @@ Note that this makes most sense to apply on mono signals. With this filter appli
                 <name>Side gain</name>
         </parameter>
         	<parameter type="list" name="av.middle_source" default="left" paramlist="left;right;mid;side">
-                <paramlistdisplay>left,right,mid,side</paramlistdisplay>
-                <name>Middle source</name>
+                <paramlistdisplay>Left,Right,Mid,Side</paramlistdisplay>
+                <name>Middle source:</name>
         </parameter>
         <parameter type="bool" name="av.middle_phase" default="0">
                 <name>Middle phase</name>
@@ -27,7 +27,7 @@ Note that this makes most sense to apply on mono signals. With this filter appli
         <name>Left balance</name>
         </parameter>
         <parameter type="constant" name="av.left_gain" default="1" min="0.015" max="64" decimals="3">
-        <name>Left Gain</name>
+        <name>Left gain</name>
         </parameter>
         <parameter type="bool" name="av.left_phase" default="0">
         <name>Left phase</name>
@@ -39,7 +39,7 @@ Note that this makes most sense to apply on mono signals. With this filter appli
         <name>Right balance</name>
         </parameter>
         <parameter type="constant" name="av.right_gain"  default="1" min="0.015" max="64" decimals="3">
-        <name>Right Gain</name>
+        <name>Right gain</name>
         </parameter>
         <parameter type="bool" name="av.right_phase" default="1">
         <name>Right phase</name>

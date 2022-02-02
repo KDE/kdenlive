@@ -4,6 +4,6 @@
 	<description>Calculates the distance between the selected color and the current pixel and uses that value as new pixel value</description>
 	<author>Richard Spindler</author>
 	<parameter type="color" name="Color" default="0x000000ff">
-		<name>Source Color</name>
+		<name>Source color:</name>
 	</parameter>
 </effect>

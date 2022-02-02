@@ -4,13 +4,13 @@
 	<description>Balances colors along with 3 points</description>
 	<author>Maksim Golovkin</author>
 	<parameter type="color" name="Black color" default="0x000000ff">
-		<name>Black color</name>
+		<name>Black color:</name>
 	</parameter>
 	<parameter type="color" name="Gray color" default="0x808080ff">
-		<name>Gray color</name>
+		<name>Gray color:</name>
 	</parameter>
 	<parameter type="color" name="White color" default="0xffffffff">
-		<name>White color</name>
+		<name>White color:</name>
 	</parameter>
 	<parameter type="bool" name="Split preview" default="0">
 		<name>Split screen preview</name>

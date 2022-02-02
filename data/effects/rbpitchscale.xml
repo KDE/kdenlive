@@ -4,7 +4,7 @@
 	<description>Adjust the audio pitch using the Rubberband library.</description>
 	<author>Meltytech, LLC</author>
         <parameter type="constant" name="pitchscale" max="10" min="0.1" default="1.0" decimals="3">
-            <name>Pitch Scale</name>
+            <name>Pitch scale</name>
             <comment>The pitch scaling ratio. This is the ratio of target frequency to source frequency. For example, a ratio of 2.0 would shift up by one octave; 0.5 down by one octave; or 1.0 leave the pitch unaffected. To put this in musical terms, a pitch scaling ratio corresponding to a shift of o octaves (where o is positive for an upwards shift and negative for downwards) is: f = pow(2.0, o). Overrides octaveshift.</comment>
 	</parameter>
         <parameter type="bool" name="stretch" default="0">

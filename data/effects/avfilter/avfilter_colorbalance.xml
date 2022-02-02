@@ -1,34 +1,34 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.colorbalance" id="avfilter.colorbalance">
 	<name>Color balance</name>
-	<description>Modify intensity of primary colors (red, green and blue) of input frames. </description>
+	<description>Modify intensity of primary colors (red, green and blue) of input frames.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.rs" default="0" min="-1" max="1" decimals="2">
-		<name>Red Shadow</name>
+		<name>Red shadow</name>
 	</parameter>
 	<parameter type="constant" name="av.gs" default="0" min="-1" max="1" decimals="2">
-		<name>Green Shadow</name>
+		<name>Green shadow</name>
 	</parameter>
     <parameter type="constant" name="av.bs" default="0" min="-1" max="1" decimals="2">
-		<name>Blue Shadow</name>
+		<name>Blue shadow</name>
 	</parameter>
     <parameter type="constant" name="av.rm" default="0" min="-1" max="1" decimals="2">
-		<name>Red Midtones</name>
+		<name>Red midtones</name>
 	</parameter>
     <parameter type="constant" name="av.gm" default="0" min="-1" max="1" decimals="2">
-		<name>Green Midtones</name>
+		<name>Green midtones</name>
 	</parameter>
     <parameter type="constant" name="av.bm" default="0" min="-1" max="1" decimals="2">
-		<name>Blue Midtones</name>
+		<name>Blue midtones</name>
 	</parameter>
     <parameter type="constant" name="av.rh" default="0" min="-1" max="1" decimals="2">
-		<name>Red Highlights</name>
+		<name>Red highlights</name>
 	</parameter>
     <parameter type="constant" name="av.gh" default="0" min="-1" max="1" decimals="2">
-		<name>Green Highlights</name>
+		<name>Green highlights</name>
 	</parameter>
     <parameter type="constant" name="av.bh" default="0" min="-1" max="1" decimals="2">
-		<name>Blue Highlights</name>
+		<name>Blue highlights</name>
 	</parameter>
     <parameter type="bool" name="av.pl" default="0">
         <name>Preserve lightness</name>

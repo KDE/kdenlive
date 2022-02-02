@@ -1,17 +1,17 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.bs2b" id="avfilter.bs2b" type="audio">
-	<name>Stereo to binaural</name>
-	<description>Bauer stereo to binaural transformation.</description>
-	<author>libavfilter</author>
-	<parameter type="list" name="av.profile" default="default" paramlist="default;cmoy;jmeier">
-        <paramlistdisplay>Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan Meier circuit (fcut=650 feed=95)</paramlistdisplay>
-                <name>Pre-defined crossfeed level</name>
-        </parameter>
-		<parameter type="constant" name="av.fcut" default="700" min="0" max="2000" suffix=" Hz">
-                <name>Lowpass Cut frequency</name>
-        </parameter>
-        <parameter type="constant" name="av.feed" default="50" min="0" max="150" suffix=" dB">
-                <name>Feed level</name>
-        </parameter>
+    <name>Stereo to binaural</name>
+    <description>Bauer stereo to binaural transformation.</description>
+    <author>libavfilter</author>
+    <parameter type="list" name="av.profile" default="default" paramlist="default;cmoy;jmeier">
+        <paramlistdisplay>Default Level (fcut=700 feed=50),Chu Moy Circuit (fcut=700 feed=60),Jan Meier Circuit (fcut=650 feed=95)</paramlistdisplay>
+        <name>Pre-defined crossfeed level:</name>
+    </parameter>
+    <parameter type="constant" name="av.fcut" default="700" min="0" max="2000" suffix=" Hz">
+        <name>Lowpass cut frequency</name>
+    </parameter>
+    <parameter type="constant" name="av.feed" default="50" min="0" max="150" suffix=" dB">
+        <name>Feed level</name>
+    </parameter>
 </effect>
 

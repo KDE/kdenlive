@@ -3,10 +3,10 @@
     <name>White Balance (GPU)</name>
     <author>Steinar H. Gunderson</author>
     <parameter type="color" name="neutral_color" default="0x7f7f7fff">
-	<name>Neutral Color</name>
+	<name>Neutral color:</name>
     </parameter>
     <parameter type="animated" name="color_temperature" default="6500" min="1000" max="15000">
-	<name>Color Temperature</name>
+	<name>Color temperature</name>
     </parameter>
 </effect>
 

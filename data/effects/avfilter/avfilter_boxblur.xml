@@ -4,21 +4,21 @@
 	<description>Set an expression for the box radius in pixels used for blurring the corresponding input plane.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.lr" max="540" min="0" default="2">
-		<name>Luma Radius</name><comment>Radius of the luma blurring box</comment>
+		<name>Luma radius</name><comment>Radius of the luma blurring box</comment>
 	</parameter>
 	<parameter type="constant" name="av.lp" max="100" min="0" default="0">
-		<name>Luma Power</name><comment>How many times should the boxblur be applied to luma</comment>
+		<name>Luma power</name><comment>How many times should the boxblur be applied to luma</comment>
 	</parameter>
 	<parameter type="constant" name="av.cr" max="480" min="0" default="5">
-		<name>Chroma Radius</name><comment>Radius of the chroma blurring box</comment>
+		<name>Chroma radius</name><comment>Radius of the chroma blurring box</comment>
 	</parameter>
     <parameter type="constant" name="av.cp" max="100" min="0" default="0">
-		<name>Chroma Power</name><comment>How many times should the boxblur be applied to chroma</comment>
+		<name>Chroma power</name><comment>How many times should the boxblur be applied to chroma</comment>
 	</parameter>
     <parameter type="constant" name="av.ar" max="540" min="0" default="5">
-		<name>Alpha Radius</name><comment>Radius of the alpha blurring box</comment>
+		<name>Alpha radius</name><comment>Radius of the alpha blurring box</comment>
 	</parameter>
     <parameter type="constant" name="av.ap" max="100" min="0" default="0">
-		<name>Alpha Power</name><comment>How many times should the boxblur be applied to alpha</comment>
+		<name>Alpha power</name><comment>How many times should the boxblur be applied to alpha</comment>
 	</parameter>
 </effect>

@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.vibrance" id="avfilter.vibrance">
 	<name>Vibrance</name>
-	<description>Boost or alter saturation. </description>
+	<description>Boost or alter saturation.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.intensity" default="0" min="-2" max="2" decimals="1">
                 <name>Intensity</name>

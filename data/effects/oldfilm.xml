@@ -25,6 +25,6 @@
 		<name>Unevendevelop down</name>
 	</parameter>
         <parameter type="animated" name="unevendevelop_duration" max="10000" min="0" default="70">
-		<name>Unevendevelop Duration</name>
+		<name>Unevendevelop duration</name>
 	</parameter>
 </effect>

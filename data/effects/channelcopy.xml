@@ -5,11 +5,11 @@
          <author>Dan Dennedy</author>
          <parameter type="list" name="from" default="0" paramlist="0;1">
                  <paramlistdisplay>Left,Right</paramlistdisplay>
-                 <name>From</name>
+                 <name>From:</name>
          </parameter>
          <parameter type="list" name="to" default="1" paramlist="0;1">
                  <paramlistdisplay>Left,Right</paramlistdisplay>
-                 <name>To</name>
+                 <name>To:</name>
          </parameter>
          <parameter type="bool" name="swap" default="0">
              <name>Swap channels</name>

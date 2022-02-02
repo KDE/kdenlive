@@ -4,7 +4,7 @@
 	<description>Force color range for the output video frame</description>
 	<author>libavfilter</author>
         <parameter type="list" name="av.range" default="auto" paramlist="auto;unspecified;unknown;limited;tv;mpeg;full;pc;jpeg">
-            <paramlistdisplay>auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg</paramlistdisplay>
-        <name>Range</name>
+            <paramlistdisplay>Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg</paramlistdisplay>
+        <name>Range:</name>
     </parameter>
 </effect>

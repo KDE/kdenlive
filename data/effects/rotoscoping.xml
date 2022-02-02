@@ -7,12 +7,12 @@
 
         <parameter type="list" name="mode" default="alpha" paramlist="alpha;luma;rgb">
             <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
-            <name>Mode</name>
+            <name>Mode:</name>
         </parameter>
 
         <parameter type="list" name="alpha_operation" default="clear" paramlist="clear;max;min;add;sub">
-            <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
-            <name>Alpha Operation</name>
+            <paramlistdisplay>Write On Clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+            <name>Alpha operation:</name>
         </parameter>
 
         <parameter type="bool" name="invert" default="0">

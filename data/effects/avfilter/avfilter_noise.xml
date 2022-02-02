@@ -34,23 +34,23 @@
 		<name>Component #3 strength</name>
 	</parameter>    
 		<parameter type="list" name="av.allf" default="a" paramlist="a;p;t;u">
-            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
-		<name>Flag all</name>
+            <paramlistdisplay>Average Temporal Noise,Mix Random Noise,Temporal Noise,Uniform Noise</paramlistdisplay>
+		<name>Flag all:</name>
 	</parameter>    
     <parameter type="list" name="av.c0f" default="a" paramlist="a;p;t;u">
-           <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
-		<name>Flag component 0</name>
+           <paramlistdisplay>Average Temporal Noise,Mix Random Noise,Temporal Noise,Uniform Noise</paramlistdisplay>
+		<name>Flag component 0:</name>
 	</parameter>
     <parameter type="list" name="av.c1f" default="a" paramlist="a;p;t;u">
-            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
-		<name>Flag component 1</name>
+            <paramlistdisplay>Average Temporal Noise,Mix Random Noise,Temporal Noise,Uniform Noise</paramlistdisplay>
+		<name>Flag component 1:</name>
 	</parameter>
     <parameter type="list" name="av.c2f" default="a" paramlist="a;p;t;u">
-            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
-		<name>Flag component 2</name>
+            <paramlistdisplay>Average Temporal Noise,Mix Random Noise,Temporal Noise,Uniform Noise</paramlistdisplay>
+		<name>Flag component 2:</name>
 	</parameter>
     <parameter type="list" name="av.c3f" default="a" paramlist="a;p;t;u">
-            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
-		<name>Flag component 3</name>
+            <paramlistdisplay>Average Temporal Noise,Mix Random Noise,Temporal Noise,Uniform Noise</paramlistdisplay>
+		<name>Flag component 3:</name>
 	</parameter>
 </effect>

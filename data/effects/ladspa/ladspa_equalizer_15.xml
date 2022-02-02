@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="mbeq_1197.so" id="equalizer_15" ladspaid="1197" type="audio">
         <name>15 Band Equalizer</name>
         <description>LADSPA equalizer audio effect (15 band)</description>
-        <author>http://www.ladspa.org</author>
+        <author>https://www.ladspa.org</author>
         <parameter type="constant" name="1" max="12" min="-70" default="0">
                 <name>50 Hz</name>
         </parameter>

@@ -16,7 +16,7 @@
                 <name>Height</name>
         </parameter>
  <parameter type="color" name="av.color" default="black">
-     <name>Color</name>
+     <name>Color:</name>
         </parameter>  
          <parameter type="constant" name="av.t" default="3" min="0" max="%height" factor="1">
                 <name>Thickness</name>

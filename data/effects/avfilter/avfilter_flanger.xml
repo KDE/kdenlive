@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.flanger" id="avfilter.flanger" type="audio">
 	<name>Flanger</name>
-	<description>Apply a flanging effect to the audio. </description>
+	<description>Apply a flanging effect to the audio.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.delay" default="0" min="0" max="30" suffix=" ms">
         <name>Delay</name><comment>Set base delay in milliseconds. Range from 0 to 30.</comment>
@@ -20,13 +20,13 @@
         </parameter>
         <parameter type="list" name="av.shape" default="s" paramlist="t;s">
             <paramlistdisplay>Triangular,Sinusoidal</paramlistdisplay>
-                <name>Shape</name><comment>Set swept wave shape, can be triangular or sinusoidal. </comment>
+                <name>Shape:</name><comment>Set swept wave shape, can be triangular or sinusoidal.</comment>
         </parameter>
         <parameter type="constant" name="av.phase" default="25" min="0" max="100">
-                <name>Phase</name><comment>Set swept wave percentage-shift for multi channel. Range from 0 to 100. </comment>
+                <name>Phase</name><comment>Set swept wave percentage-shift for multi channel. Range from 0 to 100.</comment>
         </parameter>
         <parameter type="list" name="av.interp" default="linear" paramlist="linear;quadratic">
             <paramlistdisplay>Linear,Quadratic</paramlistdisplay>
-                <name>Interpolation</name><comment>Set delay-line interpolation, linear or quadratic.</comment>
+                <name>Interpolation:</name><comment>Set delay-line interpolation, linear or quadratic.</comment>
         </parameter>
 </effect>

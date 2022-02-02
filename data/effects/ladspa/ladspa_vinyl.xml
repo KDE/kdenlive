@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="vynil_1905.so" id="vinyl" ladspaid="1905" type="audio">
 	<name context="Vinyl Effect Name">Vinyl</name>
 	<description>Simulates a vinyl audio player - LADSPA audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="year" max="1990" min="1900" default="1990">
 		<name context="Vinyl Effect Year">Year</name>
 	</parameter>

@@ -11,20 +11,20 @@
     </parameter>   
     <parameter type="list" name="av.display_mode" default="stack" paramlist="overlay;stack;parade">
                 <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
-                <name>Display</name>
+                <name>Display:</name>
         </parameter>
        <parameter type="list" name="av.m" default="linear" paramlist="linear;logarithmic">
         <paramlistdisplay>Linear,Logarithmic</paramlistdisplay>
-        <name>Mode</name>
+        <name>Mode:</name>
     </parameter>
     <parameter type="list" name="av.c" default="1" paramlist="0;1;2;3;4;5;6;7;8">
         <paramlistdisplay>All,Y,U,YU,V,YV,UV,All,Alpha</paramlistdisplay>
-            <name>Components to display</name>
+            <name>Components to display:</name>
         </parameter>
             <parameter type="constant" name="av.f" default="0.7" min="0" max="1" decimals="1">
-        <name>Foreground Opacity</name>
+        <name>Foreground opacity</name>
     </parameter>
         <parameter type="constant" name="av.b" default="0.5" min="0" max="1" decimals="1">
-        <name>Background Opacity</name>
+        <name>Background opacity</name>
     </parameter>
 </effect>

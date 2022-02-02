@@ -6,7 +6,7 @@
             <author>Marko Cebokli</author>
         
             <parameter type="color" name="Color to select" default="0x00ff00ff">
-                    <name>Color to select</name>
+                    <name>Color to select:</name>
             </parameter>
         
             <parameter type="bool" name="Invert selection" default="1">
@@ -14,35 +14,35 @@
             </parameter>    
         
             <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Red / Hue Delta</name>
+                    <name>Red / Hue delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Green / Chroma Delta</name>
+                    <name>Green / Chroma delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Blue / Intensity Delta</name>
+                    <name>Blue / Intensity delta</name>
             </parameter>
         
             <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
-                    <name>Color Model</name>
+                    <name>Color model:</name>
             </parameter>
         
             <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
-                    <name>Shape</name>
+                    <name>Shape:</name>
             </parameter>
         
             <parameter type="list" name="Edge mode" default="0" paramlist="0;0.35;0.6;1">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny</paramlistdisplay>
-                    <name>Edge mode</name>
+                    <name>Edge mode:</name>
             </parameter>
         
             <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
-                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
-                    <name>Operation</name>
+                    <paramlistdisplay>Write On Clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation:</name>
             </parameter>
     </effect>
 
@@ -53,7 +53,7 @@
             <author>Marko Cebokli</author>
         
             <parameter type="color" name="Color to select" default="0x00ff00ff">
-                    <name>Color to select</name>
+                    <name>Color to select:</name>
             </parameter>
         
             <parameter type="bool" name="Invert selection" default="1">
@@ -62,29 +62,29 @@
 
             <parameter type="list" name="Selection subspace" default="0" paramlist="0;0.5;1">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
-                    <name>Color Model</name>
+                    <name>Color model:</name>
             </parameter>
         
             <parameter type="list" name="Subspace shape" default="0.5" paramlist="0;0.5;1">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
-                    <name>Shape</name>
+                    <name>Shape:</name>
             </parameter>
         
             <parameter type="list" name="Edge mode" default="0.9" paramlist="0;0.35;0.6;0.7;0.9">
                     <paramlistdisplay>Hard,Fat,Normal,Skinny,Slope</paramlistdisplay>
-                    <name>Edge mode</name>
+                    <name>Edge mode:</name>
             </parameter>
         
             <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Red / Hue Delta</name>
+                    <name>Red / Hue delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Green / Chroma Delta</name>
+                    <name>Green / Chroma delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Blue / Intensity Delta</name>
+                    <name>Blue / Intensity delta</name>
             </parameter>
         
             <parameter type="animated" name="Slope" default="0" min="0" max="1000" factor="1000">
@@ -92,8 +92,8 @@
             </parameter>
         
             <parameter type="list" name="Operation" default="0.5" paramlist="0;0.3;0.5;0.7;1">
-                    <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
-                    <name>Operation</name>
+                    <paramlistdisplay>Write On Clear,Max,Min,Add,Subtract</paramlistdisplay>
+                    <name>Operation:</name>
             </parameter>
     </effect>
 </group>

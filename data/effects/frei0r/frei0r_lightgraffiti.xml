@@ -41,7 +41,7 @@
         </parameter>
         <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
             <name>α</name>
-            <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+            <comment><![CDATA[Determines how the effect tries to adapt to background changes.<br/>
             The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
         </parameter>
         <parameter type="animated" name="saturation" default="1.5" min="0" max="400" factor="100">
@@ -114,7 +114,7 @@
         </parameter>
         <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
             <name>α</name>
-            <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
+            <comment><![CDATA[Determines how the effect tries to adapt to background changes.<br/>
             The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
         </parameter>
         <parameter type="animated" name="saturation" default="0.375" min="0" max="400" factor="400">

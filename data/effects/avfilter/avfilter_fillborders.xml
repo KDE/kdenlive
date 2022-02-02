@@ -17,9 +17,9 @@
     </parameter>        
     <parameter type="list" name="av.mode" default="smear" paramlist="smear;mirror;fixed">
         <paramlistdisplay>Smear,Mirror,Fixed</paramlistdisplay>
-        <name>Mode</name>
+        <name>Mode:</name>
     </parameter>  
     <parameter type="color" name="av.color" default="black">
-        <name>Color</name>
+        <name>Color:</name>
     </parameter>
 </effect>

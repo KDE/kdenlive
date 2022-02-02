@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="gverb_1216.so" id="room_reverb" ladspaid="1216" type="audio">
 	<name>Room Reverb</name>
 	<description>LADSPA room reverb audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="room" max="300" min="1" default="75">
 		<name>Room size (m)</name>
 	</parameter>

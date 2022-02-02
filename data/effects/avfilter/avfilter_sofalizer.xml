@@ -1,10 +1,10 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.sofalizer" id="avfilter.sofalizer" type="audio">
 	<name>SOFAlizer</name>
-	<description>SOFAlizer uses head-related transfer functions (HRTFs) to create virtual loudspeakers around the user for binaural listening via headphones (audio formats up to 9 channels supported). The HRTFs are stored in SOFA files (see http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. </description>
+	<description>SOFAlizer uses head-related transfer functions (HRTFs) to create virtual loudspeakers around the user for binaural listening via headphones (audio formats up to 9 channels supported). The HRTFs are stored in SOFA files (see https://www.sofaconventions.org/ for a database). SOFAlizer is developed at the Acoustics Research Institute (ARI) of the Austrian Academy of Sciences.</description>
 	<author>libavfilter</author>
     <parameter type="url" name="av.sofa" filter="*.sofa">
-                <name>SOFA file</name>
+                <name>SOFA file:</name>
         </parameter>
     <parameter type="constant" name="av.gain" default="0" min="-20" max="20" suffix=" dB">
                 <name>Gain</name>
@@ -20,10 +20,10 @@
         </parameter>
     <parameter type="list" name="av.type" default="freq" paramlist="freq;time">
         <paramlistdisplay>Frequency,Time</paramlistdisplay>
-        <name>Type</name>
+        <name>Type:</name>
         </parameter>  
         <parameter type="constant" name="av.lfegain" default="0" min="-20" max="20" suffix=" dB">
-                <name>LFE Gain</name>
+                <name>LFE gain</name>
         </parameter>
         <parameter type="constant" name="av.framesize" default="1024" min="1024" max="96000" suffix=" samples">
             <name>Framesize</name><comment>Use if option ‘type’ is set to freq.</comment> 

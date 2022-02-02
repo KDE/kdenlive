@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.sr" id="avfilter.sr">
 	<name>AI Super resolution</name>
-	<description>Scale the input by applying one of the super-resolution methods based on convolutional neural networks. </description>
+	<description>Scale the input by applying one of the super-resolution methods based on convolutional neural networks.</description>
 	<author>libavfilter</author>
     <parameter type="list" name="av.dnn_backend" default="native" paramlist="native;tensorflow">
                 <paramlistdisplay>Native,Tensorflow</paramlistdisplay>

@@ -4,7 +4,7 @@
 	<description>Adds black borders at top and bottom for cinema look</description>
 	<author>Richard Spindler</author>
 	<parameter type="animated" name="Border Width" max="1000" min="0" default="0.4" factor="1000">
-		<name>Border Width</name>
+		<name>Border width</name>
 	</parameter>
 	<parameter type="bool" name="Transparency" default="0">
 		<name>Transparency</name>

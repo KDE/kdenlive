@@ -3,8 +3,8 @@
 	<name>Normalize (2 pass)</name>
 	<description>Correct audio loudness as recommended by EBU R128</description>
 	<author>Brian Matherly</author>
-	<parameter type="double" name="program" max="-10" min="-50" default="-23.00" decimals="2" suffix="LUFS">
-		<name>Target Program Loudness</name>
+	<parameter type="double" name="program" max="-10" min="-50" default="-23.00" decimals="2" suffix=" LUFS">
+		<name>Target program loudness</name>
 	</parameter>
 	<parameter type="filterjob" filtertag="loudness" filterparams="%params" consumer="null" consumerparams="video_off=1 no_meta=1 all=1 terminate_on_pause=1">
         <name conditional="Reset">Analyse</name>

@@ -19,12 +19,12 @@
         <comment>The minimum window size in pixels.</comment>
     </parameter>
     
-    <parameter type="animated" name="Largest" default="500" min="0" max="10000" suffix="pixels">
+    <parameter type="animated" name="Largest" default="500" min="0" max="10000" suffix=" pixels">
         <name>Largest</name>
         <comment>The largest size face in pixels - both horizontally and vertically (square window).</comment>
     </parameter>
     
-    <parameter type="animated" name="Recheck" default="0.05" min="1" max="1000" factor="1000" suffix="frames">
+    <parameter type="animated" name="Recheck" default="0.05" min="1" max="1000" factor="1000" suffix=" frames">
         <name>Recheck</name>
         <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
     </parameter>

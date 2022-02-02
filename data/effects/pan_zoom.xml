@@ -13,6 +13,6 @@
 		<name>Normalise</name>
 	</parameter>
 	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
-		<name>Background Color</name>
+		<name>Background color:</name>
 	</parameter>
 </effect>

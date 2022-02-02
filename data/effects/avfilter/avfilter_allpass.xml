@@ -3,12 +3,12 @@
 	<name>Allpass</name>
 	<description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. An all-pass filter changes the audio’s frequency to phase relationship without changing its frequency to amplitude relationship.</description>
 	<author>libavfilter</author>
-	<parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix="Hz">
+	<parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix=" Hz">
                 <name>Central frequency</name>
         </parameter>
 	<parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
         <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
-                <name>Method</name>
+                <name>Method:</name>
         </parameter>
 	<parameter type="constant" name="av.w" default="707.1" min="1" max="9999" decimals="2">
                 <name>Filter-width</name>
@@ -21,14 +21,14 @@
         </parameter>
         <parameter type="list" name="av.o" default="2" paramlist="1;2">
             <paramlistdisplay>1,2</paramlistdisplay>
-                <name>Order</name>
+                <name>Order:</name>
         </parameter>
         <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
-        <name>Transform type</name>
+        <paramlistdisplay>Di,Dii,Tdii,Latt</paramlistdisplay>
+        <name>Transform type:</name>
         </parameter>
         <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
-        <name>Filter precision</name>
+        <paramlistdisplay>Auto,S16,S32,F32,F64</paramlistdisplay>
+        <name>Filter precision:</name>
         </parameter>
 </effect>

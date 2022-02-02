@@ -5,13 +5,13 @@
 	<author>libavfilter</author>
 	<parameter type="list" name="av.n" default="3" paramlist="2;3;4">
             <paramlistdisplay>2xHq*X,3xHq*X,4xHq*X</paramlistdisplay>
-                <name>Interpolation factor</name>
+                <name>Interpolation factor:</name>
         </parameter>
         <parameter type="constant" name="av.threads" min="0" default="0" max="8">
                 <name>Maximum number of threads</name>
         </parameter>
         <parameter type="list" name="position" default="frame" paramlist="frame;filter;source;producer">
-            <paramlistdisplay>frame,filter,source,producer</paramlistdisplay>
-                <name>Position to set the filter</name>
+            <paramlistdisplay>Frame,Filter,Source,Producer</paramlistdisplay>
+                <name>Position to set the filter:</name>
         </parameter>
 </effect>

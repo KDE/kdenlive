@@ -22,8 +22,8 @@
                 <name>Opacity</name>
         </parameter>
         <parameter type="list" name="6" default="normal" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity" >
-                <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
-                <name>Blend mode</name>
+                <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color Dodge,Color Burn,Hard Light,Soft Light,Difference,Exclusion,HSL Hue,HSL Saturation,HSL Color,HSL Luminosity</paramlistdisplay>
+                <name>Blend mode:</name>
         </parameter>
         <parameter type="constant" name="7" max="1000" min="0" default="0" factor="1000">
                 <name>Rotation X center</name>

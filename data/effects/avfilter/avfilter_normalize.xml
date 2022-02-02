@@ -4,10 +4,10 @@
 	<description>Normalize RGB video (aka histogram stretching, contrast stretching). See: https://en.wikipedia.org/wiki/Normalization_(image_processing) </description>
 	<author>libavfilter</author>
    	<parameter type="color" name="av.blackpt">
-		<name>Output darkest input color</name>
+		<name>Output darkest input color:</name>
 	</parameter>
 		<parameter type="color" name="av.whitept">
-		<name>Output brightest input color</name>
+		<name>Output brightest input color:</name>
 	</parameter>
 	<parameter type="constant" name="av.smoothing" max="268435455" min="0" factor="100000" default="0">
 		<name>Temporal smoothing, to reduce flicker</name>

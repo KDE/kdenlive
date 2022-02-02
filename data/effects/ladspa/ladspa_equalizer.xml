@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="dj_eq_1901.so" id="equalizer" ladspaid="1901" type="audio">
 	<name>Equalizer</name>
 	<description>LADSPA equalizer audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="logain" max="6" min="-70" default="0">
 		<name>Lo gain</name>
 	</parameter>

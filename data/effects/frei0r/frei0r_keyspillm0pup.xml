@@ -5,16 +5,16 @@
     <author>Marko Cebokli</author>
     
     <parameter type="color" name="Key color" default="0x1010D0ff">
-        <name>Key color</name>
+        <name>Key color:</name>
     </parameter>
     
     <parameter type="color" name="Target color" default="0xC87F65ff">
-        <name>Target color</name>
+        <name>Target color:</name>
     </parameter>
 
     <parameter type="list" name="Mask type" default="0" paramlist="0;1;2;3">
-        <paramlistdisplay>Color distance, Transparency, Edge inwards, Edge outwards</paramlistdisplay>
-        <name>Mask type</name>
+        <paramlistdisplay>Color Distance,Transparency,Edge Inwards,Edge Outwards</paramlistdisplay>
+        <name>Mask type:</name>
     </parameter>
 
     <parameter type="animated" name="Tolerance" default="0.24" min="0" max="1000" factor="1000">
@@ -34,8 +34,8 @@
     </parameter>
 
     <parameter type="list" name="Operation 1" default="1" paramlist="0;1;2;3;4">
-        <paramlistdisplay>None, De-Key, Target, Desaturate, Luma adjust</paramlistdisplay>
-        <name>Operation 1</name>
+        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma Adjust</paramlistdisplay>
+        <name>Operation 1:</name>
     </parameter>
 
     <parameter type="animated" name="Amount 1" default="0.5" min="0" max="1000" factor="1000">
@@ -43,8 +43,8 @@
     </parameter>
 
     <parameter type="list" name="Operation 2" default="0" paramlist="0;1;2;3;4">
-        <paramlistdisplay>None, De-Key, Target, Desaturate, Luma adjust</paramlistdisplay>
-        <name>Operation 2</name>
+        <paramlistdisplay>None,De-Key,Target,Desaturate,Luma Adjust</paramlistdisplay>
+        <name>Operation 2:</name>
     </parameter>
 
     <parameter type="animated" name="Amount 2" default="0" min="0" max="1000" factor="1000">
@@ -56,6 +56,6 @@
     </parameter>
 
     <parameter type="bool" name="Mask to Alpha" default="0">
-        <name>Mask to Alpha</name>
+        <name>Mask to alpha</name>
     </parameter>
 </effect>

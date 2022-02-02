@@ -4,6 +4,6 @@
 	<description>Render subtitles onto the video</description>
 	<author>libavfilter</author>
     <parameter type="url" name="av.filename" filter="*.ass *.srt">
-		<name>Subtitle file to apply</name>
+		<name>Subtitle file to apply:</name>
 	</parameter>
 </effect>

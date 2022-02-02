@@ -3,10 +3,10 @@
 	<name>ELBG Posterizer</name>
 	<description>Apply posterize effect, using the ELBG algorithm</description>
 	<author>libavfilter</author>
-    <parameter type="constant" name="av.l" default="50" min="1" max="50" factor="1" suffix=" Colors">
-                <name>Codebook Length</name>
-        </parameter>
-<parameter type="constant" name="av.n" default="1" min="1" max="10" factor="1">
-                <name>Steps</name>
-        </parameter>
-        </effect>
+    <parameter type="constant" name="av.l" default="50" min="1" max="50" factor="1" suffix=" colors">
+        <name>Codebook length</name>
+    </parameter>
+    <parameter type="constant" name="av.n" default="1" min="1" max="10" factor="1">
+        <name>Steps</name>
+    </parameter>
+</effect>

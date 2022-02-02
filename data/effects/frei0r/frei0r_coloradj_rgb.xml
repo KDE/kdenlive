@@ -17,8 +17,8 @@
         </parameter>
         
         <parameter type="list" name="Action" default="0.5" paramlist="0;0.5;1">
-                <paramlistdisplay>Add constant,Change gamma,Multiply</paramlistdisplay>
-                <name>Action</name>
+                <paramlistdisplay>Add Constant,Change Gamma,Multiply</paramlistdisplay>
+                <name>Action:</name>
         </parameter>
 
         <parameter type="bool" name="Keep luma" default="1">
@@ -31,7 +31,7 @@
         
         <parameter type="list" name="Luma formula" default="1" paramlist="0;1">
                 <paramlistdisplay>Rec. 601,Rec. 709</paramlistdisplay>
-                <name>Luma formula</name>
+                <name>Luma formula:</name>
         </parameter>
         
 </effect>

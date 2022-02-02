@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.inflate" id="avfilter.inflate">
 	<name>Inflate</name>
-	<description>Rreplaces the pixel by the local(3x3) average by taking into account only values higher than the pixel. </description>
+	<description>Rreplaces the pixel by the local(3x3) average by taking into account only values higher than the pixel.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.threshold0" default="65535" min="0" max="65535" factor="1">
                 <name>threshold0</name>

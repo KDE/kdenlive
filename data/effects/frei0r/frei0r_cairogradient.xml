@@ -5,19 +5,19 @@
 	<author>Janne Liljeblad</author>
     <parameter type="list" name="0" default="gradient_linear" paramlist="gradient_linear;gradient_radial">
                 <paramlistdisplay>Linear,Radial</paramlistdisplay>
-                <name>Pattern</name>
+                <name>Pattern:</name>
 	</parameter>
 	<parameter type="color" name="1" default="#000000">
-		<name>Start Color</name>
+		<name>Start color:</name>
 	</parameter>
 	<parameter type="animated"  name="2" max="1" min="0" default="0.5" decimals="3">
-		<name>Start Opacity</name>
+		<name>Start opacity</name>
 	</parameter>
     <parameter type="color"  name="3" default="#ffffff">
-		<name>End Color</name>
+		<name>End color:</name>
 	</parameter>
     <parameter type="animated"  name="4" max="1" min="0" default="0.5" decimals="3">
-		<name>End Opacity</name>
+		<name>End opacity</name>
 	</parameter>
     <parameter type="animated"  name="5" max="1" min="0" default="0.5" decimals="3">
 		<name>Start X</name>
@@ -35,7 +35,7 @@
 		<name>Offset</name>
 	</parameter>
     <parameter type="list"  name="10" default="1" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity">
-                <paramlistdisplay>normal,add,saturate,multiply,screen,overlay,darken,lighten,colordodge,colorburn,hardlight,softlight,difference,exclusion,hslhue,hslsaturation,hslcolor,hslluminosity</paramlistdisplay>
-                <name>Blend Mode</name>
+                <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color Dodge,Color Burn,Hard Light,Soft Light,Difference,Exclusion,HSL Hue,HSL Saturation,HSL Color,HSL Luminosity</paramlistdisplay>
+                <name>Blend mode:</name>
     </parameter>
 </effect>

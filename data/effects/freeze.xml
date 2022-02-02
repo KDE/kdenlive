@@ -4,12 +4,12 @@
 	<description>Freeze video on a chosen frame</description>
 	<author>Jean-Baptiste Mardelle</author>
 	<parameter type="position" name="frame" max="1000000" min="0" default="0" relative="true">
-		<name>Freeze at</name>
+		<name>Freeze at:</name>
 	</parameter>
 	<parameter type="bool" name="freeze_before" default="0">
-		<name>Freeze Before</name>
+		<name>Freeze before</name>
 	</parameter>
 	<parameter type="bool" name="freeze_after" default="0">
-		<name>Freeze After</name>
+		<name>Freeze after</name>
 	</parameter>
 </effect>

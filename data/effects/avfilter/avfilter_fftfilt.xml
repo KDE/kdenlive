@@ -22,7 +22,7 @@
         <name>Luminance V plane</name>
 	</parameter>
     <parameter type="list" name="av.eval"  default="init" paramlist="init;frame">
-        <paramlistdisplay>init,frame</paramlistdisplay>
-        <name>Evaluate</name>
+        <paramlistdisplay>Init,Frame</paramlistdisplay>
+        <name>Evaluate:</name>
 	</parameter>
 </effect>

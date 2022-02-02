@@ -11,6 +11,6 @@
         </parameter>
 <parameter type="list" name="av.antibanding" default="none" paramlist="none;weak;strong">
         <paramlistdisplay>None,Weak,Strong</paramlistdisplay>
-                <name>Antibanding Level</name>
+                <name>Antibanding level:</name>
         </parameter>                
 </effect>

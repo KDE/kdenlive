@@ -5,10 +5,10 @@
 	<description>Adjust the white balance / color temperature</description>
 	<author>Dan Dennedy</author>
 	<parameter type="color" name="Neutral Color" default="0xffffffff">
-		<name>Neutral Color</name>
+		<name>Neutral color:</name>
 	</parameter>
         <parameter type="animated" name="Green Tint" default="1.2" min="0" max="2500" factor="1000">
-		<name>Green Tint</name>
+		<name>Green tint</name>
 	</parameter>
     </effect>
     <effect LC_NUMERIC="C" tag="frei0r.balanc0r" id="frei0r.balanc0r" version="0.3">
@@ -16,10 +16,10 @@
 	<description>Adjust the white balance / color temperature</description>
 	<author>Dan Dennedy</author>
 	<parameter type="color" name="Neutral Color" default="0xffffffff">
-		<name>Neutral Color</name>
+		<name>Neutral color:</name>
 	</parameter>
         <parameter type="animated" name="Green Tint" default="0.1333" min="0" max="10000" factor="10000">
-		<name>Green Tint</name>
+		<name>Green tint</name>
 	</parameter>
     </effect>
 </group>

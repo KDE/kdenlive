@@ -4,7 +4,7 @@
 	<description>Compensation Delay Line is a metric based delay to compensate differing positions of microphones or speakers.
 For example, you have recorded guitar with two microphones placed in different locations. Because the front of sound wave has fixed speed in normal conditions, the phasing of microphones can vary and depends on their location and interposition. The best sound mix can be achieved when these microphones are in phase (synchronized). Note that a distance of ~30 cm between microphones makes one microphone capture the signal in antiphase to the other microphone. That makes the final mix sound moody. This filter helps to solve phasing problems by adding different delays to each microphone track and make them synchronized.
 
-The best result can be reached when you take one track as base and synchronize other tracks one by one with it. Remember that synchronization/delay tolerance depends on sample rate, too. Higher sample rates will give more tolerance. </description>
+The best result can be reached when you take one track as base and synchronize other tracks one by one with it. Remember that synchronization/delay tolerance depends on sample rate, too. Higher sample rates will give more tolerance.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix=" mm">
         <name>Millimiter distance</name><comment>Set millimeters distance. This is compensation distance for fine tuning.</comment>

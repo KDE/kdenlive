@@ -4,7 +4,7 @@
 	<name>Timeout indicator</name>
 	<author>Simon A. Eugster (Granjow)</author>
 	<parameter type="color" name="color" default="0x6893C8ff">
-		<name>Indicator color</name>
+		<name>Indicator color:</name>
 	</parameter>
         <parameter type="animated" name="time" default="0" min="0" max="1000" factor="1000">
 	  <name>Time</name>

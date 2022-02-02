@@ -19,17 +19,17 @@
         <comment>The minimum window size in pixels.</comment>
     </parameter>
     
-    <parameter type="animated" name="Recheck" default="0.05" min="0" max="1000" factor="1000" suffix="frames">
+    <parameter type="animated" name="Recheck" default="0.05" min="0" max="1000" factor="1000" suffix=" frames">
         <name>Recheck</name>
         <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
     </parameter>
     
     <parameter type="list" name="Shape" default="0" paramlist="0;0.1;0.2;1">
-        <paramlistdisplay>circle,ellipse,rectangle,random</paramlistdisplay>
-        <name>Shape</name>
+        <paramlistdisplay>Circle,Ellipse,Rectangle,Random</paramlistdisplay>
+        <name>Shape:</name>
     </parameter>
     
-    <parameter type="animated" name="Stroke" default="0" min="0" max="100" factor="100" suffix="pixels">
+    <parameter type="animated" name="Stroke" default="0" min="0" max="100" factor="100" suffix=" pixels">
         <name>Stroke width</name>
         <comment>0 means fill; otherwise, draw unfilled with a stroke width of this size.</comment>
     </parameter>
@@ -47,27 +47,27 @@
          Wait some time or next release to enable these. -->
     <!--        
     <parameter type="color" name="Color 1" default="0xFFFFFF">
-        <name>Color 1</name>
+        <name>Color 1:</name>
         <comment>Set the shape color of the first detected face.</comment>
     </parameter>
     
     <parameter type="color" name="Color 2" default="0x007FFF">
-        <name>Color 2</name>
+        <name>Color 2:</name>
         <comment>Set the shape color of the second detected face.</comment>
     </parameter>
     
     <parameter type="color" name="Color 3" default="0x00FFFF">
-        <name>Color 3</name>
+        <name>Color 3:</name>
         <comment>Set the shape color of the third detected face.</comment>
     </parameter>
     
     <parameter type="color" name="Color 4" default="0x00FF00">
-        <name>Color 4</name>
+        <name>Color 4:</name>
         <comment>Set the shape color of the fourth detected face.</comment>
     </parameter>
     
     <parameter type="color" name="Color 5" default="0xFF7F00">
-        <name>Color 5</name>
+        <name>Color 5:</name>
         <comment>Set the shape color of the fifth detected face.</comment>
     </parameter>
     -->

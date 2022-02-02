@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="phasers_1217.so" id="phaser" ladspaid="1217" type="audio">
 	<name>Phaser</name>
 	<description>LADSPA phaser audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="rate" max="100" min="0" default="25">
 		<name>Rate (Hz)</name>
 	</parameter>

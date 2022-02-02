@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.kerndeint" id="avfilter.kerndeint">
 	<name>Kernel Deinterlacer</name>
-	<description>Deinterlace input video by applying Donald Graft’s adaptive kernel deinterling. Work on interlaced parts of a video to produce progressive frames. </description>
+	<description>Deinterlace input video by applying Donald Graft’s adaptive kernel deinterling. Work on interlaced parts of a video to produce progressive frames.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.thresh" default="10" min="0" max="255" factor="1">
                 <name>Threshold</name>

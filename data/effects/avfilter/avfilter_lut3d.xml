@@ -4,11 +4,11 @@
   <description>Apply a Look Up Table (LUT) to the video.
   <full><![CDATA[A LUT is an easy way to correct the color of a video. Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), .m3d (Pandora)]]></full></description>
 	<author>libavfilter</author>
-        <parameter type="urllist" name="av.file" paramlist="%lutPaths" filter="LUT files (*.cube *.3dl *.dat *.m3d)" newstuff=":data/kdenlive_luts.knsrc">
-		<name>LUT file to apply</name>
+        <parameter type="urllist" name="av.file" paramlist="%lutPaths" filter="LUT Files (*.cube *.3dl *.dat *.m3d)" newstuff=":data/kdenlive_luts.knsrc">
+		<name>LUT file to apply:</name>
 	</parameter>
   <parameter type="list" name="av.interp" default="tetrahedral" paramlist="nearest;trilinear;tetrahedral">
-		<name>Interpolation Mode</name>
-	  <paramlistdisplay>Nearest, Trilinear, Tetrahedral</paramlistdisplay>
+		<name>Interpolation mode:</name>
+	  <paramlistdisplay>Nearest,Trilinear,Tetrahedral</paramlistdisplay>
 	</parameter>
 </effect>

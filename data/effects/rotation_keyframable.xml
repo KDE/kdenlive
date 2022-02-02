@@ -19,7 +19,7 @@
                 <name>Offset Y</name>
         </parameter>
 	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
-		<name>Background Color</name>
+		<name>Background color:</name>
 	</parameter>
     <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
     <parameter type="bool" name="transition.repeat_off" default="1">

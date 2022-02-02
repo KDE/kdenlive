@@ -5,7 +5,7 @@
 	<author>libavfilter</author>
     <parameter type="list" name="av.correction_method" default="absolute" paramlist="absolute;relative">
 	   <paramlistdisplay>Absolute,Relative</paramlistdisplay>
-		<name>Correction Method</name>
+		<name>Correction method:</name>
 	</parameter>
 	<parameter type="constant" name="av.reds" default="0" min="-1" max="1" decimals="3">
 		<name>Reds</name>

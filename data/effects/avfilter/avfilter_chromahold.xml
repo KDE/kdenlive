@@ -1,10 +1,10 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.chromahold" id="avfilter.chromahold">
 	<name>Chroma Hold</name>
-	<description>Remove all color information for all colors except for certain one. </description>
+	<description>Remove all color information for all colors except for certain one.</description>
 	<author>libavfilter</author>
 	<parameter type="color" name="av.color">
-		<name>Color key</name>
+		<name>Color key:</name>
 	</parameter>
 	<parameter type="constant" name="av.similarity"  default="1" max="1" min="0" decimals="2">
 		<name>Similarity</name>
@@ -13,6 +13,6 @@
 		<name>Blend</name>
 	</parameter>
     <parameter type="bool" name="av.yuv" default="false">
-        <name>for YUV color</name>
+        <name>For YUV color</name>
     </parameter>
 </effect>

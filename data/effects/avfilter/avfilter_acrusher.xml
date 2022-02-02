@@ -20,7 +20,7 @@
         </parameter>
         <parameter type="list" name="av.mode" default="lin" paramlist="lin;log">
             <paramlistdisplay>Linear,Logarithmic</paramlistdisplay>
-                <name>Mode</name>
+                <name>Mode:</name>
         </parameter>
         <parameter type="constant" name="av.dc" default="1" min="0.25" max="4" decimals="2">
                 <name>DC</name>

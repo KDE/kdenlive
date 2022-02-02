@@ -5,7 +5,7 @@
 	<author>Dan Dennedy</author>
         <parameter type="list" name="channel" default="0" paramlist="0;1">
                 <paramlistdisplay>Left,Right</paramlistdisplay>
-                <name>Channel</name>
+                <name>Channel:</name>
         </parameter>
 	<parameter type="animated" name="start" max="1000" min="0" default="0.5" factor="1000">
 		<name context="Audio Pan">Pan</name>

@@ -7,49 +7,49 @@
 		<name>Analyze</name>
 	</parameter>
     <parameter type="url" name="analysisFile" filter="*.bigsh0t360motion" mode="save">
-		<name>Motion Analysis File</name>
+		<name>Motion analysis file:</name>
     </parameter>
      <parameter type="constant" name="sampleRadius" default="16" min="1" max="64" factor="1" suffix="px">
-		<name>Analysis Sample Radius</name>
+		<name>Analysis sample radius</name>
 	</parameter>
-    <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="1" suffix="px">
-		<name>Analysis Search Radius</name>
+    <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="1" suffix=" px">
+		<name>Analysis search radius</name>
 	</parameter>
-	<parameter type="constant" name="offset" default="64" min="1" max="256" factor="1" suffix="px">
-		<name>Analysis Offset</name>
+	<parameter type="constant" name="offset" default="64" min="1" max="256" factor="1" suffix=" px">
+		<name>Analysis offset</name>
 	</parameter>
 	<parameter type="bool" name="useBackTrackpoints">
-                <name>Track Points</name>
+                <name>Track points</name>
         </parameter>
 	<parameter type="constant" name="stabilizeYaw" default="100" min="0" max="100" factor="1" suffix="%">
-		<name>Yaw Amount</name>
+		<name>Yaw amount</name>
 		</parameter>
-		<parameter type="constant" name="smoothYaw" default="20" min="1" max="100" factor="1" suffix="frames">
-		<name>Yaw Smoothing</name>
+		<parameter type="constant" name="smoothYaw" default="20" min="1" max="100" factor="1" suffix=" frames">
+		<name>Yaw smoothing</name>
 		</parameter>
 		<parameter type="constant" name="timeBiasYaw" default="0" min="-100" max="100" factor="1" suffix="%">
-		<name>Yaw Time Bias</name>
+		<name>Yaw time bias</name>
 		</parameter>
         <parameter type="constant" name="stabilizePitch" default="100" min="0" max="100" factor="1" suffix="%">
-		<name>Yaw Amount</name>
+		<name>Yaw amount</name>
 		</parameter>
-		<parameter type="constant" name="smoothPitch" default="20" min="1" max="100" factor="1" suffix="frames">
-		<name>Pitch Smoothing</name>
+		<parameter type="constant" name="smoothPitch" default="20" min="1" max="100" factor="1" suffix=" frames">
+		<name>Pitch smoothing</name>
 		</parameter>
 		<parameter type="constant" name="timeBiasPitch" default="0" min="-100" max="100" factor="1" suffix="%">
-		<name>Pitch Time Bias</name>
+		<name>Pitch time bias</name>
 		</parameter>
         <parameter type="constant" name="stabilizeRoll" default="100" min="0" max="100" factor="1" suffix="%">
-		<name>Roll Amount</name>
+		<name>Roll amount</name>
 		</parameter>
-		<parameter type="constant" name="smoothRoll" default="20" min="1" max="100" factor="1" suffix="frames">
-		<name>Roll Smoothing</name>
+		<parameter type="constant" name="smoothRoll" default="20" min="1" max="100" factor="1" suffix=" frames">
+		<name>Roll smoothing</name>
 		</parameter>
 		<parameter type="constant" name="timeBiasRoll" default="0" min="-100" max="100" factor="1" suffix="%">
-		<name>Roll Time Bias</name>
+		<name>Roll time bias</name>
 		</parameter>
 	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
                 <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
-                <name>Interpolation</name>
+                <name>Interpolation:</name>
         </parameter>
 </effect>

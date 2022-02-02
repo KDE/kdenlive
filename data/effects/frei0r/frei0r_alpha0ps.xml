@@ -15,8 +15,8 @@
 	    </parameter>
 
 	    <parameter type="list" name="Operation" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
-		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold</paramlistdisplay>
-		    <name>Operation</name>
+		    <paramlistdisplay>NO OP,Shave,Shrink Hard,Shrink Soft,Grow Hard,Grow Soft,Threshold</paramlistdisplay>
+		    <name>Operation:</name>
 	    </parameter>
 
 	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">
@@ -38,8 +38,8 @@
 	    <author>Marko Cebokli</author>
 
 	    <parameter type="list" name="Display" default="0" paramlist="0;0.21;0.36;0.5;0.64;0.79;1">
-		  <paramlistdisplay>Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,Selection on white,Selection on checkers</paramlistdisplay>
-		  <name>Display</name>
+		  <paramlistdisplay>Image,Alpha As Gray,Gray + Red,Selection On Black,Selection On Gray,Selection On White,Selection On Checkers</paramlistdisplay>
+		  <name>Display:</name>
 	    </parameter>
 
 	    <parameter type="bool" name="Display input alpha" default="0">
@@ -47,8 +47,8 @@
 	    </parameter>
 
 	    <parameter type="list" name="Operation" default="0" paramlist="0;0.2;0.3;0.4;0.6;0.7;0.8;1">
-		    <paramlistdisplay>NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur</paramlistdisplay>
-		    <name>Operation</name>
+		    <paramlistdisplay>NO OP,Shave,Shrink Hard,Shrink Soft,Grow Hard,Grow Soft,Threshold,Blur</paramlistdisplay>
+		    <name>Operation:</name>
 	    </parameter>
 
 	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">

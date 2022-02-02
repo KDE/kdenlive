@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.colorlevels" id="avfilter.colorlevels">
 	<name>Color levels</name>
-	<description>Adjust video input frames using levels. </description>
+	<description>Adjust video input frames using levels.</description>
 	<author>libavfilter</author>
 	    <parameter type="constant" name="av.rimin" default="0" min="0" max="1" decimals="2">
                 <name>Red black input</name>

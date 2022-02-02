@@ -4,6 +4,7 @@
 	<description>Applies a pre-made color effect to image</description>
 	<author>Janne Liljeblad</author>
 	<parameter type="list" name="table" default="xpro" paramlist="xpro;sepia;heat;red_green;old_photo;xray;esses;yellow_blue">
-                <name>Type</name>
-        </parameter>
+      <paramlistdisplay>Xpro,Sepia,Heat,Red-Green,Old Photo,X-rays,Esses,Yellow-Blue</paramlistdisplay>
+      <name>Type:</name>
+    </parameter>
 </effect>

@@ -5,11 +5,11 @@
 	<author>Dan Dennedy</author>
     <parameter type="list" name="from" default="1" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;1;15">
         <paramlistdisplay>1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16</paramlistdisplay>
-		<name>FROM</name>
+		<name>From:</name>
 	</parameter>
      <parameter type="list" name="to" default="1" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;1;15">
         <paramlistdisplay>1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16</paramlistdisplay>
-		<name>TO</name>
+		<name>To:</name>
 	</parameter> 
     <parameter type="bool" name="swap" default="0">
         <name>Swap channels</name>

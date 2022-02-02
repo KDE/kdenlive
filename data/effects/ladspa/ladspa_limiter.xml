@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="fast_lookahead_limiter_1913.so" id="limiter" ladspaid="1913" type="audio">
 	<name context="Limiter Effect Name">Limiter</name>
 	<description>LADSPA limiter audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="gain" max="20" min="-20" default="0">
 		<name>Input gain (dB)</name>
 	</parameter>

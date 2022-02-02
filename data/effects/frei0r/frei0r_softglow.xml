@@ -17,7 +17,7 @@
     </parameter>
     <parameter type="list" name="blurblend" default="0" paramlist="0;0.5;1.0">
         <paramlistdisplay>Screen,Overlay,Add</paramlistdisplay>
-      <name>Blend mode</name>
+      <name>Blend mode:</name>
       <comment>Blend mode used to blend highlight blur with input image.</comment>
     </parameter>
   </effect>

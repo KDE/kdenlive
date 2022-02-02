@@ -10,8 +10,8 @@
                 <name>Output gain</name>
         </parameter>
         <parameter type="list" name="av.mode" default="sine" paramlist="sine;triangle;square;sawup;sawdown">
-            <paramlistdisplay>sine,triangle,square,sawup,sawdown</paramlistdisplay>
-                <name>Mode</name>
+            <paramlistdisplay>Sine,Triangle,Square,Sawup,Sawdown</paramlistdisplay>
+                <name>Mode:</name>
         </parameter>
         <parameter type="constant" name="av.amount" default="1" min="0.00" max="1" decimals="2">
                 <name>Modulation</name>
@@ -27,7 +27,7 @@
         </parameter>
         <parameter type="list" name="av.timing" default="bpm" paramlist="bpm;ms;hz">
             <paramlistdisplay>bpm,ms,Hz</paramlistdisplay>
-                <name>Timing</name>
+                <name>Timing:</name>
         </parameter>
         <parameter type="constant" name="av.bpm" default="120" min="30" max="300" suffix=" bpm">
                 <name>BPM</name>

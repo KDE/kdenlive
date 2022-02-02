@@ -4,21 +4,21 @@
 	<description>Adjustable Vignette</description>
 	<author>Marco Gittler</author>
 	<parameter type="animated" name="smooth" default="0.8" min="0" max="10000" factor="1000">
-		<name>smooth</name>
+		<name>Smooth</name>
 	</parameter>
 	<parameter type="animated" name="radius" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
-		<name>radius</name>
+		<name>Radius</name>
 	</parameter>
 	<parameter type="animated" name="x" default="0.5" min="0" max="1000" factor="1000">
-		<name>x</name>
+		<name>X</name>
 	</parameter>
 	<parameter type="animated" name="y" default="0.5" min="0" max="1000" factor="1000">
-		<name>y</name>
+		<name>Y</name>
 	</parameter>
 	<parameter type="animated" name="opacity" default="0" min="0" max="1000" factor="1000">
-		<name>opacity</name>
+		<name>Opacity</name>
 	</parameter>
 	<parameter type="bool" name="mode" default="0">
-		<name>use cos instead of linear</name>
+		<name>Use cos instead of linear</name>
 	</parameter>
 </effect>

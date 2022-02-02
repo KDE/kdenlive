@@ -10,10 +10,10 @@
         <name>Sigma</name>
     </parameter>
     <parameter type="double" name="random_seed" min="0" max="100" default="0">
-        <name>Random Seed</name>
+        <name>Random seed</name>
     </parameter>
     <parameter type="list" name="macro_type" default="1" paramlist="1;2;3;0">
-        <paramlistdisplay>Char by char,Word by word,Line by line,Custom macro</paramlistdisplay>
-        <name>Macro type</name>
+        <paramlistdisplay>Char by Char,Word by Word,Line by Line,Custom Macro</paramlistdisplay>
+        <name>Macro type:</name>
     </parameter>
 </effect>

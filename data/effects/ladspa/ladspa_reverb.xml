@@ -2,7 +2,7 @@
 <effect tag="ladspa" library="plate_1423.so" id="reverb" ladspaid="1423" type="audio">
 	<name context="Reverb Effect Name">Reverb</name>
 	<description>LADSPA reverb audio effect</description>
-	<author>http://www.ladspa.org</author>
+	<author>https://www.ladspa.org</author>
 	<parameter type="constant" name="room" max="85" min="1" default="4.2" factor="10">
 		<name>Reverb time</name>
 	</parameter>

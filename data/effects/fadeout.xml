@@ -4,7 +4,7 @@
 	<description>Fade out audio track</description>
 	<author></author>
 	<parameter type="position" name="in" max="0" min="0" default="-%fade">
-		<name>Duration</name>
+		<name>Duration:</name>
 	</parameter>
 	<parameter type="fixed" name="out" max="90000" min="0" default="%out">
 		<name></name>

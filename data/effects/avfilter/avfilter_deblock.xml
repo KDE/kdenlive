@@ -24,6 +24,6 @@
         </parameter>
          <parameter type="list" name="av.planes" default="1" paramlist="0;1;2;3;4;5;6;7">
         <paramlistdisplay>All,Y,U,V,Alpha,Red,Green,Blue</paramlistdisplay>
-                <name>Planes</name>
+                <name>Planes:</name>
         </parameter>        
 </effect>

@@ -4,19 +4,19 @@
 	<description>Remove logo from input video</description>
 	<author>libavfilter</author>
     <parameter type="constant" name="av.x" default="1" min="1" max="%width" factor="1">
-		<name>Logo X Position</name>
+		<name>Logo X position</name>
 	</parameter>
 	<parameter type="constant" name="av.y" default="1" min="1" max="%height" factor="1">
-		<name>Logo Y Position</name>
+		<name>Logo Y position</name>
 	</parameter>
     <parameter type="constant" name="av.w" default="1" min="1" max="%width" factor="1">
-		<name>Logo Width</name>
+		<name>Logo width</name>
 	</parameter>
 	<parameter type="constant" name="av.h" default="1" min="1" max="%height" factor="1">
-		<name>Logo Height</name>
+		<name>Logo height</name>
 	</parameter>
      <parameter type="list" name="av.show" default="0" paramlist="0;1">
          <paramlistdisplay>Off,On</paramlistdisplay>
-        <name>Show borders</name>
+        <name>Show borders:</name>
     </parameter>
 </effect>

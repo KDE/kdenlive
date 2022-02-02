@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.smartblur" id="avfilter.smartblur">
 	<name>Smartblur</name>
-	<description>Blur the input video without impacting the outlines. </description>
+	<description>Blur the input video without impacting the outlines.</description>
 	<author>libavfilter</author>
 	<parameter type="constant" name="av.lr" default="1.0" min="0.1" max="5.0" decimals="1">
                 <name>Luma radius</name>
@@ -10,7 +10,7 @@
                 <name>Luma strength</name>
         </parameter>
         <parameter type="constant" name="av.lt" default="0" min="-30" max="+30" factor="1">
-                <name>Luma Threshold</name>
+                <name>Luma threshold</name>
         </parameter>
         <parameter type="constant" name="av.cr" default="1.0" min="0.1" max="5.0" decimals="1">
                 <name>Chroma radius</name>
@@ -19,6 +19,6 @@
                 <name>Chroma strength</name>
         </parameter>
         <parameter type="constant" name="av.ct" default="0" min="-30" max="+30" factor="1">
-                <name>Chroma Threshold</name>
+                <name>Chroma threshold</name>
         </parameter>
 </effect>
