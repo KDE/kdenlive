@@ -89,7 +89,12 @@ bool OtioConvertions::configureSetup()
 
 bool OtioConvertions::runOtioconvert(const QString &inputFile, const QString &outputFile) {
     QProcess convert;
-    convert.start(QStringLiteral("otioconvert"), {"-i", inputFile, "-o", outputFile});
+    QString otioBinary = QStandardPaths::findExecutable(QStringLiteral("otioconvert"));
+    if (otioBinary.isEmpty()) {
+        KMessageBox::sorry(pCore->window(), i18n("OpenTimelineIO Application otioconvert not found"));
+        return false;
+    }
+    convert.start(otioBinary, {"-i", inputFile, "-o", outputFile});
     convert.waitForFinished();
     if(convert.exitStatus() != QProcess::NormalExit || convert.exitCode() != 0) {
         KMessageBox::detailedError(pCore->window(), i18n("OpenTimelineIO Project conversion failed"),

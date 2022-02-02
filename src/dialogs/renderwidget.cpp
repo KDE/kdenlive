@@ -310,7 +310,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            m_renderer = QStringLiteral("kdenlive_render");
+            KMessageBox::sorry(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
 
