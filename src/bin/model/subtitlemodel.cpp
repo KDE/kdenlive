@@ -142,7 +142,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug()<< "ass File";
-        QString startTime,endTime,text;
+        QString startTime,endTime;
         QString EventFormat, section;
         turn = 0;
         int maxSplit =0;
@@ -158,6 +158,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         scriptInfoSection.clear();
         styleSection.clear();
         eventSection.clear();
+        int textIndex = 9;
         while (stream.readLineInto(&line)) {
             line = line.simplified();
             if (!line.isEmpty()) {
@@ -209,8 +210,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     QStringList format;
                     if (line.contains("Format:")) {
                     	eventSection += line +"\n";
-                        EventFormat += line;
-                        format = (EventFormat.split(": ")[1].replace(" ","")).split(',');
+                        EventFormat += line.toLower().simplified().remove(QLatin1Char(' '));
+                        format = EventFormat.split(":")[1].split(QLatin1Char(','));
                         //qDebug() << format << format.count();
                         maxSplit = format.count();
                         //TIME
@@ -219,26 +220,23 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         if (maxSplit > 3)
                             endTime = format.at(2);
                         // Text
-                        if (maxSplit > 9)
-                            text = format.at(9);
-                        //qDebug()<< startTime << endTime << text;
+                        if (format.contains(QStringLiteral("text"))) {
+                            textIndex = format.indexOf(QStringLiteral("text"));
+                        }
                     } else {
-                        QString EventDialogue;
-                        QStringList dialogue;
-                        start = "";end = "";comment = "";
-                        EventDialogue += line;
-                        dialogue = EventDialogue.split(": ")[1].split(',');
-                        if (dialogue.count() > 9) {
-                            QString remainingStr = "," + EventDialogue.split(": ")[1].section(',', maxSplit);
-                            //qDebug()<< dialogue;
+                        start.clear();
+                        end.clear();
+                        comment.clear();
+                        QStringList dialogue = line.section(":", 1).split(QLatin1Char(','));
+                        if (dialogue.count() >= textIndex) {
                             //TIME
                             start = dialogue.at(1);
                             startPos= stringtoTime(start);
                             end = dialogue.at(2);
                             endPos= stringtoTime(end);
                             // Text
-                            comment = dialogue.at(9)+ remainingStr;
-                            //qDebug()<<"Start: "<< start << "End: "<<end << comment;
+                            comment = dialogue.at(textIndex);
+                            // qDebug()<<"Start: "<< start << "End: "<<end << comment;
                             if (endPos > startPos) {
                                 addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
                             } else {
@@ -250,7 +248,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 turn++;
             } else {
                 turn = 0;
-                text = startTime = endTime = "";
+                startTime = endTime = QString();
             }
         }
         assFile.close();
