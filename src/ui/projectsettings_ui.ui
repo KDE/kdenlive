@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>457</height>
+    <width>722</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -270,69 +270,6 @@
           <property name="horizontalSpacing">
            <number>6</number>
           </property>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Proxy video resize (width)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QToolButton" name="proxy_showprofileinfo">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="KComboBox" name="proxy_profile">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5">
-           <widget class="QToolButton" name="proxy_manageprofile">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2" colspan="4">
-           <widget class="QSpinBox" name="proxy_imageminsize">
-            <property name="suffix">
-             <string>pixels</string>
-            </property>
-            <property name="minimum">
-             <number>500</number>
-            </property>
-            <property name="maximum">
-             <number>100000</number>
-            </property>
-            <property name="value">
-             <number>2000</number>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="2" colspan="4">
            <widget class="QSpinBox" name="proxy_imagesize">
             <property name="enabled">
@@ -352,66 +289,27 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="2" colspan="4">
-           <widget class="QSpinBox" name="proxy_resize">
-            <property name="suffix">
-             <string>pixels</string>
+          <item row="1" column="4">
+           <widget class="QToolButton" name="proxy_showprofileinfo">
+            <property name="text">
+             <string>...</string>
             </property>
-            <property name="minimum">
-             <number>200</number>
-            </property>
-            <property name="maximum">
-             <number>100000</number>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QLabel" name="image_label">
+          <item row="11" column="3">
+           <widget class="QLineEdit" name="le_prefix_proxy">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text">
-             <string>Proxy image size</string>
-            </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_24">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Encoding profile</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QCheckBox" name="generate_imageproxy">
-            <property name="text">
-             <string>Generate for images larger than</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QCheckBox" name="external_proxy">
-            <property name="text">
-             <string>Use external proxy clips</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="6">
-           <widget class="QPlainTextEdit" name="proxyparams">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
+          <item row="7" column="3">
+           <widget class="QLineEdit" name="le_relPathOrigToProxy">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -428,6 +326,155 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="generate_imageproxy">
+            <property name="text">
+             <string>Generate for images larger than</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1" colspan="5">
+           <widget class="QComboBox" name="external_proxy_profile"/>
+          </item>
+          <item row="9" column="3">
+           <widget class="QLineEdit" name="le_suffix_clip">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="KComboBox" name="proxy_profile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLabel" name="l_prefix_clip">
+            <property name="text">
+             <string>Prefix of clip:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QToolButton" name="proxy_manageprofile">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QLabel" name="l_prefix_proxy">
+            <property name="text">
+             <string>Prefix of proxy:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="6">
+           <widget class="QPlainTextEdit" name="proxyparams">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QLabel" name="l_suffix_clip">
+            <property name="text">
+             <string>Suffix of clip:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Proxy video resize (width)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QLabel" name="l_suffix_proxy">
+            <property name="text">
+             <string>Suffix of proxy:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
+           <widget class="QLabel" name="image_label">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Proxy image size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2" colspan="4">
+           <widget class="QSpinBox" name="proxy_imageminsize">
+            <property name="suffix">
+             <string>pixels</string>
+            </property>
+            <property name="minimum">
+             <number>500</number>
+            </property>
+            <property name="maximum">
+             <number>100000</number>
+            </property>
+            <property name="value">
+             <number>2000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLabel" name="l_relPathOrigToProxy">
+            <property name="text">
+             <string>Relative path from clip to proxy:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="3">
+           <widget class="QLineEdit" name="le_prefix_clip">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="external_proxy">
+            <property name="text">
+             <string>Use external proxy clips</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QToolButton" name="checkProxy">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_24">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Encoding profile</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0" colspan="2">
            <widget class="QCheckBox" name="generate_proxy">
             <property name="text">
@@ -435,13 +482,37 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1" colspan="5">
-           <widget class="QComboBox" name="external_proxy_profile"/>
+          <item row="12" column="3">
+           <widget class="QLineEdit" name="le_suffix_proxy">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QToolButton" name="checkProxy">
+          <item row="5" column="2" colspan="4">
+           <widget class="QSpinBox" name="proxy_resize">
+            <property name="suffix">
+             <string>pixels</string>
+            </property>
+            <property name="minimum">
+             <number>200</number>
+            </property>
+            <property name="maximum">
+             <number>100000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QLabel" name="l_relPathProxyToOrig">
             <property name="text">
-             <string>...</string>
+             <string>Relative path from proxy to clip:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="3">
+           <widget class="QLineEdit" name="le_relPathProxyToOrig">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>

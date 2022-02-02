@@ -103,6 +103,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         }
     });
 
+    connect(external_proxy, &QCheckBox::toggled, this, &ProjectSettings::slotExternalProxyChanged);
+    connect(external_proxy_profile, &QComboBox::currentTextChanged, this, &ProjectSettings::slotExternalProxyProfileChanged);
+    slotExternalProxyChanged(external_proxy->checkState());
+
     QString currentProf;
     if (doc) {
         currentProf = pCore->getCurrentProfile()->path();
@@ -268,6 +272,41 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     }
     connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
     connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);
+}
+
+void ProjectSettings::slotExternalProxyChanged(bool enabled)
+{
+    l_relPathOrigToProxy->setVisible(enabled);
+    le_relPathOrigToProxy->setVisible(enabled);
+    l_prefix_proxy->setVisible(enabled);
+    le_prefix_proxy->setVisible(enabled);
+    l_suffix_proxy->setVisible(enabled);
+    le_suffix_proxy->setVisible(enabled);
+    l_relPathProxyToOrig->setVisible(enabled);
+    le_relPathProxyToOrig->setVisible(enabled);
+    l_prefix_clip->setVisible(enabled);
+    le_prefix_clip->setVisible(enabled);
+    l_suffix_clip->setVisible(enabled);
+    le_suffix_clip->setVisible(enabled);
+
+    slotExternalProxyProfileChanged(external_proxy_profile->currentText());
+}
+
+void ProjectSettings::setExternalProxyProfileData(const QString &profileData)
+{
+    auto params = profileData.split(";");
+    if (params.count() < 6) return;
+    le_relPathOrigToProxy->setText(params.at(0));
+    le_prefix_proxy->setText(params.at(1));
+    le_suffix_proxy->setText(params.at(2));
+    le_relPathProxyToOrig->setText(params.at(3));
+    le_prefix_clip->setText(params.at(4));
+    le_suffix_clip->setText(params.at(5));
+}
+
+void ProjectSettings::slotExternalProxyProfileChanged(const QString &)
+{
+    setExternalProxyProfileData(external_proxy_profile->currentData().toString());
 }
 
 void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
