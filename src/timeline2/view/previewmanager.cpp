@@ -14,6 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
+#include <QCollator>
 #include <QProcess>
 #include <QMutexLocker>
 #include <QStandardPaths>
@@ -43,7 +45,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            m_renderer = QStringLiteral("kdenlive_render");
+            KMessageBox::sorry(qApp->activeWindow(), i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
     connect(this, &PreviewManager::abortPreview, &m_previewProcess, &QProcess::kill, Qt::DirectConnection);
