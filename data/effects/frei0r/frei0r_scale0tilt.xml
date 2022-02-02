@@ -15,10 +15,10 @@
 	<parameter type="animated" name="Clip bottom" max="%height" min="0" default="0" factor="%height">
 		<name>Crop bottom</name>
 	</parameter>
-	<parameter type="constant" name="Scale X" max="1000" min="1" default="0.5" factor="200">
+	<parameter type="animated" name="Scale X" max="1000" min="1" default="0.5" factor="200">
 		<name>Scale X</name>
 	</parameter>
-	<parameter type="constant" name="Scale Y" max="1000" min="1" default="0.5" factor="200">
+	<parameter type="animated" name="Scale Y" max="1000" min="1" default="0.5" factor="200">
 		<name>Scale Y</name>
 	</parameter>
 	<parameter type="animated" name="Tilt X" max="%width" min="0" default="0.5" factor="%width">

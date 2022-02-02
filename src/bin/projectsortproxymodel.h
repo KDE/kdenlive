@@ -29,13 +29,13 @@ public slots:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Set search tag that will filter the view */
-    void slotSetFilters(const QStringList tagFilters, int rateFilters, int typeFilters, bool unusedFilter);
+    void slotSetFilters(const QStringList &tagFilters, int rateFilters, int typeFilters, bool unusedFilter);
     /** @brief Reset search filters */
     void slotClearSearchFilters();
     /** @brief Relay datachanged signal from view's model  */
     void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
     /** @brief Select all items in model */
-    void selectAll(QModelIndex rootIndex = QModelIndex());
+    void selectAll(const QModelIndex &rootIndex = QModelIndex());
 
 private slots:
     /** @brief Called when a row change is detected by selection model */

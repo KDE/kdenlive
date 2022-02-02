@@ -33,17 +33,16 @@
 
 KisCurveWidget::KisCurveWidget(QWidget *parent)
     : AbstractCurveWidget(parent)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
+    , m_grabOriginalX(0)
+    , m_grabOriginalY(0)
+    , m_draggedAwayPointIndex(0)
+    , m_guideVisible(false)
+
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
-    m_guideVisible = false;
 
-    m_maxPoints = -1;
-
-    m_grabOffsetX = 0;
-    m_grabOffsetY = 0;
-    m_grabOriginalX = 0;
-    m_grabOriginalY = 0;
-    m_draggedAwayPointIndex = 0;
     m_pixmapIsDirty = false;
     m_pixmapCache = nullptr;
     m_maxPoints = 0;
@@ -235,18 +234,6 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
             emit modified();
         }
     }
-}
-
-double KisCurveWidget::io2sp(int x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return double(x - m_inOutMin) / rangeLen;
-}
-
-int KisCurveWidget::sp2io(double x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return int(x * rangeLen + 0.5) + m_inOutMin;
 }
 
 bool KisCurveWidget::jumpOverExistingPoints(QPointF &pt, int skipIndex)

@@ -25,7 +25,7 @@ public:
     /** @brief This construct an effect with an already existing filter
        Only used when loading an existing clip
      */
-    static std::shared_ptr<EffectItemModel> construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, QString originalDecimalPoint);
+    static std::shared_ptr<EffectItemModel> construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, const QString &originalDecimalPoint);
 
     /** @brief This function plants the effect into the given service in last position
      */

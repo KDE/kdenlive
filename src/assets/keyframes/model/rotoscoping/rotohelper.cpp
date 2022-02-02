@@ -8,13 +8,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "rotohelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "monitor/monitor.h"
 
 #include <QSize>
 #include <utility>
 RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), index, parent)
 {
 }
 

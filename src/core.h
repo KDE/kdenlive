@@ -20,9 +20,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
-#include "timecode.h"
+#include "utils/timecode.h"
 
-#include "mlt++/MltProfile.h"
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltPlaylist.h>
 
 class Bin;
 class DocUndoStack;
@@ -73,19 +74,22 @@ public:
     /**
      * @brief Setup the basics of the application, in particular the connection
      * with Mlt
-     * @param isAppImage do we expect an AppImage (if yes, we use App path to deduce 
-     * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(bool testMode = false);
+    static bool build(const QString &packageType, bool testMode = false);
 
     /**
      * @brief Init the GUI part of the app and show the main window
+     * @param inSandbox does the app run in a sanbox? If yes, we use App path to deduce
+     * other binaries paths (melt, ffmpeg, etc)
+     * @param MltPath
      * @param Url (optional) file to open
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
-     * a default new file will be created. */
-    void initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+     * a default new file will be created.
+     * @param clipsToLoad
+     */
+    void initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -224,9 +228,9 @@ public:
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */
-    void processInvalidFilter(const QString service, const QString id, const QString message);
+    void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(QMap <QString, QString> tags);
+    void updateProjectTags(const QMap <QString, QString> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
@@ -243,13 +247,13 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(QList <int> guides);
+    void addGuides(const QList <int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
-    void temporaryUnplug(QList<int> clipIds, bool hide);
+    void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Returns the current doc's subtitle model. */
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
-    void transcodeFile(const QString url);
+    void transcodeFile(const QString &url);
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
@@ -271,9 +275,12 @@ public:
     int getNewStuff(const QString &configFile);
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
+    void loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist);
+
+    QString packageType() { return m_packageType; };
 
 private:
-    explicit Core();
+    explicit Core(const QString &packageType);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
@@ -293,6 +300,7 @@ private:
     QString m_currentProfile;
 
     QString m_profile;
+    QString m_packageType;
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
@@ -321,7 +329,7 @@ public slots:
      *  but also for others as it makes the visible name translatable.
      *  @return The name that fits to the filename or if none is found the filename it self
      */
-    const QString nameForLumaFile(const QString filename);
+    const QString nameForLumaFile(const QString &filename);
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
@@ -333,6 +341,8 @@ public slots:
     void updateMonitorProfile();
     /** @brief Add a new Bin Widget. */
     void addBin(const QString &id = QString());
+    /** @brief Transcode a bin clip video. */
+    void transcodeFriendlyFile(const QString &binId, bool checkProfile);
 
 signals:
     void coreIsReady();
@@ -348,8 +358,6 @@ signals:
     void closeSplash();
     /** @brief Trigger an update of the the speech models list */
     void voskModelUpdate(const QStringList models);
-    /** @brief This signal means that VOSK and/or SRT module availability changed*/
-    void updateVoskAvailability();
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */

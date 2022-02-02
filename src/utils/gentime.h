@@ -64,7 +64,7 @@ public:
     /** @brief Divides one GenTime by a double value, returning a GenTime. */
     GenTime operator/(double op) const;
 
-    /* All the comparison operators considers that two GenTime that differs by less
+    /** All the comparison operators considers that two GenTime that differs by less
     than one frame are equal.
     The fps used to carry this computation must be set using the static function setFps
     */
@@ -90,5 +90,7 @@ private:
     /** A delta value that is used to get around floating point rounding issues. */
     static double s_delta;
 };
+
+Q_DECLARE_TYPEINFO(GenTime, Q_COMPLEX_TYPE); //TODO Q_COMPLEX_TYPE is the default, but does Q_MOVABLE_TYPE fit better?
 
 #endif

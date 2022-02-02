@@ -6,19 +6,19 @@
 #include "assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QDir>
+#include <QDir>
+#include <QDirIterator>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QString>
 #include <QRegularExpression>
-#include <effects/effectsrepository.hpp>
+#include <QString>
 #define DEBUG_LOCALE false
-
-static QVector<int> bypassRoles = {AssetParameterModel::InRole,AssetParameterModel::OutRole,AssetParameterModel::ParentInRole,AssetParameterModel::ParentDurationRole,AssetParameterModel::ParentPositionRole,AssetParameterModel::HideKeyframesFirstRole};
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString& originalDecimalPoint, QObject *parent)
@@ -38,7 +38,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
     bool needsLocaleConversion = false;
-    QChar separator, oldSeparator;
+    QChar separator;
+    QChar oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK
@@ -184,6 +185,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
+
         if (!isFixed) {
             currentRow.value = value;
             QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
@@ -212,7 +214,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    modelChanged();
+    emit modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
@@ -430,6 +432,15 @@ AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
+    const QVector<int> bypassRoles = {
+        AssetParameterModel::InRole,
+        AssetParameterModel::OutRole,
+        AssetParameterModel::ParentInRole,
+        AssetParameterModel::ParentDurationRole,
+        AssetParameterModel::ParentPositionRole,
+        AssetParameterModel::HideKeyframesFirstRole
+    };
+
     if (bypassRoles.contains(role)) {
         switch (role) {
             case InRole:
@@ -540,8 +551,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         }
         QString value(m_asset->get(paramName.toUtf8().constData()));
         if (value.isEmpty()) {
-            if (element.hasAttribute("default")) {
-                return parseAttribute(m_ownerId, QStringLiteral("default"), element);
+            if (element.hasAttribute(QStringLiteral("default"))) {
+                value = parseAttribute(m_ownerId, QStringLiteral("default"), element).toString();
             } else {
                 value = element.attribute(QStringLiteral("value"));
             }
@@ -719,23 +730,45 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     }
     ParamType type = paramTypeFromStr(element.attribute(QStringLiteral("type")));
     QString content = element.attribute(attribute);
+    if (type == ParamType::UrlList && attribute == QLatin1String("default")) {
+        QString values = element.attribute(QStringLiteral("paramlist"));
+        if (values == QLatin1String("%lutPaths")) {
+            QString filter = element.attribute(QStringLiteral("filter"));;
+            filter.remove(0, filter.indexOf(QLatin1String("("))+1);
+            filter.remove(filter.indexOf(QLatin1String(")"))-1, -1);
+            QStringList fileExt = filter.split(QStringLiteral(" "));
+            // check for Kdenlive installed luts files
+            QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+            QStringList results;
+            for (const QString &folderpath : qAsConst(customLuts)) {
+                QDir dir(folderpath);
+                QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
+                while (it.hasNext()) {
+                    results.append(it.next());
+                    break;
+                }
+            }
+            if (!results.isEmpty()) {
+                return results.first();
+            }
+            return defaultValue;
+        }
+    }
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     int width = profile->width();
     int height = profile->height();
     QSize frameSize = pCore->getItemFrameSize(owner);
     if(type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
-        int contentHeight;
-        int contentWidth;
+        int contentHeight = height;
+        int contentWidth = width;
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
             double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
             contentHeight = int(height * factor + 0.5);
-            contentWidth = width;
         } else {
             // Fit to height
             double factor = double(height) / frameSize.height();
-            contentHeight = height;
             contentWidth =int(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
         }
         // Center
@@ -853,6 +886,13 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 
     for (const auto &param : m_params) {
         if (!param.first.isEmpty()) {
+            QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+            if (m_params.at(param.first).type == ParamType::MultiSwitch) {
+                // Multiswitch param value is not updated on change, fo fetch real value now
+                QVariant multiVal = data(ix, AssetParameterModel::ValueRole).toString();
+                res.push_back(QPair<QString, QVariant>(param.first, multiVal));
+                continue;
+            }
             res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
         }
     }
@@ -896,18 +936,18 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
 
-        if(param.first.contains("Position X")) {
+        if(param.first.contains(QLatin1String("Position X"))) {
             x = param.second.value.toString();
             rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
             rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
         }
-        if(param.first.contains("Position Y")) {
+        if(param.first.contains(QLatin1String("Position Y"))) {
             y = param.second.value.toString();
         }
-        if(param.first.contains("Size X")) {
+        if(param.first.contains(QLatin1String("Size X"))) {
             w = param.second.value.toString();
         }
-        if(param.first.contains("Size Y")) {
+        if(param.first.contains(QLatin1String("Size Y"))) {
             h = param.second.value.toString();
         }
 
@@ -920,6 +960,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
         int in = data(ix, AssetParameterModel::ParentInRole).toInt();
         int out = in + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+        bool opacity = data(ix, AssetParameterModel::OpacityRole).toBool();
         if (factor > 0) {
             min /= factor;
             max /= factor;
@@ -929,6 +970,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         currentParam.insert(QLatin1String("max"), QJsonValue(max));
         currentParam.insert(QLatin1String("in"), QJsonValue(in));
         currentParam.insert(QLatin1String("out"), QJsonValue(out));
+        currentParam.insert(QLatin1String("opacity"), QJsonValue(opacity));
         list.push_back(currentParam);
     }
     if(!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
@@ -994,7 +1036,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::AnimatedRect) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::ColorWheel) {
             continue;
         }
 
@@ -1002,19 +1044,19 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         auto value = m_keyframes->getInterpolatedValue(pos, ix);
 
-        if(param.first.contains("Position X")) {
+        if (param.first.contains("Position X")) {
             x = value.toDouble();
             count++;
         }
-        if(param.first.contains("Position Y")) {
+        if (param.first.contains("Position Y")) {
             y = value.toDouble();
             count++;
         }
-        if(param.first.contains("Size X")) {
+        if (param.first.contains("Size X")) {
             w = value.toDouble();
             count++;
         }
-        if(param.first.contains("Size Y")) {
+        if (param.first.contains("Size Y")) {
             h = value.toDouble();
             count++;
         }
@@ -1149,26 +1191,30 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
 const QStringList AssetParameterModel::getPresetList(const QString &presetFile) const
 {
     QFile loadFile(presetFile);
-    if (loadFile.exists() && loadFile.open(QIODevice::ReadOnly)) {
-        QByteArray saveData = loadFile.readAll();
-        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-        if (loadDoc.isObject()) {
-            qDebug() << "// PRESET LIST IS AN OBJECT!!!";
-            return loadDoc.object().keys();
-        } else if (loadDoc.isArray()) {
-            qDebug() << "// PRESET LIST IS AN ARRAY!!!";
-            QStringList result;
-            QJsonArray array = loadDoc.array();
-            for (auto &&i : array) {
-                QJsonValue val = i;
-                if (val.isObject()) {
-                    result << val.toObject().keys();
-                }
+    if (!(loadFile.exists() && loadFile.open(QIODevice::ReadOnly))) {
+        // could not open file
+        return QStringList();
+    }
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    if (loadDoc.isObject()) {
+        qDebug() << "// PRESET LIST IS AN OBJECT!!!";
+        return loadDoc.object().keys();
+    }
+
+    QStringList result;
+    if (loadDoc.isArray()) {
+        qDebug() << "// PRESET LIST IS AN ARRAY!!!";
+
+        QJsonArray array = loadDoc.array();
+        for (auto &&i : array) {
+            QJsonValue val = i;
+            if (val.isObject()) {
+                result << val.toObject().keys();
             }
-            return result;
         }
     }
-    return QStringList();
+    return result;
 }
 
 const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QString &presetFile, const QString &presetName)
@@ -1230,6 +1276,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         m_keyframes->refresh();
     }
     if (!update) {
+        // restore itemId
         m_ownerId.first = itemId;
     }
     emit dataChanged(index(0), index(m_rows.count()), {});
@@ -1287,4 +1334,13 @@ void AssetParameterModel::setProgress(int progress)
 Mlt::Properties *AssetParameterModel::getAsset()
 {
     return m_asset.get();
+}
+
+const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
+{
+    QModelIndex ix = index(m_rows.indexOf(paramName), 0);
+    if (ix.isValid()) {
+        return data(ix, ValueRole);
+    }
+    return QVariant();
 }

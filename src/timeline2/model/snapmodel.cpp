@@ -116,7 +116,7 @@ int SnapModel::proposeSize(int in, int out, int size, bool right, int maxSnapDis
     return proposed_size;
 }
 
-int SnapModel::proposeSize(int in, int out, const std::vector<int> boundaries, int size, bool right, int maxSnapDist)
+int SnapModel::proposeSize(int in, int out, const std::vector<int> &boundaries, int size, bool right, int maxSnapDist)
 {
     ignore(boundaries);
     int proposed_size = -1;

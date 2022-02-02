@@ -11,10 +11,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "core.h"
 #include "kdenlive_debug.h"
-#include <QImage>
-#include <QElapsedTimer>
-#include <QtConcurrent>
 #include <KLocalizedString>
+#include <QElapsedTimer>
+#include <QImage>
+#include <QtConcurrent>
 #include <algorithm>
 #include <cmath>
 #include <memory>

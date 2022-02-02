@@ -29,11 +29,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
-#include "utils/otioconvertions.h"
+#include "pythoninterfaces/otioconvertions.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -89,9 +89,14 @@ public:
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action, const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    void addAction(const QString &name, QAction *action, const QKeySequence &shortcut, const QString &category);
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
+                       const QKeySequence &shortcut, const QString &category);
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -102,7 +107,7 @@ public:
      * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea, const QKeySequence &shortcut = QKeySequence());
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     QUndoGroup *m_commandStack;
     QUndoView *m_undoView;
@@ -140,6 +145,8 @@ public:
     Bin *getBin();
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
+    /** @brief Ensure all bin widgets are tabbed together*/
+    void tabifyBins();
     int binCount() const;
 
     /** @brief Hide subtitle track */
@@ -310,9 +317,6 @@ public slots:
     void connectDocument();
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
-    void updateDockTitleBars(bool isTopLevel = true);
-    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
-    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     void configureToolbars() override;
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);
@@ -322,14 +326,17 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
-    void slotEditSubtitle(QMap<QString, QString> subProperties = {});
+    void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
     void slotTranscode(const QStringList &urls = QStringList());
+    void slotFriendlyTranscode(const QString &binId, bool checkProfile);
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle(const QString &text = QString());
     /** @brief Ensure subtitle track is displayed */
     void showSubtitleTrack();
     /** @brief The path of the current document changed (save as), update render settings */
     void updateProjectPath(const QString &path);
+    /** @brief Update compositing action to display current project setting. */
+    void slotUpdateCompositeAction(int mode);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -455,7 +462,6 @@ private slots:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
-    void slotUpdateClipType(QAction *action);
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscodeClip();
@@ -519,8 +525,6 @@ private slots:
     void forceIconSet(bool force);
     /** @brief Toggle current project's compositing mode. */
     void slotUpdateCompositing(QAction *compose);
-    /** @brief Update compositing action to display current project setting. */
-    void slotUpdateCompositeAction(int mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();

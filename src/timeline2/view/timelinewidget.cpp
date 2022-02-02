@@ -5,37 +5,37 @@
 
 #include <KLocalizedContext>
 
-#include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
-#include "monitor/monitorproxy.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
+#include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
-#include "effects/effectsrepository.hpp"
-#include "bin/model/markerlistmodel.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
 #include <QAction>
+#include <QActionGroup>
+#include <QFontDatabase>
+#include <QMenu>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QActionGroup>
-#include <QUuid>
-#include <QMenu>
-#include <QFontDatabase>
 #include <QSortFilterProxyModel>
+#include <QUuid>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -132,9 +132,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     // Fix qml focus issue
     connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineClipMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineCompositionMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineSubtitleClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
@@ -308,12 +310,11 @@ void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
-    QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto *ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
@@ -329,12 +330,11 @@ void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
-    QAction *ac;
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
@@ -369,7 +369,7 @@ void TimelineWidget::slotFitZoom()
     double scale = returnedValue.toDouble();
     QMetaObject::invokeMethod(rootObject(), "scrollPos", Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    if (qFuzzyCompare(prevScale, scale)) {
+    if (qFuzzyCompare(prevScale, scale) && scrollPos == 0) {
         scale = m_prevScale;
         scrollPos = m_scrollPos;
     } else {
@@ -426,15 +426,21 @@ void TimelineWidget::slotUngrabHack()
 {
     // Workaround bug: https://bugreports.qt.io/browse/QTBUG-59044
     // https://phabricator.kde.org/D5515
+    QTimer::singleShot(250, this, [this]() {
+        // Reset menu position, necessary if user closes the menu without selecting any action
+        rootObject()->setProperty("clickFrame", -1);
+    });
     if (quickWindow() && quickWindow()->mouseGrabberItem()) {
         quickWindow()->mouseGrabberItem()->ungrabMouse();
-        // Reset menu position
-        QTimer::singleShot(200, this, [this]() {
-            rootObject()->setProperty("mainFrame", -1);
-        });
         QPoint mousePos = mapFromGlobal(QCursor::pos());
         QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));
     }
+}
+
+void TimelineWidget::slotResetContextPos(QAction *)
+{
+    rootObject()->setProperty("clickFrame", -1);
+    m_clickPos = QPoint();
 }
 
 int TimelineWidget::zoomForScale(double value) const

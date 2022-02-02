@@ -7,9 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "generators.h"
 #include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
-#include "timecodedisplay.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QDialogButtonBox>
 #include <QDir>

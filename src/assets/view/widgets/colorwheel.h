@@ -8,34 +8,14 @@
 #ifndef COLORWHEELPARAM_H
 #define COLORWHEELPARAM_H
 
+#include "utils/qcolorutils.h"
+
 #include <QPainter>
 #include <QResizeEvent>
 #include <QWidget>
 
 class QDoubleSpinBox;
 class QLabel;
-
-class NegQColor
-{
-public:
-    int8_t sign_r = 1;
-    int8_t sign_g = 1;
-    int8_t sign_b = 1;
-    QColor qcolor;
-    static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
-    static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
-    qreal redF() const;
-    qreal greenF() const;
-    qreal blueF() const;
-    qreal valueF() const;
-    int hue() const;
-    qreal hueF() const;
-    qreal saturationF() const;
-    void setRedF(qreal val);
-    void setGreenF(qreal val);
-    void setBlueF(qreal val);
-    void setValueF(qreal val);
-};
 
 class WheelContainer : public QWidget
 {
@@ -45,7 +25,7 @@ public:
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
     NegQColor color() const;
-    void setColor(QList <double> values);
+    void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
     const QList <double> getNiceParamValues() const;
     void setRedColor(double value);
@@ -101,9 +81,9 @@ class ColorWheel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColorWheel(QString id, QString name, NegQColor color, QWidget *parent = nullptr);
+    explicit ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent = nullptr);
     NegQColor color() const;
-    void setColor(QList <double> values);
+    void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
 
 private:

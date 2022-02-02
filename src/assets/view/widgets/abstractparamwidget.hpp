@@ -21,7 +21,7 @@ class AbstractParamWidget : public QWidget
     Q_OBJECT
 public:
     AbstractParamWidget() = delete;
-    AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent);
     ~AbstractParamWidget() override = default;
 
     /** @brief Factory method to construct a parameter widget.
@@ -29,7 +29,7 @@ public:
         @param index Index of the parameter in the given model
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QSize frameSize, QWidget *parent);
+    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -51,7 +51,7 @@ signals:
 public slots:
     /** @brief Toggle the comments on or off
      */
-    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
+    virtual void slotShowComment(bool /*show*/) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
 
     /** @brief refresh the properties to reflect changes in the model
      */

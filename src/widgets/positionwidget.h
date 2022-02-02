@@ -7,7 +7,7 @@
 #ifndef POSITIONWIDGET_H
 #define POSITIONWIDGET_H
 
-#include "timecode.h"
+#include "utils/timecode.h"
 #include <QString>
 #include <QWidget>
 

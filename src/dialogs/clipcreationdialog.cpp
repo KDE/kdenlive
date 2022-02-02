@@ -18,7 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
@@ -27,11 +27,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
+#include <KDirOperator>
 #include <KFileWidget>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
-#include <KDirOperator>
 
 #include <QDialog>
 #include <QDir>
@@ -67,7 +67,7 @@ QStringList ClipCreationDialog::getExtensions()
     mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
               << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
               << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
-              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita") << QStringLiteral("image/webp");
+              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita") << QStringLiteral("image/webp") << QStringLiteral("image/jp2");
 
     QMimeDatabase db;
     QStringList allExtensions;

@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_testproxy_ui.h"
 
 #include "definitions.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
+#include "utils/timecode.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QProcess>
 #include <QMutex>

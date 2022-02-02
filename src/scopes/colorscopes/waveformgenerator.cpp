@@ -10,11 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <cmath>
 
+#include <QDebug>
+#include <QElapsedTimer>
 #include <QImage>
 #include <QPainter>
 #include <QSize>
-#include <QDebug>
-#include <QElapsedTimer>
 #include <vector>
 
 #define CHOP255(a) int((255) < (a) ? (255) : (a))

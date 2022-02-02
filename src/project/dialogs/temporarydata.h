@@ -33,12 +33,14 @@ class ChartWidget : public QWidget
 public:
     explicit ChartWidget(QWidget *parent = nullptr);
     void setSegments(const QList<int> &segments);
+    QColor colorAt(int pos) { return m_chartColors.at(pos); };
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
     QList<int> m_segments;
+    QList<QColor> m_chartColors = { QColor(Qt::darkRed), QColor(Qt::darkBlue), QColor(Qt::darkGreen), QColor(Qt::darkMagenta) };
 };
 
 /** @class TreeWidgetItem

@@ -11,96 +11,15 @@
 #include "colorwheel.h"
 
 #include <KLocalizedString>
-#include <QFrame>
-#include <QVBoxLayout>
-#include <QDoubleSpinBox>
-#include <QLabel>
 #include <QDebug>
+#include <QDoubleSpinBox>
 #include <QFontDatabase>
+#include <QFrame>
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include <qmath.h>
 #include <utility>
-
-NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromHsvF(h, s, l < 0 ? -l : l, a);
-    color.sign_r = l < 0 ? -1 : 1;
-    color.sign_g = l < 0 ? -1 : 1;
-    color.sign_b = l < 0 ? -1 : 1;
-    return color;
-}
-
-NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromRgbF(r < 0 ? -r : r, g < 0 ? -g : g, b < 0 ? -b : b, a);
-    color.sign_r = r < 0 ? -1 : 1;
-    color.sign_g = g < 0 ? -1 : 1;
-    color.sign_b = b < 0 ? -1 : 1;
-    return color;
-}
-
-qreal NegQColor::redF() const
-{
-    return qcolor.redF() * sign_r;
-}
-
-void NegQColor::setRedF(qreal val)
-{
-    sign_r = val < 0 ? -1 : 1;
-    qcolor.setRedF(val * sign_r);
-}
-
-qreal NegQColor::greenF() const
-{
-    return qcolor.greenF() * sign_g;
-}
-
-void NegQColor::setGreenF(qreal val)
-{
-    sign_g = val < 0 ? -1 : 1;
-    qcolor.setGreenF(val * sign_g);
-}
-
-qreal NegQColor::blueF() const
-{
-    return qcolor.blueF() * sign_b;
-}
-
-void NegQColor::setBlueF(qreal val)
-{
-    sign_b = val < 0 ? -1 : 1;
-    qcolor.setBlueF(val * sign_b);
-}
-
-qreal NegQColor::valueF() const
-{
-    return qcolor.valueF() * sign_g;
-}
-
-void NegQColor::setValueF(qreal val)
-{
-    qcolor = QColor::fromHsvF(hueF(), saturationF(), val < 0 ? -val : val, 1.);
-    sign_r = val < 0 ? -1 : 1;
-    sign_g = val < 0 ? -1 : 1;
-    sign_b = val < 0 ? -1 : 1;
-}
-
-int NegQColor::hue() const
-{
-    return qcolor.hue();
-}
-
-qreal NegQColor::hueF() const
-{
-    return qcolor.hueF();
-}
-
-qreal NegQColor::saturationF() const
-{
-    return qcolor.saturationF();
-}
 
 WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int unitSize, QWidget *parent)
     : QWidget(parent)
@@ -134,7 +53,7 @@ NegQColor WheelContainer::color() const
     return m_color;
 }
 
-void WheelContainer::setColor(QList <double> values)
+void WheelContainer::setColor(const QList <double> &values)
 {
     const NegQColor color = NegQColor::fromRgbF(values.at(0) / m_sizeFactor, values.at(1) / m_sizeFactor, values.at(2) / m_sizeFactor);
     m_color = color;
@@ -476,7 +395,7 @@ void WheelContainer::changeColor(const NegQColor &color)
 }
 
 
-ColorWheel::ColorWheel(QString id, QString name, NegQColor color, QWidget *parent)
+ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
     : QWidget(parent)
 {
     QFontInfo info(font());
@@ -549,7 +468,7 @@ NegQColor ColorWheel::color() const
     return m_container->color();
 }
 
-void ColorWheel::setColor(QList<double> values)
+void ColorWheel::setColor(const QList<double> &values)
 {
     m_container->setColor(values);
     m_redEdit->blockSignals(true);

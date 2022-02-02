@@ -13,8 +13,8 @@
 
 AssetIconProvider::AssetIconProvider(bool effect)
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+    , m_effect(effect)
 {
-    m_effect = effect;
 }
 
 QImage AssetIconProvider::requestImage(const QString &name, QSize *size, const QSize &requestedSize)

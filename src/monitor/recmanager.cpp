@@ -17,10 +17,10 @@
 #include <KMessageBox>
 
 #include <QComboBox>
-#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QMenu>
+#include <QScreen>
 #include <QStandardPaths>
 #include <QToolBar>
 #include <QToolButton>
@@ -389,6 +389,7 @@ Mlt::Producer *RecManager::createV4lProducer()
 {
     QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
+    bool profileUsed = false;
     Mlt::Producer *prod = nullptr;
     if (m_recVideo->isChecked()) {
         prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
@@ -402,6 +403,7 @@ Mlt::Producer *RecManager::createV4lProducer()
         p->set("channel", ui->v4lChannelSpinBox->value());
         p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
         prod->set("force_seekable", 0);
+        profileUsed = true;
     }
     if (m_recAudio->isChecked() && (prod != nullptr) && prod->is_valid()) {
         // Add audio track
@@ -418,6 +420,10 @@ Mlt::Producer *RecManager::createV4lProducer()
         delete audio;
         prod = new Mlt::Producer(tractor->get_producer());
         delete tractor;
+        profileUsed = true;
+    }
+    if (!profileUsed) {
+        delete vidProfile;
     }
     return prod;
 }

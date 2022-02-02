@@ -1,21 +1,21 @@
 /*
     SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "speechdialog.h"
 
-#include "core.h"
-#include "kdenlivesettings.h"
-#include "monitor/monitor.h"
-#include "mainwindow.h"
 #include "bin/model/subtitlemodel.hpp"
+#include "core.h"
 #include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitor.h"
 
+#include "mlt++/MltConsumer.h"
 #include "mlt++/MltProfile.h"
 #include "mlt++/MltTractor.h"
-#include "mlt++/MltConsumer.h"
 
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -32,13 +32,14 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    m_stt = new SpeechToText();
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
     connect(m_voskConfig, &QAction::triggered, []() {
         pCore->window()->slotPreferences(8);
     });
-    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](QStringList models) {
+    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         language_box->clear();
         language_box->addItems(models);
         if (models.isEmpty()) {
@@ -61,7 +62,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this, zone]() {
         slotProcessSpeech(zone);
     });
-    parseVoskDictionaries();
+    m_stt->parseVoskDictionaries();
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(button_abort, &QToolButton::clicked, this, [this]() {
@@ -78,19 +79,8 @@ SpeechDialog::~SpeechDialog()
 
 void SpeechDialog::slotProcessSpeech(QPoint zone)
 {
-#ifdef Q_OS_WIN
-    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
-#else
-    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
-#endif
-    if (pyExec.isEmpty()) {
-        speech_info->removeAction(m_voskConfig);
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Cannot find python3, please install it on your system."));
-        speech_info->animatedShow();
-        return;
-    }
-    if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
+    m_stt->checkDependencies();
+    if (!m_stt->checkSetup() || !m_stt->missingDependencies().isEmpty()) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Please configure speech to text."));
         speech_info->animatedShow();
@@ -120,18 +110,10 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
         audio = m_tmpAudio->fileName();
     }
     m_tmpAudio->close();
-    pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(QDir::temp().absolutePath(), sceneList);
+    m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
     qDebug()<<"=== STARTING RENDER B";
     Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
-    QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/speech.py"));
-    if (speechScript.isEmpty()) {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("The speech script was not found, check your install."));
-        speech_info->animatedShow();
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        return;
-    }
     if (!xmlConsumer.is_valid() || !producer.is_valid()) {
         qDebug()<<"=== STARTING CONSUMER ERROR";
         if (!producer.is_valid()) {
@@ -157,21 +139,17 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     qApp->processEvents();
     qDebug()<<"=== STARTING RENDER D";
     QString language = language_box->currentText();
-    qDebug()<<"=== RUNNING SPEECH ANALYSIS: "<<speechScript;
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
-    QString modelDirectory = KdenliveSettings::vosk_folder_path();
-    if (modelDirectory.isEmpty()) {
-        modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
-    }
+    QString modelDirectory = m_stt->voskModelPath();
     qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
     m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, [this, speech, zone](int, QProcess::ExitStatus status) {
        slotProcessSpeechStatus(status, speech, zone);
     });
-    m_speechJob->start(pyExec, {speechScript, modelDirectory, language, audio, speech});
+    m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, language, audio, speech});
 }
 
 void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone)
@@ -204,30 +182,4 @@ void SpeechDialog::slotProcessProgress()
         qDebug()<<"=== GOT DATA:\n"<<saveData;
         speech_progress->setValue(static_cast<int>(100 * prog / m_duration));
      }
-}
-
-void SpeechDialog::parseVoskDictionaries()
-{
-    QString modelDirectory = KdenliveSettings::vosk_folder_path();
-    QDir dir;
-    if (modelDirectory.isEmpty()) {
-        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        dir = QDir(modelDirectory);
-        if (!dir.cd(QStringLiteral("speechmodels"))) {
-            qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            emit pCore->voskModelUpdate({});
-            return;
-        }
-    } else {
-        dir = QDir(modelDirectory);
-    }
-    QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    QStringList final;
-    for (auto &d : dicts) {
-        QDir sub(dir.absoluteFilePath(d));
-        if (sub.exists(QStringLiteral("mfcc.conf")) || (sub.exists(QStringLiteral("conf/mfcc.conf")))) {
-            final << d;
-        }
-    }
-    emit pCore->voskModelUpdate(final);
 }

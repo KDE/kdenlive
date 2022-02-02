@@ -10,6 +10,7 @@
         <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
         <file alias="kdenlivemonitorsplit.qml">monitor/view/kdenlivemonitorsplit.qml</file>
         <file alias="kdenlivemonitorsplittracks.qml">monitor/view/kdenlivemonitorsplittracks.qml</file>
+        <file alias="MonitorToolButton.qml">monitor/view/MonitorToolButton.qml</file>
         <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
         <file alias="MultiScreenToolBar.qml">monitor/view/MultiScreenToolBar.qml</file>
         <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
@@ -43,8 +44,6 @@
         <file alias="BuiltStack.qml">effects/effectstack/view/qml/BuiltStack.qml</file>
         <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
         <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
-        <file alias="splash.qml">qml/splash.qml</file>
-        <file alias="ZoomBar.qml">timeline2/view/qml/ZoomBar.qml</file>
         <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
     </qresource>
     <qresource prefix="/data">
@@ -57,5 +56,9 @@
         <file alias="kdenlive_wipes.knsrc">../data/knewstuff/kdenlive_wipes.knsrc</file>
         <file alias="kdenlive_keyboardschemes.knsrc">../data/knewstuff/kdenlive_keyboardschemes.knsrc</file>
         <file alias="kdenlive_luts.knsrc">../data/knewstuff/kdenlive_luts.knsrc</file>
+    </qresource>
+    <qresource prefix="/qt-project.org/imports/org/kde/kdenlive">
+        <file alias="ZoomBar.qml">qml/ZoomBar.qml</file>
+        <file alias="qmldir">qml/qmldir</file>
     </qresource>
 </RCC>

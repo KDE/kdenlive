@@ -36,17 +36,18 @@
  </group>
  <group name="Video with Alpha" renderer="avformat" type="av">
   <profile name="Alpha VP8" extension="webm"
-   qualities="15,45" defaultquality="25"
-   audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000 mlt_image_format=rgb24a pix_fmt=yuva420p"
+   qualities="1,51" defaultquality="10"
+   audioqualities="3,7" defaultaudioquality="4"
+   args="f=webm acodec=vorbis aq=%audioquality vcodec=libvpx g=120 rc_lookahead=16 quality=good speed=0 vprofile=0 vb=2M qmin=1 qmax=51 crf=%quality slices=4 arnr_max_frames=7 arnr_strength=5 arnr_type=3 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha VP9" extension="webm"
-   qualities="15,45" defaultquality="25"
-   audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality mlt_image_format=rgb24a pix_fmt=yuva420p"
+   qualities="15,37" defaultquality="31"
+   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 ab=128k bf=2 threads=0 rc_lookahead=16 speed=3 vprofile=0 qmin=4 qmax=51 quality=good aq=%audioquality slices=4 tile-columns=6 frame-parallel=1 lag-in-frames=25 row-mt=1 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="Alpha MOV" extension="mov" 
-   args="vcodec=qtrle pix_fmt=argb"/>
+   args="f=mov vcodec=qtrle g=1 bf=0 progressive=1 mlt_image_format=rgba pix_fmt=argb"/>
+  <profile name="Ut Video" extension="avi"
+   args="f=avi vcodec=utvideo mlt_image_format=rgba pix_fmt=gbrap g=1 bf=0 acodec=pcm_s24le"/>
  </group>
  <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
   <profile name="VOB (DVD)" extension="vob"
@@ -91,4 +92,3 @@
   <profile name="WAV" extension="wav" args="properties=WAV"/>
  </group>
 </profiles>
-

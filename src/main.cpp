@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
-#include "kxmlgui_version.h"
 #include "kcoreaddons_version.h"
+#include "kxmlgui_version.h"
 #include "mainwindow.h"
 
 #include <KAboutData>
@@ -35,8 +35,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDBusService>
 #endif
 #include <KIconTheme>
-#include <kiconthemes_version.h>
-#include <QResource>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -44,9 +42,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
-#include <QUrl> //new
-#include <klocalizedstring.h>
+#include <QResource>
 #include <QSplashScreen>
+#include <QUrl> //new
+#include <kiconthemes_version.h>
+#include <klocalizedstring.h>
 
 #ifdef Q_OS_WIN
 extern "C"
@@ -94,9 +94,8 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
 
-    QPixmap pixmap(":/pics/splash-background.png");
     qApp->processEvents(QEventLoop::AllEvents);
-    Splash splash(pixmap);
+    Splash splash;
     qApp->processEvents(QEventLoop::AllEvents);
     splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();
@@ -126,6 +125,27 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = qApp->applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+        }
+    }
+
+    bool inSandbox = false;
+    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
+        inSandbox = true;
+        // use a dedicated config file for sandbox packages,
+        // however the next line has no effect if the --config cmd option is used
+        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
+    }
+
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
@@ -160,8 +180,12 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
+    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"), QStringLiteral("https://bugs.kde.org/"));
+    if (!packageType.isEmpty()) {
+        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
+    }
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2021 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
+                         i18n("Copyright © 2007–2022 Kdenlive authors"), otherText,
                          QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
@@ -211,6 +235,7 @@ int main(int argc, char *argv[])
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
 
+    // config option is processed in KConfig (src/core/kconfig.cpp)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
@@ -271,15 +296,15 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     int result = 0;
-    if (!Core::build()) {
+    if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
         QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, pCore.get(), [&] () {
+        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
+        pCore->initGUI(inSandbox, parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();

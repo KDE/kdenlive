@@ -12,7 +12,6 @@
 #include <QWidget>
 
 #include "../abstractcurvewidget.h"
-#include "colortools.h"
 #include "kis_cubic_curve.h"
 
 class QMouseEvent;
@@ -81,10 +80,6 @@ private:
 
     bool m_guideVisible;
     QColor m_colorGuide;
-
-    /* Working range of them */
-    int m_inOutMin;
-    int m_inOutMax;
 };
 
 #endif /* KIS_CURVE_WIDGET_H */

@@ -11,8 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mlt_config.h"
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
-#include <klocalizedstring.h>
 #include <QtConcurrent>
+#include <klocalizedstring.h>
 
 #include <clocale>
 #include <lib/localeHandling.h>
@@ -267,11 +267,7 @@ void MltConnection::refreshLumas()
     QStringList fileFilters;
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-    // Windows: downloaded lumas are saved in AppLocalDataLocation
-    customLumas.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory));
-#endif
+    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     customLumas.removeDuplicates();
     QStringList hdLumas;

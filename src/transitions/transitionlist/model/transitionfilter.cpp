@@ -29,7 +29,7 @@ void TransitionFilter::reloadFilterOnFavorite()
 
 bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
-    auto itemType = item->dataColumn(AssetTreeModel::typeCol).value<AssetListType::AssetType>();
+    auto itemType = item->dataColumn(AssetTreeModel::TypeCol).value<AssetListType::AssetType>();
     if (itemType == AssetListType::AssetType::Hidden) {
         return false;
     }
@@ -37,7 +37,7 @@ bool TransitionFilter::filterType(const std::shared_ptr<TreeItem> &item) const
         return true;
     }
     if (m_type_value == AssetListType::AssetType::Favorites) {
-        return item->dataColumn(AssetTreeModel::favCol).toBool();
+        return item->dataColumn(AssetTreeModel::FavCol).toBool();
     }
     if (m_type_value == AssetListType::AssetType::VideoTransition) {
         return itemType == m_type_value || itemType == AssetListType::AssetType::AudioTransition;

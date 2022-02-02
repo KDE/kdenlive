@@ -3,13 +3,13 @@
     <name>Motion Tracker</name>
     <description>Select a zone to follow its movements</description>
     <author>Jean-Baptiste Mardelle</author>
-    <parameter type="animatedrect" name="results" opacity="false" conditional="1" default="50% 50% 25% 25%">
+    <parameter type="animatedrect" name="results" opacity="false" conditional="1" opacity="false" default="50% 50% 25% 25%">
         <name>Rectangle</name>
     </parameter>
     <parameter type="listdependency" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;MEDIANFLOW;DaSIAM" conditional="1">
         <paramlistdisplay>KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM</paramlistdisplay>
-        <name>Tracker algorithm:</name>
-        <paramdependencies value="DaSIAM" files="dasiamrpn_model.onnx;dasiamrpn_kernel_r1.onnx;dasiamrpn_kernel_cls1.onnx" folder="/opencvmodels">Required model files for DaSiam Tracker not found in &lt;a href="file://%folder"&gt;models folder&lt;/a&gt;. Check our &lt;a href="https://kdenlive.org"&gt;wiki&lt;/a&gt; for instructions.</paramdependencies>
+        <name>Tracker algorithm</name>
+        <paramdependencies value="DaSIAM" files="dasiamrpn_model.onnx;dasiamrpn_kernel_r1.onnx;dasiamrpn_kernel_cls1.onnx" folder="/opencvmodels">Required model files for DaSiam Tracker not found in &lt;a href="file://%folder"&gt;models folder&lt;/a&gt;. Check our &lt;a href="https://docs.kdenlive.org/en/effects_and_compositions/effect_groups/alpha_manipulation/motion_tracker.html?highlight=motion%20tracker#id2"&gt;manual&lt;/a&gt; for instructions.</paramdependencies>
     </parameter>
     <parameter type="constant" name="steps" default="5" min="0" max="120">
         <name>Keyframes spacing</name>

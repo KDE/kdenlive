@@ -66,6 +66,7 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
     property bool forceReloadThumb
+    property bool forceReloadAudioThumb
     property bool isComposition: false
     property bool hideClipViews: false
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
@@ -82,6 +83,11 @@ Rectangle {
 
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
+        if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
 
     onIsGrabbedChanged: {
@@ -120,11 +126,11 @@ Rectangle {
         }
     }
 
-    onKeyframeModelChanged: {
-        if (effectRow.item && effectRow.item.keyframecanvas) {
-            effectRow.item.keyframecanvas.requestPaint()
+    /*onKeyframeModelChanged: {
+        if (effectRow.item && effectRow.item.kfrCanvas) {
+            effectRow.item.kfrCanvas.requestPaint()
         }
-    }
+    }*/
 
     onClipDurationChanged: {
         width = clipDuration * timeScale
@@ -157,6 +163,19 @@ Rectangle {
 
     onForceReloadThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
+        if (isAudio) {
+            return;
+        }
+        if (thumbsLoader.item) {
+            thumbsLoader.item.reload(0)
+        }
+    }
+
+    onForceReloadAudioThumbChanged: {
+        // TODO: find a way to force reload of clip thumbs
+        if (!isAudio) {
+            return;
+        }
         if (thumbsLoader.item) {
             thumbsLoader.item.reload(0)
         }
@@ -166,6 +185,11 @@ Rectangle {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         updateLabelOffset()
+        if (!clipRoot.hideClipViews) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
     onScrollXChanged: {
         updateLabelOffset()
@@ -241,6 +265,7 @@ Rectangle {
         onEntered: {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
+            updateDrag()
         }
         onDropped: {
             console.log("Add effect: ", dropData)
@@ -253,6 +278,10 @@ Rectangle {
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
+            //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
+        }
+        onExited: {
+            endDrag()
         }
     }
     MouseArea {
@@ -271,7 +300,7 @@ Rectangle {
                 if (timeline.selection.indexOf(clipRoot.clipId) === -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
+                root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu(clipRoot.clipId)
                 root.autoScrolling = timeline.autoScroll
             }
@@ -414,6 +443,7 @@ Rectangle {
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
                         onPressed: {
+                            root.trimInProgress = true;
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
                             mixOut.color = 'red'
@@ -432,6 +462,7 @@ Rectangle {
                             mixBackground.anchors.bottom = mixContainer.bottom
                             mixOut.color = clipRoot.border.color
                             mixCutPos.anchors.right = mixCutPos.parent.right
+                            root.trimInProgress = false;
                         }
                         onPositionChanged: {
                             if (mouse.buttons === Qt.LeftButton) {
@@ -547,6 +578,7 @@ Rectangle {
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -576,6 +608,7 @@ Rectangle {
                         }
                         root.groupTrimData = undefined
                     }
+                    root.trimInProgress = false;
                 }
                 onDoubleClicked: {
                     timeline.mixClip(clipRoot.clipId, -1)
@@ -675,6 +708,7 @@ Rectangle {
 
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -705,6 +739,7 @@ Rectangle {
                         }
                         root.groupTrimData = undefined
                     }
+                    root.trimInProgress = false;
                 }
                 onDoubleClicked: {
                     timeline.mixClip(clipRoot.clipId, 1)
@@ -808,13 +843,34 @@ Rectangle {
                 id: nameContainer
                 clip: true
                 Rectangle {
+                    // Debug: Clip Id background
+                    id: debugCidRect
+                    color: 'magenta'
+                    width: debugCid.width + (2 * clipRoot.border.width)
+                    height: debugCid.height
+                    visible: root.debugmode
+                    anchors.left: parent.left
+                    anchors.leftMargin: clipRoot.timeremap ? debugCidRect.height : 0
+                    Text {
+                        // Clip ID text
+                        id: debugCid
+                        text: clipRoot.clipId
+                        font: miniFont
+                        anchors {
+                            left: debugCidRect.left
+                            leftMargin: clipRoot.border.width
+                        }
+                        color: 'white'
+                    }
+                }
+                Rectangle {
                     // Clip name background
                     id: labelRect
                     color: clipRoot.selected ? 'darkred' : '#66000000'
                     width: label.width + (2 * clipRoot.border.width)
                     height: label.height
                     visible: clipRoot.width > width / 2
-                    anchors.left: parent.left
+                    anchors.left: debugCidRect.visible ? debugCidRect.right : parent.left
                     anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {
                         // Clip name text
@@ -964,36 +1020,56 @@ Rectangle {
                     property: "kfrModel"
                     value: clipRoot.hideClipViews ? undefined : clipRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "selected"
                     value: clipRoot.selected
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "inPoint"
                     value: clipRoot.inPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "outPoint"
                     value: clipRoot.outPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "scrollStart"
+                    value: clipRoot.scrollStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "clipId"
                     value: clipRoot.clipId
                     when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
                 }
             }
             Connections {

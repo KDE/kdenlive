@@ -13,16 +13,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "filewatcher.hpp"
+#include "jobs/audiolevelstask.h"
+#include "jobs/cliploadtask.h"
 #include "kdenlivesettings.h"
+#include "lib/localeHandling.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
-#include "lib/localeHandling.h"
-#include "jobs/audiolevelstask.h"
-#include "jobs/cliploadtask.h"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
@@ -316,6 +316,9 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(ix);
+        if (!item->statusReady()) {
+            continue;
+        }
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
             ClipType::ProducerType cType = item->clipType();
@@ -402,10 +405,10 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
 double ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
 {
     READ_LOCK();
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            auto clip = std::static_pointer_cast<ProjectClip>(c);
+    for (const auto &item : m_allItems) {
+        auto i = std::static_pointer_cast<AbstractProjectItem>(item.second.lock());
+        if (i->itemType() == AbstractProjectItem::ClipItem && i->clipId() == binId) {
+            auto clip = std::static_pointer_cast<ProjectClip>(i);
             if (clip) {
                 return clip->getAudioMax(stream);
             }
@@ -681,7 +684,6 @@ bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item,
     Q_ASSERT(item->isInModel());
     if (res) {
         Fun checkAudio = item->getAudio_lambda();
-        checkAudio();
         PUSH_LAMBDA(checkAudio, operation);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
@@ -752,7 +754,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
     return res;
 }
 
-bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -771,7 +773,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     bool res = addItem(new_clip, subId, undo, redo);
     return res;
 }
-bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId)
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -840,7 +842,6 @@ bool ProjectItemModel::requestCleanupUnused()
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
@@ -852,7 +853,7 @@ bool ProjectItemModel::requestCleanupUnused()
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
     for (const auto &c : to_delete) {
-        res = requestBinClipDeletion(c, undo, redo);
+        bool res = requestBinClipDeletion(c, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -868,7 +869,6 @@ bool ProjectItemModel::requestTrashClips(QStringList &urls)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> to_delete;
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
@@ -881,7 +881,7 @@ bool ProjectItemModel::requestTrashClips(QStringList &urls)
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
     for (const auto &c : to_delete) {
-        res = requestBinClipDeletion(c, undo, redo);
+        bool res = requestBinClipDeletion(c, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);

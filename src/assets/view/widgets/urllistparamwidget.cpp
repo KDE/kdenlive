@@ -6,8 +6,8 @@
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "mltconnection.h"
 #include "mainwindow.h"
+#include "mltconnection.h"
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -32,15 +32,17 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     slotRefresh();
 
     connect(m_download, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
-    connect(m_open, &QToolButton::clicked, this, &UrlListParamWidget::openFile);
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
-    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, [this](int) {
-                emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true);
+    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index) {
+        if (m_list->currentData() == QStringLiteral("custom_file")) {
+            openFile();
+        } else {
+            m_currentIndex = index;
+            emit valueChanged(m_index, m_list->currentData().toString(), true);
+        }
     });
-
 }
 
 void UrlListParamWidget::setCurrentIndex(int index)
@@ -86,12 +88,11 @@ void UrlListParamWidget::slotRefresh()
     m_list->clear();
     QStringList names = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
-    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString currentValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
     filter.remove(0, filter.indexOf("(")+1);
     filter.remove(filter.indexOf(")")-1, -1);
     m_fileExt = filter.split(" ");
-
     if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
         values.clear();
@@ -114,13 +115,9 @@ void UrlListParamWidget::slotRefresh()
         // special case: LUT files
         values.clear();
         names.clear();
-        // check for Kdenlive installed luts files
 
-        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-        // Windows downloaded lumas are saved in AppLocalDataLocation
-        customLuts.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory));
-#endif
+        // check for Kdenlive installed luts files
+        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
         for (const QString &folderpath : qAsConst(customLuts)) {
             QDir dir(folderpath);
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
@@ -130,14 +127,15 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     // add all matching files in the location of the current item too
-    if (!value.isEmpty()) {
-        QString path = QUrl(value).adjusted(QUrl::RemoveFilename).toString();
+    if (!currentValue.isEmpty()) {
+        QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
         QDir dir(path);
-        for (const auto &filename : dir.entryList(m_fileExt, QDir::Files)) {
+        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
+        for (const auto &filename : qAsConst(entrys)) {
             values.append(dir.filePath(filename));
         }
         // make sure the current value is added. If it is a duplicate we remove it later
-        values << value;
+        values << currentValue;
     }
 
     values.removeDuplicates();
@@ -148,26 +146,30 @@ void UrlListParamWidget::slotRefresh()
     }
     for (int i = 0; i < values.count(); i++) {
         const QString &entry = values.at(i);
-        m_list->addItem(names.at(i), entry);
+        QString name = QFileInfo(names.at(i)).baseName();
+        m_list->addItem(name, entry);
+        int ix = m_list->findData(entry);
         // Create thumbnails
         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (MainWindow::m_lumacache.contains(entry)) {
-                m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             } else {
                 QImage pix(entry);
                 if (!pix.isNull()) {
                     MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 }
             }
         }
     }
+    m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
 
     // select current value
-    if (!value.isEmpty()) {
-        int ix = m_list->findData(value);
+    if (!currentValue.isEmpty()) {
+        int ix = m_list->findData(currentValue);
         if (ix > -1)  {
             m_list->setCurrentIndex(ix);
+            m_currentIndex = ix;
         }
     }
 }
@@ -187,6 +189,8 @@ void UrlListParamWidget::openFile()
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         emit valueChanged(m_index, urlString, true);
         slotRefresh();
+    } else {
+        m_list->setCurrentIndex(m_currentIndex);
     }
 }
 

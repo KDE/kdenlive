@@ -49,7 +49,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     return self;
 }
 
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, QString originalDecimalPoint)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, const QString &originalDecimalPoint)
 {
     QString effectId = effect->get("kdenlive_id");
     if (effectId.isEmpty()) {

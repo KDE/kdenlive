@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include "gentime.h"
+#include "utils/gentime.h"
 
 #include "kdenlive_debug.h"
 
@@ -87,7 +87,7 @@ enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 
 namespace AssetListType {
 Q_NAMESPACE
-enum AssetType { Preferred, Video, Audio, Custom, CustomAudio, Template, TemplateAudio, Favorites, AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Hidden = -1 };
+enum AssetType { Preferred, Video, Audio, Custom, CustomAudio, Template, TemplateAudio, Favorites, AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Text, Hidden = -1 };
 Q_ENUM_NS(AssetType)
 }
 
@@ -144,7 +144,7 @@ enum MonitorSceneType {
     MonitorSplitTrack
 };
 
-enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, DirectMessage };
+enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
 
 namespace BinMessage {
     enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };

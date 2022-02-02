@@ -9,19 +9,19 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KActionCategory>
+#include <KIO/FileCopyJob>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFileDialog>
+#include <QFormLayout>
+#include <QLineEdit>
 #include <QMenu>
 #include <QQmlContext>
 #include <QStandardPaths>
-#include <memory>
-#include <QFormLayout>
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QLineEdit>
 #include <QTextEdit>
-#include <QFileDialog>
-#include <KIO/FileCopyJob>
-#include <KRecentDirs>
-#include <KMessageBox>
+#include <memory>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -123,8 +123,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     if(dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();

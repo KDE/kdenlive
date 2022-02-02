@@ -24,8 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "../bin/model/subtitlemodel.hpp"
 
 #include "definitions.h"
-#include "gentime.h"
-#include "timecode.h"
+#include "utils/gentime.h"
+#include "utils/timecode.h"
 
 class MainWindow;
 class TrackInfo;
@@ -71,7 +71,7 @@ public:
     const QString description() const;
     void setUrl(const QUrl &url);
     /** @brief Update path of subtitle url. */
-    void updateSubtitle(QString newUrl = QString());
+    void updateSubtitle(const QString &newUrl = QString());
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -87,8 +87,6 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene);
-    /** @brief Saves only the MLT xml to a file for preview rendering. */
-    void saveMltPlaylist(const QString &fileName);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
@@ -167,6 +165,10 @@ public:
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
     const QString subTitlePath(bool final);
+    /** @brief Creates a new project. */
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    /** @brief Return the document version. */
+    double getDocumentVersion() const;
 
 private:
     QUrl m_url;
@@ -204,7 +206,6 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
@@ -228,7 +229,7 @@ public slots:
      * 
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath = QMap<QString, QString>());
+    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath = QMap<QString, QString>());
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
@@ -237,7 +238,7 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
-    void switchProfile(ProfileParam* pf);
+    void switchProfile(ProfileParam* pf, const QString clipName);
 
 private slots:
     void slotModified();

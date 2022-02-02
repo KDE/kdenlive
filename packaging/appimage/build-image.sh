@@ -253,6 +253,8 @@ export APPIMAGE_STARTUP_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
 export APPIMAGE_STARTUP_XDG_DATA_DIRS=\$XDG_DATA_DIRS
 export APPIMAGE_STARTUP_PATH=\$PATH
 
+export PACKAGE_TYPE=appimage
+
 kdenlive --config kdenlive-appimagerc \$@
 EOF
 chmod +x $APPDIR/AppRun

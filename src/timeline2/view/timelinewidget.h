@@ -39,7 +39,7 @@ public:
     /** @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
@@ -67,6 +67,7 @@ public slots:
 
 private slots:
     void slotUngrabHack();
+    void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
     void showCompositionMenu();
     void showTimelineMenu();

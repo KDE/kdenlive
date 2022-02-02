@@ -6,31 +6,31 @@
 #include "assetpanel.hpp"
 #include "core.h"
 #include "definitions.h"
+#include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "effects/effectsrepository.hpp"
-#include "transitions/view/transitionstackview.hpp"
 #include "transitions/view/mixstackview.hpp"
+#include "transitions/view/transitionstackview.hpp"
 
 #include "view/assetparameterview.hpp"
 
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KDualAction>
-#include <KSqueezedTextLabel>
 #include <KMessageWidget>
+#include <KSqueezedTextLabel>
 #include <QApplication>
+#include <QComboBox>
+#include <QFontDatabase>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QScrollArea>
-#include <QScrollBar>
-#include <QComboBox>
-#include <QFontDatabase>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
@@ -476,7 +476,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     emit m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString &/*id*/, const QString &message)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {

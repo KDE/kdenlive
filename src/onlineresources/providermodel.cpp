@@ -8,19 +8,19 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
+#include <KMessageBox>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFile>
-#include <QJsonValue>
 #include <QJsonArray>
-#include <QUrlQuery>
-#include <KMessageBox>
-#include <klocalizedstring.h>
-#include <kio/storedtransferjob.h>
+#include <QJsonValue>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QDesktopServices>
+#include <QNetworkRequest>
+#include <QUrlQuery>
+#include <kio/storedtransferjob.h>
+#include <klocalizedstring.h>
 
 ProviderModel::ProviderModel(const QString &path)
     : m_path(path)
@@ -307,7 +307,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
  * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and palceholders.
  */
 
-QString ProviderModel::objectGetString(QJsonObject item, QString key, const QString &id, const QString &parentKey) {
+QString ProviderModel::objectGetString(QJsonObject item, const QString &key, const QString &id, const QString &parentKey) {
     QJsonValue val = objectGetValue(item, key);
     if(!val.isString()) {
         return QString();
@@ -334,7 +334,7 @@ QString ProviderModel::objectGetString(QJsonObject item, QString key, const QStr
     return result;
 }
 
-QString ProviderModel::replacePlaceholders(QString string, const QString query, const int page, const QString id) {
+QString ProviderModel::replacePlaceholders(QString string, const QString &query, const int page, const QString &id) {
     string = string.replace("%query%", query);
     string = string.replace("%pagenum%", QString::number(page));
     string = string.replace("%perpage%", QString::number(m_perPage));

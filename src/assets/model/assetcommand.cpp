@@ -83,7 +83,7 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList <QModelIndex> indexes, const QStringList values, QUndoCommand *parent)
+AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList <QModelIndex> &indexes, const QStringList &values, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_indexes(indexes)
@@ -92,7 +92,7 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     , m_stamp(QTime::currentTime())
 {
     qDebug()<<"CREATING MULTIPLE COMMAND!!!\nVALUES: "<<m_values;
-    m_name = m_model->data(indexes.first(), AssetParameterModel::NameRole).toString();
+    m_name = m_model->data(m_indexes.first(), AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", EffectsRepository::get()->getName(id)));

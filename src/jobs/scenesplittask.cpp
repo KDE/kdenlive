@@ -6,19 +6,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "scenesplittask.h"
 #include "bin/bin.h"
-#include "mainwindow.h"
-#include "bin/projectclip.h"
-#include "bin/projectfolder.h"
-#include "bin/projectitemmodel.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
-#include "ui_scenecutdialog_ui.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "ui_scenecutdialog_ui.h"
 
 #include <QProcess>
 #include <QTemporaryFile>
@@ -90,7 +90,7 @@ void SceneSplitTask::start(QObject* object, bool force)
         // See if there is already a task for this MLT service and resource.
         if (task && pCore->taskManager.hasPendingJob(owner, AbstractTask::ANALYSECLIPJOB)) {
             delete task;
-            task = 0;
+            task = nullptr;
         }
         if (task) {
             // Otherwise, start a new audio levels generation thread.

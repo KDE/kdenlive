@@ -9,7 +9,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define CLIPPROPERTIESCONTROLLER_H
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
+
+#include <KMessageWidget>
 
 #include <QString>
 #include <QTreeWidget>
@@ -133,6 +135,7 @@ private:
     QCheckBox *m_copyChannel1;
     QCheckBox *m_copyChannel2;
     QSpinBox *m_gain;
+    KMessageWidget m_warningMessage;
     /** @brief The selected audio stream. */
     int m_activeAudioStreams;
     void fillProperties();

@@ -7,7 +7,7 @@
 #define POSITIONEDITWIDGET_H
 
 #include "abstractparamwidget.hpp"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include <QWidget>
 
 class QSlider;

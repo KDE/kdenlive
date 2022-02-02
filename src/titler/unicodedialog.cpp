@@ -9,10 +9,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QWheelEvent>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+#include <QVBoxLayout>
+#include <QWheelEvent>
 
 #include <KSharedConfig>
 #include <klocalizedstring.h>

@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "renderjob.h"
@@ -15,9 +15,9 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #endif
+#include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
-#include <QDebug>
 #include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
@@ -30,9 +30,9 @@ public:
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, QObject *parent)
     : QObject(parent)
     , m_scenelist(scenelist)
-    , m_dest(std::move(target))
+    , m_dest(target)
     , m_progress(0)
-    , m_prog(std::move(render))
+    , m_prog(render)
     , m_player()
     #ifndef NODBUS
     , m_jobUiserver(nullptr)
@@ -41,7 +41,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_kdenlivesocket(new QLocalSocket(this))
     #endif
     , m_usekuiserver(true)
-    , m_logfile(target + QStringLiteral(".log"))
+    , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
     , m_seconds(0)
     , m_frame(in)
@@ -94,7 +94,7 @@ void RenderJob::slotAbort(const QString &url)
     }
 }
 
-void RenderJob::sendFinish(int status, QString error) {
+void RenderJob::sendFinish(int status, const QString &error) {
 #ifndef NODBUS
     if (m_kdenliveinterface) {
         m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), {m_dest, status, error});

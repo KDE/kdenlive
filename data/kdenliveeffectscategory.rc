@@ -26,7 +26,7 @@
 <text>Generate</text>
 </group>
 
-<group list="audiowave,dance,lightshow,audiospectrum,audiowaveform">
+<group list="audiowave,dance,lightshow,audiospectrum,audiowaveform,audiolevelgraph">
 <text>On Master</text>
 </group>
 

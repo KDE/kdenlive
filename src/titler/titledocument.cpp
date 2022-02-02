@@ -16,7 +16,7 @@
 
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
@@ -538,8 +538,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // template text box, adjust size for later remplacement text
                         if (txt->alignment() == Qt::AlignHCenter) {
                             // grow dimensions on both sides
-                            double width = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();
-                            double xcenter = (width - xPosition) / 2.0;
+                            double boxWidth = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();
+                            double xcenter = (boxWidth - xPosition) / 2.0;
                             xPosition = xcenter - txt->boundingRect().width() / 2;
                         } else if (txt->alignment() == Qt::AlignRight) {
                             // grow to the left

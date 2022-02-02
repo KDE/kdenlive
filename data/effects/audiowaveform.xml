@@ -3,22 +3,22 @@
 	<name>Audio Waveform Filter</name>
 	<author>Brian Matherly</author>
 	<parameter type="color" name="bgcolor" default="0x00000000" alpha="1">
-          <name>Background color:</name>
+            <name>Background Color</name>
 	</parameter>
         <parameter type="color" name="color.1" default="0xffffffff" alpha="1">
-          <name>Foreground color:</name>
+            <name>Foreground Color</name>
         </parameter>
 	<parameter type="constant" name="thickness" max="20" min="0" default="0">
-		<name>Line thickness</name>
+            <name>Line Thickness</name>
 	</parameter>
         <parameter type="geometry" name="rect" default="0 0:100% 100%" fixed="1" opacity="false">
-                <name>Rectangle</name>
+            <name>Rectangle</name>
         </parameter>
         <parameter type="bool" name="fill" default="0">
-                <name>Fill</name>
+            <name>Fill</name>
         </parameter>
         <parameter type="list" name="show_channel"  default="0" paramlist="-1;0;1;2;3;4;5;6;7;8;9;10">
-        <paramlistdisplay>Merge,All,1,2,3,4,5,6,7,8,9,10</paramlistdisplay>
-        <name>Channel to draw:</name>
+            <paramlistdisplay>Merge,All,1,2,3,4,5,6,7,8,9,10</paramlistdisplay>
+            <name>Channel to draw</name>
 	</parameter>
 </effect>

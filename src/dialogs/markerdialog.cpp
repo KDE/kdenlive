@@ -6,12 +6,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "markerdialog.h"
 
+#include "bin/model/markerlistmodel.hpp"
 #include "core.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
-#include "bin/model/markerlistmodel.hpp"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>

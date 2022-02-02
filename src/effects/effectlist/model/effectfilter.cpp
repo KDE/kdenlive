@@ -30,7 +30,7 @@ void EffectFilter::reloadFilterOnFavorite()
 
 bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 {
-    auto itemType = item->dataColumn(AssetTreeModel::typeCol).value<AssetListType::AssetType>();
+    auto itemType = item->dataColumn(AssetTreeModel::TypeCol).value<AssetListType::AssetType>();
     if (itemType == AssetListType::AssetType::Hidden) {
         return false;
     }
@@ -38,10 +38,10 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
         return true;
     }
     if (m_type_value == AssetListType::AssetType::Favorites) {
-        return item->dataColumn(AssetTreeModel::favCol).toBool();
+        return item->dataColumn(AssetTreeModel::FavCol).toBool();
     }
     if (m_type_value == AssetListType::AssetType::Preferred) {
-        return item->dataColumn(AssetTreeModel::preferredCol).toBool();
+        return item->dataColumn(AssetTreeModel::PreferredCol).toBool();
     }
     if (m_type_value == AssetListType::AssetType::Custom) {
         return itemType == m_type_value || itemType == AssetListType::AssetType::CustomAudio || itemType == AssetListType::Template || itemType == AssetListType::TemplateAudio;

@@ -1,5 +1,6 @@
 INSTALL(FILES 
-    checkvosk.py
+    checkpackages.py
+    otiointerface.py
     speech.py
     speechtotext.py
 

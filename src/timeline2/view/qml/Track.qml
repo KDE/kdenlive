@@ -237,6 +237,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "forceReloadAudioThumb"
+                    value: model.reloadAudioThumb
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "binId"
                     value: model.binId
                     when: loader.status == Loader.Ready && clipItem
@@ -328,7 +334,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("In: Request for " + newDuration)
-                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, false);
                     timeline.ripplePosChanged(new_duration, false);
                 } else {
@@ -355,7 +361,7 @@ Item{
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     // We only resize one element
                     if (root.activeTool === ProjectTool.RippleTool) {
-                        controller.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     } else {
                         controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     }
@@ -367,7 +373,7 @@ Item{
                         speedController.originalSpeed = 1
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
-                            controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
                             timeline.requestEndTrimmingMode();
                         } else {
                             controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
@@ -402,7 +408,7 @@ Item{
                 var new_duration = 0;
                 if (root.activeTool === ProjectTool.RippleTool) {
                     console.log("Out: Request for " + newDuration)
-                    new_duration = controller.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                     timeline.requestStartTrimmingMode(clip.clipId, false, true);
                     timeline.ripplePosChanged(new_duration, true);
                 } else {
@@ -426,7 +432,7 @@ Item{
                 //bubbleHelp.hide()
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     if (root.activeTool === ProjectTool.RippleTool) {
-                        controller.requestItemRippleResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     } else {
                         controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     }
@@ -438,7 +444,7 @@ Item{
                         speedController.originalSpeed = 1
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
-                            controller.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
                             timeline.requestEndTrimmingMode();
                         } else {
                             controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)

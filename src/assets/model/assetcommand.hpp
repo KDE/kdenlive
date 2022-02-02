@@ -41,7 +41,7 @@ private:
 class AssetMultiCommand : public QUndoCommand
 {
 public:
-    AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList<QModelIndex> indexes, const QStringList values, QUndoCommand *parent = nullptr);
+    AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList<QModelIndex> &indexes, const QStringList &values, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
     int id() const override;

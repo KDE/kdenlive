@@ -1,30 +1,31 @@
 /*
-Based on Shotcut, SPDX-FileCopyrightText: 2015-2016 Meltytech LLC
-SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle <jb@kdenlive.org>
-This file is part of Kdenlive. See www.kdenlive.org.
+    SPDX-FileCopyrightText: 2015-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "kdenlivesettings.h"
-#include "core.h"
 #include "bin/projectitemmodel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QPainterPath>
 #include <QQuickPaintedItem>
-#include <QElapsedTimer>
 #include <QtMath>
 #include <cmath>
-#include "kdenlivesettings.h"
-
-const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
 
 class TimelineTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color)
 public:
-    TimelineTriangle() { setAntialiasing(true); }
+    TimelineTriangle(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+    {
+        setAntialiasing(true);
+    }
     void paint(QPainter *painter) override
     {
         QPainterPath path;
@@ -46,7 +47,11 @@ class TimelinePlayhead : public QQuickPaintedItem
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
 
 public:
-    TimelinePlayhead() { connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update())); }
+    TimelinePlayhead(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+    {
+        connect(this, &TimelinePlayhead::colorChanged, this, [&](const QColor &){ update(); });
+    }
 
     void paint(QPainter *painter) override
     {
@@ -83,7 +88,8 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
 public:
-    TimelineWaveform()
+    TimelineWaveform(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
     {
         setAntialiasing(false);
         // setClip(true);
@@ -164,7 +170,6 @@ public:
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
-            double level;
             int j = 0;
             QPainterPath path;
             if (m_drawInPoint > 0) {
@@ -174,6 +179,7 @@ public:
                 path.moveTo(j - 1, height());
             }
             for (; i <= width() && i < m_drawOutPoint; j++) {
+                double level;
                 i = j * increment;
                 int idx = qCeil((startPos + i) * indicesPrPixel);
                 idx += idx % m_channels;
@@ -199,12 +205,11 @@ public:
             double channelHeight = height() / m_channels;
             // Draw separate channels
             scaleFactor = channelHeight / (2 * scaleFactor);
-            double i = 0;
-            double level;
             QRectF bgRect(0, 0, width(), channelHeight);
             // Path for vector drawing
             //qDebug()<<"==== DRAWING FROM: "<<m_drawInPoint<<" - "<<m_drawOutPoint<<", FIRST: "<<m_firstChunk;
             for (int channel = 0; channel < m_channels; channel++) {
+                double level;
                 // y is channel median pos
                 double y = (channel * channelHeight) + channelHeight / 2;
                 QPainterPath path;
@@ -225,7 +230,7 @@ public:
                 pen.setWidth(int(ceil(increment)));
                 painter->setPen(pathDraw ? Qt::NoPen : pen);
                 painter->setOpacity(1);
-                i = 0;
+                double i = 0;
                 int j = 0;
                 if (m_drawInPoint > 0) {
                     j = int(m_drawInPoint / increment);
@@ -255,6 +260,7 @@ public:
                     painter->drawPath(tr.map(path));
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
+                    const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
                     painter->drawText(2, int(y + channelHeight / 2), chanelNames[channel]);
                 }
             }

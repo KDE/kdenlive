@@ -5,36 +5,36 @@
 */
 
 #include "keyframewidget.hpp"
-#include "assets/keyframes/model/rect/recthelper.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
-#include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
+#include "assets/keyframes/model/rect/recthelper.hpp"
+#include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "lumaliftgainparam.hpp"
 #include "monitor/monitor.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
+#include "utils/timecode.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
-#include "lumaliftgainparam.hpp"
-#include "effects/effectsrepository.hpp"
 
-#include <KSelectAction>
 #include <KActionCategory>
+#include <KSelectAction>
 #include <QApplication>
+#include <QCheckBox>
 #include <QClipboard>
+#include <QDialogButtonBox>
 #include <QJsonDocument>
 #include <QMenu>
 #include <QPointer>
-#include <QToolButton>
 #include <QStyle>
+#include <QToolButton>
 #include <QVBoxLayout>
-#include <QDialogButtonBox>
-#include <QCheckBox>
 #include <klocalizedstring.h>
 #include <utility>
 
@@ -532,7 +532,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged,
-                this, [this, index](const QString v) {
+                this, [this, index](const QString &v) {
                     emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
@@ -544,7 +544,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged,
-                this, [this, index](const QList <QModelIndex> indexes, const QStringList& list, bool) {
+                this, [this, index](const QList <QModelIndex> &indexes, const QStringList& list, bool) {
             emit activateEffect();
             auto *parentCommand = new QUndoCommand();
             parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));

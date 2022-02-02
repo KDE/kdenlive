@@ -3,7 +3,7 @@
 	<name>Audio levels</name>
 	<description>Compute the audio amplitude.</description>
 	<author>Dan Dennedy, Marco Gittler, and Steve Harris</author>
-    <parameter type="bool" name="iec_scale" default="1" />
-		<name>Use IEC 60268-18 scale</name>
+        <parameter type="bool" name="iec_scale" default="1">
+                <name>Use IEC 60268-18 Scale </name>
 	</parameter>
 </effect>

@@ -1,13 +1,13 @@
 /*
     SPDX-FileCopyrightText: 2010 Simon Andreas Eugster <simon.eu@gmail.com>
-    This file is part of kdenlive. See www.kdenlive.org.
 
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "colortools.h"
 
 #include <QColor>
+#include <QDebug>
 #include <cmath>
 
 //#define DEBUG_CT
@@ -31,7 +31,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
 {
     QImage wheel(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color wheel must not be 0!");
+        qCritical() << "ERROR: Size of the color wheel must not be 0!";
         return wheel;
     }
     if (circleOnly) {
@@ -100,7 +100,7 @@ QImage ColorTools::yuvVerticalPlane(const QSize &size, int angle, float scaling)
 {
     QImage plane(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color plane must not be 0!");
+        qCritical() << "ERROR: Size of the color plane must not be 0!";
         return plane;
     }
 
@@ -135,7 +135,7 @@ QImage ColorTools::rgbCurvePlane(const QSize &size, const ColorTools::ColorsRGB 
 
     QImage plane(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color plane must not be 0!");
+        qCritical() << "ERROR: Size of the color plane must not be 0!";
         return plane;
     }
 
@@ -179,7 +179,7 @@ QImage ColorTools::rgbCurveLine(const QSize &size, const ColorTools::ColorsRGB &
 
     QImage plane(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color line must not be 0!");
+        qCritical() << "ERROR: Size of the color line must not be 0!";
         return plane;
     }
 
@@ -217,7 +217,7 @@ QImage ColorTools::yPbPrColorWheel(const QSize &size, int Y, float scaling, bool
 
     QImage wheel(size, QImage::Format_ARGB32);
     if (size.width() == 0 || size.height() == 0) {
-        qCritical("ERROR: Size of the color wheel must not be 0!");
+        qCritical() << "ERROR: Size of the color wheel must not be 0!";
         return wheel;
     }
     if (circleOnly) {

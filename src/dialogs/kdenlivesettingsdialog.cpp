@@ -8,18 +8,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcreationdialog.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
+#include "doc/kdenlivedoc.h"
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "timeline2/view/timelinewidget.h"
-#include "timeline2/view/timelinecontroller.h"
+#include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
+#include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 #include "wizard.h"
-#include "monitor/monitor.h"
-#include "doc/kdenlivedoc.h"
+#include "pythoninterfaces/speechtotext.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -36,26 +37,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KRun>
 #endif
 
-#include <KUrlRequesterDialog>
 #include <KArchive>
-#include <KZip>
-#include <KTar>
+#include <KArchiveDirectory>
 #include <KIO/FileCopyJob>
+#include <KIO/JobUiDelegate>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KOpenWithDialog>
-#include <KIO/JobUiDelegate>
-#include <KArchiveDirectory>
 #include <KService>
+#include <KTar>
+#include <KUrlRequesterDialog>
+#include <KZip>
 #include <QAction>
 #include <QDir>
 #include <QGuiApplication>
+#include <QRegularExpression>
 #include <QScreen>
 #include <QSize>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent>
-#include <QRegularExpression>
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
@@ -102,382 +103,46 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     , m_mappable_actions(std::move(mappable_actions))
 {
     KdenliveSettings::setV4l_format(0);
-    QWidget *p1 = new QWidget;
-    m_configMisc.setupUi(p1);
-    m_page1 = addPage(p1, i18n("Misc"));
-    m_page1->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
-    m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
-
-    QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
-    QValidator *validator = new QRegularExpressionValidator(reg, this);
-    m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_color_duration->setValidator(validator);
-    m_configMisc.kcfg_title_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_title_duration->setValidator(validator);
-    m_configMisc.kcfg_transition_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_transition_duration->setValidator(validator);
-    m_configMisc.kcfg_mix_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_mix_duration->setValidator(validator);
-    m_configMisc.kcfg_image_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_image_duration->setValidator(validator);
-    m_configMisc.kcfg_sequence_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_sequence_duration->setValidator(validator);
-    m_configMisc.kcfg_fade_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_fade_duration->setValidator(validator);
-    m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
-    m_configMisc.kcfg_subtitle_duration->setValidator(validator);
-
-    if (!KdenliveSettings::preferredcomposite().isEmpty()) {
-        int ix = m_configMisc.preferredcomposite->findData(KdenliveSettings::preferredcomposite());
-        if (ix > -1) {
-            m_configMisc.preferredcomposite->setCurrentIndex(ix);
-        }
-    }
-    connect(m_configMisc.preferredcomposite, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,[&](){
-        if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
-            KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
-            int mode = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing")).toInt();
-            pCore->window()->getMainTimeline()->controller()->switchCompositing(mode);
-            pCore->currentDoc()->setModified();
-        }
-    });
-
-    QWidget *p8 = new QWidget;
-    m_configProject.setupUi(p8);
-    m_page8 = addPage(p8, i18n("Project Defaults"));
-    auto *vbox = new QVBoxLayout;
-    m_pw = new ProfileWidget(this);
-    vbox->addWidget(m_pw);
-    m_configProject.profile_box->setLayout(vbox);
-    m_configProject.profile_box->setTitle(i18n("Select the default profile (preset)"));
-    // Select profile
-    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
-    connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
-    m_page8->setIcon(QIcon::fromTheme(QStringLiteral("project-defaults")));
-    m_configProject.projecturl->setMode(KFile::Directory);
-    m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
-        m_configProject.kcfg_sameprojectfolder->setEnabled(state == Qt::Unchecked);
-    });
-    connect(m_configProject.kcfg_sameprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
-        m_configProject.kcfg_customprojectfolder->setEnabled(state == Qt::Unchecked);
-        m_configProject.projecturl->setEnabled(state == Qt::Unchecked);
-    });
-    connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
-        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
-            m_configProject.kcfg_videotracks->setValue(1);
-        }
-    });
-    connect(m_configProject.kcfg_audiotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
-        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
-            m_configProject.kcfg_audiotracks->setValue(1);
-        }
-    });
-
-    QWidget *p9 = new QWidget;
-    m_configProxy.setupUi(p9);
-    KPageWidgetItem *page9 = addPage(p9, i18n("Proxy Clips"));
-    page9->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
-    connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
-    m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
-    connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
-    m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
-    loadExternalProxyProfiles();
+    initMiscPage();
+    initProjectPage();
+    initProxyPage();
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);
-    m_page3 = addPage(p3, i18n("Timeline"));
-    m_page3->setIcon(QIcon::fromTheme(QStringLiteral("video-display")));
+    m_page3 = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
 
-    QWidget *p2 = new QWidget;
-    m_configEnv.setupUi(p2);
-    m_configEnv.mltpathurl->setMode(KFile::Directory);
-    m_configEnv.mltpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_mltpath"));
-    m_configEnv.rendererpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_rendererpath"));
-    m_configEnv.ffmpegurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffmpegpath"));
-    m_configEnv.ffplayurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffplaypath"));
-    m_configEnv.ffprobeurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffprobepath"));
-    m_configEnv.mediainfourl->lineEdit()->setObjectName(QStringLiteral("kcfg_mediainfopath"));
-    m_configEnv.tmppathurl->setMode(KFile::Directory);
-    m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
-    m_configEnv.capturefolderurl->setMode(KFile::Directory);
-    m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
-    m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
-    connect(m_configEnv.kcfg_capturetoprojectfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableCaptureFolder);
-    // Library folder
-    m_configEnv.libraryfolderurl->setMode(KFile::Directory);
-    m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
-    m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
-    m_configEnv.libraryfolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
-    m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
-    connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
-
-    m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
-
-    // Script rendering folder
-    m_configEnv.videofolderurl->setMode(KFile::Directory);
-    m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
-    m_configEnv.videofolderurl->setEnabled(!KdenliveSettings::videotodefaultfolder());
-    m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    m_configEnv.kcfg_videotodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    connect(m_configEnv.kcfg_videotodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableVideoFolder);
-
-    // Mime types
-    QStringList mimes = ClipCreationDialog::getExtensions();
-    std::sort(mimes.begin(), mimes.end());
-    m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
-
-    m_page2 = addPage(p2, i18n("Environment"));
-    m_page2->setIcon(QIcon::fromTheme(QStringLiteral("application-x-executable-script")));
+    initEnviromentPage();
 
     QWidget *p10 = new QWidget;
     m_configColors.setupUi(p10);
-    m_page10 = addPage(p10, i18n("Colors"));
-    m_page10->setIcon(QIcon::fromTheme(QStringLiteral("color-management")));
+    m_page10 = addPage(p10, i18n("Colors"), QStringLiteral("color-management"));
     
     QWidget *p11 = new QWidget;
     m_configSpeech.setupUi(p11);
-    m_page11 = addPage(p11, i18n("Speech To Text"));
-    m_page11->setIcon(QIcon::fromTheme(QStringLiteral("text-speak")));
-
-    QWidget *p4 = new QWidget;
-    m_configCapture.setupUi(p4);
-    // Remove ffmpeg tab, unused
-    m_configCapture.tabWidget->removeTab(0);
-    m_configCapture.label->setVisible(false);
-    m_configCapture.kcfg_defaultcapture->setVisible(false);
-    //m_configCapture.tabWidget->removeTab(2);
-#ifdef USE_V4L
-
-    // Video 4 Linux device detection
-    for (int i = 0; i < 10; ++i) {
-        QString path = QStringLiteral("/dev/video") + QString::number(i);
-        if (QFile::exists(path)) {
-            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
-            if (!deviceInfo.isEmpty()) {
-                m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
-                m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
-            }
-        }
-    }
-    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdatev4lDevice);
-    connect(m_configCapture.kcfg_v4l_format, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
-    connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
-
-    slotUpdatev4lDevice();
-#endif
-
-    m_page4 = addPage(p4, i18n("Capture"));
-    m_page4->setIcon(QIcon::fromTheme(QStringLiteral("media-record")));
-    m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
-#ifdef Q_WS_MAC
-    m_configCapture.tabWidget->setEnabled(false);
-    m_configCapture.kcfg_defaultcapture->setEnabled(false);
-    m_configCapture.label->setText(i18n("Capture is not yet available on Mac OS X."));
-#endif
-
-    QWidget *p5 = new QWidget;
-    m_configShuttle.setupUi(p5);
-#ifdef USE_JOGSHUTTLE
-    m_configShuttle.toolBtnReload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
-    connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
-    connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
-
-    slotCheckShuttle(static_cast<int>(KdenliveSettings::enableshuttle()));
-    m_configShuttle.shuttledisabled->hide();
-
-    // Store the button pointers into an array for easier handling them in the other functions.
-    // TODO: impl enumerator or live with cut and paste :-)))
-    setupJogshuttleBtns(KdenliveSettings::shuttledevice());
-#if 0
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle4);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle5);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle6);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle7);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle8);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle9);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle10);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle11);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle12);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle13);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle14);
-    m_shuttle_buttons.push_back(m_configShuttle.shuttle15);
-#endif
-
-#else  /* ! USE_JOGSHUTTLE */
-    m_configShuttle.kcfg_enableshuttle->hide();
-    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
-#endif /* USE_JOGSHUTTLE */
-    m_page5 = addPage(p5, i18n("JogShuttle"));
-    m_page5->setIcon(QIcon::fromTheme(QStringLiteral("dialog-input-devices")));
+    m_page11 = addPage(p11, i18n("Speech To Text"), QStringLiteral("text-speak"));
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
-    m_configSdl.reload_blackmagic->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    connect(m_configSdl.reload_blackmagic, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadBlackMagic);
+    m_page6 = addPage(p6, i18n("Playback"), QStringLiteral("media-playback-start"));
 
-    // m_configSdl.kcfg_openglmonitors->setHidden(true);
 
-    m_page6 = addPage(p6, i18n("Playback"));
-    m_page6->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    QWidget *p4 = new QWidget;
+    m_configCapture.setupUi(p4);
+    m_decklinkProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::DecklinkCapture, false, QStringLiteral("decklink_profile"));
+    m_configCapture.decklink_profile_box->addWidget(m_decklinkProfiles);
+    m_v4lProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::V4LCapture, false, QStringLiteral("v4l_profile"));
+    m_configCapture.v4l_profile_box->addWidget(m_v4lProfiles);
+    m_grabProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::ScreenCapture, false, QStringLiteral("grab_profile"));
+    m_configCapture.screen_grab_profile_box->addWidget(m_grabProfiles);
+    m_page4 = addPage(p4, i18n("Capture"), QStringLiteral("media-record"));
 
-    QWidget *p7 = new QWidget;
-    m_configTranscode.setupUi(p7);
-    m_page7 = addPage(p7, i18n("Transcode"));
-    m_page7->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-
-    connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
-    connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
-    connect(m_configTranscode.profiles_list, &QListWidget::itemChanged, this, &KdenliveSettingsDialog::slotDialogModified);
-    connect(m_configTranscode.profiles_list, &QListWidget::currentRowChanged, this, &KdenliveSettingsDialog::slotSetTranscodeProfile);
-    connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-    connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-    connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-    connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
-
-    connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
-
-    m_configTranscode.profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-
-    connect(m_configEnv.kp_image, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditImageApplication);
-    connect(m_configEnv.kp_audio, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditAudioApplication);
-
-    loadEncodingProfiles();
-
-    connect(m_configSdl.fullscreen_monitor, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotSetFullscreenMonitor);
-    connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotCheckAlsaDriver);
-    connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotCheckAudioBackend);
     initDevices();
-    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
+    initCapturePage();
+    initJogShuttlePage();
+    initTranscodePage();
 
-    slotUpdateGrabRegionStatus();
-    loadTranscodeProfiles();
-
-    // decklink profile
-    QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
-    act->setData(4);
-    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configCapture.decklink_manageprofile->setDefaultAction(act);
-    m_configCapture.decklink_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configCapture.decklink_parameters->setVisible(false);
-    m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
-    connect(m_configCapture.kcfg_decklink_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateDecklinkProfile);
-    connect(m_configCapture.decklink_showprofileinfo, &QAbstractButton::clicked, m_configCapture.decklink_parameters, &QWidget::setVisible);
-
-    // ffmpeg profile
-    m_configCapture.v4l_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configCapture.v4l_parameters->setVisible(false);
-    m_configCapture.v4l_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    m_configCapture.v4l_parameters->setPlainText(KdenliveSettings::v4l_parameters());
-
-    act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
-    act->setData(2);
-    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configCapture.v4l_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_v4l_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateV4lProfile);
-    connect(m_configCapture.v4l_showprofileinfo, &QAbstractButton::clicked, m_configCapture.v4l_parameters, &QWidget::setVisible);
-
-    // screen grab profile
-    m_configCapture.grab_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configCapture.grab_parameters->setVisible(false);
-    m_configCapture.grab_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    m_configCapture.grab_parameters->setPlainText(KdenliveSettings::grab_parameters());
-    act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
-    act->setData(3);
-    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configCapture.grab_manageprofile->setDefaultAction(act);
-    connect(m_configCapture.kcfg_grab_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateGrabProfile);
-    connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
-
-    // audio capture channels
-    m_configCapture.audiocapturechannels->clear();
-    m_configCapture.audiocapturechannels->addItem(i18n("Mono (1 channel)"), 1);
-    m_configCapture.audiocapturechannels->addItem(i18n("Stereo (2 channels)"), 2);
-
-    int channelsIndex = m_configCapture.audiocapturechannels->findData(KdenliveSettings::audiocapturechannels());
-    m_configCapture.audiocapturechannels->setCurrentIndex(qMax(channelsIndex, 0));
-    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateAudioCaptureChannels);
-
-    // audio capture sample rate
-    m_configCapture.audiocapturesamplerate->clear();
-    m_configCapture.audiocapturesamplerate->addItem(i18n("44100 Hz"), 44100);
-    m_configCapture.audiocapturesamplerate->addItem(i18n("48000 Hz"), 48000);
-
-    int sampleRateIndex = m_configCapture.audiocapturesamplerate->findData(KdenliveSettings::audiocapturesamplerate());
-    m_configCapture.audiocapturesamplerate->setCurrentIndex(qMax(sampleRateIndex, 0));
-    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate);
-
-    m_configCapture.labelNoAudioDevices->setVisible(false);
-
-    // Timeline preview
-    act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
-    act->setData(1);
-    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configProject.preview_manageprofile->setDefaultAction(act);
-    connect(m_configProject.kcfg_preview_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdatePreviewProfile);
-    connect(m_configProject.preview_showprofileinfo, &QAbstractButton::clicked, m_configProject.previewparams, &QWidget::setVisible);
-    m_configProject.previewparams->setVisible(false);
-    m_configProject.previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
-    m_configProject.previewparams->setPlainText(KdenliveSettings::previewparams());
-    m_configProject.preview_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configProject.preview_showprofileinfo->setToolTip(i18n("Show default timeline preview parameters"));
-    m_configProject.preview_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    m_configProject.preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
-    m_configProject.kcfg_preview_profile->setToolTip(i18n("Select default timeline preview profile"));
-
-    // proxy profile stuff
-    m_configProxy.proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configProxy.proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
-    m_configProxy.proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    m_configProxy.proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
-    m_configProxy.kcfg_proxy_profile->setToolTip(i18n("Select default proxy profile"));
-    m_configProxy.proxyparams->setVisible(false);
-    m_configProxy.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
-    m_configProxy.proxyparams->setPlainText(KdenliveSettings::proxyparams());
-
-    act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
-    act->setData(0);
-    connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configProxy.proxy_manageprofile->setDefaultAction(act);
-
-    connect(m_configProxy.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProxy.proxyparams, &QWidget::setVisible);
-    connect(m_configProxy.kcfg_proxy_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateProxyProfile);
-
-    slotUpdateProxyProfile(-1);
-    slotUpdateV4lProfile(-1);
-    slotUpdateGrabProfile(-1);
-    slotUpdateDecklinkProfile(-1);
-
-    // enable GPU accel only if Movit is found
-    m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
-    m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
-
-    getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
-    if (!getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
-        // No blackmagic card found
-        m_configSdl.kcfg_external_display->setEnabled(false);
-    }
-
-    initAudioRecDevice();
+    initSdlPage(gpuAllowed);
     initSpeechPage();
 
     // Config dialog size
@@ -542,6 +207,295 @@ bool KdenliveSettingsDialog::initAudioRecDevice()
         m_configCapture.kcfg_defaultaudiocapture->setCurrentIndex(selectedIndex);
     }
     return true;
+}
+
+void KdenliveSettingsDialog::initMiscPage()
+{
+    QWidget *p1 = new QWidget;
+    m_configMisc.setupUi(p1);
+    m_page1 = addPage(p1, i18n("Misc"), QStringLiteral("configure"));
+
+    m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
+
+    QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
+    QValidator *validator = new QRegularExpressionValidator(reg, this);
+    m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_color_duration->setValidator(validator);
+    m_configMisc.kcfg_title_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_title_duration->setValidator(validator);
+    m_configMisc.kcfg_transition_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_transition_duration->setValidator(validator);
+    m_configMisc.kcfg_mix_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_mix_duration->setValidator(validator);
+    m_configMisc.kcfg_image_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_image_duration->setValidator(validator);
+    m_configMisc.kcfg_sequence_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_sequence_duration->setValidator(validator);
+    m_configMisc.kcfg_fade_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_fade_duration->setValidator(validator);
+    m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
+    m_configMisc.kcfg_subtitle_duration->setValidator(validator);
+
+    if (!KdenliveSettings::preferredcomposite().isEmpty()) {
+        int ix = m_configMisc.preferredcomposite->findData(KdenliveSettings::preferredcomposite());
+        if (ix > -1) {
+            m_configMisc.preferredcomposite->setCurrentIndex(ix);
+        }
+    }
+    connect(m_configMisc.preferredcomposite, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,[&](){
+        if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
+            KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
+            int mode = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing")).toInt();
+            pCore->window()->getMainTimeline()->controller()->switchCompositing(mode);
+            pCore->currentDoc()->setModified();
+        }
+    });
+}
+
+void KdenliveSettingsDialog::initProjectPage()
+{
+    QWidget *p8 = new QWidget;
+    m_configProject.setupUi(p8);
+    // Timeline preview
+    m_tlPreviewProfiles = new EncodingProfilesChooser(p8, EncodingProfilesManager::TimelinePreview, true, QStringLiteral("preview_profile"));
+    m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
+    auto *vbox = new QVBoxLayout;
+    m_pw = new ProfileWidget(this);
+    vbox->addWidget(m_pw);
+    m_configProject.profile_box->setLayout(vbox);
+    m_configProject.profile_box->setTitle(i18n("Select the default profile (preset)"));
+    // Select profile
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
+    connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
+    m_configProject.projecturl->setMode(KFile::Directory);
+    m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
+        m_configProject.kcfg_sameprojectfolder->setEnabled(state == Qt::Unchecked);
+    });
+    connect(m_configProject.kcfg_sameprojectfolder, &QCheckBox::stateChanged, this, [this](int state){
+        m_configProject.kcfg_customprojectfolder->setEnabled(state == Qt::Unchecked);
+        m_configProject.projecturl->setEnabled(state == Qt::Unchecked);
+    });
+    connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
+        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
+            m_configProject.kcfg_videotracks->setValue(1);
+        }
+    });
+    connect(m_configProject.kcfg_audiotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
+        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
+            m_configProject.kcfg_audiotracks->setValue(1);
+        }
+    });
+
+    m_page8 = addPage(p8, i18n("Project Defaults"), QStringLiteral("project-defaults"));
+}
+
+void KdenliveSettingsDialog::initProxyPage()
+{
+    QWidget *p9 = new QWidget;
+    m_configProxy.setupUi(p9);
+    m_proxyProfiles = new EncodingProfilesChooser(p9, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
+    m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
+    addPage(p9, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
+    connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
+    m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
+    connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
+    m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
+    loadExternalProxyProfiles();
+}
+
+void KdenliveSettingsDialog::initEnviromentPage()
+{
+    QWidget *p2 = new QWidget;
+    m_configEnv.setupUi(p2);
+    m_configEnv.mltpathurl->setMode(KFile::Directory);
+    m_configEnv.mltpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_mltpath"));
+    m_configEnv.rendererpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_rendererpath"));
+    m_configEnv.ffmpegurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffmpegpath"));
+    m_configEnv.ffplayurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffplaypath"));
+    m_configEnv.ffprobeurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffprobepath"));
+    m_configEnv.mediainfourl->lineEdit()->setObjectName(QStringLiteral("kcfg_mediainfopath"));
+    m_configEnv.tmppathurl->setMode(KFile::Directory);
+    m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
+    m_configEnv.capturefolderurl->setMode(KFile::Directory);
+    m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
+    m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
+    connect(m_configEnv.kcfg_capturetoprojectfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableCaptureFolder);
+    // Library folder
+    m_configEnv.libraryfolderurl->setMode(KFile::Directory);
+    m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
+    m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
+    m_configEnv.libraryfolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
+    m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
+    connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
+
+    m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
+
+    // Script rendering folder
+    m_configEnv.videofolderurl->setMode(KFile::Directory);
+    m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
+    m_configEnv.videofolderurl->setEnabled(!KdenliveSettings::videotodefaultfolder());
+    m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    m_configEnv.kcfg_videotodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    connect(m_configEnv.kcfg_videotodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableVideoFolder);
+
+    // Mime types
+    QStringList mimes = ClipCreationDialog::getExtensions();
+    std::sort(mimes.begin(), mimes.end());
+    m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
+
+    connect(m_configEnv.kp_image, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditImageApplication);
+    connect(m_configEnv.kp_audio, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditAudioApplication);
+
+    m_page2 = addPage(p2, i18n("Environment"), QStringLiteral("application-x-executable-script"));
+}
+
+void KdenliveSettingsDialog::initCapturePage()
+{
+    // Remove ffmpeg tab, unused
+    m_configCapture.tabWidget->removeTab(0);
+    m_configCapture.label->setVisible(false);
+    m_configCapture.kcfg_defaultcapture->setVisible(false);
+    //m_configCapture.tabWidget->removeTab(2);
+#ifdef USE_V4L
+
+    // Video 4 Linux device detection
+    for (int i = 0; i < 10; ++i) {
+        QString path = QStringLiteral("/dev/video") + QString::number(i);
+        if (QFile::exists(path)) {
+            QStringList deviceInfo = V4lCaptureHandler::getDeviceName(path);
+            if (!deviceInfo.isEmpty()) {
+                m_configCapture.kcfg_detectedv4ldevices->addItem(deviceInfo.at(0), path);
+                m_configCapture.kcfg_detectedv4ldevices->setItemData(m_configCapture.kcfg_detectedv4ldevices->count() - 1, deviceInfo.at(1), Qt::UserRole + 1);
+            }
+        }
+    }
+    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdatev4lDevice);
+    connect(m_configCapture.kcfg_v4l_format, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
+    connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
+
+    slotUpdatev4lDevice();
+#endif
+
+    m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
+#ifdef Q_WS_MAC
+    m_configCapture.tabWidget->setEnabled(false);
+    m_configCapture.kcfg_defaultcapture->setEnabled(false);
+    m_configCapture.label->setText(i18n("Capture is not yet available on Mac OS X."));
+#endif
+
+    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
+
+    slotUpdateGrabRegionStatus();
+
+    // audio capture channels
+    m_configCapture.audiocapturechannels->clear();
+    m_configCapture.audiocapturechannels->addItem(i18n("Mono (1 channel)"), 1);
+    m_configCapture.audiocapturechannels->addItem(i18n("Stereo (2 channels)"), 2);
+
+    int channelsIndex = m_configCapture.audiocapturechannels->findData(KdenliveSettings::audiocapturechannels());
+    m_configCapture.audiocapturechannels->setCurrentIndex(qMax(channelsIndex, 0));
+    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateAudioCaptureChannels);
+
+    // audio capture sample rate
+    m_configCapture.audiocapturesamplerate->clear();
+    m_configCapture.audiocapturesamplerate->addItem(i18n("44100 Hz"), 44100);
+    m_configCapture.audiocapturesamplerate->addItem(i18n("48000 Hz"), 48000);
+
+    int sampleRateIndex = m_configCapture.audiocapturesamplerate->findData(KdenliveSettings::audiocapturesamplerate());
+    m_configCapture.audiocapturesamplerate->setCurrentIndex(qMax(sampleRateIndex, 0));
+    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate);
+
+    m_configCapture.labelNoAudioDevices->setVisible(false);
+
+    initAudioRecDevice();
+    getBlackMagicDeviceList(m_configCapture.kcfg_decklink_capturedevice);
+}
+
+void KdenliveSettingsDialog::initJogShuttlePage()
+{
+    QWidget *p5 = new QWidget;
+    m_configShuttle.setupUi(p5);
+#ifdef USE_JOGSHUTTLE
+    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
+    connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
+    connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
+
+    slotCheckShuttle(static_cast<int>(KdenliveSettings::enableshuttle()));
+    m_configShuttle.shuttledisabled->hide();
+
+    // Store the button pointers into an array for easier handling them in the other functions.
+    // TODO: impl enumerator or live with cut and paste :-)))
+    setupJogshuttleBtns(KdenliveSettings::shuttledevice());
+#if false
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle1);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle2);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle3);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle4);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle5);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle6);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle7);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle8);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle9);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle10);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle11);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle12);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle13);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle14);
+    m_shuttle_buttons.push_back(m_configShuttle.shuttle15);
+#endif
+
+#else  /* ! USE_JOGSHUTTLE */
+    m_configShuttle.kcfg_enableshuttle->hide();
+    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
+#endif /* USE_JOGSHUTTLE */
+    m_page5 = addPage(p5, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
+}
+
+void KdenliveSettingsDialog::initTranscodePage()
+{
+    QWidget *p7 = new QWidget;
+    m_configTranscode.setupUi(p7);
+    m_page7 = addPage(p7, i18n("Transcode"), QStringLiteral("edit-copy"));
+
+    connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
+    connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
+    connect(m_configTranscode.profiles_list, &QListWidget::itemChanged, this, &KdenliveSettingsDialog::slotDialogModified);
+    connect(m_configTranscode.profiles_list, &QListWidget::currentRowChanged, this, &KdenliveSettingsDialog::slotSetTranscodeProfile);
+    connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+    connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+
+    connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
+
+    m_configTranscode.profile_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    loadTranscodeProfiles();
+}
+
+void KdenliveSettingsDialog::initSdlPage(bool gpuAllowed)
+{
+    connect(m_configSdl.reload_blackmagic, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadBlackMagic);
+    // m_configSdl.kcfg_openglmonitors->setHidden(true);
+    connect(m_configSdl.fullscreen_monitor, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotSetFullscreenMonitor);
+    connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotCheckAlsaDriver);
+    connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotCheckAudioBackend);
+
+    // enable GPU accel only if Movit is found
+    m_configSdl.kcfg_gpu_accel->setEnabled(gpuAllowed);
+    m_configSdl.kcfg_gpu_accel->setToolTip(i18n("GPU processing needs MLT compiled with Movit and Rtaudio modules"));
+    if (!getBlackMagicOutputDeviceList(m_configSdl.kcfg_blackmagic_output_device)) {
+        // No blackmagic card found
+        m_configSdl.kcfg_external_display->setEnabled(false);
+    }
 }
 
 bool KdenliveSettingsDialog::getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force)
@@ -847,7 +801,7 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         break;
     case 8:
         setCurrentPage(m_page11);
-        checkVoskDependencies();
+        m_stt->checkDependencies();
         break;
     default:
         setCurrentPage(m_page1);
@@ -1047,47 +1001,59 @@ void KdenliveSettingsDialog::updateSettings()
 
     // Check encoding profiles
     // FFmpeg
-    QString profilestr = m_configCapture.kcfg_v4l_profile->currentData().toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::v4l_parameters() ||
-                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::v4l_extension())) {
-        KdenliveSettings::setV4l_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
-        KdenliveSettings::setV4l_extension(profilestr.section(QLatin1Char(';'), 1, 1));
+    QString string = m_v4lProfiles->currentParams();
+    if (string != KdenliveSettings::v4l_parameters()) {
+        KdenliveSettings::setV4l_parameters(string);
     }
+    string = m_v4lProfiles->currentExtension();
+    if (string != KdenliveSettings::v4l_extension()) {
+        KdenliveSettings::setV4l_extension(string);
+    }
+
     // screengrab
-    profilestr = m_configCapture.kcfg_grab_profile->currentData().toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::grab_parameters() ||
-                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::grab_extension())) {
-        KdenliveSettings::setGrab_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
-        KdenliveSettings::setGrab_extension(profilestr.section(QLatin1Char(';'), 1, 1));
+    string = m_grabProfiles->currentParams();
+    if (string != KdenliveSettings::grab_parameters()) {
+        KdenliveSettings::setGrab_parameters(string);
+    }
+    string = m_grabProfiles->currentExtension();
+    if (string != KdenliveSettings::grab_extension()) {
+        KdenliveSettings::setGrab_extension(string);
     }
 
     // decklink
-    profilestr = m_configCapture.kcfg_decklink_profile->currentData().toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::decklink_parameters() ||
-                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::decklink_extension())) {
-        KdenliveSettings::setDecklink_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
-        KdenliveSettings::setDecklink_extension(profilestr.section(QLatin1Char(';'), 1, 1));
+    string = m_decklinkProfiles->currentParams();
+    if (string != KdenliveSettings::decklink_parameters()) {
+        KdenliveSettings::setDecklink_parameters(string);
     }
+    string = m_decklinkProfiles->currentExtension();
+    if (string != KdenliveSettings::decklink_extension()) {
+        KdenliveSettings::setDecklink_extension(string);
+    }
+
     // proxies
-    profilestr = m_configProxy.kcfg_proxy_profile->currentData().toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::proxyparams() ||
-                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::proxyextension())) {
-        KdenliveSettings::setProxyparams(profilestr.section(QLatin1Char(';'), 0, 0));
-        KdenliveSettings::setProxyextension(profilestr.section(QLatin1Char(';'), 1, 1));
+    string = m_proxyProfiles->currentParams();
+    if (string != KdenliveSettings::proxyparams()) {
+        KdenliveSettings::setProxyparams(string);
+    }
+    string = m_proxyProfiles->currentExtension();
+    if (string != KdenliveSettings::proxyextension()) {
+        KdenliveSettings::setProxyextension(string);
     }
 
     // external proxies
-    profilestr = m_configProxy.kcfg_external_proxy_profile->currentData().toString();
+    QString profilestr = m_configProxy.kcfg_external_proxy_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr != KdenliveSettings::externalProxyProfile())) {
         KdenliveSettings::setExternalProxyProfile(profilestr);
     }
 
     // timeline preview
-    profilestr = m_configProject.kcfg_preview_profile->currentData().toString();
-    if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::previewparams() ||
-                                  profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::previewextension())) {
-        KdenliveSettings::setPreviewparams(profilestr.section(QLatin1Char(';'), 0, 0));
-        KdenliveSettings::setPreviewextension(profilestr.section(QLatin1Char(';'), 1, 1));
+    string = m_tlPreviewProfiles->currentParams();
+    if (string != KdenliveSettings::previewparams()) {
+        KdenliveSettings::setPreviewparams(string);
+    }
+    string = m_tlPreviewProfiles->currentExtension();
+    if (string != KdenliveSettings::previewextension()) {
+        KdenliveSettings::setPreviewextension(string);
     }
 
     if (updateCapturePath) {
@@ -1306,7 +1272,6 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
 
 void KdenliveSettingsDialog::slotAddTranscode()
 {
-    
     bool ok;
     QString presetName = QInputDialog::getText(this, i18n("Enter preset name"), i18n("Enter the name of this preset"), QLineEdit::Normal, QString(), &ok);
     if (!ok) return;
@@ -1448,7 +1413,6 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
     QStringList pixelformats = info.split('>', Qt::SkipEmptyParts);
 #endif
     QString itemSize;
-    QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
@@ -1457,7 +1421,7 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
 #else
         QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
 #endif
-        pixelFormat = sizes.takeFirst();
+        sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -1551,19 +1515,6 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
     ProfileRepository::get()->saveProfile(profile.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
 }
 
-void KdenliveSettingsDialog::slotManageEncodingProfile()
-{
-    auto *act = qobject_cast<QAction *>(sender());
-    int type = 0;
-    if (act) {
-        type = act->data().toInt();
-    }
-    QPointer<EncodingProfilesDialog> dia = new EncodingProfilesDialog(type);
-    dia->exec();
-    delete dia;
-    loadEncodingProfiles();
-}
-
 void KdenliveSettingsDialog::loadExternalProxyProfiles()
 {
     // load proxy profiles
@@ -1586,188 +1537,6 @@ void KdenliveSettingsDialog::loadExternalProxyProfiles()
         m_configProxy.kcfg_external_proxy_profile->setCurrentIndex(m_configProxy.kcfg_external_proxy_profile->findText(currentItem));
     }
     m_configProxy.kcfg_external_proxy_profile->blockSignals(false);
-}
-
-void KdenliveSettingsDialog::loadEncodingProfiles()
-{
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-
-    // Load v4l profiles
-    m_configCapture.kcfg_v4l_profile->blockSignals(true);
-    QString currentItem = m_configCapture.kcfg_v4l_profile->currentText();
-    m_configCapture.kcfg_v4l_profile->clear();
-    KConfigGroup group(&conf, "video4linux");
-    QMap<QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> i(values);
-    while (i.hasNext()) {
-        i.next();
-        if (!i.key().isEmpty()) {
-            m_configCapture.kcfg_v4l_profile->addItem(i.key(), i.value());
-        }
-    }
-    m_configCapture.kcfg_v4l_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) {
-        m_configCapture.kcfg_v4l_profile->setCurrentIndex(m_configCapture.kcfg_v4l_profile->findText(currentItem));
-    }
-
-    // Load Screen Grab profiles
-    m_configCapture.kcfg_grab_profile->blockSignals(true);
-    currentItem = m_configCapture.kcfg_grab_profile->currentText();
-    m_configCapture.kcfg_grab_profile->clear();
-    KConfigGroup group2(&conf, "screengrab");
-    values = group2.entryMap();
-    QMapIterator<QString, QString> j(values);
-    while (j.hasNext()) {
-        j.next();
-        if (!j.key().isEmpty()) {
-            m_configCapture.kcfg_grab_profile->addItem(j.key(), j.value());
-        }
-    }
-    m_configCapture.kcfg_grab_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) {
-        m_configCapture.kcfg_grab_profile->setCurrentIndex(m_configCapture.kcfg_grab_profile->findText(currentItem));
-    }
-
-    // Load Decklink profiles
-    m_configCapture.kcfg_decklink_profile->blockSignals(true);
-    currentItem = m_configCapture.kcfg_decklink_profile->currentText();
-    m_configCapture.kcfg_decklink_profile->clear();
-    KConfigGroup group3(&conf, "decklink");
-    values = group3.entryMap();
-    QMapIterator<QString, QString> k(values);
-    while (k.hasNext()) {
-        k.next();
-        if (!k.key().isEmpty()) {
-            m_configCapture.kcfg_decklink_profile->addItem(k.key(), k.value());
-        }
-    }
-    m_configCapture.kcfg_decklink_profile->blockSignals(false);
-    if (!currentItem.isEmpty()) {
-        m_configCapture.kcfg_decklink_profile->setCurrentIndex(m_configCapture.kcfg_decklink_profile->findText(currentItem));
-    }
-
-    // Load Timeline Preview profiles
-    m_configProject.kcfg_preview_profile->blockSignals(true);
-    currentItem = m_configProject.kcfg_preview_profile->currentText();
-    m_configProject.kcfg_preview_profile->clear();
-    KConfigGroup group5(&conf, "timelinepreview");
-    values = group5.entryMap();
-    m_configProject.kcfg_preview_profile->addItem(i18n("Automatic"));
-    QMapIterator<QString, QString> l(values);
-    while (l.hasNext()) {
-        l.next();
-        if (!l.key().isEmpty()) {
-            m_configProject.kcfg_preview_profile->addItem(l.key(), l.value());
-        }
-    }
-    if (!currentItem.isEmpty()) {
-        m_configProject.kcfg_preview_profile->setCurrentIndex(m_configProject.kcfg_preview_profile->findText(currentItem));
-    }
-    m_configProject.kcfg_preview_profile->blockSignals(false);
-    QString profilestr = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
-    if (profilestr.isEmpty()) {
-        m_configProject.previewparams->clear();
-    } else {
-        m_configProject.previewparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-    }
-
-    // Load Proxy profiles
-    m_configProxy.kcfg_proxy_profile->blockSignals(true);
-    currentItem = m_configProxy.kcfg_proxy_profile->currentText();
-    m_configProxy.kcfg_proxy_profile->clear();
-    KConfigGroup group4(&conf, "proxy");
-    values = group4.entryMap();
-    m_configProxy.kcfg_proxy_profile->addItem(i18n("Automatic"));
-    QMapIterator<QString, QString> m(values);
-    while (m.hasNext()) {
-        m.next();
-        if (!m.key().isEmpty()) {
-            m_configProxy.kcfg_proxy_profile->addItem(m.key(), m.value());
-        }
-    }
-    if (!currentItem.isEmpty()) {
-        m_configProxy.kcfg_proxy_profile->setCurrentIndex(m_configProxy.kcfg_proxy_profile->findText(currentItem));
-    }
-    m_configProxy.kcfg_proxy_profile->blockSignals(false);
-    profilestr = m_configProxy.kcfg_proxy_profile->itemData(m_configProxy.kcfg_proxy_profile->currentIndex()).toString();
-    if (profilestr.isEmpty()) {
-        m_configProxy.proxyparams->clear();
-    } else {
-        m_configProxy.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-    }
-}
-
-void KdenliveSettingsDialog::slotUpdateDecklinkProfile(int ix)
-{
-    if (ix == -1) {
-        ix = KdenliveSettings::decklink_profile();
-    } else {
-        ix = m_configCapture.kcfg_decklink_profile->currentIndex();
-    }
-    QString profilestr = m_configCapture.kcfg_decklink_profile->itemData(ix).toString();
-    if (profilestr.isEmpty()) {
-        return;
-    }
-    m_configCapture.decklink_parameters->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-    //
-}
-
-void KdenliveSettingsDialog::slotUpdateV4lProfile(int ix)
-{
-    if (ix == -1) {
-        ix = KdenliveSettings::v4l_profile();
-    } else {
-        ix = m_configCapture.kcfg_v4l_profile->currentIndex();
-    }
-    QString profilestr = m_configCapture.kcfg_v4l_profile->itemData(ix).toString();
-    if (profilestr.isEmpty()) {
-        return;
-    }
-    m_configCapture.v4l_parameters->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-    //
-}
-
-void KdenliveSettingsDialog::slotUpdateGrabProfile(int ix)
-{
-    if (ix == -1) {
-        ix = KdenliveSettings::grab_profile();
-    } else {
-        ix = m_configCapture.kcfg_grab_profile->currentIndex();
-    }
-    QString profilestr = m_configCapture.kcfg_grab_profile->itemData(ix).toString();
-    if (profilestr.isEmpty()) {
-        return;
-    }
-    m_configCapture.grab_parameters->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-    //
-}
-
-void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
-{
-    if (ix == -1) {
-        ix = KdenliveSettings::proxy_profile();
-    } else {
-        ix = m_configProxy.kcfg_proxy_profile->currentIndex();
-    }
-    QString profilestr = m_configProxy.kcfg_proxy_profile->itemData(ix).toString();
-    if (profilestr.isEmpty()) {
-        return;
-    }
-    m_configProxy.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
-}
-
-void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)
-{
-    if (ix == -1) {
-        ix = KdenliveSettings::preview_profile();
-    } else {
-        ix = m_configProject.kcfg_preview_profile->currentIndex();
-    }
-    QString profilestr = m_configProject.kcfg_preview_profile->itemData(ix).toString();
-    if (profilestr.isEmpty()) {
-        return;
-    }
-    m_configProject.previewparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
 }
 
 void KdenliveSettingsDialog::slotEditVideo4LinuxProfile()
@@ -1819,7 +1588,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     }
     KdenliveSettings::setShuttledevicenames(devNamesList);
     KdenliveSettings::setShuttledevicepaths(devPathList);
-    QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
+    QTimer::singleShot(200, this, [&](){ slotUpdateShuttleDevice(); });
 #endif // USE_JOGSHUTTLE
 }
 
@@ -1835,6 +1604,19 @@ void KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate(int index)
 
 void KdenliveSettingsDialog::initSpeechPage()
 {
+    m_stt = new SpeechToText();
+    PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
+    m_configSpeech.message_layout->addWidget(msg);
+
+    connect(m_stt, &SpeechToText::dependenciesAvailable, this, [&](){
+        if (m_speechListWidget->count() == 0) {
+            doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
+        }
+    });
+    connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &){
+        m_configSpeech.speech_info->animatedHide();
+    });
+
     m_voskAction = new QAction(i18n("Install missing dependencies"), this);
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
@@ -1842,52 +1624,16 @@ void KdenliveSettingsDialog::initSpeechPage()
     l->setContentsMargins(0, 0, 0, 0);
     l->addWidget(m_speechListWidget);
     m_configSpeech.speech_info->setWordWrap(true);
-    m_configSpeech.check_vosk->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    m_configSpeech.check_vosk->setToolTip(i18n("Check VOSK installation"));
     connect(m_configSpeech.check_vosk, &QPushButton::clicked, this, [this]() {
         m_configSpeech.check_vosk->setEnabled(false);
-        KdenliveSettings::setVosk_found(false);
-        KdenliveSettings::setVosk_srt_found(false);
-        checkVoskDependencies();
+        m_stt->checkDependencies();
+        if (m_stt->missingDependencies().isEmpty()) {
+            m_stt->checkVersions();
+        }
         m_configSpeech.check_vosk->setEnabled(true);
     });
-    connect(this, &KdenliveSettingsDialog::showSpeechMessage, this, &KdenliveSettingsDialog::doShowSpeechMessage);
-    connect(m_voskAction, &QAction::triggered, this, [this]() {
-#ifdef Q_OS_WIN
-        QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
-#else
-        QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
-#endif
-        if (pyExec.isEmpty()) {
-            doShowSpeechMessage(i18n("Please install python3 and pip on your system."), KMessageWidget::Warning);
-            return;
-        }
-        QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
-        if (speechScript.isEmpty()) {
-            doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
-            return;
-        }
-        QProcess checkJob;
-        if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
-            m_voskAction->setEnabled(false);
-            doShowSpeechMessage(i18n("Installing modules..."), KMessageWidget::Information);
-            qApp->processEvents();
-            checkJob.start(pyExec, {speechScript, QStringLiteral("install")});
-            checkJob.waitForFinished();
-            checkVoskDependencies();
-        } else {
-            // upgrade
-            m_voskUpdated = true;
-            m_voskAction->setEnabled(false);
-            doShowSpeechMessage(i18n("Updating modules..."), KMessageWidget::Information);
-            qApp->processEvents();
-            checkJob.start(pyExec, {speechScript, QStringLiteral("upgrade")});
-            checkJob.waitForFinished();
-            m_configSpeech.speech_info->removeAction(m_voskAction);
-            checkVoskVersion(pyExec);
-        }
-    });
-    checkVoskDependencies();
+
+    m_stt->checkDependencies();
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {
@@ -1897,7 +1643,7 @@ void KdenliveSettingsDialog::initSpeechPage()
             slotParseVoskDictionaries();
         }
     });
-    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](QUrl url) {
+    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](const QUrl &url) {
         KdenliveSettings::setVosk_folder_path(url.toLocalFile());
         slotParseVoskDictionaries();
     });
@@ -1914,116 +1660,12 @@ void KdenliveSettingsDialog::initSpeechPage()
         new KRun(QUrl(contents), this);
 #endif
     });
-    m_configSpeech.button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    m_configSpeech.button_delete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-    m_configSpeech.button_add->setToolTip(i18n("Add a new speech model from an archive file"));
-    m_configSpeech.button_delete->setToolTip(i18n("Delete the selected speech model"));
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this] () {
         this->getDictionary();
     });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
-}
-
-void KdenliveSettingsDialog::checkVoskDependencies()
-{
-#ifdef Q_OS_WIN
-    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
-    QString pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip"));
-#else
-    QString pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
-    QString pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"));
-#endif
-    if (pyExec.isEmpty()) {
-        doShowSpeechMessage(i18n("Cannot find python3, please install it on your system."), KMessageWidget::Warning);
-        return;
-    } else if (!KdenliveSettings::vosk_found() || !KdenliveSettings::vosk_srt_found()) {
-        QProcess checkJob;
-        QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
-        if (speechScript.isEmpty()) {
-            doShowSpeechMessage(i18n("The speech script was not found, check your install."), KMessageWidget::Warning);
-            return;
-        } else {
-            m_configSpeech.speech_info->removeAction(m_voskAction);
-            checkJob.start(pyExec, {speechScript});
-            checkJob.waitForFinished();
-            QString output = checkJob.readAllStandardOutput();
-            QString missingModules;
-            if (!output.contains(QLatin1String("vosk"))) {
-                KdenliveSettings::setVosk_found(true);
-            } else {
-                KdenliveSettings::setVosk_found(false);
-                missingModules = i18n("The VOSK python module is required for speech features. ");
-            }
-            if (!output.contains(QLatin1String("srt"))) {
-                KdenliveSettings::setVosk_srt_found(true);
-            } else {
-                KdenliveSettings::setVosk_srt_found(false);
-                missingModules.append(i18n("The SRT python module is required for automated subtitling."));
-            }
-            if (!missingModules.isEmpty()) {
-                m_voskAction->setEnabled(true);
-                m_voskAction->setText(i18n("Install missing dependencies"));
-                m_configSpeech.speech_info->addAction(m_voskAction);
-                doShowSpeechMessage(missingModules, KMessageWidget::Warning);
-            } else {
-                if (m_speechListWidget->count() == 0) {
-                    doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-                } else if (!pip3Exec.isEmpty()) {
-                    if (!m_voskUpdated) {
-                        // only allow upgrading python modules once
-                        m_voskAction->setText(i18n("Check for update"));
-                        m_configSpeech.speech_info->addAction(m_voskAction);
-                    }
-                    QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
-                }
-            }
-            emit pCore->updateVoskAvailability();
-        }
-    } else {
-        if (m_speechListWidget->count() == 0) {
-            doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-        } else if (!pip3Exec.isEmpty()) {
-            if (!m_voskUpdated) {
-                // only allow upgrading python modules once
-                m_voskAction->setText(i18n("Check for update"));
-                m_configSpeech.speech_info->addAction(m_voskAction);
-            }
-            QtConcurrent::run(this, &KdenliveSettingsDialog::checkVoskVersion, pyExec);
-        }
-    }
-}
-
-void KdenliveSettingsDialog::checkVoskVersion(const QString pyExec)
-{
-    emit showSpeechMessage(i18n("Checking configuration..."), KMessageWidget::Information);
-    QString speechScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/checkvosk.py"));
-    QProcess checkJob;
-    checkJob.start(pyExec, {speechScript, QStringLiteral("check")});
-    checkJob.waitForFinished();
-    QString message;
-    QString output = checkJob.readAllStandardOutput();
-    QStringList versions = output.split(QStringLiteral("Version: "));
-    if (versions.count() >= 3) {
-        bool voskFirst = versions.takeFirst().contains(QLatin1String("vosk"));
-        QString voskVersion;
-        QString srtVersion;
-        QString cut = versions.takeFirst();
-        if (voskFirst) {
-            voskVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
-            cut = versions.takeFirst();
-            srtVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
-        } else {
-            srtVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
-            cut = versions.takeFirst();
-            voskVersion = cut.simplified().section(QLatin1Char(' '), 0, 0);
-        }
-        message = i18n("Speech to text is configured. Vosk %1, Srt %2", voskVersion, srtVersion);
-    } else {
-        message = i18n("Speech to text is properly configured.");
-    }
-    emit showSpeechMessage(message, KMessageWidget::Positive);
 }
 
 void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)
@@ -2033,7 +1675,7 @@ void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int mes
     m_configSpeech.speech_info->animatedShow();
 }
 
-void KdenliveSettingsDialog::getDictionary(const QUrl sourceUrl)
+void KdenliveSettingsDialog::getDictionary(const QUrl &sourceUrl)
 {
     QUrl url = KUrlRequesterDialog::getUrl(sourceUrl, this, i18n("Enter url for the new dictionary"));
     if (url.isEmpty()) {
@@ -2099,7 +1741,7 @@ void KdenliveSettingsDialog::downloadModelFinished(KJob* job)
     }
 }
 
-void KdenliveSettingsDialog::processArchive(const QString archiveFile)
+void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
 {
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForFile(archiveFile);
@@ -2134,8 +1776,8 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
         }
     } else {
         // Test if it is a folder
-        QDir dir(archiveFile);
-        if (dir.exists()) {
+        QDir testDir(archiveFile);
+        if (testDir.exists()) {
             
         }
         qDebug()<<"=== CANNOT OPEN ARCHIVE!!";
@@ -2145,37 +1787,16 @@ void KdenliveSettingsDialog::processArchive(const QString archiveFile)
 void KdenliveSettingsDialog::slotParseVoskDictionaries()
 {
     m_speechListWidget->clear();
-    QString modelDirectory = KdenliveSettings::vosk_folder_path();
-    QDir dir;
-    if (modelDirectory.isEmpty()) {
-        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        dir = QDir(modelDirectory);
-        if (!dir.cd(QStringLiteral("speechmodels"))) {
-            qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-            emit pCore->voskModelUpdate({});
-            return;
-        }
-    } else {
-        dir = QDir(modelDirectory);
-    }
-    QStringList dicts = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    QStringList final;
-    for (auto &d : dicts) {
-        QDir sub(dir.absoluteFilePath(d));
-        if (sub.exists(QStringLiteral("mfcc.conf")) || (sub.exists(QStringLiteral("conf/mfcc.conf")))) {
-            final << d;
-        }
-    }
+    QStringList final = m_stt->parseVoskDictionaries();
     m_speechListWidget->addItems(final);
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
         m_configSpeech.custom_vosk_folder->setChecked(true);
         m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));
     }
-    if (!final.isEmpty() && KdenliveSettings::vosk_found() && KdenliveSettings::vosk_srt_found()) {
+    if (!final.isEmpty() && m_stt->missingDependencies().isEmpty()) {
         m_configSpeech.speech_info->animatedHide();
     } else if (final.isEmpty()) {
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
     }
-    emit pCore->voskModelUpdate(final);
 }
 

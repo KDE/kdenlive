@@ -10,9 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "scopes/sharedframe.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QTimer>
 #include <QToolBar>
@@ -68,9 +68,7 @@ public:
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);
-    void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), const QString overlayData = QString());
     const QString activeClipId();
     int position();
     void updateTimecodeFormat();
@@ -100,7 +98,7 @@ public:
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);
     void restart();
-    void mute(bool, bool updateIconOnly = false) override;
+    void mute(bool) override;
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();
@@ -143,8 +141,10 @@ public:
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
     void updateDocumentUuid();
-    /** @brief Focus the timecode to alllow editing*/
+    /** @brief Focus the timecode to allow editing*/
     void focusTimecode();
+    /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
+    void fixFocus();
     
 
 protected:
@@ -226,7 +226,7 @@ private:
     QMetaObject::Connection m_captureConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
-    void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
@@ -241,7 +241,7 @@ private slots:
     void slotExtractCurrentZone();
     void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
-    void setZoom();
+    void setZoom(float zoomRatio);
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
@@ -318,7 +318,7 @@ public slots:
     void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, QVariant sceneData = QVariant());
+    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, const QVariant &sceneData = QVariant());
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
@@ -341,7 +341,7 @@ public slots:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
-    void seekTimeline(const QString frameAndTrack);
+    void seekTimeline(const QString &frameAndTrack);
 
 signals:
     void screenChanged(int screenIndex);

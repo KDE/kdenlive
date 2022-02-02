@@ -116,7 +116,7 @@ void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)
         return;
     }
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
-    const QString path = EffectsRepository::get()->getCustomPath(item->dataColumn(idCol).toString());
+    const QString path = EffectsRepository::get()->getCustomPath(item->dataColumn(IdCol).toString());
     reloadEffect(path);
 }
 
@@ -129,13 +129,14 @@ void EffectTreeModel::reloadEffect(const QString &path)
     // Check if item already existed, and remove
     for (int i = 0; i < m_customCategory->childCount(); i++) {
         std::shared_ptr<TreeItem> item = m_customCategory->child(i);
-        if (item->dataColumn(idCol).toString() == asset.first) {
+        if (item->dataColumn(IdCol).toString() == asset.first) {
             m_customCategory->removeChild(item);
             break;
         }
     }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
-    QList<QVariant> data {asset.first, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
+    QString effectName = EffectsRepository::get()->getName(asset.first);
+    QList<QVariant> data {effectName, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
     m_customCategory->appendChild(data);
 }
 
@@ -145,7 +146,7 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
         return;
     }
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
-    const QString id = item->dataColumn(idCol).toString();
+    const QString id = item->dataColumn(IdCol).toString();
     m_customCategory->removeChild(item);
     EffectsRepository::get()->deleteEffect(id);
 }
@@ -155,12 +156,12 @@ void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effec
     for (int i = 0; i < rowCount(); i++) {
         std::shared_ptr<TreeItem> item = rootItem->child(i);
         if (item->childCount() > 0) {
-            QMenu *catMenu = new QMenu(item->dataColumn(nameCol).toString(), effectsMenu);
+            QMenu *catMenu = new QMenu(item->dataColumn(AssetTreeModel::NameCol).toString(), effectsMenu);
             effectsMenu->addMenu(catMenu);
             for (int j = 0; j < item->childCount(); j++) {
                 std::shared_ptr<TreeItem> child = item->child(j);
-                QAction *a = new QAction(i18n(child->dataColumn(nameCol).toString().toUtf8().data()), catMenu);
-                const QString id = child->dataColumn(idCol).toString();
+                QAction *a = new QAction(i18n(child->dataColumn(AssetTreeModel::NameCol).toString().toUtf8().data()), catMenu);
+                const QString id = child->dataColumn(AssetTreeModel::IdCol).toString();
                 a->setData(id);
                 catMenu->addAction(a);
                 effectActions->addAction("transition_" + id, a);
@@ -178,8 +179,8 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     if (isEffect && item->depth() == 1) {
         return;
     }
-    item->setData(AssetTreeModel::favCol, favorite);
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    item->setData(AssetTreeModel::FavCol, favorite);
+    auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
     if (!EffectsRepository::get()->exists(id)) {
         qDebug()<<"Trying to reparent unknown asset: "<<id;
         return;
@@ -193,21 +194,19 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     KdenliveSettings::setFavorite_effects(favs);
 }
 
-void EffectTreeModel::editCustomAsset(const QString newName,const QString newDescription, const QModelIndex &index)
+void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newDescription, const QModelIndex &index)
 {
 
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
-    QString currentName = item->dataColumn(AssetTreeModel::nameCol).toString();
+    QString currentName = item->dataColumn(AssetTreeModel::NameCol).toString();
 
     QDomDocument doc;
 
     QDomElement effect = EffectsRepository::get()->getXml(currentName);
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    QString oldpath =  dir.absoluteFilePath(currentName + QStringLiteral(".xml"));
+    QString oldpath = dir.absoluteFilePath(currentName + QStringLiteral(".xml"));
 
     doc.appendChild(doc.importNode(effect, true));
-
-
 
     if(!newDescription.trimmed().isEmpty()){
         QDomElement root = doc.documentElement();
@@ -224,7 +223,6 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
     if(!newName.trimmed().isEmpty() && newName != currentName)
     {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }

@@ -8,15 +8,15 @@
 #include "core.h"
 #include "mainwindow.h"
 
+#include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QStandardPaths>
-#include <QDir>
 
 #include <kio_version.h>
 #if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
-#include <KIO/OpenUrlJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #else
 #include <KRun>
 #endif

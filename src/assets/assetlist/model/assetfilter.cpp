@@ -8,8 +8,8 @@
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
-#include <utility>
 #include <klocalizedstring.h>
+#include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -43,9 +43,9 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemId = item->dataColumn(AssetTreeModel::idCol).toString().toUtf8().constData();
+    QString itemId = item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8().constData();
     itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString itemText = i18n(item->dataColumn(AssetTreeModel::nameCol).toString().toUtf8().constData());
+    QString itemText = i18n(item->dataColumn(AssetTreeModel::NameCol).toString().toUtf8().constData());
     itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
     QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
@@ -58,7 +58,7 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
 
-    if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
+    if (item->dataColumn(AssetTreeModel::IdCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         if (!category.isValid()) {
@@ -158,13 +158,13 @@ QVariantList AssetFilter::getCategories()
     return list;
 }
 
-QModelIndex AssetFilter::getModelIndex(QModelIndex current)
+QModelIndex AssetFilter::getModelIndex(const QModelIndex &current)
 {
     QModelIndex sourceIndex = mapToSource(current);
     return sourceIndex; // this returns an integer
 }
 
-QModelIndex AssetFilter::getProxyIndex(QModelIndex current)
+QModelIndex AssetFilter::getProxyIndex(const QModelIndex &current)
 {
     QModelIndex sourceIndex = mapFromSource(current);
     return sourceIndex; // this returns an integer

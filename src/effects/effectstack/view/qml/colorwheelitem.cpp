@@ -18,54 +18,6 @@
 
 static const qreal WHEEL_SLIDER_RATIO = 10.0;
 
-NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromHsvF(h, s, l < 0 ? -l : l, a);
-    color.sign_r = l < 0 ? -1 : 1;
-    color.sign_g = l < 0 ? -1 : 1;
-    color.sign_b = l < 0 ? -1 : 1;
-    return color;
-}
-
-NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromRgbF(r < 0 ? -r : r, g < 0 ? -g : g, b < 0 ? -b : b, a);
-    color.sign_r = r < 0 ? -1 : 1;
-    color.sign_g = g < 0 ? -1 : 1;
-    color.sign_b = b < 0 ? -1 : 1;
-    return color;
-}
-qreal NegQColor::redF()
-{
-    return qcolor.redF() * sign_r;
-}
-qreal NegQColor::greenF()
-{
-    return qcolor.greenF() * sign_g;
-}
-qreal NegQColor::blueF()
-{
-    return qcolor.blueF() * sign_b;
-}
-qreal NegQColor::valueF()
-{
-    return qcolor.valueF() * sign_g;
-}
-int NegQColor::hue()
-{
-    return qcolor.hue();
-}
-qreal NegQColor::hueF()
-{
-    return qcolor.hueF();
-}
-qreal NegQColor::saturationF()
-{
-    return qcolor.saturationF();
-}
-
 ColorWheelItem::ColorWheelItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
     , m_image()

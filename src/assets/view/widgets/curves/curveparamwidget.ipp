@@ -4,7 +4,7 @@
  */
 
 #include "bezier/beziersplineeditor.h"
-#include "colortools.h"
+#include "utils/colortools.h"
 #include "cubic/kis_curve_widget.h"
 #include "kdenlivesettings.h"
 #include "widgets/dragvalue.h"

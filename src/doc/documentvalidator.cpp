@@ -1800,14 +1800,14 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         newNodeTag.appendChild(text);
                         root.replaceChild(newNodeTag, nodelist);
 
-                        QDomElement e = doc.documentElement();
-                        e.setAttribute("id", newId);
+                        //QDomElement e = doc.documentElement();
+                        //e.setAttribute("id", newId);
 
                         auto params = doc.elementsByTagName(QStringLiteral("parameter"));
-                        for (int i = 0; i < params.count(); i++) {
-                            QString paramName = params.at(i).attributes().namedItem("name").nodeValue();
+                        for (int j = 0; j < params.count(); j++) {
+                            QString paramName = params.at(j).attributes().namedItem("name").nodeValue();
                             if(paramName == QStringLiteral("transition.geometry")) {
-                                QDomElement e = params.at(i).toElement();
+                                QDomElement e = params.at(j).toElement();
                                 e.setAttribute("name", QStringLiteral("transition.rect"));
                             }
                         }
@@ -1839,7 +1839,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement t = effects.at(i).toElement();
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
             if (kdenliveId.startsWith(QLatin1String("fade_"))) {
-                bool fadeIn = kdenliveId == QLatin1String("fade_from_black");
+                bool fadeIn = kdenliveId.startsWith(QLatin1String("fade_from_"));
                 bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() ==  -1;
                 // Clear unused properties
                 Xml::removeXmlProperty(t, QStringLiteral("start"));

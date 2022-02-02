@@ -6,6 +6,7 @@
 #include "clipcreator.hpp"
 #include "bin/bin.h"
 #include "core.h"
+#include "dialogs/clipcreationdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -13,7 +14,6 @@
 #include "mainwindow.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
-#include "dialogs/clipcreationdialog.h"
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
 #include <KMessageBox>
@@ -126,9 +126,6 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
     }
-    if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
-        prod.setAttribute(QStringLiteral("_checkProfile"), 1);
-    }
     return xml;
 }
 
@@ -214,23 +211,13 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                                       Fun &undo, Fun &redo, bool topLevel)
 {
     QString createdItem;
-    /*QScopedPointer<QProgressDialog> progressDialog;
-    if (topLevel) {
-        progressDialog.reset(new QProgressDialog(pCore->window()));
-        progressDialog->setWindowTitle(i18n("Loading clips"));
-        progressDialog->setCancelButton(nullptr);
-        progressDialog->setLabelText(i18n("Importing bin clips..."));
-        progressDialog->setMaximum(0);
-        progressDialog->show();
-        progressDialog->repaint();
-        qApp->processEvents();
-    }*/
     // Check for duplicates
     QList<QUrl> cleanList;
     QStringList duplicates;
     bool firstClip = topLevel;
+    pCore->bin()->shouldCheckProfile = (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && pCore->bin()->isEmpty();
     for (const QUrl &url : list) {
-        if (!pCore->projectItemModel()->urlExists(url.toLocalFile())) {
+        if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
             cleanList << url;
         } else {
             duplicates << url.toLocalFile();
@@ -247,9 +234,15 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
+    int urlsCount = cleanList.count();
+    int current = 0;
     for (const QUrl &file : qAsConst(cleanList)) {
+        current++;
         if (!QFile::exists(file.toLocalFile())) {
             continue;
+        }
+        if (urlsCount > 3) {
+            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100*current/urlsCount));
         }
         QFileInfo info(file.toLocalFile());
         if (info.isDir()) {
@@ -370,8 +363,9 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 createdItem = clipId;
             }
         }
-        //qApp->processEvents();
+        qApp->processEvents();
     }
+    pCore->displayMessage(i18n("Loading done"), OperationCompletedMessage, 100);
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }

@@ -10,10 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_timeremap_ui.h"
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <QWidget>
 #include <QTimer>
+#include <QMutex>
 
 #include "mlt++/Mlt.h"
 
@@ -35,7 +36,7 @@ public:
     friend class TimeRemap;
     explicit RemapView(QWidget *parent = nullptr);
     void setBinClipDuration(std::shared_ptr<ProjectClip> clip, int duration);
-    void setDuration(std::shared_ptr<Mlt::Producer> service, int duration);
+    void setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration = 0);
     void loadKeyframes(const QString &mapData);
     const QString getKeyframesData(QMap<int,int> keyframes = {}) const;
     int position() const;
@@ -81,6 +82,7 @@ public slots:
 private:
     enum MOVEMODE {NoMove, TopMove, BottomMove, CursorMove, CursorMoveBottom};
     int m_duration;
+    int m_sourceDuration;
     int m_lastMaxDuration;
     int m_position;
     /** @brief the maximum duration of the parent (bin) clip */
@@ -117,6 +119,7 @@ private:
     bool m_moveNext;
     int m_clickEnd;
     int m_offset;
+    QMutex m_kfrMutex;
     QMap <int,int>m_selectedKeyframes;
     QMap<int,int>m_previousSelection;
     std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
@@ -154,7 +157,7 @@ public:
 
 private slots:
     void updateKeyframes(bool resize = true);
-    void updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,int>previousKeyframes);
+    void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
     void switchRemapParam();
 

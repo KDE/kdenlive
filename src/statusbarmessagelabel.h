@@ -51,7 +51,7 @@ struct StatusBarMessageItem
     int timeoutMillis;
     bool confirmed{false}; ///< MLT errors need to be confirmed.
 
-    /// \return true if the error still needs to be confirmed
+    /// @return true if the error still needs to be confirmed
     bool needsConfirmation() const { return (type == MltError && !confirmed); }
 
     StatusBarMessageItem(QString messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
@@ -120,6 +120,7 @@ private:
     QLabel *m_label;
     QLabel *m_keyMap;
     QString m_keymapText;
+    QString m_tooltipText;
     QProgressBar *m_progress;
     QTimerWithTime m_queueTimer;
     QSemaphore m_queueSemaphore;

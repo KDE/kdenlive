@@ -71,7 +71,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
-    connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
+    connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
@@ -268,7 +268,7 @@ KdenliveDoc::~KdenliveDoc()
     if (m_url.isEmpty()) {
         // Document was never saved, delete cache folder
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-        bool ok;
+        bool ok = false;
         documentId.toLongLong(&ok, 10);
         if (ok && !documentId.isEmpty()) {
             QDir baseCache = getCacheDir(CacheBase, &ok);
@@ -747,13 +747,12 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
-void KdenliveDoc::updateSubtitle(QString newUrl)
+void KdenliveDoc::updateSubtitle(const QString &newUrl)
 {
     if (auto ptr = m_subtitleModel.lock()) {
-        QString subPath;
         bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
         QFileInfo info(newUrl);
-        subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+        QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
         ptr->copySubtitle(subPath, checkOverwrite);
     }
 }
@@ -1162,10 +1161,9 @@ void KdenliveDoc::setMetadata(const QMap<QString, QString> &meta)
     m_documentMetadata = meta;
 }
 
-QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool proxy, QMap<QString, QString> proxyPath)
+QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath)
 {
     QMap<QString, QString> existingProxies;
-    QList<std::shared_ptr<ProjectClip>> clipList;
     for (auto &id : ids) {
         auto clip = pCore->projectItemModel()->getClipByBinID(id);
         QMap<QString, QString> newProps;
@@ -1289,6 +1287,11 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     }
 }
 
+double KdenliveDoc::getDocumentVersion() const
+{
+    return DOCUMENTVERSION;
+}
+
 QMap<QString, QString> KdenliveDoc::documentProperties()
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
@@ -1356,7 +1359,7 @@ void KdenliveDoc::loadDocumentProperties()
         QDir dir(path);
         dir.cdUp();
         m_projectFolder = dir.absolutePath();
-        bool ok;
+        bool ok = false;
         // Ensure document storage folder is writable
         QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
         documentId.toLongLong(&ok, 10);
@@ -1423,7 +1426,7 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(ProfileParam* pf)
+void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
 {
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
@@ -1438,17 +1441,17 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
     } else {
         // Check for 23.98, 29.97, 59.94
         if (qFuzzyCompare(fps_int, 23.0)) {
-            if (qFuzzyCompare(fps, 23.98)) {
+            if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 24000;
                 profile->m_frame_rate_den = 1001;
             }
         } else if (qFuzzyCompare(fps_int, 29.0)) {
-            if (qFuzzyCompare(fps, 29.97)) {
+            if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 30000;
                 profile->m_frame_rate_den = 1001;
             }
         } else if (qFuzzyCompare(fps_int, 59.0)) {
-            if (qFuzzyCompare(fps, 59.94)) {
+            if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
                 profile->m_frame_rate_num = 60000;
                 profile->m_frame_rate_den = 1001;
             }
@@ -1473,8 +1476,8 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
             QString currentProfileDesc = pCore->getCurrentProfile()->description();
             KMessageBox::ButtonCode answer = KMessageBox::questionYesNoCancel(
                 QApplication::activeWindow(),
-                i18n("Your default project profile is %1, but your clip's profile is %2.\nDo you want to change default profile for future projects?",
-                     currentProfileDesc, profile->description()),
+                i18n("Your default project profile is %1, but your clip's profile (%2) is %3.\nDo you want to change default profile for future projects?",
+                     currentProfileDesc, clipName, profile->description()),
                 i18n("Change default project profile"), KGuiItem(i18n("Change default to %1", profile->description())),
                 KGuiItem(i18n("Keep current default %1", currentProfileDesc)), KGuiItem(i18n("Ask me later")));
 
@@ -1484,7 +1487,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
                 pCore->taskManager.slotCancelJobs();
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
-                updateProjectProfile(true);
+                updateProjectProfile(true, true);
                 emit docModified(true);
                 return;
             case KMessageBox::No:
@@ -1495,20 +1498,19 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
         }
 
         // Build actions for the info message (switch / cancel)
-        QList<QAction *> list;
         const QString profilePath = profile->path();
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
-        list << ac << ac2;
-        pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
+        QList<QAction *> list = {ac,ac2};
+        pCore->displayBinMessage(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
-        if (KMessageBox::warningContinueCancel(QApplication::activeWindow(),
-                                               i18n("No profile found for your clip.\nCreate and switch to new profile (%1x%2, %3fps)?%4", profile->m_width,
+        if (KMessageBox::warningContinueCancel(pCore->window(),
+                                               i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5", clipName, profile->m_width,
                                                     profile->m_height, QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2),
                                                     adjustMessage)) == KMessageBox::Continue) {
             profile->m_description = QStringLiteral("%1x%2 %3fps")
@@ -1519,7 +1521,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf)
             // Discard all current jobs
             pCore->taskManager.slotCancelJobs();
             pCore->setCurrentProfile(profilePath);
-            updateProjectProfile(true);
+            updateProjectProfile(true, true);
             emit docModified(true);
         }
     }
@@ -1658,13 +1660,6 @@ void KdenliveDoc::checkPreviewStack(int ix)
     emit removeInvalidUndo(ix);
 }
 
-void KdenliveDoc::saveMltPlaylist(const QString &fileName)
-{
-    Q_UNUSED(fileName)
-    // TODO REFAC
-    // m_render->preparePreviewRendering(fileName);
-}
-
 void KdenliveDoc::initCacheDirs()
 {
     bool ok = false;
@@ -1705,7 +1700,7 @@ QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
         // Use specified folder to store all files
         kdenliveCacheDir = m_projectFolder;
     }
-    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId;
+    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId; // CacheBase
     switch (type) {
     case SystemCacheRoot:
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -1822,4 +1817,3 @@ void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
 {
     m_subtitleModel = m_subtitle;
 }
-

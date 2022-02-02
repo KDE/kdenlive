@@ -124,11 +124,11 @@ public:
     bool reAssignEndMix(int currentId, int newId);
     /** @brief Get all necessary infos to clone a mix */
     std::pair<QString,QVector<QPair<QString, QVariant>>> getMixParams(int cid);
-    void switchMix(int cid, const QString composition, Fun &undo, Fun &redo);
+    void switchMix(int cid, const QString &composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
     /** @brief Remove a mix in the track (if its clip was removed) */
-    void removeMix(MixInfo info);
+    void removeMix(const MixInfo &info);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
@@ -142,6 +142,8 @@ public:
     QVariantList stackZones() const;
     /** @brief Return true if a clip starts at pos in one of the trak playlists */
     bool hasClipStart(int pos);
+    /** @brief Calculate a hash based on all clips an d mixes positions/playtime */
+    QByteArray trackHash();
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -172,9 +174,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QList<int> allowedClipMixes = {});
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, QList<int> allowedClipMixes = {});
+    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, const QList<int> &allowedClipMixes = {});
 
     /** @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -187,7 +189,7 @@ protected:
        @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, QList<int> allowedClipMixes = {});
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
@@ -312,7 +314,7 @@ protected:
     /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
     /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
-    bool isAvailableWithExceptions(int position, int duration, QVector<int>exceptions);
+    bool isAvailableWithExceptions(int position, int duration, const QVector<int>&exceptions);
     /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */

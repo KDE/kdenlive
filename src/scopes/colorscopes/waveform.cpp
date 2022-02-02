@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 #include <QPoint>
 
 const QSize Waveform::m_textWidth(35, 0);
@@ -43,7 +43,7 @@ Waveform::Waveform(QWidget *parent)
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Waveform::forceUpdateScope);
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
     connect(m_aRec601, &QAction::toggled, this, &Waveform::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Waveform::forceUpdateScope);

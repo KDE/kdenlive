@@ -8,7 +8,7 @@
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -39,8 +39,8 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */ 
-    bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false, bool updateFilter = true);
-    bool addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter = true);
+    bool addSubtitle(int id, GenTime start,GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
+    bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
@@ -69,10 +69,10 @@ public:
     bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /** @brief Edit subtitle text
-        @param startPos is start timing position of subtitles
+        @param id the model id of the subtitle
         @param newSubtitleText is (new) subtitle text
     */
-    void editSubtitle(GenTime startPos, QString newSubtitleText);
+    bool editSubtitle(int id, const QString &newSubtitleText);
 
     /** @brief Remove subtitle at start position (pos) */
     bool removeSubtitle(int id, bool temporary = false, bool updateFilter = true);
@@ -81,7 +81,7 @@ public:
     void removeAllSubtitles();
     
     /** @brief Update some properties in the view */
-    void updateSub(int id, QVector <int> roles);
+    void updateSub(int id, const QVector <int> &roles);
 
     /** @brief Move an existing subtitle
         @param subId is the subtitle's ID
@@ -91,7 +91,7 @@ public:
     void requestSubtitleMove(int clipId, GenTime position);
     
     /** @brief Function that imports a subtitle file */
-    void importSubtitle(const QString filePath, int offset = 0, bool externalImport = false);
+    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();
@@ -107,7 +107,8 @@ public:
     bool isSelected(int id) const;
     /** @brief Cut a subtitle */
     bool cutSubtitle(int position);
-    bool cutSubtitle(int position, Fun &undo, Fun &redo);
+    /** @brief Cut a subtitle, return the id of newly created subtitle */
+    int cutSubtitle(int position, Fun &undo, Fun &redo);
     QString getText(int id) const;
     int getRowForId(int id) const;
     GenTime getStartPosForId(int id) const;
@@ -121,7 +122,7 @@ public:
     void switchLocked();
     bool isLocked() const;
     /** @brief Load some subtitle filter properties from file */
-    void loadProperties(QMap<QString, QString> subProperties);
+    void loadProperties(const QMap<QString, QString> &subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
     /** @brief Returns an xml representation of the subtitle with id \@sid */
@@ -136,15 +137,17 @@ public:
     void clearGrab();
     /** @brief Release timeline model pointer */
     void unsetModel();
+    /** @brief Get in/out of a subtitle item */
+    QPair<int, int> getInOut(int sid) const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */
-    void parseSubtitle(const QString subPath = QString());
+    void parseSubtitle(const QString &subPath = QString());
     
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
     void jsontoSubtitle(const QString &data);
     /** @brief Update a subtitle text*/
-    bool setText(int id, const QString text);
+    bool setText(int id, const QString &text);
 
 private:
     std::shared_ptr<TimelineItemModel> m_timeline;

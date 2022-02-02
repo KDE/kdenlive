@@ -38,8 +38,8 @@ public:
     Q_INVOKABLE QModelIndex getPreviousChild(const QModelIndex &current);
     Q_INVOKABLE QModelIndex firstVisibleItem(const QModelIndex &current);
     Q_INVOKABLE QModelIndex getCategory(int catRow);
-    Q_INVOKABLE QModelIndex getModelIndex(QModelIndex current);
-    Q_INVOKABLE QModelIndex getProxyIndex(QModelIndex current);
+    Q_INVOKABLE QModelIndex getModelIndex(const QModelIndex &current);
+    Q_INVOKABLE QModelIndex getProxyIndex(const QModelIndex &current);
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;

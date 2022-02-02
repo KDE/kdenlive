@@ -5,11 +5,11 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
-#include "core.h"
 #include "compositionmodel.hpp"
+#include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "transitions/transitionsrepository.hpp"
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
 #else
@@ -51,7 +51,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
         // m_effectStack->addService(m_subPlaylist);
-        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
                 qDebug()<<"==== TRACK ZONES CHANGED";
@@ -138,7 +138,7 @@ bool TrackModel::switchPlaylist(int clipId, int position, int sourcePlaylist, in
     return false;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove, QList<int> allowedClipMixes)
+Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
@@ -265,7 +265,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, QList<int> allowedClipMixes)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -430,7 +430,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     };
 }
 
-bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, QList<int> allowedClipMixes)
+bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -801,7 +801,22 @@ int TrackModel::getClipByPosition(int position, int playlist)
     if (!prod || prod->is_blank()) {
         return -1;
     }
-    return prod->get_int("_kdenlive_cid");
+    int cid = prod->get_int("_kdenlive_cid");
+    if (playlist == -1) {
+        if (hasStartMix(cid)) {
+            if (position < m_allClips[cid]->getPosition() + m_allClips[cid]->getMixCutPosition()) {
+                return m_mixList.key(cid, -1);
+            }
+        }
+        if (m_mixList.contains(cid)) {
+            // Clip has end mix
+            int otherId = m_mixList.value(cid);
+            if (position >= m_allClips[cid]->getPosition() + m_allClips[cid]->getPlaytime() - m_allClips[otherId]->getMixCutPosition()) {
+                return otherId;
+            }
+        }
+    }
+    return cid;
 }
 
 QSharedPointer<Mlt::Producer> TrackModel::getClipProducer(int clipId)
@@ -1080,10 +1095,10 @@ bool TrackModel::checkConsistency()
             // Check that the mix has correct in/out
             int mainId = -1;
             int mixIn = t.get_in();
-            for (auto & m_sameComposition : m_sameCompositions) {
-                if (static_cast<Mlt::Transition *>(m_sameComposition.second->getAsset())->get_in() == mixIn) {
+            for (auto &sameComposition : m_sameCompositions) {
+                if (static_cast<Mlt::Transition *>(sameComposition.second->getAsset())->get_in() == mixIn) {
                     // Found mix in list
-                    mainId = m_sameComposition.first;
+                    mainId = sameComposition.first;
                     break;
                 }
             }
@@ -1565,10 +1580,10 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
 {
     if (playlist == -1) {
         // Check on both playlists
-        for (auto &playlist : m_playlists) {
-            int start_clip = playlist.get_clip_index_at(position);
-            int end_clip = playlist.get_clip_index_at(position + duration - 1);
-            if (start_clip != end_clip || !playlist.is_blank(start_clip)) {
+        for (auto &pl : m_playlists) {
+            int start_clip = pl.get_clip_index_at(position);
+            int end_clip = pl.get_clip_index_at(position + duration - 1);
+            if (start_clip != end_clip || !pl.is_blank(start_clip)) {
                 return false;
             }
         }
@@ -1582,7 +1597,7 @@ bool TrackModel::isAvailable(int position, int duration, int playlist)
     return m_playlists[playlist].is_blank(start_clip);
 }
 
-bool TrackModel::isAvailableWithExceptions(int position, int duration, QVector<int>exceptions)
+bool TrackModel::isAvailableWithExceptions(int position, int duration, const QVector<int> &exceptions)
 {
     // Check on both playlists
     QSharedPointer<Mlt::Producer> prod = nullptr;
@@ -1613,19 +1628,24 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     int secondInPos;
     int mixPosition;
     int src_track = 0;
-    bool clipHasEndMix = false;
+    int first_src_track = 0;
+    bool secondClipHasEndMix = false;
+    bool firstClipHasStartMix = false;
     QList <int> allowedMixes = {clipIds.first};
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
+        std::shared_ptr<ClipModel> firstClip(ptr->getClipPtr(clipIds.first));
         std::shared_ptr<ClipModel> secondClip(ptr->getClipPtr(clipIds.second));
         mixDuration = secondClip->getMixDuration();
         mixCutPos = secondClip->getMixCutPosition();
         mixPosition = secondClip->getPosition();
+        firstInPos = firstClip->getPosition();
         secondInPos = mixPosition + mixDuration - mixCutPos;
-        firstInPos = ptr->getClipPtr(clipIds.first)->getPosition();
         endPos = mixPosition + secondClip->getPlaytime();
-        clipHasEndMix = hasEndMix(clipIds.second);
+        secondClipHasEndMix = hasEndMix(clipIds.second);
+        firstClipHasStartMix = hasStartMix(clipIds.first);
         src_track = secondClip->getSubPlaylistIndex();
+        first_src_track = firstClip->getSubPlaylistIndex();
     } else {
         return false;
     }
@@ -1648,10 +1668,18 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         QString assetId = m_sameCompositions[clipIds.second]->getAssetId();
         QVector<QPair<QString, QVariant>> params = m_sameCompositions[clipIds.second]->getAllParameters();
         bool switchSecondTrack = false;
-        if (src_track == 1 && !clipHasEndMix && !closing) {
+        bool switchFirstTrack = false;
+        if (src_track == 1 && !secondClipHasEndMix && !closing) {
             switchSecondTrack = true;
         }
-        Fun replay = [this, clipIds, secondInPos, switchSecondTrack]() {
+        if (first_src_track == 1 && !firstClipHasStartMix && !closing) {
+            switchFirstTrack = true;
+        }
+        Fun replay = [this, clipIds, firstInPos, secondInPos, switchFirstTrack, switchSecondTrack]() {
+            if (switchFirstTrack) {
+                // Revert clip to playlist 0 since it has no mix
+                switchPlaylist(clipIds.first, firstInPos, 1, 0);
+            }
             if (switchSecondTrack) {
                 // Revert clip to playlist 0 since it has no mix
                 switchPlaylist(clipIds.second, secondInPos, 1, 0);
@@ -1675,8 +1703,12 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             return true;
         };
         replay();
-        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, switchSecondTrack]() {
+        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, firstInPos, secondInPos, switchFirstTrack, switchSecondTrack]() {
             // First restore correct playlist
+            if (switchFirstTrack) {
+                // Revert clip to playlist 1
+                switchPlaylist(clipIds.first, firstInPos, 0, 1);
+            }
             if (switchSecondTrack) {
                 // Revert clip to playlist 1
                 switchPlaylist(clipIds.second, secondInPos, 0, 1);
@@ -2267,7 +2299,7 @@ int TrackModel::getMixDuration(int cid) const
     return transition.get_length() - 1;
 }
 
-void TrackModel::removeMix(MixInfo info)
+void TrackModel::removeMix(const MixInfo &info)
 {
     Q_ASSERT(m_sameCompositions.count(info.secondClipId) > 0);
     Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[info.secondClipId]->getAsset());
@@ -2358,8 +2390,9 @@ int TrackModel::isOnCut(int cid)
 {
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(cid);
-        int startPos = composition->getPosition();
-        int endPos = startPos + composition->getPlaytime() - 1;
+        // Start and end pos are incremented by 1 to account snapping
+        int startPos = composition->getPosition() - 1;
+        int endPos = startPos + composition->getPlaytime() + 1;
         int cid1 = getClipByPosition(startPos);
         int cid2 = getClipByPosition(endPos);
         if (cid1 == -1 || cid2 == -1 || cid1 == cid2) {
@@ -2400,7 +2433,6 @@ QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(firstClipId);
         container.setAttribute(QStringLiteral("firstClipPosition"), clip->getPosition());
     }
-    std::shared_ptr<AssetParameterModel> asset = m_sameCompositions.at(cid);
     const QString assetId = m_sameCompositions.at(cid)->getAssetId();
     QVector<QPair<QString, QVariant>> params = m_sameCompositions.at(cid)->getAllParameters();
     container.setAttribute(QStringLiteral("asset"), assetId);
@@ -2443,8 +2475,6 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     int clipOut = m_allClips[cid1]->getPosition() + m_allClips[cid1]->getPlaytime();
     if (in != clipIn || out != clipOut) {
         t->set_in_and_out(clipIn, clipOut);
-        in = clipIn;
-        out = clipOut;
     }
     QString assetId(t->get("kdenlive_id"));
     if (assetId.isEmpty()) {
@@ -2502,7 +2532,7 @@ std::pair<QString,QVector<QPair<QString, QVariant>>> TrackModel::getMixParams(in
     return {assetId,params};
 }
 
-void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &redo)
+void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &redo)
 {
     // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor
@@ -2513,6 +2543,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
         int in = transition.get_in();
         int out = transition.get_out();
+        int mixCutPos = transition.get_int("kdenlive:mixcut");
         QScopedPointer<Mlt::Field> field(m_track->field());
         field->lock();
         field->disconnect_service(transition);
@@ -2522,6 +2553,7 @@ void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &r
             std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(composition);
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
+            t->set("kdenlive:mixcut", mixCutPos);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
@@ -2572,4 +2604,21 @@ bool TrackModel::hasClipStart(int pos)
         }
     }
     return false;
+}
+
+
+QByteArray TrackModel::trackHash()
+{
+    QByteArray fileData;
+    // Parse clips
+    for (auto &clip : m_allClips) {
+        fileData.append(clip.second->clipHash().toUtf8());
+    }
+    // Parse mixes
+    for (auto &sameComposition : m_sameCompositions) {
+        Mlt::Transition *tr = static_cast<Mlt::Transition *>(sameComposition.second->getAsset());
+        QString mixData = QString("%1 %2 %3").arg(QString::number(tr->get_in()), QString::number(tr->get_out()), sameComposition.second->getAssetId());
+        fileData.append(mixData.toLatin1());
+    }
+    return fileData;
 }

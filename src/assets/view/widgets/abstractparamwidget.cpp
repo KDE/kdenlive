@@ -6,27 +6,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "buttonparamwidget.hpp"
 #include "boolparamwidget.hpp"
-#include "fontparamwidget.hpp"
-#include "keywordparamwidget.hpp"
+#include "buttonparamwidget.hpp"
+#include "clickablelabelwidget.hpp"
 #include "coloreditwidget.hpp"
 #include "curves/bezier/beziersplineeditor.h"
 #include "curves/cubic/kis_cubic_curve.h"
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
-#include "clickablelabelwidget.hpp"
+#include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
 #include "keyframewidget.hpp"
-#include "listparamwidget.h"
+#include "keywordparamwidget.hpp"
 #include "listdependencyparamwidget.h"
+#include "listparamwidget.h"
 #include "lumaliftgainparam.hpp"
+#include "multiswitchparamwidget.hpp"
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
-#include "multiswitchparamwidget.hpp"
 #include "urllistparamwidget.h"
 #include "urlparamwidget.hpp"
 
@@ -49,18 +49,18 @@ public:
     void setText(const QString &str) { m_label->setText(str); }
     void slotRefresh() override {}
 
-protected:
+private:
     QLabel *m_label;
 };
 
-AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_index(index)
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QSize frameSize, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();

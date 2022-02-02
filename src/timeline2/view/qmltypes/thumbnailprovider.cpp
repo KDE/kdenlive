@@ -9,8 +9,8 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "utils/thumbnailcache.hpp"
 #include "doc/kthumb.h"
+#include "utils/thumbnailcache.hpp"
 
 #include <QCryptographicHash>
 #include <QDebug>

@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define SPACERDIALOG_H
 
 #include "definitions.h"
-#include "timecode.h"
-#include "timecodedisplay.h"
+#include "utils/timecode.h"
+#include "widgets/timecodedisplay.h"
 #include "ui_spacerdialog_ui.h"
 
 /** @class SpacerDialog

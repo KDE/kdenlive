@@ -5,26 +5,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "stabilizetask.h"
+#include "assets/model/assetparametermodel.hpp" 
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
-#include "project/clipstabilize.h"
 #include "bin/projectitemmodel.h"
-#include "profiles/profilemodel.hpp"
-#include "assets/model/assetparametermodel.hpp" 
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "project/clipstabilize.h"
 #include "xml/xml.hpp"
 
-#include <QThread>
 #include <QProcess>
+#include <QThread>
 
 #include <klocalizedstring.h>
 
-StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool,bool> autoAddClip, std::unordered_map<QString, QVariant> filterParams, QObject* object)
+StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool,bool> autoAddClip, const std::unordered_map<QString, QVariant> &filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::STABILIZEJOB, object)
     , m_binId(binId)
     , m_inPoint(in)
@@ -113,6 +113,8 @@ void StabilizeTask::run()
             return;
         }
         producerArgs << url;
+        producerArgs << binClip->enforcedParams();
+
         if (m_inPoint > -1) {
            producerArgs << QString("in=%1").arg(m_inPoint);
         }

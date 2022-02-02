@@ -9,11 +9,11 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/geometrywidget.h"
-#include <mlt++/MltProperties.h>
-#include <framework/mlt_types.h>
 #include <QVBoxLayout>
+#include <framework/mlt_types.h>
+#include <mlt++/MltProperties.h>
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -55,7 +55,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     setFixedHeight(m_geom->sizeHint().height());
 
     // emit the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString val) { emit valueChanged(m_index, val, true); });
+    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { emit valueChanged(m_index, val, true); });
 
     setToolTip(comment);
 }

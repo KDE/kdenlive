@@ -66,11 +66,10 @@ private:
     QHBoxLayout *m_masterBox;
     QHBoxLayout *m_channelsLayout;
     QScrollArea *m_channelsBox;
-    int m_lastFrame;
     bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector <int> m_soloMuted;
-    int m_recommandedWidth;
+    int m_recommendedWidth;
 
 };
 

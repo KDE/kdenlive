@@ -66,7 +66,7 @@ void KeyframeModelList::removeFromSelected(int ix)
     m_parameters.begin()->second->setSelectedKeyframe(ix, true);
 }
 
-void KeyframeModelList::setSelectedKeyframes(QVector<int> list)
+void KeyframeModelList::setSelectedKeyframes(const QVector<int> &list)
 {
     m_parameters.begin()->second->setSelectedKeyframes(list);
 }
@@ -450,8 +450,7 @@ void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
 
 void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
-    bool ok;
-    bool ok2;
+    bool ok = false, ok2 = false;
     QList<GenTime> positions;
     if (!adjustFromEnd) {
         if (offset != 0) {

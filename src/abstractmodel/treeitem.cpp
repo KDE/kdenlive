@@ -20,7 +20,7 @@ TreeItem::TreeItem(QList<QVariant> data, const std::shared_ptr<AbstractTreeModel
 {
 }
 
-std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, bool isRoot, int id)
+std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id)
 {
     std::shared_ptr<TreeItem> self(new TreeItem(data, model, isRoot, id));
     baseFinishConstruct(self);
@@ -62,11 +62,10 @@ bool TreeItem::appendChild(const std::shared_ptr<TreeItem> &child)
         if (oldParent->getId() == m_id) {
             // no change needed
             return true;
-        } else {
-            // in that case a call to removeChild should have been carried out
-            qDebug() << "ERROR: trying to append a child that alrealdy has a parent";
-            return false;
         }
+        // in that case a call to removeChild should have been carried out
+        qDebug() << "ERROR: trying to append a child that alrealdy has a parent";
+        return false;
     }
     if (auto ptr = m_model.lock()) {
         ptr->notifyRowAboutToAppend(shared_from_this());

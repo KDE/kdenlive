@@ -14,7 +14,7 @@ class Splash : public QSplashScreen
     Q_OBJECT
 
 public:
-    explicit Splash(const QPixmap &pixmap);
+    explicit Splash();
     //~Splash();
 
 public slots:

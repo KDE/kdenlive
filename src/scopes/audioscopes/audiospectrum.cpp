@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/audio/fftTools.h"
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -76,7 +76,8 @@ AudioSpectrum::AudioSpectrum(QWidget *parent)
     m_ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
     connect(m_aResetHz, &QAction::triggered, this, &AudioSpectrum::slotResetMaxFreq);
-    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+
+    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &AudioSpectrum::forceUpdate);
     connect(this, &AudioSpectrum::signalMousePositionChanged, this, &AudioSpectrum::forceUpdateHUD);
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators

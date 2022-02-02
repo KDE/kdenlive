@@ -11,10 +11,10 @@
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
-#include <QSize>
-#include <QLineF>
 #include <QDebug>
 #include <QJsonDocument>
+#include <QLineF>
+#include <QSize>
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -206,7 +206,7 @@ GenTime KeyframeModel::getPosAtIndex(int ix) const
     return positions.at(ix);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
@@ -277,6 +277,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
             }
             return res;
         } else {
+            // We have only one selected keyframe
             if (pos > oldPos) {
                 // Moving right
                 bool ok = false;
@@ -471,7 +472,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, std::move(value), undo, redo);
+    bool res = updateKeyframe(pos, value, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -665,7 +666,7 @@ bool KeyframeModel::singleKeyframe() const
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
-    if (m_keyframeList.count(pos) <= 0) {
+    if (m_keyframeList.count(pos) == 0) {
         // return empty marker
         *ok = false;
         return {GenTime(), KeyframeType::Linear};
@@ -736,7 +737,6 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
 bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     int kfrCount = int(m_keyframeList.size()) - 1;
@@ -768,13 +768,11 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     };
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
-    for (const auto &m : m_keyframeList) {
-        all_pos.push_back(m.first);
-    }
+    QList<GenTime> all_pos = getKeyframePos();
     update_redo_start();
     bool res = true;
     bool first = true;
-    for (const auto &p : all_pos) {
+    for (const auto &p : qAsConst(all_pos)) {
         if (first) { // skip first point
             first = false;
             continue;
@@ -1102,28 +1100,25 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+
+    if (!animData.isEmpty() && (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel)) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+    }
+    if (!animData.isEmpty() && m_paramType == ParamType::AnimatedRect) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
+        QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+        if (useOpacity) {
+            res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
         }
-        return QVariant();
-    } else if (m_paramType == ParamType::AnimatedRect) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-            if (useOpacity) {
-                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
-            }
-            return QVariant(res);
-        }
-        return QVariant();
-    } else if (m_paramType == ParamType::Roto_spline) {
+        return QVariant(res);
+    }
+    if (m_paramType == ParamType::Roto_spline) {
         // interpolate
         auto next = m_keyframeList.upper_bound(pos);
         if (next == m_keyframeList.cbegin()) {
@@ -1408,9 +1403,8 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
     update_redo_start();
-    bool res = true;
     for (const auto &p : all_pos) {
-        res = removeKeyframe(p, local_undo, local_redo, false);
+        bool res = removeKeyframe(p, local_undo, local_redo, false);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);

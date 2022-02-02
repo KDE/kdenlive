@@ -4,16 +4,16 @@
 */
 
 #include "buttonparamwidget.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "jobs/filtertask.h"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
+#include "jobs/filtertask.h"
 #include <mlt++/Mlt.h>
 
 #include <KMessageWidget>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QProgressBar>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -54,15 +54,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
     }
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    m_displayConditional = true;
-    for (const auto &param : qAsConst(filterParams)) {
-        if (param.first == m_keyParam) {
-            if (!param.second.toString().isEmpty() && param.second.toString().contains(QLatin1Char(';'))) {
-                m_displayConditional = false;
-            }
-            break;
-        }
-    }
+    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
+    };
+    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+
     if (!conditionalInfo.isEmpty()) {
         m_label = new KMessageWidget(conditionalInfo, this);
         m_label->setWordWrap(true);
@@ -199,13 +195,11 @@ void ButtonParamWidget::slotShowComment(bool show)
 void ButtonParamWidget::slotRefresh()
 {
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    m_displayConditional = true;
-    for (const auto &param : qAsConst(filterParams)) {
-        if (param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'))) {
-            m_displayConditional = false;
-            break;
-        }
-    }
+    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
+    };
+    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+
     if (m_label) {
         m_label->setVisible(m_displayConditional);
     }

@@ -60,14 +60,19 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
-        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.contentItem.width < 0
+        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.width < 0
+        if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
 
-    onKeyframeModelChanged: {
+    /*onKeyframeModelChanged: {
         if (effectRow.item && effectRow.item.keyframecanvas) {
             effectRow.item.keyframecanvas.requestPaint()
         }
-    }
+    }*/
 
     onModelStartChanged: {
         x = modelStart * timeScale;
@@ -101,6 +106,11 @@ Item {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        if (!compositionRoot.hideClipViews) {
+            if (effectRow.item && effectRow.item.kfrCanvas) {
+                effectRow.item.kfrCanvas.requestPaint()
+            }
+        }
     }
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
@@ -256,6 +266,7 @@ Item {
                 drag.smoothed: false
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     compositionRoot.originalX = compositionRoot.x
                     compositionRoot.originalDuration = clipDuration
                     anchors.left = undefined
@@ -267,6 +278,7 @@ Item {
                     compositionRoot.trimmedIn(compositionRoot)
                     trimIn.opacity = 0
                     updateDrag()
+                    root.trimInProgress = false;
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -289,8 +301,10 @@ Item {
                 onExited: {
                     trimIn.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimInMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -322,6 +336,7 @@ Item {
 
                 onPressed: {
                     root.autoScrolling = false
+                    root.trimInProgress = true;
                     compositionRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     trimOut.opacity = 0
@@ -331,6 +346,7 @@ Item {
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     updateDrag()
+                    root.trimInProgress = false;
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -347,8 +363,10 @@ Item {
                 onExited: {
                     trimOut.opacity = 0
                     if (!mouseArea.containsMouse) {
-                        timeline.showKeyBinding()
                         timeline.showToolTip()
+                    }
+                    if (!trimOutMouseArea.containsMouse) {
+                        timeline.showKeyBinding()
                     }
                 }
                 Rectangle {
@@ -369,6 +387,28 @@ Item {
             anchors.fill: parent
             anchors.margins: displayRect.border.width
             clip: true
+            Rectangle {
+                // Debug: Clip Id background
+                id: debugCidRect
+                color: 'magenta'
+                width: debugCid.width
+                height: debugCid.height
+                visible: root.debugmode
+                anchors.left: labelRect.right
+                Text {
+                    // Composition ID text
+                    id: debugCid
+                    text: compositionRoot.clipId
+                    font: miniFont
+                    anchors {
+                        top: debugCidRect.top
+                        left: debugCidRect.left
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'white'
+                }
+            }
             Rectangle {
                 // text background
                 id: labelRect
@@ -425,6 +465,12 @@ Item {
                     target: effectRow.item
                     property: "modelStart"
                     value: compositionRoot.modelStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
+                    property: "scrollStart"
+                    value: compositionRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
                 }
                 Binding {

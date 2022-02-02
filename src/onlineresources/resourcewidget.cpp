@@ -8,8 +8,13 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include <klocalizedstring.h>
+#include <KFileItem>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <KRun>
+#include <KSelectAction>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QIcon>
@@ -17,12 +22,9 @@
 #include <QMenu>
 #include <QProgressDialog>
 #include <QToolBar>
-#include <QComboBox>
-#include <KFileItem>
-#include <KMessageBox>
-#include <KRecentDirs>
-#include <KRun>
-#include <KSelectAction>
+#include <klocalizedstring.h>
+
+#include <kcompletion_version.h>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
@@ -60,11 +62,15 @@ ResourceWidget::ResourceWidget(QWidget *parent)
         }
         service_list->addItem(icon, provider.first, provider.second);
     }
-    connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeProvider()));
+    connect(service_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ResourceWidget::slotChangeProvider);
     loadConfig();
     connect(provider_info, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(label_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
+#if KCOMPLETION_VERSION < QT_VERSION_CHECK(5, 81, 0)
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
+#else
+    connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
+#endif
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&](){
             if (!m_currentProvider) {
@@ -138,7 +144,7 @@ void ResourceWidget::saveConfig()
 }
 
 /**
- * @brief ResourceWidget::slotChangeProvider
+ * @brief ResourceWidget::blockUI
  * @param block
  * Block or unblock the online resource ui
  */
@@ -484,8 +490,7 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
     if(!ok || name.isEmpty()) {
         return;
     }
-    QString url = urls.at(labels.indexOf(name));
-    slotSaveItem(url, accessToken);
+    slotSaveItem(urls.at(labels.indexOf(name)), accessToken);
 }
 
 /**

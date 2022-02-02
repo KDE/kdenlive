@@ -17,24 +17,24 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QInputDialog>
 #include <QLabel>
 #include <QMenu>
 #include <QMimeData>
+#include <QPointer>
 #include <QProgressBar>
 #include <QSpinBox>
 #include <QStandardPaths>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWheelEvent>
-#include <QPointer>
-#include <QFormLayout>
-#include <QTextEdit>
 
-#include <QComboBox>
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <klocalizedstring.h>
 
 CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
@@ -482,8 +482,8 @@ void CollapsibleEffectView::slotSaveEffect()
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
 
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -520,12 +520,31 @@ void CollapsibleEffectView::slotSaveEffect()
             if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
                 continue;
             }
+            if (paramType == QLatin1String("multiswitch")) {
+                // Multiswitch param value is not updated on change, fo fetch real value now
+                QString val = m_model->getParamFromName(paramName).toString();
+                params.item(i).toElement().setAttribute(QStringLiteral("value"), val);
+                continue;
+            }
             params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
         }
         doc.appendChild(doc.importNode(effect, true));
         effect = doc.firstChild().toElement();
         effect.removeAttribute(QStringLiteral("kdenlive_ix"));
-        effect.setAttribute(QStringLiteral("id"), name);
+        QString namedId = name;
+        QString sourceId = effect.attribute("id");
+        // When saving an effect as custom, it might be necessary to keep track of the original 
+        // effect id as it is sometimes used in Kdenlive to trigger special behaviors
+        if (sourceId.startsWith(QStringLiteral("fade_to_"))) {
+            namedId.prepend(QStringLiteral("fade_to_"));
+        } else if (sourceId.startsWith(QStringLiteral("fade_from_"))) {
+            namedId.prepend(QStringLiteral("fade_from_"));
+        } if (sourceId.startsWith(QStringLiteral("fadein"))) {
+            namedId.prepend(QStringLiteral("fadein_"));
+        } if (sourceId.startsWith(QStringLiteral("fadeout"))) {
+            namedId.prepend(QStringLiteral("fadeout_"));
+        }
+        effect.setAttribute(QStringLiteral("id"), namedId);
         QString masterType = effect.attribute(QLatin1String("type"));
         effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
@@ -547,7 +566,7 @@ void CollapsibleEffectView::slotSaveEffect()
                     QDomText text = doc.createTextNode(enteredDescription);
                     newNodeTag.appendChild(text);
                     root.replaceChild(newNodeTag, nodelist);
-                }
+        }
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);

@@ -7,12 +7,12 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 
-#include <QPushButton>
-#include <QClipboard>
-#include <QLabel>
-#include <QIcon>
-#include <QToolButton>
 #include <QApplication>
+#include <QClipboard>
+#include <QIcon>
+#include <QLabel>
+#include <QPushButton>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)

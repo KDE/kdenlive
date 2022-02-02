@@ -8,9 +8,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "rgbparade.h"
 #include "rgbparadegenerator.h"
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QRect>
-#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -36,7 +36,7 @@ RGBParade::RGBParade(QWidget *parent)
     m_menu->addAction(m_aGradRef);
     connect(m_aGradRef, &QAction::changed, this, &RGBParade::forceUpdateScope);
 
-    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RGBParade::forceUpdateScope);
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();

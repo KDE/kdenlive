@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "xml/xml.hpp"
 
-#include "kdenlive_debug.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlive_debug.h"
 #include <KDiskFreeSpaceInfo>
 #include <KGuiItem>
 #include <KMessageBox>
@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent>
 #include <memory>
 #include <utility>
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
@@ -360,7 +360,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
         if(file.isEmpty() || fileName.isEmpty()) {
             continue;
         }
-        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
+        auto *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         if (isSlideshow) {
             // we store each slideshow in a separate subdirectory
             item->setData(0, Qt::UserRole, ix);
@@ -528,8 +528,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
-    KDiskFreeSpaceInfo inf = KDiskFreeSpaceInfo::freeSpaceInfo(archive_url->url().toLocalFile());
-    KIO::filesize_t freeSize = inf.available();
+    QStorageInfo info(archive_url->url().toLocalFile());
+    auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
     if (freeSize > m_requestedSize) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
@@ -579,12 +579,17 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
     int items = 0;
+    bool isLastCategory = false;
 
     // We parse all files going into one folder, then start the copy job
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
         if (parentItem->isDisabled()) {
             parentItem->setExpanded(false);
+            if (i == files_list->topLevelItemCount() - 1) {
+                isLastCategory = true;
+                break;
+            }
             continue;
         }
         if (parentItem->childCount() > 0) {
@@ -631,7 +636,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         if (!dir.mkpath(QStringLiteral("."))) {
                             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
                         }
-                        QFile file(destUrl.toLocalFile() + filename);
+                        QFile file(dir.absoluteFilePath(filename));
                         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                             qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
                             KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
@@ -657,6 +662,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                         // We have processed all slideshows
                         parentItem->setDisabled(true);
                     }
+                    // Slideshows are processed one by one, we call slotStartArchiving after each item
+                    break;
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     files << QUrl::fromLocalFile(item->text(0));
                 } else {
@@ -671,12 +678,18 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 }
             }
             if (!isSlideshow) {
+                // Slideshow is processed one by one and parent is disabled only once all items are done
                 parentItem->setDisabled(true);
             }
+        } else {
+            parentItem->setDisabled(true);
+            continue;
         }
+        // We process each clip category one by one and call slotStartArchiving recursively
+        break;
     }
 
-    if (items == 0) {
+    if (items == 0 && isLastCategory) {
         // No clips to archive
         slotArchivingFinished(nullptr, true);
         return true;
@@ -868,7 +881,7 @@ bool ArchiveWidget::processProjectFile()
     return true;
 }
 
-QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefix)
+QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
@@ -877,19 +890,17 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            //QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 QUrl src = QUrl::fromLocalFile(item->text(0));
-                QUrl dest = QUrl::fromLocalFile(destFolder.absolutePath());
+                QUrl dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 if (isSlideshow) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
                                                QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
-                } else {
-                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 }
                 m_replacementList.insert(src, dest);
             }
@@ -907,7 +918,7 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     if (isArchive) {
         basePath = QStringLiteral("$CURRENTPATH");
     } else {
-        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash | QUrl::StripTrailingSlash).toLocalFile();
+        basePath = archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile();
     }
     // Switch to relative path
     mlt.removeAttribute(QStringLiteral("root"));
@@ -953,8 +964,8 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
         }
         propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        bool found = false;
         if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
+            bool found = false;
             // Title with images, replace paths
             QDomDocument titleXML;
             titleXML.setContent(src);
@@ -1019,7 +1030,7 @@ QString ArchiveWidget::processMltFile(QDomDocument doc, const QString &destPrefi
     return playList;
 }
 
-void ArchiveWidget::propertyProcessUrl(QDomElement e, QString propertyName, QString root)
+void ArchiveWidget::propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root)
 {
     QString src = Xml::getXmlProperty(e, propertyName);
     if (!src.isEmpty()) {

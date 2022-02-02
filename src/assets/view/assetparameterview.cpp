@@ -47,11 +47,11 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_presetMenu->clear();
         m_presetGroup.reset(new QActionGroup(this));
         m_presetGroup->setExclusive(true);
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(resetValues()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, &AssetParameterView::resetValues);
         // Save preset
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, SLOT(slotSavePreset()));
-        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, SLOT(slotUpdatePreset()));
-        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, SLOT(slotDeletePreset()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, [&](){ slotSavePreset(); });
+        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, &AssetParameterView::slotUpdatePreset);
+        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
         if (presetName.isEmpty() || presets.isEmpty()) {
@@ -59,7 +59,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             deletePreset->setEnabled(false);
         }
         for (const QString &pName : qAsConst(presets)) {
-            QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
+            QAction *ac = m_presetMenu->addAction(pName, this, &AssetParameterView::slotLoadPreset);
             m_presetGroup->addAction(ac);
             ac->setData(pName);
             ac->setCheckable(true);
@@ -82,7 +82,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             }
         } else {
-            auto w = AbstractParamWidget::construct(model, index, frameSize, this);
+            auto *w = AbstractParamWidget::construct(model, index, frameSize, this);
             connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
@@ -167,7 +167,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
     }
 }
 
-void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo)
+void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetMultiCommand(m_model, indexes, values);
@@ -190,10 +190,10 @@ void AssetParameterView::unsetModel()
 
     // clear layout
     m_widgets.clear();
-    QLayoutItem *child;
+    QLayoutItem *child = nullptr;
     while ((child = m_lay->takeAt(0)) != nullptr) {
         if (child->layout()) {
-            QLayoutItem *subchild;
+            QLayoutItem *subchild = nullptr;
             while ((subchild = child->layout()->takeAt(0)) != nullptr) {
                 delete subchild->widget();
                 delete subchild->spacerItem();
@@ -294,7 +294,7 @@ void AssetParameterView::toggleKeyframes(bool enable)
     }
 }
 
-void AssetParameterView::slotDeletePreset()
+void AssetParameterView::slotDeleteCurrentPreset()
 {
     QAction *ac = m_presetGroup->checkedAction();
     if (!ac) {

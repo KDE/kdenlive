@@ -9,8 +9,8 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include <QMouseEvent>
 #include <QApplication>
+#include <QMouseEvent>
 #include <QStylePainter>
 #include <QtMath>
 
@@ -117,13 +117,13 @@ void KeyframeView::slotDuplicateKeyframe()
     }
 }
 
-void KeyframeView::slotAddKeyframe(int pos)
+bool KeyframeView::slotAddKeyframe(int pos)
 {
     if (pos < 0) {
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+    return m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
 }
 
 const QString KeyframeView::getAssetId()
@@ -143,7 +143,14 @@ void KeyframeView::slotAddRemove()
             slotRemoveKeyframe({m_position});
         }
     } else {
-        slotAddKeyframe(m_position);
+        if (slotAddKeyframe(m_position)) {
+            GenTime position(m_position + offset, pCore->getCurrentFps());
+            int currentIx = m_model->getIndexForPos(position);
+            if (currentIx > -1) {
+                m_model->setSelectedKeyframes({currentIx});
+                m_model->setActiveKeyframe(currentIx);
+            }
+        }
     }
 }
 
@@ -155,7 +162,7 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
     }
 }
 
-void KeyframeView::slotRemoveKeyframe(QVector<int> positions)
+void KeyframeView::slotRemoveKeyframe(const QVector<int> &positions)
 {
     if (m_model->singleKeyframe()) {
         // Don't allow zero keyframe
@@ -448,8 +455,8 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             double fps = pCore->getCurrentFps();
             int kfrIx = 0;
             for (const auto &keyframe : *m_model.get()) {
-                int pos = keyframe.first.frames(fps) - offset;
-                if (pos > min && pos <= max) {
+                int kfPos = keyframe.first.frames(fps) - offset;
+                if (kfPos > min && kfPos <= max) {
                     m_model->appendSelectedKeyframe(kfrIx);
                 }
                 kfrIx++;
@@ -539,7 +546,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
             int kfPos = m_model->getPosAtIndex(kf).frames(pCore->getCurrentFps());
             GenTime initPos(kfPos - delta, pCore->getCurrentFps());
             GenTime targetPos(kfPos, pCore->getCurrentFps());
-            m_model->moveKeyframe(targetPos, initPos, false, false);
+            m_model->moveKeyframe(targetPos, initPos, false, true);
             break;
         }
         // Move all keyframes to their new positions
@@ -689,9 +696,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     int base = int(tickOffset / frameSize);
     tickOffset = frameSize - (tickOffset - (base * frameSize));
     // Draw frame ticks
-    int scaledTick = 0;
     for (int i = 0; i < maxWidth / frameSize; i++) {
-        scaledTick = int(m_offset + (i * frameSize) + tickOffset);
+        int scaledTick = int(m_offset + (i * frameSize) + tickOffset);
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }
@@ -791,7 +797,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 }
 
 
-void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
+void KeyframeView::copyCurrentValue(const QModelIndex &ix, const  QString &paramName)
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
     const QString val = m_model->getInterpolatedValue(m_position + offset, ix).toString();

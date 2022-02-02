@@ -14,17 +14,17 @@
 
 #include <KColorScheme>
 
-MyValidator::MyValidator(QObject *parent)
+TimecodeValidator::TimecodeValidator(QObject *parent)
     : QValidator(parent)
 {
 }
 
-void MyValidator::fixup(QString &str) const
+void TimecodeValidator::fixup(QString &str) const
 {
     str.replace(QLatin1Char(' '), QLatin1Char('0'));
 }
 
-QValidator::State MyValidator::validate(QString &str, int &) const
+QValidator::State TimecodeValidator::validate(QString &str, int &) const
 {
     if (str.contains(QLatin1Char(' '))) {
         fixup(str);
@@ -94,7 +94,7 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
         lineEdit()->setInputMask(QString());
     } else {
         lineEdit()->setInputMask(m_timecode.mask());
-        auto *valid = new MyValidator(lineEdit());
+        auto *valid = new TimecodeValidator(lineEdit());
         lineEdit()->setValidator(valid);
     }
     setValue(m_value);

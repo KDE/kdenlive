@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #define SLIDESHOWCLIP_H
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "ui_slideshowclip_ui.h"
 
 #include <KIO/PreviewJob>

@@ -12,14 +12,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <cmath>
 
 #include <QFont>
+#include <QFontDatabase>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QFontDatabase>
 
 AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     : QWidget(parent)
     , audioChannels(pCore->audioChannels())
     , m_width(width)
+    , m_offset(fontMetrics().boundingRect(QStringLiteral("-45")).width() + 5)
     , m_channelWidth(width / 2)
     , m_channelDistance(2)
     , m_channelFillWidth(m_channelWidth)
@@ -62,7 +63,6 @@ void AudioLevelWidget::drawBackground(int channels)
     if (!newSize.isValid()) {
         return;
     }
-    m_offset = fontMetrics().boundingRect(QStringLiteral("-45")).width() + 5;
     newSize.setWidth(newSize.width() - m_offset - 1);
     QLinearGradient gradient(0, newSize.height(), 0, 0);
     gradient.setColorAt(0.0, Qt::darkGreen);

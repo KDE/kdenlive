@@ -8,19 +8,26 @@
 #ifndef OTIOCONVERTIONS_H
 #define OTIOCONVERTIONS_H
 
+#include "pythoninterfaces/abstractpythoninterface.h"
+
+#include <QDialog>
 #include <QObject>
 #include <QProcess>
 #include <QTemporaryFile>
 
-class OtioConvertions: public QObject
+class OtioConvertions: public AbstractPythonInterface
 {
     Q_OBJECT
 public:
     OtioConvertions();
     bool getOtioConverters();
+    bool configureSetup();
+    bool wellConfigured();
+    bool runOtioconvert(const QString &inputFile, const QString &outputFile);
 
 private:
-    QString m_adapters;
+    QString m_importAdapters;
+    QString m_exportAdapters;
 
 public slots:
     void slotExportProject();

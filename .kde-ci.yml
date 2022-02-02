@@ -27,6 +27,7 @@ Dependencies:
     'frameworks/ktextwidgets' : '@stable'
     'frameworks/kwidgetsaddons' : '@stable'
     'frameworks/kxmlgui' : '@stable'
+    'frameworks/kfilemetadata' : '@stable'
     'frameworks/purpose' : '@stable'
     #'plasma/breeze' : '@stable' #do we need this?
 

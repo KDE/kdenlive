@@ -5,8 +5,8 @@
 */
 
 #include "providersrepository.hpp"
-#include <QStandardPaths>
 #include <QDir>
+#include <QStandardPaths>
 
 std::unique_ptr<ProvidersRepository> ProvidersRepository::instance;
 std::once_flag ProvidersRepository::m_onceFlag;
@@ -23,7 +23,7 @@ std::unique_ptr<ProvidersRepository> &ProvidersRepository::get()
 
 void ProvidersRepository::refresh(bool fullRefresh) {
 
-    //Lock to avoid changes to config files while reading them
+    // Lock to avoid changes to config files while reading them
     QWriteLocker locker(&m_mutex);
 
     if (fullRefresh) {

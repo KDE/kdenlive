@@ -87,7 +87,6 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
     std::unordered_set<int> roots;
-    qDebug()<<"==========GROUPING ITEMS: "<<ids.size();
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
     if (roots.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -104,7 +103,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan)
 {
     QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
@@ -113,7 +112,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
         return false;
     }
 
-    return destructGroupItem(gid, true, undo, redo);
+    return destructGroupItem(gid, deleteOrphan, undo, redo);
 }
 
 void GroupsModel::createGroupItem(int id)
@@ -325,6 +324,18 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
             promoteToGroup(groupId, GroupType::Normal);
         }
     }
+}
+
+QString GroupsModel::debugString() {
+    QString string;
+    for (const auto &item : m_downLink) {
+        QStringList leafs;
+        for (auto leaf : item.second) {
+            leafs << QString::number(leaf);
+        }
+        string.append((QStringLiteral("ID: %1 Leafs: %2; ").arg(item.first).arg(leafs.join(" "))));
+    }
+    return string;
 }
 
 void GroupsModel::removeFromGroup(int id)
@@ -738,7 +749,7 @@ const QString GroupsModel::toJson() const
     return QString(json.toJson());
 }
 
-const QString GroupsModel::toJson(std::unordered_set<int> roots) const
+const QString GroupsModel::toJson(const std::unordered_set<int> &roots) const
 {
     QJsonArray list;
     for (int r : roots) {
@@ -830,7 +841,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap)
+void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap)
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();

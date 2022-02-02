@@ -5,25 +5,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "filtertask.h"
+#include "assets/model/assetparametermodel.hpp" 
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
-#include "profiles/profilemodel.hpp"
-#include "assets/model/assetparametermodel.hpp" 
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
 
-#include <QThread>
 #include <QProcess>
+#include <QThread>
 
 #include <klocalizedstring.h>
 
-FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object)
+FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
+    , length(0)
     , m_binId(binId)
     , m_inPoint(in)
     , m_outPoint(out)
@@ -36,7 +38,8 @@ FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_pt
 {
 }
 
-void FilterTask::start(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object, bool force)
+void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object, bool force)
 {
     FilterTask* task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
     if (task) {

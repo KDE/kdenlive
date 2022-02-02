@@ -102,8 +102,8 @@ public:
     Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     QPoint profile();
-    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
-    void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());
+    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
+    void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
@@ -180,7 +180,7 @@ private:
     int m_boundsCount;
 
 public slots:
-    void updateClipBounds(QVector <QPoint>bounds);
+    void updateClipBounds(const QVector <QPoint>&bounds);
 };
 
 #endif

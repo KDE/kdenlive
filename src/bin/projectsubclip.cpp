@@ -6,14 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "projectsubclip.h"
-#include "projectclip.h"
-#include "projectitemmodel.h"
-#include "core.h"
-#include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
 #include "bincommands.h"
+#include "core.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
+#include "projectclip.h"
+#include "projectitemmodel.h"
 #include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>
@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class ClipController;
 
 ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                               const QString &timecode, const QMap<QString, QString> zoneProperties)
+                               const QString &timecode, const QMap<QString, QString> &zoneProperties)
     : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
 {
@@ -50,7 +50,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
                                                           const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                          const QMap<QString, QString> zoneProperties)
+                                                          const QMap<QString, QString> &zoneProperties)
 {
     std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, zoneProperties));
     baseFinishConstruct(self);

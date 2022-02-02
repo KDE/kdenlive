@@ -1,19 +1,31 @@
+/*
+    SPDX-FileCopyrightText: 2017-2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartlab.uber.space>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtQml.Models 2.11
 import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import 'Timeline.js' as Logic
 import com.enums 1.0
+import org.kde.kdenlive 1.0 as Kdenlive
 
 Rectangle {
     id: root
     objectName: "timelineview"
     SystemPalette { id: activePalette }
     color: activePalette.window
+    property bool debugmode: false
     property bool validMenu: false
     property color textColor: activePalette.text
     property var groupTrimData
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1
+    property bool trimInProgress: false
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
 
@@ -29,10 +41,6 @@ Rectangle {
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
-
-    // Zoombar properties
-    property double zoomStart: scrollView.visibleArea.xPosition
-    property double zoomBarWidth: scrollView.visibleArea.widthRatio
 
     FontMetrics {
         id: fontMetrics
@@ -388,7 +396,7 @@ Rectangle {
     property color thumbColor1: timeline.thumbColor1
     property color thumbColor2: timeline.thumbColor2
     property int mainItemId: -1
-    property int mainFrame: -1
+    property int clickFrame: -1
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -405,12 +413,11 @@ Rectangle {
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
-    property var selectedGuides
+    property var selectedGuides: []
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
-    // The first visible frame in case of scaling triggered by zoombar
-    property int zoomOnBar: -1
+    property bool zoomOnBar: false // Whether the scaling was done with the zoombar
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
@@ -421,6 +428,7 @@ Rectangle {
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
+    property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
@@ -441,9 +449,8 @@ Rectangle {
         if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - getMouseX())
             root.zoomOnMouse = -1
-        } else if (root.zoomOnBar >= 0) {
-            scrollView.contentX = Math.max(0, root.zoomOnBar * timeline.scaleFactor )
-            root.zoomOnBar = -1
+        } else if (root.zoomOnBar) {
+            root.zoomOnBar = false
         } else {
             scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
         }
@@ -581,7 +588,7 @@ Rectangle {
                     // We want a same track composition
                     timeline.insertNewMix(track, sameCutPos, clipBeingDroppedData)
                 } else if (!isAudioDrag) {
-                    timeline.insertNewComposition(track, frame, clipBeingDroppedData, true)
+                    timeline.insertNewCompositionAtPos(track, frame, clipBeingDroppedData)
                 } else {
                     // Cannot insert an audio mix composition
                 }
@@ -939,6 +946,37 @@ Rectangle {
                         x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
                         spacing: 0
                         ToolButton {
+                            id: warningButton
+                            visible: subtitlesWarning
+                            focusPolicy: Qt.NoFocus
+                            contentItem: Item {
+                                Image {
+                                    source: "image://icon/data-warning"
+                                    anchors.centerIn: parent
+                                    width: root.collapsedHeight - 4
+                                    height: root.collapsedHeight - 4
+                                    cache: root.paletteUnchanged
+                                }
+                            }
+                            width: root.collapsedHeight
+                            height: root.collapsedHeight
+                            onClicked: timeline.subtitlesWarningDetails()
+                            ToolTip {
+                                visible: warningButton.hovered
+                                font: miniFont
+                                delay: 1500
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    text: i18n("Click to see details")
+                                }
+                            }
+                        }
+                        ToolButton {
                             id: analyseButton
                             focusPolicy: Qt.NoFocus
                             contentItem: Item {
@@ -1190,7 +1228,7 @@ Rectangle {
                         trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / timeline.scaleFactor)
                         timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
-                    if (dragProxy.draggedItem > -1) {
+                    if (dragProxy.draggedItem > -1 && mouse.y > ruler.height) {
                         mouse.accepted = false
                         return
                     }
@@ -1254,7 +1292,7 @@ Rectangle {
                         } else {
                             timeline.activeTrack = -2
                         }
-                        root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
+                        root.clickFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
                     } else {
                         // ruler menu
@@ -1836,12 +1874,29 @@ Rectangle {
                             x: root.consumerPosition * timeline.scaleFactor
                         }
                     }
-                    ZoomBar {
+                    Kdenlive.ZoomBar {
                         id: horZoomBar
+                        visible: scrollView.visibleArea.widthRatio < 1
                         anchors {
                             left: parent.left
                             right: parent.right
                             top: scrollView.bottom
+                        }
+                        height: Math.round(root.baseUnit * 0.7)
+                        barMinWidth: root.baseUnit
+                        fitsZoom: timeline.scaleFactor === root.fitZoom() && root.scrollPos() === 0
+                        zoomFactor: scrollView.visibleArea.widthRatio
+                        onProposeZoomFactor: {
+                            timeline.scaleFactor = scrollView.width / Math.round(proposedValue * scrollView.contentWidth / timeline.scaleFactor)
+                            zoomOnBar = true
+                        }
+                        contentPos: scrollView.contentX / scrollView.contentWidth
+                        onProposeContentPos: scrollView.contentX = Math.max(0, proposedValue * scrollView.contentWidth)
+                        onZoomByWheel: root.zoomByWheel(wheel)
+                        onFitZoom: {
+                            timeline.scaleFactor = root.fitZoom()
+                            scrollView.contentX = 0
+                            zoomOnBar = true
                         }
                     }
                 }

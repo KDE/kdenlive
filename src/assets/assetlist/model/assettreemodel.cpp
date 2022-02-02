@@ -8,12 +8,6 @@
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-int AssetTreeModel::nameCol = 0;
-int AssetTreeModel::idCol = 1;
-int AssetTreeModel::typeCol = 2;
-int AssetTreeModel::favCol = 3;
-int AssetTreeModel::preferredCol = 5;
-
 AssetTreeModel::AssetTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
 {
@@ -38,7 +32,7 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
     }
-    return item->dataColumn(AssetTreeModel::nameCol).toString();
+    return item->dataColumn(AssetTreeModel::NameCol).toString();
 }
 
 bool AssetTreeModel::isFavorite(const QModelIndex &index) const
@@ -50,7 +44,7 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     if (item->depth() == 1) {
         return false;
     }
-    return item->dataColumn(AssetTreeModel::favCol).toBool();
+    return item->dataColumn(AssetTreeModel::FavCol).toBool();
 }
 
 QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) const
@@ -62,7 +56,7 @@ QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) 
     if (isEffect && item->depth() == 1) {
         return QString();
     }
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
     if (isEffect && EffectsRepository::get()->exists(id)) {
         return EffectsRepository::get()->getDescription(id);
     }
@@ -82,11 +76,11 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     switch (role) {
     case IdRole:
-        return item->dataColumn(AssetTreeModel::idCol);
+        return item->dataColumn(AssetTreeModel::IdCol);
     case FavoriteRole:
-        return item->dataColumn(AssetTreeModel::favCol);
+        return item->dataColumn(AssetTreeModel::FavCol);
     case TypeRole:
-        return item->dataColumn(AssetTreeModel::typeCol);
+        return item->dataColumn(AssetTreeModel::TypeCol);
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());

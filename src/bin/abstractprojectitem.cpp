@@ -24,6 +24,9 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
+    , m_parentDuration()
+    , m_inPoint()
+    , m_outPoint()
     , m_date()
     , m_binId(std::move(id))
     , m_usage(0)
@@ -298,7 +301,7 @@ const QString & AbstractProjectItem::tags() const
     return m_tags;
 }
 
-void AbstractProjectItem::setTags(const QString tags)
+void AbstractProjectItem::setTags(const QString &tags)
 {
     m_tags = tags;
 }

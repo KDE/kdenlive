@@ -80,8 +80,8 @@ private:
     QUrl getSearchUrl(const QString &searchText, const int page = 1);
     QUrl getFilesUrl(const QString &id);
     QJsonValue objectGetValue(QJsonObject item, QString key);
-    QString objectGetString(QJsonObject item, QString key, const QString &id = QString(), const QString &parentKey = QString());
-    QString replacePlaceholders(QString string, const QString query = QString(), const int page = 0, const QString id = QString());
+    QString objectGetString(QJsonObject item, const QString &key, const QString &id = QString(), const QString &parentKey = QString());
+    QString replacePlaceholders(QString string, const QString &query = QString(), const int page = 0, const QString &id = QString());
     std::pair<QList<ResourceItemInfo>, const int> parseSearchResponse(const QByteArray &res);
     std::pair<QStringList, QStringList> parseFilesResponse(const QByteArray &res, const QString &id);
     QTemporaryFile *m_tmpThumbFile;

@@ -8,6 +8,7 @@
 
 #include "ui_textbasededit_ui.h"
 #include "definitions.h"
+#include "pythoninterfaces/speechtotext.h"
 
 #include <QProcess>
 #include <QAction>
@@ -47,11 +48,11 @@ public:
     const QString selectionEndAnchor(QTextCursor &cursor, int end, int min);
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
-    QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
+    QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
     QVector<QPoint> getInsertZones();
     /** @brief Remove all text outside loadZones
      */
-    void processCutZones(QList <QPoint> loadZones);
+    void processCutZones(const QList <QPoint> &loadZones);
     void rebuildZones();
     QVector< QPair<double, double> > speechZones;
     QVector <QPoint> cutZones;
@@ -147,7 +148,6 @@ private slots:
     void startRecognition();
     void slotProcessSpeech();
     void slotProcessSpeechError();
-    void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
@@ -180,6 +180,7 @@ private:
     QTimer m_hideTimer;
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
+    SpeechToText *m_stt;
 };
 
 #endif

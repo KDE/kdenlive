@@ -32,6 +32,8 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_clipId(-1)
     , m_seekFinished(true)
     , m_td(nullptr)
+    , m_trimmingFrames1(0)
+    , m_trimmingFrames2(0)
     , m_boundsCount(0)
 {
 }
@@ -302,7 +304,7 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName)
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
 {
     if (clipId != m_clipId) {
         m_clipId = clipId;
@@ -324,7 +326,7 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     emit clipNameChanged();
 }
 
-void MonitorProxy::setAudioThumb(const QList <int> streamIndexes, QList <int> channels)
+void MonitorProxy::setAudioThumb(const QList <int> &streamIndexes, const QList <int> &channels)
 {
     m_audioChannels = channels;
     m_audioStreams = streamIndexes;
@@ -438,7 +440,7 @@ QByteArray MonitorProxy::getUuid() const
     return QUuid::createUuid().toByteArray();
 }
 
-void MonitorProxy::updateClipBounds(QVector <QPoint>bounds)
+void MonitorProxy::updateClipBounds(const QVector<QPoint> &bounds)
 {
     if (bounds.size() == m_boundsCount) {
         // Enforce refresh, in/out points may have changed

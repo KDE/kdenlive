@@ -7,15 +7,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clipcontroller.h"
+#include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
-#include "bin/clipcreator.hpp"
-#include "doc/kthumb.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -223,7 +223,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
         m_clipType = ClipType::Color;
         // Required for faster compositing
-        m_masterProducer->set("mlt_image_format", "rgb24");
+        m_masterProducer->set("mlt_image_format", "rgb");
         m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("kdenlivetitle")) {
         if (!m_path.isEmpty()) {
@@ -302,10 +302,10 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+        return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
                "colorspace,set.force_full_luma,file_hash,autorotate,disable_exif,xmldata,video_index,audio_index,set.test_image,set.test_audio";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+    return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
            "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
 }
 
@@ -672,14 +672,41 @@ void ClipController::checkAudioVideo()
         }
         return;
     }
-    QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
-    if (frame->is_valid()) {
-        // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
-        m_hasAudio = frame->get_int("test_audio") == 0;
-        m_hasVideo = frame->get_int("test_image") == 0;
-        m_masterProducer->seek(0);
+    if (m_masterProducer->property_exists("kdenlive:clip_type")) {
+        int clipType = m_masterProducer->get_int("kdenlive:clip_type");
+        switch (clipType) {
+            case 1:
+                m_hasAudio = true;
+                m_hasVideo = false;
+                break;
+            case 2:
+                m_hasAudio = false;
+                m_hasVideo = true;
+                break;
+            default:
+                m_hasAudio = true;
+                m_hasVideo = true;
+                break;
+        }
     } else {
-        qDebug()<<"* * * *ERROR INVALID FRAME On test";
+        QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
+        if (frame->is_valid()) {
+            // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
+            m_hasAudio = frame->get_int("test_audio") == 0;
+            m_hasVideo = frame->get_int("test_image") == 0;
+            if (m_hasAudio) {
+                if (m_hasVideo) {
+                    m_masterProducer->set("kdenlive:clip_type", 0);
+                } else {
+                    m_masterProducer->set("kdenlive:clip_type", 1);
+                }
+            } else if (m_hasVideo) {
+                m_masterProducer->set("kdenlive:clip_type", 2);
+            }
+            m_masterProducer->seek(0);
+        } else {
+            qDebug()<<"* * * *ERROR INVALID FRAME On test";
+        }
     }
 }
 bool ClipController::hasVideo() const
@@ -832,8 +859,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
     } else {
         if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio) {
             // Make sure that a frame / image was fetched to initialize all meta properties
-            QString progressive = m_properties->get("meta.media.progressive");
-            if (progressive.isEmpty()) {
+            if (!m_properties->property_exists("meta.media.progressive")) {
                 // Fetch a frame to initialize required properties
                 QScopedPointer<Mlt::Producer> tmpProd(nullptr);
                 if (KdenliveSettings::gpu_accel()) {

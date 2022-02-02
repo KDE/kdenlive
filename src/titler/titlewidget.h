@@ -15,7 +15,7 @@
 #define TITLEWIDGET_H
 
 #include "graphicsscenerectmove.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
@@ -153,6 +153,8 @@ private:
     QList<QGraphicsLineItem *> m_guides;
 
     PatternsModel *m_patternsModel;
+
+    //QList<TitleTemplate> m_titleTemplates;
 
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 

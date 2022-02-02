@@ -127,7 +127,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
     t.start();
     for (size_t shift = -sizeSub; shift <= sizeMain; ++shift) {
 
-        if (shift <= 0) {
+        if (shift == 0) {
             left = envSub - shift;
             right = envMain;
             size = std::min(sizeSub + shift, sizeMain);

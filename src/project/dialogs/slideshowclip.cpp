@@ -6,9 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "slideshowclip.h"
 #include "bin/projectclip.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "core.h"
 
 #include <KFileItem>
 #include <KRecentDirs>
@@ -54,6 +54,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), QStringLiteral("tif"));
     m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), QStringLiteral("tiff"));
     m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), QStringLiteral("exr"));
+    m_view.image_type->addItem(i18n("Preview from CR2 (*.cr2)"), QStringLiteral("cr2"));
+    m_view.image_type->addItem(i18n("Preview from ARW (*.arw)"), QStringLiteral("arw"));
     m_view.animation->addItem(i18n("None"), QString());
     m_view.animation->addItem(i18nc("Image Pan", "Pan"), QStringLiteral("Pan"));
     m_view.animation->addItem(i18n("Pan, low-pass"), QStringLiteral("Pan, low-pass"));
@@ -274,13 +276,11 @@ void SlideshowClip::parseFolder()
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
-        int ix;
         for (const QString &p : qAsConst(result)) {
             if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
-                    ix = p.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
-                    ix = p.section(filter, 1).section('.', 0, 0).toInt();
+                    int ix = p.section(filter, 1).section('.', 0, 0).toInt();
                     if (ix < offset) {
                         continue;
                     }

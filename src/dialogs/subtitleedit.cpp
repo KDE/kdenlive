@@ -9,10 +9,10 @@
 
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
-#include "klocalizedstring.h"
 #include "QTextEdit"
+#include "klocalizedstring.h"
 
 #include <QEvent>
 #include <QKeyEvent>

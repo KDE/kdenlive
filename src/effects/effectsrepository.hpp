@@ -40,7 +40,10 @@ public:
     /** @brief Returns true if this is an effect group */
     bool isGroup(const QString &assetId) const;
     void deleteEffect(const QString &id);
+    /** @brief Returns true if effect is audio */
     bool isAudioEffect(const QString &assetId) const;
+    /** @brief Returns true if effect is text */
+    bool isTextEffect(const QString &assetId) const;
 
 protected:
     /** @brief Constructor is protected because class is a Singleton */

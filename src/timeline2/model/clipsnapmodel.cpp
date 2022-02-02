@@ -87,7 +87,7 @@ void ClipSnapModel::removeAllSnaps()
     }
 }
 
-void ClipSnapModel::allSnaps(std::vector<int> &snaps, int offset)
+void ClipSnapModel::allSnaps(std::vector<int> &snaps, int offset) const
 {
     snaps.push_back(m_position - offset);
     if (auto ptr = m_registeredSnap.lock()) {

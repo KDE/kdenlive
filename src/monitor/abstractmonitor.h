@@ -68,7 +68,7 @@ public:
     Kdenlive::MonitorId id() { return m_id; }
     ~AbstractMonitor() override;
     bool isActive() const;
-    virtual void mute(bool mute, bool updateIconOnly = false) = 0;
+    virtual void mute(bool mute) = 0;
 
 public slots:
     virtual void stop() = 0;

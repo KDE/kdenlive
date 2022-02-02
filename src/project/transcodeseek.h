@@ -21,9 +21,10 @@ public:
     TranscodeSeek(QWidget *parent = nullptr);
     ~TranscodeSeek() override;
 
-    void addUrl(const QString &file, const QString &id);
-    std::vector<QString> ids() const;
+    void addUrl(const QString &file, const QString &id, const QString &suffix);
+    QMap<QString,QString>  ids() const;
     QString params() const;
+    QString preParams() const;
     
 private:
     QMap<QString, QString> m_encodeParams;

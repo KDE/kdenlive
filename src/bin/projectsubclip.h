@@ -32,11 +32,11 @@ public:
      */
     static std::shared_ptr<ProjectSubClip> construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
                                                      const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                     const QMap<QString, QString> zoneProperties);
+                                                     const QMap<QString, QString> &zoneProperties);
 
 protected:
     ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                   const QString &timecode, const QMap<QString, QString> zoneProperties);
+                   const QString &timecode, const QMap<QString, QString> &zoneProperties);
 
 public:
     ~ProjectSubClip() override;

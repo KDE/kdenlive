@@ -50,7 +50,6 @@ add_subdirectory(capture)
 add_subdirectory(dialogs)
 add_subdirectory(doc)
 add_subdirectory(effects)
-add_subdirectory(effectslist)
 add_subdirectory(jobs)
 add_subdirectory(lib)
 add_subdirectory(library)
@@ -59,7 +58,7 @@ add_subdirectory(monitor)
 add_subdirectory(onlineresources)
 add_subdirectory(profiles)
 add_subdirectory(project)
-add_subdirectory(qml)
+add_subdirectory(pythoninterfaces)
 add_subdirectory(scopes)
 add_subdirectory(simplekeyframes)
 add_subdirectory(timeline2)
@@ -81,7 +80,11 @@ kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
 if(NOT NODBUS)
-    qt5_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+    if(USE_VERSIONLESS_TARGETS)
+        qt_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+    else()
+        qt5_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
+    endif()
 else()
     add_subdirectory(render)
 endif()
@@ -89,12 +92,20 @@ endif()
 file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 ## MOC
-qt5_wrap_cpp(kdenlive_MOC definitions.h)
+if(USE_VERSIONLESS_TARGETS)
+    qt_wrap_cpp(kdenlive_MOC definitions.h)
+else()
+    qt5_wrap_cpp(kdenlive_MOC definitions.h)
+endif()
 set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
 
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC} lib/localeHandling.cpp lib/localeHandling.h)
 
-qt5_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
+if(USE_VERSIONLESS_TARGETS)
+    qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
+else()
+    qt5_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
+endif()
 ## Icon for Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
 ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
@@ -139,13 +150,6 @@ target_link_libraries(kdenliveLib
     KF5::Declarative
     KF5::IconThemes
     KF5::Solid
-    Qt5::Svg
-    Qt5::Quick
-    Qt5::QuickControls2
-    Qt5::QuickWidgets
-    Qt5::Concurrent
-    Qt5::Multimedia
-    Qt5::NetworkAuth
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -153,6 +157,27 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
+
+if(USE_VERSIONLESS_TARGETS)
+    target_link_libraries(kdenliveLib
+        Qt::Svg
+        Qt::Quick
+        Qt::QuickControls2
+        Qt::QuickWidgets
+        Qt::Concurrent
+        Qt::Multimedia
+        Qt::NetworkAuth)
+else()
+    target_link_libraries(kdenliveLib
+        Qt5::Svg
+        Qt5::Quick
+        Qt5::QuickControls2
+        Qt5::QuickWidgets
+        Qt5::Concurrent
+        Qt5::Multimedia
+        Qt5::NetworkAuth)
+endif()
+
 if(NOT NODBUS)
   target_link_libraries(kdenliveLib KF5::DBusAddons)
 endif()

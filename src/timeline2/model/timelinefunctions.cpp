@@ -7,22 +7,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "timelinefunctions.hpp"
 #include "bin/bin.h"
+#include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
-#include "bin/model/subtitlemodel.hpp"
-#include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
+#include "mainwindow.h"
+#include "project/projectmanager.h"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "mainwindow.h"
-#include "project/projectmanager.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -237,7 +237,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     }
     for (int cid : qAsConst(clipsToCut)) {
         count++;
-        int newId;
+        int newId = -1;
         bool res = processClipCut(timeline, cid, position, newId, undo, redo);
         if (!res) {
             bool undone = undo();
@@ -315,7 +315,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     return count > 0;
 }
 
-int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups)
+int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups, bool allowGroupBreaking)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
@@ -330,6 +330,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         int firstCid = -1;
         int firstPosition = -1;
         QMap<int,int>firstPositions;
+        std::unordered_set<int> toSelect;
         for (int r : roots) {
             if (timeline->isGroup(r)) {
                 std::unordered_set<int> leaves = timeline->m_groups->getLeaves(r);
@@ -337,13 +338,17 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
-                    if (pos + timeline->getItemPlaytime(l) < position) {
-                        leavesToRemove.insert(l);
-                    } else if (ignoreMultiTrackGroups && trackId > -1 && timeline->getItemTrackId(l) != trackId) {
-                        leavesToRemove.insert(l);
-                    } else {
-                        leavesToKeep.insert(l);
-                        int tid = timeline->getItemTrackId(l);
+                    bool outOfRange = pos + timeline->getItemPlaytime(l) < position;
+                    int tid = timeline->getItemTrackId(l);
+                    bool unaffectedTrack = ignoreMultiTrackGroups && trackId > -1 && tid != trackId;
+                    if (allowGroupBreaking) {
+                        if (outOfRange || unaffectedTrack) {
+                            leavesToRemove.insert(l);
+                        } else {
+                            leavesToKeep.insert(l);
+                        }
+                    }
+                    if (!outOfRange && !unaffectedTrack) {
                         // Check space in all tracks
                         if (!firstPositions.contains(tid)) {
                             firstPositions.insert(tid, pos);
@@ -359,18 +364,16 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         }
                     }
                 }
+                for (int l : leavesToRemove) {
+                    int checkedParent = timeline->m_groups->getDirectAncestor(l);
+                    if (checkedParent < 0) {
+                        checkedParent = l;
+                    }
+                    spacerUngroupedItems.insert(l, checkedParent);
+                }
                 if (leavesToKeep.size() == 1) {
-                    // Only 1 item left in group, group will be deleted
-                    int master = *leavesToKeep.begin();
-                    roots.insert(master);
-                    for (int l : leavesToRemove) {
-                        spacerUngroupedItems.insert(l, master);
-                    }
+                    toSelect.insert(*leavesToKeep.begin());
                     groupsToRemove.insert(r);
-                } else {
-                    for (int l : leavesToRemove) {
-                        spacerUngroupedItems.insert(l, r);
-                    }
                 }
             } else {
                 int pos = timeline->getItemPosition(r);
@@ -389,17 +392,20 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 }
             }
         }
+        toSelect.insert(roots.begin(), roots.end());
         for (int r : groupsToRemove) {
-            roots.erase(r);
+            toSelect.erase(r);
         }
+
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         QMapIterator<int, int> i(spacerUngroupedItems);
         while (i.hasNext()) {
             i.next();
-            timeline->m_groups->ungroupItem(i.key(), undo, redo);
+            timeline->m_groups->removeFromGroup(i.key());
         }
-        timeline->requestSetSelection(roots);
+
+        timeline->requestSetSelection(toSelect);
         if (!firstPositions.isEmpty()) {
             // Find minimum position, parse all tracks
             if (trackId > -1) {
@@ -507,13 +513,26 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         QMapIterator<int, int> i(spacerUngroupedItems);
         Fun local_undo = []() { return true; };
         Fun local_redo = []() { return true; };
+        std::unordered_set<int> newlyGrouped;
         while (i.hasNext()) {
             i.next();
-            if (timeline->isGroup(i.value())) {
-                timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
+            if (timeline->isItem(i.value())) {
+                if (newlyGrouped.count(i.value()) > 0) {
+                    Q_ASSERT(timeline->m_groups->isInGroup(i.value()));
+                    timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
+                } else {
+                    std::unordered_set<int> items = {i.key(), i.value()};
+                    timeline->m_groups->groupItems(items, local_undo, local_redo);
+                    newlyGrouped.insert(i.value());
+                }
             } else {
-                std::unordered_set<int> items = {i.key(), i.value()};
-                timeline->m_groups->groupItems(items, local_undo, local_redo);
+                // i.value() is either a group (detectable via timeline->isGroup) or an empty group
+                if (timeline->isGroup(i.key())) {
+                    std::unordered_set<int> items = {i.key(), i.value()};
+                    timeline->m_groups->groupItems(items, local_undo, local_redo);
+                } else {
+                    timeline->m_groups->setGroup(i.key(), i.value());
+                }
             }
         }
         spacerUngroupedItems.clear();
@@ -525,13 +544,13 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
 }
 
 
-bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, Fun &undo, Fun &redo)
 {
     // Check if we have grouped clips that are on unaffected tracks, and ungroup them
     bool result = true;
     std::unordered_set<int> affectedItems;
     // First find all affected items
-    for (int &trackId : tracks) {
+    for (auto trackId : tracks) {
         std::unordered_set<int> items = timeline->getItemsInRange(trackId, zone.x(), zone.y());
         affectedItems.insert(items.begin(), items.end());
     }
@@ -551,7 +570,7 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
     return result;
 }
 
-bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly)
+bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
@@ -559,7 +578,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     bool result = true;
     result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
 
-    for (int &trackId : tracks) {
+    for (auto trackId : tracks) {
         if (timeline->getTrackById_const(trackId)->isLocked()) {
             continue;
         }
@@ -572,7 +591,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, const QList<int> &trackIds, const QString &binId, int insertFrame, QPoint zone,
                                    bool overwrite, bool useTargets)
 {
     std::function<bool(void)> undo = []() { return true; };
@@ -660,18 +679,46 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
-            qDebug() << "/// CUTTING AT START: " << zone.x() << ", ID: " << startClipId;
-            TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
-            qDebug() << "/// CUTTING AT START DONE";
+            // Check if we have a mix
+            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(startClipId);
+            bool abortCut = false;
+            if (mixData.first.firstClipId > -1) {
+                // Clip has a start mix
+                if (mixData.first.secondClipInOut.first + (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first) - mixData.first.mixOffset >= zone.x()) {
+                    // Cut pos is in the mix zone before clip cut, completely remove clip
+                    abortCut = true;
+                }
+            }
+            if (!abortCut) {
+                TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
+            } else {
+                // Remove the clip now, so that the mix is deleted before checking items in range
+                timeline->requestClipUngroup(startClipId, undo, redo);
+                timeline->requestItemDeletion(startClipId, undo, redo);
+            }
         }
     }
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
-            qDebug() << "/// CUTTING AT END: " << zone.y() << ", ID: " << endClipId;
-            TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
-            qDebug() << "/// CUTTING AT END DONE";
+            // Check if we have a mix
+            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(endClipId);
+            bool abortCut = false;
+            if (mixData.second.firstClipId > -1) {
+                // Clip has an end mix
+                if (mixData.second.firstClipInOut.second - (mixData.second.firstClipInOut.second - mixData.second.secondClipInOut.first) - mixData.first.mixOffset <= zone.y()) {
+                    // Cut pos is in the mix zone after clip cut, completely remove clip
+                    abortCut = true;
+                }
+            }
+            if (!abortCut) {
+                TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
+            } else {
+                // Remove the clip now, so that the mix is deleted before checking items in range
+                timeline->requestClipUngroup(endClipId, undo, redo);
+                timeline->requestItemDeletion(endClipId, undo, redo);
+            }
         }
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
@@ -682,7 +729,7 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     return true;
 }
 
-bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks, bool useTargets)
+bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks, bool useTargets)
 {
     std::unordered_set<int> clips;
     if (useTargets) {
@@ -696,7 +743,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
             ++it;
         }
     } else {
-        for (int &tid : allowedTracks) {
+        for (auto tid : allowedTracks) {
             std::unordered_set<int> subs = timeline->getItemsInRange(tid, zone.y() - 1, -1, true);
             clips.insert(subs.begin(), subs.end());
         }
@@ -725,7 +772,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks)
 {
     timeline->requestClearSelection();
     Fun local_undo = []() { return true; };
@@ -1815,7 +1862,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     return true;
 }
 
-bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position)
+bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, const QDomDocument &copiedItems, int position)
 {
     std::function<bool(void)> timeline_undo = []() { return true; };
     std::function<bool(void)> timeline_redo = []() { return true; };
@@ -2233,7 +2280,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         }
         track++;
     }
-    track = audioTracks;
     if (!isAudio) {
         // Compositions
         QDomNodeList compositions = sourceDoc.elementsByTagName(QLatin1String("transition"));

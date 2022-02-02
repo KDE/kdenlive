@@ -9,7 +9,7 @@ Currently supported distributions are:
 * Ubuntu 20.04 LTS Focal Fossa and derivatives
 * Arch Linux
 
-But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50,MLT >= 6.20.0.
+But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50, MLT >= 7.0.0.
 
 ## Build on Linux
 
@@ -86,7 +86,7 @@ And if you want to build MLT manually:
 git clone https://github.com/mltframework/mlt.git
 
 # Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavutil-dev
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libsdl1.2-dev librtaudio-dev
 ```
 
 #### Build and install the projects
@@ -174,7 +174,9 @@ Kdenlive test coverage is focused mostly on timeline model code (extending tests
 ### Fuzzer
 
 Kdenlive embeds a fuzzing engine that can detect crashes and auto-generate tests. It requires to have clang installed (generally in `/usr/bin/clang++`). This can be activated in `cmake` line with:
-`-DBUILD_FUZZING=ON -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DECM_ENABLE_SANITIZERS='address'`
+`-DBUILD_FUZZING=ON -DCMAKE_CXX_COMPILER=/usr/bin/clang++`
+
+To learn more fuzzing especially in the context of Kdenlive read this [blog post][fuzzer-blog].
 
 ### Help file for QtCreator, KDevelop, etc.
 
@@ -253,3 +255,5 @@ exit
 ## Translating Kdenlive
 
 TODO
+
+[fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/

@@ -32,8 +32,8 @@
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"
 #include "timeline2/view/qmltypes/thumbnailprovider.h"
-#include <mlt++/Mlt.h>
 #include <lib/localeHandling.h>
+#include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
 #ifdef GL_UNPACK_ROW_LENGTH_EXT
@@ -585,7 +585,6 @@ void GLWidget::paintGL()
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
             fmt.setSamples(1);
-            fmt.setInternalTextureFormat(GL_RGB);                             // GL_RGBA32F);  // which one is the fastest ?
             m_fbo = new QOpenGLFramebufferObject(m_profileSize.width(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
@@ -622,21 +621,11 @@ void GLWidget::paintGL()
 void GLWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
-        if (qFuzzyCompare(m_zoom, 1.0f)) {
-            setZoom(2.0f);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(3.0f);
-        } else if (m_zoom < 1.0f) {
-            setZoom(m_zoom * 2);
+        if (m_zoom < 12.0f) {
+            setZoom(m_zoom * 1.2);
         }
-    } else {
-        if (qFuzzyCompare(m_zoom, 3.0f)) {
-            setZoom(2.0);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(1.0);
-        } else if (m_zoom > 0.2f) {
-            setZoom(m_zoom / 2);
-        }
+    } else if (m_zoom > 0.2f) {
+        setZoom(m_zoom / 1.2f);
     }
 }
 
@@ -759,8 +748,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
-    event->accept();
     QQuickView::mousePressEvent(event);
+    event->accept();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -861,7 +850,7 @@ void GLWidget::startGlsl()
     }
 }
 
-static void onThreadStarted(mlt_properties owner, GLWidget *self)
+static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->startGlsl();
@@ -892,7 +881,7 @@ void GLWidget::stopGlsl()
     m_texture[0] = 0;
 }
 
-static void onThreadStopped(mlt_properties owner, GLWidget *self)
+static void onThreadStopped(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->stopGlsl();
@@ -1286,9 +1275,12 @@ QPoint GLWidget::offset() const
 
 void GLWidget::setZoom(float zoom)
 {
+    if (m_zoom == zoom) {
+        return;
+    }
     double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
-    emit zoomChanged();
+    emit zoomChanged(zoomRatio);
     if (rootObject()) {
         rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
@@ -1383,39 +1375,6 @@ void GLWidget::resetConsumer(bool fullReset)
     reconfigure();
 }
 
-const QString GLWidget::sceneList(const QString &root, const QString &fullPath, QString filterData)
-{
-    LocaleHandling::resetLocale();
-    QString playlist;
-    Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
-    if (!root.isEmpty()) {
-        xmlConsumer.set("root", root.toUtf8().constData());
-    }
-    if (!xmlConsumer.is_valid()) {
-        return QString();
-    }
-    xmlConsumer.set("store", "kdenlive");
-    xmlConsumer.set("time_format", "clock");
-    // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
-    // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
-    // xmlConsumer.set("no_meta", 1);
-    Mlt::Service s(m_producer->get_service());
-    std::unique_ptr<Mlt::Filter> filter = nullptr;
-    if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
-        filter->set("fgcolour", "#ffffff");
-        filter->set("bgcolour", "#bb333333");
-        s.attach(*filter.get());
-    }
-    xmlConsumer.connect(s);
-    xmlConsumer.run();
-    if (filter) {
-        s.detach(*filter.get());
-    }
-    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
-    return playlist;
-}
-
 void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 {
     m_texture[0] = yName;
@@ -1434,11 +1393,10 @@ void GLWidget::on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data
     }
 }
 
-void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_nosync_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1446,11 +1404,10 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
     }
 }
 
-void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));

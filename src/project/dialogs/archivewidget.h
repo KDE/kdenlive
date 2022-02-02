@@ -34,7 +34,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent = nullptr);
+    ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent = nullptr);
     // Constructor for extracting widget
     explicit ArchiveWidget(QUrl url, QWidget *parent = nullptr);
     ~ArchiveWidget() override;
@@ -108,13 +108,13 @@ private:
     * @param destPrefix (optional) prefix to put before each new file path
     * @returns the doc's content with replaced urls
     */
-    QString processMltFile(QDomDocument doc, const QString &destPrefix = QString());
+    QString processMltFile(const QDomDocument &doc, const QString &destPrefix = QString());
     /** @brief If the given element contains the property its content (url) will be converted to a relative file path
      *  @param e the dom element  that might contains the property
      *  @param propertyName name of the property that should be checked
      *  @param root rootpath of the parent mlt document
     */
-    void propertyProcessUrl(QDomElement e, QString propertyName, QString root);
+    void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
 
 signals:
     void archivingFinished(bool);

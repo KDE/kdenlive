@@ -34,7 +34,7 @@ void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::PROXYJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
@@ -381,7 +381,6 @@ void ProxyTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
-    int progress = 0;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -396,6 +395,7 @@ void ProxyTask::processLogInfo()
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
+            int progress = 0;
             QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));

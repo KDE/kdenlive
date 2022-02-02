@@ -160,6 +160,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 }
                 file.close();
             }
+        } else if (type == QLatin1String("text")) {
+            result.type = AssetListType::AssetType::Text;
         }
         customAssets[result.id] = result;
     }
@@ -405,6 +407,16 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
     if (m_assets.count(assetId) > 0) {
         AssetListType::AssetType type = m_assets.at(assetId).type;
         return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio ;
+    }
+    return false;
+}
+
+bool EffectsRepository::isTextEffect(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        if (m_assets.at(assetId).type == AssetListType::AssetType::Text) {
+            return true;
+        }
     }
     return false;
 }

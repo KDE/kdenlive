@@ -5,8 +5,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "renderwidget.h"
-#include "bin/projectitemmodel.h"
 #include "bin/bin.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "ui_saveprofile_ui.h"
 #include "xml/xml.hpp"
 
@@ -38,6 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QKeyEvent>
+#include <QMenu>
 #include <QMimeDatabase>
 #include <QProcess>
 #include <QStandardPaths>
@@ -46,7 +47,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTreeWidgetItem>
 #include <qglobal.h>
 #include <qstring.h>
-#include <QMenu>
 
 #ifdef KF5_USE_PURPOSE
 #include <Purpose/AlternativesModel>
@@ -88,10 +88,6 @@ enum {
 
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
-
-static QStringList acodecsList;
-static QStringList vcodecsList;
-static QStringList supportedFormats;
 
 RenderJobItem::RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type)
     : QTreeWidgetItem(parent, strings, type)
@@ -212,23 +208,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-    QColor bg = scheme.background(KColorScheme::NegativeBackground).color();
-    m_view.errorBox->setStyleSheet(
-        QStringLiteral("QGroupBox { background-color: rgb(%1, %2, %3); border-radius: 5px;}; ").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
-    int height = QFontInfo(font()).pixelSize();
-    m_view.errorIcon->setPixmap(QIcon::fromTheme(QStringLiteral("dialog-warning")).pixmap(height, height));
-    m_view.errorBox->setHidden(true);
-
-    m_infoMessage = new KMessageWidget;
-    m_view.info->addWidget(m_infoMessage);
-    m_infoMessage->setCloseButtonVisible(false);
-    m_infoMessage->hide();
-
-    m_jobInfoMessage = new KMessageWidget;
-    m_view.jobInfo->addWidget(m_jobInfoMessage);
-    m_jobInfoMessage->setCloseButtonVisible(false);
-    m_jobInfoMessage->hide();
 
     m_view.encoder_threads->setMinimum(0);
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
@@ -249,6 +228,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.abort_job->setEnabled(false);
     m_view.start_script->setEnabled(false);
     m_view.delete_script->setEnabled(false);
+
+    m_view.infoMessage->hide();
+    m_view.jobInfo->hide();
 
     connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
     m_view.export_audio->setCheckState(Qt::PartiallyChecked);
@@ -328,7 +310,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            m_renderer = QStringLiteral("kdenlive_render");
+            KMessageBox::sorry(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
 
@@ -346,12 +328,15 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 #else
     m_view.shareButton->setEnabled(false);
 #endif
+
+    // Parallel rendering
     m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
     connect(m_view.parallel_process, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
     if (KdenliveSettings::gpu_accel()) {
         // Disable parallel rendering for movit
         m_view.parallel_process->setEnabled(false);
     }
+
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
     loadConfig();
@@ -363,15 +348,15 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
 {
 #ifdef KF5_USE_PURPOSE
-    m_jobInfoMessage->hide();
+    m_view.jobInfo->hide();
     if (error) {
         KMessageBox::error(this, i18n("There was a problem sharing the document: %1", message), i18n("Share"));
     } else {
         const QString url = output["url"].toString();
         if (url.isEmpty()) {
-            m_jobInfoMessage->setMessageType(KMessageWidget::Positive);
-            m_jobInfoMessage->setText(i18n("Document shared successfully"));
-            m_jobInfoMessage->show();
+            m_view.jobInfo->setMessageType(KMessageWidget::Positive);
+            m_view.jobInfo->setText(i18n("Document shared successfully"));
+            m_view.jobInfo->show();
         } else {
             KMessageBox::information(this, i18n("You can find the shared document at: <a href=\"%1\">%1</a>", url), i18n("Share"), QString(),
                                      KMessageBox::Notify | KMessageBox::AllowLink);
@@ -399,8 +384,6 @@ RenderWidget::~RenderWidget()
     m_view.scripts_list->clear();
     delete m_jobsDelegate;
     delete m_scriptsDelegate;
-    delete m_infoMessage;
-    delete m_jobInfoMessage;
 }
 
 void RenderWidget::saveConfig()
@@ -672,7 +655,7 @@ void RenderWidget::slotSaveProfile()
 
 bool RenderWidget::saveProfile(QDomElement newprofile)
 {
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
@@ -1082,19 +1065,23 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
     Q_UNUSED(scriptPath)
     if (pCore->projectDuration() < 2) {
         // Empty project, don't attempt to render
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(i18n("Add a clip to timeline before rendering"));
+        m_view.infoMessage->animatedShow();
         return;
     }
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
-        KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(i18n("Cannot find the melt program required for rendering (part of Mlt)"));
+        m_view.infoMessage->animatedShow();
         return;
     }
-
+    m_view.infoMessage->hide();
     if (QFile::exists(m_view.out_file->url().toLocalFile())) {
         if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
             return;
         }
     }
-
     QString chapterFile;
     if (m_view.create_chapter->isChecked()) {
         chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
@@ -1145,6 +1132,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.video->value()));
     renderProps.insert(QStringLiteral("renderaudioquality"), QString::number(m_view.audio->value()));
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
+    renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
 
     emit selectedRenderProfile(renderProps);
 
@@ -1443,7 +1431,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     if (m_view.speed->isEnabled() && m_view.formats->currentItem()) {
         QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
         if (m_view.speed->value() < speeds.count()) {
-            QString speedValue = speeds.at(m_view.speed->value());
+            const QString &speedValue = speeds.at(m_view.speed->value());
             if (speedValue.contains(QLatin1Char('='))) {
                 consumer.setAttribute(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
             }
@@ -1572,10 +1560,15 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         QString playlistName = playlistPath;
         myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
         if (passes == 2 && i == 1) {
-            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(i + 1) + playlistName.section(QLatin1Char('.'), -1);
+            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(2) + playlistName.section(QLatin1Char('.'), -1);
         }
         playlists << playlistName;
         myConsumer.setAttribute(QStringLiteral("target"), mytarget);
+
+        // Preview rendering
+        if (m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height()) {
+            myConsumer.setAttribute(QStringLiteral("scale"), double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height());
+        }
 
         // Prepare rendering args
         int pass = passes == 2 ? i + 1 : 0;
@@ -1846,7 +1839,7 @@ void RenderWidget::refreshView()
             }
 
             // Make sure the selected profile uses an installed avformat codec / format
-            if (!supportedFormats.isEmpty()) {
+            if (!m_supportedFormats.isEmpty()) {
                 QString format;
                 if (params.startsWith(QLatin1String("f="))) {
                     format = params.section(QStringLiteral("f="), 1, 1);
@@ -1855,7 +1848,7 @@ void RenderWidget::refreshView()
                 }
                 if (!format.isEmpty()) {
                     format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!supportedFormats.contains(format)) {
+                    if (!m_supportedFormats.contains(format)) {
                         item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
                         item->setIcon(0, brokenIcon);
                         item->setForeground(0, disabled);
@@ -1863,40 +1856,39 @@ void RenderWidget::refreshView()
                     }
                 }
             }
-            if (!acodecsList.isEmpty()) {
-                QString format;
-                if (params.startsWith(QLatin1String("acodec="))) {
-                    format = params.section(QStringLiteral("acodec="), 1, 1);
-                } else if (params.contains(QStringLiteral(" acodec="))) {
-                    format = params.section(QStringLiteral(" acodec="), 1, 1);
-                }
-                if (!format.isEmpty()) {
-                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!acodecsList.contains(format)) {
-                        item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        item->setBackground(0, disabledbg);
-                    }
+            // check for missing audio codecs
+            QString format;
+            if (params.startsWith(QLatin1String("acodec="))) {
+                format = params.section(QStringLiteral("acodec="), 1, 1);
+            } else if (params.contains(QStringLiteral(" acodec="))) {
+                format = params.section(QStringLiteral(" acodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                format = format.section(QLatin1Char(' '), 0, 0).toLower();
+                if (!m_acodecsList.contains(format)) {
+                    item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
+                    item->setIcon(0, brokenIcon);
+                    item->setForeground(0, disabled);
+                    item->setBackground(0, disabledbg);
                 }
             }
-            if (!vcodecsList.isEmpty()) {
-                QString format;
-                if (params.startsWith(QLatin1String("vcodec="))) {
-                    format = params.section(QStringLiteral("vcodec="), 1, 1);
-                } else if (params.contains(QStringLiteral(" vcodec="))) {
-                    format = params.section(QStringLiteral(" vcodec="), 1, 1);
-                }
-                if (!format.isEmpty()) {
-                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!vcodecsList.contains(format)) {
-                        item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        continue;
-                    }
+            // check for missing audio codecs
+            format.clear();
+            if (params.startsWith(QLatin1String("vcodec="))) {
+                format = params.section(QStringLiteral("vcodec="), 1, 1);
+            } else if (params.contains(QStringLiteral(" vcodec="))) {
+                format = params.section(QStringLiteral(" vcodec="), 1, 1);
+            }
+            if (!format.isEmpty()) {
+                format = format.section(QLatin1Char(' '), 0, 0).toLower();
+                if (!m_vcodecsList.contains(format)) {
+                    item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
+                    item->setIcon(0, brokenIcon);
+                    item->setForeground(0, disabled);
+                    continue;
                 }
             }
+
             if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {
                 // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
                 // (https://github.com/mltframework/mlt/commit/d8a3a5c9190646aae72048f71a39ee7446a3bd45)
@@ -2092,16 +2084,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // Parse some MLT's profiles
     parseMltPresets();
     QStringList filter = {QStringLiteral("*.xml")};
-#ifdef Q_OS_WIN
-    // Windows downloaded profiles are saved in AppLocalDataLocation
-    QString localExportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
-    QDir winDir(localExportFolder);
-    QStringList winFileList = winDir.entryList(filter, QDir::Files);
-    for (const QString &filename : winFileList) {
-        parseFile(winDir.absoluteFilePath(filename), true);
-    }
-#endif
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/");
+    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
     QDir directory(exportFolder);
     QStringList fileList = directory.entryList(filter, QDir::Files);
     // We should parse customprofiles.xml in last position, so that user profiles
@@ -2110,8 +2093,8 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     for (const QString &filename : qAsConst(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
-    if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
-        parseFile(exportFolder + QStringLiteral("customprofiles.xml"), true);
+    if (directory.exists(QStringLiteral("customprofiles.xml"))) {
+        parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
     }
 
     focusFirstVisibleItem(selectedProfile);
@@ -2229,11 +2212,11 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
     QTreeWidgetItem *item = nullptr;
     bool replaceVorbisCodec = false;
-    if (acodecsList.contains(QStringLiteral("libvorbis"))) {
+    if (m_acodecsList.contains(QStringLiteral("libvorbis"))) {
         replaceVorbisCodec = true;
     }
     bool replaceLibfaacCodec = false;
-    if (acodecsList.contains(QStringLiteral("libfaac"))) {
+    if (m_acodecsList.contains(QStringLiteral("libfaac"))) {
         replaceLibfaacCodec = true;
     }
 
@@ -2852,6 +2835,12 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.checkTwoPass->setChecked(props.value(QStringLiteral("rendertwopass")).toInt() != 0);
     }
 
+    if (props.contains(QStringLiteral("renderpreview"))) {
+        m_view.render_at_preview_res->setChecked(props.value(QStringLiteral("renderpreview")).toInt() != 0);
+    } else {
+        m_view.render_at_preview_res->setChecked(false);
+    }
+
     if (props.value(QStringLiteral("renderzone")) == QLatin1String("1")) {
         m_view.render_zone->setChecked(true);
     } else if (props.value(QStringLiteral("renderguide")) == QLatin1String("1")) {
@@ -2976,11 +2965,11 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
         }
     }
     if (!fullMessage.isEmpty()) {
-        m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->setText(fullMessage);
-        m_infoMessage->show();
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(fullMessage);
+        m_view.infoMessage->show();
     } else {
-        m_infoMessage->hide();
+        m_view.infoMessage->hide();
     }
 }
 
@@ -3144,23 +3133,23 @@ void RenderWidget::checkCodecs()
         consumer->set("acodec", "list");
         consumer->set("f", "list");
         consumer->start();
-        vcodecsList.clear();
+        m_vcodecsList.clear();
         Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
-        vcodecsList.reserve(vcodecs.count());
+        m_vcodecsList.reserve(vcodecs.count());
         for (int i = 0; i < vcodecs.count(); ++i) {
-            vcodecsList << QString(vcodecs.get(i));
+            m_vcodecsList << QString(vcodecs.get(i));
         }
-        acodecsList.clear();
+        m_acodecsList.clear();
         Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
-        acodecsList.reserve(acodecs.count());
+        m_acodecsList.reserve(acodecs.count());
         for (int i = 0; i < acodecs.count(); ++i) {
-            acodecsList << QString(acodecs.get(i));
+            m_acodecsList << QString(acodecs.get(i));
         }
-        supportedFormats.clear();
+        m_supportedFormats.clear();
         Mlt::Properties formats(mlt_properties(consumer->get_data("f")));
-        supportedFormats.reserve(formats.count());
+        m_supportedFormats.reserve(formats.count());
         for (int i = 0; i < formats.count(); ++i) {
-            supportedFormats << QString(formats.get(i));
+            m_supportedFormats << QString(formats.get(i));
         }
         delete consumer;
     }

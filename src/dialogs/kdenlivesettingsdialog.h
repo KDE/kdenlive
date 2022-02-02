@@ -24,6 +24,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configcolors_ui.h"
 #include "ui_configspeech_ui.h"
 
+#include "pythoninterfaces/speechtotext.h"
+#include "encodingprofilesdialog.h"
+
 class ProfileWidget;
 class KJob;
 
@@ -83,12 +86,6 @@ private slots:
     void slotEnableVideoFolder();
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
-    void slotManageEncodingProfile();
-    void slotUpdateDecklinkProfile(int ix = 0);
-    void slotUpdateProxyProfile(int ix = 0);
-    void slotUpdatePreviewProfile(int ix = 0);
-    void slotUpdateV4lProfile(int ix = 0);
-    void slotUpdateGrabProfile(int ix = 0);
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
@@ -96,11 +93,10 @@ private slots:
     void slotUpdateAudioCaptureChannels(int index);
     void slotUpdateAudioCaptureSampleRate(int index);
     void slotParseVoskDictionaries();
-    void getDictionary(const QUrl sourceUrl = QUrl());
+    void getDictionary(const QUrl &sourceUrl = QUrl());
     void removeDictionary();
     void downloadModelFinished(KJob* job);
-    void processArchive(const QString path);
-    void checkVoskDependencies();
+    void processArchive(const QString &path);
     void doShowSpeechMessage(const QString &message, int messageType);
     
 private:
@@ -132,31 +128,44 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
+    SpeechToText *m_stt;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
+    EncodingProfilesChooser *m_tlPreviewProfiles;
+    EncodingProfilesChooser *m_proxyProfiles;
+    EncodingProfilesChooser *m_decklinkProfiles;
+    EncodingProfilesChooser *m_v4lProfiles;
+    EncodingProfilesChooser *m_grabProfiles;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
     void loadCurrentV4lProfileInfo();
     void saveCurrentV4lProfile();
-    void loadEncodingProfiles();
     void setupJogshuttleBtns(const QString &device);
     /** @brief Fill a combobox with the found blackmagic devices */
     static bool getBlackMagicDeviceList(QComboBox *devicelist, bool force = false);
     static bool getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force = false);
     /** @brief Init QtMultimedia audio record settings */
     bool initAudioRecDevice();
+    void initMiscPage();
+    void initProjectPage();
+    void initProxyPage();
+    void initTimelinePage();
+    void initEnviromentPage();
+    void initColorsPage();
     /** @brief Init Speech to text settings */
     void initSpeechPage();
-    /** @brief Check version of installed python modules for speech to text */
-    void checkVoskVersion(const QString pyExec);
+    void initCapturePage();
+    void initJogShuttlePage();
+    void initSdlPage(bool gpuAllowed);
+    void initTranscodePage();
 
 signals:
     void customChanged();
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();
-    // Screengrab method changed between fullsceen and region, update rec monitor
+    /** @brief Screengrab method changed between fullsceen and region, update rec monitor */
     void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive(bool resetConfig = false);
@@ -169,8 +178,6 @@ signals:
     void updateMonitorBg();
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
-    /** @brief Show an info message regarding speech to text status */
-    void showSpeechMessage(const QString &message, int messageType);
 };
 
 #endif

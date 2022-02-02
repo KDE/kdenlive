@@ -10,26 +10,10 @@
 #ifndef COLORWHEELITEM_H
 #define COLORWHEELITEM_H
 
+#include "utils/qcolorutils.h"
+
 #include <QImage>
 #include <QQuickPaintedItem>
-
-class NegQColor
-{
-public:
-    int8_t sign_r = 1;
-    int8_t sign_g = 1;
-    int8_t sign_b = 1;
-    QColor qcolor;
-    static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
-    static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
-    qreal redF();
-    qreal greenF();
-    qreal blueF();
-    qreal valueF();
-    int hue();
-    qreal hueF();
-    qreal saturationF();
-};
 
 class ColorWheelItem : public QQuickPaintedItem
 {

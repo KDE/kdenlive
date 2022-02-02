@@ -6,6 +6,7 @@
 #include "timelinecontroller.h"
 #include "../model/timelinefunctions.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
@@ -15,8 +16,9 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/spacerdialog.h"
-#include "dialogs/speeddialog.h"
 #include "dialogs/speechdialog.h"
+#include "dialogs/speeddialog.h"
+#include "dialogs/timeremap.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -33,16 +35,14 @@
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
-#include "transitions/transitionsrepository.hpp"
-#include "audiomixer/mixermanager.hpp"
-#include "ui_import_subtitle_ui.h"
 #include "timeline2/view/timelinewidget.h"
-#include "dialogs/timeremap.h"
+#include "transitions/transitionsrepository.hpp"
+#include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
 #include <KMessageBox>
-#include <KUrlRequesterDialog>
 #include <KRecentDirs>
+#include <KUrlRequesterDialog>
 #include <QApplication>
 #include <QClipboard>
 #include <QQuickItem>
@@ -133,7 +133,7 @@ void TimelineController::restoreTargetTracks()
     setTargetTracks(m_hasVideoTarget, m_model->m_binAudioTargets);
 }
 
-void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
+void TimelineController::setTargetTracks(bool hasVideo, const QMap <int, QString> &audioTargets)
 {
     int videoTrack = -1;
     m_model->m_binAudioTargets = audioTargets;
@@ -233,7 +233,7 @@ void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
         m_scale = scale;
         emit scaleFactorChanged();
     } else {
-        qWarning("Timeline root not created, impossible to zoom in");
+        qWarning() << "Timeline root not created, impossible to zoom in";
     }
 }
 
@@ -422,7 +422,7 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
     return clipIds;
 }
 
-void TimelineController::insertNewMix(int tid, int position, const QString transitionId)
+void TimelineController::insertNewMix(int tid, int position, const QString &transitionId)
 {
     int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
     if (clipId > 0) {
@@ -430,14 +430,9 @@ void TimelineController::insertNewMix(int tid, int position, const QString trans
     }
 }
 
-int TimelineController::insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo)
+int TimelineController::insertNewCompositionAtPos(int tid, int position, const QString &transitionId)
 {
-    int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
-    if (clipId > 0) {
-        int minimum = m_model->getClipPosition(clipId);
-        return insertNewComposition(tid, clipId, position - minimum, transitionId, logUndo);
-    }
-    return insertComposition(tid, position, transitionId, logUndo);
+    return insertComposition(tid, position, transitionId, true);
 }
 
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
@@ -612,16 +607,10 @@ bool TimelineController::pasteItem(int position, int tid)
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
     if (tid == -1) {
-        tid = getMouseTrack();
-    }
-    if (position == -1) {
-        position = getMousePos();
-    }
-    if (tid == -1) {
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = getMenuOrTimelinePos();
     }
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
@@ -731,12 +720,9 @@ void TimelineController::deleteMultipleTracks(int tid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = true;
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
-    if (tid == -1) {
-        tid = m_activeTrack;
-    }
     if (d->exec() == QDialog::Accepted) {
+        bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
         for (int selectedTrackIx : qAsConst(allIds)) {
             result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
@@ -924,7 +910,7 @@ void TimelineController::setInPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(id, size, false, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, false, true, 0, false);
             setPosition(m_model->getItemPosition(id));
         } else {
             m_model->requestItemResize(id, size, false, true, 0, false);
@@ -1004,7 +990,7 @@ void TimelineController::setOutPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(id, size, true, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, true, true, 0, false);
         } else {
             m_model->requestItemResize(id, size, true, true, 0, false);
         }
@@ -1400,7 +1386,7 @@ void TimelineController::setPosition(int position)
     emit seeked(position);
 }
 
-void TimelineController::setAudioTarget(QMap<int, int> tracks)
+void TimelineController::setAudioTarget(const QMap<int, int> &tracks)
 {
     // Clear targets before re-adding to trigger qml refresh
     m_model->m_audioTarget.clear();
@@ -1450,11 +1436,9 @@ void TimelineController::assignCurrentTarget(int index)
             m_model->m_audioTarget.remove(m_activeTrack);
             emit audioTargetChanged();
         }
-        return;
     } else {
         // Select video target stream
         setVideoTarget(m_activeTrack);
-        return;
     }
 }
 
@@ -1579,7 +1563,6 @@ void TimelineController::setZoneOut(int outPoint)
 void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions, bool selectSubTitles)
 {
     std::unordered_set<int> itemsToSelect;
-    std::unordered_set<int> subtitlesToSelect;
     if (addToSelect) {
         itemsToSelect = m_model->getCurrentSelection();
     }
@@ -1673,15 +1656,15 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
         firstText.truncate(cursorPos);
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        bool res = subtitleModel->cutSubtitle(timelinePos, undo, redo);
-        if (res) {
-            Fun local_redo = [subtitleModel, start, position, firstText, secondText]() {
-                subtitleModel->editSubtitle(start, firstText);
-                subtitleModel->editSubtitle(position, secondText);
+        int newId = subtitleModel->cutSubtitle(timelinePos, undo, redo);
+        if (newId > -1) {
+            Fun local_redo = [subtitleModel, id, newId, firstText, secondText]() {
+                subtitleModel->editSubtitle(id, firstText);
+                subtitleModel->editSubtitle(newId, secondText);
                 return true;
             };
-            Fun local_undo = [subtitleModel, start, originalText]() {
-                subtitleModel->editSubtitle(start, originalText);
+            Fun local_undo = [subtitleModel, id, originalText]() {
+                subtitleModel->editSubtitle(id, originalText);
                 return true;
             };
             local_redo();
@@ -1712,7 +1695,7 @@ int TimelineController::spacerMinPos() const
     return TimelineFunctions::spacerMinPos();
 }
 
-void TimelineController::spacerMoveGuides(QVector<int> ids, int offset)
+void TimelineController::spacerMoveGuides(const QVector<int> &ids, int offset)
 {
     pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(ids, offset);
 }
@@ -1727,7 +1710,7 @@ int TimelineController::getGuidePosition(int id)
     return pCore->currentDoc()->getGuideModel()->getMarkerPos(id);
 }
 
-bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector <int> selectedGuides, int guideStart)
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, const QVector <int> &selectedGuides, int guideStart)
 {
     QMutexLocker lk(&m_metaMutex);
     // Start undoable command
@@ -1975,6 +1958,10 @@ void TimelineController::removeSplitOverlay()
     m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
 }
 
+int TimelineController::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+    return m_model->requestItemRippleResize(m_model, itemId, size, right, logUndo, snapDistance, allowSingleResize);
+}
+
 void TimelineController::updateTrimmingMode() {
     if (trimmingActive()) {
         requestStartTrimmingMode();
@@ -1998,8 +1985,7 @@ void TimelineController::slipPosChanged(int offset) {
     int inPoint = mainClip->getIn() - offset;
 
     pCore->monitorManager()->projectMonitor()->slotTrimmingPos(inPoint, offset, inPoint, outPoint);
-    QString info = i18n("In:%1, Out:%2 (%3%4)", simplifiedTC(inPoint), simplifiedTC(outPoint), (offset < 0 ? "-" : "+"), simplifiedTC(qFabs(offset)));
-    pCore->displayMessage(info, DirectMessage);
+    showToolTip(i18n("In:%1, Out:%2 (%3%4)", simplifiedTC(inPoint), simplifiedTC(outPoint), (offset < 0 ? "-" : "+"), simplifiedTC(qFabs(offset))));
 }
 
 void TimelineController::ripplePosChanged(int size, bool right) {
@@ -2415,7 +2401,8 @@ void TimelineController::disablePreview(bool disable)
                 m_timelinePreview->reconnectTrack();
                 m_model->m_tractor->unlock();
             }
-            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), QDateTime());
+            Mlt::Playlist playlist;
+            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), QDateTime(), playlist);
             m_usePreview = true;
         }
     }
@@ -2455,7 +2442,7 @@ void TimelineController::resetPreview()
     }
 }
 
-void TimelineController::loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable)
+void TimelineController::loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable, Mlt::Playlist &playlist)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {
         return;
@@ -2476,10 +2463,28 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     for (const QString &frame : qAsConst(chunksList)) {
-        renderedChunks << frame.toInt();
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i+= 25) {
+                renderedChunks << i;
+            }
+        } else {
+            renderedChunks << frame.toInt();
+        }
     }
     for (const QString &frame : qAsConst(dirtyList)) {
-        dirtyChunks << frame.toInt();
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i+= 25) {
+                dirtyChunks << i;
+            }
+        } else {
+            dirtyChunks << frame.toInt();
+        }
     }
 
     if ( m_disablePreview ) {
@@ -2493,7 +2498,7 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
             m_usePreview = true;
             m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
-        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
+        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate, playlist);
     }
 }
 
@@ -2524,7 +2529,7 @@ QMap<QString, QString> TimelineController::documentProperties()
 
 int TimelineController::getMenuOrTimelinePos() const
 {
-    int frame = m_root->property("mainFrame").toInt();
+    int frame = m_root->property("clickFrame").toInt();
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
@@ -2625,6 +2630,7 @@ void TimelineController::remapItemTime(int clipId)
         // Add remap effect
         emit pCore->remapClip(clipId);
     }
+    updateClipActions();
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -2667,7 +2673,10 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         pitchCompensate = d->getPitchCompensate();
         qDebug() << "requesting speed " << speed;
     }
-    m_model->requestClipTimeWarp(clipId, speed, pitchCompensate, true);
+    bool res = m_model->requestClipTimeWarp(clipId, speed, pitchCompensate, true);
+    if (res) {
+        updateClipActions();
+    }
 }
 
 void TimelineController::switchCompositing(int mode)
@@ -2723,12 +2732,15 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     if (tracks.isEmpty()) {
         pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
     }
-    if (m_zone == QPoint()) {
+    if (m_zone.isNull()) {
         // Use current timeline position and clip zone length
         zone.setY(pCore->getTimelinePosition() + zone.y() - zone.x());
         zone.setX(pCore->getTimelinePosition());
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, liftOnly);
+    if (!liftOnly && !m_zone.isNull()) {
+        setPosition(m_zone.x());
+    }
 }
 
 void TimelineController::extract(int clipId)
@@ -2748,8 +2760,17 @@ void TimelineController::extract(int clipId)
     }
     int in = m_model->getClipPosition(clipId);
     int out = in + m_model->getClipPlaytime(clipId);
-    QVector <int> tracks;
-    tracks << m_model->getClipTrackId(clipId);
+    int tid = m_model->getClipTrackId(clipId);
+    std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(clipId);
+    if (mixData.first.firstClipId > -1) {
+        // Clip has a start mix, adjust in point
+        in += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+    }
+    if (mixData.second.firstClipId > -1) {
+        // Clip has end mix, adjust out point
+        out -= mixData.second.mixOffset;
+    }
+    QVector <int> tracks = {tid};
     if (m_model->m_groups->isInGroup(clipId)) {
         int targetRoot = m_model->m_groups->getRootId(clipId);
         if (m_model->isGroup(targetRoot)) {
@@ -2760,9 +2781,19 @@ void TimelineController::extract(int clipId)
                 }
                 if (m_model->isClip(current_id)) {
                     int newIn = m_model->getClipPosition(current_id);
+                    int newOut = newIn + m_model->getClipPlaytime(current_id);
                     int tk = m_model->getClipTrackId(current_id);
+                    std::pair<MixInfo,MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                    if (cMixData.first.firstClipId > -1) {
+                        // Clip has a start mix, adjust in point
+                        newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
+                    }
+                    if (cMixData.second.firstClipId > -1) {
+                        // Clip has end mix, adjust out point
+                        newOut -= cMixData.second.mixOffset;
+                    }
                     in = qMin(in, newIn);
-                    out = qMax(out, newIn + m_model->getClipPlaytime(current_id));
+                    out = qMax(out, newOut);
                     if (!tracks.contains(tk)) {
                         tracks << tk;
                     }
@@ -2944,19 +2975,13 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
         int currentPos = pCore->getTimelinePosition();
         Fun redoPos = [this, newPos]() {
-            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-            pCore->monitorManager()->refreshProjectMonitor();
             setPosition(newPos);
-            pCore->monitorManager()->activateMonitor(activeMonitor);
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitorIfActive();
             return true;
         };
         Fun undoPos = [this, currentPos]() {
-            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-            pCore->monitorManager()->refreshProjectMonitor();
             setPosition(currentPos);
-            pCore->monitorManager()->activateMonitor(activeMonitor);
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitorIfActive();
             return true;
         };
         redoPos();
@@ -3009,7 +3034,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
         }
     }
     if (offset == -1) {
-        offset = m_root->property("mainFrame").toInt();
+        offset = m_root->property("clickFrame").toInt();
     }
     int track = clipId > -1 ? m_model->getClipTrackId(clipId) : m_activeTrack;
     int compoId = -1;
@@ -3247,11 +3272,10 @@ void TimelineController::switchTrackLock(bool applyToAll)
         int toBeLockedCount =
             std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
         auto subtitleModel = pCore->getSubtitleModel();
-        bool subLocked = false;
         bool hasSubtitleTrack = false;
         if (subtitleModel) {
             hasSubtitleTrack = true;
-            subLocked= subtitleModel->isLocked();
+            bool subLocked = subtitleModel->isLocked();
             if (!subLocked) {
                 toBeLockedCount++;
             }
@@ -3592,7 +3616,7 @@ void TimelineController::editItemDuration(int id)
             }
             if (result && newIn != in) {
                 int updatedDuration = duration + (in - newIn);
-                m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
+                result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
                 if (result && partner > -1) {
                     result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
                 }
@@ -3781,11 +3805,16 @@ void TimelineController::updateClipActions()
             // Position actions should stay enabled in clip monitor
             enableAction = true;
         } else if (actionData == QLatin1Char('R')) {
-            // Time remap action
-            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image;
+            // Time remap action        
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image
+                    && qFuzzyCompare(1., m_model->m_allClips[item]->getSpeed());
             if (enableAction) {
                 act->setChecked(clip->isChain());
             }
+        } else if (actionData == QLatin1Char('Q')) {
+            // Speed change action
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image
+                    && !clip->isChain();
         }
         act->setEnabled(enableAction);
     }
@@ -3871,7 +3900,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
         int delta_pos = position - m_model->m_allClips[clipId]->getPosition();
         return endFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
-    qDebug() << "//////\n//////\nENDING FAKE MNOVE: " << trackId << ", POS: " << position;
+    qDebug() << "//////\n//////\nENDING FAKE MOVE: " << trackId << ", POS: " << position;
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     int startPos = m_model->getClipPosition(clipId);
@@ -3880,7 +3909,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     bool res = true;
     if (currentTrack > -1) {
         std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(currentTrack)->getMixInfo(clipId);
-        if (mixData.first.secondClipId > -1) {
+        if (mixData.first.firstClipId > -1) {
             m_model->removeMixWithUndo(mixData.first.secondClipId, undo, redo);
         }
         if (mixData.second.firstClipId > -1) {
@@ -3955,6 +3984,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
+    // We are moving a group on another track, delete and re-add
 
     // First, remove clips
     int audio_delta, video_delta;
@@ -3969,11 +3999,35 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     int min = -1;
     int max = -1;
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track, new_track_ids;
+    std::vector<int> affected_trackIds;
+    std::unordered_map<int, std::pair<QString,QVector<QPair<QString, QVariant>>>> mixToMove;
+    std::unordered_map<int, MixInfo> mixInfoToMove;
+    // Remove mixes not part of the group move
+    for (int item : sorted_clips) {
+        if (m_model->isClip(item)) {
+            int tid = m_model->getItemTrackId(item);
+            affected_trackIds.emplace_back(tid);
+            std::pair<MixInfo,MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(item);
+            if (mixData.first.firstClipId > -1) {
+                if (std::find(sorted_clips.begin(), sorted_clips.end(), mixData.first.firstClipId) == sorted_clips.end()) {
+                    // Clip has startMix
+                    m_model->removeMixWithUndo(mixData.first.secondClipId, undo, redo);
+                } else {
+                    // Get mix properties
+                    std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = m_model->getTrackById_const(tid)->getMixParams(mixData.first.secondClipId);
+                    mixToMove[item] = mixParams;
+                    mixInfoToMove[item] = mixData.first;
+                }
+            }
+            if (mixData.second.firstClipId > -1 && std::find(sorted_clips.begin(), sorted_clips.end(), mixData.second.secondClipId) == sorted_clips.end()) {
+                m_model->removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+            }
+        }
+    }
     for (int item : sorted_clips) {
         int old_trackId = m_model->getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            bool updateThisView = true;
             if (m_model->isClip(item)) {
                 int current_track_position = m_model->getTrackPosition(old_trackId);
                 int d = m_model->getTrackById_const(old_trackId)->isAudioTrack() ? audio_delta : video_delta;
@@ -3982,11 +4036,12 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 std::advance(it, target_track_position);
                 int target_track = (*it)->getId();
                 new_track_ids[item] = target_track;
+                affected_trackIds.emplace_back(target_track);
                 old_position[item] = m_model->m_allClips[item]->getPosition();
                 int duration = m_model->m_allClips[item]->getPlaytime();
                 min = min < 0 ? old_position[item] + delta_pos : qMin(min, old_position[item] + delta_pos);
                 max = max < 0 ? old_position[item] + delta_pos + duration : qMax(max, old_position[item] + delta_pos + duration);
-                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo, false, false);
+                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, true, finalMove, undo, redo, false, false);
                 if (m_model->m_editMode == TimelineMode::InsertEdit) {
                     // Lift space left by removed clip
                     ok = ok && TimelineFunctions::removeSpace(m_model, {old_position[item],old_position[item] + duration}, undo, redo, {old_trackId}, false);
@@ -4045,6 +4100,45 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
             return false;
         }
     }
+
+    if (delta_track == 0) {
+        Fun sync_mix = [this, affected_trackIds, finalMove]() {
+            for (int t : affected_trackIds) {
+                m_model->getTrackById_const(t)->syncronizeMixes(finalMove);
+            }
+            return true;
+        };
+        sync_mix();
+        PUSH_LAMBDA(sync_mix, redo);
+        return true;
+    }
+    for (int item : sorted_clips) {
+        if (mixToMove.find(item) == mixToMove.end()) {
+            continue;
+        }
+        int trackId = new_track_ids[item];
+        int previous_track = old_track_ids[item];
+        MixInfo mixData = mixInfoToMove[item];
+        std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = mixToMove[item];
+        Fun simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
+            // Insert mix on new track
+            bool result = m_model->getTrackById_const(trackId)->createMix(mixData, mixParams, finalMove);
+            // Remove mix on old track
+            m_model->getTrackById_const(previous_track)->removeMix(mixData);
+            return result;
+        };
+        Fun simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
+            bool result = m_model->getTrackById_const(previous_track)->createMix(mixData, mixParams, finalMove);
+            // Remove mix on old track
+            m_model->getTrackById_const(trackId)->removeMix(mixData);
+            return result;
+        };
+        simple_move_mix();
+        if (finalMove) {
+            PUSH_LAMBDA(simple_restore_mix, undo);
+            PUSH_LAMBDA(simple_move_mix, redo);
+        }
+    }
     return true;
 }
 
@@ -4074,6 +4168,10 @@ bool TimelineController::exists(int itemId)
 void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
     QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
+    if (!refresh) {
+        // This is just a temporary state (disable multitrack view for playlist save, don't change scene
+        return;
+    }
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
     QObject::disconnect( m_connection );
     if (enable) {
@@ -4571,7 +4669,7 @@ void TimelineController::mixClip(int cid, int delta)
     m_model->mixClip(cid, QStringLiteral("luma"), delta);
 }
 
-void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
+void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 {
     for (auto &cid : clipIds) {
         int tid = m_model->getItemTrackId(cid);
@@ -4586,23 +4684,23 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
     }
 }
 
-void TimelineController::editSubtitle(int startFrame, int endFrame, QString newText, QString oldText)
+void TimelineController::editSubtitle(int id, const QString &newText, const QString &oldText)
 {
-    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame;
+    qDebug()<<"Editing existing subtitle :"<<id;
     if (oldText == newText) {
         return;
     }
     auto subtitleModel = pCore->getSubtitleModel();
-    Fun local_redo = [subtitleModel, startFrame, endFrame, newText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText);
-        QPair<int, int> range = {startFrame, endFrame};
+    Fun local_redo = [subtitleModel, id, newText]() {
+        subtitleModel->editSubtitle(id, newText);
+        QPair<int, int> range = subtitleModel->getInOut(id);
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
         return true;
     };
-    Fun local_undo = [subtitleModel, startFrame, endFrame, oldText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), oldText);
-        QPair<int, int> range = {startFrame, endFrame};
+    Fun local_undo = [subtitleModel, id, oldText]() {
+        subtitleModel->editSubtitle(id, oldText);
+        QPair<int, int> range = subtitleModel->getInOut(id);
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
         return true;
@@ -4670,7 +4768,7 @@ void TimelineController::addSubtitle(int startframe, QString text)
     }
 }
 
-void TimelineController::importSubtitle(const QString path)
+void TimelineController::importSubtitle(const QString &path)
 {
     QPointer<QDialog> d = new QDialog;
     Ui::ImportSub_UI view;
@@ -4726,7 +4824,19 @@ void TimelineController::subtitleSpeechRecognition()
     d.exec();
 }
 
-void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
+bool TimelineController::subtitlesWarning() const
+{
+    return !EffectsRepository::get()->hasInternalEffect("avfilter.subtitles");
+}
+
+void TimelineController::subtitlesWarningDetails()
+{
+    KMessageBox::error(nullptr, i18n("The avfilter.subtitles filter is required, but was not found."
+                                     " The subtitles feature will probably not work as expected."));
+    emit regainFocus();
+}
+
+void TimelineController::deleteSubtitle(int startframe, int endframe, const QString &text)
 {
     auto subtitleModel = pCore->getSubtitleModel();
     int id = subtitleModel->getIdForStartPos(GenTime(startframe, pCore->getCurrentFps()));
@@ -4799,7 +4909,7 @@ bool TimelineController::guidesLocked() const
 
 void TimelineController::showToolTip(const QString &info) const
 {
-    pCore->displayMessage(info, DirectMessage);
+    pCore->displayMessage(info, TooltipMessage);
 }
 
 void TimelineController::showKeyBinding(const QString &info) const
@@ -4823,7 +4933,7 @@ void TimelineController::showRulerEffectZone(QPair <int, int>inOut, bool checked
     emit effectZoneChanged();
 }
 
-void TimelineController::updateMasterZones(QVariantList zones)
+void TimelineController::updateMasterZones(const QVariantList &zones)
 {
     m_masterEffectZones = zones;
     emit masterZonesChanged();

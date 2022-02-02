@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2021 Vincent Pinon <vpinon@kde.org>
-    SPDX-License-Identifier: GPL-2.0-or-later
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef RENDERSERVER_H

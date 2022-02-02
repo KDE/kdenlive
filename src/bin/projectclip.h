@@ -47,7 +47,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
-    friend bool TimelineModel::checkConsistency(std::vector<int> guideSnaps); // for testing
+    friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
@@ -145,7 +145,7 @@ public:
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
     /** @brief Callculate a file hash from a path. */
-    static const QPair<QByteArray, qint64> calculateHash(const QString path);
+    static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
@@ -213,7 +213,7 @@ public:
     void setClipStatus(FileStatus::ClipStatus status) override;
     /** @brief Rename an audio stream for this clip
      */
-    void renameAudioStream(int id, QString name) override;
+    void renameAudioStream(int id, const QString &name) override;
 
     /** @brief Add an audio effect on a specific audio stream with undo/redo. */
     void requestAddStreamEffect(int streamIndex, const QString effectName) override;
@@ -226,7 +226,7 @@ public:
     /** @brief Get the list of audio stream effects for a defined stream. */
     QStringList getAudioStreamEffect(int streamIndex) const override;
     /** @brief Calculate the folder's hash (based on the files it contains). */
-    static const QByteArray getFolderHash(QDir dir, QString fileName);
+    static const QByteArray getFolderHash(const QDir &dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
     int getRecordTime();
@@ -234,6 +234,8 @@ public:
     int getAudioMax(int stream);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
+    /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
+    const QStringList enforcedParams() const;
 
 protected:
     friend class ClipModel;
@@ -259,14 +261,14 @@ protected:
 public slots:
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail();
+    void updateAudioThumbnail(bool cachedThumb);
     /** @brief Delete the proxy file */
     void deleteProxy();
     /** @brief A clip job progressed, update display */
     void updateJobProgress();
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &, int in, int out);
+    void setThumbnail(const QImage &, int in, int out, bool inCache = false);
     void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /** @brief A proxy clip is available or disabled, update path and reload */
@@ -280,7 +282,7 @@ public slots:
      * @param producer Producer containing the effects
      * @param originalDecimalPoint Decimal point to convert to “.”; See AssetParameterModel
      */
-    void importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint = QString());
+    void importEffects(const std::shared_ptr<Mlt::Producer> &producer, const QString &originalDecimalPoint = QString());
 
     /** @brief Sets the MLT producer associated with this clip
      *  @param producer The producer

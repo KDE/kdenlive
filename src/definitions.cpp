@@ -168,7 +168,7 @@ std::pair<bool, bool> stateToBool(PlaylistState::ClipState state)
 }
 PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av)
 {
-    assert(!av.first || !av.second);
+    Q_ASSERT(!av.first || !av.second);
     if (av.first) {
         return PlaylistState::VideoOnly;
     } else if (av.second) {

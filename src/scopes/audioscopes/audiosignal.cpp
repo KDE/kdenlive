@@ -6,8 +6,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "audiosignal.h"
 
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include <cmath>
 

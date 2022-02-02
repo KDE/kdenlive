@@ -76,9 +76,6 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    /** @brief Get the current MLT producer playlist.
-     * @return A string describing the playlist */
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();
@@ -172,7 +169,7 @@ signals:
     void paused();
     void playing();
     void rectChanged();
-    void zoomChanged();
+    void zoomChanged(float zoomRatio);
     void offsetChanged();
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
@@ -236,8 +233,8 @@ private:
     std::shared_ptr<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data);
     static void on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame);
-    static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
-    static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
+    static void on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
+    static void on_gl_nosync_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();

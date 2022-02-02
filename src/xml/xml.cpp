@@ -118,22 +118,20 @@ void Xml::setXmlProperty(QDomElement element, const QString &propertyName, const
     }
 }
 
-void Xml::setXmlParameter(QDomElement element, const QString &propertyName, const QString &value)
+void Xml::setXmlParameter(const QDomElement &element, const QString &propertyName, const QString &value)
 {
     QDomNodeList params = element.elementsByTagName(QStringLiteral("parameter"));
     // Update property if it already exists
-    bool found = false;
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("name")) == propertyName) {
             e.setAttribute(QStringLiteral("value"), value);
-            found = true;
             break;
         }
     }
 }
 
-bool Xml::hasXmlParameter(QDomElement element, const QString &propertyName)
+bool Xml::hasXmlParameter(const QDomElement &element, const QString &propertyName)
 {
     QDomNodeList params = element.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
@@ -145,7 +143,7 @@ bool Xml::hasXmlParameter(QDomElement element, const QString &propertyName)
     return false;
 }
 
-bool Xml::hasXmlProperty(QDomElement element, const QString &propertyName)
+bool Xml::hasXmlProperty(const QDomElement &element, const QString &propertyName)
 {
     QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
@@ -157,7 +155,7 @@ bool Xml::hasXmlProperty(QDomElement element, const QString &propertyName)
     return false;
 }
 
-QMap<QString, QString> Xml::getXmlPropertyByWildcard(QDomElement element, const QString &propertyName)
+QMap<QString, QString> Xml::getXmlPropertyByWildcard(const QDomElement &element, const QString &propertyName)
 {
     QMap <QString, QString> props;
     QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));

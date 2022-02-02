@@ -58,7 +58,7 @@ public:
     void invalidateThumbsForClip(const QString &binId);
 
     /** @brief Save all cached thumbs to disk */
-    void saveCachedThumbs(QStringList keys);
+    void saveCachedThumbs(const QStringList &keys);
 
     /** @brief Reset cache (discarding all thumbs stored in memory) */
     void clearCache();

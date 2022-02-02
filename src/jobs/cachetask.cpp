@@ -6,17 +6,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "cachetask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
-#include "kdenlivesettings.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 #include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
-#include <QString>
-#include <QImage>
 #include <QFile>
+#include <QImage>
+#include <QString>
 #include <QtMath>
 #include <klocalizedstring.h>
 #include <set>
@@ -42,7 +42,7 @@ void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, Q
     CacheTask* task = new CacheTask(owner, thumbsCount, in, out, object);
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.

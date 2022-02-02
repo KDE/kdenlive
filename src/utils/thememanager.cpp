@@ -1,5 +1,4 @@
 /*
-    This file is part of KDevPlatform
     SPDX-FileCopyrightText: 2016 Zhigalin Alexander <alexander@zhigalin.tk>
 
     SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
@@ -12,16 +11,16 @@
 #include "kdenlivesettings.h"
 
 #include <QAction>
+#include <QFileInfo>
 #include <QMenu>
 #include <QModelIndex>
 #include <QStringList>
-#include <QFileInfo>
 
+#include <KActionMenu>
 #include <KColorSchemeManager>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
-#include <KActionMenu>
 
 ThemeManager::ThemeManager(QObject *parent)
     : QAction(parent)

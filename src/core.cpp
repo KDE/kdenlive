@@ -4,15 +4,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
+#include "dialogs/proxytest.h"
+#include "dialogs/subtitleedit.h"
+#include "dialogs/textbasededit.h"
+#include "dialogs/timeremap.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
-#include "audiomixer/mixermanager.hpp"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -23,16 +27,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "dialogs/subtitleedit.h"
-#include "dialogs/textbasededit.h"
-#include "dialogs/proxytest.h"
-#include "dialogs/timeremap.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
 #include <QCoreApplication>
-#include <QInputDialog>
 #include <QDir>
+#include <QInputDialog>
 #include <QQuickStyle>
 #include <locale>
 #ifdef Q_OS_MAC
@@ -40,9 +40,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core()
+Core::Core(const QString &packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
+    , m_packageType(packageType)
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
@@ -67,12 +68,12 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-bool Core::build(bool testMode)
+bool Core::build(const QString &packageType, bool testMode)
 {
     if (m_self) {
         return true;
     }
-    m_self.reset(new Core());
+    m_self.reset(new Core(packageType));
     m_self->initLocale();
 
     qRegisterMetaType<audioShortVector>("audioShortVector");
@@ -88,7 +89,7 @@ bool Core::build(bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam*>("ProfileParam*");
-    
+
     if (!testMode) {
         // Check if we had a crash
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
@@ -113,7 +114,7 @@ bool Core::build(bool testMode)
     return true;
 }
 
-void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
@@ -163,7 +164,8 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
 
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
-    if (isAppImage) {
+    if (inSandbox) {
+        // In a sandbox enviroment we need to search some paths recursively
         QString appPath = qApp->applicationDirPath();
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
         KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
@@ -233,6 +235,7 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
+    emit m_mainWindow->GUISetupDone();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
@@ -248,7 +251,7 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
-const QString Core::nameForLumaFile(const QString filename) {
+const QString Core::nameForLumaFile(const QString &filename) {
     static QMap<QString, QString> names;
     names.insert("square2-bars.pgm", i18nc("Luma transition name", "Square 2 Bars"));
     names.insert("checkerboard_small.pgm", i18nc("Luma transition name", "Checkerboard Small"));
@@ -421,7 +424,7 @@ Mlt::Profile *Core::getProjectProfile()
 {
     if (!m_projectProfile) {
         m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
-        m_projectProfile->set_explicit(1);
+        m_projectProfile->set_explicit(true);
         updateMonitorProfile();
     }
     return m_projectProfile.get();
@@ -464,6 +467,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
             m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
             m_projectProfile->set_width(getCurrentProfile()->width());
+            m_projectProfile->get_profile()->description = qstrdup(getCurrentProfile()->description().toUtf8().constData());
             m_projectProfile->set_explicit(true);
             updateMonitorProfile();
         }
@@ -915,7 +919,7 @@ void Core::updateItemKeyframes(ObjectId id)
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
     if (m_guiConstructed && id.first == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
-        bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
+        bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
 }
@@ -941,6 +945,7 @@ Mlt::Profile *Core::thumbProfile()
             width ++;
         }
         m_thumbProfile->set_width(width);
+        m_thumbProfile->set_explicit(true);
     }
     return m_thumbProfile.get();
 }
@@ -1048,12 +1053,12 @@ int Core::getDurationFromString(const QString &time)
     return m_timecode.getFrameCount(time);
 }
 
-void Core::processInvalidFilter(const QString service, const QString id, const QString message)
+void Core::processInvalidFilter(const QString &service, const QString &id, const QString &message)
 {
     if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
 }
 
-void Core::updateProjectTags(QMap <QString, QString> tags)
+void Core::updateProjectTags(const QMap <QString, QString> &tags)
 {
     // Clear previous tags
     for (int i = 1 ; i< 20; i++) {
@@ -1098,7 +1103,7 @@ bool Core::enableMultiTrack(bool enable)
     }
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     if (isMultiTrack || enable) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, enable);
+        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, true);
         return true;
     }
     return false;
@@ -1112,7 +1117,7 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(QList <int> guides)
+void Core::addGuides(const QList <int> &guides)
 {
     QMap <GenTime, QString> markers;
     for (int pos : guides) {
@@ -1122,15 +1127,20 @@ void Core::addGuides(QList <int> guides)
     currentDoc()->getGuideModel()->addMarkers(markers);
 }
 
-void Core::temporaryUnplug(QList<int> clipIds, bool hide)
+void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
 {
     window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
-void Core::transcodeFile(const QString url)
+void Core::transcodeFile(const QString &url)
 {
     qDebug()<<"=== TRANSCODING: "<<url;
     window()->slotTranscode({url});
+}
+
+void Core::transcodeFriendlyFile(const QString &binId, bool checkProfile)
+{
+    window()->slotFriendlyTranscode(binId, checkProfile);
 }
 
 void Core::setWidgetKeyBinding(const QString &mess)
@@ -1194,4 +1204,9 @@ void Core::addBin(const QString &id)
     bin->setMonitor(m_monitorManager->clipMonitor());
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);
     m_mainWindow->addBin(bin, folderName);
+}
+
+void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist)
+{
+    pCore->window()->getMainTimeline()->controller()->loadPreview(chunks, dirty, documentDate, enablePreview, playlist);
 }

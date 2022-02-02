@@ -6,23 +6,23 @@
 */
 
 #include "audiolevelstask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 
-#include <QString>
-#include <QVariantList>
+#include <KMessageWidget>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QRgb>
-#include <QThreadPool>
 #include <QMutex>
+#include <QRgb>
+#include <QString>
+#include <QThreadPool>
 #include <QTime>
-#include <QFile>
-#include <QElapsedTimer>
+#include <QVariantList>
 #include <klocalizedstring.h>
-#include <KMessageWidget>
 
 static QList<AudioLevelsTask*> tasksList;
 static QMutex tasksListMutex;
@@ -42,8 +42,9 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
     AudioLevelsTask* task = new AudioLevelsTask(owner, object);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
+        qDebug()<<"AUDIO LEVELS TASK STARTED TWICE!!!!";
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
@@ -73,14 +74,16 @@ void AudioLevelsTask::run()
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
     if ((producer == nullptr) || !producer->is_valid()) {
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", binClip->url())),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int lengthInFrames = producer->get_length(); // Multiply this if we want more than 1 sample per frame
-    if (lengthInFrames == INT_MAX) {
+    if (lengthInFrames == INT_MAX || lengthInFrames == 0) {
         // This is a broken file or live feed, don't attempt to generate audio thumbnails
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
@@ -188,7 +191,7 @@ void AudioLevelsTask::run()
                 QString key = QString("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                 producer->unlock();
-                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
             }
         }
         
@@ -232,12 +235,12 @@ void AudioLevelsTask::run()
             }
             image.save(cachePath);
             audioCreated = true;
-            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
         }
     }
-    if (!audioCreated) {
+    if (!audioCreated && !m_isCanceled) {
         // Audio was cached, ensure the bin thumbnail is loaded
-        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, true));
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");

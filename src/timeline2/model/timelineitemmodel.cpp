@@ -4,8 +4,8 @@
 */
 
 #include "timelineitemmodel.hpp"
-#include "audiomixer/mixermanager.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "clipmodel.hpp"
@@ -15,8 +15,8 @@
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "trackmodel.hpp"
 #include "snapmodel.hpp"
+#include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QFileInfo>
@@ -118,7 +118,7 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
     return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId));
 }
 
-void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
+void TimelineItemModel::subtitleChanged(int subId, const QVector<int> &roles)
 {
     if (m_closing) {
         return;
@@ -229,6 +229,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeAudioRole] = "canBeAudio";
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
+    roles[ReloadAudioThumbRole] = "reloadAudioThumb";
     roles[PositionOffsetRole] = "positionOffset";
     roles[ThumbsFormatRole] = "thumbsFormat";
     roles[AudioRecordRole] = "audioRecord";
@@ -340,6 +341,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case MixCutRole:
             return clip->getMixCutPosition();
         case ReloadThumbRole:
+            return clip->forceThumbReload;
+        case ReloadAudioThumbRole:
             return clip->forceThumbReload;
         case PositionOffsetRole:
             return clip->getOffset();

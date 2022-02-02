@@ -4,22 +4,22 @@
 */
 
 #include "mixermanager.hpp"
-#include "mixerwidget.hpp"
 #include "core.h"
-#include "mainwindow.h"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "mixerwidget.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
 
-#include <klocalizedstring.h>
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QModelIndex>
-#include <QScrollArea>
-#include <QApplication>
 #include <QScreen>
+#include <QScrollArea>
 #include <QTimer>
+#include <klocalizedstring.h>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
@@ -28,7 +28,7 @@ MixerManager::MixerManager(QWidget *parent)
     , m_masterMixer(nullptr)
     , m_visibleMixerManager(false)
     , m_expandedWidth(-1)
-    , m_recommandedWidth(300)
+    , m_recommendedWidth(300)
 {
     m_masterBox = new QHBoxLayout;
     setContentsMargins(0, 0, 0, 0);
@@ -100,8 +100,8 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     line->setFrameShadow(QFrame::Sunken);
     m_channelsLayout->insertWidget(0, line);
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommandedWidth = (mixer->minimumWidth() + 12 + line->minimumWidth()) * (qMin(2, int(m_mixers.size())));
-    m_channelsBox->setMinimumWidth(m_recommandedWidth);
+    m_recommendedWidth = (mixer->minimumWidth() + 12 + line->minimumWidth()) * (qMin(2, int(m_mixers.size())));
+    m_channelsBox->setMinimumWidth(m_recommendedWidth);
 }
 
 void MixerManager::deregisterTrack(int tid)
@@ -204,7 +204,7 @@ void MixerManager::collapseMixers()
     } else {
         //m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMinimumWidth(m_recommandedWidth);
+        m_channelsBox->setMinimumWidth(m_recommendedWidth);
         setFixedWidth(m_expandedWidth);
         QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
     }
@@ -218,7 +218,7 @@ void MixerManager::resetSizePolicy()
 
 QSize MixerManager::sizeHint() const
 {
-    return QSize(m_recommandedWidth, 0);
+    return QSize(m_recommendedWidth, 0);
 }
 
 void MixerManager::pauseMonitoring(bool pause)

@@ -41,7 +41,7 @@ public:
     void setAudioIndex(const std::shared_ptr<Mlt::Producer> &producer, int ix);
     QMap<int, QString> streamInfo(Mlt::Properties sourceProperties);
     void updateActiveStreams(const QString &activeStreams);
-    void renameStream(int ix, const QString streamName);
+    void renameStream(int ix, const QString &streamName);
 
 private:
     int m_audioStreamIndex;

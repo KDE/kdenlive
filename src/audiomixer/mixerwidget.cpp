@@ -5,15 +5,15 @@
 
 #include "mixerwidget.hpp"
 
-#include "mlt++/MltFilter.h"
-#include "mlt++/MltTractor.h"
-#include "mlt++/MltEvent.h"
-#include "mlt++/MltProfile.h"
+#include "audiolevelwidget.hpp"
+#include "capture/mediacapture.h"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "mixermanager.hpp"
-#include "audiolevelwidget.hpp"
-#include "capture/mediacapture.h"
+#include "mlt++/MltEvent.h"
+#include "mlt++/MltFilter.h"
+#include "mlt++/MltProfile.h"
+#include "mlt++/MltTractor.h"
 
 #include <KDualAction>
 #include <KSqueezedTextLabel>

@@ -360,6 +360,23 @@ Rectangle {
             ]
         }
         Label {
+            // Debug: trackId
+            anchors.left: trackLed.right
+            background: Rectangle {
+                color: 'magenta'
+            }
+            anchors.leftMargin: 2
+            width: root.trackTagWidth
+            height: root.collapsedHeight - 2
+            y: 1
+            text: trackHeadRoot.trackId
+            elide: Text.ElideRight
+            font: miniFont
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            visible: root.debugmode
+        }
+        Label {
             anchors.left: trackLed.right
             anchors.top: parent.top
             anchors.leftMargin: 2

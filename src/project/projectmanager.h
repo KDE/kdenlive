@@ -61,7 +61,7 @@ public:
      */
     void disableBinEffects(bool disable, bool refreshMonitor = true);
     /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString &outputFolder, const QString overlayData = QString());
+    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
@@ -94,6 +94,12 @@ public:
     /** @brief Add requested audio tracks number to project.
      */
     void addAudioTracks(int tracksCount);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    void testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    bool testSaveFileAs(const QString &outputFileName);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -187,7 +193,7 @@ signals:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos);
+    bool updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */

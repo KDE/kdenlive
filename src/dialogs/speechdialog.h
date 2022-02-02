@@ -10,6 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_speechdialog_ui.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "definitions.h"
+#include "pythoninterfaces/speechtotext.h"
+
 
 #include <QProcess>
 #include <QTemporaryFile>
@@ -37,7 +39,7 @@ private:
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
     QMetaObject::Connection m_modelsConnection;
     QAction *m_voskConfig;
-    void parseVoskDictionaries();
+    SpeechToText *m_stt;
 
 private slots:
     void slotProcessSpeech(QPoint zone);

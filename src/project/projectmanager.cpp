@@ -32,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJob>
 #include <KMessageBox>
 #include <KRecentDirs>
+#include <kcoreaddons_version.h>
 #include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
@@ -119,6 +120,16 @@ void ProjectManager::slotLoadOnOpen()
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
+    // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
+    QTimer::singleShot(1000, this, []() {
+        QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
+        for (QTabBar *tab : qAsConst(tabbars)) {
+            // Fix tabbar tooltip containing ampersand
+            for (int i = 0; i < tab->count(); i++) {
+                tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+            }
+        }
+    });
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -222,7 +233,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->bin()->setDocument(doc);
     m_project = doc;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    updateTimeline(0);
+    updateTimeline(0, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
@@ -236,6 +247,36 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     emit docOpened(m_project);
     m_lastSave.start();
+}
+
+void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
+{
+    m_project = doc;
+    m_mainTimelineModel = timeline;
+}
+
+bool ProjectManager::testSaveFileAs(const QString &outputFileName)
+{
+    QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    QMap<QString,QString>docProperties;
+    docProperties.insert(QStringLiteral("version"), QString::number(m_project->getDocumentVersion()));
+    docProperties.insert(QStringLiteral("timelineHash"), m_mainTimelineModel->timelineHash().toHex());
+    pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString,QString>(),
+                                                      m_project->getGuideModel());
+    QString scene = m_mainTimelineModel->sceneList(saveFolder);
+    
+    QSaveFile file(outputFileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug()<<"//////  ERROR writing to file: " << outputFileName;
+        return false;
+    }
+
+    file.write(scene.toUtf8());
+    if (!file.commit()) {
+        qDebug()<<"Cannot write to file %1";
+        return false;
+    }
+    return true;
 }
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
@@ -264,27 +305,24 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-    ::mlt_pool_purge();
-    pCore->cleanup();
-    if (!quit && !qApp->isSavingSession()) {
-        if (m_project) {
+    if (m_project) {
+        ::mlt_pool_purge();
+        pCore->cleanup();
+        if (!quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-    }
-    pCore->window()->getMainTimeline()->unsetModel();
-    pCore->window()->resetSubtitles();
-    if (m_mainTimelineModel) {
-        m_mainTimelineModel->prepareClose();
+        pCore->window()->getMainTimeline()->unsetModel();
+        pCore->window()->resetSubtitles();
+        if (m_mainTimelineModel) {
+            m_mainTimelineModel->prepareClose();
+        }
     }
     pCore->bin()->cleanDocument();
-
-    if (!quit && !qApp->isSavingSession()) {
-        if (m_project) {
-            emit pCore->window()->clearAssetPanel();
-            pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-            delete m_project;
-            m_project = nullptr;
-        }
+    if (!quit && !qApp->isSavingSession() && m_project) {
+        emit pCore->window()->clearAssetPanel();
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        delete m_project;
+        m_project = nullptr;
     }
     pCore->mixer()->unsetModel();
     // Release model shared pointers
@@ -606,28 +644,19 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
-    // TODO refac delete this
     pCore->bin()->setDocument(doc);
-    QList<QAction *> rulerActions;
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("set_render_timeline_zone"));
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("unset_render_timeline_zone"));
-    rulerActions << pCore->window()->actionCollection()->action(QStringLiteral("clear_render_timeline_zone"));
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
-    doc->loadDocumentGuides();
-    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt())) {
+    m_project->loadDocumentGuides();
+    QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
         return;
     }
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
-    QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
-    pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
-                                                                  m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
-                                                                  m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
-
     emit docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     if (openBackup) {
@@ -730,7 +759,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString &outputFolder, const QString overlayData)
+QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
@@ -746,7 +775,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getMainTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
-    QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder, QString(), overlayData);
+    QString scene = m_mainTimelineModel->sceneList(outputFolder, QString(), overlayData);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
@@ -762,7 +791,9 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 
 void ProjectManager::setDocumentNotes(const QString &notes)
 {
-    m_notesPlugin->widget()->setHtml(notes);
+    if (m_notesPlugin) {
+        m_notesPlugin->widget()->setHtml(notes);
+    }
 }
 
 QString ProjectManager::documentNotes() const
@@ -903,7 +934,11 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
     m_project->moveProjectData(src, dest);
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
+#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5,80,0)
     connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
+#else
+    connect(copyJob, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
+#endif
 }
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
@@ -934,7 +969,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-bool ProjectManager::updateTimeline(int pos)
+bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
     pCore->window()->getMainTimeline()->loading = true;
@@ -961,14 +996,16 @@ bool ProjectManager::updateTimeline(int pos)
         return false;
     }
     m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
-    // Add snap point at projec start
+    // Add snap point at project start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     bool projectErrors = false;
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), &projectErrors)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
+    // Free memory used by original playlist
+    xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
@@ -1163,6 +1200,13 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
         bool ok;
+        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage") && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+            // Slideshow, duration is frame based, should be calculated again
+            Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
+            Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
+            e.setAttribute(QStringLiteral("out"), -1);
+            continue;
+        }
         int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
         if (ok && length > 0) {
             // calculate updated length

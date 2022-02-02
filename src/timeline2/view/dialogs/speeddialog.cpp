@@ -5,14 +5,14 @@
 
 
 #include "speeddialog.h"
-#include "ui_clipspeed_ui.h"
-#include "effects/effectsrepository.hpp"
-#include "timecodedisplay.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
+#include "widgets/timecodedisplay.h"
+#include "ui_clipspeed_ui.h"
 
-#include <QPushButton>
-#include <QDebug>
 #include <KMessageWidget>
+#include <QDebug>
+#include <QPushButton>
 #include <QtMath>
 
 SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate)

@@ -7,8 +7,8 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
+#include "project/projectmanager.h"
 #include <QDir>
 #include <QMutexLocker>
 #include <list>
@@ -190,7 +190,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     }
 }
 
-void ThumbnailCache::saveCachedThumbs(QStringList keys)
+void ThumbnailCache::saveCachedThumbs(const QStringList &keys)
 {
     bool ok;
     QDir thumbFolder = getDir(false, &ok);
@@ -224,7 +224,6 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     bool ok = false;
     // Video thumbs
     QDir thumbFolder = getDir(false, &ok);
-    //QDir audioThumbFolder = getDir(true, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {

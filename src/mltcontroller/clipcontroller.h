@@ -85,7 +85,7 @@ public:
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
 
     /** @brief Rename an audio stream. */
-    virtual void renameAudioStream(int id, QString name) = 0;
+    virtual void renameAudioStream(int id, const QString &name) = 0;
 
     /** @brief Add an audio effect on a specific audio stream for this clip. */
     virtual void requestAddStreamEffect(int streamIndex, const QString effectName) = 0;
