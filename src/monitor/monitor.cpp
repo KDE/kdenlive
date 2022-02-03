@@ -327,7 +327,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(rewind, &QAction::triggered, this, &Monitor::slotRewind);
 
     auto *playButton = new QToolButton(m_toolbar);
-    m_playMenu = new QMenu(i18n("Play..."), this);
+    m_playMenu = new QMenu(i18n("Play"), this);
     connect(m_playMenu, &QMenu::aboutToShow, this, &Monitor::slotActivateMonitor);
     QAction *originalPlayAction = static_cast<KDualAction *>(manager->getAction(QStringLiteral("monitor_play")));
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
@@ -357,13 +357,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     playButton->setDefaultAction(m_playAction);
-    m_configMenu = new QMenu(i18n("Misc..."), this);
+    m_configMenu = new QMenu(i18n("Misc…"), this);
 
 
     if (id == Kdenlive::ClipMonitor) {
-        m_markerMenu = new QMenu(i18n("Go to marker..."), this);
+        m_markerMenu = new QMenu(i18n("Go to Marker…"), this);
     } else {
-        m_markerMenu = new QMenu(i18n("Go to guide..."), this);
+        m_markerMenu = new QMenu(i18n("Go to Guide…"), this);
     }
     m_markerMenu->setEnabled(false);
     m_configMenu->addMenu(m_markerMenu);
@@ -1221,7 +1221,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     }
     QScopedPointer<QDialog> dlg(new QDialog(this));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
-    dlg->setWindowTitle(addToProject ? i18n("Save Image") : i18n("Save Image to Project"));
+    dlg->setWindowTitle(addToProject ? i18nc("@title:window", "Save Image") : i18nc("@title:window", "Save Image to Project"));
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
     QCheckBox *b = nullptr;

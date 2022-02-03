@@ -94,7 +94,7 @@ const std::vector<qint64> &AudioEnvelope::envelope()
 
 AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 {
-    qCDebug(KDENLIVE_LOG) << "Loading envelope ...";
+    qCDebug(KDENLIVE_LOG) << "Loading envelope …";
     AudioSummary summary(m_envelopeSize);
     if (!m_info || m_info->size() < 1) {
         return summary;
@@ -120,7 +120,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
         pCore->displayMessage(i18n("Processing data analysis"), ProcessingJobMessage, int(100 * i / max));
     }
     qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
-    qCDebug(KDENLIVE_LOG) << "Normalizing envelope ...";
+    qCDebug(KDENLIVE_LOG) << "Normalizing envelope …";
     const qint64 meanBeforeNormalization =
         std::accumulate(summary.audioAmplitudes.begin(), summary.audioAmplitudes.end(), 0LL) / qint64(summary.audioAmplitudes.size());
 

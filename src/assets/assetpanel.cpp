@@ -83,7 +83,7 @@ AssetPanel::AssetPanel(QWidget *parent)
 
     m_saveEffectStack = new QToolButton(this);
     m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
-    m_saveEffectStack->setToolTip(i18n("Save Effect Stack"));
+    m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
     // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
     // See https://stackoverflow.com/a/17645563/5172513
     m_saveEffectStack->setEnabled(false);

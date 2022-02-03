@@ -53,7 +53,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         auto *hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Duration")));
+        hlay->addWidget(new QLabel(i18n("Duration:")));
         m_timePos = new TimecodeDisplay(pCore->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {
             connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &Generators::updateDuration);
@@ -160,7 +160,7 @@ QUrl Generators::getSavedClip(QString clipFolder)
     }
     QFileDialog fd(this);
     fd.setDirectory(clipFolder);
-    fd.setNameFilter(i18n("MLT playlist (*.mlt)"));
+    fd.setNameFilter(i18n("MLT Playlist (*.mlt)"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("mlt"));

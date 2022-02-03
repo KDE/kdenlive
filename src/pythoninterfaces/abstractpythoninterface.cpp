@@ -73,7 +73,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
     connect(m_installAction, &QAction::triggered, this, [&]() {
         if (!m_interface->missingDependencies().isEmpty()) {
             m_installAction->setEnabled(false);
-            doShowMessage(i18n("Installing modules..."), KMessageWidget::Information);
+            doShowMessage(i18n("Installing modules…"), KMessageWidget::Information);
             qApp->processEvents();
             m_interface->installMissingDependencies();
             m_interface->checkDependencies();
@@ -85,11 +85,11 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             // upgrade
             m_updated = true;
             m_installAction->setEnabled(false);
-            doShowMessage(i18n("Updating modules..."), KMessageWidget::Information);
+            doShowMessage(i18n("Updating modules…"), KMessageWidget::Information);
             qApp->processEvents();
             m_interface->updateDependencies();
             removeAction(m_installAction);
-            doShowMessage(i18n("Checking configuration..."), KMessageWidget::Information);
+            doShowMessage(i18n("Checking configuration…"), KMessageWidget::Information);
             m_interface->checkVersions();
         }
     });

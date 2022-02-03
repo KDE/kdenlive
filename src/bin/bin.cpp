@@ -1016,7 +1016,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_searchLine->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // m_searchLine->setClearButtonEnabled(true);
-    m_searchLine->setPlaceholderText(i18n("Search..."));
+    m_searchLine->setPlaceholderText(i18n("Search…"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(m_searchLine, &QLineEdit::textChanged, this, [this] (const QString &str) {
         m_proxyModel->slotSetSearchString(str);
@@ -1157,7 +1157,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
     
-    QAction *hoverPreview = new QAction(i18n("Show video preview in thumbnails"), this);
+    QAction *hoverPreview = new QAction(i18n("Show Video Preview in Thumbnails"), this);
     hoverPreview->setCheckable(true);
     hoverPreview->setChecked(KdenliveSettings::hoverPreview());
     connect(hoverPreview, &QAction::triggered, [] (bool checked) {
@@ -1177,15 +1177,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     settingsMenu->addMenu(sort);
 
     // Column show / hide actions
-    m_showDate = new QAction(i18n("Show date"), this);
+    m_showDate = new QAction(i18n("Show Date"), this);
     m_showDate->setCheckable(true);
     m_showDate->setData(1);
     connect(m_showDate, &QAction::triggered, this, &Bin::slotShowColumn);
-    m_showDesc = new QAction(i18n("Show description"), this);
+    m_showDesc = new QAction(i18n("Show Description"), this);
     m_showDesc->setCheckable(true);
     m_showDesc->setData(2);
     connect(m_showDesc, &QAction::triggered, this, &Bin::slotShowColumn);
-    m_showRating = new QAction(i18n("Show rating"), this);
+    m_showRating = new QAction(i18n("Show Rating"), this);
     m_showRating->setCheckable(true);
     m_showRating->setData(7);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
@@ -1728,7 +1728,7 @@ void Bin::slotReplaceClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
-            QString fileName = QFileDialog::getOpenFileName(this, i18n("Open replacement file"),
+            QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement File"),
                                                 QFileInfo(currentItem->url()).absolutePath(),
                                                 ClipCreationDialog::getExtensionsFilter());
             if (!fileName.isEmpty()) {
@@ -1930,7 +1930,7 @@ void Bin::rebuildFilters(const QMap <QString, QString> &tags)
 {
     m_filterMenu->clear();
     // Add tag filters
-    QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear filters"), this);
+    QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear Filters"), this);
     m_filterMenu->addAction(clearFilter);
     int tagsCount = tags.size();
     for (int i = 1; i <= tagsCount; i++) {
@@ -1945,21 +1945,21 @@ void Bin::rebuildFilters(const QMap <QString, QString> &tags)
     // Add rating filters
     m_filterMenu->addSeparator();
     for (int i = 1; i < 6; ++i) {
-        auto *rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 star", "%1 stars", i), &m_filterRateGroup);
+        auto *rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 Star", "%1 Stars", i), &m_filterRateGroup);
         rateFilter->setData(QString(".%1").arg(2 * i));
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
     // Add unused filter
     m_filterMenu->addSeparator();
-    auto *unusedFilter = new QAction(i18n("Unused clips"), this);
+    auto *unusedFilter = new QAction(i18n("Unused Clips"), this);
     unusedFilter->setData(QStringLiteral("unused"));
     unusedFilter->setCheckable(true);
     m_filterMenu->addAction(unusedFilter);
 
     // Add type filters
     m_filterMenu->addSeparator();
-    auto *typeMenu = new QMenu(i18n("Filter by type"), m_filterMenu);
+    auto *typeMenu = new QMenu(i18n("Filter by Type"), m_filterMenu);
     m_filterMenu->addMenu(typeMenu);
     m_filterMenu->addSeparator();
     auto *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), &m_filterTypeGroup);
@@ -3070,14 +3070,14 @@ void Bin::setupMenu()
     auto *addClipMenu = new QMenu(this);
 
     m_addClip =
-            addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
+            addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
     addClipMenu->addAction(m_addClip);
     connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
-    setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
-    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
-    setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
+    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
 
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
@@ -3085,7 +3085,7 @@ void Bin::setupMenu()
     connect(downloadResourceAction, &QAction::triggered, pCore->window(), &MainWindow::slotDownloadResources);
 
     m_locateAction =
-        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), QIcon::fromTheme(QStringLiteral("find-location")));
+        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip…"), QIcon::fromTheme(QStringLiteral("find-location")));
     m_locateAction->setData("locate_clip");
     m_locateAction->setEnabled(false);
     connect(m_locateAction, &QAction::triggered, this, &Bin::slotLocateClip);
@@ -3097,7 +3097,7 @@ void Bin::setupMenu()
     connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
 
     m_replaceAction =
-        addAction(QStringLiteral("replace_clip"), i18n("Replace Clip"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+        addAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
     m_replaceAction->setData("replace_clip");
     m_replaceAction->setEnabled(false);
     connect(m_replaceAction, &QAction::triggered, this, &Bin::slotReplaceClip);
@@ -4648,7 +4648,7 @@ void Bin::slotBack()
     } else {
         m_itemView->setRootIndex(QModelIndex());
         m_upAction->setEnabled(false);
-        parentWidget()->setWindowTitle(i18n("Project Bin"));
+        parentWidget()->setWindowTitle(i18nc("@title:window", "Project Bin"));
     }
 }
 

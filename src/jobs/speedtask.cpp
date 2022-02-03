@@ -40,7 +40,7 @@ void SpeedTask::start(QObject* object, bool force)
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     // Show config dialog
     QDialog d(qApp->activeWindow());
-    d.setWindowTitle(i18n("Clip Speed"));
+    d.setWindowTitle(i18nc("@title:window", "Clip Speed"));
     QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
     auto *l = new QVBoxLayout;
     d.setLayout(l);

@@ -146,7 +146,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
 
     // Output offset
     int clipIn = parentIn;
-    m_offsetPoint = new PositionWidget(i18n("Time offset"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
+    m_offsetPoint = new PositionWidget(i18n("Time offset:"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
     lay->addWidget(m_offsetPoint);
 
     int count = 0;
@@ -258,7 +258,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
 
     // Destination range
     l1 = new QHBoxLayout;
-    lab = new QLabel(i18n("Position offset"), this);
+    lab = new QLabel(i18n("Position offset:"), this);
     l1->addWidget(lab);
     l1->addWidget(&m_offsetX);
     l1->addWidget(&m_offsetY);
@@ -275,7 +275,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
 
     // Destination range
     l1 = new QHBoxLayout;
-    lab = new QLabel(i18n("Destination range"), this);
+    lab = new QLabel(i18n("Destination range:"), this);
 
     l1->addWidget(lab);
     l1->addWidget(&m_destMin);

@@ -225,7 +225,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
 
     connect(saveEffectButton, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotSaveEffect);
     saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-    saveEffectButton->setToolTip(i18n("Save Effect"));
+    saveEffectButton->setToolTip(i18n("Save effect"));
 
     if (!effectModel->isEnabled()) {
         title->setEnabled(false);
@@ -470,7 +470,7 @@ void CollapsibleEffectView::slotSaveEffect()
     QDialog dialog(this);
     QFormLayout form(&dialog);
 
-    dialog.setWindowTitle(i18n("Save Effect"));
+    dialog.setWindowTitle(i18nc("@title:window", "Save Effect"));
 
     auto *effectName = new QLineEdit(&dialog);
     auto *descriptionBox = new QTextEdit(&dialog);

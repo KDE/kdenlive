@@ -21,7 +21,7 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, false);
-    setWindowTitle(i18n("Transcode Clip"));
+    setWindowTitle(i18nc("@title:window", "Transcode Clip"));
     KConfig conf(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "intermediate");
     m_encodeParams = group.entryMap();

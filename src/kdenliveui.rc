@@ -234,7 +234,7 @@
           <Action name="scale_8_preview" />
           <Action name="scale_16_preview" />
       </Menu>
-      <Menu name="monitor_config" ><text>Monitor config</text>
+      <Menu name="monitor_config" ><text>Monitor Config</text>
           <Action name="mlt_interlace" />
           <Action name="mlt_progressive" />
           <Action name="mlt_interpolation" />

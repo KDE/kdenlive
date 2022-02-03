@@ -49,7 +49,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_presetGroup->setExclusive(true);
         m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, &AssetParameterView::resetValues);
         // Save preset
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, [&](){ slotSavePreset(); });
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset…"), this, [&](){ slotSavePreset(); });
         QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, &AssetParameterView::slotUpdatePreset);
         QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
         m_presetMenu->addSeparator();
@@ -329,7 +329,7 @@ void AssetParameterView::slotSavePreset(QString presetName)
 {
     if (presetName.isEmpty()) {
         bool ok;
-        presetName = QInputDialog::getText(this, i18n("Enter preset name"), i18n("Enter the name of this preset"), QLineEdit::Normal, QString(), &ok);
+        presetName = QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
         if (!ok) return;
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));

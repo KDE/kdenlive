@@ -49,9 +49,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <lib/localeHandling.h>
 
 static QString getProjectNameFilters(bool ark=true) {
-    auto filter = i18n("Kdenlive project (*.kdenlive)");
+    auto filter = i18n("Kdenlive Project (*.kdenlive)");
     if (ark) {
-        filter.append(";;" + i18n("Archived project (*.tar.gz *.zip)"));
+        filter.append(";;" + i18n("Archived Project (*.tar.gz *.zip)"));
     }
     return filter;
 }
@@ -77,7 +77,7 @@ ProjectManager::ProjectManager(QObject *parent)
     pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
     connect(saveCopyAction,  &QAction::triggered, this, [this]{ saveFileAs(true); });
 
-    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
+    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
     pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
@@ -429,7 +429,7 @@ bool ProjectManager::saveFileAs(bool saveACopy)
 {
     QFileDialog fd(pCore->window());
     if (saveACopy) {
-        fd.setWindowTitle(i18n("Save Copy"));
+        fd.setWindowTitle(i18nc("@title:window", "Save Copy"));
     }
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
     fd.setNameFilter(getProjectNameFilters(false));
@@ -599,7 +599,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     if (!m_loading) {
         m_progressDialog = new QProgressDialog(pCore->window());
-        m_progressDialog->setWindowTitle(i18n("Loading project"));
+        m_progressDialog->setWindowTitle(i18nc("@title:window", "Loading Project"));
         m_progressDialog->setCancelButton(nullptr);
         m_progressDialog->setLabelText(i18n("Loading project"));
         m_progressDialog->setMaximum(0);

@@ -106,7 +106,7 @@ void RenderJobItem::setStatus(int status)
     switch (status) {
     case WAITINGJOB:
         setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-        setData(1, Qt::UserRole, i18n("Waiting..."));
+        setData(1, Qt::UserRole, i18n("Waiting…"));
         break;
     case FINISHEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering finished"));
@@ -151,7 +151,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-    setWindowTitle(i18n("Rendering"));
+    setWindowTitle(i18nc("@title:window", "Rendering"));
     m_view.buttonDelete->setIconSize(iconSize);
     m_view.buttonEdit->setIconSize(iconSize);
     m_view.buttonSave->setIconSize(iconSize);
@@ -163,7 +163,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonDelete->setEnabled(false);
 
     m_view.buttonEdit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    m_view.buttonEdit->setToolTip(i18n("Edit profile"));
+    m_view.buttonEdit->setToolTip(i18n("Edit profile…"));
     m_view.buttonEdit->setEnabled(false);
 
     m_view.buttonSave->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
@@ -175,7 +175,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
 
     m_view.buttonDownload->setIcon(QIcon::fromTheme(QStringLiteral("edit-download")));
-    m_view.buttonDownload->setToolTip(i18n("Download New Render Profiles..."));
+    m_view.buttonDownload->setToolTip(i18n("Download New Render Profiles…"));
 
     m_view.out_file->button()->setToolTip(i18n("Select output destination"));
     m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
@@ -203,8 +203,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.error_box->setVisible(false);
     m_view.tc_type->setEnabled(false);
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
-    m_view.tc_type->addItem(i18n("Timecode non drop frame"), QStringLiteral("#smtpe_ndf#"));
-    m_view.tc_type->addItem(i18n("Frame number"), QStringLiteral("#frame#"));
+    m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));
+    m_view.tc_type->addItem(i18n("Frame Number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
@@ -693,7 +693,7 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
     // Check if a profile with that same name already exists
     bool ok;
     while (existingProfileNames.contains(newProfileName)) {
-        QString updatedProfileName = QInputDialog::getText(this, i18n("Profile already exists"),
+        QString updatedProfileName = QInputDialog::getText(this, i18nc("@title:window", "Profile Already Exists"),
                                                            i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
                                                            QLineEdit::Normal, newProfileName, &ok);
         if (!ok) {
@@ -845,7 +845,7 @@ void RenderWidget::slotEditProfile()
         ui.speeds_list->setText(speeds.join('\n'));
     }
 
-    d->setWindowTitle(i18n("Edit Profile"));
+    d->setWindowTitle(i18nc("@title:window", "Edit Profile"));
 
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile(true);
@@ -886,7 +886,7 @@ void RenderWidget::slotEditProfile()
             if (profileName == newProfileName) {
                 // a profile with that same name already exists
                 bool ok;
-                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"),
+                newProfileName = QInputDialog::getText(this, i18nc("@title:window", "Profile Already Exists"),
                                                        i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
                                                        QLineEdit::Normal, newProfileName, &ok);
                 if (!ok) {
@@ -1164,7 +1164,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
             }
         }
         renderName = renderName.section(QLatin1Char('.'), 0, -2);
-        renderName = QInputDialog::getText(this, i18n("Delayed rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal, renderName, &ok);
+        renderName = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal, renderName, &ok);
         if (!ok) {
             return;
         }
@@ -1612,7 +1612,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         renderItem = static_cast<RenderJobItem *>(existing.at(0));
         if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
             KMessageBox::information(
-                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", renderedFile),
+                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", renderedFile),
                 i18n("Already running"));
             return;
         }
@@ -1623,7 +1623,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             renderItem->setData(1, ProgressRole, 0);
             renderItem->setStatus(WAITINGJOB);
             renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-            renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
+            renderItem->setData(1, Qt::UserRole, i18n("Waiting…"));
             QStringList argsJob = {KdenliveSettings::rendererpath(), playlistPath, renderedFile,
                                    QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
             renderItem->setData(1, ParametersRole, argsJob);
@@ -2743,7 +2743,7 @@ void RenderWidget::slotStartScript()
             renderItem = static_cast<RenderJobItem *>(existing.at(0));
             if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(
-                    this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it...", destination),
+                    this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", destination),
                     i18n("Already running"));
                 return;
             }
@@ -2756,7 +2756,7 @@ void RenderWidget::slotStartScript()
         renderItem->setData(1, ProgressRole, 0);
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-        renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
+        renderItem->setData(1, Qt::UserRole, i18n("Waiting…"));
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);

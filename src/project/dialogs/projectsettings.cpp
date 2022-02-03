@@ -798,7 +798,7 @@ const QMap<QString, QString> ProjectSettings::metadata() const
 
 void ProjectSettings::slotAddMetadataField()
 {
-    QString metaField = QInputDialog::getText(this, i18n("Metadata"), i18n("Metadata"));
+    QString metaField = QInputDialog::getText(this, i18nc("@title:window", "Metadata"), i18n("Metadata"));
     if (metaField.isEmpty()) {
         return;
     }

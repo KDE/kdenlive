@@ -262,11 +262,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_sortMarkers->sort(0, Qt::AscendingOrder);
     m_markerTree->setModel(m_sortMarkers.get());
     auto *bar = new QToolBar;
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker…"), this, SLOT(slotAddMarker()));
     bar->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker"), this, SLOT(slotEditMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker…"), this, SLOT(slotEditMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers…"), this, SLOT(slotSaveMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers…"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
 
     m_markersPage->setLayout(mBox);
@@ -292,8 +292,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
     bar2->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis…"), this, SLOT(slotLoadAnalysis()));
     aBox->addWidget(bar2);
 
     slotFillAnalysisData();
@@ -321,7 +321,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
         m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Duration"), this);
+        QCheckBox *box = new QCheckBox(i18n("Duration:"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
         auto *timePos = new TimecodeDisplay(m_tc, this);
@@ -385,7 +385,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Aspect ratio"), this);
+        QCheckBox *box = new QCheckBox(i18n("Aspect ratio:"), this);
         box->setObjectName(QStringLiteral("force_ar"));
         fpBox->addWidget(box);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
@@ -492,7 +492,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         tb->setAutoRaise(true);
         tb->setPopupMode(QToolButton::InstantPopup);
 
-        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
         connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
@@ -521,7 +521,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString force_fps = m_properties->get("force_fps");
         m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
+        QCheckBox *box = new QCheckBox(i18n("Frame rate:"), this);
         box->setObjectName(QStringLiteral("force_fps"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         auto *spin = new QDoubleSpinBox(this);
@@ -545,7 +545,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString force_prog = m_properties->get("force_progressive");
         m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Scanning"), this);
+        box = new QCheckBox(i18n("Scanning:"), this);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_progressive"));
         auto *combo = new QComboBox(this);
@@ -567,12 +567,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString force_tff = m_properties->get("force_tff");
         m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Field order"), this);
+        box = new QCheckBox(i18n("Field order:"), this);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_tff"));
         combo = new QComboBox(this);
-        combo->addItem(i18n("Bottom first"), 0);
-        combo->addItem(i18n("Top first"), 1);
+        combo->addItem(i18n("Bottom First"), 0);
+        combo->addItem(i18n("Top First"), 1);
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_tff_value"));
         if (!force_tff.isEmpty()) {
@@ -627,7 +627,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString threads = m_properties->get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
         hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Threads")));
+        hlay->addWidget(new QLabel(i18n("Threads:")));
         auto *spinI = new QSpinBox(this);
         spinI->setMaximum(4);
         spinI->setMinimum(1);
@@ -860,7 +860,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             vbox->addWidget(m_normalize);
 
             // Swap channels
-            m_swapChannels = new QCheckBox(i18n("Swap Channels"), this);
+            m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
             connect(m_swapChannels, &QCheckBox::stateChanged, this, [this] (int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
@@ -878,7 +878,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             vbox->addWidget(m_swapChannels);
             // Copy channel
             auto *copyLay = new QHBoxLayout;
-            copyLay->addWidget(new QLabel(i18n("Copy Channel"), this));
+            copyLay->addWidget(new QLabel(i18n("Copy channel:"), this));
             m_copyChannel1 = new QCheckBox(i18n("1"), this);
             m_copyChannel2 = new QCheckBox(i18n("2"), this);
             m_copyChannelGroup = new QButtonGroup(this);
@@ -909,7 +909,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             // Gain
             auto *gainLay = new QHBoxLayout;
-            gainLay->addWidget(new QLabel(i18n("Gain"), this));
+            gainLay->addWidget(new QLabel(i18n("Gain:"), this));
             m_gain = new QSpinBox(this);
             m_gain->setRange(-100, 60);
             m_gain->setSuffix(i18n("dB"));
@@ -936,7 +936,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
             // Audio sync
             hlay = new QHBoxLayout;
-            hlay->addWidget(new QLabel(i18n("Audio sync")));
+            hlay->addWidget(new QLabel(i18n("Audio sync:")));
             auto *spinSync = new QSpinBox(this);
             spinSync->setSuffix(i18n("ms"));
             spinSync->setRange(-1000, 1000);
@@ -957,7 +957,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
         // Colorspace
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Colorspace"), this);
+        box = new QCheckBox(i18n("Colorspace:"), this);
         box->setObjectName(QStringLiteral("force_colorspace"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
@@ -1309,7 +1309,7 @@ void ClipPropertiesController::fillProperties()
     if (m_type == ClipType::Image) {
         int width = m_sourceProperties.get_int("meta.media.width");
         int height = m_sourceProperties.get_int("meta.media.height");
-        propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
+        propertyMap.append(QStringList() << i18n("Image size:") << QString::number(width) + QLatin1Char('x') + QString::number(height));
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
         int vindex = m_sourceProperties.get_int("video_index");
@@ -1336,31 +1336,31 @@ void ClipPropertiesController::fillProperties()
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Video codec"), codec});
+                propertyMap.append({i18n("Video codec:"), codec});
             }
             int width = m_sourceProperties.get_int("meta.media.width");
             int height = m_sourceProperties.get_int("meta.media.height");
-            propertyMap.append({i18n("Frame size"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
+            propertyMap.append({i18n("Frame size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
 
             property = streamInfo + QStringLiteral("frame_rate");
             QString fpsValue = m_sourceProperties.get(property.toUtf8().constData());
             if (!fpsValue.isEmpty()) {
-                propertyMap.append({i18n("Frame rate"), fpsValue});
+                propertyMap.append({i18n("Frame rate:"), fpsValue});
             } else {
                 int rate_den = m_sourceProperties.get_int("meta.media.frame_rate_den");
                 if (rate_den > 0) {
                     double fps = double(m_sourceProperties.get_int("meta.media.frame_rate_num")) / rate_den;
-                    propertyMap.append({i18n("Frame rate"), QString::number(fps, 'f', 2)});
+                    propertyMap.append({i18n("Frame rate:"), QString::number(fps, 'f', 2)});
                 }
             }
             property = codecInfo + QStringLiteral("bit_rate");
             int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
-                propertyMap.append({i18n("Video bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                propertyMap.append({i18n("Video bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
 
             int scan = m_sourceProperties.get_int("meta.media.progressive");
-            propertyMap.append({i18n("Scanning"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
+            propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
 
             property = codecInfo + QStringLiteral("sample_aspect_ratio");
             double par = m_sourceProperties.get_double(property.toUtf8().constData());
@@ -1368,37 +1368,37 @@ void ClipPropertiesController::fillProperties()
                 // Read media aspect ratio
                 par = m_sourceProperties.get_double("aspect_ratio");
             }
-            propertyMap.append({i18n("Pixel aspect ratio"), QString::number(par, 'f', 3)});
+            propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
             property = codecInfo + QStringLiteral("pix_fmt");
-            propertyMap.append({i18n("Pixel format"), m_sourceProperties.get(property.toUtf8().constData())});
+            propertyMap.append({i18n("Pixel format:"), m_sourceProperties.get(property.toUtf8().constData())});
             property = codecInfo + QStringLiteral("colorspace");
             int colorspace = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
+            propertyMap.append({i18n("Colorspace:"), ProfileRepository::getColorspaceDescription(colorspace)});
 
             int b_frames = m_sourceProperties.get_int("meta.media.has_b_frames");
-            propertyMap.append({i18n("B frames"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
+            propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
         }
         if (default_audio > -1) {
-            propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioStreamsCount())});
+            propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
 
             QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Audio codec"), codec});
+                propertyMap.append({i18n("Audio codec:"), codec});
             }
             property = codecInfo + QStringLiteral("channels");
             int channels = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio channels"), QString::number(channels)});
+            propertyMap.append({i18n("Audio channels:"), QString::number(channels)});
 
             property = codecInfo + QStringLiteral("sample_rate");
             int srate = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio frequency"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
+            propertyMap.append({i18n("Audio frequency:"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
 
             property = codecInfo + QStringLiteral("bit_rate");
             int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
-                propertyMap.append({i18n("Audio bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
         }
     }
@@ -1406,7 +1406,7 @@ void ClipPropertiesController::fillProperties()
     qint64 filesize = m_sourceProperties.get_int64("kdenlive:file_size");
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append({i18n("File size"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
+        propertyMap.append({i18n("File size:"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
@@ -1469,7 +1469,7 @@ void ClipPropertiesController::slotAddMarker()
 
 void ClipPropertiesController::slotSaveMarkers()
 {
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
     fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::AnyFile);
     fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -1495,7 +1495,7 @@ void ClipPropertiesController::slotSaveMarkers()
 
 void ClipPropertiesController::slotLoadMarkers()
 {
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
     fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
@@ -1688,7 +1688,7 @@ void ClipPropertiesController::slotDeleteAnalysis()
 void ClipPropertiesController::slotSaveAnalysis()
 {
     const QString url =
-        QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+        QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
@@ -1701,7 +1701,7 @@ void ClipPropertiesController::slotSaveAnalysis()
 void ClipPropertiesController::slotLoadAnalysis()
 {
     const QString url =
-        QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+        QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }

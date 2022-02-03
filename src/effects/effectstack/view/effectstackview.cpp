@@ -462,7 +462,7 @@ void EffectStackView::slotSaveStack()
         KMessageBox::sorry(this, i18n("No effect selected."));
         return;
     }
-    QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
+    QString name = QInputDialog::getText(this, i18nc("@title:window", "Save Effect Stack"), i18n("Name for saved stack: "));
     if (name.trimmed().isEmpty()) {
         KMessageBox::sorry(this, i18n("No name provided, effect stack not saved."));
         return;

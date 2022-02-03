@@ -332,7 +332,7 @@ void LibraryWidget::slotDeleteFromLibrary()
 void LibraryWidget::slotAddFolder()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, i18n("Add Folder to Library"), i18n("Enter a folder name"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(this, i18nc("@title:window", "Add Folder to Library"), i18n("Enter a folder name"), QLineEdit::Normal, QString(), &ok);
     if (name.isEmpty() || !ok) {
         return;
     }

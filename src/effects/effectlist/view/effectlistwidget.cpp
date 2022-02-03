@@ -146,7 +146,7 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index) {
     QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(name));
     startFolder.append(source.fileName());
 
-    QString filename = QFileDialog::getSaveFileName(this, i18n("Export Custom Effect"), startFolder, filter);
+    QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Custom Effect"), startFolder, filter);
     QUrl target = QUrl::fromLocalFile(filename);
 
     if (source.isValid() && target.isValid()) {

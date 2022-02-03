@@ -118,7 +118,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    dia->setWindowTitle(i18n("Color Clip"));
+    dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
 
     QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(doc->timecode(), dia.get()));
@@ -144,7 +144,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(bin));
     Ui::QTextClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    dia->setWindowTitle(i18n("Text Clip"));
+    dia->setWindowTitle(i18nc("@title:window", "Text Clip"));
     dia_ui.fgColor->setAlphaChannelEnabled(true);
     dia_ui.lineColor->setAlphaChannelEnabled(true);
     dia_ui.bgColor->setAlphaChannelEnabled(true);

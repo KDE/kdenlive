@@ -33,7 +33,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
-    m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
+    m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
     m_notesDock->close();
     connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);

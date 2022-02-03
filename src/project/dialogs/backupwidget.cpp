@@ -15,7 +15,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QSt
     , m_projectFolder(std::move(projectFolder))
 {
     setupUi(this);
-    setWindowTitle(i18n("Restore Backup File"));
+    setWindowTitle(i18nc("@title:window", "Restore Backup File"));
 
     if (!projectUrl.isValid()) {
         // No url, means we opened the backup dialog from an empty project

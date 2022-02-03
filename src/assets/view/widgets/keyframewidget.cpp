@@ -139,18 +139,18 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addWidget(m_buttonApply);
     m_toolbar->addAction(m_selectType);
 
-    QAction *seekKeyframe = new QAction(i18n("Seek to keyframe on select"), this);
+    QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), this);
     seekKeyframe->setCheckable(true);
     seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
     connect(seekKeyframe, &QAction::triggered, [&](bool selected) {
         KdenliveSettings::setKeyframeseek(selected);
     });
     // copy/paste keyframes from clipboard
-    QAction *copy = new QAction(i18n("Copy keyframes to clipboard"), this);
+    QAction *copy = new QAction(i18n("Copy Keyframes to Clipboard"), this);
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
-    QAction *copyValue = new QAction(i18n("Copy value at cursor position to clipboard"), this);
+    QAction *copyValue = new QAction(i18n("Copy Value at Cursor Position to Clipboard"), this);
     connect(copyValue, &QAction::triggered, this, &KeyframeWidget::slotCopyValueAtCursorPos);
-    QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
+    QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
     if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel) {
         // TODO color wheel doesn't support keyframe import/export yet
@@ -159,11 +159,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         paste->setVisible(false);
     }
     // Remove keyframes
-    QAction *removeNext = new QAction(i18n("Remove all keyframes after cursor"), this);
+    QAction *removeNext = new QAction(i18n("Remove all Keyframes After Cursor"), this);
     connect(removeNext, &QAction::triggered, this, &KeyframeWidget::slotRemoveNextKeyframes);
 
     // Default kf interpolation
-    KSelectAction *kfType = new KSelectAction(i18n("Default keyframe type"), this);
+    KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), this);
     QAction *discrete2 = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete2->setData(int(mlt_keyframe_discrete));
     discrete2->setCheckable(true);

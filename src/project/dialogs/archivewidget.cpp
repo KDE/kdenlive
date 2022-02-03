@@ -44,7 +44,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
-    setWindowTitle(i18n("Archive Project"));
+    setWindowTitle(i18nc("@title:window", "Archive Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
     connect(archive_url, &KUrlRequester::textChanged, this, &ArchiveWidget::slotCheckSpace);
     connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
@@ -56,40 +56,40 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     m_doc.setContent(xmlData);
 
     // Setup categories
-    QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
+    QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video Clips"));
     videos->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     videos->setData(0, Qt::UserRole, QStringLiteral("videos"));
     videos->setExpanded(false);
-    QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio clips"));
+    QTreeWidgetItem *sounds = new QTreeWidgetItem(files_list, QStringList() << i18n("Audio Clips"));
     sounds->setIcon(0, QIcon::fromTheme(QStringLiteral("audio-x-generic")));
     sounds->setData(0, Qt::UserRole, QStringLiteral("sounds"));
     sounds->setExpanded(false);
-    QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image clips"));
+    QTreeWidgetItem *images = new QTreeWidgetItem(files_list, QStringList() << i18n("Image Clips"));
     images->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     images->setData(0, Qt::UserRole, QStringLiteral("images"));
     images->setExpanded(false);
-    QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow clips"));
+    QTreeWidgetItem *slideshows = new QTreeWidgetItem(files_list, QStringList() << i18n("Slideshow Clips"));
     slideshows->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     slideshows->setData(0, Qt::UserRole, QStringLiteral("slideshows"));
     slideshows->setExpanded(false);
-    QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text clips"));
+    QTreeWidgetItem *texts = new QTreeWidgetItem(files_list, QStringList() << i18n("Text Clips"));
     texts->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
     texts->setData(0, Qt::UserRole, QStringLiteral("texts"));
     texts->setExpanded(false);
-    QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist clips"));
+    QTreeWidgetItem *playlists = new QTreeWidgetItem(files_list, QStringList() << i18n("Playlist Clips"));
     playlists->setIcon(0, QIcon::fromTheme(QStringLiteral("video-mlt-playlist")));
     playlists->setData(0, Qt::UserRole, QStringLiteral("playlist"));
     playlists->setExpanded(false);
-    QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
+    QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other Clips"));
     others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
     others->setData(0, Qt::UserRole, QStringLiteral("others"));
     others->setExpanded(false);
-    QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma files"));
+    QTreeWidgetItem *lumas = new QTreeWidgetItem(files_list, QStringList() << i18n("Luma Files"));
     lumas->setIcon(0, QIcon::fromTheme(QStringLiteral("image-x-generic")));
     lumas->setData(0, Qt::UserRole, QStringLiteral("lumas"));
     lumas->setExpanded(false);
 
-    QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy clips"));
+    QTreeWidgetItem *proxies = new QTreeWidgetItem(files_list, QStringList() << i18n("Proxy Clips"));
     proxies->setIcon(0, QIcon::fromTheme(QStringLiteral("video-x-generic")));
     proxies->setData(0, Qt::UserRole, QStringLiteral("proxy"));
     proxies->setExpanded(false);
@@ -244,7 +244,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     timeline_archive->setHidden(true);
     compression_type->setHidden(true);
     label->setText(i18n("Extract to"));
-    setWindowTitle(i18n("Open Archived Project"));
+    setWindowTitle(i18nc("@title:window", "Open Archived Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartExtracting);
@@ -281,7 +281,7 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
 
 void ArchiveWidget::openArchiveForExtraction()
 {
-    emit showMessage(QStringLiteral("system-run"), i18n("Opening archive..."));
+    emit showMessage(QStringLiteral("system-run"), i18n("Opening archive…"));
     QMimeDatabase db;
     QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
@@ -570,7 +570,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_replacementList.clear();
         m_foldersList.clear();
         m_filesList.clear();
-        slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving..."));
+        slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving…"));
         repaint();
     }
     QList<QUrl> files;
@@ -1138,7 +1138,7 @@ void ArchiveWidget::slotStartExtracting()
     if (!dir.mkpath(QStringLiteral("."))) {
         KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().toLocalFile()));
     }
-    slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting..."));
+    slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting…"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
