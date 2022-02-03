@@ -17,14 +17,14 @@
    <item row="0" column="0">
     <widget class="QLabel" name="clip_filesize_2">
      <property name="text">
-      <string>Position</string>
+      <string>Position:</string>
      </property>
     </widget>
    </item>
    <item row="0" column="4">
     <widget class="QLabel" name="clip_filesize_3">
      <property name="text">
-      <string>Value</string>
+      <string>Value:</string>
      </property>
     </widget>
    </item>

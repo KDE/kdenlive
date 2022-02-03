@@ -37,7 +37,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Profile</string>
+      <string>Profile:</string>
      </property>
     </widget>
    </item>
@@ -57,7 +57,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Description</string>
+         <string>Description:</string>
         </property>
        </widget>
       </item>
@@ -100,7 +100,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Frame rate</string>
+         <string>Frame rate:</string>
         </property>
        </widget>
       </item>
@@ -140,7 +140,7 @@
       <item row="4" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Pixel aspect ratio</string>
+         <string>Pixel aspect ratio:</string>
         </property>
        </widget>
       </item>
@@ -180,7 +180,7 @@
       <item row="5" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>Display aspect ratio</string>
+         <string>Display aspect ratio:</string>
         </property>
        </widget>
       </item>
@@ -233,14 +233,14 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Size</string>
+         <string>Size:</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
-         <string>Fields per second</string>
+         <string>Fields per second:</string>
         </property>
        </widget>
       </item>
@@ -254,7 +254,7 @@
       <item row="7" column="0">
        <widget class="QLabel" name="label_12">
         <property name="text">
-         <string>Colorspace</string>
+         <string>Colorspace:</string>
         </property>
        </widget>
       </item>

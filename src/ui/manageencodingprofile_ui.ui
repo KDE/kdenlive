@@ -17,7 +17,7 @@
    <item row="0" column="0" colspan="4">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Editing profiles for</string>
+      <string>Editing profiles for:</string>
      </property>
     </widget>
    </item>

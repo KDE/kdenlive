@@ -217,7 +217,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Compromise file size versus quality</string>
+               <string>Compromise file size versus quality.</string>
               </property>
               <property name="minimum">
                <number>0</number>
@@ -243,7 +243,7 @@
             <item>
              <widget class="QSpinBox" name="video">
               <property name="toolTip">
-               <string>Video quality parameter (depends on codec)</string>
+               <string>Video quality parameter (depends on codec).</string>
               </property>
              </widget>
             </item>
@@ -257,7 +257,7 @@
             <item>
              <widget class="QSpinBox" name="audio">
               <property name="toolTip">
-               <string>Audio quality parameter or bitrate</string>
+               <string>Audio quality parameter or bitrate.</string>
               </property>
              </widget>
             </item>
@@ -443,10 +443,10 @@
             <item>
              <widget class="QLabel" name="speedLabel">
               <property name="toolTip">
-               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file)</string>
+               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file).</string>
               </property>
               <property name="text">
-               <string>Encoder speed</string>
+               <string>Encoder speed:</string>
               </property>
              </widget>
             </item>
@@ -459,7 +459,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file)</string>
+               <string>For a given quality, tune the compromise between encoding time and output file size (faster encoding ends with larger file).</string>
               </property>
               <property name="maximum">
                <number>1</number>
@@ -478,7 +478,7 @@
             <item>
              <widget class="QLabel" name="threadsLabel">
               <property name="text">
-               <string>Encoder threads</string>
+               <string>Encoder threads:</string>
               </property>
              </widget>
             </item>
@@ -532,7 +532,7 @@
             <item>
              <widget class="QLabel" name="scanningLabel">
               <property name="text">
-               <string>Scanning</string>
+               <string>Scanning:</string>
               </property>
              </widget>
             </item>
@@ -558,7 +558,7 @@
             <item>
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Field</string>
+               <string>Field:</string>
               </property>
              </widget>
             </item>
@@ -596,7 +596,7 @@
             <item>
              <widget class="QCheckBox" name="rescale">
               <property name="text">
-               <string>Rescale</string>
+               <string>Rescale:</string>
               </property>
              </widget>
             </item>

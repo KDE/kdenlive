@@ -79,7 +79,7 @@
          <item row="1" column="2">
           <widget class="QLabel" name="proxyLabel">
            <property name="text">
-            <string>Proxy Clips</string>
+            <string>Proxy clips:</string>
            </property>
           </widget>
          </item>
@@ -151,7 +151,7 @@
          <item row="2" column="2">
           <widget class="QLabel" name="audioLabel">
            <property name="text">
-            <string>Audio Thumbnails</string>
+            <string>Audio thumbnails:</string>
            </property>
           </widget>
          </item>
@@ -175,7 +175,7 @@
          <item row="0" column="2">
           <widget class="QLabel" name="previewLabel">
            <property name="text">
-            <string>Timeline Preview</string>
+            <string>Timeline preview:</string>
            </property>
           </widget>
          </item>
@@ -185,7 +185,7 @@
          <item row="6" column="0" colspan="3">
           <widget class="QLabel" name="currentLabel">
            <property name="text">
-            <string>Project total cache data</string>
+            <string>Project total cache data:</string>
            </property>
           </widget>
          </item>
@@ -206,14 +206,14 @@
          <item row="3" column="2">
           <widget class="QLabel" name="thumbLabel">
            <property name="text">
-            <string>Video Thumbnails</string>
+            <string>Video thumbnails:</string>
            </property>
           </widget>
          </item>
          <item row="7" column="0" colspan="5">
           <widget class="QLabel" name="currentPath">
            <property name="toolTip">
-            <string>Click to open cache folder</string>
+            <string>Click to open cache folder.</string>
            </property>
            <property name="text">
             <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/1617522274308&lt;/a&gt;</string>
@@ -259,7 +259,7 @@
        <item row="4" column="3">
         <widget class="QToolButton" name="gProxyClean">
          <property name="toolTip">
-          <string>Cleanup old proxy file</string>
+          <string>Cleanup old proxy file.</string>
          </property>
          <property name="icon">
           <iconset theme="edit-clear-history">
@@ -322,7 +322,7 @@
        <item row="1" column="1">
         <widget class="QLabel" name="gTotalLabel">
          <property name="text">
-          <string>Total Cached Data</string>
+          <string>Total cached data:</string>
          </property>
         </widget>
        </item>
@@ -339,7 +339,7 @@
        <item row="7" column="1">
         <widget class="QLabel" name="gBackupLabel">
          <property name="text">
-          <string>Total Backup Data</string>
+          <string>Total backup data:</string>
          </property>
         </widget>
        </item>
@@ -353,7 +353,7 @@
        <item row="2" column="4">
         <widget class="QToolButton" name="gDelete">
          <property name="toolTip">
-          <string>Delete selected cache</string>
+          <string>Delete selected cache.</string>
          </property>
          <property name="icon">
           <iconset theme="trash-empty">
@@ -364,7 +364,7 @@
        <item row="7" column="4">
         <widget class="QToolButton" name="gBackupDelete">
          <property name="toolTip">
-          <string>Delete all backup data</string>
+          <string>Delete all backup data.</string>
          </property>
          <property name="icon">
           <iconset theme="trash-empty">
@@ -377,7 +377,7 @@
          <item>
           <widget class="QLabel" name="gCleanupLabel">
            <property name="text">
-            <string>Cleanup will delete data older than</string>
+            <string>Cleanup will delete data older than:</string>
            </property>
           </widget>
          </item>
@@ -402,7 +402,7 @@
        <item row="4" column="4">
         <widget class="QToolButton" name="gProxyDelete">
          <property name="toolTip">
-          <string>Delete all proxy clips</string>
+          <string>Delete all proxy clips.</string>
          </property>
          <property name="icon">
           <iconset theme="trash-empty">
@@ -413,7 +413,7 @@
        <item row="1" column="4">
         <widget class="QToolButton" name="gClean">
          <property name="toolTip">
-          <string>Cleanup unused cache</string>
+          <string>Cleanup unused cache.</string>
          </property>
          <property name="icon">
           <iconset theme="edit-clear-history">
@@ -424,7 +424,7 @@
        <item row="7" column="3">
         <widget class="QToolButton" name="gBackupClean">
          <property name="toolTip">
-          <string>Cleanup old backups</string>
+          <string>Cleanup old backups.</string>
          </property>
          <property name="icon">
           <iconset theme="edit-clear-history">
@@ -459,7 +459,7 @@
        <item row="5" column="0" colspan="5">
         <widget class="QLabel" name="gProxyPath">
          <property name="toolTip">
-          <string>Click to open proxy folder</string>
+          <string>Click to open proxy folder.</string>
          </property>
          <property name="text">
           <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/proxy&lt;/a&gt;</string>
@@ -469,14 +469,14 @@
        <item row="4" column="1">
         <widget class="QLabel" name="gProxyLabel">
          <property name="text">
-          <string>Total Proxy Data</string>
+          <string>Total proxy data:</string>
          </property>
         </widget>
        </item>
        <item row="8" column="0" colspan="5">
         <widget class="QLabel" name="gBackupPath">
          <property name="toolTip">
-          <string>Click to open backup folder</string>
+          <string>Click to open backup folder.</string>
          </property>
          <property name="text">
           <string>&lt;a href='#'&gt;/home/user/.local/share/kdenlive/.backup&lt;/a&gt;</string>
@@ -493,7 +493,7 @@
        <item row="2" column="1">
         <widget class="QLabel" name="qSelectedLabel">
          <property name="text">
-          <string>Selected Cached Data</string>
+          <string>Selected cached data:</string>
          </property>
         </widget>
        </item>

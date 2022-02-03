@@ -328,7 +328,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Service</string>
+         <string>Service:</string>
         </property>
        </widget>
       </item>

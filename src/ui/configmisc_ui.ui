@@ -42,7 +42,7 @@
    <item row="9" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Tab position</string>
+      <string>Tab position:</string>
      </property>
     </widget>
    </item>
@@ -68,21 +68,21 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Color clips</string>
+         <string>Color clips:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>Title clips</string>
+         <string>Title clips:</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Transitions</string>
+         <string>Transitions:</string>
         </property>
        </widget>
       </item>
@@ -92,7 +92,7 @@
       <item row="0" column="2">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Image clips</string>
+         <string>Image clips:</string>
         </property>
        </widget>
       </item>
@@ -102,7 +102,7 @@
       <item row="2" column="2">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Fades</string>
+         <string>Fades:</string>
         </property>
        </widget>
       </item>
@@ -112,7 +112,7 @@
       <item row="1" column="2">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Image sequence</string>
+         <string>Image sequence:</string>
         </property>
        </widget>
       </item>
@@ -128,7 +128,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Mixes</string>
+         <string>Mixes:</string>
         </property>
        </widget>
       </item>
@@ -141,7 +141,7 @@
       <item row="3" column="2">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Subtitles</string>
+         <string>Subtitles:</string>
         </property>
        </widget>
       </item>
@@ -237,7 +237,7 @@
    <item row="10" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
-      <string>Preferred track compositing composition</string>
+      <string>Preferred track compositing composition:</string>
      </property>
     </widget>
    </item>

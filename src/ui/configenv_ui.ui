@@ -20,7 +20,7 @@
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Proxy and transcode jobs</string>
+      <string>Proxy and Transcode Jobs</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="1">
@@ -39,7 +39,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Concurrent threads</string>
+         <string>Concurrent threads:</string>
         </property>
        </widget>
       </item>
@@ -53,7 +53,7 @@
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>MLT environment</string>
+       <string>MLT Environment</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="6" column="1">
@@ -75,7 +75,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>MLT profiles folder</string>
+          <string>MLT profiles folder:</string>
          </property>
         </widget>
        </item>
@@ -85,7 +85,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_14">
          <property name="text">
-          <string>FFprobe</string>
+          <string>FFprobe:</string>
          </property>
         </widget>
        </item>
@@ -95,7 +95,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>FFplay</string>
+          <string>FFplay:</string>
          </property>
         </widget>
        </item>
@@ -108,21 +108,21 @@
        <item row="4" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Melt path</string>
+          <string>Melt path:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>FFmpeg</string>
+          <string>FFmpeg:</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>MediaInfo</string>
+          <string>MediaInfo:</string>
          </property>
         </widget>
        </item>
@@ -133,13 +133,13 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Default folders</string>
+       <string>Default Folders</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Temporary files</string>
+          <string>Temporary files:</string>
          </property>
         </widget>
        </item>
@@ -149,7 +149,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Capture folder</string>
+          <string>Capture folder:</string>
          </property>
         </widget>
        </item>
@@ -166,7 +166,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Library folder</string>
+          <string>Library folder:</string>
          </property>
         </widget>
        </item>
@@ -183,7 +183,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
-          <string>Folder for titles, scripts</string>
+          <string>Folder for titles, scripts:</string>
          </property>
         </widget>
        </item>
@@ -214,13 +214,13 @@
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>Default apps</string>
+       <string>Default Apps</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Image editing</string>
+          <string>Image editing:</string>
          </property>
         </widget>
        </item>
@@ -234,14 +234,14 @@
        <item row="0" column="2">
         <widget class="QPushButton" name="kp_image">
          <property name="text">
-          <string>Change</string>
+          <string>Change…</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Audio editing</string>
+          <string>Audio editing:</string>
          </property>
         </widget>
        </item>
@@ -255,7 +255,7 @@
        <item row="1" column="2">
         <widget class="QPushButton" name="kp_audio">
          <property name="text">
-          <string>Change</string>
+          <string>Change…</string>
          </property>
         </widget>
        </item>

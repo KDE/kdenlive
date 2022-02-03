@@ -51,12 +51,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Render time</string>
+       <string>Render Time</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>File size</string>
+       <string>File Size</string>
       </property>
      </column>
     </widget>

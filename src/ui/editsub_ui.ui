@@ -78,14 +78,14 @@
       <item row="2" column="0">
        <widget class="QLabel" name="duration_label_2">
         <property name="text">
-         <string>Duration</string>
+         <string>Duration:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="duration_label">
         <property name="text">
-         <string>End</string>
+         <string>End:</string>
         </property>
        </widget>
       </item>
@@ -124,7 +124,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Position</string>
+         <string>Position:</string>
         </property>
        </widget>
       </item>

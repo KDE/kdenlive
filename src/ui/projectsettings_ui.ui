@@ -59,7 +59,7 @@
          <item>
           <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>Video tracks</string>
+            <string>Video tracks:</string>
            </property>
           </widget>
          </item>
@@ -69,7 +69,7 @@
          <item>
           <widget class="QLabel" name="label_8">
            <property name="text">
-            <string>Audio tracks</string>
+            <string>Audio tracks:</string>
            </property>
           </widget>
          </item>
@@ -79,7 +79,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Audio channels</string>
+            <string>Audio channels:</string>
            </property>
           </widget>
          </item>
@@ -93,17 +93,17 @@
            </property>
            <item>
             <property name="text">
-             <string>2 channels (stereo)</string>
+             <string>2 Channels (Stereo)</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>4 channels</string>
+             <string>4 Channels</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>6 channels</string>
+             <string>6 Channels</string>
             </property>
            </item>
           </widget>
@@ -161,7 +161,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Preview profile</string>
+            <string>Preview profile:</string>
            </property>
           </widget>
          </item>
@@ -199,7 +199,7 @@
          <item>
           <widget class="QCheckBox" name="custom_folder">
            <property name="text">
-            <string>Custom project folder</string>
+            <string>Custom project folder:</string>
            </property>
           </widget>
          </item>
@@ -471,7 +471,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Encoding profile</string>
+             <string>Encoding profile:</string>
             </property>
            </widget>
           </item>
@@ -679,7 +679,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Project files</string>
+          <string>Project files:</string>
          </property>
         </widget>
        </item>
@@ -693,7 +693,7 @@
        <item row="6" column="0" colspan="2">
         <widget class="QPushButton" name="button_export">
          <property name="text">
-          <string>Plain text export</string>
+          <string>Plain Text Export...</string>
          </property>
         </widget>
        </item>

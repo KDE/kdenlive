@@ -74,7 +74,7 @@
    <item row="0" column="4">
     <widget class="QToolButton" name="button_more">
      <property name="toolTip">
-      <string>Configure job</string>
+      <string>Configure the job.</string>
      </property>
      <property name="text">
       <string>...</string>
