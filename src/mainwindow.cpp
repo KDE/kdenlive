@@ -1624,7 +1624,7 @@ void MainWindow::setupActions()
     extractClip->setData('C');
     extractClip->setEnabled(false);
 
-    QAction *extractToBin = addAction(QStringLiteral("save_to_bin"), i18n("Save Timeline Zone to Bin"), this, SLOT(slotSaveZoneToBin()), QIcon(), QKeySequence(), clipActionCategory);
+    QAction *extractToBin = addAction(QStringLiteral("save_to_bin"), i18n("Save Clip Part to Bin"), this, SLOT(slotSaveZoneToBin()), QIcon(), QKeySequence(), clipActionCategory);
     extractToBin->setData('C');
     extractToBin->setEnabled(false);
 
