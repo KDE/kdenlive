@@ -53,6 +53,7 @@ Row {
             width: Math.min(waveform.width, waveform.maxWidth)
             height: waveform.height
             channels: clipRoot.audioChannels
+            isOpaque: true
             binId: clipRoot.binId
             audioStream: clipRoot.audioStream
             isFirstChunk: index == 0
@@ -62,8 +63,9 @@ Row {
             normalize: timeline.audioThumbNormalize
             drawInPoint: Math.max(0, clipRoot.scrollStart - (index * waveform.maxWidth))
             drawOutPoint: (clipRoot.scrollStart + scrollView.width - (index * waveform.maxWidth))
-            waveInPoint: clipRoot.speed < 0 ? (Math.round((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - (index * waveform.maxWidth / clipRoot.timeScale) * Math.abs(clipRoot.speed)) * channels) : (Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels)
-            waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels) : (waveInPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels)
+            waveInPoint: clipRoot.speed < 0 ? (Math.round((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - (index * waveform.maxWidth / timeline.scaleFactor) * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (Math.round((clipRoot.inPoint + (index * waveform.maxWidth / timeline.scaleFactor)) * clipRoot.speed) * clipRoot.audioChannels)
+            waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / timeline.scaleFactor * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (waveInPoint + Math.round(width / timeline.scaleFactor * clipRoot.speed) * clipRoot.audioChannels)
+            fillColor0: clipRoot.color
             fillColor1: root.thumbColor1
             fillColor2: root.thumbColor2
         }

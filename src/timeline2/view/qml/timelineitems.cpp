@@ -66,26 +66,31 @@ private:
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_PROPERTY(QColor fillColor0 MEMBER m_bgColor NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)
     Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawInPoint MEMBER m_drawInPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawOutPoint MEMBER m_drawOutPoint NOTIFY propertyChanged)
-    Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
+    Q_PROPERTY(int channels MEMBER m_channels NOTIFY propertyChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
     Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(double scaleFactor MEMBER m_scale)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
-    Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY propertyChanged)
+    Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
+    Q_PROPERTY(bool isOpaque MEMBER m_isOpaque)
 
 public:
-    TimelineWaveform()
+    TimelineWaveform(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+        , m_isOpaque(false)
     {
         setAntialiasing(false);
+        setOpaquePainting(m_isOpaque);
         // setClip(true);
         setEnabled(false);
         m_showItem = false;
@@ -103,10 +108,11 @@ public:
                 }
             }
         });
-        connect(this, &TimelineWaveform::propertyChanged, [&]() {
+        connect(this, &TimelineWaveform::normalizeChanged, [&]() {
             m_audioMax = KdenliveSettings::normalizechannels() ? pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream) : 0;
             update();
         });
+        connect(this, &TimelineWaveform::propertyChanged, this, static_cast<void (QQuickItem::*)()>(&QQuickItem::update));
     }
     bool showItem() const
     {
@@ -139,6 +145,10 @@ public:
 
         if (m_outPoint == m_inPoint) {
             return;
+        }
+        QRectF bgRect(0, 0, width(), height());
+        if (m_isOpaque) {
+            painter->fillRect(bgRect, m_bgColor);
         }
         QPen pen = painter->pen();
         pen.setColor(m_color);
@@ -201,7 +211,7 @@ public:
             scaleFactor = channelHeight / (2 * scaleFactor);
             double i = 0;
             double level;
-            QRectF bgRect(0, 0, width(), channelHeight);
+            bgRect.setHeight(channelHeight);
             // Path for vector drawing
             //qDebug()<<"==== DRAWING FROM: "<<m_drawInPoint<<" - "<<m_drawOutPoint<<", FIRST: "<<m_firstChunk;
             for (int channel = 0; channel < m_channels; channel++) {
@@ -264,6 +274,7 @@ public:
 signals:
     void levelsChanged();
     void propertyChanged();
+    void normalizeChanged();
     void inPointChanged();
     void showItemChanged();
     void audioChannelsChanged();
@@ -278,6 +289,7 @@ private:
     QString m_binId;
     QColor m_color;
     QColor m_color2;
+    QColor m_bgColor;
     bool m_format;
     bool m_normalize;
     bool m_showItem;
@@ -287,6 +299,7 @@ private:
     double m_scale;
     double m_audioMax;
     bool m_firstChunk;
+    bool m_isOpaque;
 };
 
 void registerTimelineItems()
