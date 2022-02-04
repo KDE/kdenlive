@@ -325,12 +325,12 @@
         <widget class="QComboBox" name="kcfg_grab_capture_type">
          <item>
           <property name="text">
-           <string>Full screen capture</string>
+           <string>Full Screen Capture</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Region capture</string>
+           <string>Region Capture</string>
           </property>
          </item>
         </widget>
@@ -506,7 +506,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="label_29">
          <property name="text">
-          <string>Capture file name</string>
+          <string>Capture file name:</string>
          </property>
         </widget>
        </item>
@@ -547,14 +547,14 @@
        <item row="5" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Sample Rate</string>
+          <string>Sample rate:</string>
          </property>
         </widget>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Capture Volume </string>
+          <string>Capture volume:</string>
          </property>
         </widget>
        </item>
@@ -574,7 +574,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Channels</string>
+          <string>Channels:</string>
          </property>
         </widget>
        </item>
@@ -615,7 +615,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_33">
          <property name="text">
-          <string>Device</string>
+          <string>Device:</string>
          </property>
         </widget>
        </item>

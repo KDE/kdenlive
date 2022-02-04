@@ -30,7 +30,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="lblPaintmode">
      <property name="text">
-      <string>Paint mode</string>
+      <string>Paint mode:</string>
      </property>
     </widget>
    </item>

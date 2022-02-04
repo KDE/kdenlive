@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Name</string>
+      <string>Name:</string>
      </property>
     </widget>
    </item>
@@ -27,7 +27,7 @@
    <item row="1" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Image selection method</string>
+      <string>Image Selection Method</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
@@ -57,7 +57,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Folder</string>
+             <string>Folder:</string>
             </property>
            </widget>
           </item>
@@ -67,7 +67,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Image Type</string>
+             <string>Image type:</string>
             </property>
            </widget>
           </item>
@@ -124,7 +124,7 @@
    <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Frame Duration</string>
+      <string>Frame duration:</string>
      </property>
     </widget>
    </item>
@@ -164,7 +164,7 @@
    <item row="5" column="0">
     <widget class="QCheckBox" name="slide_fade">
      <property name="text">
-      <string>Dissolve</string>
+      <string>Dissolve:</string>
      </property>
     </widget>
    </item>
@@ -200,7 +200,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Wipe</string>
+      <string>Wipe:</string>
      </property>
     </widget>
    </item>
@@ -217,7 +217,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Softness</string>
+      <string>Softness:</string>
      </property>
     </widget>
    </item>
@@ -288,7 +288,7 @@
    <item row="8" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Animation</string>
+      <string>Animation:</string>
      </property>
     </widget>
    </item>

@@ -32,7 +32,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
     log_text->setHidden(true);
-    setWindowTitle(i18n("Transcode Clip"));
+    setWindowTitle(i18nc("@title:window", "Transcode Clip"));
     if (m_automaticMode) {
         auto_add->setHidden(true);
     }

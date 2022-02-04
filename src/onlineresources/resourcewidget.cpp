@@ -224,7 +224,7 @@ void ResourceWidget::slotOpenUrl(const QString &url)
  */
 void ResourceWidget::slotStartSearch()
 {
-    message_line->setText(i18nc("@info:status", "Search pending..."));
+    message_line->setText(i18nc("@info:status", "Search pending…"));
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
 
@@ -257,7 +257,7 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
     message_line->show();
     int count = 0;
     for (const ResourceItemInfo &item: qAsConst(list)) {
-        message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2...", count, list.count()));
+        message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2…", count, list.count()));
         // if item has no name use "Created by Author", if item even has no author use "Unnamed"
         QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if(!item.imageUrl.isEmpty()) {
@@ -486,7 +486,7 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
         return;
     }
     bool ok;
-    QString name = QInputDialog::getItem(this, i18n("Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
+    QString name = QInputDialog::getItem(this, i18nc("@title:window", "Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
     if(!ok || name.isEmpty()) {
         return;
     }

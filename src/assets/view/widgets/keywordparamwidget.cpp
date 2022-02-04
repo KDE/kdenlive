@@ -29,7 +29,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
         comboboxwidget->setItemData(i, keywordVal);
         i++;
     }
-    comboboxwidget->insertItem(0, i18n("<select a keyword>"));
+    comboboxwidget->insertItem(0, i18n("<Select a Keyword>"));
     comboboxwidget->setCurrentIndex(0);
     // set check state
     slotRefresh();

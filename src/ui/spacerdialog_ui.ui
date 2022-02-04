@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Add space</string>
+   <string>Add Space</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="0" colspan="2">

@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="position_label">
      <property name="text">
-      <string>Position</string>
+      <string>Position:</string>
      </property>
     </widget>
    </item>
@@ -27,7 +27,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="crop_label">
      <property name="text">
-      <string>Crop start</string>
+      <string>Crop start:</string>
      </property>
     </widget>
    </item>
@@ -37,7 +37,7 @@
    <item row="2" column="0">
     <widget class="QLabel" name="duration_label">
      <property name="text">
-      <string>Duration</string>
+      <string>Duration:</string>
      </property>
     </widget>
    </item>
@@ -47,7 +47,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="end_label">
      <property name="text">
-      <string>Crop end</string>
+      <string>Crop end:</string>
      </property>
     </widget>
    </item>

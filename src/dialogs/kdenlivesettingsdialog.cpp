@@ -263,7 +263,7 @@ void KdenliveSettingsDialog::initProjectPage()
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
     m_configProject.profile_box->setLayout(vbox);
-    m_configProject.profile_box->setTitle(i18n("Select the default profile (preset)"));
+    m_configProject.profile_box->setTitle(i18n("Select the Default Profile (preset)"));
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
@@ -664,8 +664,8 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulseaudio");
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
     //m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
-    m_configSdl.kcfg_audio_driver->addItem(i18n("Esound daemon"), "esd");
-    m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("Esound Daemon"), "esd");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS Daemon"), "artsc");
 #endif
 
     if (!KdenliveSettings::audiodrivername().isEmpty())
@@ -1273,7 +1273,7 @@ void KdenliveSettingsDialog::saveTranscodeProfiles()
 void KdenliveSettingsDialog::slotAddTranscode()
 {
     bool ok;
-    QString presetName = QInputDialog::getText(this, i18n("Enter preset name"), i18n("Enter the name of this preset"), QLineEdit::Normal, QString(), &ok);
+    QString presetName = QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
     if (!ok) return;
     if (!m_configTranscode.profiles_list->findItems(presetName, Qt::MatchExactly).isEmpty()) {
         KMessageBox::sorry(this, i18n("A profile with that name already exists"));
@@ -1683,7 +1683,7 @@ void KdenliveSettingsDialog::getDictionary(const QUrl &sourceUrl)
     }
     if (!url.isLocalFile()) {
         KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
-        doShowSpeechMessage(i18n("Downloading model..."), KMessageWidget::Information);
+        doShowSpeechMessage(i18n("Downloading model…"), KMessageWidget::Information);
         connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::downloadModelFinished);
     } else {
         processArchive(url.toLocalFile());
@@ -1765,7 +1765,7 @@ void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
         dir = QDir(modelDirectory);
     }
     if (archive->open(QIODevice::ReadOnly)) {
-        doShowSpeechMessage(i18n("Extracting archive..."), KMessageWidget::Information);
+        doShowSpeechMessage(i18n("Extracting archive…"), KMessageWidget::Information);
         const KArchiveDirectory *archiveDir = archive->directory();
         if (!archiveDir->copyTo(dir.absolutePath())) {
             qDebug()<<"=== Error extracting archive!!";

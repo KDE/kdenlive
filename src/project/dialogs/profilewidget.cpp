@@ -30,13 +30,13 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
-    auto *fpsLabel = new QLabel(i18n("Fps"), this);
+    auto *fpsLabel = new QLabel(i18n("Fps:"), this);
     m_fpsFilt = new QComboBox(this);
     fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
     labelLay->addWidget(m_fpsFilt);
 
-    auto *scanningLabel = new QLabel(i18n("Scanning"), this);
+    auto *scanningLabel = new QLabel(i18n("Scanning:"), this);
     m_scanningFilt = new QComboBox(this);
     scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
@@ -192,8 +192,8 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(),
                             profile->display_aspect_den());
         description += i18n("Frame rate: %1 fps<br/>", profile->fps());
-        description += i18n("Pixel Aspect Ratio: %1<br/>", profile->sar());
-        description += i18n("Color Space: %1<br/>", profile->colorspaceDescription());
+        description += i18n("Pixel aspect ratio: %1<br/>", profile->sar());
+        description += i18n("Color space: %1<br/>", profile->colorspaceDescription());
         QString interlaced = i18n("yes");
         if (profile->progressive()) {
             interlaced = i18n("no");

@@ -67,7 +67,7 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
     , m_systemCheckIsOk(false)
     , m_brokenModule(false)
 {
-    setWindowTitle(i18n("Welcome to Kdenlive"));
+    setWindowTitle(i18nc("@title:window", "Welcome to Kdenlive"));
     int logoHeight = int(fontMetrics().height() * 2.5);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
@@ -889,7 +889,7 @@ void Wizard::slotSaveCaptureFormat()
         return;
     }
     std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
-    profile->m_description = QStringLiteral("Video4Linux capture");
+    profile->m_description = QStringLiteral("Video4Linux Capture");
     profile->m_colorspace = 601;
     profile->m_width = format.at(1).toInt();
     profile->m_height = format.at(2).toInt();

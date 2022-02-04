@@ -26,7 +26,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Archive folder</string>
+         <string>Archive folder:</string>
         </property>
        </widget>
       </item>
@@ -45,7 +45,7 @@
      <item>
       <widget class="QCheckBox" name="compressed_archive">
        <property name="text">
-        <string>Compressed archive</string>
+        <string>Compressed archive:</string>
        </property>
       </widget>
      </item>

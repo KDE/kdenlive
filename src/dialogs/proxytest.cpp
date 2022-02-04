@@ -28,8 +28,8 @@ ProxyTest::ProxyTest(QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    setWindowTitle(i18n("Compare proxy profile"));
-    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Test Proxy profiles"));
+    setWindowTitle(i18nc("@title:window", "Compare Proxy Profile"));
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Test Proxy Profiles"));
     infoWidget->hide();
     paramBox->setVisible(false);
     m_failedProfiles = new MyTreeWidgetItem (resultList, {i18n("Failing profiles")});

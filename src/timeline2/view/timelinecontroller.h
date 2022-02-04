@@ -71,7 +71,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor selectionColor READ selectionColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
-    Q_PROPERTY(bool subtitlesWarning READ subtitlesWarning)
+    Q_PROPERTY(bool subtitlesWarning READ subtitlesWarning NOTIFY subtitlesWarningChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
@@ -774,6 +774,7 @@ signals:
     void showMarkersChanged();
     void rippleChanged();
     void scrubChanged();
+    void subtitlesWarningChanged();
     void multicamInChanged();
     void seeked(int position);
     void zoneChanged();

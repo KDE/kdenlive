@@ -78,7 +78,7 @@
    <item row="3" column="1">
     <widget class="QSlider" name="sliderScaling">
      <property name="toolTip">
-      <string>How much to zoom in</string>
+      <string>How much to zoom in.</string>
      </property>
      <property name="whatsThis">
       <string/>

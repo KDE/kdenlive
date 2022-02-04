@@ -54,7 +54,7 @@ void SceneSplitTask::start(QObject* object, bool force)
         QIcon colorIcon(pixmap);
         view.marker_type->addItem(colorIcon, i18n("Category %1", i));
     }
-    d->setWindowTitle(i18n("Scene detection"));
+    d->setWindowTitle(i18nc("@title:window", "Scene Detection"));
     if (d->exec() != QDialog::Accepted) {
         return;
     }

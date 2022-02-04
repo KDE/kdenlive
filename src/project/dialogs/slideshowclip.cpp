@@ -27,7 +27,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
-    setWindowTitle(i18n("Add Image Sequence"));
+    setWindowTitle(i18nc("@title:window", "Add Image Sequence"));
     if (clip) {
         m_view.clip_name->setText(clip->name());
         m_view.groupBox->setHidden(true);

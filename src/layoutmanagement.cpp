@@ -44,11 +44,11 @@ LayoutManagement::LayoutManagement(QObject *parent)
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
     connect(m_loadLayout, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &LayoutManagement::slotLoadLayout);
 
-    QAction *saveLayout = new QAction(i18n("Save Layout"), pCore->window()->actionCollection());
+    QAction *saveLayout = new QAction(i18n("Save Layout…"), pCore->window()->actionCollection());
     layoutActions->addAction(QStringLiteral("save_layout"), saveLayout);
     connect(saveLayout, &QAction::triggered, this, &LayoutManagement::slotSaveLayout);
     
-    QAction *manageLayout = new QAction(i18n("Manage Layouts"), pCore->window()->actionCollection());
+    QAction *manageLayout = new QAction(i18n("Manage Layouts…"), pCore->window()->actionCollection());
     layoutActions->addAction(QStringLiteral("manage_layout"), manageLayout);
     connect(manageLayout, &QAction::triggered, this, &LayoutManagement::slotManageLayouts);
     // Create 9 layout actions
@@ -255,7 +255,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
 
     QString visibleName = translatedName(suggestedName);
 
-    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
+    QString layoutName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
     if (layoutName.isEmpty()) {
         return {nullptr, nullptr};
     }
@@ -342,7 +342,7 @@ void LayoutManagement::slotManageLayouts()
             delete list.currentItem();
         }
     });
-    tb.setToolTip(i18n("Delete Layout"));
+    tb.setToolTip(i18n("Delete the layout."));
     auto *l2 = new QHBoxLayout;
     l->addLayout(l2);
     l2->addWidget(&tb);
@@ -425,7 +425,7 @@ void LayoutManagement::slotManageLayouts()
     tb5.setAutoRaise(true);
     tb5.setToolTip(i18n("Import"));
     connect(&tb5, &QToolButton::clicked, this, [this, &d, &list](){
-        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18n("Load Layout")));
+        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18nc("@title:window", "Load Layout")));
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
         fd->setFileMode(QFileDialog::ExistingFile);
         if (fd->exec() != QDialog::Accepted) {
@@ -484,7 +484,7 @@ void LayoutManagement::slotManageLayouts()
             return;
         }
 
-        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18n("Export Layout")));
+        QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18nc("@title:window", "Export Layout")));
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
         fd->selectFile(layoutId + ".kdenlivelayout");
         fd->setDefaultSuffix(QStringLiteral("kdenlivelayout"));

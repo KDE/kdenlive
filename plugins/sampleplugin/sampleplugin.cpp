@@ -44,11 +44,11 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     Ui::CountDown_UI view;
     view.setupUi(d);
     if (generator == i18n("Noise")) {
-        d->setWindowTitle(i18n("Create Noise Clip"));
+        d->setWindowTitle(i18nc("@title:window", "Create Noise Clip"));
         view.font_label->setHidden(true);
         view.font->setHidden(true);
     } else {
-        d->setWindowTitle(i18n("Create Countdown Clip"));
+        d->setWindowTitle(i18nc("@title:window", "Create Countdown Clip"));
         view.font->setValue(height);
     }
 

@@ -459,7 +459,7 @@ void RecManager::slotPreview(bool preview)
     profile.frame_rate_num / profile.frame_rate_den);
        if (!m_captureDevice->slotStartPreview(producer, isXml)) {
            // v4l capture failed to start
-           video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
+           video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters…"));
 
        } else {
            m_playAction->setEnabled(false);

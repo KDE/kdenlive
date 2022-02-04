@@ -31,7 +31,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    setWindowTitle(i18n("Stabilize Clip"));
+    setWindowTitle(i18nc("@title:window", "Stabilize Clip"));
     auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_binIds.size()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
     auto_folder->setChecked(KdenliveSettings::add_new_clip_to_folder());

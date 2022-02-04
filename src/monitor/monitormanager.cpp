@@ -470,17 +470,17 @@ void MonitorManager::setupActions()
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
     pCore->window()->addAction(QStringLiteral("monitor_pause"), monitorPause, Qt::Key_K, QStringLiteral("navandplayback"));
 
-    QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
+    QAction *fullMonitor = new QAction(i18n("Switch Monitor Fullscreen"), this);
     fullMonitor->setIcon(QIcon::fromTheme(QStringLiteral("view-fullscreen")));
     connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
     pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor, Qt::Key_F11, QStringLiteral("monitor"));
 
-    QAction *monitorZoomIn = new QAction(i18n("Zoom in monitor"), this);
+    QAction *monitorZoomIn = new QAction(i18n("Zoom In Monitor"), this);
     monitorZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     connect(monitorZoomIn, &QAction::triggered, this, &MonitorManager::slotZoomIn);
     pCore->window()->addAction(QStringLiteral("monitor_zoomin"), monitorZoomIn, {}, QStringLiteral("monitor"));
 
-    QAction *monitorZoomOut = new QAction(i18n("Zoom out monitor"), this);
+    QAction *monitorZoomOut = new QAction(i18n("Zoom Out Monitor"), this);
     monitorZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
@@ -521,7 +521,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond, Qt::SHIFT + Qt::Key_Right,
                                QStringLiteral("navandplayback"));
 
-    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
+    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack View"), this);
     m_multiTrack->setCheckable(true);
     connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
@@ -590,7 +590,7 @@ void MonitorManager::setupActions()
     progressive->setCheckable(true);
     progressive->setChecked(KdenliveSettings::monitor_progressive());
 
-    m_muteAction = new KDualAction(i18n("Mute monitor"), i18n("Unmute monitor"), this);
+    m_muteAction = new KDualAction(i18n("Mute Monitor"), i18n("Unmute Monitor"), this);
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-muted")));
     connect(m_muteAction, &KDualAction::activeChangedByUser, this, &MonitorManager::slotMuteCurrentMonitor);

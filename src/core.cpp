@@ -201,7 +201,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
 
         // ask the user
         bool ok;
-        QString item = QInputDialog::getItem(m_mainWindow, i18n("Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
+        QString item = QInputDialog::getItem(m_mainWindow, i18nc("@title:window", "Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
         if (ok) {
             ok = false;
             for (const auto &profile : qAsConst(all_profiles)) {
@@ -226,7 +226,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     ClipController::mediaUnavailable->set("length", 99999999);
 
     if (!Url.isEmpty()) {
-        emit loadingMessageUpdated(i18n("Loading project..."));
+        emit loadingMessageUpdated(i18n("Loading project…"));
     }
     projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {

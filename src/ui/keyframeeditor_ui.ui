@@ -85,7 +85,7 @@
       <item row="2" column="2">
        <widget class="QToolButton" name="buttonResetKeyframe">
         <property name="toolTip">
-         <string>Reset the parameters to their default values</string>
+         <string>Reset the parameters to their default values.</string>
         </property>
         <property name="text">
          <string>...</string>
@@ -95,7 +95,7 @@
       <item row="2" column="3">
        <widget class="QToolButton" name="buttonSeek">
         <property name="toolTip">
-         <string>Seek to active keyframe</string>
+         <string>Seek to active keyframe.</string>
         </property>
         <property name="text">
          <string>...</string>
@@ -111,7 +111,7 @@
    <item row="0" column="0">
     <widget class="QToolButton" name="buttonKeyframes">
      <property name="toolTip">
-      <string>Add keyframes</string>
+      <string>Add keyframes.</string>
      </property>
      <property name="autoRaise">
       <bool>true</bool>

@@ -69,6 +69,10 @@ private slots:
     void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
     void slotEditMetadata(QTreeWidgetItem *, int);
+    /** @brief Shows external proxy settings. */
+    void slotExternalProxyChanged(bool enabled);
+    void slotExternalProxyProfileChanged(const QString &);
+    void setExternalProxyProfileData(const QString &profile);
 
 private:
     QPushButton *m_buttonOk;

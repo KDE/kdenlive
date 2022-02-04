@@ -24,14 +24,14 @@
           </font>
          </property>
          <property name="text">
-          <string>Components</string>
+          <string>Components:</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="cbS">
          <property name="toolTip">
-          <string>RGB summed up</string>
+          <string>RGB summed up.</string>
          </property>
          <property name="text">
           <string>Sum</string>
@@ -41,7 +41,7 @@
        <item>
         <widget class="QCheckBox" name="cbY">
          <property name="toolTip">
-          <string>Luma value</string>
+          <string>Luma value.</string>
          </property>
          <property name="whatsThis">
           <string/>
@@ -98,7 +98,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Scale</string>
+          <string>Scale:</string>
          </property>
         </widget>
        </item>

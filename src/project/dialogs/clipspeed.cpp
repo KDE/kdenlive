@@ -17,7 +17,7 @@ ClipSpeed::ClipSpeed(const QUrl &destination, bool isDirectory, QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
-    setWindowTitle(i18n("Create clip with speed"));
+    setWindowTitle(i18nc("@title:window", "Create Clip with Speed"));
     if (isDirectory) {
         m_view.kurlrequester->setMode(KFile::Directory);
     } else {

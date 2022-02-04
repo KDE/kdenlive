@@ -30,7 +30,7 @@
    <item row="1" column="4">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Audio channels</string>
+      <string>Audio channels:</string>
      </property>
     </widget>
    </item>
@@ -101,7 +101,7 @@
      <item>
       <widget class="QCheckBox" name="kcfg_customprojectfolder">
        <property name="text">
-        <string>Custom project folder</string>
+        <string>Custom project folder:</string>
        </property>
       </widget>
      </item>

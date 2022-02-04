@@ -43,12 +43,12 @@ EncodingProfilesDialog::EncodingProfilesDialog(EncodingProfilesManager::ProfileT
     , m_configGroup(nullptr)
 {
     setupUi(this);
-    setWindowTitle(i18n("Manage Encoding Profiles"));
-    profile_type->addItem(i18n("Proxy clips"), EncodingProfilesManager::ProxyClips);
-    profile_type->addItem(i18n("Timeline preview"), EncodingProfilesManager::TimelinePreview);
-    profile_type->addItem(i18n("Video4Linux capture"), EncodingProfilesManager::V4LCapture);
-    profile_type->addItem(i18n("Screen capture"), EncodingProfilesManager::ScreenCapture);
-    profile_type->addItem(i18n("Decklink capture"), EncodingProfilesManager::DecklinkCapture);
+    setWindowTitle(i18nc("@title:window", "Manage Encoding Profiles"));
+    profile_type->addItem(i18n("Proxy Clips"), EncodingProfilesManager::ProxyClips);
+    profile_type->addItem(i18n("Timeline Preview"), EncodingProfilesManager::TimelinePreview);
+    profile_type->addItem(i18n("Video4Linux Capture"), EncodingProfilesManager::V4LCapture);
+    profile_type->addItem(i18n("Screen Capture"), EncodingProfilesManager::ScreenCapture);
+    profile_type->addItem(i18n("Decklink Capture"), EncodingProfilesManager::DecklinkCapture);
 
     button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     button_edit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));

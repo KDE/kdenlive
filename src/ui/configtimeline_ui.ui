@@ -14,7 +14,7 @@
    <item row="11" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Raise properties pane when selecting in timeline</string>
+      <string>Raise Properties Pane when Selecting in Timeline</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
@@ -151,7 +151,7 @@
    <item row="10" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Multi stream audio clips</string>
+      <string>Multi Stream Audio Clips</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="1">
@@ -164,17 +164,17 @@
         </property>
         <item>
          <property name="text">
-          <string>All audio streams</string>
+          <string>All Audio Streams</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>First audio stream</string>
+          <string>First Audio Stream</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>First 2 audio streams</string>
+          <string>First 2 Audio Streams</string>
          </property>
         </item>
        </widget>
@@ -182,7 +182,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>On import, enable</string>
+         <string>On import, enable:</string>
         </property>
        </widget>
       </item>
@@ -208,7 +208,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Track height</string>
+        <string>Track height:</string>
        </property>
       </widget>
      </item>

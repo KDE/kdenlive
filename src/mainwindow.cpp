@@ -542,7 +542,7 @@ void MainWindow::init(const QString &mltPath)
     connect(m_effectBasket, &EffectBasket::activateAsset, menu, &QMenu::close);
 
     // Render button
-    ProgressButton *timelineRender = new ProgressButton(i18n("Render"), 100, this);
+    ProgressButton *timelineRender = new ProgressButton(i18n("Render…"), 100, this);
     auto *tlrMenu = new QMenu(this);
     timelineRender->setMenu(tlrMenu);
     connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
@@ -629,7 +629,7 @@ void MainWindow::init(const QString &mltPath)
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
-    QMenu *guideMenu = new QMenu(i18n("Go to Guide..."), this);
+    QMenu *guideMenu = new QMenu(i18n("Go to Guide…"), this);
     timelineMenu->addMenu(guideMenu);
 
     // Timeline ruler menu
@@ -1059,15 +1059,15 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
 void MainWindow::setupActions()
 {
     // create edit mode buttons
-    m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal mode"), this);
+    m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal Mode"), this);
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
-    m_overwriteEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite mode"), this);
+    m_overwriteEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite Mode"), this);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
-    m_insertEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-edit")), i18n("Insert mode"), this);
+    m_insertEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-edit")), i18n("Insert Mode"), this);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
 
@@ -1087,7 +1087,7 @@ void MainWindow::setupActions()
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
-    m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track compositing"), this);
+    m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track Compositing"), this);
     m_compositeAction->setToolTip(i18n("Track compositing"));
     QAction *noComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("None"), this);
     noComposite->setCheckable(true);
@@ -1165,7 +1165,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
     actionCollection()->setShortcutsConfigurable(m_timeFormatButton, false);
 
-    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("add-subtitle")), i18n("Edit Subtitle tool"), this);
+    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("add-subtitle")), i18n("Edit Subtitle Tool"), this);
     m_buttonSubtitleEditTool->setCheckable(true);
     m_buttonSubtitleEditTool->setChecked(false);
     addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
@@ -1174,51 +1174,51 @@ void MainWindow::setupActions()
     });
 
     // create tools buttons
-    m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
+    m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection Tool"), this);
     // toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
-    m_buttonRazorTool = new QAction(QIcon::fromTheme(QStringLiteral("edit-cut")), i18n("Razor tool"), this);
+    m_buttonRazorTool = new QAction(QIcon::fromTheme(QStringLiteral("edit-cut")), i18n("Razor Tool"), this);
     // toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
-    m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer tool"), this);
+    m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer Tool"), this);
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
 #if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
-    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple tool"), this);
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple Tool"), this);
 #else
-    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple tool"), this);
+    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple Tool"), this);
 #endif
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
     /* TODO Implement Roll
     // TODO icon available (and properly working) in KF 5.86
-    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll tool"), this);
+    m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll Tool"), this);
 
     m_buttonRollTool->setCheckable(true);
     m_buttonRollTool->setChecked(false);*/
 
 #if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,86,0)
-    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip tool"), this);
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip Tool"), this);
 #else
-    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip tool"), this);
+    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip Tool"), this);
 #endif
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
-    m_buttonMulticamTool = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multicam tool"), this);
+    m_buttonMulticamTool = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multicam Tool"), this);
     m_buttonMulticamTool->setCheckable(true);
     m_buttonMulticamTool->setChecked(false);
 
     /* TODO Implement Slide
     // TODO icon available (and properly working) in KF 5.86
-    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide tool"), this);
+    m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide Tool"), this);
     m_buttonSlideTool->setCheckable(true);
     m_buttonSlideTool->setChecked(false);*/
 
@@ -1248,19 +1248,19 @@ void MainWindow::setupActions()
 
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
-    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show video thumbnails"), this);
+    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show Video Thumbnails"), this);
 
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, &QAction::triggered, this, &MainWindow::slotSwitchVideoThumbs);
 
-    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show audio thumbnails"), this);
+    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show Audio Thumbnails"), this);
 
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, &QAction::triggered, this, &MainWindow::slotSwitchAudioThumbs);
 
-    m_buttonShowMarkers = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-markers")), i18n("Show markers comments"), this);
+    m_buttonShowMarkers = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-markers")), i18n("Show Markers Comments"), this);
 
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
@@ -1272,13 +1272,13 @@ void MainWindow::setupActions()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
 
-    m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show color tags in timeline"), this);
+    m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show Color Tags in Timeline"), this);
 
     m_buttonTimelineTags->setCheckable(true);
     m_buttonTimelineTags->setChecked(KdenliveSettings::tagsintimeline());
     connect(m_buttonTimelineTags, &QAction::triggered, this, &MainWindow::slotShowTimelineTags);
 
-    m_buttonFitZoom = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
+    m_buttonFitZoom = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Fit Zoom to Project"), this);
 
     m_buttonFitZoom->setCheckable(false);
 
@@ -1392,11 +1392,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("opengl_software"), openGLSoftware);
 #endif
 
-    addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
-    addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()),
+    addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard…"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
+    addAction(QStringLiteral("project_settings"), i18n("Project Settings…"), this, SLOT(slotEditProjectSettings()),
               QIcon::fromTheme(QStringLiteral("configure")));
 
-    addAction(QStringLiteral("project_render"), i18n("Render"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
+    addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
               Qt::CTRL + Qt::Key_Return);
 
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
@@ -1404,7 +1404,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
 
-    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset configuration"), this);
+    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Configuration…"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
     connect(resetAction, &QAction::triggered, this, [&]() {
         slotRestart(true);
@@ -1414,21 +1414,21 @@ void MainWindow::setupActions()
                            QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space, QStringLiteral("navandplayback"));
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
                            QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::SHIFT + Qt::Key_Space, QStringLiteral("navandplayback"));
-    m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop selected clip"), this);
+    m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop Selected Clip"), this);
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
 
-    addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
-    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport"), this);
+    addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips…"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport…"), this);
     connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
     addAction(QStringLiteral("export_project"), exportAction);
-    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("OpenTimelineIO &Import"), this);
+    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("OpenTimelineIO &Import…"), this);
     connect(importAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotImportProject);
     addAction(QStringLiteral("import_project"), importAction);
 
-    addAction(QStringLiteral("archive_project"), i18n("Archive Project"), this, SLOT(slotArchiveProject()),
+    addAction(QStringLiteral("archive_project"), i18n("Archive Project…"), this, SLOT(slotArchiveProject()),
               QIcon::fromTheme(QStringLiteral("document-save-all")));
-    addAction(QStringLiteral("switch_monitor"), i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
+    addAction(QStringLiteral("switch_monitor"), i18n("Switch Monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
     addAction(QStringLiteral("focus_timecode"), i18n("Focus Timecode"), this, SLOT(slotFocusTimecode()), QIcon(), Qt::Key_Equal);
     addAction(QStringLiteral("expand_timeline_clip"), i18n("Expand Clip"), this, SLOT(slotExpandClip()),
               QIcon::fromTheme(QStringLiteral("document-open")));
@@ -1586,13 +1586,13 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Minus);
-    addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip To Selection"), this, SLOT(slotSelectAddTimelineClip()),
+    addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip to Selection"), this, SLOT(slotSelectAddTimelineClip()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::Key_Plus);
     addAction(QStringLiteral("select_timeline_transition"), i18n("Select Transition"), this, SLOT(slotSelectTimelineTransition()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_transition"), i18n("Deselect Transition"), this, SLOT(slotDeselectTimelineTransition()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Minus);
-    addAction(QStringLiteral("select_add_timeline_transition"), i18n("Add Transition To Selection"), this, SLOT(slotSelectAddTimelineTransition()),
+    addAction(QStringLiteral("select_add_timeline_transition"), i18n("Add Transition to Selection"), this, SLOT(slotSelectAddTimelineTransition()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
 
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
@@ -1609,7 +1609,7 @@ void MainWindow::setupActions()
     QAction *delMarker = addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), QIcon::fromTheme(QStringLiteral("edit-delete")), QKeySequence(), clipActionCategory);
     delMarker->setData('P');
 
-    QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker"), this, SLOT(slotEditClipMarker()),
+    QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker…"), this, SLOT(slotEditClipMarker()),
                                         QIcon::fromTheme(QStringLiteral("document-properties")), QKeySequence(), clipActionCategory);
     editClipMarker->setObjectName(QStringLiteral("edit_marker"));
     editClipMarker->setData('P');
@@ -1739,12 +1739,12 @@ void MainWindow::setupActions()
 
     kdenliveCategoryMap.insert(QStringLiteral("timelineselection"), clipActionCategory);
 
-    addAction(QStringLiteral("insert_space"), i18n("Insert Space"), this, SLOT(slotInsertSpace()));
+    addAction(QStringLiteral("insert_space"), i18n("Insert Space…"), this, SLOT(slotInsertSpace()));
     addAction(QStringLiteral("delete_space"), i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
-    addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space In All Tracks"), this, SLOT(slotRemoveAllSpace()));
+    addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space in All Tracks"), this, SLOT(slotRemoveAllSpace()));
 
     KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
-    QAction *insertTrack = new QAction(QIcon(), i18nc("@action", "Insert Track"), this);
+    QAction *insertTrack = new QAction(QIcon(), i18nc("@action", "Insert Track…"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
 
@@ -1788,7 +1788,7 @@ void MainWindow::setupActions()
     kdenliveCategoryMap.insert(QStringLiteral("timeline"), timelineActions);
 
     // Cached data management
-    addAction(QStringLiteral("manage_cache"), i18n("Manage Cached Data"), this, SLOT(slotManageCache()),
+    addAction(QStringLiteral("manage_cache"), i18n("Manage Cached Data…"), this, SLOT(slotManageCache()),
               QIcon::fromTheme(QStringLiteral("network-server-database")));
 
     QAction *disablePreview = new QAction(i18n("Disable Timeline Preview"), this);
@@ -1797,7 +1797,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
 
     QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     lockGuides->setCheckable(true);
@@ -1809,10 +1809,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
     addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
 
-    addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
-    addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
+    addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File…"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
+    addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File…"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Subtitle"), this, SLOT(slotDeleteItem()), QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("audio_recognition"), i18n("Speech Recognition"), this, SLOT(slotSpeechRecognition()), QIcon::fromTheme(QStringLiteral("autocorrection")));
+    addAction(QStringLiteral("audio_recognition"), i18n("Speech Recognition…"), this, SLOT(slotSpeechRecognition()), QIcon::fromTheme(QStringLiteral("autocorrection")));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -1910,10 +1910,10 @@ void MainWindow::setupActions()
     }
 
     // monitor actions
-    addAction(QStringLiteral("extract_frame"), i18n("Extract frame..."), pCore->monitorManager(), SLOT(slotExtractCurrentFrame()),
+    addAction(QStringLiteral("extract_frame"), i18n("Extract Frame…"), pCore->monitorManager(), SLOT(slotExtractCurrentFrame()),
               QIcon::fromTheme(QStringLiteral("insert-image")));
 
-    addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract frame to project..."), pCore->monitorManager(),
+    addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract Frame to Project…"), pCore->monitorManager(),
               SLOT(slotExtractCurrentFrameToProject()), QIcon::fromTheme(QStringLiteral("insert-image")));
 }
 
@@ -2367,12 +2367,12 @@ void MainWindow::slotEditKeys()
     }
     // If scheme choosing combobox was found, find the "More Actions" button in the same
     // dialog that provides a dropdown menu with additional actions, and add
-    // "Download New Keyboard Schemes..." button into that menu
+    // "Download New Keyboard Schemes…" button into that menu
     if (schemesList) {
         foreach (QPushButton *button, dialog.findChildren<QPushButton *>()) {
             if (button->text() == i18n("More Actions")) {
                 QMenu *moreActionsMenu = button->menu();
-                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes..."), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
+                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes…"), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
                 break;
             }
         }
@@ -3482,14 +3482,14 @@ void MainWindow::buildDynamicActions()
         });
     }
 
-    QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
+    QAction *action = new QAction(i18n("Automatic Scene Split…"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
     connect(action, &QAction::triggered, this, [&]() {
         SceneSplitTask::start(this);
     });
 
     if (true /* TODO: check if timewarp producer is available */) {
-        QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
+        QAction *action = new QAction(i18n("Duplicate Clip with Speed Change…"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
                 this, [&]() { SpeedTask::start(this); });
@@ -3634,7 +3634,7 @@ void MainWindow::slotTranscodeClip()
 {
     const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
+    QStringList urls = QFileDialog::getOpenFileNames(this, i18nc("@title:window", "Files to Transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) {
         return;
     }

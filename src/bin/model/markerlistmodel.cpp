@@ -638,7 +638,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     }
 
     QScopedPointer<MarkerDialog> dialog(
-        new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
+        new MarkerDialog(clip, marker, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();

@@ -842,7 +842,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
     // TODO refac: this seem to be a duplicate of ClipCreationDialog::createTitleTemplateClip. See if we can merge
     QString titlesFolder = QDir::cleanPath(m_projectFolder + QStringLiteral("/titles/"));
     if (path.isEmpty()) {
-        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Enter Template Path"), titlesFolder);
+        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18nc("@title:window", "Enter Template Path"), titlesFolder);
         d->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
         d->setFileMode(QFileDialog::ExistingFile);
         if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {

@@ -133,6 +133,8 @@ int main(int argc, char *argv[])
         QString appPath = qApp->applicationDirPath();
         if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
             packageType = QStringLiteral("appimage");
+        } if (appPath.contains(QStringLiteral("/snap"))) {
+            packageType = QStringLiteral("snap");
         } else {
             qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
         }

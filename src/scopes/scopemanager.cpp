@@ -220,7 +220,7 @@ void ScopeManager::slotUpdateActiveRenderer()
 void ScopeManager::slotCheckActiveScopes()
 {
 #ifdef DEBUG_SM
-    qCDebug(KDENLIVE_LOG) << "Checking active scopes ...";
+    qCDebug(KDENLIVE_LOG) << "Checking active scopes …";
 #endif
     // Leave a small delay to make sure that scope widget has been shown or hidden
     QTimer::singleShot(500, this, &ScopeManager::checkActiveAudioScopes);
