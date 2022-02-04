@@ -98,6 +98,8 @@ public:
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
                        const QKeySequence &shortcut, const QString &category);
 
+    void processRestoreState(const QByteArray &state);
+
     /**
      * @brief Adds a new dock widget to this window.
      * @param title title of the dock widget
