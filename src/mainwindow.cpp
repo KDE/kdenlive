@@ -4648,6 +4648,14 @@ int MainWindow::binCount() const
     return m_binWidgets.count();
 }
 
+void MainWindow::processRestoreState(const QByteArray &state)
+{
+    // On Wayland, restoreState crashes when quickly hiding/showing/hiding a monitor in restoreState, so hide before restoring
+    m_projectMonitorDock->close();
+    m_clipMonitorDock->close();
+    restoreState(state);
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif
