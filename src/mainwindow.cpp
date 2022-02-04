@@ -1598,7 +1598,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
-              QIcon::fromTheme(QStringLiteral("bookmark-new")), Qt::Key_Asterisk);
+              QIcon::fromTheme(QStringLiteral("bookmark-new")), Qt::KeypadModifier + Qt::Key_Asterisk);
 
     // Clip actions. We set some category info on the action data to enable/disable it contextually in timelinecontroller
     KActionCategory *clipActionCategory = new KActionCategory(i18n("Current Selection"), actionCollection());
