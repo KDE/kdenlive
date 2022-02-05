@@ -61,6 +61,7 @@ scratchlines.xml
 sepia.xml
 shape.xml
 speed.xml
+spot_remover.xml
 swapchannels.xml
 tcolor.xml
 threshold.xml
