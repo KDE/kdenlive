@@ -283,6 +283,9 @@ Rectangle {
         onExited: {
             endDrag()
         }
+        onExited: {
+            endDrag()
+        }
     }
     MouseArea {
         id: mouseArea
