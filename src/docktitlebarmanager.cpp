@@ -35,13 +35,23 @@ void DockTitleBarManager::slotInstallRightClick()
         connect(tab, &QWidget::customContextMenuRequested, this, &DockTitleBarManager::slotSwitchTitleBars);
     }
     
+    connectDocks(true);
+    slotUpdateTitleBars();
+}
+
+void DockTitleBarManager::connectDocks(bool doConnect)
+{
     // connect
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
     for (QDockWidget *dock : qAsConst(docks)) {
-        connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
-        connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
+        if (doConnect) {
+            connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
+            connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
+        } else {
+            disconnect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
+            disconnect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
+        }
     }
-    slotUpdateTitleBars();
 }
 
 void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)

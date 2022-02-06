@@ -509,6 +509,7 @@ void MainWindow::init(const QString &mltPath)
 
     auto *titleBars = new DockTitleBarManager(this);
     connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&] () { titleBars->slotUpdateTitleBars(); });
+    connect(layoutManager, &LayoutManagement::connectDocks, titleBars, &DockTitleBarManager::connectDocks);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 

@@ -25,6 +25,8 @@ public:
 public slots:
     /** @brief Correctly hide/show dock widget title bars depending on position (floating, tabbed, docked) */
     void slotUpdateTitleBars(bool isTopLevel = true);
+    /** @brief Connect/disconnect signals to update title bars on dock location changed */
+    void connectDocks(bool doConnect);
 
 private:
     QAction *m_switchAction;

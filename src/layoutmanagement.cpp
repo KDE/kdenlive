@@ -221,6 +221,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         // Error, layout not found
         return false;
     }
+    emit connectDocks(false);
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
     bool timelineVisible = true;
     if (state.startsWith("NO-TL")) {
@@ -230,6 +231,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     pCore->window()->centralWidget()->setHidden(!timelineVisible);
     pCore->window()->processRestoreState(state);
     pCore->window()->tabifyBins();
+    emit connectDocks(true);
     if (selectButton) {
         // Activate layout button
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();

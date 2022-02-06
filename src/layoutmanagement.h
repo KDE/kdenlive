@@ -60,6 +60,8 @@ private:
 signals:
     /** @brief Layout changed, ensure title bars are correctly displayed. */
     void updateTitleBars();
+    /** @brief Connect/disconnect stuff to update titlebars on dock location changed. */
+    void connectDocks(bool doConnect);
 };
 
 #endif
