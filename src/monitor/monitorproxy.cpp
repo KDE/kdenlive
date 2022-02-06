@@ -268,6 +268,9 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
             if (qFuzzyCompare(projectFps, currentFps)) {
                 tmpProd->seek(q->m_producer->position());
             } else {
+                int maxLength = int(q->m_producer->get_length() * currentFps / projectFps);
+                tmpProd->set("length", maxLength);
+                tmpProd->set("out", maxLength - 1);
                 tmpProd->seek(int(q->m_producer->position() * currentFps / projectFps));
             }
             frame = tmpProd->get_frame();

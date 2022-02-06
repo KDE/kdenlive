@@ -139,6 +139,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (dirtyChunks.isEmpty()) {
         dirtyChunks = m_dirtyChunks;
     }
+
     // First chech if there are invalid chunks (created after document date)
     QFileInfoList chunksList = m_cacheDir.entryInfoList({QString("*.%1").arg(m_extension)}, QDir::Files, QDir::Time);
     for (auto &chunkFile : chunksList) {
