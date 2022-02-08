@@ -64,7 +64,7 @@ Rectangle {
     property bool canBeAudio
     property bool canBeVideo
     property double speed: 1.0
-    property color borderColor: 'black'
+    property color borderColor: "#000000"
     property bool forceReloadThumb
     property bool isComposition: false
     property bool hideClipViews: false
@@ -183,7 +183,7 @@ Rectangle {
     
     function updateLabelOffset()
     {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        labelRect.anchors.leftMargin = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale + (clipRoot.timeremap ? labelRect.height : 0) : clipRoot.timeremap ? labelRect.height : 0
     }
 
     border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
