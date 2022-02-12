@@ -1,14 +1,13 @@
 <profiles version="0.1">
  <group name="Generic (HD for web, mobile devices...)" renderer="avformat" type="av">
   <profile name="WebM-VP8/Vorbis (libre)" extension="webm"
-   qualities="15,45" defaultquality="25"
+   qualities="5,45" defaultquality="15"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx acodec=vorbis crf=%quality vb=0 quality=good aq=%audioquality max-intra-rate=1000"
-   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+   args="f=webm vcodec=libvpx crf=%quality vb=8M qcomp=1 g=15 acodec=vorbis aq=%audioquality"/>
   <profile name="MP4-H264/AAC" extension="mp4"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=mp4 movflags=+faststart vcodec=libx264 progressive=1 g=15 bf=2 crf=%quality acodec=aac ab=%audiobitrate+'k'"
+   args="f=mp4 movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
   <profile name="MPEG-2" extension="mpg"
    qualities="3,15" defaultquality="5"
@@ -18,36 +17,33 @@
   <profile name="GIF High Quality" extension="GIF" args=""/>
  </group>
  <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
-  <profile name="WebM-VP9/Vorbis (libre)" extension="webm"
+  <profile name="WebM-VP9/Opus (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
    audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 quality=good aq=%audioquality"
-   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+   args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus aq=%audioquality"/>
   <profile name="WebM-AV1/Opus (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=webm acodec=libopus vcodec=libaom-av1 crf=%quality vb=0 row-mt=1 tile-columns=2 tile-rows=1 strict=experimental ab=%audiobitrate+'k'"
-   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+   args="f=webm vcodec=libaom-av1 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tiles=2x2 frame-parallel=1 strict=experimental acodec=libopus ab=%audiobitrate+'k'"/>
   <profile name="MP4-H265 (HEVC)" extension="mp4"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="properties=x265-medium f=mp4 vcodec=libx265 acodec=aac crf=%quality ab=%audiobitrate+'k'"
+   args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
  </group>
  <group name="Video with Alpha" renderer="avformat" type="av">
   <profile name="Alpha VP8" extension="webm"
-   qualities="1,51" defaultquality="10"
+   qualities="5,45" defaultquality="15"
    audioqualities="3,7" defaultaudioquality="4"
-   args="f=webm acodec=vorbis aq=%audioquality vcodec=libvpx g=120 rc_lookahead=16 quality=good speed=0 vprofile=0 vb=2M qmin=1 qmax=51 crf=%quality slices=4 arnr_max_frames=7 arnr_strength=5 arnr_type=3 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
-   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+   args="f=webm vcodec=libvpx crf=%quality vb=10M qcomp=1 g=15 mlt_image_format=rgba pix_fmt=yuva420p acodec=vorbis aq=%audioquality"/>
   <profile name="Alpha VP9" extension="webm"
-   qualities="15,37" defaultquality="31"
-   args="f=webm acodec=vorbis vcodec=libvpx-vp9 crf=%quality vb=0 ab=128k bf=2 threads=0 rc_lookahead=16 speed=3 vprofile=0 qmin=4 qmax=51 quality=good aq=%audioquality slices=4 tile-columns=6 frame-parallel=1 lag-in-frames=25 row-mt=1 auto-alt-ref=0 mlt_image_format=rgba pix_fmt=yuva420p"
-   speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
+   qualities="5,30" defaultquality="15"
+   audioqualities="3,7" defaultaudioquality="4"
+   args="f=webm vcodec=libvpx-vp9 crf=%quality vb=20M qcomp=1 g=15 mlt_image_format=rgba pix_fmt=yuva420p acodec=vorbis aq=%audioquality"/>
   <profile name="Alpha MOV" extension="mov" 
-   args="f=mov vcodec=qtrle g=1 bf=0 progressive=1 mlt_image_format=rgba pix_fmt=argb"/>
+   args="f=mov vcodec=qtrle mlt_image_format=rgba pix_fmt=argb"/>
   <profile name="Ut Video" extension="avi"
-   args="f=avi vcodec=utvideo mlt_image_format=rgba pix_fmt=gbrap g=1 bf=0 acodec=pcm_s24le"/>
+   args="f=avi vcodec=utvideo mlt_image_format=rgba pix_fmt=gbrap acodec=pcm_s24le"/>
  </group>
  <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
   <profile name="VOB (DVD)" extension="vob"

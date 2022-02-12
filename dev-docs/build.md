@@ -205,16 +205,20 @@ MLT/Kdenlive tracking effect relies on a "contrib" a OpenCV module that is not s
 We build it in our AppImage but you may want it on your system (note OpenCV deserves its reputation of being difficult to build!).
 
 ```bash
-wget https://github.com/opencv/opencv/archive/4.3.0.tar.gz -O opencv-4.3.0.tar.gz
-wget https://github.com/opencv/opencv_contrib/archive/4.3.0.tar.gz -O opencv_contrib-4.3.0.tar.gz
-tar xaf opencv-4.3.0.tar.gz
-tar xaf opencv_contrib-4.3.0.tar.gz
-cd opencv-4.3.0
+wget https://github.com/opencv/opencv/archive/4.5.5.tar.gz -O opencv-4.5.5.tar.gz
+wget https://github.com/opencv/opencv_contrib/archive/4.5.5.tar.gz -O opencv_contrib-4.5.5.tar.gz
+tar xaf opencv-4.5.5.tar.gz
+tar xaf opencv_contrib-4.5.5.tar.gz
+cd opencv-4.5.5
 mkdir build
 cd build
+# Important: if want to install to the default location
+# (ie. you left INSTALL_PREFIX empty in the previous step where we configured it)
+# remove -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX from the next command!
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
-  -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.3.0/modules \
+  -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.5.5/modules \
   -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_LIST=tracking -DOPENCV_BUILD_3RDPARTY_LIBS=OFF
+make install
 ```
 
 Then you will have to rebuild MLT appending `-DMOD_OPENCV=ON` to `cmake` line!
