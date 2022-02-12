@@ -283,12 +283,9 @@ Item {
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
                             isFirstChunk: false
-                            showItem: audioThumb.visible
                             format: controller.audioThumbFormat
                             normalize: controller.audioThumbNormalize
                             scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
-                            drawInPoint: 0
-                            drawOutPoint: audioThumb.width
                             waveInPoint: (root.duration - 1) * root.zoomStart * channels
                             waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * channels
                             fillColor1: root.thumbColor1

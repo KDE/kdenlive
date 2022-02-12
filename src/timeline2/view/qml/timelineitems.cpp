@@ -75,9 +75,8 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)
     Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
-    Q_PROPERTY(int drawInPoint MEMBER m_drawInPoint NOTIFY propertyChanged)
-    Q_PROPERTY(int drawOutPoint MEMBER m_drawOutPoint NOTIFY propertyChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY propertyChanged)
+    Q_PROPERTY(int ix MEMBER m_index)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
     Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
@@ -85,24 +84,21 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(double scaleFactor MEMBER m_scale)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged)
-    Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
-    Q_PROPERTY(bool isOpaque MEMBER m_isOpaque)
+    Q_PROPERTY(bool isOpaque MEMBER m_opaquePaint)
 
 public:
     TimelineWaveform(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
-        , m_isOpaque(false)
+        , m_opaquePaint(false)
     {
         setAntialiasing(false);
-        setOpaquePainting(m_isOpaque);
-        // setClip(true);
+        setOpaquePainting(m_opaquePaint);
         setEnabled(false);
-        m_showItem = false;
         m_precisionFactor = 1;
         //setRenderTarget(QQuickPaintedItem::FramebufferObject);
         //setMipmap(true);
-        setTextureSize(QSize(1, 1));
+        //setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
             if (!m_binId.isEmpty()) {
                 if (m_audioLevels.isEmpty() && m_stream >= 0) {
@@ -119,25 +115,10 @@ public:
         });
         connect(this, &TimelineWaveform::propertyChanged, this, static_cast<void (QQuickItem::*)()>(&QQuickItem::update));
     }
-    bool showItem() const
-    {
-        return m_showItem;
-    }
-    void setShowItem(bool show)
-    {
-        m_showItem = show;
-        if (show) {
-            setTextureSize(QSize(int(width()), int(height())));
-            update();
-        } else {
-            // Free memory
-            setTextureSize(QSize(1, 1));
-        }
-    }
 
     void paint(QPainter *painter) override
     {
-        if (!m_showItem || m_binId.isEmpty()) {
+        if (m_binId.isEmpty()) {
             return;
         }
         if (m_audioLevels.isEmpty() && m_stream >= 0) {
@@ -152,14 +133,11 @@ public:
             return;
         }
         QRectF bgRect(0, 0, width(), height());
-        if (m_isOpaque) {
+        if (m_opaquePaint) {
             painter->fillRect(bgRect, m_bgColor);
         }
-        QPen pen = painter->pen();
-        pen.setColor(m_color);
-        painter->setBrush(m_color.darker(200));
-        pen.setCapStyle(Qt::FlatCap);
-        double increment = m_scale / m_channels; //qMax(1., 1. / qAbs(indicesPrPixel));
+        QPen pen(painter->pen());
+        double increment = qMax(1., m_scale / m_channels); //qMax(1., 1. / qAbs(indicesPrPixel));
         qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = int(height());
         double offset = 0;
@@ -167,8 +145,14 @@ public:
         if (increment > 1. && !pathDraw) {
             pen.setWidth(int(ceil(increment)));
             offset = pen.width() / 2.;
+            pen.setColor(m_color);
+            pen.setCapStyle(Qt::FlatCap);
         } else if (pathDraw) {
-            pen.setWidthF(0);
+            pen.setWidth(0);
+            painter->setBrush(m_color);
+            pen.setColor(m_bgColor.darker(200));
+        } else {
+            pen.setColor(m_color);
         }
         painter->setPen(pen);
         double scaleFactor = 255;
@@ -181,13 +165,10 @@ public:
             double i = 0;
             int j = 0;
             QPainterPath path;
-            if (m_drawInPoint > 0) {
-                j = int(m_drawInPoint / increment);
-            }
             if (pathDraw) {
                 path.moveTo(j - 1, height());
             }
-            for (; i <= width() && i < m_drawOutPoint; j++) {
+            for (; i <= width(); j++) {
                 double level;
                 i = j * increment;
                 int idx = qCeil((startPos + i) * indicesPrPixel);
@@ -201,7 +182,9 @@ public:
                     level = qMax(level, m_audioLevels.at(idx + k) / scaleFactor);
                 }
                 if (pathDraw) {
-                    path.lineTo(i, height() - level * height());
+                    double val = height() - level * height();
+                    path.lineTo(i, val);
+                    path.lineTo(( j + 1) * increment - offset, val);
                 } else {
                     painter->drawLine(int(i), h, int(i), int(h - (h * level)));
                 }
@@ -212,11 +195,11 @@ public:
             }
         } else {
             double channelHeight = height() / m_channels;
+            QPen pen(painter->pen());
             // Draw separate channels
             scaleFactor = channelHeight / (2 * scaleFactor);
             bgRect.setHeight(channelHeight);
             // Path for vector drawing
-            //qDebug()<<"==== DRAWING FROM: "<<m_drawInPoint<<" - "<<m_drawOutPoint<<", FIRST: "<<m_firstChunk;
             for (int channel = 0; channel < m_channels; channel++) {
                 double level;
                 // y is channel median pos
@@ -241,13 +224,7 @@ public:
                 painter->setOpacity(1);
                 double i = 0;
                 int j = 0;
-                if (m_drawInPoint > 0) {
-                    j = int(m_drawInPoint / increment);
-                }
-                if (pathDraw) {
-                    path.moveTo(m_drawInPoint - 1, y);
-                }
-                for (; i <= width() && i < m_drawOutPoint; j++) {
+                for (; i <= width(); j++) {
                     i = j * increment;
                     int idx = int(ceil((startPos + i) * indicesPrPixel));
                     idx += idx % m_channels;
@@ -281,30 +258,26 @@ signals:
     void propertyChanged();
     void normalizeChanged();
     void inPointChanged();
-    void showItemChanged();
     void audioChannelsChanged();
 
 private:
     QVector<uint8_t> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
-    // Pixels outside the view, can be dropped
-    int m_drawInPoint;
-    int m_drawOutPoint;
     QString m_binId;
+    QColor m_bgColor;
     QColor m_color;
     QColor m_color2;
-    QColor m_bgColor;
     bool m_format;
     bool m_normalize;
-    bool m_showItem;
     int m_channels;
     int m_precisionFactor;
     int m_stream;
     double m_scale;
     double m_audioMax;
     bool m_firstChunk;
-    bool m_isOpaque;
+    bool m_opaquePaint;
+    int m_index;
 };
 
 void registerTimelineItems()
