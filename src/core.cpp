@@ -235,6 +235,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
+    bin->slotUpdatePalette();
     emit m_mainWindow->GUISetupDone();
 }
 

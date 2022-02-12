@@ -992,7 +992,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // Init icons
     m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
     m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
-    slotUpdatePalette();
 
     // Tags panel
     m_tagsWidget = new TagWidget(this);

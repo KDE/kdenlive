@@ -402,7 +402,6 @@ private slots:
     /** @brief Switch a tag on  a clip list
      */
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
-    void slotUpdatePalette();
     /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
     void updateClipsCount();
 
@@ -461,8 +460,10 @@ public slots:
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
-        /** @brief A non seekable clip was added to project, propose transcoding */
+    /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix = QString());
+    /** @brief Build the project bin audio/video icons according to color theme */
+    void slotUpdatePalette();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
