@@ -398,7 +398,6 @@ private slots:
     /** @brief Switch a tag on  a clip list
      */
     void editTags(QList <QString> allClips, const QString &tag, bool add);
-    void slotUpdatePalette();
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
@@ -453,6 +452,7 @@ public slots:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
+    void slotUpdatePalette();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

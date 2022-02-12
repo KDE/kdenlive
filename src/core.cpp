@@ -233,6 +233,8 @@ void Core::initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, con
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
+    bin->slotUpdatePalette();
+    emit m_mainWindow->GUISetupDone();
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
