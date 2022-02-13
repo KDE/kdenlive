@@ -426,10 +426,11 @@ int ClipModel::getIntProperty(const QString &name) const
 QSize ClipModel::getFrameSize() const
 {
     READ_LOCK();
-    if (service()->parent().is_valid()) {
-        return QSize(service()->parent().get_int("meta.media.width"), service()->parent().get_int("meta.media.height"));
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    if (binClip) {
+        return binClip->getFrameSize();
     }
-    return {service()->get_int("meta.media.width"), service()->get_int("meta.media.height")};
+    return QSize();
 }
 
 double ClipModel::getDoubleProperty(const QString &name) const
