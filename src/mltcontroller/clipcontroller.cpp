@@ -636,6 +636,19 @@ const QSize ClipController::getFrameSize() const
     if (m_masterProducer == nullptr) {
         return QSize();
     }
+    if (m_usesProxy) {
+        int width = m_masterProducer->get_int("kdenlive:original.meta.media.width");
+        int height = m_masterProducer->get_int("kdenlive:original.meta.media.height");
+        if (width == 0) {
+            width = m_masterProducer->get_int("kdenlive:original.width");
+        }
+        if (height == 0) {
+            width = m_masterProducer->get_int("kdenlive:original.height");
+        }
+        if (width > 0 && height > 0) {
+            return QSize(width, height);
+        }
+    }
     int width = m_masterProducer->get_int("meta.media.width");
     if (width == 0) {
         width = m_masterProducer->get_int("width");
