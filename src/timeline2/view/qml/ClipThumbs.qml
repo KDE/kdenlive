@@ -13,6 +13,7 @@ Row {
     id: thumbRow
     anchors.fill: parent
     visible: !isAudio
+    clip: true
     opacity: clipState === ClipState.Disabled ? 0.2 : 1
     property bool fixedThumbs: clipRoot.itemType === ProducerType.Image || clipRoot.itemType === ProducerType.Text || clipRoot.itemType === ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
