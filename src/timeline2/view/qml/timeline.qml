@@ -1296,6 +1296,7 @@ Rectangle {
                         root.showTimelineMenu()
                     } else {
                         // ruler menu
+                        proxy.position = (scrollView.contentX + mouse.x) / timeline.scaleFactor
                         root.showRulerMenu()
                     }
                 }

@@ -639,6 +639,8 @@ void MainWindow::init(const QString &mltPath)
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
     timelineRulerMenu->addMenu(guideMenu);
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
