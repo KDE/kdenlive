@@ -278,16 +278,17 @@ Item {
                             anchors.right: parent.right
                             anchors.left: parent.left
                             height: streamThumb.streamHeight
+                            property int aChannels: controller.audioChannels[model.index]
                             y: model.index * height
-                            channels: controller.audioChannels[model.index]
+                            channels: aChannels
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
                             isFirstChunk: false
                             format: controller.audioThumbFormat
                             normalize: controller.audioThumbNormalize
                             scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
-                            waveInPoint: (root.duration - 1) * root.zoomStart * channels
-                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * channels
+                            waveInPoint: (root.duration - 1) * root.zoomStart * aChannels
+                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * aChannels
                             fillColor1: root.thumbColor1
                             fillColor2: root.thumbColor2
                         }
