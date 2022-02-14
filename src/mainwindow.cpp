@@ -91,7 +91,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 #include <knewstuff_version.h>
 // TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
 #else
 #include <kns3/qtquickdialogwrapper.h>
@@ -3347,7 +3347,7 @@ int MainWindow::getNewStuff(const QString &configFile)
 {
 
 // TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0) || defined (Q_OS_WIN)
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
     if (dialog->exec() != 0) {
