@@ -561,7 +561,26 @@ void PreviewManager::startPreviewRender()
         // clear log
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
-        pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
+        if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
+            const QString playlist = pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath());
+            QDomDocument doc;
+            doc.setContent(playlist);
+            pCore->currentDoc()->useOriginals(doc);
+            const QString final = doc.toString().toUtf8();
+            QSaveFile file(sceneList);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qDebug()<<"//////  ERROR writing to file: " << sceneList;
+                return;
+            }
+            file.write(final.toUtf8());
+            if (!file.commit()) {
+                qDebug()<<"Cannot write to file "<<sceneList;
+                return;
+            }
+        } else {
+            pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
+
+        }
         m_previewTimer.stop();
         doPreviewRender(sceneList);
     }

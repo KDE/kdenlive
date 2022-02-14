@@ -311,6 +311,10 @@
       <label>Automatically regenerate dirty zones of timeline preview.</label>
       <default>false</default>
     </entry>
+    <entry name="proxypreview" type="Bool">
+      <label>Use proxy clips for preview rendering.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="multistream" type="Int">
       <label>Should we enable all audio streams by default.</label>

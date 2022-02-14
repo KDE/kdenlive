@@ -1266,63 +1266,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
 
     // Do we want proxy rendering
     if (project->useProxy() && !proxyRendering()) {
-        QString root = doc.documentElement().attribute(QStringLiteral("root"));
-        if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
-            root.append(QLatin1Char('/'));
-        }
-
-        // replace proxy clips with originals
-        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(root);
-
-        QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
-        QString producerResource;
-        QString producerService;
-        QString originalProducerService;
-        QString suffix;
-        QString prefix;
-        for (int n = 0; n < producers.length(); ++n) {
-            QDomElement e = producers.item(n).toElement();
-            producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
-            producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-            originalProducerService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
-            if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
-                continue;
-            }
-            if (producerService == QLatin1String("timewarp")) {
-                // slowmotion producer
-                prefix = producerResource.section(QLatin1Char(':'), 0, 0) + QLatin1Char(':');
-                producerResource = producerResource.section(QLatin1Char(':'), 1);
-            } else {
-                prefix.clear();
-            }
-            if (producerService == QLatin1String("framebuffer")) {
-                // slowmotion producer
-                suffix = QLatin1Char('?') + producerResource.section(QLatin1Char('?'), 1);
-                producerResource = producerResource.section(QLatin1Char('?'), 0, 0);
-            } else {
-                suffix.clear();
-            }
-            if (!producerResource.isEmpty()) {
-                if (QFileInfo(producerResource).isRelative()) {
-                    producerResource.prepend(root);
-                }
-                if (proxies.contains(producerResource)) {
-                    if (!originalProducerService.isEmpty() && originalProducerService!= producerService) {
-                        // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
-                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), originalProducerService);
-                    }
-                    QString replacementResource = proxies.value(producerResource);
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), prefix + replacementResource + suffix);
-                    if (producerService == QLatin1String("timewarp")) {
-                        Xml::setXmlProperty(e, QStringLiteral("warp_resource"), replacementResource);
-                    }
-                    // We need to delete the "aspect_ratio" property because proxy clips
-                    // sometimes have different ratio than original clips
-                    Xml::removeXmlProperty(e, QStringLiteral("aspect_ratio"));
-                    Xml::removeMetaProperties(e);
-                }
-            }
-        }
+        pCore->currentDoc()->useOriginals(doc);
     }
     generateRenderFiles(doc, playlistPath, in, out, delayedRendering);
 }

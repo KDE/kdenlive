@@ -169,6 +169,8 @@ public:
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
+    /** @brief Replace proxy clips with originals for rendering. */
+    void useOriginals(QDomDocument &doc);
 
 private:
     QUrl m_url;

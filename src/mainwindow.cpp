@@ -753,6 +753,15 @@ void MainWindow::init(const QString &mltPath)
     tlMenu->addAction(actionCollection()->action(QStringLiteral("clear_render_timeline_zone")));
 
     // Automatic timeline preview action
+    QAction *proxyRender = new QAction(i18n("Preview Using Proxy Clips"), this);
+    proxyRender->setCheckable(true);
+    proxyRender->setChecked(KdenliveSettings::proxypreview());
+    connect(proxyRender, &QAction::triggered, this, [&](bool checked) {
+        KdenliveSettings::setProxypreview(checked);
+    });
+    tlMenu->addAction(proxyRender);
+
+    // Automatic timeline preview action
     QAction *autoRender = new QAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Automatic Preview"), this);
     autoRender->setCheckable(true);
     autoRender->setChecked(KdenliveSettings::autopreview());
