@@ -1101,7 +1101,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
     QTextCharFormat cformat = cur.charFormat();
-    double outlineWidth = textOutline->value() / 10.0;
+    double outlineWidth = textOutline->value();
 
     tt->setData(TitleDocument::OutlineWidth, outlineWidth);
     tt->setData(TitleDocument::OutlineColor, outlineColor);
@@ -1798,7 +1798,7 @@ void TitleWidget::slotUpdateText()
         gradientData = gradients_combo->currentData().toString();
     }
 
-    double outlineWidth = textOutline->value() / 10.0;
+    double outlineWidth = textOutline->value();
 
     int i;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
@@ -2377,7 +2377,7 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
-    titleConfig.writeEntry("font_outline", textOutline->value());
+    titleConfig.writeEntry("font_outline", textOutline->value() * 10);
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
@@ -2420,7 +2420,7 @@ void TitleWidget::readChoices()
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
-    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
+    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value() / 10.0));
 
     int weight;
     if (titleConfig.readEntry("font_bold", false)) {
@@ -2973,7 +2973,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 if (!i->data(TitleDocument::OutlineWidth).isNull()) {
                     textOutline->blockSignals(true);
-                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble() * 10));
+                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble()));
                     textOutline->blockSignals(false);
                 } else {
                     textOutline->blockSignals(true);
