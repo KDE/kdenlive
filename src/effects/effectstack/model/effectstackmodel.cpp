@@ -1,41 +1,26 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "effectstackmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
-#include "mainwindow.h"
 #include "doc/docundostack.hpp"
 #include "doc/documentobjectmodel.h"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "timeline2/model/timelinemodel.hpp"
 #include <profiles/profilemodel.hpp>
 #include <stack>
 #include <utility>
 #include <vector>
 
-EffectStackModel::EffectStackModel(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
+EffectStackModel::EffectStackModel(std::weak_ptr<KdenliveDocObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
+    , m_masterService(std::move(service))
     , m_effectStackEnabled(true)
     , m_ownerId(std::move(ownerId))
     , m_undoStack(std::move(undo_stack))
@@ -43,10 +28,9 @@ EffectStackModel::EffectStackModel(std::weak_ptr<DocumentObjectModel> doc, std::
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
 {
-    m_masterService = std::move(service);
 }
 
-std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<DocumentObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
+std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<KdenliveDocObjectModel> doc, std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
 {
     std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(doc), std::move(service), ownerId, std::move(undo_stack)));
     self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, true);
@@ -242,7 +226,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     }
 }
 
-bool EffectStackModel::copyXmlEffect(QDomElement effect)
+bool EffectStackModel::copyXmlEffect(const QDomElement &effect)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -327,8 +311,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
-        AssetListType::AssetType type = EffectsRepository::get()->getType(effectId);
-        bool isAudioEffect = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+        bool isAudioEffect = EffectsRepository::get()->isAudioEffect(effectId);
         if (isAudioEffect) {
             if (state != PlaylistState::AudioOnly) {
                 continue;
@@ -376,12 +359,20 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
-        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+        if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             m_fadeIns.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
             effect->filter().set("in", currentIn);
             effect->filter().set("out", currentIn + duration);
-        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            if (effectId.startsWith(QLatin1String("fade_"))) {
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=0;-1=1");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=0;-1=1");
+                }
+            }
+        } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             m_fadeOuts.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
             if (auto ptr = m_objectModel.lock()) {
@@ -389,6 +380,14 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
                 int filterOut = inOut.second;
                 effect->filter().set("in", filterOut - duration);
                 effect->filter().set("out", filterOut);
+                if (effectId.startsWith(QLatin1String("fade_"))) {
+                    if (effect->filter().get("alpha") == QLatin1String("1")) {
+                        // Adjust level value to match filter end
+                        effect->filter().set("level", "0=1;-1=0");
+                    } else if (effect->filter().get("level") == QLatin1String("1")) {
+                        effect->filter().set("alpha", "0=1;-1=0");
+                    }
+                }
             }
         }
         local_redo();
@@ -445,14 +444,14 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
     QVector<int> roles = {TimelineModel::EffectNamesRole};
-    if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+    if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
         m_fadeIns.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
         int in = pCore->getItemIn(m_ownerId);
         effect->filter().set("in", in);
         effect->filter().set("out", in + duration);
         roles << TimelineModel::FadeInRole;
-    } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+    } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
         m_fadeOuts.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
         if (auto ptr = m_objectModel.lock()) {
@@ -520,7 +519,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     if (res) {
         int inFades = 0;
         int outFades = 0;
-        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+        if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             int duration = effect->filter().get_length() - 1;
             if (auto ptr = m_objectModel.lock()) {
                 std::pair<int, int>inOut = ptr->getItemInOut(m_ownerId);
@@ -529,7 +528,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
                 effect->filter().set("out", in + duration);
             }
             inFades++;
-        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+        } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             /*int duration = effect->filter().get_length() - 1;
             int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
             effect->filter().set("in", out - duration);
@@ -746,6 +745,12 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 }
                 effect->filter().set("out", in + duration);
                 indexes << getIndexFromItem(effect);
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=0;-1=1");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=0;-1=1");
+                }
             }
         }
         if (!indexes.isEmpty()) {
@@ -793,6 +798,12 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 duration = qMin(itemDuration, duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);
+                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                    // Adjust level value to match filter end
+                    effect->filter().set("level", "0=1;-1=0");
+                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                    effect->filter().set("alpha", "0=1;-1=0");
+                }
             }
         }
         if (!indexes.isEmpty()) {
@@ -881,7 +892,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     QWriteLocker locker(&m_lock);
     // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
-    QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
         if (!m_loadingExisting) {
@@ -894,12 +904,11 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         }
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
         const QString &effectId = effectItem->getAssetId();
-        if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+        if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             m_fadeIns.insert(effectItem->getId());
-        } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+        } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             m_fadeOuts.insert(effectItem->getId());
         }
-        ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
@@ -987,7 +996,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     return found;
 }
 
-void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, QString originalDecimalPoint)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, const QString &originalDecimalPoint)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -1050,7 +1059,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             Fun redo = addItem_lambda(effect, rootItem->getId());
             effect->prepareKeyframes();
             if (redo()) {
-                if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+                if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
                     int clipIn = ptr->get_int("in");
                     if (effect->filter().get_int("in") != clipIn) {
@@ -1059,7 +1068,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                         effect->filter().set("in", clipIn);
                         effect->filter().set("out", clipIn + filterLength);
                     }
-                } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+                } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
                     m_fadeOuts.insert(effect->getId());
                     int clipOut = ptr->get_int("out");
                     if (effect->filter().get_int("out") != clipOut) {
@@ -1097,7 +1106,7 @@ void EffectStackModel::setActiveEffect(int ix)
         ptr->set("kdenlive:activeeffect", ix);
     }
     // Desactivate previous effect
-    if (current > -1 && current != ix) {
+    if (current > -1 && current != ix && current < rootItem->childCount()) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
         if (effect) {
             effect->setActive(false);
@@ -1457,7 +1466,7 @@ void EffectStackModel::updateEffectZones()
     }
 }
 
-std::weak_ptr<DocumentObjectModel> EffectStackModel::objectModel()
+std::weak_ptr<KdenliveDocObjectModel> EffectStackModel::objectModel()
 {
     return m_objectModel;
 }

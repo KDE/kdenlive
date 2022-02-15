@@ -1,46 +1,19 @@
 /*
- * Copyright (c) 2013-2014 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- * Author: Brian Matherly <pez4brian@yahoo.com>
- * Author: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2014 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2014 Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: 2013-2014 Brian Matherly <pez4brian@yahoo.com>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef COLORWHEELITEM_H
 #define COLORWHEELITEM_H
 
+#include "utils/qcolorutils.h"
+
 #include <QImage>
 #include <QQuickPaintedItem>
-
-class NegQColor
-{
-public:
-    int8_t sign_r = 1;
-    int8_t sign_g = 1;
-    int8_t sign_b = 1;
-    QColor qcolor;
-    static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
-    static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
-    qreal redF();
-    qreal greenF();
-    qreal blueF();
-    qreal valueF();
-    int hue();
-    qreal hueF();
-    qreal saturationF();
-};
 
 class ColorWheelItem : public QQuickPaintedItem
 {

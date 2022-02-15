@@ -1,20 +1,9 @@
 /*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 import QtQml.Models 2.11
@@ -48,7 +37,28 @@ Item{
         delegate: Item {
             property var itemModel : model
             property bool clipItem: isClip(model.clipType)
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
+            function calculateZIndex() {
+                // Z order indicates the items that will be drawn on top.
+                if (model.clipType == ProducerType.Composition) {
+                    // Compositions should be top, then clips
+                    return 50000;
+                }
+
+                if (model.mixDuration > 0) {
+                    // Clips with mix should be ordered related to their position so that the right clip of a clip mix is always on top (the mix UI is drawn over the right clip)
+                    return model.start / 25;
+                }
+
+                if (root.activeTool === ProjectTool.SlipTool && model.selected) {
+                    return model.item === timeline.trimmingMainClip ? 2 : 1;
+                }
+
+                if (root.activeTool === ProjectTool.RippleTool && model.item === timeline.trimmingMainClip) {
+                    return 1;
+                }
+                return 0;
+            }
+            z: calculateZIndex()
             Loader {
                 id: loader
                 Binding {
@@ -227,8 +237,20 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "forceReloadAudioThumb"
+                    value: model.reloadAudioThumb
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "binId"
                     value: model.binId
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "timeremap"
+                    value: model.timeremap
                     when: loader.status == Loader.Ready && clipItem
                 }
                 sourceComponent: {
@@ -288,7 +310,7 @@ Item{
                 root.groupTrimData = controller.getGroupData(clip.clipId)
             }
             onTrimmingIn: {
-                if (controlTrim) {
+                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
                     if (!speedController.visible) {
                         // Store original speed
@@ -297,13 +319,28 @@ Item{
                     clip.x += clip.width - (newDuration * trackRoot.timeScale)
                     clip.width = newDuration * root.timeScale
                     speedController.x = clip.x + clip.border.width
-                    speedController.width = clip.width - 2 * clip.border.width
+                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1:%2, %3:%4'.arg(i18n("Speed"))
+                        .arg(clip.speed)
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(newDuration))
+                    timeline.showToolTip(s)
                     return
                 }
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                var new_duration = 0;
+                if (root.activeTool === ProjectTool.RippleTool) {
+                    console.log("In: Request for " + newDuration)
+                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                    timeline.requestStartTrimmingMode(clip.clipId, false, false);
+                    timeline.ripplePosChanged(new_duration, false);
+                } else {
+                    new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
+                }
+
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     clip.originalX = clip.draggedX
@@ -321,16 +358,26 @@ Item{
             onTrimmedIn: {
                 //bubbleHelp.hide()
                 timeline.showToolTip();
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
+                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
                     // We only resize one element
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
-                    if (controlTrim) {
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    }
+
+                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                         // Update speed
                         speedController.visible = false
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                         speedController.originalSpeed = 1
                     } else {
-                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                            timeline.requestEndTrimmingMode();
+                        } else {
+                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                        }
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
@@ -339,7 +386,7 @@ Item{
                 root.groupTrimData = undefined
             }
             onTrimmingOut: {
-                if (controlTrim) {
+                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     if (!speedController.visible) {
                         // Store original speed
                         speedController.originalSpeed = clip.speed
@@ -347,13 +394,26 @@ Item{
                     speedController.x = clip.x + clip.border.width
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
                     clip.width = newDuration * trackRoot.timeScale
-                    speedController.width = clip.width - 2 * clip.border.width
+                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
+                    var s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
+                        .arg(Math.round(clip.speed*100))
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(newDuration))
+                    timeline.showToolTip(s)
                     return
                 }
-                var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                var new_duration = 0;
+                if (root.activeTool === ProjectTool.RippleTool) {
+                    console.log("Out: Request for " + newDuration)
+                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                    timeline.requestStartTrimmingMode(clip.clipId, false, true);
+                    timeline.ripplePosChanged(new_duration, true);
+                } else {
+                    new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
+                }
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
                     // Show amount trimmed as a time in a "bubble" help.
@@ -370,15 +430,25 @@ Item{
             onTrimmedOut: {
                 timeline.showToolTip();
                 //bubbleHelp.hide()
-                if (shiftTrim || root.groupTrimData == undefined || controlTrim) {
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
-                    if (controlTrim) {
+                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
+                    if (root.activeTool === ProjectTool.RippleTool) {
+                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    }
+
+                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                         speedController.visible = false
                         // Update speed
                         controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                         speedController.originalSpeed = 1
                     } else {
-                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                        if (root.activeTool === ProjectTool.RippleTool) {
+                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                            timeline.requestEndTrimmingMode();
+                        } else {
+                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                        }
                     }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
@@ -438,6 +508,7 @@ Item{
         anchors.bottom: parent.bottom
         color: activePalette.highlight //'#cccc0000'
         visible: false
+        clip: true
         height: root.baseUnit * 1.5
         property int lastValidDuration: 0
         property real originalSpeed: 1

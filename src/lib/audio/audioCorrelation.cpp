@@ -1,11 +1,6 @@
 /*
-Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "audioCorrelation.h"
@@ -132,7 +127,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
     t.start();
     for (size_t shift = -sizeSub; shift <= sizeMain; ++shift) {
 
-        if (shift <= 0) {
+        if (shift == 0) {
             left = envSub - shift;
             right = envMain;
             size = std::min(sizeSub + shift, sizeMain);

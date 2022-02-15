@@ -3,7 +3,7 @@
 	<name>Position and Zoom</name>
 	<description>Adjust size and position of clip</description>
 	<author>Charles Yates</author>
-	<parameter type="animatedrect" name="transition.geometry" default="0 0 %width %height" opacity="false">
+	<parameter type="animatedrect" name="transition.rect" default="0 0 %width %height" opacity="false">
 		<name>Rectangle</name>
 	</parameter>
 	<parameter type="bool" name="transition.distort" default="0">

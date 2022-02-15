@@ -1,23 +1,9 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "abstractprojectitem.h"
@@ -38,6 +24,9 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
+    , m_parentDuration()
+    , m_inPoint()
+    , m_outPoint()
     , m_date()
     , m_binId(std::move(id))
     , m_usage(0)
@@ -63,9 +52,10 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
     return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
-void AbstractProjectItem::setRefCount(uint count)
+void AbstractProjectItem::setRefCount(uint count, uint audioCount)
 {
     m_usage = count;
+    m_AudioUsage = audioCount;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
@@ -76,17 +66,23 @@ uint AbstractProjectItem::refCount() const
     return m_usage;
 }
 
-void AbstractProjectItem::addRef()
+void AbstractProjectItem::addRef(bool isAudio)
 {
     m_usage++;
+    if (isAudio) {
+        m_AudioUsage++;
+    }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
 }
 
-void AbstractProjectItem::removeRef()
+void AbstractProjectItem::removeRef(bool isAudio)
 {
     m_usage--;
+    if (isAudio) {
+        m_AudioUsage--;
+    }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        AbstractProjectItem::UsageCount);
@@ -149,6 +145,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case UsageCount:
         data = QVariant(m_usage);
+        break;
+    case AudioUsageCount:
+        data = QVariant(m_AudioUsage);
         break;
     case ItemTypeRole:
         data = QVariant(m_itemType);
@@ -302,7 +301,7 @@ const QString & AbstractProjectItem::tags() const
     return m_tags;
 }
 
-void AbstractProjectItem::setTags(const QString tags)
+void AbstractProjectItem::setTags(const QString &tags)
 {
     m_tags = tags;
 }

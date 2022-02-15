@@ -1,22 +1,8 @@
 /*
-Copyright (C) 2015  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clipcreationdialog.h"
@@ -32,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
@@ -41,11 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
+#include <KDirOperator>
 #include <KFileWidget>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
-#include <KDirOperator>
 
 #include <QDialog>
 #include <QDir>
@@ -75,13 +61,13 @@ QStringList ClipCreationDialog::getExtensions()
     mimeTypes << QStringLiteral("audio/AMR") << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4")
               << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav")
               << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
-              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3");
+              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3") << QStringLiteral("audio/aac");
 
     // Image MIMEs
     mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
               << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
               << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
-              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita");
+              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita") << QStringLiteral("image/webp") << QStringLiteral("image/jp2");
 
     QMimeDatabase db;
     QStringList allExtensions;
@@ -132,7 +118,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    dia->setWindowTitle(i18n("Color Clip"));
+    dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
 
     QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(doc->timecode(), dia.get()));
@@ -185,7 +171,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(bin));
     Ui::QTextClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    dia->setWindowTitle(i18n("Text Clip"));
+    dia->setWindowTitle(i18nc("@title:window", "Text Clip"));
     dia_ui.fgColor->setAlphaChannelEnabled(true);
     dia_ui.lineColor->setAlphaChannelEnabled(true);
     dia_ui.bgColor->setAlphaChannelEnabled(true);
@@ -395,10 +381,13 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
     b->setChecked(KdenliveSettings::autoimagesequence());
+    QCheckBox *bf = new QCheckBox(i18n("Ignore subfolder structure"));
+    bf->setChecked(KdenliveSettings::ignoresubdirstructure());
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
     auto *l = new QHBoxLayout;
     l->addWidget(b);
+    l->addWidget(bf);
     l->addStretch(5);
     f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
@@ -425,6 +414,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     int result = dlg->exec();
     if (result == QDialog::Accepted) {
         KdenliveSettings::setAutoimagesequence(b->isChecked());
+        KdenliveSettings::setIgnoresubdirstructure(bf->isChecked());
         list = fileWidget->selectedUrls();
         if (!list.isEmpty()) {
             KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), list.constFirst().adjusted(QUrl::RemoveFilename).toLocalFile());
@@ -490,10 +480,19 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
     QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
     // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
     importseq->setCheckable(true);
-    fileWidget->setCustomWidget(importseq);
+    QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structure"));
+    b->setChecked(KdenliveSettings::ignoresubdirstructure());
+    QFrame *f = new QFrame();
+    f->setFrameShape(QFrame::NoFrame);
+    auto *l = new QHBoxLayout;
+    l->addWidget(b);
+    l->addStretch(5);
+    l->addWidget(importseq);
+    f->setLayout(l);
+    fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
     fileWidget->setOperationMode(KFileWidget::Saving);
-    QObject::connect(fileWidget, &KFileWidget::accepted , [fileWidget, importseq]() {
+    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [fileWidget, importseq]() {
         if (importseq->isChecked()) {
             // We are importing an image sequence, abort
             return;
@@ -503,9 +502,12 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
         pCore->bin()->droppedUrls(urls);
     });
     fileWidget->setFilter(dialogFilter);
+    QObject::connect(b, &QCheckBox::toggled , [](bool checked) {
+        KdenliveSettings::setIgnoresubdirstructure(checked);
+    });
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
         fileWidget->slotOk();
-        fileWidget->accepted();
+        emit fileWidget->accepted();
         fileWidget->accept();
         QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;

@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef CLIPMODEL_H
 #define CLIPMODEL_H
@@ -66,7 +50,7 @@ public:
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist = 0);
+                         PlaylistState::ClipState state, int tid, const QString &originalDecimalPoint, int playlist = 0);
 
     /** @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -78,13 +62,21 @@ public:
     const QString clipName() const;
     const QString clipTag() const;
     QSize getFrameSize() const;
-    Q_INVOKABLE bool showKeyframes() const;
-    Q_INVOKABLE void setShowKeyframes(bool show);
+    bool showKeyframes() const;
+    void setShowKeyframes(bool show);
 
     /** @brief Returns true if the clip can be converted to a video clip */
     bool canBeVideo() const;
     /** @brief Returns true if the clip can be converted to an audio clip */
     bool canBeAudio() const;
+
+    /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
+    bool isChain() const;
+    /** @brief Returns the duration of the input map */
+    int getRemapInputDuration() const;
+    /** @brief Get the time remap effect parameters */
+    QMap<QString,QString> getRemapValues() const;
+    void setRemapValue(const QString &name, const QString &value);
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
@@ -98,14 +90,14 @@ public:
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    /** @brief The fake track is used in insrt/overwrote mode.
+    /** @brief The fake track is used in insert/overwrite mode.
      *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
      *  so we use a 'fake' track id to pass to the qml view
      */
     int getFakeTrackId() const;
     void setFakeTrackId(int fid);
+    void setFakePosition(int fpos);
     int getFakePosition() const;
-    void setFakePosition(int fid);
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
@@ -117,12 +109,14 @@ public:
     QDomElement toXml(QDomDocument &document);
 
     /** @brief Retrieve a list of all snaps for this clip */
-    void allSnaps(std::vector<int> &snaps, int offset = 0);
+    void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
 protected:
-    // helper functions that creates the lambda
+    /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
     std::weak_ptr<ProjectItemModel> m_binModel;
+    /** @brief Returns a clip hash, useful for regression testing */
+    QString clipHash() const;
 
 public:
     /** @brief returns the length of the item on the timeline
@@ -166,15 +160,24 @@ protected:
     Mlt::Producer *service() const override;
 
     /** @brief Performs a resize of the given clip.
-       Returns true if the operation succeeded, and otherwise nothing is modified
-       This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
-       If a snap point is within reach, the operation will be coerced to use it.
-       @param size is the new size of the clip
-       @param right is true if we change the right side of the clip, false otherwise
-       @param undo Lambda function containing the current undo stack. Will be updated with current operation
-       @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  This method is protected because it shouldn't be called directly. Call the function in the timeline instead.
+     *  If a snap point is within reach, the operation will be coerced to use it.
+     *  @param size is the new size of the clip
+     *  @param right is true if we change the right side of the clip, false otherwise
+     *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
+     *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  @return Returns true if the operation succeeded, and otherwise nothing is modified
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) override;
+
+    /** @brief Performs a slip of the given clip
+     *  This moves the in and out point of the clip without changing its size or position.
+     *  @param offset How many frames in and out point should be moved
+     *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
+     *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
+     *  @return Returns true if the operation succeeded, and otherwise nothing is modified
+    */
+    bool requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo = true);
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
     void setPosition(int pos) override;
@@ -189,7 +192,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false, bool timeremap = false);
     void refreshProducerFromBin(int trackId);
 
     /** @brief This functions replaces the current producer with a slowmotion one
@@ -198,6 +201,10 @@ protected:
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
+    
+    bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
+    /** @brief Lambda that merely changes the speed (in and out are untouched) */
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
@@ -228,6 +235,9 @@ protected:
 
     /** @brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
+
+    /** @brief Resize remap keyframes */
+    void requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo);
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
@@ -265,6 +275,8 @@ protected:
     int m_mixDuration;
     /** @brief Position of the original cut, relative to mix right side */
     int m_mixCutPos;
+    /** @brief True if the clip has a timeremap effect */
+    bool m_hasTimeRemap;
 };
 
 #endif

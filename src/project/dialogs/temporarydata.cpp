@@ -1,49 +1,33 @@
 /*
-Copyright (C) 2016  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "temporarydata.h"
+#include "bin/bin.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#include "core.h"
-#include "bin/bin.h"
 
+#include <KDiskFreeSpaceInfo>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KDiskFreeSpaceInfo>
 #include <QDesktopServices>
 #include <QFontMetrics>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QProgressBar>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QStandardPaths>
 #include <QTabWidget>
 #include <QToolButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
-#include <QProgressBar>
-#include <QSpinBox>
-
-static QList<QColor> chartColors;
 
 ChartWidget::ChartWidget(QWidget *parent)
     : QWidget(parent)
@@ -76,7 +60,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
             ix++;
             continue;
         }
-        painter.setBrush(chartColors.at(ix));
+        painter.setBrush(colorAt(ix));
         painter.drawPie(pieRect, previous, val * 16);
         previous = val * 16;
         ix++;
@@ -90,7 +74,6 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
-    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
     m_currentSizes << 0 << 0 << 0 << 0;
 
     // Setup page for current project
@@ -103,25 +86,25 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     // Timeline preview data
     previewColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(0));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(0));
     previewColor->setPalette(pal);
     connect(delPreview, &QToolButton::clicked, this, &TemporaryData::deletePreview);
 
     // Proxy clips
     proxyColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(1));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(1));
     proxyColor->setPalette(pal);
     connect(delProxy, &QToolButton::clicked, this, &TemporaryData::deleteProjectProxy);
 
     // Audio Thumbs
     audioColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(2));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(2));
     audioColor->setPalette(pal);
     connect(delAudio, &QToolButton::clicked, this, &TemporaryData::deleteAudio);
 
     // Video Thumbs
     thumbColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(3));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(3));
     thumbColor->setPalette(pal);
     connect(delThumb, &QToolButton::clicked, this, &TemporaryData::deleteThumbs);
 
@@ -150,13 +133,13 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     // Total Cache data
     pal = palette();
     gTotalColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(0));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(0));
     gTotalColor->setPalette(pal);
     connect(gClean, &QToolButton::clicked, this, &TemporaryData::cleanCache);
 
     // Selection
     gSelectedColor->setFixedSize(minHeight, minHeight);
-    pal.setColor(QPalette::Window, chartColors.at(1));
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(1));
     gSelectedColor->setPalette(pal);
     connect(gDelete, &QToolButton::clicked, this, &TemporaryData::deleteSelected);
 

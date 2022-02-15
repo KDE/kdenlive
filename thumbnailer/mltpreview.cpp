@@ -1,30 +1,17 @@
-/***************************************************************************
-   Copyright (C) 2006-2008
-   by Marco Gulino <marco@kmobiletools.org>
+/*
+    SPDX-FileCopyrightText: 2006-2008 Marco Gulino <marco@kmobiletools.org>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the
-   Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301, USA.
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "mltpreview.h"
 #include "../src/lib/localeHandling.h"
 
+#include <QDebug>
 #include <QImage>
 #include <QVarLengthArray>
 #include <QtGlobal>
-#include <QDebug>
 
 extern "C" {
 Q_DECL_EXPORT ThumbCreator *new_creator()
@@ -109,7 +96,7 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
         return mltImage;
     }
 
-    mlt_image_format format = mlt_image_rgb24a;
+    mlt_image_format format = mlt_image_rgba;
     const uchar *imagedata = frame->get_image(format, width, height);
     if (imagedata != nullptr) {
         memcpy(mltImage.bits(), imagedata, size_t(width * height * 4));

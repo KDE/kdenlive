@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "../src/lib/localeHandling.h"
 #include "mlt++/Mlt.h"
@@ -98,7 +85,36 @@ int main(int argc, char **argv)
             }
             const char *localename = prod.get_lcnumeric();
             QLocale::setDefault(QLocale(localename));
-            for (const QString &frame : qAsConst(chunks)) {
+
+            int currentFrame = 0;
+            int rangeStart = 0;
+            int rangeEnd = 0;
+            QString frame;
+            while (!chunks.isEmpty()) {
+                if (rangeEnd == 0) {
+                    // We are not processing a range
+                    frame = chunks.first();
+                }
+                if (rangeEnd > 0) {
+                    // We are processing a range
+                    currentFrame += chunkSize + 1;
+                    frame = QString::number(currentFrame);
+                    if (currentFrame >= rangeEnd) {
+                        // End of range
+                        rangeStart = 0;
+                        rangeEnd = 0;
+                        // Range is processed, remove from stack
+                        chunks.removeFirst();
+                    }
+                } else if (frame.contains(QLatin1Char('-'))) {
+                    rangeStart = frame.section(QLatin1Char('-'), 0, 0).toInt();
+                    rangeEnd = frame.section(QLatin1Char('-'), 1, 1).toInt();
+                    currentFrame = rangeStart;
+                    frame = QString::number(currentFrame);
+                } else {
+                    // Frame will be processed, remove from stack
+                    chunks.removeFirst();
+                }
                 fprintf(stderr, "START:%d \n", frame.toInt());
                 QString fileName = QStringLiteral("%1.%2").arg(frame,extension);
                 if (baseFolder.exists(fileName)) {
@@ -131,9 +147,9 @@ int main(int argc, char **argv)
             return 0;
         }
         
-
         // older MLT version, does not support embedded consumer in/out in xml, and current 
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
+        LocaleHandling::resetAllLocale();
         QFile f(playlist);
         QDomDocument doc;
         doc.setContent(&f, false);
@@ -146,10 +162,9 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        LocaleHandling::resetAllLocale();
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
         rJob->start();
-        QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&, rJob]() {
+        QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
             app.quit();
         });

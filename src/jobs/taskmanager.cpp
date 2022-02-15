@@ -1,22 +1,8 @@
 /*
-Copyright (C) 2021  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "taskmanager.h"
@@ -39,13 +25,17 @@ TaskManager::TaskManager(QObject *parent)
 {
     int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
     m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
-    // TODO: make configurable for user to adjust to GPU
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 TaskManager::~TaskManager()
 {
     slotCancelJobs();
+}
+
+void TaskManager::updateConcurrency()
+{
+    m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete)
@@ -109,7 +99,7 @@ void TaskManager::updateJobCount()
 {
     QReadLocker lk(&m_tasksListLock);
     int count = 0;
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         count += task.second.size();
     }
     // Set jobs count
@@ -134,7 +124,7 @@ void TaskManager::slotCancelJobs()
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
-    for (auto task : m_taskList) {
+    for (const auto &task : m_taskList) {
         for (AbstractTask* t : task.second) {
             // If so, then just add ourselves to be notified upon completion.
             t->cancelJob();

@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "collapsibleeffectview.hpp"
 #include "assets/view/assetparameterview.hpp"
@@ -33,24 +17,24 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QInputDialog>
 #include <QLabel>
 #include <QMenu>
 #include <QMimeData>
+#include <QPointer>
 #include <QProgressBar>
 #include <QSpinBox>
 #include <QStandardPaths>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWheelEvent>
-#include <QPointer>
-#include <QFormLayout>
-#include <QTextEdit>
 
-#include <QComboBox>
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <klocalizedstring.h>
 
 CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
@@ -84,8 +68,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     collapseButton->setDefaultAction(m_collapse);
     m_collapse->setActive(m_model->isCollapsed());
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
+
     if (effectModel->rowCount() == 0) {
-        // Effect has no paramerter
+        // Effect has no parameter
         m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("tools-wizard")));
         collapseButton->setEnabled(false);
     } else {
@@ -200,6 +185,12 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
             emit activateEffect(m_model->row());
         }
     });
+
+    if (effectModel->rowCount() == 0) {
+        // Effect has no parameter
+        m_view->setVisible(false);
+    }
+
     connect(m_view, &AssetParameterView::updateHeight, this, &CollapsibleEffectView::updateHeight);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
     keyframesButton->setVisible(m_view->keyframesAllowed());
@@ -215,6 +206,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         }
         m_view->toggleKeyframes(toggle);
     });
+
     if (!effectParamModel->hasMoreThanOneKeyframe()) {
         // No keyframe or only one, allow hiding
         bool hideByDefault = effectParamModel->data(effectParamModel->index(0, 0), AssetParameterModel::HideKeyframesFirstRole).toBool();
@@ -231,17 +223,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     presetButton->setMenu(m_view->presetMenu());
     presetButton->setToolTip(i18n("Presets"));
 
-    // Main menu
-    m_menu = new QMenu(this);
-    if (effectModel->rowCount() == 0) {
-        collapseButton->setEnabled(false);
-        m_view->setVisible(false);
-    }
-    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
-    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save-all")), i18n("Save Effect Stack"), this, SIGNAL(saveStack()));
-
-    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
-    menuButton->setMenu(m_menu);
+    connect(saveEffectButton, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotSaveEffect);
+    saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
+    saveEffectButton->setToolTip(i18n("Save effect"));
 
     if (!effectModel->isEnabled()) {
         title->setEnabled(false);
@@ -259,23 +243,23 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
 
-    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
+    foreach (QSpinBox *sp, findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QComboBox *cb : findChildren<QComboBox *>()) {
+    foreach (QComboBox *cb, findChildren<QComboBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
+    foreach (QProgressBar *cb, findChildren<QProgressBar *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
+    foreach (WheelContainer *cb, findChildren<WheelContainer *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
+    foreach (QDoubleSpinBox *cb, findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
@@ -485,22 +469,28 @@ void CollapsibleEffectView::slotSaveEffect()
 {
     QDialog dialog(this);
     QFormLayout form(&dialog);
+
+    dialog.setWindowTitle(i18nc("@title:window", "Save Effect"));
+
     auto *effectName = new QLineEdit(&dialog);
     auto *descriptionBox = new QTextEdit(&dialog);
     QString label_Name = QString("Name : ");
     form.addRow(label_Name, effectName);
     QString label = QString("Comments : ");
     form.addRow(label, descriptionBox);
+
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    if(dialog.exec() == QDialog::Accepted)
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+
+    if (dialog.exec() == QDialog::Accepted)
     {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
         if (name.trimmed().isEmpty()) {
+            KMessageBox::sorry(this, i18n("No name provided, effect not saved."));
             return;
         }
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
@@ -530,12 +520,31 @@ void CollapsibleEffectView::slotSaveEffect()
             if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
                 continue;
             }
+            if (paramType == QLatin1String("multiswitch")) {
+                // Multiswitch param value is not updated on change, fo fetch real value now
+                QString val = m_model->getParamFromName(paramName).toString();
+                params.item(i).toElement().setAttribute(QStringLiteral("value"), val);
+                continue;
+            }
             params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
         }
         doc.appendChild(doc.importNode(effect, true));
         effect = doc.firstChild().toElement();
         effect.removeAttribute(QStringLiteral("kdenlive_ix"));
-        effect.setAttribute(QStringLiteral("id"), name);
+        QString namedId = name;
+        QString sourceId = effect.attribute("id");
+        // When saving an effect as custom, it might be necessary to keep track of the original 
+        // effect id as it is sometimes used in Kdenlive to trigger special behaviors
+        if (sourceId.startsWith(QStringLiteral("fade_to_"))) {
+            namedId.prepend(QStringLiteral("fade_to_"));
+        } else if (sourceId.startsWith(QStringLiteral("fade_from_"))) {
+            namedId.prepend(QStringLiteral("fade_from_"));
+        } if (sourceId.startsWith(QStringLiteral("fadein"))) {
+            namedId.prepend(QStringLiteral("fadein_"));
+        } if (sourceId.startsWith(QStringLiteral("fadeout"))) {
+            namedId.prepend(QStringLiteral("fadeout_"));
+        }
+        effect.setAttribute(QStringLiteral("id"), namedId);
         QString masterType = effect.attribute(QLatin1String("type"));
         effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
@@ -557,16 +566,19 @@ void CollapsibleEffectView::slotSaveEffect()
                     QDomText text = doc.createTextNode(enteredDescription);
                     newNodeTag.appendChild(text);
                     root.replaceChild(newNodeTag, nodelist);
-                }
+        }
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();
         emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
 }
+
+
 QDomDocument CollapsibleEffectView::toXml() const
 {
     QDomDocument doc;
@@ -870,7 +882,7 @@ void CollapsibleEffectView::enableView(bool enabled)
     }
 }
 
-void CollapsibleEffectView::blockWheenEvent(bool block)
+void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
 }
@@ -936,5 +948,20 @@ void CollapsibleEffectView::updateEffectZone()
     QString effectName = EffectsRepository::get()->getName(effectId);
     QPair<int, int> inOut = {m_inPos->getValue(), m_outPos->getValue()};
     m_model->setInOut(effectName, inOut, true, true);
+}
+
+void CollapsibleEffectView::slotNextKeyframe()
+{
+    emit m_view->nextKeyframe();
+}
+
+void CollapsibleEffectView::slotPreviousKeyframe()
+{
+    emit m_view->previousKeyframe();
+}
+
+void CollapsibleEffectView::addRemoveKeyframe()
+{
+    emit m_view->addRemoveKeyframe();
 }
 

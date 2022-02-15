@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
@@ -16,6 +21,7 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false

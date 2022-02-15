@@ -62,7 +62,7 @@ For a detailed description see [here][effect-readme].
 [sett]: ../src/kdenlivesettings.kcfg
 [data]: ../data/
 [effect-readme]: ../data/README.md
-[mlt-intro]: https://www.mltframework.org/docs/framework/
+[mlt-intro]: mlt-intro.md
 [qt5c]: https://doc.qt.io/qt-5/classes.html
 [qt-sig]: https://doc.qt.io/qt-5/signalsandslots.html
 [kf]: https://api.kde.org/frameworks-api/frameworks-apidocs/frameworks/index.html

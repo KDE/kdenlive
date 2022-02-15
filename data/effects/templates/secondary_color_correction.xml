@@ -1,0 +1,35 @@
+<effectgroup id="Secondary color correction" parentIn="1">
+    <effect id="mask_start-frei0r.select0r">
+        <property name="filter">frei0r.select0r</property>
+        <property name="disable">0</property>
+        <property name="filter.Operation">0</property>
+        <property name="filter.Slope">1=0</property>
+        <property name="filter.Delta B / I / I">1=0.2</property>
+        <property name="filter.Delta R / A / Hue">1=0.2</property>
+        <property name="filter.Edge mode">0.9</property>
+        <property name="filter.Delta G / B / Chroma">1=0.2</property>
+        <property name="filter.Subspace shape">0.5</property>
+        <property name="filter.Selection subspace">0</property>
+        <property name="filter.Invert selection">0</property>
+        <property name="filter.Color to select"/>
+    </effect>
+    <effect id="avfilter.gblur">
+        <property name="av.sigmaV">-1</property>
+        <property name="av.planes">8</property>
+        <property name="av.steps">1</property>
+        <property name="av.sigma">0</property>
+    </effect>
+    <effect id="frei0r.transparency">
+        <property name="0">1</property>
+    </effect>
+    <effect id="frei0r.alpha0ps">
+        <property name="Shrink/Grow/Blur amount">1=0.5</property>
+        <property name="Threshold">1=0.5</property>
+        <property name="Invert">0</property>
+        <property name="Operation">0</property>
+        <property name="Display input alpha">0</property>
+        <property name="Display">0</property>
+    </effect>
+    <effect id="mask_apply"/>
+    <description>Secondary Color correction Mask Toolkit</description>
+</effectgroup>

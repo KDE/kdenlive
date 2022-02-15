@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "clipmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -48,10 +32,12 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_currentState(state)
     , m_speed(speed)
     , m_fakeTrack(-1)
+    , m_fakePosition(-1)
     , m_positionOffset(0)
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
     , m_mixCutPos(0)
+    , m_hasTimeRemap(isChain())
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -65,7 +51,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     } else {
         m_endlessResize = false;
     }
-    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
+    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
         qDebug() << "// GOT CLIP STACK DATA CHANGE: " << roles;
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
@@ -105,13 +91,13 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-void ClipModel::allSnaps(std::vector<int> &snaps, int offset)
+void ClipModel::allSnaps(std::vector<int> &snaps, int offset) const
 {
     m_clipMarkerModel->allSnaps(snaps, offset);
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist)
+                         PlaylistState::ClipState state, int tid, const QString &originalDecimalPoint, int playlist)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -129,7 +115,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
 
     double speed = 1.0;
     bool warp_pitch = false;
-    if (QString::fromUtf8(producer->parent().get("mlt_service")) == QLatin1String("timewarp")) {
+    if (producer->parent().property_exists("warp_speed")) {
         speed = producer->parent().get_double("warp_speed");
         warp_pitch = producer->parent().get_int("warp_pitch");
     }
@@ -170,7 +156,7 @@ void ClipModel::deregisterClipToBin()
 {
     if (auto srv = m_binModel.lock()) {
         std::shared_ptr<ProjectClip> binClip = srv->getClipByBinID(m_binClipId);
-        binClip->deregisterTimelineClip(m_id);
+        binClip->deregisterTimelineClip(m_id, isAudioOnly());
     }
 }
 
@@ -179,9 +165,8 @@ ClipModel::~ClipModel() = default;
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length();
-    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length())) {
+    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" << m_producer->get_length();
+    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !isChain()) {
         return false;
     }
     int delta = getPlaytime() - size;
@@ -198,7 +183,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (!right && in + delta < 0) {
             return false;
         }
-        if (right && (out - delta >= m_producer->get_length())) {
+        if (right && (out - delta >= m_producer->get_length()) && !isChain()) {
             return false;
         }
     }
@@ -219,11 +204,19 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         outPoint = out - in;
         inPoint = 0;
     }
+    bool closing = false;
+    // Ensure producer is long enough
+    if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+        m_producer->parent().set("length", outPoint + 1);
+        m_producer->parent().set("out", outPoint);
+        m_producer->set("length", outPoint + 1);
+    }
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
                 return false;
             }
+            closing = ptr->m_closing;
             if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
                 trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
             }
@@ -231,12 +224,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
-        }
-    } else {
-        // Ensure producer is long enough
-        if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
-            m_producer->set("length", outPoint + 1);
-            m_producer->set("out", outPoint);
         }
     }
     QVector<int> roles{TimelineModel::DurationRole};
@@ -272,6 +259,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     }
                 }
             }
+            if (logUndo && !m_endlessResize) {
+                emit pCore->clipInstanceResized(m_binClipId);
+            }
             return true;
         }
         return false;
@@ -281,7 +271,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
-                if (trackDuration > 0) {
+                if (trackDuration > 0 && !closing) {
                     // Operation changed parent track duration, update effect stack
                     int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
                     if (logUndo || trackDuration != newDuration) {
@@ -317,21 +307,113 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         }
                     }
                 }
+                if (logUndo && !m_endlessResize) {
+                    emit pCore->clipInstanceResized(m_binClipId);
+                }
                 return true;
             }
             qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
             return false;
         };
-        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
-                << m_producer->get_playtime();
+        if (logUndo) {
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << "-"
+                <<outPoint<<", "<< m_producer->get_playtime();
+        }
 
-        adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        if (!closing && logUndo) {
+            if (isChain()) {
+                // Add undo /redo ops to resize keyframes
+                requestRemapResize(in, out, old_in, old_out, reverse, operation);
+            }
+            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
     return false;
 }
 
+bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    if (offset == 0 || m_endlessResize) {
+        return true;
+    }
+    // TODO
+    /*if (m_endlessResize) {
+        offset = inPoint;
+        outPoint = out - in;
+        inPoint = 0;
+    }*/
+    int in = m_producer->get_in();
+    int out = m_producer->get_out();
+    int old_in = in, old_out = out;
+    offset = qBound(out - m_producer->get_length() + 1, offset, in);
+    int inPoint = in - offset;
+    int outPoint = out - offset;
+
+    Q_ASSERT(outPoint >= m_producer->get_playtime() - 1);
+    Q_ASSERT(outPoint < m_producer->get_length());
+    Q_ASSERT(inPoint >= 0);
+    Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
+    Q_ASSERT(inPoint < outPoint);
+    Q_ASSERT(out - in == outPoint - inPoint);
+
+    if (m_currentTrackId != -1) {
+        if (auto ptr = m_parent.lock()) {
+            if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
+                return false;
+            }
+        } else {
+            qDebug() << "Error : Slipping clip failed because parent timeline is not available anymore";
+            Q_ASSERT(false);
+        }
+    }
+    QVector<int> roles{TimelineModel::StartRole, TimelineModel::InPointRole, TimelineModel::OutPointRole};
+    Fun operation = [this, inPoint, outPoint, roles, logUndo]() {
+        setInOut(inPoint, outPoint);
+        if (m_currentTrackId > -1) {
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->notifyChange(ix, ix, roles);
+                pCore->requestMonitorRefresh();
+                // invalidate timeline preview
+                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                    emit ptr->invalidateZone(m_position, m_position + getPlaytime());
+                }
+            }
+        }
+        return true;
+    };
+
+    qDebug() << "=== SLIP CLIP" << "pos" << m_position << "offset" << offset << "old_in" << old_in << "old_out" << old_out << "inPoint" << inPoint << "outPoint" << outPoint << "endless" << m_endlessResize << "playtime" << getPlaytime() << "fulllength" << m_producer->get_length();;
+
+    if (operation()) {
+        Fun reverse = []() { return true; };
+        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        reverse = [this, old_in, old_out, logUndo, roles]() {
+            setInOut(old_in, old_out);
+            if (m_currentTrackId > -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                    pCore->requestMonitorRefresh();
+                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                        emit ptr->invalidateZone(m_position, m_position + getPlaytime());
+                    }
+                }
+            }
+            return true;
+        };
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
+                << m_producer->get_playtime();
+
+        adjustEffectLength(true, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
+}
 const QString ClipModel::getProperty(const QString &name) const
 {
     READ_LOCK();
@@ -353,10 +435,11 @@ int ClipModel::getIntProperty(const QString &name) const
 QSize ClipModel::getFrameSize() const
 {
     READ_LOCK();
-    if (service()->parent().is_valid()) {
-        return QSize(service()->parent().get_int("meta.media.width"), service()->parent().get_int("meta.media.height"));
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    if (binClip) {
+        return binClip->getFrameSize();
     }
-    return {service()->get_int("meta.media.width"), service()->get_int("meta.media.height")};
+    return QSize();
 }
 
 double ClipModel::getDoubleProperty(const QString &name) const
@@ -372,6 +455,242 @@ Mlt::Producer *ClipModel::service() const
 {
     READ_LOCK();
     return m_producer.get();
+}
+
+bool ClipModel::isChain() const
+{
+    READ_LOCK();
+    return m_producer->parent().type() == mlt_service_chain_type;
+}
+
+void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo)
+{
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int ix = 0; ix < count; ix++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(ix));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(ix)->get_link());
+                (void)link->anim_get_rect("map", 0);
+                Mlt::Animation anim = link->get_animation("map");
+                QString oldKfrData = anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length());
+                QStringList str = oldKfrData.split(QLatin1Char(';'));
+                QMap<int,int>keyframes;
+                for (auto &s : str) {
+                    int pos = m_producer->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
+                    int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+                    if (s == str.constLast()) {
+                        // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+                        pos--;
+                    }
+                    keyframes.insert(pos, val);
+                }
+                if (keyframes.contains(inPoint) && keyframes.lastKey() == outPoint) {
+                    // Nothing to do, abort
+                    return;
+                }
+                // Adjust start keyframes
+                QList<int> toDelete;
+                QMap<int,int> toAdd;
+                if (inPoint != oldIn && !keyframes.contains(inPoint)) {
+                    if (inPoint < oldIn) {
+                        // Move oldIn keyframe to new in
+                        if (keyframes.contains(oldIn)) {
+                            int delta = oldIn - inPoint;
+                            toAdd.insert(inPoint, qMax(0, keyframes.value(oldIn) - delta));
+                            toDelete << oldIn;
+                        } else {
+                            // Move first keyframe available
+                            bool found = false;
+                            QMapIterator<int,int> i(keyframes);
+                            while (i.hasNext()) {
+                                i.next();
+                                if (i.key() > oldIn) {
+                                    int delta = i.key() - inPoint;
+                                    toAdd.insert(inPoint, qMax(0, i.value() - delta));
+                                    toDelete << i.key();
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                // Add standard keyframe
+                                toAdd.insert(inPoint, inPoint);
+                            }
+                        }
+                    } else if (outPoint != oldOut && !keyframes.contains(outPoint)) {
+                        // inpoint moved forwards, delete previous
+                        if (keyframes.contains(oldIn)) {
+                            int delta =  inPoint - oldIn;
+                            toAdd.insert(inPoint, qMax(0, keyframes.value(oldIn) + delta));
+                        } else {
+                            toAdd.insert(inPoint, inPoint);
+                        }
+                        // Remove all keyframes before
+                        QMapIterator<int,int> i(keyframes);
+                        while (i.hasNext()) {
+                            i.next();
+                            if (i.key() == 0) {
+                                // Don't remove 0 keyframe
+                                continue;
+                            }
+                            if (i.key() < inPoint ) {
+                                toDelete << i.key();
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (outPoint != oldOut) {
+                    if (outPoint > oldOut) {
+                        if (keyframes.contains(oldOut)) {
+                            int delta = outPoint - oldOut;
+                            toAdd.insert(outPoint, keyframes.value(oldOut) + delta);
+                            toDelete << oldOut;
+                        } else {
+                            // Add defaut keyframe
+                            toAdd.insert(outPoint, outPoint);
+                        }
+                    } else {
+                        // Clip reduced
+                        if (keyframes.contains(oldOut)) {
+                            int delta = oldOut - outPoint;
+                            toAdd.insert(outPoint, keyframes.value(oldOut) - delta);
+                        } else {
+                            // Add defaut keyframe
+                            toAdd.insert(outPoint, outPoint);
+                        }
+                        // Delete all keyframes after outpoint
+                        QMapIterator<int,int> i(keyframes);
+                        while (i.hasNext()) {
+                            i.next();
+                            if (i.key() > outPoint) {
+                                toDelete << i.key();
+                            }
+                        }
+                    }
+                }
+                // Remove all requested keyframes
+                for (int d : qAsConst(toDelete)) {
+                    keyframes.remove(d);
+                }
+                // Add replacement keyframes
+                QMapIterator<int,int> i(toAdd);
+                while (i.hasNext()) {
+                    i.next();
+                    keyframes.insert(i.key(), i.value());
+                }
+                QStringList result;
+                QMapIterator<int, int> j(keyframes);
+                int offset = 0;
+                while (j.hasNext()) {
+                    j.next();
+                    if (j.key() == keyframes.lastKey()) {
+                        // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
+                        offset = 1;
+                    }
+                    result << QString("%1=%2").arg(m_producer->frames_to_time(j.key() + offset, mlt_time_clock)).arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
+                }
+                Fun operation = [this, kfrData = result.join(QLatin1Char(';'))]() {
+                    setRemapValue("map", kfrData.toUtf8().constData());
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, TimelineModel::FinalMoveRole);
+                    }
+                    return true;
+                };
+                Fun reverse = [this, oldKfrData]() {
+                    setRemapValue("map", oldKfrData.toUtf8().constData());
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, TimelineModel::FinalMoveRole);
+                    }
+                    return true;
+                };
+                operation();
+                PUSH_LAMBDA(operation, redo);
+                PUSH_FRONT_LAMBDA(reverse, undo);
+            }
+        }
+    }
+}
+
+int ClipModel::getRemapInputDuration() const
+{
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                QString mapData = link->get("map");
+                int min = GenTime(link->anim_get_double("map", getIn())).frames(pCore->getCurrentFps());
+                QStringList str = mapData.split(QLatin1Char(';'));
+                int max = -1;
+                for (auto &s : str) {
+                    int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
+                    if (val > max) {
+                        max = val;
+                    }
+                }
+                return max - min;
+            }
+        }
+    }
+    return 0;
+}
+
+void ClipModel::setRemapValue(const QString &name, const QString &value)
+{
+    if (m_producer->parent().type() != mlt_service_chain_type) {
+        return;
+    }
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                link->set(name.toUtf8().constData(), value.toUtf8().constData());
+                return;
+            }
+        }
+    }
+}
+
+QMap<QString,QString> ClipModel::getRemapValues() const
+{
+    QMap<QString,QString> result;
+    if (m_producer->parent().type() != mlt_service_chain_type) {
+        return result;
+    }
+    Mlt::Chain fromChain(m_producer->parent());
+    int count = fromChain.link_count();
+    for (int i = 0; i < count; i++) {
+        QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                // Found a timeremap effect, read params
+                std::shared_ptr<Mlt::Link> link = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
+                // Ensure animation uses time not frames
+                (void)link->anim_get_rect("map", 0);
+                Mlt::Animation anim = link->get_animation("map");
+                result.insert(QStringLiteral("map"), anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length()));
+                //result.insert(QStringLiteral("map"), link->get("map"));
+                result.insert(QStringLiteral("pitch"), link->get("pitch"));
+                result.insert(QStringLiteral("image_mode"), link->get("image_mode"));
+                break;
+            }
+        }
+    }
+    return result;
 }
 
 std::shared_ptr<Mlt::Producer> ClipModel::getProducer()
@@ -395,12 +714,14 @@ void ClipModel::setTimelineEffectsEnabled(bool enabled)
 bool ClipModel::addEffect(const QString &effectId)
 {
     QWriteLocker locker(&m_lock);
-    AssetListType::AssetType type = EffectsRepository::get()->getType(effectId);
-    if (type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio) {
+    if (EffectsRepository::get()->isAudioEffect(effectId)) {
         if (m_currentState == PlaylistState::VideoOnly) {
             return false;
         }
     } else if (m_currentState == PlaylistState::AudioOnly) {
+        return false;
+    }
+    if (EffectsRepository::get()->isTextEffect(effectId) && m_clipType != ClipType::Text) {
         return false;
     }
     m_effectStack->appendEffect(effectId, true);
@@ -447,12 +768,12 @@ bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int 
     QWriteLocker locker(&m_lock);
     qDebug() << ".... ADJUSTING FADE LENGTH: " << duration << " / " << effectName;
     Fun operation = [this, duration, effectName, originalDuration]() {
-        return m_effectStack->adjustFadeLength(duration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"), audioEnabled(),
+        return m_effectStack->adjustFadeLength(duration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")), audioEnabled(),
                                                !isAudioOnly(), originalDuration > 0);
     };
     if (operation() && originalDuration > 0) {
         Fun reverse = [this, originalDuration, effectName]() {
-            return m_effectStack->adjustFadeLength(originalDuration, effectName == QLatin1String("fadein") || effectName == QLatin1String("fade_to_black"),
+            return m_effectStack->adjustFadeLength(originalDuration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")),
                                                    audioEnabled(), !isAudioOnly(), true);
         };
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -472,7 +793,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist, bool timeremap)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -487,6 +808,29 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
     }
+    QString remapMap;
+    int remapPitch = 0;
+    QString remapBlend;
+    if (m_hasTimeRemap) {
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        remapMap = fromLink->get("map");
+                        remapPitch = fromLink->get_int("pitch");
+                        remapBlend = fromLink->get("image_mode");
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
+    }
     std::shared_ptr<ProjectClip> binClip = nullptr;
     if (auto srv = m_binModel.lock()) {
         binClip = srv->getClipByBinID(m_binClipId);
@@ -494,9 +838,32 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         qDebug() << "Bin model is not available for clip\n\nERROR";
         return;
     }
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, timeremap);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
+    if (m_hasTimeRemap != isChain()) {
+        m_hasTimeRemap = !m_hasTimeRemap;
+        // producer is not on a track, no data refresh needed
+    }
+    if (m_hasTimeRemap) {
+        // Restor timeremap parameters
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        fromLink->set("map", remapMap.toUtf8().constData());
+                        fromLink->set("pitch", remapPitch);
+                        fromLink->set("image_mode", remapBlend.toUtf8().constData());
+                        break;
+                    }
+                }
+            }
+        }
+    }
     if (hasPitch) {
         // Check if pitch shift is enabled
         m_producer->parent().set("warp_pitch", 1);
@@ -524,7 +891,77 @@ void ClipModel::refreshProducerFromBin(int trackId)
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     int stream = m_producer->parent().get_int("audio_index");
-    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1);
+    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, isChain());
+}
+
+bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
+{
+    if (m_endlessResize) {
+        // no timewarp for endless producers
+        return false;
+    }
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    int audioStream = getIntProperty(QStringLiteral("audio_index"));
+    QMap<QString,QString> remapProperties;
+    remapProperties.insert(QStringLiteral("image_mode"), QStringLiteral("nearest"));
+    if (!enable) {
+        // Store the remap properties
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        remapProperties.insert(QStringLiteral("map"), fromLink->get("map"));
+                        remapProperties.insert(QStringLiteral("pitch"), fromLink->get("pitch"));
+                        remapProperties.insert(QStringLiteral("image_mode"), fromLink->get("image_mode"));
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
+    }
+    auto operation = useTimeRemapProducer_lambda(enable, audioStream, remapProperties);
+    auto reverse = useTimeRemapProducer_lambda(!enable, audioStream, remapProperties);
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
+    return false;
+}
+
+Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties)
+{
+    QWriteLocker locker(&m_lock);
+    return [enable, audioStream, remapProperties,this]() {
+        refreshProducerFromBin(m_currentTrackId, m_currentState, audioStream, 0, false, false, enable);
+        if (enable) {
+            QMapIterator<QString,QString> j(remapProperties);
+            if (m_producer->parent().type() == mlt_service_chain_type) {
+                Mlt::Chain fromChain(m_producer->parent());
+                int count = fromChain.link_count();
+                for (int i = 0; i < count; i++) {
+                    QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                    if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                        if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                            while (j.hasNext()) {
+                                j.next();
+                                fromLink->set(j.key().toUtf8().constData(), j.value().toUtf8().constData());
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    };
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
@@ -854,9 +1291,9 @@ int ClipModel::getFakePosition() const
     return m_fakePosition;
 }
 
-void ClipModel::setFakePosition(int fid)
+void ClipModel::setFakePosition(int fpos)
 {
-    m_fakePosition = fid;
+    m_fakePosition = fpos;
 }
 
 QDomElement ClipModel::toXml(QDomDocument &document)
@@ -868,6 +1305,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
     container.setAttribute(QStringLiteral("state"), m_currentState);
+    container.setAttribute(QStringLiteral("playlist"), m_subPlaylistIndex);
     if (auto ptr = m_parent.lock()) {
         int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);
@@ -889,6 +1327,26 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
     if (!qFuzzyCompare(m_speed, 1.)) {
         container.setAttribute(QStringLiteral("warp_pitch"), getIntProperty(QStringLiteral("warp_pitch")));
+    }
+    if (m_hasTimeRemap) {
+        if (m_producer->parent().type() == mlt_service_chain_type) {
+            Mlt::Chain fromChain(m_producer->parent());
+            int count = fromChain.link_count();
+            for (int i = 0; i < count; i++) {
+                QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                        // Found a timeremap effect, read params
+                        container.setAttribute(QStringLiteral("timemap"), fromLink->get("map"));
+                        container.setAttribute(QStringLiteral("timepitch"), fromLink->get_int("pitch"));
+                        container.setAttribute(QStringLiteral("timeblend"), fromLink->get("image_mode"));
+                        break;
+                    }
+                }
+            }
+        } else {
+            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+        }
     }
     container.appendChild(m_effectStack->toXml(document));
     return container;
@@ -1031,4 +1489,28 @@ FileStatus::ClipStatus ClipModel::clipStatus() const
         return binClip->clipStatus();
     }
     return FileStatus::StatusWaiting;
+}
+
+QString ClipModel::clipHash() const
+{
+    QDomDocument document;
+    QDomElement container = document.createElement(QStringLiteral("clip"));
+    container.setAttribute(QStringLiteral("service"), m_producer->parent().get("mlt_service"));
+    container.setAttribute(QStringLiteral("in"), getIn());
+    container.setAttribute(QStringLiteral("out"), getOut());
+    container.setAttribute(QStringLiteral("position"), getPosition());
+    container.setAttribute(QStringLiteral("state"), m_currentState);
+    container.setAttribute(QStringLiteral("playlist"), m_subPlaylistIndex);
+    container.setAttribute(QStringLiteral("speed"), QString::number(m_speed, 'f'));
+    container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
+    std::vector<int> snaps;
+    allSnaps(snaps);
+    QString snapData;
+    for (auto &s : snaps) {
+        snapData.append(QString::number(s));
+    }
+    container.setAttribute(QStringLiteral("markers"), snapData);
+    document.appendChild(container);
+    container.appendChild(m_effectStack->toXml(document));
+    return document.toString();
 }

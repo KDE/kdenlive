@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "geometryeditwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
@@ -25,10 +9,11 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 #include "widgets/geometrywidget.h"
-#include <mlt++/MltGeometry.h>
 #include <QVBoxLayout>
+#include <framework/mlt_types.h>
+#include <mlt++/MltProperties.h>
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -38,19 +23,27 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    QSize profileSize = pCore->getCurrentFrameSize();
-    Mlt::Geometry geometry(value.toUtf8().data(), end, profileSize.width(), profileSize.height());
-    Mlt::GeometryItem item;
     QRect rect;
-    if (geometry.fetch(&item, 0) == 0) {
-        rect = QRect(int(item.x()), int(item.y()), int(item.w()), int(item.h()));
+    if (value.contains(QLatin1Char('%'))) {
+        QSize profileSize = pCore->getCurrentFrameSize();
+        Mlt::Properties mlt_prop;
+        m_model->passProperties(mlt_prop);
+        mlt_prop.set("rect", value.toUtf8().data());
+        mlt_rect r = mlt_prop.get_rect("rect");
+        rect = QRect(int(profileSize.width() * r.x), int(profileSize.height() * r.y), int(profileSize.width()* r.w), int(profileSize.height() * r.h));;
     } else {
+        QStringList vals = value.split(QLatin1Char(' '));
+        if (vals.count() >= 4) {
+            rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
+        }
+    }
+    if (rect.isNull()) {
         // Cannot read value, use random default
         rect = QRect(50, 50, 200, 200);
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, 100, frameSize, false,
-                                m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), true, this);
+                                m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
     m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     connect(m_geom, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
@@ -62,7 +55,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     setFixedHeight(m_geom->sizeHint().height());
 
     // emit the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString val) { emit valueChanged(m_index, val, true); });
+    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { emit valueChanged(m_index, val, true); });
 
     setToolTip(comment);
 }

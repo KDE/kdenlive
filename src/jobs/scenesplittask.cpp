@@ -1,38 +1,24 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "scenesplittask.h"
 #include "bin/bin.h"
-#include "mainwindow.h"
-#include "bin/projectclip.h"
-#include "bin/projectfolder.h"
-#include "bin/projectitemmodel.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
-#include "ui_scenecutdialog_ui.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "ui_scenecutdialog_ui.h"
 
 #include <QProcess>
 #include <QTemporaryFile>
@@ -43,7 +29,6 @@
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_jobDuration(0)
-    , m_threshold(threshold)
     , m_markersType(markersCategory)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
@@ -53,6 +38,7 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
 
 void SceneSplitTask::start(QObject* object, bool force)
 {
+    Q_UNUSED(object)
     QPointer<QDialog> d = new QDialog;
     Ui::SceneCutDialog_UI view;
     view.setupUi(d);
@@ -67,7 +53,7 @@ void SceneSplitTask::start(QObject* object, bool force)
         QIcon colorIcon(pixmap);
         view.marker_type->addItem(colorIcon, i18n("Category %1", i));
     }
-    d->setWindowTitle(i18n("Scene detection"));
+    d->setWindowTitle(i18nc("@title:window", "Scene Detection"));
     if (d->exec() != QDialog::Accepted) {
         return;
     }
@@ -103,7 +89,7 @@ void SceneSplitTask::start(QObject* object, bool force)
         // See if there is already a task for this MLT service and resource.
         if (task && pCore->taskManager.hasPendingJob(owner, AbstractTask::ANALYSECLIPJOB)) {
             delete task;
-            task = 0;
+            task = nullptr;
         }
         if (task) {
             // Otherwise, start a new audio levels generation thread.
@@ -126,14 +112,16 @@ void SceneSplitTask::run()
     bool result;
     if (type != ClipType::AV && type != ClipType::Video) {
         // This job can only process video files
-        m_errorMessage.prepend(i18n("Cannot analyse this clip type"));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot analyse this clip type.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         qDebug()<<"=== ABORT 1";
         return;
     }
     if (KdenliveSettings::ffmpegpath().isEmpty()) {
         // FFmpeg not detected, cannot process the Job
-        m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         qDebug()<<"=== ABORT 2";
         return;
@@ -141,13 +129,7 @@ void SceneSplitTask::run()
     m_jobDuration = int(binClip->duration().seconds());
     int producerDuration = binClip->frameDuration();
     //QStringList parameters = {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
-    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-r"),QStringLiteral("50")};
-#ifdef Q_OS_WIN
-        parameters << QStringLiteral("-");
-#else
-        //parameters << QStringLiteral("-");
-#endif
-        parameters << QStringLiteral("/tmp/res.mp4");
+    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
 
     m_jobProcess.reset(new QProcess);
     //m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
@@ -193,7 +175,7 @@ void SceneSplitTask::run()
                 ix++;
             }
             QJsonDocument json(list);
-            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(const QString&,QString(json.toJson())));
+            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString,QString(json.toJson())));
         }
         if (m_subClips) {
             // Create zones
@@ -224,12 +206,13 @@ void SceneSplitTask::run()
             json.setArray(list);
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(const QString&,QString::number(m_owner.second)), Q_ARG(const QString&,dataMap));
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString,QString::number(m_owner.second)), Q_ARG(QString,dataMap));
             }
         }
     } else {
         // Proxy process crashed
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to analyse clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
     }
 }
 
@@ -251,7 +234,7 @@ void SceneSplitTask::processLogInfo()
         bool ok;
         QStringList output = buffer.split("[Parsed_showinfo");
         output.removeFirst();
-        for (const QString &o : output) {
+        for (const QString &o : qAsConst(output)) {
             if (o.contains(timeMarker)) {
                 double res = o.section(timeMarker, 1).section(QLatin1Char(' '), 0, 0).toDouble(&ok);
                 if (ok) {

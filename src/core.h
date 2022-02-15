@@ -1,11 +1,6 @@
 /*
-Copyright (C) 2014  Till Theato <root@ttill.de>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef CORE_H
@@ -26,13 +21,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
-#include "timecode.h"
+#include "utils/timecode.h"
+
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltPlaylist.h>
 
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
 class KdenliveDoc;
-class DocumentObjectModel;
+class KdenliveDocObjectModel;
 class LibraryWidget;
 class MainWindow;
 class MediaCapture;
@@ -45,11 +43,11 @@ class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
+class TimeRemap;
 
 namespace Mlt {
     class Repository;
     class Producer;
-    class Profile;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -78,19 +76,22 @@ public:
     /**
      * @brief Setup the basics of the application, in particular the connection
      * with Mlt
-     * @param isAppImage do we expect an AppImage (if yes, we use App path to deduce 
-     * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(bool testMode = false);
+    static bool build(const QString &packageType, bool testMode = false);
 
     /**
      * @brief Init the GUI part of the app and show the main window
+     * @param inSandbox does the app run in a sanbox? If yes, we use App path to deduce
+     * other binaries paths (melt, ffmpeg, etc)
+     * @param MltPath
      * @param Url (optional) file to open
      * If Url is present, it will be opened, otherwise, if openlastproject is
      * set, latest project will be opened. If no file is open after trying this,
-     * a default new file will be created. */
-    void initGUI(bool isAppImage, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+     * a default new file will be created.
+     * @param clipsToLoad
+     */
+    void initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -111,6 +112,8 @@ public:
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
+    /** @brief Returns a pointer to the view of the active bin (or main bin on no focus). */
+    Bin *activeBin();
     /** @brief Select a clip in the Bin from its id. */
     void selectBinClip(const QString &id, bool activateMonitor = true, int frame = -1, const QPoint &zone = QPoint());
     /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
@@ -136,8 +139,13 @@ public:
     SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the text based editing widget. */
     TextBasedEdit *textEditWidget();
+    /** @brief Returns a pointer to the time remapping widget. */
+    TimeRemap *timeRemapWidget();
+    /** @brief Returns true if clip displayed in remap widget is the bin clip with id clipId. */
+    bool currentRemap(const QString &clipId);
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
+    ToolType::ProjectTool activeTool();
 
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository> &getMltRepository();
@@ -171,7 +179,8 @@ public:
     void refreshProjectItem(const ObjectId &id);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
-
+    /** @brief Returns timeline's active track info (position and tag) */
+    QPair <int,QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();
 
@@ -235,12 +244,14 @@ public:
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */
-    void processInvalidFilter(const QString service, const QString id, const QString message);
+    void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(QMap <QString, QString> tags);
-    /** @brief Returns the consumer profile, that will be scaled 
-     *  according to preview settings. Should only be used on the consumer */
+    void updateProjectTags(const QMap <QString, QString> &tags);
+    /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
+    /** @brief Returns the consumer profile, that will be scaled
+     *  according to preview settings. Should only be used on the consumer */
+    Mlt::Profile &getMonitorProfile();
     /** @brief Returns a copy of current timeline's master playlist */
     std::unique_ptr<Mlt::Producer> getMasterProducerInstance();
     /** @brief Returns a copy of a track's playlist */
@@ -252,13 +263,13 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(QList <int> guides);
+    void addGuides(const QList <int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
-    void temporaryUnplug(QList<int> clipIds, bool hide);
+    void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Returns the current doc's subtitle model. */
     std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
-    void transcodeFile(const QString url);
+    void transcodeFile(const QString &url);
     /** @brief Display key binding info in statusbar. */
     void setWidgetKeyBinding(const QString &mess = QString());
     KSharedDataCache audioThumbCache;
@@ -269,10 +280,27 @@ public:
     /** @brief Get a document by uuid */
     KdenliveDoc *getDocument(const QUuid &uuid);
     /** @brief Get an object model by uuid */
-    std::shared_ptr<DocumentObjectModel> getModel(const QUuid &uuid);
+    std::shared_ptr<KdenliveDocObjectModel> getModel(const QUuid &uuid);
+    /** @brief Resize current mix item */
+    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
+    /** @brief Get alignment info for a mix item */
+    MixAlignment getMixAlign(int cid) const;
+    /** @brief Closing current document, do some cleanup */
+    void cleanup();
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
+    int getNewStuff(const QString &configFile);
+    /** @brief Get the frame size of the clip above a composition */
+    const QSize getCompositionSizeOnTrack(const ObjectId &id);
+    void loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist);
+
+    QString packageType() { return m_packageType; };
 
 private:
-    explicit Core();
+    explicit Core(const QString &packageType);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
@@ -285,19 +313,22 @@ private:
     std::shared_ptr<ProjectItemModel> m_activeProjectModel;
     /** @brief The existing secondary project models. */
     std::unordered_map<QString,std::shared_ptr<ProjectItemModel>> m_secondaryModels;
-    Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
+    TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
 
     /** @brief Current project's profile path */
     QString m_currentProfile;
 
     QString m_profile;
+    QString m_packageType;
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
+    Mlt::Profile m_monitorProfile;
+    /** @brief Mlt profile used to build the project's clips */
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
@@ -316,16 +347,30 @@ public slots:
     void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
+    /** @brief Try to find a display name for the given filename.
+     *  This is espacally helpfull for mlt's dynamically created luma files without thumb (luma01.pgm, luma02.pgm,...),
+     *  but also for others as it makes the visible name translatable.
+     *  @return The name that fits to the filename or if none is found the filename it self
+     */
+    const QString nameForLumaFile(const QString &filename);
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void updateMasterZones();
+    /** @brief Open the proxies test dialog. */
+    void testProxies();
+    /** @brief Refresh the monitor profile when project profile changes. */
+    void updateMonitorProfile();
+    /** @brief Add a new Bin Widget. */
+    void addBin(const QString &id = QString());
+    /** @brief Transcode a bin clip video. */
+    void transcodeFriendlyFile(const QString &binId, bool checkProfile);
 
 signals:
     void coreIsReady();
     void updateLibraryPath();
-    void updateMonitorProfile();
+    //void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);
@@ -336,12 +381,18 @@ signals:
     void closeSplash();
     /** @brief Trigger an update of the the speech models list */
     void voskModelUpdate(const QStringList models);
-    /** @brief This signal means that VOSK and/or SRT module availability changed*/
-    void updateVoskAvailability();
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */
     void disconnectEffectStack();
+    /** @brief Add a time remap effect to clip and show keyframes dialog */
+    void remapClip(int cid);
+    /** @brief A monitor property changed, check if we need to reset */
+    void monitorProfileUpdated();
+    /** @brief Color theme changed, process refresh */
+    void updatePalette();
+    /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
+    void clipInstanceResized(const QString &binId);
 };
 
 #endif

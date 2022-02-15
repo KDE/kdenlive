@@ -1,27 +1,12 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
@@ -29,12 +14,11 @@
 #include "transitions/transitionsrepository.hpp"
 
 #include <QQmlContext>
-#include <kns3/downloaddialog.h>
+#include <knewstuff_version.h>
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(parent)
 {
-
     m_model = TransitionTreeModel::construct(true, this);
 
     m_proxyModel = std::make_unique<TransitionFilter>(this);
@@ -53,15 +37,19 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
 TransitionListWidget::~TransitionListWidget()
 {
-    qDebug() << " - - -Deleting transition list widget";
+}
+
+bool TransitionListWidget::isAudio(const QString &assetId) const
+{
+    return TransitionsRepository::get()->isAudio(assetId);
 }
 
 QString TransitionListWidget::getMimeType(const QString &assetId) const
 {
-    if (TransitionsRepository::get()->isComposition(assetId)) {
+    /*if (TransitionsRepository::get()->isComposition(assetId)) {
         return QStringLiteral("kdenlive/composition");
-    }
-    return QStringLiteral("kdenlive/transition");
+    }*/
+    return QStringLiteral("kdenlive/composition");
 }
 
 void TransitionListWidget::updateFavorite(const QModelIndex &index)
@@ -75,30 +63,16 @@ void TransitionListWidget::setFilterType(const QString &type)
 {
     if (type == "favorites") {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
+    } else if (type == "transition") {
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::VideoTransition);
     } else {
         static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Favorites);
     }
 }
 
-int TransitionListWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
-}
-
 void TransitionListWidget::downloadNewLumas()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
         MltConnection::refreshLumas();
         // TODO: refresh currently displayed trans ?
     }

@@ -15,7 +15,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
@@ -128,6 +128,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -174,6 +175,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -1054,6 +1056,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -1109,6 +1112,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -1130,7 +1134,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     int length = 20;
-    int nclips = timeline->m_allClips.size();
+    unsigned long nclips = timeline->m_allClips.size();
 
     SECTION("requestCreateClip")
     {
@@ -1620,7 +1624,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 
-    int clipCount = timeline->m_allClips.size();
+    unsigned long clipCount = timeline->m_allClips.size();
     SECTION("Clip creation and resize")
     {
         int cid6;
@@ -1649,7 +1653,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestItemResize(cid6, l - 5, true, true, undo, redo, false));
+            int size = l - 5;
+            REQUIRE(timeline->requestItemResize(cid6, size, true, true, undo, redo, false));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state2 = [&]() {
@@ -1678,7 +1683,8 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestItemResize(cid6, l - 6, false, true, undo, redo, false));
+            int size = l - 6;
+            REQUIRE(timeline->requestItemResize(cid6, size, false, true, undo, redo, false));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state4 = [&]() {
@@ -1723,6 +1729,7 @@ TEST_CASE("Snapping", "[Snapping]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -1851,6 +1858,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -2057,3 +2065,4 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+

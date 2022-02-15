@@ -1,35 +1,27 @@
-/***************************************************************************
-                          titlewidget.cpp  -  description
-                             -------------------
-    begin                : Feb 28 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: Rafał Lalik
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-/***************************************************************************
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
+/*
  *                                                                         *
  *   Modifications by Rafał Lalik to implement Patterns mechanism          *
  *                                                                         *
  ***************************************************************************/
 
 #include "titlewidget.h"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
-#include "timecodedisplay.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
-#include "titler/patternsmodel.h"
 #include "profiles/profilemodel.hpp"
+#include "widgets/timecodedisplay.h"
+#include "titler/patternsmodel.h"
 
 #include <cmath>
 
@@ -37,7 +29,6 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
-#include <kns3/downloaddialog.h>
 
 #include "kdenlive_debug.h"
 #include <QButtonGroup>
@@ -52,28 +43,28 @@
 #include <QGraphicsSvgItem>
 #include <QImageReader>
 #include <QKeyEvent>
+#include <QMenu>
 #include <QSignalMapper>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QTimer>
 #include <QToolBar>
-#include <QMenu>
 
 #include <QStandardPaths>
 #include <iostream>
 #include <mlt++/MltProfile.h>
 #include <utility>
 
-static QList<TitleTemplate> titletemplates;
+static QList<TitleTemplate> titleTemplates;
 
-// What exactly is this variable good for?
+// TODO What exactly is this variable good for?
 int settingUp = 0;
 
 const int IMAGEITEM = 7;
-const int RECTITEM = 3;
-const int TEXTITEM = 8;
-const int ELLIPSEITEM = 4;
+const int RECTITEM = QGraphicsRectItem::Type;
+const int TEXTITEM = QGraphicsTextItem::Type;
+const int ELLIPSEITEM = QGraphicsEllipseItem::Type;
 
 /*
 const int NOEFFECT = 0;
@@ -86,7 +77,7 @@ void TitleWidget::refreshTemplateBoxContents()
 {
     templateBox->clear();
     templateBox->addItem(QString());
-    for (const TitleTemplate &t : qAsConst(titletemplates)) {
+    for (const TitleTemplate &t : qAsConst(titleTemplates)) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
 }
@@ -195,21 +186,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(tw_rd_line, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     connect(tw_rd_custom, &QRadioButton::toggled, this, &TitleWidget::slotUpdateTW);
     tw_rd_custom->setEnabled(false);
-    if (mlt_version_get_int() < 0x061900) {
-        typewriterBox->setEnabled(false);
-
-        auto *twinfo = new KMessageWidget(typewriterBox);
-        twinfo->setText(i18n("Typewriter requires MLT-6.26.0 or newer."));
-        twinfo->setMessageType(KMessageWidget::Warning);
-        twinfo->setCloseButtonVisible(false);
-        twinfo->setEnabled(true);
-        gridLayout_12->addWidget(twinfo, 3, 0, 1, 4);
-    }
 
     connect(fontColorButton, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(plain_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(gradient_color, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
-    connect(gradients_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
+    connect(gradients_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::slotUpdateText);
 
     connect(textOutlineColor, &KColorButton::changed, this, &TitleWidget::slotUpdateText);
     connect(font_family, &QFontComboBox::currentFontChanged, this, &TitleWidget::slotUpdateText);
@@ -217,13 +198,13 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(letter_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
     connect(line_spacing, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
     connect(textOutline, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateText);
-    connect(font_weight_box, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateText()));
+    connect(font_weight_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::slotUpdateText);
 
     connect(rectFColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(rectBColor, &KColorButton::changed, this, &TitleWidget::rectChanged);
     connect(plain_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
     connect(gradient_rect, &QAbstractButton::clicked, this, &TitleWidget::rectChanged);
-    connect(gradients_rect_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(rectChanged()));
+    connect(gradients_rect_combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &TitleWidget::rectChanged);
     connect(rectLineWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::rectChanged);
 
     connect(zValue, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::zIndexChanged);
@@ -333,29 +314,34 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
+    m_selectAll->setToolTip(i18n("Select All"));
     connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
     buttonSelectAll->setDefaultAction(m_selectAll);
 
     m_selectText = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-texts")), QString(), this);
     m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
+    m_selectText->setToolTip(i18n("Keep only text items selected"));
     connect(m_selectText, &QAction::triggered, this, &TitleWidget::slotSelectText);
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
     m_selectRects = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-rects")), QString(), this);
     m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
+    m_selectRects->setToolTip(i18n("Keep only rect items selected"));
     connect(m_selectRects, &QAction::triggered, this, &TitleWidget::slotSelectRects);
     buttonSelectRects->setDefaultAction(m_selectRects);
     buttonSelectRects->setEnabled(false);
 
     m_selectImages = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-images")), QString(), this);
     m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
+    m_selectImages->setToolTip(i18n("Keep only image items selected"));
     connect(m_selectImages, &QAction::triggered, this, &TitleWidget::slotSelectImages);
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
     m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
+    m_unselectAll->setToolTip(i18n("Deselect"));
     connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
     buttonUnselectAll->setDefaultAction(m_unselectAll);
     buttonUnselectAll->setEnabled(false);
@@ -411,9 +397,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonEllipse->setShortcut(Qt::ALT + Qt::Key_E);
     m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString());
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
-    if (mlt_version_get_int() < 0x061900) {
-        m_buttonEllipse->setVisible(false);
-    }
 
     m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
@@ -427,7 +410,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString());
-    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
+    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));    
 
     m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
@@ -674,7 +657,7 @@ QStringList TitleWidget::extractFontList(const QString &xml)
 void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
     QStringList filters = QStringList() << QStringLiteral("*.kdenlivetitle");
-    titletemplates.clear();
+    titleTemplates.clear();
 
     // project templates
     QDir dir(projectPath);
@@ -684,17 +667,13 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
         t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-        titletemplates.append(t);
+        titleTemplates.append(t);
     }
 
     // system templates
-    QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-    // Windows: downloaded templatates are saved in AppLocalDataLocation
-    titleTemplates.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory));
-#endif
-    titleTemplates.removeDuplicates();
-    for (const QString &folderpath : qAsConst(titleTemplates)) {
+    QStringList currentTitleTemplates = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
+    currentTitleTemplates.removeDuplicates();
+    for (const QString &folderpath : qAsConst(currentTitleTemplates)) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
         for (const QString &fname : qAsConst(filesnames)) {
@@ -702,7 +681,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
             t.icon = QIcon(KThumb::getImage(QUrl::fromLocalFile(t.file), 0, 60, -1));
-            titletemplates.append(t);
+            titleTemplates.append(t);
         }
     }
 }
@@ -994,9 +973,9 @@ void TitleWidget::initAnimation()
     graphicsView->scene()->addItem(m_endViewport);
 
     connect(keep_aspect, &QAbstractButton::toggled, this, &TitleWidget::slotKeepAspect);
-    connect(resize50, &QAbstractButton::clicked, this, &TitleWidget::slotResize50);
-    connect(resize100, &QAbstractButton::clicked, this, &TitleWidget::slotResize100);
-    connect(resize200, &QAbstractButton::clicked, this, &TitleWidget::slotResize200);
+    connect(resize50, &QAbstractButton::clicked, this, [&](){ slotResize(50); });
+    connect(resize100, &QAbstractButton::clicked, this, [&](){ slotResize(100); });
+    connect(resize200, &QAbstractButton::clicked, this, [&](){ slotResize(200); });
 }
 
 void TitleWidget::slotUpdateZoom(int pos)
@@ -1122,7 +1101,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
     QTextCharFormat cformat = cur.charFormat();
-    double outlineWidth = textOutline->value() / 10.0;
+    double outlineWidth = textOutline->value();
 
     tt->setData(TitleDocument::OutlineWidth, outlineWidth);
     tt->setData(TitleDocument::OutlineColor, outlineColor);
@@ -1798,11 +1777,19 @@ void TitleWidget::slotInsertUnicodeString(const QString &string)
 void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
+    QString selected = font.family();
+    if (!QFontDatabase().families().contains(selected)) {
+        QSignalBlocker bk(font_family);
+        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+        font_family->setCurrentFont(font);
+    }
     font.setPixelSize(font_size->value());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
     font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
-    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
+    if (letter_spacing->value() != 0) {
+        font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
+    }
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
     QString gradientData;
@@ -1811,7 +1798,7 @@ void TitleWidget::slotUpdateText()
         gradientData = gradients_combo->currentData().toString();
     }
 
-    double outlineWidth = textOutline->value() / 10.0;
+    double outlineWidth = textOutline->value();
 
     int i;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
@@ -2182,18 +2169,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
     if (anim_end->isChecked()) {
         slotAnimEnd(false);
     }
-    bool embed_image = false;
-
     // If we have images in the title, ask for embed
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
-    QGraphicsPixmapItem pix;
-    int pixmapType = pix.type();
-    for (const QGraphicsItem *item : qAsConst(list)) {
-        if (item->type() == pixmapType && item != m_frameImage) {
-            embed_image = true;
-            break;
-        }
-    }
+    auto is_embedable = [&](QGraphicsItem *item){ return item->type() == QGraphicsPixmapItem::Type && item != m_frameImage; };
+    bool embed_image = std::any_of(list.begin(), list.end(), is_embedable);
     if (embed_image && KMessageBox::questionYesNo(
                 this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
         embed_image = false;
@@ -2225,26 +2204,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
 
 void TitleWidget::downloadTitleTemplates()
 {
-    if (getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
         refreshTitleTemplates(m_projectTitlePath);
         refreshTemplateBoxContents();
     }
-}
-
-int TitleWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 QDomDocument TitleWidget::xml()
@@ -2414,7 +2377,7 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_outline_color", textOutlineColor->color());
-    titleConfig.writeEntry("font_outline", textOutline->value());
+    titleConfig.writeEntry("font_outline", textOutline->value() * 10);
     titleConfig.writeEntry("font_weight", font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
@@ -2444,7 +2407,11 @@ void TitleWidget::readChoices()
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
-    font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
+    QFont font = titleConfig.readEntry("font_family", font_family->currentFont());
+    if (!QFontDatabase().families().contains(font.family())) {
+        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+    }
+    font_family->setCurrentFont(font);
     font_size->setValue(titleConfig.readEntry("font_pixel_size", m_frameHeight > 0 ? m_frameHeight / 20 : font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
@@ -2453,7 +2420,7 @@ void TitleWidget::readChoices()
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
-    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()));
+    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value() / 10.0));
 
     int weight;
     if (titleConfig.readEntry("font_bold", false)) {
@@ -2569,6 +2536,7 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setBrush(col);
         m_endViewport->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         m_endViewport->setSelected(true);
+        m_startViewport->setSelected(false);
         selectionChanged();
         slotSelectTool();
         if (m_endViewport->childItems().isEmpty()) {
@@ -2588,8 +2556,8 @@ void TitleWidget::slotAnimEnd(bool anim)
 void TitleWidget::addAnimInfoText()
 {
     // add text to anim viewport
-    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start"), m_startViewport);
-    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End"), m_endViewport);
+    QGraphicsTextItem *t = new QGraphicsTextItem(i18nc("Indicates the start of an animation", "Start Viewport"), m_startViewport);
+    QGraphicsTextItem *t2 = new QGraphicsTextItem(i18nc("Indicates the end of an animation", "End Viewport"), m_endViewport);
     QFont font = t->font();
     font.setPixelSize(int(m_startViewport->rect().width() / 10));
     QColor col = m_startViewport->pen().color();
@@ -2652,31 +2620,22 @@ void TitleWidget::slotKeepAspect(bool keep)
     }
 }
 
-void TitleWidget::slotResize50()
+void TitleWidget::slotResize(int percentSize)
 {
-    if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
+    int w, h;
+    if (percentSize < 100) {
+        w = m_frameWidth / (100 / percentSize);
+        h = m_frameHeight / (100 / percentSize);
     } else {
-        m_startViewport->setRect(0, 0, m_frameWidth / 2, m_frameHeight / 2);
+        w = m_frameWidth * (percentSize / 100);
+        h = m_frameHeight * (percentSize / 100);
     }
-}
-
-void TitleWidget::slotResize100()
-{
     if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
+        m_endViewport->setRect(0, 0, w, h);
     } else {
-        m_startViewport->setRect(0, 0, m_frameWidth, m_frameHeight);
+        m_startViewport->setRect(0, 0, w, h);
     }
-}
-
-void TitleWidget::slotResize200()
-{
-    if (int(m_endViewport->zValue()) == 1100) {
-        m_endViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
-    } else {
-        m_startViewport->setRect(0, 0, m_frameWidth * 2, m_frameHeight * 2);
-    }
+    updateInfoText();
 }
 
 void TitleWidget::slotAddEffect(int /*ix*/)
@@ -3014,7 +2973,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 if (!i->data(TitleDocument::OutlineWidth).isNull()) {
                     textOutline->blockSignals(true);
-                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble() * 10));
+                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble()));
                     textOutline->blockSignals(false);
                 } else {
                     textOutline->blockSignals(true);

@@ -1,20 +1,11 @@
-/***************************************************************************
-                          titlewidget.h  -  description
-                             -------------------
-    begin                : Feb 28 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: Rafał Lalik
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-/***************************************************************************
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
+/*
  *                                                                         *
  *   Modifications by Rafał Lalik to implement Patterns mechanism          *
  *                                                                         *
@@ -24,7 +15,7 @@
 #define TITLEWIDGET_H
 
 #include "graphicsscenerectmove.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "titler/titledocument.h"
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
@@ -163,6 +154,8 @@ private:
 
     PatternsModel *m_patternsModel;
 
+    //QList<TitleTemplate> m_titleTemplates;
+
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 
     /** @brief Sets the font weight value in the combo box. (#909) */
@@ -238,9 +231,8 @@ private:
     void loadGradients();
     void storeGradient(const QString &gradientData);
 
-    /** Open title download dialog */
+    /** @brief Open title download dialog */
     void downloadTitleTemplates();
-    int getNewStuff(const QString &configFile);
 
     /** @brief Read patterns from config file
      */
@@ -356,9 +348,7 @@ private slots:
     void itemBottom();
     void itemLeft();
     void itemRight();
-    void slotResize50();
-    void slotResize100();
-    void slotResize200();
+    void slotResize(int percentSize);
     /** @brief Show hide guides */
     void showGuides(int state);
     /** @brief Build guides */

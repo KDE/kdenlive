@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef PREVIEWMANAGER_H
 #define PREVIEWMANAGER_H
@@ -58,7 +45,7 @@ public:
     /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
     void invalidatePreview(int startFrame, int endFrame);
     /** @brief: after a small  delay (some operations trigger several invalidatePreview calls), take care of these invalidated chunks. */
-    void invalidatePreviews(const QVariantList chunks);
+    void invalidatePreviews();
     /** @brief: user adds current timeline zone to the preview zone. */
     void addPreviewRange(const QPoint zone, bool add);
     /** @brief: Remove all existing previews. */
@@ -78,14 +65,14 @@ public:
     /** @brief: Returns directory currently used to store the preview files. */
     const QDir getCacheDir() const;
     /** @brief: Load existing ruler chunks. */
-    void loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate);
+    void loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate, Mlt::Playlist &playlist);
     int setOverlayTrack(Mlt::Playlist *overlay);
     /** @brief Remove the effect compare overlay track */
     void removeOverlayTrack();
     /** @brief The current preview chunk being processed, -1 if none */
     int workingPreview;
     /** @brief Returns the list of existing chunks */
-    QPair<QStringList, QStringList> previewChunks() const;
+    QPair<QStringList, QStringList> previewChunks();
     bool hasOverlayTrack() const;
     bool hasPreviewTrack() const;
     int addedTracks() const;
@@ -122,13 +109,15 @@ private:
     /** @brief: The render process output, useful in case of failure */
     QString m_errorLog;
     /** @brief: After an undo/redo, if we have preview history, use it. */
-    void reloadChunks(const QVariantList chunks);
+    void reloadChunks(const QVariantList &chunks);
     /** @brief: A chunk failed to render, abort. */
     void corruptedChunk(int workingPreview, const QString &fileName);
     /** @brief: Re-enable timeline preview track. */
     void enable();
     /** @brief: Temporarily disable timeline preview track. */
     void disable();
+    /** @brief: Get a compressed list of chunks, like: "0-500,525,575". */
+    const QStringList getCompressedList(const QVariantList items) const;
 
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
@@ -152,6 +141,7 @@ public slots:
 protected:
     QVariantList m_renderedChunks;
     QVariantList m_dirtyChunks;
+    mutable QMutex m_dirtyMutex;
 
 signals:
     void abortPreview();

@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQml.Models 2.11
@@ -8,6 +13,7 @@ Row {
     id: thumbRow
     anchors.fill: parent
     visible: !isAudio
+    clip: true
     opacity: clipState === ClipState.Disabled ? 0.2 : 1
     property bool fixedThumbs: clipRoot.itemType === ProducerType.Image || clipRoot.itemType === ProducerType.Text || clipRoot.itemType === ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
@@ -28,8 +34,14 @@ Row {
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
-        property int thumbStartFrame: fixedThumbs ? 0 : (clipRoot.speed >= 0) ? Math.round(clipRoot.inPoint * clipRoot.speed) : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -clipRoot.speed - 1)
-        property int thumbEndFrame: fixedThumbs ? 0 : (clipRoot.speed >= 0) ? Math.round(clipRoot.outPoint * clipRoot.speed) : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -clipRoot.speed - 1)
+        property int thumbStartFrame: fixedThumbs ? 0 :
+                                                    (clipRoot.speed >= 0)
+                                                    ? Math.round(clipRoot.inPoint * clipRoot.speed)
+                                                    : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -clipRoot.speed - 1)
+        property int thumbEndFrame: fixedThumbs ? 0 :
+                                                  (clipRoot.speed >= 0)
+                                                  ? Math.round(clipRoot.outPoint * clipRoot.speed)
+                                                  : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -clipRoot.speed - 1)
 
         Image {
             width: thumbRepeater.imageWidth

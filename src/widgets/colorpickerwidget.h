@@ -1,26 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Till Theato <root@ttill.de>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef COLORPICKERWIDGET_H
 #define COLORPICKERWIDGET_H
 
 #include <QFrame>
+#include <QPoint>
 #include <QWidget>
 
 class QFrame;
@@ -75,6 +63,7 @@ private:
 
     bool m_filterActive{false};
     QRect m_grabRect;
+    QPoint m_clickPoint;
     QFrame *m_grabRectFrame;
     QColor m_mouseColor;
 #ifdef Q_WS_X11

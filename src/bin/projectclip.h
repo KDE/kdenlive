@@ -1,23 +1,9 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef PROJECTCLIP_H
@@ -31,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFuture>
 #include <QUuid>
 #include <QMutex>
+#include <QTimer>
 #include <memory>
 
 class ClipPropertiesController;
@@ -61,7 +48,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
-    friend bool TimelineModel::checkConsistency(); // for testing
+    friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
@@ -159,7 +146,7 @@ public:
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
     /** @brief Callculate a file hash from a path. */
-    static const QPair<QByteArray, qint64> calculateHash(const QString path);
+    static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
@@ -195,7 +182,7 @@ public:
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false);
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false, bool timeremap = false);
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
@@ -217,7 +204,7 @@ public:
     void updateZones();
     /** @brief Display Bin thumbnail given a percent
      */
-    void getThumbFromPercent(int percent);
+    void getThumbFromPercent(int percent, bool storeFrame = false);
     /** @brief Return audio cache for a stream
      */
     const QVector <uint8_t> audioFrameCache(int stream = -1);
@@ -227,7 +214,7 @@ public:
     void setClipStatus(FileStatus::ClipStatus status) override;
     /** @brief Rename an audio stream for this clip
      */
-    void renameAudioStream(int id, QString name) override;
+    void renameAudioStream(int id, const QString &name) override;
 
     /** @brief Add an audio effect on a specific audio stream with undo/redo. */
     void requestAddStreamEffect(int streamIndex, const QString effectName) override;
@@ -240,15 +227,17 @@ public:
     /** @brief Get the list of audio stream effects for a defined stream. */
     QStringList getAudioStreamEffect(int streamIndex) const override;
     /** @brief Calculate the folder's hash (based on the files it contains). */
-    static const QByteArray getFolderHash(QDir dir, QString fileName);
+    static const QByteArray getFolderHash(const QDir &dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
-    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
-    void setInvalid();
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
     void reloadPlaylist();
+    /** @brief Refresh zones of insertion in timeline. */
+    void refreshBounds();
+    /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
+    const QStringList enforcedParams() const;
 
 protected:
     friend class ClipModel;
@@ -265,7 +254,7 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip(int clipId);
+    void deregisterTimelineClip(int clipId, bool audioClip);
 
     void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
     void replaceInTimeline();
@@ -274,25 +263,28 @@ protected:
 public slots:
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail();
+    void updateAudioThumbnail(bool cachedThumb);
     /** @brief Delete the proxy file */
     void deleteProxy();
     /** @brief A clip job progressed, update display */
     void updateJobProgress();
 
     /** @brief Sets thumbnail for this clip. */
-    void setThumbnail(const QImage &, int in, int out);
+    void setThumbnail(const QImage &, int in, int out, bool inCache = false);
     void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
+    
+    /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
+    void setInvalid();
 
     /**
      * Imports effect from a given producer
      * @param producer Producer containing the effects
      * @param originalDecimalPoint Decimal point to convert to “.”; See AssetParameterModel
      */
-    void importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint = QString());
+    void importEffects(const std::shared_ptr<Mlt::Producer> &producer, const QString &originalDecimalPoint = QString());
 
     /** @brief Sets the MLT producer associated with this clip
      *  @param producer The producer
@@ -301,6 +293,8 @@ public slots:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer);
     
     void importJsonMarkers(const QString &json);
+    /** @brief Refresh zones of insertion in timeline. */
+    void checkClipBounds();
 
 private:
     /** @brief Generate and store file hash if not available. */
@@ -316,6 +310,8 @@ private:
     void createDisabledMasterProducer();
 
     std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
+    uint m_audioCount;
+    QTimer m_boundaryTimer;
 
     /** @brief the following holds a producer for each audio clip in the timeline
      * keys are the id of the clips in the timeline, values are their values */
@@ -334,6 +330,8 @@ signals:
     void loadPropertiesPanel();
     void audioThumbReady();
     void updateStreamInfo(int ix);
+    void boundsChanged(QVector <QPoint>bounds);
+    void registeredClipChanged();
 };
 
 #endif

@@ -1,21 +1,9 @@
 /*
- *  Copyright (c) 2005 C. Boemann <cbo@boemann.dk>
- *  Copyright (c) 2009 Dmitry Kazakov <dimula73@gmail.com>
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- */
+    SPDX-FileCopyrightText: 2005 C. Boemann <cbo@boemann.dk>
+    SPDX-FileCopyrightText: 2009 Dmitry Kazakov <dimula73@gmail.com>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 // Local includes.
 
@@ -45,17 +33,16 @@
 
 KisCurveWidget::KisCurveWidget(QWidget *parent)
     : AbstractCurveWidget(parent)
+    , m_grabOffsetX(0)
+    , m_grabOffsetY(0)
+    , m_grabOriginalX(0)
+    , m_grabOriginalY(0)
+    , m_draggedAwayPointIndex(0)
+    , m_guideVisible(false)
+
 {
     setObjectName(QStringLiteral("KisCurveWidget"));
-    m_guideVisible = false;
 
-    m_maxPoints = -1;
-
-    m_grabOffsetX = 0;
-    m_grabOffsetY = 0;
-    m_grabOriginalX = 0;
-    m_grabOriginalY = 0;
-    m_draggedAwayPointIndex = 0;
     m_pixmapIsDirty = false;
     m_pixmapCache = nullptr;
     m_maxPoints = 0;
@@ -249,21 +236,9 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-double KisCurveWidget::io2sp(int x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return double(x - m_inOutMin) / rangeLen;
-}
-
-int KisCurveWidget::sp2io(double x) const
-{
-    int rangeLen = m_inOutMax - m_inOutMin;
-    return int(x * rangeLen + 0.5) + m_inOutMin;
-}
-
 bool KisCurveWidget::jumpOverExistingPoints(QPointF &pt, int skipIndex)
 {
-    for (const QPointF &it : m_curve.points()) {
+    for (QPointF &it : m_curve.points()) {
         if (m_curve.points().indexOf(it) == skipIndex) {
             continue;
         }
@@ -278,7 +253,7 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
     int nearestIndex = -1;
     int i = 0;
 
-    for (const QPointF &point : m_curve.points()) {
+    for (QPointF &point : m_curve.points()) {
         double distanceSquared = (pt.x() - point.x()) * (pt.x() - point.x()) + (pt.y() - point.y()) * (pt.y() - point.y());
 
         if (distanceSquared < nearestDistanceSquared) {

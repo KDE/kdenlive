@@ -1,0 +1,40 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.pr0be" id="frei0r.pr0be">
+        <name>Video values</name>
+        <description>Measure video values</description>
+        <author>Marko Cebokli</author>
+        
+        <parameter type="list" name="Measurement" default="0" paramlist="0;0.3;0.5;0.7;1">
+                <paramlistdisplay>RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL</paramlistdisplay>
+                <name>Measurement</name>
+        </parameter>
+        
+        <parameter type="animated" name="X" default="0.5" min="0" max="1000" factor="1000">
+                <name>X</name>
+        </parameter>
+        
+        <parameter type="animated" name="Y" default="0.5" min="0" max="1000" factor="1000">
+                <name>Y</name>
+        </parameter>
+        
+        <parameter type="animated" name="X size" default="0.28" min="0" max="25" factor="25">
+                <name>X size</name>
+        </parameter>
+
+        <parameter type="animated" name="Y size" default="0.28" min="0" max="25" factor="25">
+                <name>Y size</name>
+        </parameter>
+        
+        <parameter type="bool" name="256 scale" default="0">
+                <name>256 scale</name>
+        </parameter>
+        
+        <parameter type="bool" name="Show alpha" default="0">
+                <name>Show alpha</name>
+        </parameter>
+        
+        <parameter type="bool" name="Big window" default="0">
+                <name>Big window</name>
+        </parameter>
+        
+</effect>

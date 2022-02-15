@@ -1,30 +1,16 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef KDENLIVE_BIN_H
 #define KDENLIVE_BIN_H
 
 #include "abstractprojectitem.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KMessageWidget>
 
@@ -93,11 +79,12 @@ protected:
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
-    void displayBinFrame(QModelIndex ix, int frame);
+    void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
     void processDragEnd();
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
+    QModelIndex m_lastHoveredItem;
 };
 
 /** @class MyTreeView
@@ -126,6 +113,7 @@ protected slots:
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
+    QModelIndex m_lastHoveredItem;
     bool m_editing;
     bool performDrag();
     bool isEditing() const;
@@ -133,7 +121,7 @@ private:
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
-    void displayBinFrame(QModelIndex ix, int frame);
+    void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
     void processDragEnd();
     void selectCurrent();
     void editingChanged();
@@ -208,13 +196,13 @@ class Bin : public QWidget
     enum BinViewType { BinTreeView, BinIconView };
 
 public:
-    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr);
+    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true);
     ~Bin() override;
 
     bool isLoading;
     void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
-    void setDocument(KdenliveDoc *project);
+    const QString setDocument(KdenliveDoc *project, const QString &id = QString());
     /** @brief Delete all project related data, to be called before setDocument  */
     void cleanDocument();
 
@@ -246,7 +234,7 @@ public:
     PlaylistState::ClipState getClipState(int itemId) const;
 
     /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
-    void addClipMarker(const QString binId, QList<int> positions, QStringList comments = {});
+    void addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments = {});
 
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
@@ -334,7 +322,7 @@ public:
     /** @brief Save folder state (expanded or not) */
     void saveFolderState();
     /** @brief Load folder state (expanded or not) */
-    void loadFolderState(QStringList foldersToExpand);
+    void loadFolderState(const QStringList &foldersToExpand);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
@@ -350,9 +338,13 @@ public:
      * @param zones the source cli pzones that will be put in the result playlist
      * @param properties some extra properties that will be set on the producer
      * @param createNew if true, the playlist will be added as a new clip in project binId */
-    void savePlaylist(const QString &binId, QString savePath, QVector<QPoint> zones, QMap<QString, QString> properties, bool createNew);
-    /** @brief A non seekable clip was added to project, propose transcoding */
-    void requestTranscoding(const QString &url, const QString &id);
+    void savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew);
+    /** @brief Do some checks on the profile */
+    static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
+    /** @brief Should we process a profile check for added clips */
+    std::atomic<bool> shouldCheckProfile;
+    /** @brief Set the message for key binding info. */
+    void updateKeyBinding(const QString &bindingMessage = QString());
 
 private slots:
     void slotAddClip();
@@ -378,11 +370,6 @@ private slots:
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();
-    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
-    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
-    void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
-    void slotTagDropped(const QString &tag, const QModelIndex &parent);
-    void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
     /** @brief Reset all text and log data from info message widget. */
     void slotResetInfoMessage();
@@ -406,17 +393,19 @@ private slots:
     void showClearButton(bool show);
     /** @brief Display a defined frame in bin clip thumbnail
      */
-    void showBinFrame(QModelIndex ix, int frame);
+    void showBinFrame(const QModelIndex &ix, int frame, bool storeFrame = false);
     /** @brief Switch a tag on/off on current selection
      */
     void switchTag(const QString &tag, bool add);
     /** @brief Update project tags
      */
-    void updateTags(QMap <QString, QString> tags);
-    void rebuildFilters(QMap <QString, QString> tags);
+    void updateTags(const QMap <QString, QString> &tags);
+    void rebuildFilters(const QMap <QString, QString> &tags);
     /** @brief Switch a tag on  a clip list
      */
-    void editTags(QList <QString> allClips, const QString &tag, bool add);
+    void editTags(const QList <QString> &allClips, const QString &tag, bool add);
+    /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
+    void updateClipsCount();
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
@@ -433,12 +422,18 @@ public slots:
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
+    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
+    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
+    void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
+    void slotTagDropped(const QString &tag, const QModelIndex &parent);
+    void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
     /** @brief Open current clip in an external editing application */
-    void slotOpenClip();
+    void slotOpenClipExtern();
     void slotDuplicateClip();
     void slotLocateClip();
+    void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Add extra data to a clip. */
-    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString(), QUndoCommand *groupCommand = nullptr);
+    void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString());
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotAddEffect(QString id, const QStringList &effectData);
@@ -467,6 +462,12 @@ public slots:
     bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
     /** @brief Set the project model for this document (can be a secondary model) */
     void setProjectModel(std::shared_ptr<ProjectItemModel> model);
+    /** @brief Check if a clip profile matches project, propose switch otherwise */
+    void slotCheckProfile(const QString &binId);
+    /** @brief A non seekable clip was added to project, propose transcoding */
+    void requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix = QString());
+    /** @brief Build the project bin audio/video icons according to color theme */
+    void slotUpdatePalette();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
@@ -479,6 +480,7 @@ protected:
     QSize sizeHint() const override;
 
 private:
+    bool m_isMainBin;
     std::shared_ptr<ProjectItemModel> m_itemModel;
     QAbstractItemView *m_itemView;
     BinItemDelegate *m_binTreeViewDelegate;
@@ -518,6 +520,9 @@ private:
     QAction *m_locateAction;
     QAction *m_proxyAction;
     QAction *m_deleteAction;
+    QAction *m_openInBin;
+    QAction *m_addClip;
+    QAction *m_createFolderAction;
     QAction *m_renameAction;
     QMenu *m_jobsMenu;
     QAction *m_cancelJobs;
@@ -554,9 +559,8 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    QAction *addAction(const QString &name, const QString &text, const QIcon &icon);
+    QAction *addAction(const QString &name, const QString &text, const QIcon &icon, const QString &category = {});
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
-    void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
@@ -564,6 +568,10 @@ private:
     void processAudioThumbs();
     void updateSortingAction(int ix);
     int wheelAccumulatedDelta;
+    QString m_keyBindingMessage;
+    QString m_clipsCountMessage;
+    /** @brief Show the clip count and key binfing info in status bar. */
+    void showBinInfo();
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
@@ -575,6 +583,7 @@ signals:
     void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
     void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    void requestShowClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Request that the given clip is displayed in the clip monitor */
     void requestClipShow(std::shared_ptr<ProjectClip>);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
@@ -595,6 +604,7 @@ signals:
     void deleteMarkers();
     /** @brief Selected all markers in clip properties dialog. */
     void selectMarkers();
+    void requestBinClose();
 };
 
 #endif

@@ -1,40 +1,29 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Nicolas Carion                                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Nicolas Carion
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "buttonparamwidget.hpp"
 #include "boolparamwidget.hpp"
-#include "fontparamwidget.hpp"
-#include "keywordparamwidget.hpp"
+#include "buttonparamwidget.hpp"
+#include "clickablelabelwidget.hpp"
 #include "coloreditwidget.hpp"
 #include "curves/bezier/beziersplineeditor.h"
 #include "curves/cubic/kis_cubic_curve.h"
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
-#include "clickablelabelwidget.hpp"
+#include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
 #include "keyframewidget.hpp"
+#include "keywordparamwidget.hpp"
+#include "listdependencyparamwidget.h"
 #include "listparamwidget.h"
 #include "lumaliftgainparam.hpp"
+#include "multiswitchparamwidget.hpp"
 #include "positioneditwidget.hpp"
 #include "slidewidget.hpp"
 #include "switchparamwidget.hpp"
@@ -60,18 +49,18 @@ public:
     void setText(const QString &str) { m_label->setText(str); }
     void slotRefresh() override {}
 
-protected:
+private:
     QLabel *m_label;
 };
 
-AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_index(index)
 {
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QSize frameSize, QWidget *parent)
+AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -83,6 +72,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     switch (type) {
     case ParamType::Double:
         widget = new DoubleParamWidget(model, index, parent);
+        break;
+    case ParamType::ListWithDependency:
+        widget = new ListDependencyParamWidget(model, index, parent);
         break;
     case ParamType::List:
         widget = new ListParamWidget(model, index, parent);
@@ -96,6 +88,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::KeyframeParam:
     case ParamType::AnimatedRect:
     case ParamType::Roto_spline:
+    case ParamType::ColorWheel:
         widget = new KeyframeWidget(model, index, frameSize, parent);
         break;
     case ParamType::Geometry:
@@ -107,14 +100,14 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Color:
         widget = new ColorEditWidget(model, index, parent);
         break;
-    case ParamType::ColorWheel:
-        widget = new LumaLiftGainParam(model, index, parent);
-        break;
     case ParamType::Wipe:
         widget = new SlideWidget(model, index, parent);
         break;
     case ParamType::Switch:
         widget = new SwitchParamWidget(model, index, parent);
+        break;
+    case ParamType::MultiSwitch:
+        widget = new MultiSwitchParamWidget(model, index, parent);
         break;
     case ParamType::Url:
         widget = new UrlParamWidget(model, index, parent);

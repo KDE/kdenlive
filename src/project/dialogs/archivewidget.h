@@ -1,22 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartalb.uber.space)   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartalb.uber.space>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef ARCHIVEWIDGET_H
 #define ARCHIVEWIDGET_H
@@ -47,7 +34,7 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent = nullptr);
+    ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent = nullptr);
     // Constructor for extracting widget
     explicit ArchiveWidget(QUrl url, QWidget *parent = nullptr);
     ~ArchiveWidget() override;
@@ -121,13 +108,13 @@ private:
     * @param destPrefix (optional) prefix to put before each new file path
     * @returns the doc's content with replaced urls
     */
-    QString processMltFile(QDomDocument doc, const QString &destPrefix = QString());
-    /** @brief If the given element cointains the property its content (url) will be converted to a relativ file path
+    QString processMltFile(const QDomDocument &doc, const QString &destPrefix = QString());
+    /** @brief If the given element contains the property its content (url) will be converted to a relative file path
      *  @param e the dom element  that might contains the property
      *  @param propertyName name of the property that should be checked
      *  @param root rootpath of the parent mlt document
     */
-    void propertyProcessUrl(QDomElement e, QString propertyName, QString root);
+    void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
 
 signals:
     void archivingFinished(bool);

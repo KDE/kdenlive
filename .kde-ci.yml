@@ -1,0 +1,36 @@
+Dependencies:
+- 'on': ['Linux', 'FreeBSD', 'Windows', 'macOS']
+  'require':
+    'frameworks/extra-cmake-modules': '@stable'
+    'frameworks/breeze-icons' : '@stable'
+    'frameworks/karchive' : '@stable'
+    'frameworks/kbookmarks' : '@stable'
+    'frameworks/kconfig' : '@stable'
+    'frameworks/kconfigwidgets' : '@stable'
+    'frameworks/kcompletion' : '@stable'
+    'frameworks/kcoreaddons' : '@stable'
+    'frameworks/kcrash' : '@stable'
+    'frameworks/kdbusaddons' : '@stable'
+    'frameworks/kdeclarative' : '@stable'
+    'frameworks/kguiaddons' : '@stable'
+    'frameworks/ki18n' : '@stable'
+    'frameworks/kiconthemes' : '@stable'
+    'frameworks/kinit' : '@stable'
+    'frameworks/kio' : '@stable'
+    'frameworks/kitemviews' : '@stable'
+    'frameworks/kjobwidgets' : '@stable'
+    'frameworks/knewstuff' : '@stable'
+    'frameworks/knotifications' : '@stable'
+    'frameworks/knotifyconfig' : '@stable'
+    'frameworks/kplotting' : '@stable'
+    'frameworks/kservice' : '@stable'
+    'frameworks/ktextwidgets' : '@stable'
+    'frameworks/kwidgetsaddons' : '@stable'
+    'frameworks/kxmlgui' : '@stable'
+    'frameworks/kfilemetadata' : '@stable'
+    'frameworks/purpose' : '@stable'
+    #'plasma/breeze' : '@stable' #do we need this?
+
+#- 'on': ['Linux', 'FreeBSD']
+  #'require':
+    #'plasma/drkonqi' : '@stable'

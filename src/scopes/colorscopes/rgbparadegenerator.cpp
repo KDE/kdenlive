@@ -1,18 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "rgbparadegenerator.h"
 #include "klocalizedstring.h"
 #include <QColor>
-#include <QPainter>
 #include <QDebug>
+#include <QPainter>
 
 #define CHOP255(a) ((255) < (a) ? (255) : int(a))
 #define CHOP1255(a) ((a) < (1) ? (1) : ((a) > (255) ? (255) : (a)))
@@ -62,7 +59,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     const uint partH = wh - distBottom;
 
     // Statistics
-    uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0, r, g, b;
+    uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0;
 
     // Number of input pixels that will fall on one scope pixel.
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
@@ -82,9 +79,9 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
         auto *col = reinterpret_cast<const QRgb *>(bits);
-        r = uchar(qRed(*col));
-        g = uchar(qGreen(*col));
-        b = uchar(qBlue(*col));
+        auto r = uchar(qRed(*col));
+        auto g = uchar(qGreen(*col));
+        auto b = uchar(qBlue(*col));
 
         double dx = x * double(wPrediv);
 

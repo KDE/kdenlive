@@ -1,35 +1,19 @@
-/***************************************************************************
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "buttonparamwidget.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "jobs/filtertask.h"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
+#include "jobs/filtertask.h"
 #include <mlt++/Mlt.h>
 
 #include <KMessageWidget>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QProgressBar>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -56,6 +40,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
 #endif
 
     QString conditionalInfo;
+    QString defaultValue;
     for (const QVariant &jobElement : qAsConst(filterData)) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
@@ -63,19 +48,17 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 conditionalInfo = d.at(1);
             } else if (d.at(0) == QLatin1String("key")) {
                 m_keyParam = d.at(1);
+            } else if (d.at(0) == QLatin1String("keydefault")) {
+                defaultValue = d.at(1);
             }
         }
     }
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    m_displayConditional = true;
-    for (const auto &param : qAsConst(filterParams)) {
-        if (param.first == m_keyParam) {
-            if (!param.second.toString().isEmpty()) {
-                m_displayConditional = false;
-            }
-            break;
-        }
-    }
+    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
+    };
+    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+
     if (!conditionalInfo.isEmpty()) {
         m_label = new KMessageWidget(conditionalInfo, this);
         m_label->setWordWrap(true);
@@ -94,11 +77,49 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
     // emit the signal of the base class when appropriate
-    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams]() {
+    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
         // Trigger job
+        bool isTracker = m_model->getAssetId() == QLatin1String("opencv.tracker");
         if (!m_displayConditional) {
             QVector<QPair<QString, QVariant>> values;
-            values << QPair<QString, QVariant>(m_keyParam,QVariant());
+            if (isTracker) {
+                // Tracker needs some special config on reset
+                QString current = m_model->getAsset()->get(m_keyParam.toUtf8().constData());
+                if (!current.isEmpty()) {
+                    // Extract first keyframe
+                    current = current.section(QLatin1Char('='), 1);
+                    current = current.section(QLatin1Char(';'), 0, 0);
+                }
+                if (current.isEmpty()) {
+                    if (defaultValue.contains(QLatin1Char('%'))) {
+                        QSize pSize = pCore->getCurrentFrameDisplaySize();
+                        QStringList numbers = defaultValue.split(QLatin1Char(' '));
+                        int ix = 0;
+                        for ( QString &val : numbers) {
+                            if (val.endsWith(QLatin1Char('%'))) {
+                                val.chop(1);
+                                double n = val.toDouble()/100.;
+                                if (ix %2 == 0) {
+                                    n *= pSize.width();
+                                } else {
+                                    n *= pSize.height();
+                                }
+                                ix++;
+                                current.append(QString("%1 ").arg(qRound(n)));
+                            } else {
+                                current.append(QString("%1 ").arg(val));
+                            }
+                        }
+                    } else {
+                        current = defaultValue;
+                    }
+                }
+                //values << QPair<QString, QVariant>(QString("rect"),current);
+                //values << QPair<QString, QVariant>(QString("_reset"),1);
+                values << QPair<QString, QVariant>(m_keyParam,current);
+            } else {
+                values << QPair<QString, QVariant>(m_keyParam,defaultValue);
+            }
             auto *command = new AssetUpdateCommand(m_model, values);
             pCore->pushUndo(command);
             return;
@@ -131,7 +152,18 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
         for (const auto &param : qAsConst(filterLastParams)) {
             if (param.first != m_keyParam) {
-                fParams.insert({param.first, param.second});
+                if (!isTracker || param.first != QLatin1String("rect")) {
+                    fParams.insert({param.first, param.second});
+                }
+            } else if (isTracker) {
+                QString initialRect = param.second.toString();
+                if (initialRect.contains(QLatin1Char('='))) {
+                    initialRect = initialRect.section(QLatin1Char('='), 1);
+                }
+                if (initialRect.contains(QLatin1Char(';'))) {
+                    initialRect = initialRect.section(QLatin1Char(';'), 0, 0);
+                }
+                fParams.insert({QStringLiteral("rect"), initialRect});
             }
         }
         for (const QString &fparam : filterAddedParams) {
@@ -163,13 +195,11 @@ void ButtonParamWidget::slotShowComment(bool show)
 void ButtonParamWidget::slotRefresh()
 {
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    m_displayConditional = true;
-    for (const auto &param : qAsConst(filterParams)) {
-        if (param.first == m_keyParam && !param.second.isNull()) {
-            m_displayConditional = false;
-            break;
-        }
-    }
+    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
+    };
+    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+
     if (m_label) {
         m_label->setVisible(m_displayConditional);
     }

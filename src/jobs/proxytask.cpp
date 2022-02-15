@@ -1,22 +1,8 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "proxytask.h"
 #include "bin/bin.h"
@@ -48,7 +34,7 @@ void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::PROXYJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
@@ -75,7 +61,7 @@ void ProxyTask::run()
         m_progress = 100;
         pCore->taskManager.taskDone(m_owner.second, this);
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
+        QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString,dest));
         return;
     }
 
@@ -103,6 +89,7 @@ void ProxyTask::run()
             if (playlist->open()) {
                 source = playlist->fileName();
                 QTextStream out(playlist);
+                out.setCodec("UTF-8");
                 out << doc.toString();
                 playlist->close();
             }
@@ -122,6 +109,8 @@ void ProxyTask::run()
                 parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
             }
         }
+        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+        parameter.replace(QStringLiteral("%width"), QString::number(proxyResize));
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
@@ -189,6 +178,7 @@ void ProxyTask::run()
 
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        qDebug()<<" :: STARTING PLAYLIST PROXY: "<<mltParameters;
         QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
@@ -201,7 +191,8 @@ void ProxyTask::run()
         QImage i(source);
         if (i.isNull()) {
             result = false;
-            m_errorMessage.append(i18n("Cannot load image %1.", source));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot load image %1.", source)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             m_progress = 100;
             pCore->taskManager.taskDone(m_owner.second, this);
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
@@ -260,7 +251,8 @@ void ProxyTask::run()
         m_isFfmpegJob = true;
         if (!QFileInfo(KdenliveSettings::ffmpegpath()).isFile()) {
             // FFmpeg not detected, cannot process the Job
-            m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             result = true;
             m_progress = 100;
             pCore->taskManager.taskDone(m_owner.second, this);
@@ -317,6 +309,8 @@ void ProxyTask::run()
                 }
             }
         }
+        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+        proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
         bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
         if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
@@ -363,18 +357,22 @@ void ProxyTask::run()
             QFile::remove(dest);
             // File was not created
             result = false;
-            m_errorMessage.append(i18n("Failed to create proxy clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create proxy clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
             if (binClip) {
                 binClip->setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             }
         } else if (binClip) {
             // Job successful
-            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(const QString&,dest));
+            QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString,dest));
         }
     } else {
         // Proxy process crashed
         QFile::remove(dest);
-        m_errorMessage.append(QString::fromUtf8(m_jobProcess->readAll()));
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create proxy clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
     }
     return;
 }
@@ -383,7 +381,6 @@ void ProxyTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
-    int progress = 0;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -398,6 +395,7 @@ void ProxyTask::processLogInfo()
                 }
             }
         } else if (buffer.contains(QLatin1String("time="))) {
+            int progress = 0;
             QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (!time.isEmpty()) {
                 QStringList numbers = time.split(QLatin1Char(':'));

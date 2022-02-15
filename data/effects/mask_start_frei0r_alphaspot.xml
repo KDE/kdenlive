@@ -1,0 +1,48 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="mask_start" id="mask_start-frei0r.alphaspot" dependency="frei0r.alphaspot">
+        <name>Alpha shapes (Mask)</name>
+        <description>This filter makes a snapshot of the frame before it draws simple shapes into the alpha channel. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
+        <author>Marko Cebokli, Dan Dennedy</author>
+        <parameter type="list" name="filter.Shape" default="0" paramlist="0;0.38;0.62;1">
+                <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>
+                <name>Shape</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Position X" default="0.5" min="-500" max="1500" factor="1000">
+                <name>Position X</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Position Y" default="0.5" min="-500" max="1500" factor="1000">
+                <name>Position Y</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Size X" default="0.1" min="0" max="1000" factor="1000">
+                <name>Size X</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Size Y" default="0.1" min="0" max="1000" factor="1000">
+                <name>Size Y</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Tilt" default="0.5" min="0" max="1000" factor="1000">
+                <name>Tilt</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Transition width" default="0.2" min="0" max="1000" factor="1000">
+                <name>Transition width</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Min" default="0" min="0" max="1000" factor="1000">
+                <name>Min</name>
+        </parameter>
+
+        <parameter type="animated" name="filter.Max" default="1" min="0" max="1000" factor="1000">
+                <name>Max</name>
+        </parameter>
+
+        <parameter type="list" name="filter.Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
+                <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                <name>Operation</name>
+        </parameter>
+
+</effect>

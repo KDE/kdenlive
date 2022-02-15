@@ -1,0 +1,32 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.flanger" id="avfilter.flanger" type="audio">
+	<name>Flanger</name>
+	<description>Apply a flanging effect to the audio. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.delay" default="0" min="0" max="30" suffix=" ms">
+        <name>Delay</name><comment>Set base delay in milliseconds. Range from 0 to 30.</comment>
+        </parameter>
+	<parameter type="constant" name="av.depth" default="2" min="0" max="10" suffix=" ms">
+                <name>Depth</name><comment>Set added sweep delay in milliseconds. Range from 0 to 10.</comment>
+        </parameter>
+	<parameter type="constant" name="av.regen" default="0" min="-95" max="95" decimals="2">
+                <name>Regeneration</name><comment>Set percentage regeneration (delayed signal feedback). Range from -95 to 95.</comment>
+        </parameter>
+        	<parameter type="constant" name="av.width" default="71" min="0" max="100" decimals="2">
+                <name>Width</name><comment>Set percentage of delayed signal mixed with original. Range from 0 to 100.</comment>
+        </parameter>
+        <parameter type="constant" name="av.speed" default="0.5" min="0.1" max="10" decimals="2">
+                <name>Speed</name><comment>Set sweeps per second (Hz). Range from 0.1 to 10.</comment>
+        </parameter>
+        <parameter type="list" name="av.shape" default="s" paramlist="t;s">
+            <paramlistdisplay>Triangular,Sinusoidal</paramlistdisplay>
+                <name>Shape</name><comment>Set swept wave shape, can be triangular or sinusoidal. </comment>
+        </parameter>
+        <parameter type="constant" name="av.phase" default="25" min="0" max="100">
+                <name>Phase</name><comment>Set swept wave percentage-shift for multi channel. Range from 0 to 100. </comment>
+        </parameter>
+        <parameter type="list" name="av.interp" default="linear" paramlist="linear;quadratic">
+            <paramlistdisplay>Linear,Quadratic</paramlistdisplay>
+                <name>Interpolation</name><comment>Set delay-line interpolation, linear or quadratic.</comment>
+        </parameter>
+</effect>

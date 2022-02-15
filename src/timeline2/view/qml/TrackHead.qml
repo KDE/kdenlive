@@ -1,20 +1,9 @@
 /*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
@@ -37,6 +26,12 @@ Rectangle {
     property int thumbsFormat: 0
     border.width: 1
     border.color: root.frameColor
+
+    function editName() {
+        nameEdit.visible = true
+        nameEdit.focus = true
+        nameEdit.selectAll()
+    }
 
     onIsLockedChanged: {
         flashLock.restart();
@@ -239,7 +234,7 @@ Rectangle {
                     source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
                     anchors.centerIn: parent
                     width: root.collapsedHeight - 4
-                    height: root.collapsedHeight - 4
+                    height: width
                     cache: root.paletteUnchanged
                 }
             }
@@ -365,6 +360,23 @@ Rectangle {
             ]
         }
         Label {
+            // Debug: trackId
+            anchors.left: trackLed.right
+            background: Rectangle {
+                color: 'magenta'
+            }
+            anchors.leftMargin: 2
+            width: root.trackTagWidth
+            height: root.collapsedHeight - 2
+            y: 1
+            text: trackHeadRoot.trackId
+            elide: Text.ElideRight
+            font: miniFont
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            visible: root.debugmode
+        }
+        Label {
             anchors.left: trackLed.right
             anchors.top: parent.top
             anchors.leftMargin: 2
@@ -390,7 +402,7 @@ Rectangle {
                         source: "image://icon/tools-wizard"
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                         opacity: effectButton.enabled ? 1 : 0.5
                     }
@@ -404,6 +416,20 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
+                ToolTip {
+                    visible: effectButton.hovered
+                    font: miniFont
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
+                    }
+                }
             }
             ToolButton {
                 id: muteButton
@@ -413,13 +439,13 @@ Rectangle {
                         source: isAudio ? (isDisabled ? "image://icon/kdenlive-hide-audio" : "image://icon/kdenlive-show-audio") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                     }
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: controller.hideTrack(trackId, isDisabled ? (isAudio ? '1' : '2') : '3')
+                onClicked: controller.hideTrack(trackId, isDisabled)
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
@@ -446,7 +472,7 @@ Rectangle {
                         source: trackHeadRoot.isLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
-                        height: root.collapsedHeight - 4
+                        height: width
                         cache: root.paletteUnchanged
                     }
                 }
@@ -518,11 +544,7 @@ Rectangle {
                     hoverEnabled: true
                     propagateComposedEvents: true
                     cursorShape: Qt.IBeamCursor
-                    onDoubleClicked: {
-                        nameEdit.visible = true
-                        nameEdit.focus = true
-                        nameEdit.selectAll()
-                    }
+                    onDoubleClicked: editName()
                     onClicked: {
                         timeline.showTrackAsset(trackId)
                         timeline.activeTrack = trackId
@@ -570,6 +592,7 @@ Rectangle {
                     }*/
                     onEditingFinished: {
                         controller.setTrackName(trackId, text)
+                        tracksArea.focus = true
                         visible = false
                     }
                 }

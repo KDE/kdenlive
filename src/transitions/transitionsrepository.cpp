@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "transitionsrepository.hpp"
 #include "core.h"
@@ -60,7 +44,7 @@ Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
 
 Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) const
 {
-    return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());
+    return pCore->getMltRepository()->metadata(mlt_service_transition_type, assetId.toLatin1().data());
 }
 
 void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
@@ -89,7 +73,6 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         if (!ok) {
             continue;
         }
-
         if (customAssets.count(result.id) > 0) {
             //qDebug() << "duplicate transition" << result.id;
         }
@@ -99,6 +82,13 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
+        }
+        if (getSingleTrackTransitions().contains(result.id)) {
+            if (type == QLatin1String("audio")) {
+                result.type = AssetListType::AssetType::AudioTransition;
+            } else {
+                result.type = AssetListType::AssetType::VideoTransition;
+            }
         }
         customAssets[result.id] = result;
     }
@@ -138,7 +128,7 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
 QSet<QString> TransitionsRepository::getSingleTrackTransitions()
 {
     // Disabled until same track transitions is implemented
-    return {/*QStringLiteral("composite"), QStringLiteral("dissolve")*/};
+    return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
 QString TransitionsRepository::assetBlackListPath() const
@@ -163,6 +153,12 @@ std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QStr
     return transition;
 }
 
+bool TransitionsRepository::isAudio(const QString &transitionId) const
+{
+    auto type = getType(transitionId);
+    return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::AudioTransition;
+}
+
 bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
@@ -174,11 +170,14 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
-    if (exists(QStringLiteral("qtblend"))) {
-        return QStringLiteral("qtblend");
+    if (KdenliveSettings::preferredcomposite() != i18n("auto") && exists(KdenliveSettings::preferredcomposite())) {
+        return KdenliveSettings::preferredcomposite();
     }
     if (exists(QStringLiteral("frei0r.cairoblend"))) {
         return QStringLiteral("frei0r.cairoblend");
+    }
+    if (exists(QStringLiteral("qtblend"))) {
+        return QStringLiteral("qtblend");
     }
     if (exists(QStringLiteral("composite"))) {
         return QStringLiteral("composite");

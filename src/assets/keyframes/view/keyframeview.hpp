@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Till Theato (root@ttill.de)                     *
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive (www.kdenlive.org).                     *
- *                                                                         *
- *   Kdenlive is free software: you can redistribute it and/or modify      *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Kdenlive is distributed in the hope that it will be useful,           *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYFRAMEVIEW2_H
 #define KEYFRAMEVIEW2_H
@@ -32,11 +19,11 @@ class KeyframeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, int inPoint, QWidget *parent = nullptr);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
     void setDuration(int dur, int inPoint);
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
-    void copyCurrentValue(QModelIndex ix, const QString paramName);
+    void copyCurrentValue(const QModelIndex &ix, const QString &paramName);
 
 public slots:
     /** @brief moves the current position*/
@@ -44,11 +31,11 @@ public slots:
     /** @brief remove the keyframe at given position
        If pos is negative, we remove keyframe at current position
      */
-    void slotRemoveKeyframe(QVector<int> positions);
+    void slotRemoveKeyframe(const QVector<int> &positions);
     /** @brief Add a keyframe with given parameter value at given pos.
        If pos is negative, then keyframe is added at current position
     */
-    void slotAddKeyframe(int pos = -1);
+    bool slotAddKeyframe(int pos = -1);
     /** @brief Duplicate selected keyframe at cursor position
     */
     void slotDuplicateKeyframe();
@@ -59,6 +46,7 @@ public slots:
     void slotGoToNext();
     void slotGoToPrev();
     void slotModelChanged();
+    void slotModelDisplayChanged();
     void slotEditType(int type, const QPersistentModelIndex &index);
     /** @brief Emit initial info for monitor. */
     void initKeyframePos();
@@ -76,9 +64,7 @@ protected:
 private:
     std::shared_ptr<KeyframeModelList> m_model;
     int m_duration;
-    int m_inPoint;
     int m_position;
-    int m_currentKeyframe;
     int m_currentKeyframeOriginal;
     QVector <int>m_selectedKeyframes;
     int m_hoverKeyframe;
@@ -89,6 +75,7 @@ private:
     double m_zoomFactor;
     double m_zoomStart;
     bool m_moveKeyframeMode;
+    bool m_keyframeZonePress;
     int m_clickPoint;
     int m_clickEnd;
     /** @brief The zoom factor (start, end - between 0 and 1) */

@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+    <effect LC_NUMERIC="C" tag="frei0r.B" id="frei0r.B">
+	    <name>Channel Extractor BLUE</name>
+	    <description>Extracts Blue from Image</description>
+	    <author>Richard Spindler</author>
+    </effect>

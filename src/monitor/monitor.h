@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MONITOR_H
 #define MONITOR_H
@@ -23,9 +10,9 @@
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "scopes/sharedframe.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QTimer>
 #include <QToolBar>
@@ -81,9 +68,7 @@ public:
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);
-    void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), const QString overlayData = QString());
     const QString activeClipId();
     int position();
     void updateTimecodeFormat();
@@ -113,7 +98,7 @@ public:
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);
     void restart();
-    void mute(bool, bool updateIconOnly = false) override;
+    void mute(bool) override;
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();
@@ -156,6 +141,10 @@ public:
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
     void updateDocumentUuid();
+    /** @brief Focus the timecode to allow editing*/
+    void focusTimecode();
+    /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
+    void fixFocus();
     
 
 protected:
@@ -200,6 +189,7 @@ private:
     TimecodeDisplay *m_timePos;
     KDualAction *m_playAction;
     KSelectAction *m_forceSize;
+    KSelectAction *m_background;
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_zoomVisibilityAction;
@@ -216,6 +206,12 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
+    QToolBar *m_trimmingbar;
+    QAction *m_oneLess;
+    QAction *m_oneMore;
+    QAction *m_fiveLess;
+    QAction *m_fiveMore;
+    QLabel *m_trimmingOffset;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
@@ -228,9 +224,10 @@ private:
     int m_speedIndex;
     QMetaObject::Connection m_switchConnection;
     std::shared_ptr<MarkerListModel> m_markersModel;
+    QMetaObject::Connection m_captureConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
-    void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
@@ -245,10 +242,11 @@ private slots:
     void slotExtractCurrentZone();
     void onFrameDisplayed(const SharedFrame &frame);
     void slotStartDrag();
-    void setZoom();
+    void setZoom(float zoomRatio);
     void slotAdjustEffectCompare();
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
+    void buildBackgroundedProducer(int pos);
     void slotSeekToKeyFrame();
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
@@ -268,7 +266,7 @@ private slots:
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
     /** @brief Process seek and optionally pause monitor */
-    void processSeek(int pos);
+    void processSeek(int pos, bool noAudioScrub = false);
     /** @brief Check and display dropped frames */
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
@@ -298,6 +296,18 @@ public slots:
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
+    /** @brief Set position and information for the trimming preview
+    * @param pos Absolute position in frames
+    * @param offset Difference in frames beetween @p pos and the current position (to be displayed in the monitor toolbar)
+    * @param frames1 Position in frames to be displayed in the monitor overlay for preview tile one
+    * @param frames2 Position in frames to be displayed in the monitor overlay for preview tile two
+    */
+    void slotTrimmingPos(int pos, int offset, int frames1, int frames2);
+    /** @brief Move the position for the trimming preview by the given offset
+    * @param offset How many frames the position should be moved
+    * @see slotTrimmingPos
+    */
+    void slotTrimmingPos(int offset);
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd();
@@ -309,7 +319,7 @@ public slots:
     void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, QVariant sceneData = QVariant());
+    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, const QVariant &sceneData = QVariant());
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
@@ -317,6 +327,8 @@ public slots:
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
+    /** @brief Display or hide the trimming toolbar and monitor scene*/
+    void slotSwitchTrimming(bool enable);
     /** @brief Request QImage of current frame */
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
@@ -326,13 +338,16 @@ public slots:
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;
+    void refreshMonitor(bool directUpdate = false);
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
+    void seekTimeline(const QString &frameAndTrack);
 
 signals:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
+    void seekRemap(int pos);
     void updateScene();
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
@@ -362,9 +377,7 @@ signals:
     void seekToNextSnap();
     void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
-    void acceptRipple(bool);
-    void switchTrimMode(int);
-    void activateTrack(int);
+    void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
 };
 

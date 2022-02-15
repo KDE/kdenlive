@@ -306,7 +306,7 @@
       <item row="0" column="6">
        <widget class="QLabel" name="label_height">
         <property name="text">
-         <string>H</string>
+         <string>H:</string>
         </property>
        </widget>
       </item>
@@ -344,7 +344,7 @@
       <item row="0" column="4">
        <widget class="QLabel" name="label_width">
         <property name="text">
-         <string>W</string>
+         <string>W:</string>
         </property>
        </widget>
       </item>
@@ -414,7 +414,7 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>Horizontal guides</string>
+          <string>Horizontal guides.</string>
          </property>
          <property name="value">
           <number>2</number>
@@ -427,7 +427,7 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>Vertical guides</string>
+          <string>Vertical guides.</string>
          </property>
          <property name="maximum">
           <number>99</number>
@@ -473,7 +473,7 @@
        <item row="3" column="6">
         <widget class="QCheckBox" name="show_guides">
          <property name="text">
-          <string>Show guides</string>
+          <string>Show guides:</string>
          </property>
         </widget>
        </item>
@@ -498,14 +498,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
@@ -546,7 +546,7 @@
          <item>
           <widget class="QLabel" name="label_rotateX">
            <property name="text">
-            <string>X</string>
+            <string>X:</string>
            </property>
           </widget>
          </item>
@@ -569,7 +569,7 @@
          <item>
           <widget class="QLabel" name="label_rotateY">
            <property name="text">
-            <string>Y</string>
+            <string>Y:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -595,7 +595,7 @@
          <item>
           <widget class="QLabel" name="label_rotateZ">
            <property name="text">
-            <string>Z</string>
+            <string>Z:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -623,14 +623,14 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_duration">
          <property name="text">
-          <string>Duration</string>
+          <string>Duration:</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_itemzoom">
          <property name="text">
-          <string>Zoom</string>
+          <string>Zoom:</string>
          </property>
         </widget>
        </item>
@@ -703,7 +703,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>367</width>
+                    <width>388</width>
                     <height>542</height>
                    </rect>
                   </property>
@@ -747,7 +747,7 @@
                          </sizepolicy>
                         </property>
                         <property name="text">
-                         <string>Blur</string>
+                         <string>Blur:</string>
                         </property>
                        </widget>
                       </item>
@@ -766,14 +766,14 @@
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <property name="color">
+                        <property name="color" stdset="0">
                          <color alpha="100">
                           <red>0</red>
                           <green>0</green>
                           <blue>0</blue>
                          </color>
                         </property>
-                        <property name="alphaChannelEnabled">
+                        <property name="alphaChannelEnabled" stdset="0">
                          <bool>true</bool>
                         </property>
                        </widget>
@@ -787,7 +787,7 @@
                          </sizepolicy>
                         </property>
                         <property name="text">
-                         <string>Offset</string>
+                         <string>Offset:</string>
                         </property>
                        </widget>
                       </item>
@@ -830,7 +830,7 @@
                    <item row="6" column="3">
                     <widget class="QToolButton" name="buttonAlignCenter">
                      <property name="toolTip">
-                      <string>Align center</string>
+                      <string>Align center.</string>
                      </property>
                      <property name="text">
                       <string>...</string>
@@ -850,7 +850,7 @@
                    <item row="8" column="0">
                     <widget class="QLabel" name="label_lineSpacing">
                      <property name="text">
-                      <string>Line Spacing</string>
+                      <string>Line spacing:</string>
                      </property>
                     </widget>
                    </item>
@@ -873,7 +873,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>&amp;Gradient</string>
+                      <string>&amp;Gradient:</string>
                      </property>
                     </widget>
                    </item>
@@ -889,7 +889,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>So&amp;lid Color</string>
+                      <string>So&amp;lid color:</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -912,7 +912,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Outline</string>
+                      <string>Outline:</string>
                      </property>
                     </widget>
                    </item>
@@ -931,14 +931,14 @@
                       <item row="0" column="2">
                        <widget class="QLabel" name="label_variation">
                         <property name="text">
-                         <string>Variation</string>
+                         <string>Variation:</string>
                         </property>
                        </widget>
                       </item>
                       <item row="2" column="0" colspan="4">
                        <widget class="QGroupBox" name="groupBox_2">
                         <property name="title">
-                         <string>Expansion mode</string>
+                         <string>Expansion Mode</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -950,7 +950,7 @@
                          <item row="0" column="0">
                           <widget class="QRadioButton" name="tw_rd_char">
                            <property name="text">
-                            <string>by &amp;char</string>
+                            <string>By &amp;char</string>
                            </property>
                            <property name="checked">
                             <bool>true</bool>
@@ -960,21 +960,21 @@
                          <item row="0" column="1">
                           <widget class="QRadioButton" name="tw_rd_word">
                            <property name="text">
-                            <string>by &amp;word</string>
+                            <string>By &amp;word</string>
                            </property>
                           </widget>
                          </item>
                          <item row="1" column="0">
                           <widget class="QRadioButton" name="tw_rd_line">
                            <property name="text">
-                            <string>by &amp;line</string>
+                            <string>By &amp;line</string>
                            </property>
                           </widget>
                          </item>
                          <item row="1" column="1">
                           <widget class="QRadioButton" name="tw_rd_custom">
                            <property name="text">
-                            <string>custo&amp;m</string>
+                            <string>Custo&amp;m</string>
                            </property>
                           </widget>
                          </item>
@@ -984,7 +984,7 @@
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_frameStep">
                         <property name="text">
-                         <string>Frame step</string>
+                         <string>Frame step:</string>
                         </property>
                        </widget>
                       </item>
@@ -998,7 +998,7 @@
                       <item row="1" column="2">
                        <widget class="QLabel" name="label_seed">
                         <property name="text">
-                         <string>Seed</string>
+                         <string>Seed:</string>
                         </property>
                        </widget>
                       </item>
@@ -1054,7 +1054,7 @@
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>0</red>
                        <green>0</green>
@@ -1074,14 +1074,14 @@
                      <property name="flat">
                       <bool>false</bool>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>255</red>
                        <green>255</green>
                        <blue>255</blue>
                       </color>
                      </property>
-                     <property name="defaultColor">
+                     <property name="defaultColor" stdset="0">
                       <color>
                        <red>255</red>
                        <green>255</green>
@@ -1107,7 +1107,7 @@
                    <item row="7" column="0">
                     <widget class="QLabel" name="label_letterSpacing">
                      <property name="text">
-                      <string>Letter Spacing</string>
+                      <string>Letter spacing:</string>
                      </property>
                     </widget>
                    </item>
@@ -1133,14 +1133,14 @@
                    <item row="6" column="0">
                     <widget class="QLabel" name="label_textAlign">
                      <property name="text">
-                      <string>Align</string>
+                      <string>Align:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="6" column="4">
                     <widget class="QToolButton" name="buttonAlignRight">
                      <property name="toolTip">
-                      <string>Align right</string>
+                      <string>Align right.</string>
                      </property>
                      <property name="text">
                       <string>...</string>
@@ -1163,7 +1163,7 @@
                    <item row="6" column="2">
                     <widget class="QToolButton" name="buttonAlignLeft">
                      <property name="toolTip">
-                      <string>Align left</string>
+                      <string>Align left.</string>
                      </property>
                      <property name="text">
                       <string>...</string>
@@ -1241,7 +1241,7 @@
                <item row="0" column="0">
                 <widget class="QRadioButton" name="plain_rect">
                  <property name="text">
-                  <string>So&amp;lid Color</string>
+                  <string>So&amp;lid color:</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -1256,14 +1256,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1275,7 +1275,7 @@
                <item row="1" column="0">
                 <widget class="QRadioButton" name="gradient_rect">
                  <property name="text">
-                  <string>&amp;Gradient</string>
+                  <string>&amp;Gradient:</string>
                  </property>
                 </widget>
                </item>
@@ -1325,14 +1325,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1344,7 +1344,7 @@
                <item row="3" column="0">
                 <widget class="QLabel" name="label_borderWidth">
                  <property name="text">
-                  <string>Border Width</string>
+                  <string>Border width</string>
                  </property>
                 </widget>
                </item>
@@ -1444,14 +1444,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="color">
+             <property name="color" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor">
+             <property name="defaultColor" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
@@ -1470,7 +1470,7 @@
            <item row="0" column="0">
             <widget class="QToolButton" name="anim_start">
              <property name="text">
-              <string>Edit start</string>
+              <string>Edit start viewport</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1480,7 +1480,7 @@
            <item row="0" column="1">
             <widget class="QToolButton" name="anim_end">
              <property name="text">
-              <string>Edit end</string>
+              <string>Edit end viewport</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1584,7 +1584,7 @@
                 <bool>false</bool>
                </property>
                <property name="toolTip">
-                <string>Add pattern</string>
+                <string>Add pattern.</string>
                </property>
                <property name="text">
                 <string>...</string>
@@ -1601,7 +1601,7 @@
                 <bool>false</bool>
                </property>
                <property name="toolTip">
-                <string>Delete pattern</string>
+                <string>Delete pattern.</string>
                </property>
                <property name="text">
                 <string>...</string>
@@ -1615,7 +1615,7 @@
              <item>
               <widget class="QToolButton" name="btn_removeAll">
                <property name="toolTip">
-                <string>Delete all patterns</string>
+                <string>Delete all patterns.</string>
                </property>
                <property name="text">
                 <string>...</string>
@@ -1682,7 +1682,7 @@
           <item>
            <widget class="QToolButton" name="itemleft">
             <property name="toolTip">
-             <string>Align item to left</string>
+             <string>Align item to left.</string>
             </property>
             <property name="text">
              <string>...</string>
@@ -1696,7 +1696,7 @@
           <item>
            <widget class="QToolButton" name="itemhcenter">
             <property name="toolTip">
-             <string>Align item horizontally</string>
+             <string>Align item horizontally.</string>
             </property>
             <property name="text">
              <string>...</string>
@@ -1710,7 +1710,7 @@
           <item>
            <widget class="QToolButton" name="itemright">
             <property name="toolTip">
-             <string>Align item to right</string>
+             <string>Align item to right.</string>
             </property>
             <property name="text">
              <string>...</string>
@@ -1724,7 +1724,7 @@
           <item>
            <widget class="QToolButton" name="itemtop">
             <property name="toolTip">
-             <string>Align item to top</string>
+             <string>Align item to top.</string>
             </property>
             <property name="text">
              <string>...</string>
@@ -1738,7 +1738,7 @@
           <item>
            <widget class="QToolButton" name="itemvcenter">
             <property name="toolTip">
-             <string>Align item vertically</string>
+             <string>Align item vertically.</string>
             </property>
             <property name="text">
              <string>...</string>
@@ -1752,7 +1752,7 @@
           <item>
            <widget class="QToolButton" name="itembottom">
             <property name="toolTip">
-             <string>Align item to bottom</string>
+             <string>Align item to bottom.</string>
             </property>
             <property name="text">
              <string>...</string>

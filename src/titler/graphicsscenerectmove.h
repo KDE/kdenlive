@@ -1,22 +1,9 @@
-/***************************************************************************
- *   copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)                                  *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GRAPHICSSCENERECTMOVE_H
 #define GRAPHICSSCENERECTMOVE_H
@@ -60,7 +47,7 @@ public:
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
     void loadShadow(const QStringList &info);
-    void updateTW(bool enabled, int mode, int step, int sigma, int seed);
+    void updateTW(bool enabled, int step, int mode, int sigma, int seed);
     QStringList twInfo() const;
     void loadTW(const QStringList &info);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt) override;
@@ -80,14 +67,14 @@ private:
     void updateShadow();
     void blurShadow(QImage &image, int radius);
     void refreshFormat();
-    bool tw_enabled;
-    int tw_step;
-    int tw_mode;
-    int tw_sigma;
-    int tw_seed;
+    bool m_tw_enabled;
+    int m_tw_step;
+    int m_tw_mode;
+    int m_tw_sigma;
+    int m_tw_seed;
 
 public slots:
-    void updateGeometry(int, int, int);
+    void doUpdateGeometry();
     void updateGeometry();
 };
 

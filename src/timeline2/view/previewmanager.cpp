@@ -1,35 +1,26 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "previewmanager.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <KLocalizedString>
-#include <QProcess>
-#include <QStandardPaths>
+#include <KMessageBox>
 #include <QCollator>
+#include <QProcess>
+#include <QMutexLocker>
+#include <QStandardPaths>
 
 PreviewManager::PreviewManager(const QString &profilePath, TimelineController *controller, Mlt::Tractor *tractor)
     : QObject()
@@ -56,7 +47,7 @@ PreviewManager::PreviewManager(const QString &profilePath, TimelineController *c
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            m_renderer = QStringLiteral("kdenlive_render");
+            KMessageBox::sorry(pCore->window(), i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
     connect(this, &PreviewManager::abortPreview, &m_previewProcess, &QProcess::kill, Qt::DirectConnection);
@@ -141,7 +132,7 @@ bool PreviewManager::buildPreviewTrack()
     return true;
 }
 
-void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate)
+void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate, Mlt::Playlist &playlist)
 {
     if (previewChunks.isEmpty()) {
         previewChunks = m_renderedChunks;
@@ -149,31 +140,66 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (dirtyChunks.isEmpty()) {
         dirtyChunks = m_dirtyChunks;
     }
-    for (const auto &frame : qAsConst(previewChunks)) {
-        const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame.toInt()).arg(m_extension));
-        QFile file(fileName);
-        if (file.exists()) {
-            if (!documentDate.isNull() && QFileInfo(file).lastModified() > documentDate) {
-                // Timeline preview file was created after document, invalidate
-                file.remove();
-                dirtyChunks << frame;
-            } else {
-                gotPreviewRender(frame.toInt(), fileName, 1000);
+
+    // First chech if there are invalid chunks (created after document date)
+    QFileInfoList chunksList = m_cacheDir.entryInfoList({QString("*.%1").arg(m_extension)}, QDir::Files, QDir::Time);
+    for (auto &chunkFile : chunksList) {
+        if (chunkFile.lastModified() > documentDate) {
+            // This chunk is invalid
+            QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
+            bool ok;
+            int chunkFrame = chunkName.toInt(&ok);
+            if (!ok) {
+                // This is not one of our chunks
+                continue;
             }
+            previewChunks.removeAll(chunkName);
+            dirtyChunks << chunkFrame;
+            // Physically remove chunk file
+            m_cacheDir.remove(chunkFile.fileName());
         } else {
-            dirtyChunks << frame;
+            // Done
+            break;
         }
     }
+    QStringList existingChuncks;
     if (!previewChunks.isEmpty()) {
-        emit m_controller->renderedChunksChanged();
+        existingChuncks = m_cacheDir.entryList(QDir::Files);
     }
+
+    int max = playlist.count();
+    std::shared_ptr<Mlt::Producer> clip;
+    m_tractor->lock();
+    for (int i = 0; i < max; i++) {
+        if (playlist.is_blank(i)) {
+            continue;
+        }
+        int position = playlist.clip_start(i);
+        if (previewChunks.contains(QString::number(position))) {
+            if (existingChuncks.contains(QString("%1.%2").arg(position).arg(m_extension))) {
+                clip.reset(playlist.get_clip(i));
+                m_renderedChunks << position;
+                m_previewTrack->insert_at(position, clip.get(), 1);
+            } else {
+                dirtyChunks << position;
+
+            }
+        }
+    }
+    m_previewTrack->consolidate_blanks();
+    m_tractor->unlock();
     if (!dirtyChunks.isEmpty()) {
+        std::sort(dirtyChunks.begin(), dirtyChunks.end());
+        QMutexLocker lock(&m_dirtyMutex);
         for (const auto &i : qAsConst(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
             }
         }
         emit m_controller->dirtyChunksChanged();
+    }
+    if (!previewChunks.isEmpty()) {
+        emit m_controller->renderedChunksChanged();
     }
 }
 
@@ -305,7 +331,7 @@ bool PreviewManager::loadParams()
     return true;
 }
 
-void PreviewManager::invalidatePreviews(const QVariantList chunks)
+void PreviewManager::invalidatePreviews()
 {
     QMutexLocker lock(&m_previewMutex);
     bool timer = KdenliveSettings::autopreview();
@@ -321,7 +347,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         int ix = stackIx - 1;
         m_undoDir.mkdir(QString::number(ix));
         bool foundPreviews = false;
-        for (const auto &i : chunks) {
+        for (const auto &i : m_dirtyChunks) {
             QString current = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(ix).arg(current))) {
                 foundPreviews = true;
@@ -343,7 +369,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
                 lastUndo = true;
                 bool foundPreviews = false;
                 m_undoDir.mkdir(QString::number(stackMax));
-                for (const auto &i : chunks) {
+                for (const auto &i : m_dirtyChunks) {
                     QString current = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
                     if (m_cacheDir.rename(current, QStringLiteral("undo/%1/%2").arg(stackMax).arg(current))) {
                         foundPreviews = true;
@@ -360,7 +386,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
             moveFile = false;
         }
         QVariantList foundChunks;
-        for (const auto &i : chunks) {
+        for (const auto &i : m_dirtyChunks) {
             QString cacheFileName = QStringLiteral("%1.%2").arg(i.toInt()).arg(m_extension);
             if (!lastUndo) {
                 m_cacheDir.remove(cacheFileName);
@@ -368,8 +394,6 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
             if (moveFile) {
                 if (QFile::copy(tmpDir.absoluteFilePath(cacheFileName), m_cacheDir.absoluteFilePath(cacheFileName))) {
                     foundChunks << i;
-                    m_dirtyChunks.removeAll(i);
-                    m_renderedChunks << i;
                 } else {
                     qDebug() << "// ERROR PROCESSE CHUNK: " << i << ", " << cacheFileName;
                 }
@@ -377,6 +401,12 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         }
         if (!foundChunks.isEmpty()) {
             std::sort(foundChunks.begin(), foundChunks.end());
+            m_dirtyMutex.lock();
+            for (auto &ck : foundChunks) {
+                m_dirtyChunks.removeAll(ck);
+                m_renderedChunks << ck;
+            }
+            m_dirtyMutex.unlock();
             emit m_controller->dirtyChunksChanged();
             emit m_controller->renderedChunksChanged();
             reloadChunks(foundChunks);
@@ -416,6 +446,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     abortRendering();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
+    QMutexLocker lock(&m_dirtyMutex);
     for (const auto &ix : qAsConst(m_renderedChunks)) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
         if (!m_dirtyChunks.contains(ix)) {
@@ -451,6 +482,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     int endChunk = int(rintl(zone.y() / chunkSize));
     QList<int> toRemove;
     qDebug() << " // / RESUQEST CHUNKS; " << startChunk << " = " << endChunk;
+    QMutexLocker lock(&m_dirtyMutex);
     for (int i = startChunk; i <= endChunk; i++) {
         int frame = i * chunkSize;
         if (add) {
@@ -507,7 +539,6 @@ void PreviewManager::abortRendering()
     if (m_previewProcess.state() == QProcess::NotRunning) {
         return;
     }
-    qDebug() << "/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
     emit abortPreview();
     m_previewProcess.waitForFinished();
     if (m_previewProcess.state() != QProcess::NotRunning) {
@@ -531,8 +562,26 @@ void PreviewManager::startPreviewRender()
         // clear log
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->sceneList(m_cacheDir.absolutePath(), sceneList);
-        pCore->currentDoc()->saveMltPlaylist(sceneList);
+        if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
+            const QString playlist = pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath());
+            QDomDocument doc;
+            doc.setContent(playlist);
+            pCore->currentDoc()->useOriginals(doc);
+            const QString final = doc.toString().toUtf8();
+            QSaveFile file(sceneList);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qDebug()<<"//////  ERROR writing to file: " << sceneList;
+                return;
+            }
+            file.write(final.toUtf8());
+            if (!file.commit()) {
+                qDebug()<<"Cannot write to file "<<sceneList;
+                return;
+            }
+        } else {
+            pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
+
+        }
         m_previewTimer.stop();
         doPreviewRender(sceneList);
     }
@@ -541,11 +590,10 @@ void PreviewManager::startPreviewRender()
 void PreviewManager::receivedStderr()
 {
     QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
+    resultList.removeAll(QString(""));
     for (auto &result : resultList) {
-        qDebug() << "GOT PROCESS RESULT: " << result;
         if (result.startsWith(QLatin1String("START:"))) {
             workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
-            qDebug() << "// GOT START INFO: " << workingPreview;
             emit m_controller->workingPreviewChanged();
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
@@ -563,16 +611,14 @@ void PreviewManager::receivedStderr()
 void PreviewManager::doPreviewRender(const QString &scene)
 {
     // initialize progress bar
-    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
+    QMutexLocker lock(&m_dirtyMutex);
     Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
-
-    QStringList chunks;
-    for (QVariant &frame : m_dirtyChunks) {
-        chunks << frame.toString();
-    }
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    qDebug()<<":: got dirty chks: "<<m_dirtyChunks;
+    const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
     int chunkSize = KdenliveSettings::timelinechunks();
@@ -580,7 +626,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      scene,
                      m_cacheDir.absolutePath(),
                      QStringLiteral("-split"),
-                     chunks.join(QLatin1Char(',')),
+                     dirtyChunks.join(QLatin1Char(',')),
                      QString::number(chunkSize - 1),
                      m_profilePath,
                      m_extension,
@@ -593,13 +639,11 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
 }
 
-void PreviewManager::processEnded(int, QProcess::ExitStatus status)
+void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
 {
-    qDebug() << "// PROCESS IS FINISHED!!!";
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
     if (status == QProcess::QProcess::CrashExit) {
-        qDebug() << "// PROCESS CRASHED!!!!!!";
         pCore->currentDoc()->previewProgress(-1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -619,7 +663,7 @@ void PreviewManager::slotProcessDirtyChunks()
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
-    invalidatePreviews(m_dirtyChunks);
+    invalidatePreviews();
     if (KdenliveSettings::autopreview()) {
         m_previewTimer.start();
     }
@@ -655,7 +699,14 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 
     std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     m_previewGatherTimer.stop();
-    abortRendering();
+    bool stopPreview = m_previewProcess.state() == QProcess::Running;
+    if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) && (end < m_renderedChunks.first().toInt() || start > m_renderedChunks.last().toInt()))) {
+        // invalidated zone is not in the preview zone, don't stop process
+        stopPreview = false;
+    }
+    if (stopPreview) {
+        abortRendering();
+    }
     m_tractor->lock();
     bool chunksChanged = false;
     for (int i = start; i <= end; i += chunkSize) {
@@ -669,6 +720,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             QVariant val(i);
             m_renderedChunks.removeAll(val);
             if (!m_dirtyChunks.contains(val)) {
+                QMutexLocker lock(&m_dirtyMutex);
                 m_dirtyChunks << val;
                 chunksChanged = true;
             }
@@ -680,10 +732,13 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         emit m_controller->renderedChunksChanged();
         emit m_controller->dirtyChunksChanged();
     }
+    if (stopPreview) {
+        startPreviewRender();
+    }
     m_previewGatherTimer.start();
 }
 
-void PreviewManager::reloadChunks(const QVariantList chunks)
+void PreviewManager::reloadChunks(const QVariantList &chunks)
 {
     if (m_previewTrack == nullptr || chunks.isEmpty()) {
         return;
@@ -728,7 +783,9 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (m_previewTrack->is_blank_at(frame)) {
         Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
-            m_dirtyChunks.removeAll(frame);
+            m_dirtyMutex.lock();
+            m_dirtyChunks.removeAll(QVariant(frame));
+            m_dirtyMutex.unlock();
             m_renderedChunks << frame;
             emit m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
@@ -760,6 +817,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     emit previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);
     if (!m_dirtyChunks.contains(frame)) {
+        QMutexLocker lock(&m_dirtyMutex);
         m_dirtyChunks << frame;
         std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     }
@@ -780,17 +838,51 @@ void PreviewManager::removeOverlayTrack()
     reconnectTrack();
 }
 
-QPair<QStringList, QStringList> PreviewManager::previewChunks() const
+QPair<QStringList, QStringList> PreviewManager::previewChunks()
 {
-    QStringList renderedChunks;
-    QStringList dirtyChunks;
-    for (const QVariant &frame : m_renderedChunks) {
-        renderedChunks << frame.toString();
-    }
-    for (const QVariant &frame : m_dirtyChunks) {
-        dirtyChunks << frame.toString();
-    }
+    QMutexLocker lock(&m_dirtyMutex);
+    std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
+    const QStringList renderedChunks = getCompressedList(m_renderedChunks);
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
+    lock.unlock();
     return {renderedChunks, dirtyChunks};
+}
+
+const QStringList PreviewManager::getCompressedList(const QVariantList items) const
+{
+    QStringList resultString;
+    int lastFrame = 0;
+    QString currentString;
+    for (const QVariant &frame : items) {
+        int current = frame.toInt();
+        if (current - 25 == lastFrame) {
+            lastFrame = current;
+            if (frame == items.last()) {
+                currentString.append(QString("-%1").arg(lastFrame));
+                resultString << currentString;
+                currentString.clear();
+            }
+            continue;
+        }
+        if (currentString.isEmpty()) {
+            currentString = frame.toString();
+        } else if (currentString == QString::number(lastFrame)) {
+            // Only one chunk, store it
+            resultString << currentString;
+            currentString = frame.toString();
+        } else {
+            // Range, store
+            currentString.append(QString("-%1").arg(lastFrame));
+            resultString << currentString;
+            currentString = frame.toString();
+        }
+        lastFrame = current;
+    }
+    if (!currentString.isEmpty()) {
+        resultString << currentString;
+    }
+    return resultString;
 }
 
 bool PreviewManager::hasOverlayTrack() const

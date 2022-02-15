@@ -1,0 +1,55 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bigsh0t_stabilize_360" id="frei0r.bigsh0t_stabilize_360">
+	<name>VR360 Stabilize</name>
+	<description>Stabilizes 360 footage. The plugin works in two phases - analysis and stabilization. When analyzing footage, it detects frame-to-frame rotation, and when stabilizing it tries to correct high-frequency motion (shake).</description>
+	<author>Leo Sutic</author>
+	<parameter type="bool" name="analyze">
+		<name>Analyze</name>
+	</parameter>
+    <parameter type="url" name="analysisFile" filter="*.bigsh0t360motion" mode="save">
+		<name>Motion Analysis File</name>
+    </parameter>
+     <parameter type="constant" name="sampleRadius" default="16" min="1" max="64" factor="1" suffix="px">
+		<name>Analysis Sample Radius</name>
+	</parameter>
+    <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="1" suffix="px">
+		<name>Analysis Search Radius</name>
+	</parameter>
+	<parameter type="constant" name="offset" default="64" min="1" max="256" factor="1" suffix="px">
+		<name>Analysis Offset</name>
+	</parameter>
+	<parameter type="bool" name="useBackTrackpoints">
+                <name>Track Points</name>
+        </parameter>
+	<parameter type="constant" name="stabilizeYaw" default="100" min="0" max="100" factor="1" suffix="%">
+		<name>Yaw Amount</name>
+		</parameter>
+		<parameter type="constant" name="smoothYaw" default="20" min="1" max="100" factor="1" suffix="frames">
+		<name>Yaw Smoothing</name>
+		</parameter>
+		<parameter type="constant" name="timeBiasYaw" default="0" min="-100" max="100" factor="1" suffix="%">
+		<name>Yaw Time Bias</name>
+		</parameter>
+        <parameter type="constant" name="stabilizePitch" default="100" min="0" max="100" factor="1" suffix="%">
+		<name>Yaw Amount</name>
+		</parameter>
+		<parameter type="constant" name="smoothPitch" default="20" min="1" max="100" factor="1" suffix="frames">
+		<name>Pitch Smoothing</name>
+		</parameter>
+		<parameter type="constant" name="timeBiasPitch" default="0" min="-100" max="100" factor="1" suffix="%">
+		<name>Pitch Time Bias</name>
+		</parameter>
+        <parameter type="constant" name="stabilizeRoll" default="100" min="0" max="100" factor="1" suffix="%">
+		<name>Roll Amount</name>
+		</parameter>
+		<parameter type="constant" name="smoothRoll" default="20" min="1" max="100" factor="1" suffix="frames">
+		<name>Roll Smoothing</name>
+		</parameter>
+		<parameter type="constant" name="timeBiasRoll" default="0" min="-100" max="100" factor="1" suffix="%">
+		<name>Roll Time Bias</name>
+		</parameter>
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
+                <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
+                <name>Interpolation</name>
+        </parameter>
+</effect>

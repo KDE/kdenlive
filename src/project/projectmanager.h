@@ -1,11 +1,6 @@
 /*
-Copyright (C) 2014  Till Theato <root@ttill.de>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef PROJECTMANAGER_H
@@ -68,7 +63,7 @@ public:
      */
     void disableBinEffects(bool disable, bool refreshMonitor = true);
     /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString &outputFolder, const QString overlayData = QString());
+    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
@@ -87,6 +82,8 @@ public:
     */
     virtual std::shared_ptr<DocUndoStack> undoStack(const QUuid &uuid = QUuid());
 
+    virtual QDir cacheDir(bool audio, bool *ok);
+
     /** @brief This will create a backup file with fps appended to project name,
      *  and save the project with an updated profile info, then reopen it.
      */
@@ -99,6 +96,12 @@ public:
     /** @brief Add requested audio tracks number to project.
      */
     void addAudioTracks(int tracksCount);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    void testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline);
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    bool testSaveFileAs(const QString &outputFileName);
 
     /** @brief Open a new timeline to edit a playlist clip */
     void openTimeline(const QString &id);
@@ -155,6 +158,8 @@ public slots:
     /** @brief Dis/enable all timeline effects */
     void slotDisableTimelineEffects(bool disable);
 
+    /** @brief Mute/Unmute or Hide/Show current timeline track */
+    void slotSwitchTrackDisabled();
     /** @brief Un/Lock current timeline track */
     void slotSwitchTrackLock();
     void slotSwitchAllTrackLock();
@@ -198,7 +203,7 @@ signals:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(KdenliveDoc *doc, int pos = -1, int scrollPos = -1, bool createNewTab = true);
+    bool updateTimeline(KdenliveDoc *doc, int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */

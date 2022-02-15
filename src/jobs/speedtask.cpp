@@ -1,46 +1,33 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2021 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "speedtask.h"
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "xml/xml.hpp"
 
-#include <QThread>
-#include <QProcess>
 #include <KIO/RenameDialog>
-#include <klocalizedstring.h>
 #include <KLineEdit>
 #include <KUrlRequester>
+#include <QProcess>
+#include <QThread>
+#include <klocalizedstring.h>
 
 SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object)
     : AbstractTask(owner, AbstractTask::SPEEDJOB, object)
     , m_binId(binId)
     , m_filterParams(filterParams)
     , m_destination(destination)
+    , m_addToFolder(KdenliveSettings::add_new_clip_to_folder())
 {
     m_speed = filterParams.at(QStringLiteral("warp_speed")).toDouble();
     m_inPoint = in > -1 ? qRound(in / m_speed) : -1;
@@ -49,11 +36,12 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
 
 void SpeedTask::start(QObject* object, bool force)
 {
+    Q_UNUSED(object)
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     const QString profilePath = pCore->getCurrentProfilePath();
     // Show config dialog
     QDialog d(qApp->activeWindow());
-    d.setWindowTitle(i18n("Clip Speed"));
+    d.setWindowTitle(i18nc("@title:window", "Clip Speed"));
     QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
     auto *l = new QVBoxLayout;
     d.setLayout(l);
@@ -91,12 +79,17 @@ void SpeedTask::start(QObject* object, bool force)
     l->addWidget(&lab);
     l->addWidget(&speedInput);
     l->addWidget(&cb);
+    QCheckBox cb2(i18n("Add clip to \"Speed Change\" folder"), &d);
+    cb2.setChecked(KdenliveSettings::add_new_clip_to_folder());
+    l->addWidget(&cb2);
     l->addWidget(&buttonBox);
     d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     if (d.exec() != QDialog::Accepted) {
         return;
     }
+    bool addToFolder = cb2.isChecked();
+    KdenliveSettings::setAdd_new_clip_to_folder(addToFolder);
     double speed = speedInput.value();
     bool warp_pitch = cb.isChecked();
     std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
@@ -143,14 +136,14 @@ void SpeedTask::start(QObject* object, bool force)
                 continue;
             }
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
-            auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
+            binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             if (binClip) {
                 task = new SpeedTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
             }
         } else {
             // Process full clip
             owner = ObjectId(ObjectType::BinClip, id.toInt());
-            auto binClip = pCore->projectItemModel()->getClipByBinID(id);
+            binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (binClip) {
                 task = new SpeedTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
             }
@@ -159,6 +152,7 @@ void SpeedTask::start(QObject* object, bool force)
             // Otherwise, start a filter thread.
             task->m_isForce = force;
             task->m_profilePath = profilePath;
+            task->m_addToFolder = addToFolder;
             pCore->taskManager.startTask(owner.second, task);
         }
     }
@@ -180,7 +174,8 @@ void SpeedTask::run()
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
-            m_errorMessage.append(i18n("No producer for this clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -192,6 +187,10 @@ void SpeedTask::run()
            producerArgs << QString("out=%1").arg(m_outPoint);
         }
     } else {
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
         // TODO
@@ -212,9 +211,9 @@ void SpeedTask::run()
     for (const auto &it : m_filterParams) {
         qDebug()<<". . ."<<it.first<<" = "<<it.second;
         if (it.second.type() == QVariant::Double) {
-            producerArgs << QString("%1=%2").arg(it.first).arg(it.second.toDouble());
+            producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
-            producerArgs << QString("%1=%2").arg(it.first).arg(it.second.toString());
+            producerArgs << QString("%1=%2").arg(it.first, it.second.toString());
         }
     }
 
@@ -234,10 +233,14 @@ void SpeedTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create speed clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
         return;
     }
 
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(const QString&,m_destination), Q_ARG(const QString&,binClip->parent()->clipId()), Q_ARG(const QString&,i18n("Speed Change")));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,binClip->parent()->clipId()), Q_ARG(QString,m_addToFolder ? i18n("Speed Change") : QString()));
     return;
 }
 

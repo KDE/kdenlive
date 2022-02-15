@@ -1,24 +1,10 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2017  Nicolas Carion
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2017 Nicolas Carion
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef PROJECTITEMMODEL_H
@@ -167,7 +153,7 @@ public:
     */
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
                            const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
-    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
+    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString(), const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
     /** @brief This is the addition function when we already have a producer for the clip*/
     bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
@@ -178,8 +164,8 @@ public:
        @param in,out : zone that corresponds to the subclip
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
-    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
-    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> zoneProperties, const QString &parentId);
+    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId);
 
     /** @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename
@@ -192,6 +178,9 @@ public:
 
     /** @brief Request that the unused clips are deleted */
     bool requestCleanupUnused();
+
+    /** @brief Request that all clips using one of the given urls are removed from the project and deleted from the hard disk*/
+    bool requestTrashClips(QStringList &urls);
 
     /** @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();
@@ -222,6 +211,8 @@ public:
     /** @brief Returns the model's uuid */
     QUuid uuid() const;
     std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
+    /** @brief Check if  a file is already in Bin */
+    bool urlExists(const QString &path) const;
 
 protected:
     QUuid m_uuid;

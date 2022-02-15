@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TIMELINEWIDGET_H
 #define TIMELINEWIDGET_H
@@ -48,14 +32,15 @@ public:
     Mlt::Tractor *tractor();
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
-    void setTool(ProjectTool tool);
+    void setTool(ToolType::ProjectTool tool);
+    ToolType::ProjectTool activeTool();
     QPair<int, int>getTracksCount() const;
     /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
     /** @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
@@ -84,6 +69,7 @@ public slots:
 
 private slots:
     void slotUngrabHack();
+    void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
     void showCompositionMenu();
     void showTimelineMenu();

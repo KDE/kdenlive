@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "effectitemmodel.hpp"
 
@@ -65,7 +49,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     return self;
 }
 
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, QString originalDecimalPoint)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, const QString &originalDecimalPoint)
 {
     QString effectId = effect->get("kdenlive_id");
     if (effectId.isEmpty()) {
@@ -79,6 +63,17 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
     for (int i = 0; i < params.count(); ++i) {
         QDomElement currentParameter = params.item(i).toElement();
         QString paramName = currentParameter.attribute(QStringLiteral("name"));
+        QString paramType = currentParameter.attribute(QStringLiteral("type"));
+        if (paramType == QLatin1String("multiswitch")) {
+            // multiswitch params have a composited param name, skip
+            QStringList names = paramName.split(QLatin1Char('\n'));
+            QStringList paramValues;
+            for (const QString &n : qAsConst(names)) {
+                paramValues << effect->get(n.toUtf8().constData());
+            }
+            currentParameter.setAttribute(QStringLiteral("value"), paramValues.join(QLatin1Char('\n')));
+            continue;
+        }
         QString paramValue = effect->get(paramName.toUtf8().constData());
         qDebug() << effectId << ": Setting parameter " << paramName << " to " << paramValue;
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
@@ -227,8 +222,7 @@ bool EffectItemModel::hasForcedInOut() const
 
 bool EffectItemModel::isAudio() const
 {
-    AssetListType::AssetType type = EffectsRepository::get()->getType(m_assetId);
-    return  type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+    return EffectsRepository::get()->isAudioEffect(m_assetId);
 }
 
 bool EffectItemModel::isUnique() const

@@ -1,36 +1,22 @@
 /*
-Copyright (C) 2021  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "cachetask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
-#include "kdenlivesettings.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 #include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
-#include <QString>
-#include <QImage>
 #include <QFile>
+#include <QImage>
+#include <QString>
 #include <QtMath>
 #include <klocalizedstring.h>
 #include <set>
@@ -56,7 +42,7 @@ void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, Q
     CacheTask* task = new CacheTask(owner, thumbsCount, in, out, object);
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.

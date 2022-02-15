@@ -1,0 +1,74 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.facedetect" id="frei0r.facedetect">
+    <name>Face detect</name>
+    <description>Detect faces and draw shapes on them using OpenCV</description>
+    <author>binarymillenium, Dan Dennedy</author>
+    
+    <parameter type="animated" name="Search scale" default="1.2" min="110" max="1000" factor="1000">
+        <name>Search scale</name>
+        <comment>The search window scale factor. For example, 120 = 1.20 = increases by 20% on each pass.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Neighbors" default="2" min="1" max="10" factor="100">
+        <name>Neighbors</name>
+        <comment>Minimum number of rectangles that determines an object.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Smallest" default="2" min="0" max="1000" factor="1000">
+        <name>Smallest</name>
+        <comment>The minimum window size in pixels.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Recheck" default="0.05" min="0" max="1000" factor="1000" suffix="frames">
+        <name>Recheck</name>
+        <comment>How often to detect a face. In between checks, it does object motion tracking.</comment>
+    </parameter>
+    
+    <parameter type="list" name="Shape" default="0" paramlist="0;0.1;0.2;1">
+        <paramlistdisplay>circle,ellipse,rectangle,random</paramlistdisplay>
+        <name>Shape</name>
+    </parameter>
+    
+    <parameter type="animated" name="Stroke" default="0" min="0" max="100" factor="100" suffix="pixels">
+        <name>Stroke width</name>
+        <comment>0 means fill; otherwise, draw unfilled with a stroke width of this size.</comment>
+    </parameter>
+    
+    <parameter type="animated" name="Alpha" default="1" min="0" max="100" factor="100" suffix="%">
+        <name>Alpha</name>
+        <comment>Set the alpha channel of the shape area to a percentage of fully opaque.</comment>
+    </parameter>
+    
+    <parameter type="bool" name="Antialias" default="0">
+        <name>Antialias</name>
+        <comment>Draw with anti-aliasing?</comment>
+    </parameter>
+    <!-- The color parameters have a bug in the recent 1.3 release of frei0r.
+         Wait some time or next release to enable these. -->
+    <!--        
+    <parameter type="color" name="Color 1" default="0xFFFFFF">
+        <name>Color 1</name>
+        <comment>Set the shape color of the first detected face.</comment>
+    </parameter>
+    
+    <parameter type="color" name="Color 2" default="0x007FFF">
+        <name>Color 2</name>
+        <comment>Set the shape color of the second detected face.</comment>
+    </parameter>
+    
+    <parameter type="color" name="Color 3" default="0x00FFFF">
+        <name>Color 3</name>
+        <comment>Set the shape color of the third detected face.</comment>
+    </parameter>
+    
+    <parameter type="color" name="Color 4" default="0x00FF00">
+        <name>Color 4</name>
+        <comment>Set the shape color of the fourth detected face.</comment>
+    </parameter>
+    
+    <parameter type="color" name="Color 5" default="0xFF7F00">
+        <name>Color 5</name>
+        <comment>Set the shape color of the fifth detected face.</comment>
+    </parameter>
+    -->
+</effect>

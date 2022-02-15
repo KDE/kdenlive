@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2009 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2009 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
@@ -57,11 +44,11 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
     Ui::CountDown_UI view;
     view.setupUi(d);
     if (generator == i18n("Noise")) {
-        d->setWindowTitle(i18n("Create Noise Clip"));
+        d->setWindowTitle(i18nc("@title:window", "Create Noise Clip"));
         view.font_label->setHidden(true);
         view.font->setHidden(true);
     } else {
-        d->setWindowTitle(i18n("Create Countdown Clip"));
+        d->setWindowTitle(i18nc("@title:window", "Create Countdown Clip"));
         view.font->setValue(height);
     }
 

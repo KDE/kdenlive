@@ -1,0 +1,36 @@
+<!DOCTYPE kpartgui>
+<effect tag="mask_start" id="mask_start-rotoscoping" dependency="rotoscoping">
+        <name>Rotoscoping (Mask)</name>
+        <description>This filter makes a snapshot of the frame before a keyframable vector based rotoscoping is applied. Use it together with the mask_apply effect, that uses a transition to composite the current frame's image over the snapshot. The typical use case is to add effects in the following sequence: this effect, zero or more effects, mask_apply.</description>
+        <author>Till Theato, Dan Dennedy</author>
+        <parameter type="fixed" name="filter" value="rotoscoping">
+                <name>Filter</name>
+        </parameter>
+        <parameter type="roto-spline" name="filter.spline" default="" />
+
+        <parameter type="list" name="filter.mode" default="alpha" paramlist="alpha;luma;rgb">
+            <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
+            <name>Mode</name>
+        </parameter>
+
+        <parameter type="list" name="filter.alpha_operation" default="clear" paramlist="clear;max;min;add;sub">
+            <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+            <name>Alpha Operation</name>
+        </parameter>
+
+        <parameter type="bool" name="filter.invert" default="0">
+            <name>Invert</name>
+        </parameter>
+
+        <!--<parameter type="bool" name="filter.track" default="0">
+            <name>Track</name>
+        </parameter>-->
+
+        <parameter type="constant" name="filter.feather" max="500" min="0" default="0">
+            <name>Feather width</name>
+        </parameter>
+
+        <parameter type="constant" name="filter.feather_passes" max="20" min="1" default="1">
+            <name>Feathering passes</name>
+        </parameter>
+</effect>

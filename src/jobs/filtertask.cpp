@@ -1,43 +1,31 @@
-/***************************************************************************
- *                                                                         *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "filtertask.h"
+#include "assets/model/assetparametermodel.hpp" 
 #include "bin/bin.h"
-#include "mainwindow.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
-#include "profiles/profilemodel.hpp"
-#include "assets/model/assetparametermodel.hpp" 
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
+#include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
 
-#include <QThread>
 #include <QProcess>
+#include <QThread>
 
 #include <klocalizedstring.h>
 
-FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object)
+FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
+    , length(0)
     , m_binId(binId)
     , m_inPoint(in)
     , m_outPoint(out)
@@ -50,7 +38,8 @@ FilterTask::FilterTask(const ObjectId &owner, const QString &binId, std::weak_pt
 {
 }
 
-void FilterTask::start(const ObjectId &owner, const QString &binId, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, QString filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs, QObject* object, bool force)
+void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object, bool force)
 {
     FilterTask* task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
     if (task) {
@@ -70,13 +59,14 @@ void FilterTask::run()
     
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-    std::unique_ptr<Mlt::Producer> producer;
-    std::unique_ptr<Mlt::Producer> wholeProducer;
+    std::unique_ptr<Mlt::Producer> producer = nullptr;
+    Mlt::Profile profile(pCore->getCurrentProfilePath().toUtf8().constData());
     if (binClip) {
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
-            m_errorMessage.append(i18n("No producer for this clip."));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -89,8 +79,9 @@ void FilterTask::run()
             producer = std::make_unique<Mlt::Producer>(*producer->profile(), url.toUtf8().constData());
         }
         if ((producer == nullptr) || !producer->is_valid()) {
-            // Clip was removed or something went wrong, Notify user?
-            m_errorMessage.append(i18n("Invalid clip"));
+            // Clip was removed or something went wrong
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -101,8 +92,7 @@ void FilterTask::run()
             m_inPoint = 0;
         }
         if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
-            std::swap(wholeProducer, producer);
-            producer.reset(wholeProducer->cut(m_inPoint, m_outPoint));
+            producer->set_in_and_out(m_inPoint, m_outPoint);
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job
@@ -114,13 +104,13 @@ void FilterTask::run()
         }
     }
     
-    if ((producer == nullptr) || !producer->is_valid()) {
+    if (producer == nullptr || !producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
-        m_errorMessage.append(i18n("Invalid clip"));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open source.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
-    
     length = producer->get_playtime();
     if (length == 0) {
         length = producer->get_length();
@@ -141,19 +131,21 @@ void FilterTask::run()
     destFile.close();
     std::unique_ptr<Mlt::Consumer>consumer(new Mlt::Consumer(*producer->profile(), "xml", sourceFile.fileName().toUtf8().constData()));
     if (!consumer->is_valid()) {
-        m_errorMessage.append(i18n("Cannot create consumer."));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create consumer.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
 
     consumer->connect(*producer.get());
     producer->set_speed(0);
-    producer->seek(0);
+
     if (binClip) {
         // Build filter
         Mlt::Filter filter(*producer->profile(), m_filterName.toUtf8().data());
         if (!filter.is_valid()) {
-            m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create filter %1", m_filterName)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -162,6 +154,9 @@ void FilterTask::run()
         qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
         for (const auto &it : m_filterParams) {
             qDebug()<<". . ."<<it.first<<" = "<<it.second;
+            if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
+                continue;
+            }
             if (it.second.type() == QVariant::Double) {
                 filter.set(it.first.toUtf8().constData(), it.second.toDouble());
             } else {
@@ -171,7 +166,7 @@ void FilterTask::run()
         if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
             // leave it operate on full clip
         } else {
-            filter.set_in_and_out(producer->get_in(), producer->get_out());
+            filter.set_in_and_out(m_inPoint, m_outPoint);
         }
         producer->attach(filter);
         filter.set("id", "kdenlive-analysis");
@@ -181,7 +176,7 @@ void FilterTask::run()
     consumer->run();
     consumer.reset();
     producer.reset();
-    wholeProducer.reset();
+    //wholeProducer.reset();
 
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::ReadOnly);
@@ -206,12 +201,12 @@ void FilterTask::run()
 
     f1.open(QIODevice::WriteOnly);
     QTextStream stream(&f1);
+    stream.setCodec("UTF-8");
     stream << dom.toString();
     f1.close();
     dom.clear();
 
     // Step 2: process the xml file and save in another .mlt file
-    QProcess filterProcess;
     QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
@@ -225,6 +220,10 @@ void FilterTask::run()
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
+        if (!m_isCanceled) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to filter source.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        }
         return;
     }
     
@@ -247,14 +246,18 @@ void FilterTask::run()
         }
     }
 
+    if (m_inPoint > 0 && (m_filterData.find(QLatin1String("relativeInOut")) == m_filterData.end())) {
+        // Motion tracker keyframes always start at master clip 0, so no need to set in/out points
+        params.append({QStringLiteral("in"), m_inPoint});
+        params.append({QStringLiteral("out"), m_outPoint});
+    }
     params.append({key,QVariant(resultData)});
-    qDebug()<<"= = = GOT FILTER RESULTS: "<<params;
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
         // Store a copy of the data in clip analysis
         QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname")) : QStringLiteral("data");
         auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(const QString&, dataName), Q_ARG(const QString&, resultData), Q_ARG(int, m_inPoint));
+            QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(QString, dataName), Q_ARG(QString, resultData), Q_ARG(int, m_inPoint));
         }
         //binClip->updatedAnalysisData(dataName, resultData, m_inPoint);
     }
@@ -277,7 +280,7 @@ void FilterTask::run()
         QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
         return true;
     };
-    bool ok = operation();
+    operation();
     return;
 }
 

@@ -1,29 +1,16 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "generators.h"
 #include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
 #include "doc/documentobjectmodel.h"
-#include "timecodedisplay.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QDialogButtonBox>
 #include <QDir>
@@ -67,7 +54,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         auto *hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Duration")));
+        hlay->addWidget(new QLabel(i18n("Duration:")));
         m_timePos = new TimecodeDisplay(pCore->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {
             connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &Generators::updateDuration);
@@ -174,7 +161,7 @@ QUrl Generators::getSavedClip(QString clipFolder)
     }
     QFileDialog fd(this);
     fd.setDirectory(clipFolder);
-    fd.setNameFilter(i18n("MLT playlist (*.mlt)"));
+    fd.setNameFilter(i18n("MLT Playlist (*.mlt)"));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("mlt"));

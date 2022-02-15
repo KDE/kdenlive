@@ -1,36 +1,23 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Copyright (C) 2011 by Marco Gittler (marco@gitma.de)                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2011 Marco Gittler <marco@gitma.de>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "clipstabilize.h"
+#include "assets/model/assetparametermodel.hpp"
+#include "assets/view/assetparameterview.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
-#include "assets/view/assetparameterview.hpp"
-#include "assets/model/assetparametermodel.hpp"
-#include "effects/effectsrepository.hpp"
 
 #include "kdenlivesettings.h"
-#include <KMessageBox>
 #include <KIO/RenameDialog>
+#include <KMessageBox>
 #include <QFontDatabase>
 #include <memory>
 #include <mlt++/Mlt.h>
@@ -44,9 +31,10 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    setWindowTitle(i18n("Stabilize Clip"));
+    setWindowTitle(i18nc("@title:window", "Stabilize Clip"));
     auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_binIds.size()));
     auto_add->setChecked(KdenliveSettings::add_new_clip());
+    auto_folder->setChecked(KdenliveSettings::add_new_clip_to_folder());
 
     // QString stylesheet = EffectStackView2::getStyleSheet();
     // setStyleSheet(stylesheet);
@@ -96,6 +84,7 @@ ClipStabilize::~ClipStabilize()
         m_stabilizeProcess.close();
     }*/
     KdenliveSettings::setAdd_new_clip(auto_add->isChecked());
+    KdenliveSettings::setAdd_new_clip_to_folder(auto_folder->isChecked());
 }
 
 std::unordered_map<QString, QVariant> ClipStabilize::filterParams() const
@@ -131,6 +120,11 @@ QString ClipStabilize::desc() const
 bool ClipStabilize::autoAddClip() const
 {
     return auto_add->isChecked();
+}
+
+bool ClipStabilize::addClipInFolder() const
+{
+    return auto_folder->isChecked();
 }
 
 void ClipStabilize::slotValidate()

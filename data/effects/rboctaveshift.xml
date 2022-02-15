@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="rbpitch" id="rboctaveshift" type="audio">
+	<name>Rubberband Octave Shift</name>
+	<description>Adjust the audio pitch using the Rubberband library.</description>
+	<author>Meltytech, LLC</author>
+	<parameter type="constant" name="octaveshift" max="3.3" min="-3.3" default="0" decimals="1">
+        <name>Octave Shift</name>
+        <comment>The octave shift. This is the octave shift of the source frequency. For example, a shift of +1 would double the frequency; -1 would halve the frequency and 0 would leave the pitch unaffected. To put this in frequency terms, a frequency shift f (where f greater than one for upwards shift and less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale is set.</comment>
+	</parameter>
+        <parameter type="bool" name="stretch" default="0">
+            <name>Stretch</name>
+            <comment>Stretch the audio to fill the requested samples. This option will have no effect if the requested sample size is the same as the received sample size.</comment>
+	</parameter>
+        <parameter type="constant" name="latency" max="2000" min="0" default="0" suffix=" ms">
+            <name>Latency</name>
+            <comment>The amount of delay for each sample from the input to the output.</comment>
+	</parameter>
+</effect>

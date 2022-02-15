@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Till Theato (root@ttill.de)                     *
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive (www.kdenlive.org).                     *
- *                                                                         *
- *   Kdenlive is free software: you can redistribute it and/or modify      *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation, either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Kdenlive is distributed in the hope that it will be useful,           *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with Kdenlive.  If not, see <http://www.gnu.org/licenses/>.     *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Till Theato <root@ttill.de>
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYFRAMEWIDGET_H
 #define KEYFRAMEWIDGET_H
@@ -77,6 +64,7 @@ private slots:
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     void slotCopyKeyframes();
+    void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
     void slotSeekToKeyframe(int ix);
@@ -90,8 +78,6 @@ private:
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
     QToolButton *m_buttonAddDelete;
-    QToolButton *m_buttonPrevious;
-    QToolButton *m_buttonNext;
     QToolButton *m_buttonCenter;
     QToolButton *m_buttonCopy;
     QToolButton *m_buttonApply;
@@ -108,6 +94,9 @@ signals:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
     void updateEffectKeyframe(bool);
+    void goToNext();
+    void goToPrevious();
+    void addRemove();
 };
 
 #endif

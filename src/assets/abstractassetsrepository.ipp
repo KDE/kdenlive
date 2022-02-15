@@ -1,26 +1,11 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+ * SPDX-FileCopyrightText: 2017 Nicolas Carion
+ * SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ */
 
 #include "xml/xml.hpp"
 #include "kdenlivesettings.h"
+#include "core.h"
 
 #include <QDir>
 #include <QFile>
@@ -94,6 +79,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     }
 
     // We add the custom assets
+    QStringList missingDependency;
     for (const auto &custom : customAssets) {
         // Custom assets should override default ones
         if (emptyMetaAssets.contains(custom.second.mltId)) {
@@ -101,9 +87,40 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             emptyMetaAssets.removeAll(custom.second.mltId);
         }
         m_assets[custom.first] = custom.second;
+
+        QString dependency = custom.second.xml.attribute(QStringLiteral("dependency"), QString());
+        if(!dependency.isEmpty()) {
+            bool found = false;
+            QScopedPointer<Mlt::Properties> effects(pCore->getMltRepository()->filters());
+            for(int i = 0; i < effects->count(); ++i) {
+                if(effects->get_name(i) == dependency) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found) {
+                QScopedPointer<Mlt::Properties> transitions(pCore->getMltRepository()->transitions());
+                for(int i = 0; i < transitions->count(); ++i) {
+                    if(transitions->get_name(i) == dependency) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!found) {
+                // asset depends on another asset that is invalid so remove this asset too
+                missingDependency << custom.first;
+                qDebug() << "Asset" << custom.first << "has invalid dependency" << dependency << "and is going to be removed";
+            }
+        }
+
     }
     // Remove really invalid assets
-    for (const auto &invalid : emptyMetaAssets) {
+    emptyMetaAssets << missingDependency;
+    emptyMetaAssets.removeDuplicates();
+    for (const auto &invalid : qAsConst(emptyMetaAssets)) {
         m_assets.erase(invalid);
     }
 }
@@ -318,7 +335,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
 
     if (!exists(tag)) {
-        qDebug() << "Unknown asset" << tag;
+        qDebug() << "plugin not available:" << tag;
         return false;
     }
 
@@ -326,6 +343,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     if (currentAsset.hasAttribute(QStringLiteral("version")) && !m_assets.at(tag).xml.isNull()) {
         // a specific version of the filter is required
         if (m_assets.at(tag).version < int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble())) {
+            qDebug() << "plugin version too low:" << tag;
             return false;
         }
     }

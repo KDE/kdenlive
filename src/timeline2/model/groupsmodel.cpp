@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "groupsmodel.hpp"
 #include "macros.hpp"
@@ -103,7 +87,6 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
     std::unordered_set<int> roots;
-    qDebug()<<"==========GROUPING ITEMS: "<<ids.size();
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
     if (roots.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -120,7 +103,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     return -1;
 }
 
-bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
+bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan)
 {
     QWriteLocker locker(&m_lock);
     int gid = getRootId(id);
@@ -129,7 +112,7 @@ bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo)
         return false;
     }
 
-    return destructGroupItem(gid, true, undo, redo);
+    return destructGroupItem(gid, deleteOrphan, undo, redo);
 }
 
 void GroupsModel::createGroupItem(int id)
@@ -341,6 +324,18 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
             promoteToGroup(groupId, GroupType::Normal);
         }
     }
+}
+
+QString GroupsModel::debugString() {
+    QString string;
+    for (const auto &item : m_downLink) {
+        QStringList leafs;
+        for (auto leaf : item.second) {
+            leafs << QString::number(leaf);
+        }
+        string.append((QStringLiteral("ID: %1 Leafs: %2; ").arg(item.first).arg(leafs.join(" "))));
+    }
+    return string;
 }
 
 void GroupsModel::removeFromGroup(int id)
@@ -723,7 +718,7 @@ QJsonObject GroupsModel::toJson(int gid) const
         if (auto ptr = m_parent.lock()) {
             Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid) || ptr->isSubTitle(gid));
             currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
-            int track = ptr->isSubTitle(gid) ? -1 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
+            int track = ptr->isSubTitle(gid) ? -2 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
             currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
         } else {
@@ -754,7 +749,7 @@ const QString GroupsModel::toJson() const
     return QString(json.toJson());
 }
 
-const QString GroupsModel::toJson(std::unordered_set<int> roots) const
+const QString GroupsModel::toJson(const std::unordered_set<int> &roots) const
 {
     QJsonArray list;
     for (int r : roots) {
@@ -846,7 +841,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap)
+void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap)
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();
@@ -861,7 +856,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject
                 QString cur_data = child.value(QLatin1String("data")).toString();
                 int trackId = cur_data.section(":", 0, 0).toInt();
                 int pos = cur_data.section(":", 1, 1).toInt();
-                int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
+                int trackPos = trackId == -2 ? -2 : ptr->getTrackPosition(trackMap.value(trackId));
                 pos += offset;
                 child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
                 updatedNodes.append(QJsonValue(child));

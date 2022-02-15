@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MONITORMANAGER_H
 #define MONITORMANAGER_H
@@ -68,10 +55,16 @@ public:
     QDir getCacheFolder(CacheType type);
     /** @brief Returns true if multitrack view is enabled in project monitor. */
     bool isMultiTrack() const;
+    /** @brief Enable/disable multitrack view in project monitor. */
+    void switchMultiTrackView(bool enable);
+    /** @brief Returns true if the project monitor shows a trimming preview. */
+    bool isTrimming() const;
     /** @brief Returns true if the project monitor is visible (and not tabbed under another dock. */
     bool projectMonitorVisible() const;
     /** @brief Returns true if the clip monitor is visible (and not tabbed under another dock. */
     bool clipMonitorVisible() const;
+    /** @brief Refresh both monitors. */
+    void refreshMonitors();
     QTimer refreshTimer;
     static const double speedArray[6];
 
@@ -97,7 +90,7 @@ public slots:
     void slotSetInPoint();
     void slotSetOutPoint();
     void focusProjectMonitor();
-    void refreshProjectMonitor();
+    void refreshProjectMonitor(bool directUpdate = false);
     /** @brief Refresh project monitor if the timeline cursor is inside the range. */
     void refreshProjectRange(QPair<int, int>range);
     void refreshClipMonitor(bool directUpdate = false);
@@ -116,6 +109,12 @@ public slots:
     void slotExtractCurrentFrameToProject();
     /** @brief Refresh monitor background color */
     void updateBgColor();
+    /** @brief Start multitrack operation */
+    void slotStartMultiTrackMode();
+    /** @brief Stop multitrack operation */
+    void slotStopMultiTrackMode();
+    void slotPerformMultiTrackMode();
+
 
 private slots:
     /** @brief Set MLT's consumer deinterlace method */
@@ -124,6 +123,8 @@ private slots:
     void slotSetInterpolation(int ix);
     /** @brief Switch muting on/off */
     void slotMuteCurrentMonitor(bool active);
+    /** @brief Toggle progressive play on/off */
+    void slotProgressivePlay(bool active);
     /** @brief Zoom in active monitor */
     void slotZoomIn();
     /** @brief Zoom out active monitor */
@@ -145,6 +146,8 @@ private:
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
     QAction *m_multiTrack{nullptr};
+    /** @brief The currently active track for multitrack mode */
+    int m_activeMultiTrack;
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */

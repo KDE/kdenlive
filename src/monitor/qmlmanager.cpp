@@ -1,31 +1,17 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "qmlmanager.h"
 #include "kdenlivesettings.h"
 
 #include <QFontDatabase>
 #include <QQmlContext>
-#include <QQuickView>
 #include <QQuickItem>
+#include <QQuickView>
 
 QmlManager::QmlManager(QQuickView *view)
     : QObject(view)
@@ -81,7 +67,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     case MonitorSceneRoto:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
         root = m_view->rootObject();
-        QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectRotoChanged()), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(effectPolygonChanged(QVariant,QVariant)), this, SLOT(effectRotoChanged(QVariant,QVariant)), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("scalex", scalex);
@@ -107,8 +93,8 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
         break;
-    case MonitorSceneRipple:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
+    case MonitorSceneTrimming:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
         root = m_view->rootObject();
         break;
     default:         
@@ -147,13 +133,17 @@ void QmlManager::effectPolygonChanged()
     emit effectPointsChanged(points);
 }
 
-void QmlManager::effectRotoChanged()
+void QmlManager::effectRotoChanged(const QVariant &pts, const QVariant &centers)
 {
     if (!m_view->rootObject()) {
         return;
     }
-    QVariantList points = m_view->rootObject()->property("centerPoints").toList();
-    QVariantList controlPoints = m_view->rootObject()->property("centerPointsTypes").toList();
+    QVariantList points = pts.toList();
+    QVariantList controlPoints = centers.toList();
+    if (2 * points.size() != controlPoints.size()) {
+        // Mismatch, abort
+        return;
+    }
     // rotoscoping effect needs a list of
     QVariantList mix;
     mix.reserve(points.count());

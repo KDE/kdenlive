@@ -108,6 +108,10 @@
       <label>Automatically import image sequences.</label>
       <default>false</default>
     </entry>
+    <entry name="ignoresubdirstructure" type="Bool">
+      <label>Ignore the subfolder structure (all clips in subfolders are added to the toplevel folder)</label>
+      <default>false</default>
+    </entry>
     <entry name="disableimagescaling" type="Bool">
       <label>Add a filter to disable default image scaling.</label>
       <default>false</default>
@@ -223,6 +227,10 @@
       <label>Rescale size for image proxy creation.</label>
       <default>800</default>
     </entry>
+    <entry name="proxyscale" type="Int">
+      <label>Default frame width for proxy clips.</label>
+      <default>640</default>
+    </entry>
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
       <default></default>
@@ -241,6 +249,11 @@
     <entry name="transcodeFriendly" type="String">
       <label>Name of the default transcoding profile for edit friendly convert.</label>
       <default>Lossy x264 I frame only</default>
+    </entry>
+
+    <entry name="transcodeFriendlyRotate" type="Bool">
+      <label>If true, autorotate is disabled on transcoding.</label>
+      <default>false</default>
     </entry>
 
     <entry name="previewextension" type="String">
@@ -265,6 +278,10 @@
 
     <entry name="vaapiEnabled" type="Bool">
       <label>Enables vaapi hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
+    <entry name="vaapiScalingEnabled" type="Bool">
+      <label>Enables scale_vaapi hw accel in encoders.</label>
       <default>false</default>
     </entry>
     <entry name="nvencEnabled" type="Bool">
@@ -293,6 +310,10 @@
     <entry name="autopreview" type="Bool">
       <label>Automatically regenerate dirty zones of timeline preview.</label>
       <default>false</default>
+    </entry>
+    <entry name="proxypreview" type="Bool">
+      <label>Use proxy clips for preview rendering.</label>
+      <default>true</default>
     </entry>
 
     <entry name="multistream" type="Int">
@@ -392,6 +413,10 @@
       <label>Use Movit for GPU accelerated display and effects.</label>
       <default>false</default>
     </entry>
+    <entry name="audio_scrub" type="Bool">
+    <label>Enable Audio Scrubbing</label>
+    <default>true</default>
+    </entry>
     <entry name="sdlAudioBackend" type="String">
       <label>Detected audio backed.</label>
       <default>sdl2_audio</default>
@@ -436,6 +461,16 @@
       <default>#535353</default>
     </entry>
 
+    <entry name="monitor_background" type="String">
+      <label>Background color for clip monitor (only visible with transparent clips).</label>
+      <default>black</default>
+    </entry>
+    
+    <entry name="monitor_progressive" type="Bool">
+      <label>Should we deinterlace monitor preview.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="volume" type="Int">
       <label>Volume used for SDL output.</label>
       <default>100</default>
@@ -458,6 +493,16 @@
     <entry name="blackmagic_output_device" type="Int">
       <label>Blackmagic video output device.</label>
       <default>0</default>
+    </entry>
+    
+    <entry name="fullscreen_monitor" type="String">
+      <label>Monitor used for fullscreen output.</label>
+      <default></default>
+    </entry>
+
+    <entry name="preferredcomposite" type="String">
+      <label>The preferred composition for track compositing.</label>
+      <default></default>
     </entry>
 </group>
 
@@ -519,6 +564,11 @@
 
     <entry name="customprojectfolder" type="Bool">
       <label>Don't use default XDG folders to store project files.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="sameprojectfolder" type="Bool">
+      <label>Use the parent folder of the *.kdenlive file to store project files.</label>
       <default>false</default>
     </entry>
 
@@ -1084,7 +1134,12 @@
     </entry>
 
     <entry name="add_new_clip" type="Bool">
-      <label>Add cut clips to project after transcoding.</label>
+      <label>Add task clips to project after processing.</label>
+      <default>true</default>
+    </entry>
+    
+    <entry name="add_new_clip_to_folder" type="Bool">
+      <label>Add task clips in a specific folder after processing.</label>
       <default>true</default>
     </entry>
 
@@ -1160,14 +1215,6 @@
         </entry>
    </group>
    <group name="speech">
-       <entry name="vosk_found" type="Bool">
-            <label>Is VOSK correctly found</label>
-           <default>false</default>
-       </entry>
-       <entry name="vosk_srt_found" type="Bool">
-            <label>Is the SRT package correctly found (used for auto subtitles)</label>
-           <default>false</default>
-       </entry>
        <entry name="vosk_folder_path" type="String">
            <label>Custom path for the folder containins the vosk speech models. Uses default XDG location if empty</label>
            <default></default>

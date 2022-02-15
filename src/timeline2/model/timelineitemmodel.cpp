@@ -1,27 +1,11 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "timelineitemmodel.hpp"
-#include "audiomixer/mixermanager.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "clipmodel.hpp"
@@ -31,8 +15,8 @@
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
-#include "trackmodel.hpp"
 #include "snapmodel.hpp"
+#include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QFileInfo>
@@ -134,8 +118,11 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
     return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId));
 }
 
-void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
+void TimelineItemModel::subtitleChanged(int subId, const QVector<int> &roles)
 {
+    if (m_closing) {
+        return;
+    }
     Q_ASSERT(m_subtitleModel != nullptr);
     Q_ASSERT(m_allSubtitles.count(subId) > 0);
     m_subtitleModel->updateSub(subId, roles);
@@ -233,6 +220,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[FadeOutRole] = "fadeOut";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
+    roles[TimeRemapRole] = "timeremap";
     roles[HeightRole] = "trackHeight";
     roles[TrackTagRole] = "trackTag";
     roles[ItemIdRole] = "item";
@@ -241,6 +229,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeAudioRole] = "canBeAudio";
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
+    roles[ReloadAudioThumbRole] = "reloadAudioThumb";
     roles[PositionOffsetRole] = "positionOffset";
     roles[ThumbsFormatRole] = "thumbsFormat";
     roles[AudioRecordRole] = "audioRecord";
@@ -353,6 +342,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getMixCutPosition();
         case ReloadThumbRole:
             return clip->forceThumbReload;
+        case ReloadAudioThumbRole:
+            return clip->forceThumbReload;
         case PositionOffsetRole:
             return clip->getOffset();
         case SpeedRole:
@@ -363,6 +354,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->selected;
         case TagRole:
             return clip->clipTag();
+        case TimeRemapRole:
+            return clip->isChain();
         default:
             break;
         }
@@ -485,9 +478,11 @@ void TimelineItemModel::setTrackName(int trackId, const QString &text)
     PUSH_UNDO(undo_lambda, redo_lambda, i18n("Rename Track"));
 }
 
-void TimelineItemModel::hideTrack(int trackId, const QString state)
+void TimelineItemModel::hideTrack(int trackId, bool hide)
 {
     QWriteLocker locker(&m_lock);
+    bool isAudio = isAudioTrack(trackId);
+    QString state = hide ? (isAudio ? "1" : "2") : "3";
     QString previousState = getTrackProperty(trackId, QStringLiteral("hide")).toString();
     Fun undo_lambda = [this, trackId, previousState]() {
         setTrackProperty(trackId, QStringLiteral("hide"), previousState);
@@ -646,7 +641,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     // Make sure all previous track compositing is removed
     if (rebuild) {
         while (service != nullptr && service->is_valid()) {
-            if (service->type() == transition_type) {
+            if (service->type() == mlt_service_transition_type) {
                 Mlt::Transition t(mlt_transition(service->get_service()));
                 service.reset(service->producer());
                 if (t.get_int("internal_added") == 237) {

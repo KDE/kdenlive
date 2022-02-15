@@ -1,29 +1,13 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MARKERLISTMODEL_H
 #define MARKERLISTMODEL_H
 
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -64,7 +48,7 @@ public:
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
      */
     bool addMarker(GenTime pos, const QString &comment, int type = -1);
-    bool addMarkers(QMap <GenTime, QString> markers, int type = -1);
+    bool addMarkers(const QMap <GenTime, QString> &markers, int type = -1);
 
 protected:
     /** @brief Same function but accumulates undo/redo */
@@ -97,9 +81,9 @@ public:
        @param undo
        @param redo
     */
-    bool moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
+    bool moveMarkers(const QList<CommentedTime> &markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo);
     bool moveMarker(int mid, GenTime pos);
-    void moveMarkersWithoutUndo(QVector<int> markersId, int offset, bool updateView = true);
+    void moveMarkersWithoutUndo(const QVector<int> &markersId, int offset, bool updateView = true);
 
     /** @brief This describes the available markers type and their corresponding colors */
     static std::array<QColor, 9> markerTypes;

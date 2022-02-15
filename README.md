@@ -7,16 +7,17 @@
 | Flatpak | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/) | See [here](https://flathub.org/builds/#/apps/org.kde.kdenlive)|
 | Nightly Appimage | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/) | |
 | Nightly Appimage Dependency | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Dependency_Build/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Dependency_Build/)  | |
+| Craft Appimage | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_appimage-centos7/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_appimage-centos7/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_appimage-centos7/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_appimage-centos7/) |
 | MinGW64 | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/) |
 | macOS | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/) |
 
 # About Kdenlive
 
-[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the [GNU General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
+[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or any later version that is accepted by the KDE project.
 
 # Building from source
 
-[Instructions to build Kdenlive](dev-docs/build.md) are available on the KDE wiki.
+[Instructions to build Kdenlive](dev-docs/build.md) are available in the dev-docs folder.
 
 # Testing Kdenlive via Nightly Builds
 

@@ -1,37 +1,26 @@
 /*
- * Copyright (c) 2013-2021 Meltytech, LLC
- * Copyright (c) 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2021 Meltytech LLC
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "abstracttask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 
-#include <QString>
-#include <QVariantList>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QRgb>
-#include <QThreadPool>
 #include <QMutex>
+#include <QRgb>
+#include <QString>
+#include <QThreadPool>
 #include <QTime>
-#include <QFile>
-#include <QElapsedTimer>
+#include <QVariantList>
 
 AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
     : QRunnable()
@@ -84,7 +73,7 @@ AbstractTask::~AbstractTask()
 {
 }
 
-bool AbstractTask::operator==(AbstractTask &b)
+bool AbstractTask::operator==(const AbstractTask &b)
 {
     return m_owner == b.ownerId();
 }

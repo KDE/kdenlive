@@ -1,12 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "waveform.h"
 #include "waveformgenerator.h"
@@ -17,8 +14,8 @@
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 #include <QPoint>
 
 const QSize Waveform::m_textWidth(35, 0);
@@ -46,7 +43,7 @@ Waveform::Waveform(QWidget *parent)
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Waveform::forceUpdateScope);
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
     connect(m_aRec601, &QAction::toggled, this, &Waveform::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Waveform::forceUpdateScope);

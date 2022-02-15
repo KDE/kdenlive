@@ -1,57 +1,41 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include <KLocalizedContext>
 
-#include "timelinewidget.h"
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
-#include "monitor/monitorproxy.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
+#include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
-#include "effects/effectsrepository.hpp"
-#include "bin/model/markerlistmodel.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
 #include <QAction>
+#include <QActionGroup>
+#include <QFontDatabase>
+#include <QMenu>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
-#include <QActionGroup>
-#include <QUuid>
-#include <QMenu>
-#include <QFontDatabase>
 #include <QSortFilterProxyModel>
+#include <QUuid>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -149,9 +133,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     // Fix qml focus issue
     connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineClipMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineCompositionMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineMenu, &QMenu::triggered, this, &TimelineWidget::slotResetContextPos);
     connect(m_timelineSubtitleClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
@@ -185,12 +171,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", project->getGuideModel(model->uuid()).get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
-    QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-    ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
-    setFont(ft);
-    rootContext()->setContextProperty("miniFont", font());
-    //TODO: make subtitle model relative to document
-    //rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //TODO-MULTITL: make subtitle model relative to document
+    rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
@@ -333,12 +316,11 @@ void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(uuid)->getAllMarkers();
-    QAction *ac;
     m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto *ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
@@ -354,12 +336,11 @@ void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
     const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(uuid)->getAllMarkers();
-    QAction *ac;
     m_editGuideAction->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
     for (const auto &guide : guides) {
-        ac = new QAction(guide.comment(), this);
+        auto ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
         if (frame == currentPos) {
@@ -394,7 +375,7 @@ void TimelineWidget::slotFitZoom()
     double scale = returnedValue.toDouble();
     QMetaObject::invokeMethod(rootObject(), "scrollPos", Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    if (qFuzzyCompare(prevScale, scale)) {
+    if (qFuzzyCompare(prevScale, scale) && scrollPos == 0) {
         scale = m_prevScale;
         scrollPos = m_scrollPos;
     } else {
@@ -433,9 +414,13 @@ void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &ne
     m_proxy->updateZone(oldZone, newZone);
 }
 
-void TimelineWidget::setTool(ProjectTool tool)
+void TimelineWidget::setTool(ToolType::ProjectTool tool)
 {
     rootObject()->setProperty("activeTool", int(tool));
+}
+
+ToolType::ProjectTool TimelineWidget::activeTool() {
+    return ToolType::ProjectTool(rootObject()->property("activeTool").toInt());
 }
 
 QPair<int, int> TimelineWidget::getTracksCount() const
@@ -447,15 +432,21 @@ void TimelineWidget::slotUngrabHack()
 {
     // Workaround bug: https://bugreports.qt.io/browse/QTBUG-59044
     // https://phabricator.kde.org/D5515
+    QTimer::singleShot(250, this, [this]() {
+        // Reset menu position, necessary if user closes the menu without selecting any action
+        rootObject()->setProperty("clickFrame", -1);
+    });
     if (quickWindow() && quickWindow()->mouseGrabberItem()) {
         quickWindow()->mouseGrabberItem()->ungrabMouse();
-        // Reset menu position
-        QTimer::singleShot(200, this, [this]() {
-            rootObject()->setProperty("mainFrame", -1);
-        });
         QPoint mousePos = mapFromGlobal(QCursor::pos());
         QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));
     }
+}
+
+void TimelineWidget::slotResetContextPos(QAction *)
+{
+    rootObject()->setProperty("clickFrame", -1);
+    m_clickPos = QPoint();
 }
 
 int TimelineWidget::zoomForScale(double value) const

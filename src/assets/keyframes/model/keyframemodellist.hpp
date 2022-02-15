@@ -1,29 +1,13 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYFRAMELISTMODELLIST_H
 #define KEYFRAMELISTMODELLIST_H
 
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "keyframemodel.hpp"
 #include "undohelper.hpp"
 
@@ -78,7 +62,7 @@ public:
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
-    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView = true);
     bool moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 
     /** @brief updates the value of a keyframe
@@ -144,14 +128,29 @@ public:
     const QString getAssetId();
     const QString getAssetRow();
 
+    /** @brief Returns the list of selected keyframes */
+    QVector<int> selectedKeyframes() const;
+    /** @brief Remove a position from selected keyframes */
+    void removeFromSelected(int pos);
+    /** @brief Replace list of selected keyframes */
+    void setSelectedKeyframes(const QVector<int> &list);
+    /** @brief Append a keyframe to selection */
+    void appendSelectedKeyframe(int frame);
+
+    /** @brief Get the currently active keyframe */
+    int activeKeyframe() const;
+    /** @brief Set the currently active keyframe */
+    void setActiveKeyframe(int pos);
+
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
     
     /** @brief Parent item size change, update keyframes*/
-    void moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo);
+    void moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo);
     
     /** @brief Return position of the nth keyframe (ix = nth)*/
     GenTime getPosAtIndex(int ix);
+    int getIndexForPos(GenTime pos);
     QModelIndex getIndexAtRow(int row);
 
     /** @brief Check that all keyframable parameters have the same keyframes on loading
@@ -164,6 +163,7 @@ protected:
 
 signals:
     void modelChanged();
+    void modelDisplayChanged();
 
 private:
     std::weak_ptr<AssetParameterModel> m_model;
@@ -172,6 +172,9 @@ private:
     /** @brief Index of the parameter that is displayed in timeline */
     QModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+
+private slots:
+    void slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
 public:
     // this is to enable for range loops

@@ -4,9 +4,19 @@ acompressor.xml
 aecho.xml
 agate.xml
 subtitles.xml
+avfilter_acontrast.xml
+avfilter_acrusher.xml
+avfilter_alimiter.xml
+avfilter_allpass.xml
+avfilter_aphaser.xml
+avfilter_apulsator.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
+avfilter_bandpass.xml
+avfilter_bandreject.xml
+avfilter_bass.xml
 avfilter_boxblur.xml
+avfilter_bs2b.xml
 avfilter_bwdif.xml
 avfilter_chromahold.xml
 avfilter_chromashift.xml
@@ -16,7 +26,12 @@ avfilter_colorhold.xml
 avfilter_colorlevels.xml
 avfilter_colormatrix.xml
 avfilter_colorspace.xml
+avfilter_compand.xml
+avfilter_compensationdelay.xml
+avfilter_crossfeed.xml
+avfilter_crystalizer.xml
 avfilter_datascope.xml
+avfilter_dcshift.xml
 avfilter_dctdnoiz.xml
 avfilter_deband.xml
 avfilter_deblock.xml
@@ -24,6 +39,7 @@ avfilter_dedot.xml
 avfilter_deflate.xml
 avfilter_delogo.xml
 avfilter_derain.xml
+avfilter_deesser.xml
 avfilter_despill.xml
 avfilter_dilation.xml
 avfilter_doubleweave.xml
@@ -34,16 +50,21 @@ avfilter_elbg.xml
 avfilter_eq.xml
 avfilter_equalizer.xml
 avfilter_erosion.xml
+avfilter_extrastereo.xml
 avfilter_fftdnoiz.xml
 avfilter_fftfilt.xml
 avfilter_field.xml
 avfilter_fieldorder.xml
 avfilter_fillborders.xml
+avfilter_flanger.xml
 avfilter_framestep.xml
 avfilter_fspp.xml
 avfilter_gblur.xml
 avfilter_graphmonitor.xml
+avfilter_haas.xml
 avfilter_hflip.xml
+avfilter_highpass.xml
+avfilter_highshelf.xml
 avfilter_histeq.xml
 avfilter_histogram.xml
 avfilter_hqdn3d.xml
@@ -54,6 +75,9 @@ avfilter_kerneldeint.xml
 avfilter_lagfun.xml
 avfilter_lenscorrection.xml
 avfilter_limiter.xml
+avfilter_loudnorm.xml
+avfilter_lowpass.xml
+avfilter_lowshelf.xml
 avfilter_lut3d.xml
 avfilter_mcdeint.xml
 avfilter_negate.xml
@@ -72,8 +96,11 @@ avfilter_setrange.xml
 avfilter_shuffleplanes.xml
 avfilter_smartblur.xml
 avfilter_sobel.xml
+avfilter_sofalizer.xml
 avfilter_sr.xml
 avfilter_stereo3D.xml
+avfilter_stereotools.xml
+avfilter_stereowiden.xml
 avfilter_tmix.xml
 avfilter_transpose.xml
 avfilter_unsharp.xml
@@ -81,10 +108,11 @@ avfilter_vaguedenoiser.xml
 avfilter_vectorscope.xml
 avfilter_vflip.xml
 avfilter_vibrance.xml
+avfilter_vibrato.xml
 avfilter_w3fdif.xml
 avfilter_waveform.xml
 avfilter_weave.xml
 avfilter_xbr.xml
 avfilter_yadif.xml
 avfilter_zoompan.xml
-DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
+DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)

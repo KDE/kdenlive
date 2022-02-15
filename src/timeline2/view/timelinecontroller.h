@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TIMELINECONTROLLER_H
 #define TIMELINECONTROLLER_H
@@ -87,10 +71,13 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor selectionColor READ selectionColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
+    Q_PROPERTY(bool subtitlesWarning READ subtitlesWarning NOTIFY subtitlesWarningChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
+    Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
+    Q_PROPERTY(int multicamIn MEMBER multicamIn NOTIFY multicamInChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -113,8 +100,10 @@ public:
         @param type is the type of the object (clip or composition)
         @param select: true if the object should be selected and false if it should be deselected
         @param addToCurrent: if true, the object will be added to the new selection
+        @param showErrorMsg inform the user that no item was selected
+        @return false if no item was found under timeline cursor in active track
     */
-    void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
+    bool selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false, bool showErrorMsg = true);
 
     /** @brief Select all timeline items
      */
@@ -173,6 +162,7 @@ public:
     Q_INVOKABLE bool hasVideoTarget() const;
     bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
+    Q_INVOKABLE int trimmingMainClip() const { return m_trimmingMainClip; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
@@ -188,14 +178,14 @@ public:
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;
+    /** @brief Returns true if the avfilter.subtiles filter is not found */
+    bool subtitlesWarning() const;
+    Q_INVOKABLE void subtitlesWarningDetails();
     void switchSubtitleDisable();
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
     bool subtitlesLocked() const;
     bool guidesLocked() const;
-    /** @brief Request a seek operation
-       @param position is the desired new timeline position
-     */
     int zoneIn() const { return m_zone.x(); }
     int zoneOut() const { return m_zone.y(); }
     void setZoneIn(int inPoint);
@@ -237,6 +227,15 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    /** @brief Request inserting a new mix in timeline (dragged from compositions list)
+       @param tid is the destination track
+       @param position is the timeline position
+       @param transitionId is the data describing the dropped composition
+    */
+    Q_INVOKABLE void insertNewMix(int tid, int position, const QString &transitionId);
+    /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
+    */
+    Q_INVOKABLE int isOnCut(int cid) const;
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        this function will check if there is a clip at insert point and
        adjust the composition length accordingly
@@ -246,7 +245,7 @@ public:
        @param logUndo if set to false, no undo object is stored
        @return the id of the inserted composition
     */
-    Q_INVOKABLE int insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertNewCompositionAtPos(int tid, int position, const QString &transitionId);
     Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo);
 
     /** @brief Request deletion of the currently selected clips
@@ -262,7 +261,7 @@ public:
      * only return the id if timeline cursor is inside item
      */
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
-    int getMainSelectedClip() const;
+    int getMainSelectedClip();
 
     /** @brief Do we want to display video thumbnails
      */
@@ -326,7 +325,7 @@ public:
 
     /** @brief Add a timeline guide
      */
-    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false);
+    Q_INVOKABLE void switchGuide(int frame = -1, bool deleteOnly = false, bool showGui = false);
     /** @brief Request monitor refresh
      */
     Q_INVOKABLE void requestRefresh();
@@ -366,10 +365,10 @@ public:
 
     /** @brief Set current item's start point to cursor position
      */
-    void setInPoint();
+    void setInPoint(bool ripple = false);
     /** @brief Set current item's end point to cursor position
      */
-    void setOutPoint();
+    void setOutPoint(bool ripple = false);
     /** @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
@@ -404,13 +403,13 @@ public:
     Q_INVOKABLE QVector<int> spacerSelection(int startFrame);
     /** @brief Move a list of guides from a given offset
      */
-    Q_INVOKABLE void spacerMoveGuides(QVector<int> ids, int offset);
+    Q_INVOKABLE void spacerMoveGuides(const QVector<int> &ids, int offset);
     /** @brief Get the position of the first marker in the list
      */
     Q_INVOKABLE int getGuidePosition(int ids);
     /** @brief Request a spacer operation
      */
-    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, QVector<int> selectedGuides = QVector<int>(), int guideStart = -1);
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack, const QVector<int> &selectedGuides = QVector<int>(), int guideStart = -1);
     /** @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
@@ -464,11 +463,12 @@ public:
     void switchAllTrackActive();
     /** @brief Make all tracks active or inactive */
     void makeAllTrackActive();
+    void switchTrackDisabled();
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 
     const QString getTrackNameFromIndex(int trackIndex);
-    /** @brief Seeks to selected clip start / end
+    /** @brief Seeks to selected clip start / end or, if none is selected, to the start / end of the clip under the cursor
      */
     void seekCurrentClip(bool seekToEnd = false);
     /** @brief Seeks to a clip start (or end) based on it's clip id
@@ -527,6 +527,21 @@ public:
     /** @brief Delete the split clip view to compare effect
      */
     void removeSplitOverlay();
+
+    /** @brief Limit the given offset to the max/min possible offset of the main trimming clip
+     *  @returns The bounded offset
+     */
+    int trimmingBoundOffset(int offset);
+    /** @brief @todo TODO */
+    bool slipProcessSelection(int mainClipId, bool addToSelection);
+    Q_INVOKABLE bool requestStartTrimmingMode(int clipId = -1, bool addToSelection = false, bool right = false);
+    Q_INVOKABLE void requestEndTrimmingMode();
+    Q_INVOKABLE void slipPosChanged(int offset);
+    Q_INVOKABLE void ripplePosChanged(int pos, bool right);
+
+    /** @brief @todo TODO */
+    Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+
     /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);
@@ -549,7 +564,7 @@ public:
 
     /** @brief Load timeline preview from saved doc
      */
-    void loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable);
+    void loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable, Mlt::Playlist &playlist);
     /** @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
@@ -559,6 +574,8 @@ public:
 
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, double speed);
+    /** @brief Activate time remap on the clip */
+    void remapItemTime(int clipId);
     /** @brief Delete selected zone and fill gap by moving following clips
      *  @param lift if true, the zone will simply be deleted but clips won't be moved
      */
@@ -576,7 +593,7 @@ public:
     /** @brief timeline preview params changed, reset */
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
-    void setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets);
+    void setTargetTracks(bool hasVideo, const QMap <int, QString> &audioTargets);
     /** @brief Restore Bin Clip original target tracks (video, audio) */
     void restoreTargetTracks();
     /** @brief Return asset's display name from it's id (effect or composition) */
@@ -587,6 +604,8 @@ public:
     QStringList getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
+    /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
+    bool trimmingActive();
     /** @brief Disconnect some stuff before closing project */
     void prepareClose();
     /** @brief Check that we don't keep a deleted track id */
@@ -618,9 +637,9 @@ public:
     /** @brief Create a mix transition with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
-    void temporaryUnplug(QList<int> clipIds, bool hide);
+    void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Edit the subtitle text*/
-    Q_INVOKABLE void editSubtitle(int startFrame, int endFrame, QString newText, QString oldText);
+    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
     /** @brief Edit the subtitle end */
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Add subtitle clip at cursor's position in timeline */
@@ -628,9 +647,9 @@ public:
     /** @brief Cut a subtitle and split the text at \@param pos */
     void cutSubtitle(int id, int cursorPos);
     /** @brief Delete subtitle clip with frame as start position*/
-    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
+    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &Ctext);
     /** @brief Import a subtitle file*/
-    void importSubtitle(const QString path = QString());
+    void importSubtitle(const QString &path = QString());
     /** @brief Export a subtitle file*/
     void exportSubtitle();
     /** @brief Launch speech recognition on timeline zone*/
@@ -638,13 +657,19 @@ public:
     /** @brief Show active effect zone for current effect*/
     void showRulerEffectZone(QPair <int, int>inOut, bool checked);
     /** @brief Set the list of master effect zones */
-    void updateMasterZones(QVariantList zones);
+    void updateMasterZones(const QVariantList &zones);
     /** @brief get Maximum duration of a clip */
     int clipMaxDuration(int cid);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
+    /** @brief Get align info for a mix. */
+    MixAlignment getMixAlign(int cid) const;
+    /** @brief Process a lift operation for multitrack operation. */
+    void processMultitrackOperation(int tid, int in);
 
 public slots:
     void resetView();
-    void setAudioTarget(QMap<int, int> tracks);
+    void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
@@ -658,14 +683,17 @@ public slots:
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
     /** @brief Activate a video track by its position (0 = topmost). */
-    void activateTrackAndSelect(int trackPosition);
+    void activateTrackAndSelect(int trackPosition, bool notesMode = false);
     /** @brief Save timeline selected clips to target folder. */
     void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
+    /** @brief Request resizing currently selected mix. */
+    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
     /** @brief change zone info with undo. */
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
+    void updateTrimmingMode();
 
 private slots:
     void updateClipActions();
@@ -677,6 +705,10 @@ private slots:
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
     QList<QAction *> clipActions;
+    /** @brief The in point for a multicam operation */
+    int multicamIn;
+    /** @brief Set the in point for a multicam operation and trigger necessary signals */
+    void setMulticamIn(int pos);
 
 private:
     QQuickItem *m_root;
@@ -710,6 +742,8 @@ private:
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
     QVariantList m_masterEffectZones;
+    /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
+    int m_trimmingMainClip;
 
     void initializePreview();
     bool darkBackground() const;
@@ -733,19 +767,22 @@ signals:
     void autoScrollChanged();
     void lastVideoTargetChanged();
     void activeTrackChanged();
+    void trimmingMainClipChanged();
     void colorsChanged();
     void showThumbnailsChanged();
     void showAudioThumbnailsChanged();
     void showMarkersChanged();
     void rippleChanged();
     void scrubChanged();
+    void subtitlesWarningChanged();
+    void multicamInChanged();
     void seeked(int position);
     void zoneChanged();
     void zoneMoved(const QPoint &zone);
     /** @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     /** @brief Requests that a given mix is displayed in the asset panel */
-    void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly);
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     void showSubtitle(int id);
     /** @brief notify of chunks change

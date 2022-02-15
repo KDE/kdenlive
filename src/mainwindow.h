@@ -1,27 +1,16 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QComboBox>
+#ifndef NODBUS
 #include <QDBusAbstractAdaptor>
+#endif
 #include <QDockWidget>
 #include <QEvent>
 #include <QImage>
@@ -40,11 +29,11 @@
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
-#include "utils/otioconvertions.h"
+#include "pythoninterfaces/otioconvertions.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -102,9 +91,16 @@ public:
 
     /** @brief Adds an action to the action collection and stores the name. */
     void addAction(const QString &name, QAction *action, const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    void addAction(const QString &name, QAction *action, const QKeySequence &shortcut, const QString &category);
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
+    /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
+                       const QKeySequence &shortcut, const QString &category);
+
+    void processRestoreState(const QByteArray &state);
 
     /**
      * @brief Adds a new dock widget to this window.
@@ -115,7 +111,7 @@ public:
      * @param shortcut default shortcut to raise the dock
      * @returns the created dock widget
      */
-    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea, const QKeySequence &shortcut = QKeySequence());
+    QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
     QUndoGroup *m_commandStack;
     QUndoView *m_undoView;
@@ -147,6 +143,15 @@ public:
 
     /** @brief Raise (show) the project bin*/
     void raiseBin();
+    /** @brief Add a bin widget*/
+    void addBin(Bin *bin, const QString &binName = QString());
+    /** @brief Get the main (first) bin*/
+    Bin *getBin();
+    /** @brief Get the active (focused) bin or first one if none is active*/
+    Bin *activeBin();
+    /** @brief Ensure all bin widgets are tabbed together*/
+    void tabifyBins();
+    int binCount() const;
 
     /** @brief Hide subtitle track */
     void resetSubtitles();
@@ -167,6 +172,11 @@ public:
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
 
+    /** @brief Instantiates a "Get Hot New Stuff" dialog.
+     * @param configFile configuration file for KNewStuff
+     * @return number of installed items */
+    int getNewStuff(const QString &configFile);
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -174,6 +184,7 @@ protected:
      *     true otherwise */
     bool queryClose() override;
     void closeEvent(QCloseEvent *) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
     /** @brief Reports a message in the status bar when an error occurs. */
     void customEvent(QEvent *e) override;
@@ -189,14 +200,16 @@ protected:
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
+    /** @brief Rebuild the dock menu according to existing dock widgets. */
+    void updateDockMenu();
 
     OtioConvertions m_otioConvertions;
     KColorSchemeManager *m_colorschemes;
 
     QDockWidget *m_projectBinDock;
     QDockWidget *m_effectListDock;
-    QDockWidget *m_transitionListDock;
-    TransitionListWidget *m_transitionList2;
+    QDockWidget *m_compositionListDock;
+    TransitionListWidget *m_compositionList;
     EffectListWidget *m_effectList2;
 
     AssetPanel *m_assetPanel{nullptr};
@@ -218,6 +231,7 @@ private:
     KSelectAction *m_compositeAction;
 
     TimelineTabs *m_timelineTabs{nullptr};
+    QVector <Bin*>m_binWidgets;
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList<QDockWidget *> m_gfxScopesList;
@@ -253,6 +267,11 @@ private:
     QAction *m_buttonSelectTool;
     QAction *m_buttonRazorTool;
     QAction *m_buttonSpacerTool;
+    QAction *m_buttonRippleTool;
+    QAction *m_buttonRollTool;
+    QAction *m_buttonSlipTool;
+    QAction *m_buttonSlideTool;
+    QAction *m_buttonMulticamTool;
     QAction *m_buttonSnap;
     QAction *m_saveAction;
     QSlider *m_zoomSlider;
@@ -269,16 +288,13 @@ private:
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
+    ToolType::ProjectTool m_activeTool;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
     void saveOptions();
 
     void loadGenerators();
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile = QString());
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void buildDynamicActions();
@@ -291,7 +307,6 @@ private:
     EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
-    void updateActionsToolTip();
 
 public slots:
     void slotReloadEffects(const QStringList &paths);
@@ -301,7 +316,9 @@ public slots:
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
+#ifndef NODBUS
     Q_NOREPLY void exitApp();
+#endif
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
@@ -310,9 +327,6 @@ public slots:
     void connectDocument();
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
-    void updateDockTitleBars(bool isTopLevel = true);
-    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
-    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     void configureToolbars() override;
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);
@@ -322,12 +336,17 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
-    void slotEditSubtitle(QMap<QString, QString> subProperties = {});
+    void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
     void slotTranscode(const QStringList &urls = QStringList());
+    void slotFriendlyTranscode(const QString &binId, bool checkProfile);
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle(const QString &text = QString());
     /** @brief Ensure subtitle track is displayed */
     void showSubtitleTrack();
+    /** @brief The path of the current document changed (save as), update render settings */
+    void updateProjectPath(const QString &path);
+    /** @brief Update compositing action to display current project setting. */
+    void slotUpdateCompositeAction(int mode);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -402,7 +421,7 @@ private slots:
     void slotAddProjectClipList(const QList<QUrl> &urls);
     void slotChangeTool(QAction *action);
     void slotChangeEdit(QAction *action);
-    void slotSetTool(ProjectTool tool);
+    void slotSetTool(ToolType::ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
     void slotGuideForward();
@@ -453,7 +472,6 @@ private slots:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
-    void slotUpdateClipType(QAction *action);
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscodeClip();
@@ -476,6 +494,8 @@ private slots:
     void slotSetMonitorGamma(int gamma);
     void slotCheckRenderStatus();
     void slotInsertZoneToTree();
+    /** @brief Focus the timecode widget of current monitor. */
+    void slotFocusTimecode();
 
     /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
     void slotMonitorRequestRenderFrame(bool request);
@@ -515,14 +535,10 @@ private slots:
     void forceIconSet(bool force);
     /** @brief Toggle current project's compositing mode. */
     void slotUpdateCompositing(QAction *compose);
-    /** @brief Update compositing action to display current project setting. */
-    void slotUpdateCompositeAction(int mode);
-    /** @brief Cycle through the different timeline trim modes. */
-    void slotSwitchTrimMode();
-    void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();
+    void slotRemapItemTime();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */
@@ -553,6 +569,7 @@ private slots:
     void slotSpeechRecognition();
     /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */
     void slotCopyDebugInfo();
+    void slotRemoveBinDock(const QString &name);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
@@ -571,7 +588,7 @@ signals:
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
     bool focusTimeline(bool focus, bool highlight);
-    void updateProjectPath(const QString &path);
+    void removeBinDock(const QString &name);
 };
 
 #endif

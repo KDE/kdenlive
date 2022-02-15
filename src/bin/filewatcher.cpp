@@ -1,31 +1,16 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "filewatcher.hpp"
 
+#include <KDirWatch>
 #include <QFileInfo>
 
 FileWatcher::FileWatcher(QObject *parent)
     : QObject(parent)
-    , m_fileWatcher(new KDirWatch())
+    , m_fileWatcher(new KDirWatch)
 {
     // Init clip modification tracker
     m_modifiedTimer.setInterval(1500);
@@ -33,14 +18,44 @@ FileWatcher::FileWatcher(QObject *parent)
     connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
     connect(m_fileWatcher.get(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
+    m_queueTimer.setInterval(300);
+    m_queueTimer.setSingleShot(true);
+    connect(&m_queueTimer, &QTimer::timeout, this, &FileWatcher::slotProcessQueue);
+}
+
+
+void FileWatcher::slotProcessQueue()
+{
+    if (m_pendingUrls.size() == 0) {
+        return;
+    }
+    auto iter = m_pendingUrls.begin();
+    doAddFile(iter->first, iter->second);
+    m_pendingUrls.erase(iter->first);
+    if (m_pendingUrls.size() > 0 && !m_queueTimer.isActive()) {
+        m_queueTimer.start();
+    }
 }
 
 void FileWatcher::addFile(const QString &binId, const QString &url)
+{
+    if (m_occurences.count(url) > 0) {
+        // Already queued
+        return;
+    }
+    m_pendingUrls[binId] = url;
+    if (!m_queueTimer.isActive()) {
+        m_queueTimer.start();
+    }
+}
+
+void FileWatcher::doAddFile(const QString &binId, const QString &url)
 {
     if (url.isEmpty()) {
         return;
     }
     if (m_occurences.count(url) == 0) {
+        //QtConcurrent::run([=] { KDirWatch::self()->addFile(url); });
         m_fileWatcher->addFile(url);
     }
     m_occurences[url].insert(binId);
@@ -56,15 +71,14 @@ void FileWatcher::removeFile(const QString &binId)
     m_occurences[url].erase(binId);
     m_binClipPaths.erase(binId);
     if (m_occurences[url].empty()) {
-        m_fileWatcher->removeFile(url);
+        KDirWatch::self()->removeFile(url);
         m_occurences.erase(url);
     }
 }
 
 void FileWatcher::slotUrlModified(const QString &path)
 {
-    if (m_modifiedUrls.count(path) == 0) {
-        m_modifiedUrls.insert(path);
+    if (m_modifiedUrls.insert(path).second) {
         for (const QString &id : m_occurences[path]) {
             emit binClipWaiting(id);
         }
@@ -92,7 +106,7 @@ void FileWatcher::slotProcessModifiedUrls()
 {
     auto checkList = m_modifiedUrls;
     for (const QString &path : checkList) {
-        if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
+        if (KDirWatch::self()->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
             for (const QString &id : m_occurences[path]) {
                 emit binClipModified(id);
             }
@@ -106,12 +120,17 @@ void FileWatcher::slotProcessModifiedUrls()
 
 void FileWatcher::clear()
 {
-    m_fileWatcher->stopScan();
+    KDirWatch::self()->stopScan();
     for (const auto &f : m_occurences) {
-        m_fileWatcher->removeFile(f.first);
+        KDirWatch::self()->removeFile(f.first);
     }
     m_occurences.clear();
     m_modifiedUrls.clear();
     m_binClipPaths.clear();
-    m_fileWatcher->startScan();
+    KDirWatch::self()->startScan();
+}
+
+bool FileWatcher::contains(const QString &path) const
+{
+    return KDirWatch::self()->contains(path);
 }

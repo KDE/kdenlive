@@ -1,47 +1,45 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "monitormanager.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
-#include <kwidgetsaddons_version.h>
 #include <KDualAction>
+#include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QObject>
+#include <dialogs/timeremap.h>
+#include <timeline2/view/timelinecontroller.h>
 
 const double MonitorManager::speedArray[6] = {1. ,1.5, 2., 3., 5.5, 10.};
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)
+    , m_activeMultiTrack(-1)
 
 {
     setupActions();
     refreshTimer.setSingleShot(true);
     refreshTimer.setInterval(200);
     connect(&refreshTimer, &QTimer::timeout, this, &MonitorManager::forceProjectMonitorRefresh);
+    connect(pCore.get(), &Core::monitorProfileUpdated, this, [&]() {
+        QAction *prog = pCore->window()->actionCollection()->action(QStringLiteral("mlt_progressive"));
+        if (prog) {
+            prog->setEnabled(!pCore->getProjectProfile()->progressive());
+            slotProgressivePlay(prog->isChecked());
+        }
+    });
 }
 
 QAction *MonitorManager::getAction(const QString &name)
@@ -112,14 +110,14 @@ void MonitorManager::refreshProjectRange(QPair<int, int> range)
     }
 }
 
-void MonitorManager::refreshProjectMonitor()
+void MonitorManager::refreshProjectMonitor(bool directUpdate)
 {
-    m_projectMonitor->refreshMonitorIfActive();
+    m_projectMonitor->refreshMonitor(directUpdate);
 }
 
 void MonitorManager::refreshClipMonitor(bool directUpdate)
 {
-    m_clipMonitor->refreshMonitorIfActive(directUpdate);
+    m_clipMonitor->refreshMonitor(directUpdate);
 }
 
 void MonitorManager::forceProjectMonitorRefresh()
@@ -135,6 +133,24 @@ bool MonitorManager::projectMonitorVisible() const
 bool MonitorManager::clipMonitorVisible() const
 {
     return (m_clipMonitor->monitorIsFullScreen() || (m_clipMonitor->isVisible() && !m_clipMonitor->visibleRegion().isEmpty()));
+}
+
+void MonitorManager::refreshMonitors()
+{
+    if (m_activeMonitor) {
+        if (m_activeMonitor == m_clipMonitor) {
+            activateMonitor(Kdenlive::ProjectMonitor);
+            refreshProjectMonitor(true);
+            activateMonitor(Kdenlive::ClipMonitor);
+            refreshClipMonitor(true);
+        } else {
+            activateMonitor(Kdenlive::ClipMonitor);
+            refreshClipMonitor(true);
+            activateMonitor(Kdenlive::ProjectMonitor);
+            refreshProjectMonitor(true);
+        }
+
+    }
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
@@ -158,6 +174,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
         if (name == Kdenlive::ClipMonitor) {
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 m_clipMonitor->parentWidget()->raise();
+            } else {
+                m_clipMonitor->fixFocus();
             }
             if (!m_clipMonitor->isVisible()) {
                 pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"), MessageType::InformationMessage);
@@ -170,6 +188,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
         } else if (name == Kdenlive::ProjectMonitor) {
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 m_projectMonitor->parentWidget()->raise();
+            } else {
+                m_projectMonitor->fixFocus();
             }
             if (!m_projectMonitor->isVisible()) {
                 pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"), MessageType::InformationMessage);
@@ -267,38 +287,93 @@ void MonitorManager::slotForward(double speed)
 
 void MonitorManager::slotRewindOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame();
+    if (pCore->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-1, true);
+    } else if (isTrimming()) {
+        return;
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotForwardOneFrame()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame();
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame();
+    if (pCore->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(1);
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(1, true);
+    } else if (isTrimming()) {
+        return;
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame();
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame();
+        }
     }
 }
 
 void MonitorManager::slotRewindOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(-qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(-qRound(pCore->getCurrentFps()), true);
+    } else if (isTrimming()) {
+        return;
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+    if (pCore->activeTool() == ToolType::SlipTool) {
+        m_projectMonitor->slotTrimmingPos(qRound(pCore->getCurrentFps()));
+        pCore->window()->getCurrentTimeline()->model()->requestSlipSelection(qRound(pCore->getCurrentFps()), true);
+    } else if (isTrimming()) {
+        return;
+    } else {
+        if (m_activeMonitor == m_clipMonitor) {
+            m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        } else if (m_activeMonitor == m_projectMonitor) {
+            m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
+        }
     }
+}
+
+void MonitorManager::slotStartMultiTrackMode()
+{
+    getAction(QStringLiteral("monitor_multitrack"))->setEnabled(false);
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
+}
+
+void MonitorManager::slotStopMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    getAction(QStringLiteral("monitor_multitrack"))->setEnabled(true);
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(-1);
+    m_activeMultiTrack = -1;
+}
+
+void MonitorManager::slotPerformMultiTrackMode()
+{
+    if (m_activeMultiTrack == -1) {
+        return;
+    }
+    pCore->window()->getCurrentTimeline()->controller()->processMultitrackOperation(m_activeMultiTrack, pCore->window()->getCurrentTimeline()->controller()->multicamIn);
+    m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
 }
 
 void MonitorManager::slotStart()
@@ -326,7 +401,7 @@ void MonitorManager::resetProfiles()
     }
     if (m_projectMonitor) {
         m_projectMonitor->resetProfile();
-    }
+    }  
 }
 
 void MonitorManager::resetConsumers(bool fullReset)
@@ -389,73 +464,81 @@ void MonitorManager::setupActions()
     playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
     connect(playAction, &KDualAction::activeChangedByUser, this, &MonitorManager::slotPlay);
-    pCore->window()->addAction(QStringLiteral("monitor_play"), playAction, Qt::Key_Space);
+    pCore->window()->addAction(QStringLiteral("monitor_play"), playAction, Qt::Key_Space, QStringLiteral("navandplayback"));
 
     QAction *monitorPause = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-stop")), i18n("Pause"), this);
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);
-    pCore->window()->addAction(QStringLiteral("monitor_pause"), monitorPause, Qt::Key_K);
+    pCore->window()->addAction(QStringLiteral("monitor_pause"), monitorPause, Qt::Key_K, QStringLiteral("navandplayback"));
 
-    QAction *fullMonitor = new QAction(i18n("Switch monitor fullscreen"), this);
+    QAction *fullMonitor = new QAction(i18n("Switch Monitor Fullscreen"), this);
     fullMonitor->setIcon(QIcon::fromTheme(QStringLiteral("view-fullscreen")));
     connect(fullMonitor, &QAction::triggered, this, &MonitorManager::slotSwitchFullscreen);
-    pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor);
+    pCore->window()->addAction(QStringLiteral("monitor_fullscreen"), fullMonitor, Qt::Key_F11, QStringLiteral("monitor"));
 
-    QAction *monitorZoomIn = new QAction(i18n("Zoom in monitor"), this);
+    QAction *monitorZoomIn = new QAction(i18n("Zoom In Monitor"), this);
     monitorZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     connect(monitorZoomIn, &QAction::triggered, this, &MonitorManager::slotZoomIn);
-    pCore->window()->addAction(QStringLiteral("monitor_zoomin"), monitorZoomIn);
+    pCore->window()->addAction(QStringLiteral("monitor_zoomin"), monitorZoomIn, {}, QStringLiteral("monitor"));
 
-    QAction *monitorZoomOut = new QAction(i18n("Zoom out monitor"), this);
+    QAction *monitorZoomOut = new QAction(i18n("Zoom Out Monitor"), this);
     monitorZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     connect(monitorZoomOut, &QAction::triggered, this, &MonitorManager::slotZoomOut);
-    pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut);
+    pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     connect(monitorSeekBackward, &QAction::triggered, this, &MonitorManager::slotRewind);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
     connect(monitorSeekBackwardOneFrame, &QAction::triggered, this, &MonitorManager::slotRewindOneFrame);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-frame"), monitorSeekBackwardOneFrame, Qt::Key_Left);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-frame"), monitorSeekBackwardOneFrame, Qt::Key_Left,
+                               QStringLiteral("navandplayback"));
 
     QAction *monitorSeekBackwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Second"), this);
     connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond, Qt::SHIFT + Qt::Key_Left);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond, Qt::SHIFT + Qt::Key_Left,
+                               QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
     connect(monitorSeekForward,  &QAction::triggered, this, &MonitorManager::slotForward);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L, QStringLiteral("navandplayback"));
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
-    pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home);
+    pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home, QStringLiteral("navandplayback"));
 
-    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
+    QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
+    connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
+    pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL + Qt::Key_End, QStringLiteral("navandplayback"));
+
+    QAction *monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
+    connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-frame"), monitorSeekForwardOneFrame, Qt::Key_Right,
+                               QStringLiteral("navandplayback"));
+
+    QAction *monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
+    connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
+    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond, Qt::SHIFT + Qt::Key_Right,
+                               QStringLiteral("navandplayback"));
+
+    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack View"), this);
     m_multiTrack->setCheckable(true);
     connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
             emit m_projectMonitor->multitrackView(checked, true);
         }
     });
-    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
+    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack, Qt::Key_F12, QStringLiteral("monitor"));
+
+    QAction *performMultiTrackOperation = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-pause")), i18n("Perform Multitrack Operation"), this);
+    connect(performMultiTrackOperation, &QAction::triggered, this, &MonitorManager::slotPerformMultiTrackMode);
+    pCore->window()->addAction(QStringLiteral("perform_multitrack_mode"), performMultiTrackOperation);
 
     QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
     enableEditmode->setCheckable(true);
     enableEditmode->setChecked(KdenliveSettings::showOnMonitorScene());
     connect(enableEditmode, &QAction::triggered, this, &MonitorManager::slotToggleEffectScene);
-    pCore->window()->addAction(QStringLiteral("monitor_editmode"), enableEditmode);
-
-    QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
-    connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
-    pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL + Qt::Key_End);
-
-    QAction *monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
-    connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-frame"), monitorSeekForwardOneFrame, Qt::Key_Right);
-
-    QAction *monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
-    connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond, Qt::SHIFT + Qt::Key_Right);
+    pCore->window()->addAction(QStringLiteral("monitor_editmode"), enableEditmode, {}, QStringLiteral("monitor"));
 
     KSelectAction *interlace = new KSelectAction(i18n("Deinterlacer"), this);
     interlace->addAction(i18n("One Field (fast)"));
@@ -500,20 +583,26 @@ void MonitorManager::setupActions()
 #endif
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
+    
+    QAction *progressive = new QAction(QIcon::fromTheme(QString()), i18n("Progressive playback"), this);
+    connect(progressive, &QAction::triggered, this, &MonitorManager::slotProgressivePlay);
+    pCore->window()->addAction(QStringLiteral("mlt_progressive"), progressive);
+    progressive->setCheckable(true);
+    progressive->setChecked(KdenliveSettings::monitor_progressive());
 
-    QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
-    connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
-    pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart, Qt::SHIFT + Qt::Key_I);
-
-    m_muteAction = new KDualAction(i18n("Mute monitor"), i18n("Unmute monitor"), this);
+    m_muteAction = new KDualAction(i18n("Mute Monitor"), i18n("Unmute Monitor"), this);
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-muted")));
     connect(m_muteAction, &KDualAction::activeChangedByUser, this, &MonitorManager::slotMuteCurrentMonitor);
-    pCore->window()->addAction(QStringLiteral("mlt_mute"), m_muteAction);
+    pCore->window()->addAction(QStringLiteral("mlt_mute"), m_muteAction, {}, QStringLiteral("monitor"));
+
+    QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
+    connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
+    pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart, Qt::SHIFT + Qt::Key_I, QStringLiteral("navandplayback"));
 
     QAction *zoneEnd = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Go to Zone End"), this);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
-    pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd, Qt::SHIFT + Qt::Key_O);
+    pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd, Qt::SHIFT + Qt::Key_O, QStringLiteral("navandplayback"));
 
     QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
     connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
@@ -582,6 +671,23 @@ void MonitorManager::slotSetInterpolation(int ix)
 void MonitorManager::slotMuteCurrentMonitor(bool active)
 {
     m_activeMonitor->mute(active);
+}
+
+void MonitorManager::slotProgressivePlay(bool active)
+{
+    if (pCore->getProjectProfile()->progressive()) {
+        // nothing to do
+        return;
+    }
+    KdenliveSettings::setMonitor_progressive(active);
+    if (m_clipMonitor) {
+        m_clipMonitor->resetConsumer(true);
+        m_clipMonitor->refreshMonitor(true);
+    }
+    if (m_projectMonitor) {
+        m_projectMonitor->resetConsumer(true);
+        m_projectMonitor->refreshMonitor(true);
+    }
 }
 
 Monitor *MonitorManager::clipMonitor()
@@ -674,6 +780,25 @@ bool MonitorManager::isMultiTrack() const
 {
     if (m_multiTrack) {
         return m_multiTrack->isChecked();
+    }
+    return false;
+}
+
+void MonitorManager::switchMultiTrackView(bool enable)
+{
+    if (isMultiTrack()) {
+        if (!enable) {
+            m_multiTrack->trigger();
+        }
+    } else if (enable) {
+        m_multiTrack->trigger();
+    }
+}
+
+bool MonitorManager::isTrimming() const
+{
+    if (m_projectMonitor && m_projectMonitor->m_trimmingbar) {
+        return m_projectMonitor->m_trimmingbar->isVisible();
     }
     return false;
 }

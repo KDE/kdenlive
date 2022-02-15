@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "compositionmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "timelinemodel.hpp"
@@ -121,6 +105,36 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     if (!right) {
         roles.push_back(TimelineModel::StartRole);
     }
+    Fun refresh = []() { return true; };
+    if (m_assetId == QLatin1String("slide")) {
+        // Slide composition uses a keyframe at end of composition, so update last keyframe
+        refresh = [this]() {
+            QString animation(m_asset->get("rect"));
+            if (animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) {
+                QString result = animation.section(QLatin1Char(';'), 0, 0);
+                result.append(QStringLiteral(";-1="));
+                result.append(animation.section(QLatin1Char('='), -1));
+                m_asset->set("rect", result.toUtf8().constData());
+            }
+            return true;
+        };
+        refresh();
+    } else if (m_assetId == QLatin1String("wipe")) {
+        // Slide composition uses a keyframe at end of composition, so update last keyframe
+        refresh = [this]() {
+            QString animation(m_asset->get("geometry"));
+            if ((animation.contains(QLatin1Char(';')) && !animation.contains(QLatin1String(";-1="))) || animation.endsWith(QLatin1Char('='))) {
+                if (animation.contains(QLatin1String(" 0%;")) || animation.contains(QLatin1String(" 0;"))) {
+                    // reverse anim
+                    m_asset->set("geometry", "0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%");
+                } else {
+                    m_asset->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+                }
+            }
+            return true;
+        };
+        refresh();
+    }
     Fun operation = [this, track_operation, roles]() {
         if (track_operation()) {
             // we send a list of roles to be updated
@@ -136,6 +150,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     };
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+        UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
@@ -233,8 +248,9 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
 KeyframeModel *CompositionModel::getEffectKeyframeModel()
 {
     prepareKeyframes();
-    if (getKeyframeModel()) {
-        return getKeyframeModel()->getKeyModel();
+    std::shared_ptr<KeyframeModelList> listModel = getKeyframeModel();
+    if (listModel) {
+        return listModel->getKeyModel();
     }
     return nullptr;
 }

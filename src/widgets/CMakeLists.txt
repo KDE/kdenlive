@@ -4,8 +4,9 @@ set(kdenlive_SRCS
   widgets/colorpickerwidget.cpp
   widgets/doublewidget.cpp
   widgets/dragvalue.cpp
+  widgets/geometrywidget.cpp
   widgets/positionwidget.cpp
   widgets/progressbutton.cpp
-  widgets/geometrywidget.cpp
+  widgets/timecodedisplay.cpp
   PARENT_SCOPE
 )

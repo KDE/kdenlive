@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "21")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MAJOR "22")
+set (RELEASE_SERVICE_VERSION_MINOR "03")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -24,10 +24,15 @@ option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
+option(NODBUS "Build without DBus IPC" OFF)
+option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
+
+# TODO we should completely remove this if there are no complains in the next time or otherwise update the icons from breeze
+option(OLD_FALLBACK_ICONS "Install old looking fallback icons (deprecated, better use breeze)" OFF)
 
 # Minimum versions of main dependencies.
-set(MLT_MIN_MAJOR_VERSION 6)
-set(MLT_MIN_MINOR_VERSION 20)
+set(MLT_MIN_MAJOR_VERSION 7)
+set(MLT_MIN_MINOR_VERSION 0)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
@@ -46,14 +51,26 @@ include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
+    include(QtVersionOption)
+endif()
+
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
-                            DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
+                            KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 # Qt
 set(QT_MIN_VERSION 5.11.0)
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
+if (NOT DEFINED QT_MAJOR_VERSION)
+    set(QT_MAJOR_VERSION 5)
+endif()
+
+find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
+if(NOT NODBUS)
+    find_package(KF5 REQUIRED COMPONENTS DBusAddons)
+    find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
+endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
@@ -73,6 +90,13 @@ if(WIN32)
     set(MLT_PREFIX "..")
 else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
+endif()
+
+# macOS
+if(APPLE)
+    set(DATA_INSTALL_PREFIX "")
+else()
+    set(DATA_INSTALL_PREFIX "/kdenlive")
 endif()
 
 if(KF5FileMetaData_FOUND)
@@ -147,7 +171,8 @@ if (BUILD_QCH)
 endif()
 
 include(GNUInstallDirs)
-install(FILES AUTHORS COPYING README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
+install(FILES AUTHORS README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
+install(DIRECTORY LICENSES DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 if (ECM_VERSION VERSION_LESS "5.59.0")
     install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})
@@ -161,5 +186,7 @@ if(BUILD_TESTING)
 endif()
 if(BUILD_FUZZING AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     add_subdirectory(fuzzer)
+elseif(BUILD_FUZZING)
+    message(STATUS "Fuzzing build was requested but not enabled because compiler is ${CMAKE_CXX_COMPILER_ID} and not Clang")
 endif()
 

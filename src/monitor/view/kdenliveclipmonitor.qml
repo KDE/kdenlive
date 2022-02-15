@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
@@ -18,6 +23,7 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0
@@ -38,7 +44,7 @@ Item {
     property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -146,7 +152,7 @@ Item {
             // Show clip name
             clipNameLabel.opacity = 1
             showAnimate.restart()
-            controller.setWidgetKeyBinding(i18n("<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"));
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
         }
         onExited: {
             controller.setWidgetKeyBinding();
@@ -272,19 +278,17 @@ Item {
                             anchors.right: parent.right
                             anchors.left: parent.left
                             height: streamThumb.streamHeight
+                            property int aChannels: controller.audioChannels[model.index]
                             y: model.index * height
-                            channels: controller.audioChannels[model.index]
+                            channels: aChannels
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
                             isFirstChunk: false
-                            showItem: audioThumb.visible
                             format: controller.audioThumbFormat
                             normalize: controller.audioThumbNormalize
                             scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
-                            drawInPoint: 0
-                            drawOutPoint: audioThumb.width
-                            waveInPoint: (root.duration - 1) * root.zoomStart * channels
-                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * channels
+                            waveInPoint: (root.duration - 1) * root.zoomStart * aChannels
+                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * aChannels
                             fillColor1: root.thumbColor1
                             fillColor2: root.thumbColor2
                         }
@@ -470,6 +474,11 @@ Item {
                 }
                 padding:4
                 horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: inPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
             }
             Label {
                 id: outPoint
@@ -487,6 +496,11 @@ Item {
                 }
                 padding: 4
                 horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: outPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
             }
             TextField {
                 id: marker
@@ -520,13 +534,15 @@ Item {
         Rectangle {
             // Audio or video only drag zone
             id: dragZone
+            property string uuid
             x: 2
             y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
             width: childrenRect.width
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse
+                      || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV
             onOpacityChanged: {
                 if (opacity == 1) {
@@ -544,7 +560,8 @@ Item {
                     Drag.active: dragVideoArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
+                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "kdenlive/dragid" : dragZone.uuid
                     }
                     MouseArea {
                         id: dragVideoArea
@@ -553,6 +570,9 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        onPressed: {
+                            dragZone.uuid = controller.getUuid()
+                        }
                         onExited: {
                             parent.x = 0
                             parent.y = 0
@@ -565,7 +585,8 @@ Item {
                     Drag.active: dragAudioArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
+                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "kdenlive/dragid" : dragZone.uuid
                     }
                     MouseArea {
                         id: dragAudioArea
@@ -574,6 +595,9 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        onPressed: {
+                            dragZone.uuid = controller.getUuid()
+                        }
                         onExited: {
                             parent.x = videoDragButton.x + videoDragButton.width
                             parent.y = 0
@@ -591,5 +615,18 @@ Item {
             bottom: root.bottom
         }
         height: controller.rulerHeight
+        Repeater {
+            model:controller.clipBounds
+            anchors.fill: parent
+            Rectangle {
+                anchors.top: parent.top
+                anchors.topMargin: 1
+                property point bd: controller.clipBoundary(model.index)
+                x: bd.x * root.timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                width: bd.y * root.timeScale
+                height: 2
+                color: 'goldenrod'
+            }
+        }
     }
 }

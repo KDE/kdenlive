@@ -40,7 +40,7 @@
        <item>
         <widget class="QToolButton" name="buttonLeftRight">
          <property name="toolTip">
-          <string>move on X axis</string>
+          <string>Move on X axis.</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -53,7 +53,7 @@
           <bool>true</bool>
          </property>
          <property name="toolTip">
-          <string>move on Y axis</string>
+          <string>Move on Y axis.</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -66,7 +66,7 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>update values in timeline</string>
+          <string>Update values in timeline.</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -79,7 +79,7 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>create new points</string>
+          <string>Create new points.</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -118,7 +118,7 @@
           <bool>true</bool>
          </property>
          <property name="toolTip">
-          <string>parameter description</string>
+          <string>Parameter description.</string>
          </property>
          <property name="text">
           <string>...</string>

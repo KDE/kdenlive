@@ -1,22 +1,8 @@
 /*
-Copyright (C) 2015  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clippropertiescontroller.h"
@@ -28,9 +14,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
-#include "timecodedisplay.h"
-#include <audio/audioStreamInfo.h>
 #include "widgets/choosecolorwidget.h"
+#include "widgets/timecodedisplay.h"
+#include <audio/audioStreamInfo.h>
 
 #include <KDualAction>
 #include <KLocalizedString>
@@ -42,10 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KFileMetaData/PropertyInfo>
 #endif
 
+#include "kdenlive_debug.h"
 #include <KIO/Global>
 #include <KIO/OpenFileManagerWindowJob>
-#include "kdenlive_debug.h"
 #include <KMessageBox>
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QClipboard>
 #include <QComboBox>
@@ -56,18 +43,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QListWidgetItem>
 #include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QProcess>
+#include <QResizeEvent>
 #include <QScrollArea>
+#include <QSortFilterProxyModel>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QUrl>
-#include <QListWidgetItem>
-#include <QButtonGroup>
 #include <QVBoxLayout>
-#include <QResizeEvent>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)
@@ -200,6 +187,7 @@ public:
 
 private:
     QTreeWidget *m_tree;
+    Q_DISABLE_COPY(ExtractionResult)
 };
 #endif
 
@@ -231,6 +219,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         KIO::highlightInFileManager({QUrl::fromLocalFile(link)});
     });
     lay->addWidget(m_clipLabel);
+    lay->addWidget(&m_warningMessage);
+    m_warningMessage.setCloseButtonVisible(false);
+    m_warningMessage.setWordWrap(true);
+    m_warningMessage.hide();
     m_tabWidget = new QTabWidget(this);
     lay->addWidget(m_tabWidget);
     setLayout(lay);
@@ -262,19 +254,25 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_markerTree->setAlternatingRowColors(true);
     m_markerTree->setHeaderHidden(true);
     m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    m_markerTree->setModel(controller->getMarkerModel().get());
     m_markerTree->setObjectName("markers_list");
     mBox->addWidget(m_markerTree);
+    m_sortMarkers = std::make_unique<QSortFilterProxyModel>(this);
+    m_sortMarkers->setSourceModel(controller->getMarkerModel().get());
+    m_sortMarkers->setSortRole(MarkerListModel::PosRole);
+    m_sortMarkers->sort(0, Qt::AscendingOrder);
+    m_markerTree->setModel(m_sortMarkers.get());
     auto *bar = new QToolBar;
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker…"), this, SLOT(slotAddMarker()));
     bar->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker"), this, SLOT(slotEditMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers"), this, SLOT(slotSaveMarkers()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers"), this, SLOT(slotLoadMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker…"), this, SLOT(slotEditMarker()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers…"), this, SLOT(slotSaveMarkers()));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers…"), this, SLOT(slotLoadMarkers()));
     mBox->addWidget(bar);
 
     m_markersPage->setLayout(mBox);
-    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::activated, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::clicked, this, &ClipPropertiesController::slotSeekToMarker);
+    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotEditMarker);
 
     // metadata
     auto *m2Box = new QVBoxLayout;
@@ -294,16 +292,16 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
     bar2->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis"), this, SLOT(slotSaveAnalysis()));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis"), this, SLOT(slotLoadAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis…"), this, SLOT(slotLoadAnalysis()));
     aBox->addWidget(bar2);
 
     slotFillAnalysisData();
     m_analysisPage->setLayout(aBox);
 
     // Force properties
-    auto *vbox = new QVBoxLayout;
-    vbox->setSpacing(0);
+    auto *fpBox = new QVBoxLayout;
+    fpBox->setSpacing(0);
 
     // Force Audio properties
     auto *audioVbox = new QVBoxLayout;
@@ -312,7 +310,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
-        vbox->addWidget(editButton);
+        fpBox->addWidget(editButton);
     }
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
@@ -323,7 +321,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
         m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Duration"), this);
+        QCheckBox *box = new QCheckBox(i18n("Duration:"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
         auto *timePos = new TimecodeDisplay(m_tc, this);
@@ -336,7 +334,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             timePos->setEnabled(false);
         }
         hlay->addWidget(timePos);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
         connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
@@ -353,7 +351,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             box->setObjectName(QStringLiteral("disable_exif"));
             box->setChecked(autorotate == 1);
             hlay->addWidget(box);
-            vbox->addLayout(hlay);
+            fpBox->addLayout(hlay);
         }
         // connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
     }
@@ -365,16 +363,16 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_textEdit->setAcceptRichText(false);
         m_textEdit->setPlainText(currentText);
         m_textEdit->setPlaceholderText(i18n("Enter template text here"));
-        vbox->addWidget(m_textEdit);
+        fpBox->addWidget(m_textEdit);
         QPushButton *button = new QPushButton(i18n("Apply"), this);
-        vbox->addWidget(button);
+        fpBox->addWidget(button);
         connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
     } else if (m_type == ClipType::Color) {
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
         mlt_color color = m_properties->get_color("resource");
         ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
-        vbox->addWidget(choosecolor);
+        fpBox->addWidget(choosecolor);
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, static_cast<void (ClipPropertiesController::*)(const QColor &)>(&ClipPropertiesController::modified), choosecolor,
@@ -387,9 +385,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Aspect ratio"), this);
+        QCheckBox *box = new QCheckBox(i18n("Aspect ratio:"), this);
         box->setObjectName(QStringLiteral("force_ar"));
-        vbox->addWidget(box);
+        fpBox->addWidget(box);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         auto *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
@@ -424,7 +422,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
         connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
         connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image || m_type == ClipType::Playlist) {
@@ -494,7 +492,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         tb->setAutoRaise(true);
         tb->setPopupMode(QToolButton::InstantPopup);
 
-        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
         connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
@@ -515,7 +513,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         groupLay->addWidget(tb);
         bg->setLayout(groupLay);
         hlay->addWidget(bg);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video) {
@@ -523,7 +521,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString force_fps = m_properties->get("force_fps");
         m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Frame rate"), this);
+        QCheckBox *box = new QCheckBox(i18n("Frame rate:"), this);
         box->setObjectName(QStringLiteral("force_fps"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         auto *spin = new QDoubleSpinBox(this);
@@ -541,13 +539,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         spin->setEnabled(!force_fps.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(spin);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Scanning
         QString force_prog = m_properties->get("force_progressive");
         m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Scanning"), this);
+        box = new QCheckBox(i18n("Scanning:"), this);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_progressive"));
         auto *combo = new QComboBox(this);
@@ -563,18 +561,18 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo->setEnabled(!force_prog.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Field order
         QString force_tff = m_properties->get("force_tff");
         m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Field order"), this);
+        box = new QCheckBox(i18n("Field order:"), this);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("force_tff"));
         combo = new QComboBox(this);
-        combo->addItem(i18n("Bottom first"), 0);
-        combo->addItem(i18n("Top first"), 1);
+        combo->addItem(i18n("Bottom First"), 0);
+        combo->addItem(i18n("Top First"), 1);
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_tff_value"));
         if (!force_tff.isEmpty()) {
@@ -585,7 +583,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo->setEnabled(!force_tff.isEmpty());
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Autorotate
         QString autorotate = m_properties->get("autorotate");
@@ -596,13 +594,40 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setObjectName(QStringLiteral("autorotate"));
         box->setChecked(autorotate == QLatin1String("0"));
         hlay->addWidget(box);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
+
+        // Rotate
+        int rotate = 0;
+        if (m_properties->property_exists("rotate")) {
+            rotate = m_properties->get_int("rotate");
+            m_originalProperties.insert(QStringLiteral("rotate"), QString::number(rotate));
+        }
+        hlay = new QHBoxLayout;
+        auto *label = new QLabel(i18n("Force rotate"), this);
+        combo = new QComboBox(this);
+        combo->setObjectName(QStringLiteral("rotate_value"));
+        combo->addItem(i18n("0"), 0);
+        combo->addItem(i18n("90"), 90);
+        combo->addItem(i18n("180"), 180);
+        combo->addItem(i18n("270"), 270);
+        if (rotate > 0) {
+            combo->setCurrentIndex(combo->findData(rotate));
+        }
+        // Disable force rotate when autorotate is disabled
+        combo->setEnabled(!box->isChecked());
+        connect(box, &QCheckBox::stateChanged, this, [combo](int state) {
+            combo->setEnabled(state != Qt::Unchecked);
+        });
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
+        hlay->addWidget(label);
+        hlay->addWidget(combo);
+        fpBox->addLayout(hlay);
 
         // Decoding threads
         QString threads = m_properties->get("threads");
         m_originalProperties.insert(QStringLiteral("threads"), threads);
         hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Threads")));
+        hlay->addWidget(new QLabel(i18n("Threads:")));
         auto *spinI = new QSpinBox(this);
         spinI->setMaximum(4);
         spinI->setMinimum(1);
@@ -615,7 +640,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
                 static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
         hlay->addWidget(spinI);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Video index
         if (!m_videoStreams.isEmpty()) {
@@ -665,7 +690,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 m_originalProperties = properties;
             });
             hlay->addWidget(videoStream);
-            vbox->addLayout(hlay);
+            fpBox->addLayout(hlay);
         }
 
         // Audio index
@@ -835,7 +860,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             vbox->addWidget(m_normalize);
 
             // Swap channels
-            m_swapChannels = new QCheckBox(i18n("Swap Channels"), this);
+            m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
             connect(m_swapChannels, &QCheckBox::stateChanged, this, [this] (int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
@@ -853,7 +878,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             vbox->addWidget(m_swapChannels);
             // Copy channel
             auto *copyLay = new QHBoxLayout;
-            copyLay->addWidget(new QLabel(i18n("Copy Channel"), this));
+            copyLay->addWidget(new QLabel(i18n("Copy channel:"), this));
             m_copyChannel1 = new QCheckBox(i18n("1"), this);
             m_copyChannel2 = new QCheckBox(i18n("2"), this);
             m_copyChannelGroup = new QButtonGroup(this);
@@ -884,7 +909,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             // Gain
             auto *gainLay = new QHBoxLayout;
-            gainLay->addWidget(new QLabel(i18n("Gain"), this));
+            gainLay->addWidget(new QLabel(i18n("Gain:"), this));
             m_gain = new QSpinBox(this);
             m_gain->setRange(-100, 60);
             m_gain->setSuffix(i18n("dB"));
@@ -911,7 +936,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
             // Audio sync
             hlay = new QHBoxLayout;
-            hlay->addWidget(new QLabel(i18n("Audio sync")));
+            hlay->addWidget(new QLabel(i18n("Audio sync:")));
             auto *spinSync = new QSpinBox(this);
             spinSync->setSuffix(i18n("ms"));
             spinSync->setRange(-1000, 1000);
@@ -932,7 +957,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
         // Colorspace
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Colorspace"), this);
+        box = new QCheckBox(i18n("Colorspace:"), this);
         box->setObjectName(QStringLiteral("force_colorspace"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
@@ -961,7 +986,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
-        vbox->addLayout(hlay);
+        fpBox->addLayout(hlay);
 
         // Full luma
         QString force_luma = m_properties->get("set.force_full_luma");
@@ -972,12 +997,26 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         box->setObjectName(QStringLiteral("set.force_full_luma"));
         box->setChecked(!force_luma.isEmpty());
         hlay->addWidget(box);
-        vbox->addLayout(hlay);
         hlay->addStretch(10);
+        fpBox->addLayout(hlay);
+        
+        // Check for variable frame rate
+        if (m_properties->get_int("meta.media.variable_frame_rate")) {
+            m_warningMessage.setText(i18n("File uses a variable frame rate, not recommended"));
+            QAction *ac = new QAction(i18n("Transcode"));
+            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(bool, false));
+            });
+            m_warningMessage.setMessageType(KMessageWidget::Warning);
+            m_warningMessage.addAction(ac);
+            m_warningMessage.show();
+        } else {
+            m_warningMessage.hide();
+        }
     }
     // Force properties page
     QWidget *forceProp = new QWidget(this);
-    forceProp->setLayout(vbox);
+    forceProp->setLayout(fpBox);
     forcePage->setWidget(forceProp);
     forcePage->setWidgetResizable(true);
     // Force audio properties page
@@ -986,7 +1025,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     forceAudioPage->setWidget(forceAudioProp);
     forceAudioPage->setWidgetResizable(true);
 
-    vbox->addStretch(10);
+    fpBox->addStretch(10);
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(forcePage, QString());
     m_tabWidget->addTab(forceAudioPage, QString());
@@ -1260,7 +1299,7 @@ void ClipPropertiesController::fillProperties()
     QMimeType mimeType;
 
     mimeType = mimeDatabase.mimeTypeForFile(m_controller->clipUrl());
-    for (KFileMetaData::Extractor *plugin : metaDataCollection.fetchExtractors(mimeType.name())) {
+    foreach (KFileMetaData::Extractor *plugin, metaDataCollection.fetchExtractors(mimeType.name())) {
         ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
@@ -1270,7 +1309,7 @@ void ClipPropertiesController::fillProperties()
     if (m_type == ClipType::Image) {
         int width = m_sourceProperties.get_int("meta.media.width");
         int height = m_sourceProperties.get_int("meta.media.height");
-        propertyMap.append(QStringList() << i18n("Image size") << QString::number(width) + QLatin1Char('x') + QString::number(height));
+        propertyMap.append(QStringList() << i18n("Image size:") << QString::number(width) + QLatin1Char('x') + QString::number(height));
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
         int vindex = m_sourceProperties.get_int("video_index");
@@ -1297,31 +1336,31 @@ void ClipPropertiesController::fillProperties()
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Video codec"), codec});
+                propertyMap.append({i18n("Video codec:"), codec});
             }
             int width = m_sourceProperties.get_int("meta.media.width");
             int height = m_sourceProperties.get_int("meta.media.height");
-            propertyMap.append({i18n("Frame size"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
+            propertyMap.append({i18n("Frame size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
 
             property = streamInfo + QStringLiteral("frame_rate");
             QString fpsValue = m_sourceProperties.get(property.toUtf8().constData());
             if (!fpsValue.isEmpty()) {
-                propertyMap.append({i18n("Frame rate"), fpsValue});
+                propertyMap.append({i18n("Frame rate:"), fpsValue});
             } else {
                 int rate_den = m_sourceProperties.get_int("meta.media.frame_rate_den");
                 if (rate_den > 0) {
                     double fps = double(m_sourceProperties.get_int("meta.media.frame_rate_num")) / rate_den;
-                    propertyMap.append({i18n("Frame rate"), QString::number(fps, 'f', 2)});
+                    propertyMap.append({i18n("Frame rate:"), QString::number(fps, 'f', 2)});
                 }
             }
             property = codecInfo + QStringLiteral("bit_rate");
             int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
-                propertyMap.append({i18n("Video bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                propertyMap.append({i18n("Video bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
 
             int scan = m_sourceProperties.get_int("meta.media.progressive");
-            propertyMap.append({i18n("Scanning"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
+            propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
 
             property = codecInfo + QStringLiteral("sample_aspect_ratio");
             double par = m_sourceProperties.get_double(property.toUtf8().constData());
@@ -1329,34 +1368,37 @@ void ClipPropertiesController::fillProperties()
                 // Read media aspect ratio
                 par = m_sourceProperties.get_double("aspect_ratio");
             }
-            propertyMap.append({i18n("Pixel aspect ratio"), QString::number(par, 'f', 3)});
+            propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
             property = codecInfo + QStringLiteral("pix_fmt");
-            propertyMap.append({i18n("Pixel format"), m_sourceProperties.get(property.toUtf8().constData())});
+            propertyMap.append({i18n("Pixel format:"), m_sourceProperties.get(property.toUtf8().constData())});
             property = codecInfo + QStringLiteral("colorspace");
             int colorspace = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
+            propertyMap.append({i18n("Colorspace:"), ProfileRepository::getColorspaceDescription(colorspace)});
+
+            int b_frames = m_sourceProperties.get_int("meta.media.has_b_frames");
+            propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
         }
         if (default_audio > -1) {
-            propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioStreamsCount())});
+            propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
 
             QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties.get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Audio codec"), codec});
+                propertyMap.append({i18n("Audio codec:"), codec});
             }
             property = codecInfo + QStringLiteral("channels");
             int channels = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio channels"), QString::number(channels)});
+            propertyMap.append({i18n("Audio channels:"), QString::number(channels)});
 
             property = codecInfo + QStringLiteral("sample_rate");
             int srate = m_sourceProperties.get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio frequency"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
+            propertyMap.append({i18n("Audio frequency:"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
 
             property = codecInfo + QStringLiteral("bit_rate");
             int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
-                propertyMap.append({i18n("Audio bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
         }
     }
@@ -1364,7 +1406,7 @@ void ClipPropertiesController::fillProperties()
     qint64 filesize = m_sourceProperties.get_int64("kdenlive:file_size");
     if (filesize > 0) {
         QLocale locale(QLocale::system()); // use the user's locale for getting proper separators!
-        propertyMap.append({i18n("File size"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
+        propertyMap.append({i18n("File size:"), KIO::convertSize(size_t(filesize)) + QStringLiteral(" (") + locale.toString(filesize) + QLatin1Char(')')});
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
@@ -1378,7 +1420,7 @@ void ClipPropertiesController::fillProperties()
 void ClipPropertiesController::slotSeekToMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    auto current = m_markerTree->currentIndex();
+    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
     emit seekToFrame(pos.frames(pCore->getCurrentFps()));
@@ -1387,7 +1429,7 @@ void ClipPropertiesController::slotSeekToMarker()
 void ClipPropertiesController::slotEditMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    auto current = m_markerTree->currentIndex();
+    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
     if (!current.isValid()) return;
     GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
     markerModel->editMarkerGui(pos, this, false, m_controller);
@@ -1397,8 +1439,12 @@ void ClipPropertiesController::slotDeleteMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
     QModelIndexList indexes = m_markerTree->selectionModel()->selectedIndexes();
-    QList <GenTime> positions;
+    QModelIndexList mapped;
     for (auto &ix : indexes) {
+        mapped << m_sortMarkers->mapToSource(ix);
+    }
+    QList <GenTime> positions;
+    for (auto &ix : mapped) {
         if (ix.isValid()) {
             positions << GenTime(markerModel->data(ix, MarkerListModel::PosRole).toDouble());
         }
@@ -1423,7 +1469,7 @@ void ClipPropertiesController::slotAddMarker()
 
 void ClipPropertiesController::slotSaveMarkers()
 {
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
     fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::AnyFile);
     fd->setAcceptMode(QFileDialog::AcceptSave);
@@ -1449,7 +1495,7 @@ void ClipPropertiesController::slotSaveMarkers()
 
 void ClipPropertiesController::slotLoadMarkers()
 {
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
     fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
@@ -1499,65 +1545,69 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         // Check for Canon THM file
         url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".THM");
         if (QFile::exists(url)) {
-            // Read the exif metadata embedded in the THM file
-            QProcess p;
-            QStringList args;
-            args << QStringLiteral("-g") << QStringLiteral("-args") << url;
-            p.start(QStringLiteral("exiftool"), args);
-            p.waitForFinished();
-            QString res = p.readAllStandardOutput();
-            m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
-            QTreeWidgetItem *exif = nullptr;
-            QStringList list = res.split(QLatin1Char('\n'));
-            for (const QString &tagline : qAsConst(list)) {
-                if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
-                    continue;
-                }
-                QString tag = tagline.section(QLatin1Char(':'), 1).simplified();
-                if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
-                    continue;
-                }
-                if (!tag.section(QLatin1Char('='), 0, 0).isEmpty() && !tag.section(QLatin1Char('='), 1).simplified().isEmpty()) {
-                    if (!exif) {
-                        exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
-                        exif->setExpanded(true);
+            QString exifToolBinary = QStandardPaths::findExecutable(QStringLiteral("exiftool"));
+            if (!exifToolBinary.isEmpty()) {
+                // Read the exif metadata embedded in the THM file
+                QProcess p;
+                QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), url};
+                p.start(exifToolBinary, args);
+                p.waitForFinished();
+                QString res = p.readAllStandardOutput();
+                m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
+                QTreeWidgetItem *exif = nullptr;
+                QStringList list = res.split(QLatin1Char('\n'));
+                for (const QString &tagline : qAsConst(list)) {
+                    if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
+                        continue;
                     }
-                    m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
+                    QString tag = tagline.section(QLatin1Char(':'), 1).simplified();
+                    if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
+                        continue;
+                    }
+                    if (!tag.section(QLatin1Char('='), 0, 0).isEmpty() && !tag.section(QLatin1Char('='), 1).simplified().isEmpty()) {
+                        if (!exif) {
+                            exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
+                            exif->setExpanded(true);
+                        }
+                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
                                                       tag.section(QLatin1Char('='), 1).simplified());
-                    new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                        new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                    }
                 }
             }
         } else {
             if (m_type == ClipType::Image || m_controller->codec(false) == QLatin1String("h264")) {
-                QProcess p;
-                QStringList args;
-                args << QStringLiteral("-g") << QStringLiteral("-args") << m_controller->clipUrl();
-                p.start(QStringLiteral("exiftool"), args);
-                p.waitForFinished();
-                QString res = p.readAllStandardOutput();
-                if (m_type != ClipType::Image) {
-                    m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
-                }
-                QTreeWidgetItem *exif = nullptr;
-                QStringList list = res.split(QLatin1Char('\n'));
-                for (const QString &tagline : qAsConst(list)) {
-                    if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
-                        continue;
-                    }
-                    QString tag = tagline.section(QLatin1Char(':'), 1);
-                    if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
-                        continue;
-                    }
-                    if (!exif) {
-                        exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
-                        exif->setExpanded(true);
-                    }
+                QString exifToolBinary = QStandardPaths::findExecutable(QStringLiteral("exiftool"));
+                if (!exifToolBinary.isEmpty()) {
+                    QProcess p;
+                    QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), m_controller->clipUrl()};
+                    p.start(exifToolBinary, args);
+                    p.waitForFinished();
+                    QString res = p.readAllStandardOutput();
                     if (m_type != ClipType::Image) {
-                        // Do not store image exif metadata in project file, would be too much noise
-                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
-                                                          tag.section(QLatin1Char('='), 1).simplified());
+                        m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
                     }
-                    new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                    QTreeWidgetItem *exif = nullptr;
+                    QStringList list = res.split(QLatin1Char('\n'));
+                    for (const QString &tagline : qAsConst(list)) {
+                        if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
+                            continue;
+                        }
+                        QString tag = tagline.section(QLatin1Char(':'), 1);
+                        if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
+                            continue;
+                        }
+                        if (!exif) {
+                            exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
+                            exif->setExpanded(true);
+                        }
+                        if (m_type != ClipType::Image) {
+                            // Do not store image exif metadata in project file, would be too much noise
+                            m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
+                                                          tag.section(QLatin1Char('='), 1).simplified());
+                        }
+                        new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                    }
                 }
             }
         }
@@ -1638,7 +1688,7 @@ void ClipPropertiesController::slotDeleteAnalysis()
 void ClipPropertiesController::slotSaveAnalysis()
 {
     const QString url =
-        QFileDialog::getSaveFileName(this, i18n("Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+        QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
@@ -1651,7 +1701,7 @@ void ClipPropertiesController::slotSaveAnalysis()
 void ClipPropertiesController::slotLoadAnalysis()
 {
     const QString url =
-        QFileDialog::getOpenFileName(this, i18n("Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+        QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }

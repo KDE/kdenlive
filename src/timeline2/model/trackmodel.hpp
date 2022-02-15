@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TRACKMODEL_H
 #define TRACKMODEL_H
@@ -41,11 +25,14 @@ class AssetParameterModel;
 class MixInfo
 {
 public:
-    int firstClipId;
-    int secondClipId;
-    std::pair<int, int> firstClipInOut;
-    std::pair<int, int> secondClipInOut;
-    std::pair<int, int> mixInOut;
+    int firstClipId = -1;
+    int secondClipId = -1;
+    /** @brief in and out of the first clip in the mix */
+    std::pair<int, int> firstClipInOut = {-1,-1};
+    /** @brief in and out of the second clip in the mix */
+    std::pair<int, int> secondClipInOut = {-1,-1};
+    /** @brief Distance between first clip out and cut pos */
+    int mixOffset = 0;
 };
 
 /** @brief This class represents a Track object, as viewed by the backend.
@@ -68,7 +55,7 @@ public:
     friend class TimelineModel;
 
 private:
-    /* This constructor is private, call the static construct instead */
+    /** This constructor is private, call the static construct instead */
     TrackModel(const std::weak_ptr<TimelineModel> &parent, int id = -1, const QString &trackName = QString(), bool audioTrack = false);
     TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id = -1);
 
@@ -123,30 +110,40 @@ public:
     /** @brief Remove a composition between 2 same track clips */
     bool requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
     bool deleteMix(int clipId, bool final, bool notify = true);
     /** @brief Create a mix composition using clip ids */
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
+    bool createMix(MixInfo info, std::pair<QString,QVector<QPair<QString, QVariant>>> params, bool finalMove);
     /** @brief Create a mix composition using mix info */
     bool createMix(MixInfo info, bool isAudio);
     /** @brief Change id of first clip in a mix (in case of clip cut) */
     bool reAssignEndMix(int currentId, int newId);
-    void switchMix(int cid, const QString composition, Fun &undo, Fun &redo);
+    /** @brief Get all necessary infos to clone a mix */
+    std::pair<QString,QVector<QPair<QString, QVariant>>> getMixParams(int cid);
+    void switchMix(int cid, const QString &composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
+    /** @brief Remove a mix in the track (if its clip was removed) */
+    void removeMix(const MixInfo &info);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
     bool loadMix(Mlt::Transition *t);
     /** @brief Set mix duration and mix cut pos on a clip */
     void setMixDuration(int cid, int mixDuration, int mixCut);
+    int getMixDuration(int cid) const;
     /** @brief Get the assetparameter model for a mix */
     const std::shared_ptr<AssetParameterModel> mixModel(int cid);
     /** @brief Get a list of current effect stack zones */
     QVariantList stackZones() const;
+    /** @brief Return true if a clip starts at pos in one of the trak playlists */
+    bool hasClipStart(int pos);
+    /** @brief Calculate a hash based on all clips an d mixes positions/playtime */
+    QByteArray trackHash();
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -163,6 +160,7 @@ protected:
        @param in is the new starting on the clip
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
+       @param hasMix is true if we change the right side of the clip, false otherwise
     */
     Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false);
 
@@ -176,9 +174,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false);
+    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, const QList<int> &allowedClipMixes = {});
 
     /** @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -191,7 +189,7 @@ protected:
        @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
@@ -223,6 +221,9 @@ protected:
     /** @brief Returns the start of the blank on a specific playlist */
     int getBlankStart(int position, int track);
     int getBlankSizeAtPos(int frame);
+    /** @brief Returns the start of the clip on a specific playlist */
+    int getClipStart(int position, int track);
+    int getClipEnd(int position, int track);
     /** @brief Returns true if clip at position is the last on playlist
      * @param position the position in playlist
     */
@@ -312,6 +313,8 @@ protected:
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
+    /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
+    bool isAvailableWithExceptions(int position, int duration, const QVector<int>&exceptions);
     /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */
@@ -320,36 +323,46 @@ protected:
     bool hasStartMix(int cid) const;
     /** @brief Returns true if this clip has a mix at end */
     bool hasEndMix(int cid) const;
+    /** @brief Returns the cid of the second partner or -1 if the given clip has no end mix */
+    int getSecondMixPartner(int cid) const;
+    /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
+    */
+    int isOnCut(int cid);
+    /** @brief Returns all mix info as xml */
+    QDomElement mixXml(QDomDocument &document, int cid) const;
 
 public slots:
-    /*Delete the current track and all its associated clips */
+    /** Delete the current track and all its associated clips */
     void slotDelete();
 
 private:
     std::weak_ptr<TimelineModel> m_parent;
-    int m_id; // this is the creation id of the track, used for book-keeping
+    /// this is the creation id of the track, used for book-keeping
+    int m_id;
 
     // We fake two playlists to allow same track transitions.
     std::shared_ptr<Mlt::Tractor> m_track;
     std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
-    // A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
+    /// A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
     QMap <int, int> m_mixList;
 
-    std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
-                                                                            ordered structure to store the clips, since we use their ids order as row order*/
-    std::map<int, std::shared_ptr<CompositionModel>>
-        m_allCompositions; /*this is important to keep an
-                                   ordered structure to store the clips, since we use their ids order as row order*/
+    /** This is important to keep an ordered structure to store the clips, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<ClipModel>> m_allClips;
+    /** This is important to keep an ordered structure to store the compositions, since we use their ids order as row order*/
+    std::map<int, std::shared_ptr<CompositionModel>> m_allCompositions;
 
-    std::map<int, int> m_compoPos; // We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
-                                   // those positions here to check for moves and resize
+    /** We store the positions of the compositions. In Melt, the compositions are not inserted at the track level, but we keep
+     *  those positions here to check for moves and resize
+     */
+    std::map<int, int> m_compoPos;
 
-    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+    /// This is a lock that ensures safety in case of concurrent access
+    mutable QReadWriteLock m_lock;
 
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
-    // A list of same track transitions for this track, in the form: {second_clip_id, transition}
+    /// A list of same track transitions for this track, in the form: {second_clip_id, transition}
     std::unordered_map<int, std::shared_ptr<AssetParameterModel>> m_sameCompositions;
 };
 

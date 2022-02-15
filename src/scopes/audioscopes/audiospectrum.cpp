@@ -1,20 +1,17 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "audiospectrum.h"
 
 #include "lib/audio/fftTools.h"
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -79,7 +76,8 @@ AudioSpectrum::AudioSpectrum(QWidget *parent)
     m_ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
     connect(m_aResetHz, &QAction::triggered, this, &AudioSpectrum::slotResetMaxFreq);
-    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+
+    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &AudioSpectrum::forceUpdate);
     connect(this, &AudioSpectrum::signalMousePositionChanged, this, &AudioSpectrum::forceUpdateHUD);
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators

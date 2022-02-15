@@ -1,31 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assetfilter.hpp"
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
-#include <utility>
 #include <klocalizedstring.h>
+#include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -59,11 +43,11 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemId = item->dataColumn(AssetTreeModel::idCol).toString().toUtf8().constData();
-    itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString itemText = i18n(item->dataColumn(AssetTreeModel::nameCol).toString().toUtf8().constData());
-    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    QString itemId = item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8().constData();
+    itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    QString itemText = i18n(item->dataColumn(AssetTreeModel::NameCol).toString().toUtf8().constData());
+    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
     return itemText.contains(patt, Qt::CaseInsensitive) || itemId.contains(patt, Qt::CaseInsensitive);
 }
@@ -74,7 +58,7 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
 
-    if (item->dataColumn(AssetTreeModel::idCol) == QStringLiteral("root")) {
+    if (item->dataColumn(AssetTreeModel::IdCol) == QStringLiteral("root")) {
         // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         if (!category.isValid()) {
@@ -174,13 +158,13 @@ QVariantList AssetFilter::getCategories()
     return list;
 }
 
-QModelIndex AssetFilter::getModelIndex(QModelIndex current)
+QModelIndex AssetFilter::getModelIndex(const QModelIndex &current)
 {
     QModelIndex sourceIndex = mapToSource(current);
     return sourceIndex; // this returns an integer
 }
 
-QModelIndex AssetFilter::getProxyIndex(QModelIndex current)
+QModelIndex AssetFilter::getProxyIndex(const QModelIndex &current)
 {
     QModelIndex sourceIndex = mapFromSource(current);
     return sourceIndex; // this returns an integer

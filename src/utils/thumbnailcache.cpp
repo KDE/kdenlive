@@ -1,29 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "thumbnailcache.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "project/projectmanager.h"
 #include <QDir>
 #include <QMutexLocker>
 #include <list>
@@ -110,7 +95,7 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = pos < 0 ? getAudioKey(binId, &ok).first() : getKey(binId, pos, &ok);
+    auto key = pos < 0 ? getAudioKey(binId, &ok).constFirst() : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
         return true;
     }
@@ -125,7 +110,7 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = getAudioKey(binId, &ok).first();
+    auto key = getAudioKey(binId, &ok).constFirst();
     if (ok && m_volatileCache->contains(key)) {
         return m_volatileCache->get(key);
     }
@@ -205,7 +190,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     }
 }
 
-void ThumbnailCache::saveCachedThumbs(QStringList keys)
+void ThumbnailCache::saveCachedThumbs(const QStringList &keys)
 {
     bool ok;
     QDir thumbFolder = getDir(false, &ok);
@@ -239,7 +224,6 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     bool ok = false;
     // Video thumbs
     QDir thumbFolder = getDir(false, &ok);
-    QDir audioThumbFolder = getDir(true, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {
@@ -312,5 +296,5 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 // static
 QDir ThumbnailCache::getDir(bool audio, bool *ok)
 {
-    return pCore->currentDoc()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
+    return pCore->projectManager()->cacheDir(audio, ok);
 }

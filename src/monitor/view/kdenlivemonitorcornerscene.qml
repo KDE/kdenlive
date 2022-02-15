@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 
 Item {
@@ -16,6 +21,7 @@ Item {
     property point center
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1

@@ -1,27 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "slideshowclip.h"
 #include "bin/projectclip.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "core.h"
 
 #include <KFileItem>
 #include <KRecentDirs>
@@ -40,7 +27,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
-    setWindowTitle(i18n("Add Image Sequence"));
+    setWindowTitle(i18nc("@title:window", "Add Image Sequence"));
     if (clip) {
         m_view.clip_name->setText(clip->name());
         m_view.groupBox->setHidden(true);
@@ -67,6 +54,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.image_type->addItem(QStringLiteral("TIF (*.tif)"), QStringLiteral("tif"));
     m_view.image_type->addItem(QStringLiteral("TIFF (*.tiff)"), QStringLiteral("tiff"));
     m_view.image_type->addItem(QStringLiteral("Open EXR (*.exr)"), QStringLiteral("exr"));
+    m_view.image_type->addItem(i18n("Preview from CR2 (*.cr2)"), QStringLiteral("cr2"));
+    m_view.image_type->addItem(i18n("Preview from ARW (*.arw)"), QStringLiteral("arw"));
     m_view.animation->addItem(i18n("None"), QString());
     m_view.animation->addItem(i18nc("Image Pan", "Pan"), QStringLiteral("Pan"));
     m_view.animation->addItem(i18n("Pan, low-pass"), QStringLiteral("Pan, low-pass"));
@@ -285,15 +274,13 @@ void SlideshowClip::parseFolder()
         }
         // qCDebug(KDENLIVE_LOG) << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        QRegExp rx(regexp);
+        QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
-        int ix;
         for (const QString &p : qAsConst(result)) {
-            if (rx.exactMatch(p)) {
+            if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
-                    ix = p.section(filter, 1).section(QLatin1Char('.'), 0, 0).toInt();
-                    ix = p.section(filter, 1).section('.', 0, 0).toInt();
+                    int ix = p.section(filter, 1).section('.', 0, 0).toInt();
                     if (ix < offset) {
                         continue;
                     }

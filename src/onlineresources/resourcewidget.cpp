@@ -1,31 +1,20 @@
-/***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <https://www.gnu.org/licenses/>.*
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartlab.uber.space>
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "resourcewidget.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include <klocalizedstring.h>
+#include <KFileItem>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <KRun>
+#include <KSelectAction>
 #include <KSqueezedTextLabel>
+#include <QComboBox>
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QIcon>
@@ -33,12 +22,9 @@
 #include <QMenu>
 #include <QProgressDialog>
 #include <QToolBar>
-#include <QComboBox>
-#include <KFileItem>
-#include <KMessageBox>
-#include <KRecentDirs>
-#include <KRun>
-#include <KSelectAction>
+#include <klocalizedstring.h>
+
+#include <kcompletion_version.h>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
@@ -76,11 +62,15 @@ ResourceWidget::ResourceWidget(QWidget *parent)
         }
         service_list->addItem(icon, provider.first, provider.second);
     }
-    connect(service_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotChangeProvider()));
+    connect(service_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ResourceWidget::slotChangeProvider);
     loadConfig();
-    connect(provider_info, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
-    connect(label_license, SIGNAL(leftClickedUrl(const QString&)), this, SLOT(slotOpenUrl(const QString&)));
+    connect(provider_info, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
+    connect(label_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
+#if KCOMPLETION_VERSION < QT_VERSION_CHECK(5, 81, 0)
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
+#else
+    connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
+#endif
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&](){
             if (!m_currentProvider) {
@@ -154,7 +144,7 @@ void ResourceWidget::saveConfig()
 }
 
 /**
- * @brief ResourceWidget::slotChangeProvider
+ * @brief ResourceWidget::blockUI
  * @param block
  * Block or unblock the online resource ui
  */
@@ -234,7 +224,7 @@ void ResourceWidget::slotOpenUrl(const QString &url)
  */
 void ResourceWidget::slotStartSearch()
 {
-    message_line->setText(i18nc("@info:status", "Search pending..."));
+    message_line->setText(i18nc("@info:status", "Search pending…"));
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
 
@@ -267,14 +257,11 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
     message_line->show();
     int count = 0;
     for (const ResourceItemInfo &item: qAsConst(list)) {
-        message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2...", count, list.count()));
+        message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2…", count, list.count()));
         // if item has no name use "Created by Author", if item even has no author use "Unnamed"
         QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if(!item.imageUrl.isEmpty()) {
             QUrl img(item.imageUrl);
-            if (img.isEmpty()) {
-                return;
-            }
             m_tmpThumbFile->close();
             if (m_tmpThumbFile->open()) {
                 KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
@@ -382,7 +369,7 @@ void ResourceWidget::slotUpdateCurrentItem()
 /**
  * @brief ResourceWidget::licenseNameFromUrl
  * @param licenseUrl
- * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-ND-SA 3.0" should be returned
+ * @param shortName Whether the long name like "Attribution-NonCommercial-ShareAlike 3.0" or the short name like "CC BY-NC-SA 3.0" should be returned
  * @return the license name "Unnamed License" if url is not known.
  */
 QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool shortName)
@@ -401,7 +388,7 @@ QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND");
         } else if (licenseUrl.contains(QStringLiteral("/by-nc-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-NonCommercial-ShareAlike");
-            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-ND-SA");
+            licenseShortName = i18nc("Creative Commons License (short)", "CC BY-NC-SA");
         } else if (licenseUrl.contains(QStringLiteral("/by-sa/"))) {
             licenseName = i18nc("Creative Commons License", "Creative Commons Attribution-ShareAlike");
             licenseShortName = i18nc("Creative Commons License (short)", "CC BY-SA");
@@ -487,7 +474,8 @@ void ResourceWidget::slotPreviewItem()
  * @param urls list of download urls pointing to the certain file version
  * @param labels list of labels for the certain file version (needs to have the same order than urls)
  * @param accessToken access token to pass through to slotSaveItem
- * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there a multiple versions avaible
+ * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there are multiple versions
+ * available
  */
 void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken) {
     if(urls.isEmpty() || labels.isEmpty()) {
@@ -498,12 +486,11 @@ void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringLis
         return;
     }
     bool ok;
-    QString name = QInputDialog::getItem(this, i18n("Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
+    QString name = QInputDialog::getItem(this, i18nc("@title:window", "Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
     if(!ok || name.isEmpty()) {
         return;
     }
-    QString url = urls.at(labels.indexOf(name));
-    slotSaveItem(url, accessToken);
+    slotSaveItem(urls.at(labels.indexOf(name)), accessToken);
 }
 
 /**
@@ -527,7 +514,6 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 
     QString path = KRecentDirs::dir(QStringLiteral(":KdenliveOnlineResourceFolder"));
     QString ext;
-    QString sFileExt;
 
     if (path.isEmpty()) {
         path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
@@ -597,7 +583,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 /**
  * @brief ResourceWidget::slotGotFile
  * @param job
- * Finish the download by emiting addClip and if necessary addLicenseInfo
+ * Finish the download by emitting addClip and if necessary addLicenseInfo
  * Enables the import button
  */
 void ResourceWidget::slotGotFile(KJob *job)

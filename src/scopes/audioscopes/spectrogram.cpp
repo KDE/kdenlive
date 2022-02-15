@@ -1,18 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "spectrogram.h"
 
 #include <QDebug>
-#include <QPainter>
 #include <QElapsedTimer>
+#include <QPainter>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -76,7 +73,7 @@ Spectrogram::Spectrogram(QWidget *parent)
                                           "smearing. See Window function on Wikipedia."));
 
     connect(m_aResetHz, &QAction::triggered, this, &Spectrogram::slotResetMaxFreq);
-    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Spectrogram::forceUpdate);
     connect(this, &Spectrogram::signalMousePositionChanged, this, &Spectrogram::forceUpdateHUD);
 
     AbstractScopeWidget::init();
@@ -367,7 +364,6 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         const int h = m_innerScopeRect.height();
         const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        int windowSize;
         int y;
         bool completeRedraw = true;
 
@@ -387,14 +383,13 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         y = 0;
         if ((newData != 0) || m_parameterChanged) {
             m_parameterChanged = false;
-            bool peak = false;
 
             QVector<float> dbMap;
             uint right;
             ////////////////FIXME
             for (auto &it : m_fftHistory) {
 
-                windowSize = it.size();
+                int windowSize = it.size();
 
                 // Interpolate the frequency data to match the pixel coordinates
                 right = uint(m_freqMax / (m_freq / 2.f) * (windowSize - 1));
@@ -403,7 +398,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
                 for (int i = 0; i < dbMap.size(); ++i) {
                     float val;
                     val = dbMap[i];
-                    peak = val > m_dBmax;
+                    bool peak = val > m_dBmax;
 
                     // Normalize dB value to [0 1], 1 corresponding to dbMax dB and 0 to dbMin dB
                     val = (val - m_dBmax) / (m_dBmax - m_dBmin) + 1.f;

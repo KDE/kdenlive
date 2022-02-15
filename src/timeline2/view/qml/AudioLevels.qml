@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.11

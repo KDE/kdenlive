@@ -1,24 +1,11 @@
-/***************************************************************************
- *   Copyright (C) 2018 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Some code was borrowed from shotcut                                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    Some code was borrowed from shotcut
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "lumaliftgainparam.hpp"
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "colorwheel.h"
 #include "utils/flowlayout.h"
@@ -29,8 +16,10 @@ static const double LIFT_FACTOR = 2.0;
 static const double GAMMA_FACTOR = 2.0;
 static const double GAIN_FACTOR = 4.0;
 
-LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(std::move(model), index, parent)
+LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent)
+    : QWidget(parent)
+    , m_model(std::move(model))
+    , m_index(index)
 {
     m_flowLayout = new FlowLayout(this, 10, 10, 4);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -54,7 +43,7 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     m_flowLayout->addWidget(m_gamma);
     m_flowLayout->addWidget(m_gain);
     setLayout(m_flowLayout);
-    slotRefresh();
+    slotRefresh(0);
 
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
         NegQColor liftColor = m_lift->color();
@@ -115,15 +104,18 @@ void LumaLiftGainParam::resizeEvent(QResizeEvent *ev)
     }
 }
 
-void LumaLiftGainParam::slotShowComment(bool) {}
+int LumaLiftGainParam::miniHeight()
+{
+    return m_flowLayout->miniHeight();
+}
 
-void LumaLiftGainParam::slotRefresh()
+void LumaLiftGainParam::slotRefresh(int pos)
 {
     QMap<QString, double> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex local_index = m_model->index(i, 0);
         QString name = m_model->data(local_index, AssetParameterModel::NameRole).toString();
-        double val = m_model->data(local_index, AssetParameterModel::ValueRole).toDouble();
+        double val = m_model->getKeyframeModel()->getInterpolatedValue(pos, local_index).toDouble();
         values.insert(name, val);
     }
     m_lift->setColor({values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b"))});

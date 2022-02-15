@@ -4,7 +4,7 @@
 The manifest for the stable Kdenlive version on Flathub is hosted on https://github.com/flathub/org.kde.kdenlive
 
 ## Nightly Version
-The nightly flatpak is on the kde flatpak repository (`kdeapps`). The build scripts for this respository are living at https://invent.kde.org/packaging/flatpak-kde-applications but in Kdenlives case it is just a link to the `org.kde.kdenlive-nightly.json` file in this folder. It is build and published each day by the [KDE Binary Factory](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/)
+The nightly flatpak is on the kde flatpak repository (`kdeapps`). The build scripts for this repository are living at https://invent.kde.org/packaging/flatpak-kde-applications but in Kdenlives case it is just a link to the `org.kde.kdenlive-nightly.json` file in this folder. It is build and published each day by the [KDE Binary Factory](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/)
 
 ## How to build
 

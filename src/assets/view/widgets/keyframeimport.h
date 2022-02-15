@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef KEYFRAMEIMPORT_H
 #define KEYFRAMEIMPORT_H
@@ -28,7 +12,7 @@
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 class PositionWidget;
 class QComboBox;
@@ -42,7 +26,7 @@ class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes, int parentIn, int parentDuration, QWidget *parent = nullptr);
+    explicit KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, const QList<QPersistentModelIndex> &indexes, int parentIn, int parentDuration, QWidget *parent = nullptr);
     ~KeyframeImport() override;
     QString selectedData() const;
     void importSelectedData();
@@ -51,6 +35,7 @@ public:
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
+    QMap <QPersistentModelIndex, QString> m_originalParams;
     QList<QPersistentModelIndex> m_indexes;
     bool m_supportsAnim;
     QComboBox *m_dataCombo;
@@ -63,11 +48,14 @@ private:
     QSpinBox *m_limitNumber;
     QComboBox *m_sourceCombo;
     QComboBox *m_targetCombo;
-    QComboBox *m_alignCombo;
+    QComboBox *m_alignSourceCombo;
+    QComboBox *m_alignTargetCombo;
     QLabel *m_sourceRangeLabel;
     QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
+    QSpinBox m_offsetX;
+    QSpinBox m_offsetY;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
     QMap<QString, QModelIndex> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/
@@ -78,8 +66,11 @@ private:
 protected:
     enum ImportRoles {
         SimpleValue,
+        RotoData,
         FullGeometry,
         Position,
+        InvertedPosition,
+        OffsetPosition,
         XOnly,
         YOnly,
         WidthOnly,
@@ -93,6 +84,14 @@ private slots:
     void updateDisplay();
     void updateRange();
     void updateDestinationRange();
+    void updateView();
+
+public slots:
+    virtual void accept() override;
+    virtual void reject() override;
+
+signals:
+    void updateQmlView();
 };
 
 #endif

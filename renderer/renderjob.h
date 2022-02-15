@@ -1,26 +1,17 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef RENDERJOB_H
 #define RENDERJOB_H
 
+#ifdef NODBUS
+#include <QLocalSocket>
+#else
 #include <QDBusInterface>
+#endif
 #include <QObject>
 #include <QProcess>
 #include <QDateTime>
@@ -52,8 +43,12 @@ private:
     int m_progress;
     QString m_prog;
     QString m_player;
+#ifdef NODBUS
+    QLocalSocket* m_kdenlivesocket;
+#else
     QDBusInterface *m_jobUiserver;
     QDBusInterface *m_kdenliveinterface;
+#endif
     bool m_usekuiserver;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
@@ -72,7 +67,13 @@ private:
     QStringList m_args;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
+#ifdef NODBUS
+    void fromServer();
+#else
     void initKdenliveDbusInterface();
+#endif
+    void sendFinish(int status, const QString &error);
+    void sendProgress();
 
 signals:
     void renderingFinished();

@@ -1,4 +1,5 @@
 <!DOCTYPE kpartgui>
-<transition tag="mix" id="mix" type="hidden">
+<transition tag="mix" id="mix" type="audio">
+    <name>Audio Mix</name>
 </transition>
 

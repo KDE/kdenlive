@@ -43,7 +43,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>Best to worst quality</string>
+         <string>Best to worst quality.</string>
         </property>
        </widget>
       </item>
@@ -97,7 +97,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="abitrates_list">
         <property name="toolTip">
-         <string>Best to worst quality</string>
+         <string>Best to worst quality.</string>
         </property>
        </widget>
       </item>
@@ -165,7 +165,7 @@
    <item row="7" column="2">
     <widget class="QTextEdit" name="speeds_list">
      <property name="toolTip">
-      <string>One line of options per speedup step, from slowest to fastest</string>
+      <string>One line of options per speedup step, from slowest to fastest.</string>
      </property>
      <property name="acceptRichText">
       <bool>false</bool>

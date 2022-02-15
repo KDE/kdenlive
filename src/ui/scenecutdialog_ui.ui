@@ -17,7 +17,7 @@
    <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Minimum scene length</string>
+      <string>Minimum scene length:</string>
      </property>
     </widget>
    </item>
@@ -97,7 +97,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QCheckBox" name="add_markers">
      <property name="text">
-      <string>Add clip markers</string>
+      <string>Add clip markers:</string>
      </property>
      <property name="checked">
       <bool>true</bool>

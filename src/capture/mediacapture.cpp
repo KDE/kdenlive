@@ -1,34 +1,20 @@
 /*
-Copyright (C) 2019  Akhil K Gangadharan <helloimakhil@gmail.com>
+SPDX-FileCopyrightText: 2019 Akhil K Gangadharan <helloimakhil@gmail.com>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "mediacapture.h"
 #include "audiomixer/mixermanager.hpp"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
+#include <QAudioOutput>
 #include <QAudioProbe>
-#include <QDir>
 #include <QCameraInfo>
+#include <QDir>
 #include <memory>
 #include <utility>
-#include <QAudioOutput>
 
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
@@ -88,8 +74,8 @@ void MediaCapture::recordAudio(int tid, bool record)
         setCaptureOutputLocation();
         m_audioRecorder->setVolume(KdenliveSettings::audiocapturevolume()/100.0);
         //qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
-
-        connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
+        connect(m_audioRecorder.get(), static_cast<void (QAudioRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error),
+                this, &MediaCapture::displayErrorMessage);
 
         QAudioEncoderSettings audioSettings;
         //audioSettings.setCodec("audio/x-flac");
@@ -123,7 +109,8 @@ void MediaCapture::recordVideo(int tid, bool record)
     if (record && m_videoRecorder->state() == QMediaRecorder::StoppedState) {
         setCaptureOutputLocation();
         m_videoRecorder->setOutputLocation(m_path);
-        connect(m_videoRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
+        connect(m_videoRecorder.get(), static_cast<void (QMediaRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error),
+                this, &MediaCapture::displayErrorMessage);
         m_camera->setCaptureMode(QCamera::CaptureVideo);
         m_camera->start();
         // QString container = "video/mpeg";
@@ -297,16 +284,13 @@ QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
         if (buffer.format().sampleSize() == 8) {
             values = getBufferLevels(buffer.constData<quint8>(), buffer.frameCount(), channelCount);
         }
-        for (double &value : values) {
-            value = qAbs(value - peak_value / 2) / (peak_value / 2);
-        }
+        std::transform(values.begin(), values.end(), values.begin(),
+                       [peak_value](double val) { return qAbs(val - peak_value / 2) / (peak_value / 2); });
         break;
     case QAudioFormat::Float:
         if (buffer.format().sampleSize() == 32) {
             values = getBufferLevels(buffer.constData<float>(), buffer.frameCount(), channelCount);
-            for (double &value : values) {
-                value /= peak_value;
-            }
+            std::transform(values.begin(), values.end(), values.begin(), [peak_value](double val) { return val / peak_value; });
         }
         break;
     case QAudioFormat::SignedInt:
@@ -319,9 +303,7 @@ QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
         if (buffer.format().sampleSize() == 8) {
             values = getBufferLevels(buffer.constData<qint8>(), buffer.frameCount(), channelCount);
         }
-        for (double &value : values) {
-            value /= peak_value;
-        }
+        std::transform(values.begin(), values.end(), values.begin(), [peak_value](double val) { return val / peak_value; });
         break;
     }
     return values;

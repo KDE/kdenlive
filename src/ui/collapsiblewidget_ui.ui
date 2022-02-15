@@ -166,7 +166,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="menuButton">
+          <widget class="QToolButton" name="saveEffectButton">
            <property name="text">
             <string>...</string>
            </property>

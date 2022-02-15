@@ -59,7 +59,7 @@
      <item>
       <widget class="QToolButton" name="buttonDeletePoint">
        <property name="toolTip">
-        <string>Delete current point</string>
+        <string>Delete current point.</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -103,7 +103,7 @@
        <item>
         <widget class="QToolButton" name="buttonResetSpline">
          <property name="toolTip">
-          <string>Reset the selected spline</string>
+          <string>Reset the selected spline.</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -174,7 +174,7 @@
        <item>
         <widget class="QToolButton" name="buttonShowAllHandles">
          <property name="toolTip">
-          <string>Show handles for all points or only for the selected one</string>
+          <string>Show handles for all points or only for the selected one.</string>
          </property>
          <property name="text">
           <string>...</string>

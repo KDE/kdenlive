@@ -1,33 +1,20 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Till Theato (root@ttill.de)                     *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Till Theato <root@ttill.de>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "colorpickerwidget.h"
 
 #include <QApplication>
-#include <QScreen>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMouseEvent>
+#include <QScreen>
+#include <QStyleOptionFocusRect>
+#include <QStylePainter>
 #include <QTimer>
 #include <QToolButton>
-#include <QStylePainter>
-#include <QStyleOptionFocusRect>
 #include <klocalizedstring.h>
 
 
@@ -125,9 +112,12 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    QScreen *currentScreen = QApplication::primaryScreen();
-    if (currentScreen) {
-        m_image = currentScreen->grabWindow(0, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+    foreach (QScreen *screen, QGuiApplication::screens()) {
+        QRect screenRect = screen->geometry();
+        if (screenRect.contains(m_grabRect.topLeft())) {
+            m_image = screen->grabWindow(0, m_grabRect.x() - screenRect.x(), m_grabRect.y() - screenRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+            break;
+        }
     }
 #endif
 
@@ -161,7 +151,8 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
     }
 
     if (m_filterActive) {
-        m_grabRect = QRect(event->globalPos(), QSize(1, 1));
+        m_clickPoint = event->globalPos();
+        m_grabRect = QRect(m_clickPoint, QSize(1, 1));
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
     }
@@ -175,6 +166,7 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
         m_grabRect = m_grabRect.normalized();
+        m_clickPoint = QPoint();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
             emit colorPicked(m_mouseColor);
@@ -184,7 +176,6 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
             m_grabRectFrame->hide();
         }
-        return;
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -194,7 +185,7 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
     // Draw live rectangle of current color under mouse
     m_mouseColor = grabColor(QCursor::pos(), true);
     update();
-    if (m_filterActive) {
+    if (m_filterActive && !m_clickPoint.isNull()) {
         m_grabRect.setWidth(event->globalX() - m_grabRect.x());
         m_grabRect.setHeight(event->globalY() - m_grabRect.y());
         m_grabRectFrame->setGeometry(m_grabRect.normalized());
@@ -261,13 +252,14 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     return QColor::fromRgbF(xcol.red / 65535.0, xcol.green / 65535.0, xcol.blue / 65535.0);
 #else
     Q_UNUSED(destroyImage)
-
     if (m_image.isNull()) {
-        QScreen *currentScreen = QApplication::primaryScreen();
-        if (currentScreen) {
-            QPixmap pm = currentScreen->grabWindow(0, p.x(), p.y(), 1, 1);
-            QImage i = pm.toImage();
-            return i.pixel(0, 0);
+        foreach (QScreen *screen, QGuiApplication::screens()) {
+            QRect screenRect = screen->geometry();
+            if (screenRect.contains(p)) {
+                QPixmap pm = screen->grabWindow(0, p.x() - screenRect.x(), p.y() - screenRect.y(), 1, 1);
+                QImage i = pm.toImage();
+                return i.pixel(0, 0);
+            }
         }
         return qRgb(0, 0, 0);
     }

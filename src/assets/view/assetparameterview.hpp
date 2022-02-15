@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef ASSETPARAMETERVIEW_H
 #define ASSETPARAMETERVIEW_H
@@ -75,7 +59,7 @@ public slots:
     /** Save all parameters to a preset */
     void slotLoadPreset();
     void slotUpdatePreset();
-    void slotDeletePreset();
+    void slotDeleteCurrentPreset();
     void slotDeletePreset(const QString &presetName);
 
 protected:
@@ -103,7 +87,8 @@ private slots:
        @param storeUndo: if true, an undo object is created
     */
     void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
-    void commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo);
+    void commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo);
+    void disableCurrentFilter(bool disable);
 
 signals:
     void seekToPos(int);
@@ -112,6 +97,9 @@ signals:
     void updatePresets(const QString &presetName = QString());
     void updateHeight();
     void activateEffect();
+    void nextKeyframe();
+    void previousKeyframe();
+    void addRemoveKeyframe();
 };
 
 #endif

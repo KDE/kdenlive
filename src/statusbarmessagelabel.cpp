@@ -1,29 +1,16 @@
-/***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *                 2012    Simon A. Eugster <simon.eu@gmail.com>           *
- *   peter.penz@gmx.at                                                     *
- *   Code borrowed from Dolphin, adapted (2008) to Kdenlive by             *
- *   Jean-Baptiste Mardelle, jb@kdenlive.org                               *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2006 Peter Penz <peter.penz@gmx.at>
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2012 Simon A. Eugster <simon.eu@gmail.com>
+
+    Some code borrowed from Dolphin, adapted (2008) to Kdenlive
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "statusbarmessagelabel.h"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 
 #include <KNotification>
@@ -68,6 +55,8 @@ QColor FlashLabel::color() const
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     : QWidget(parent)
     , m_minTextHeight(-1)
+    , m_keymapText()
+    , m_tooltipText()
     , m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
@@ -141,6 +130,16 @@ void StatusBarMessageLabel::setProgressMessage(const QString &text, MessageType 
 
 void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, int timeoutMS)
 {
+    if (type == TooltipMessage) {
+        m_tooltipText = text;
+        if (m_currentMessage.type == DefaultMessage) {
+            m_label->setText(m_tooltipText);
+        }
+        return;
+    }
+    if (type == m_currentMessage.type && text == m_currentMessage.text) {
+        return;
+    }
     StatusBarMessageItem item(text, type, timeoutMS);
     if (type == OperationCompletedMessage) {
         m_progress->setVisible(false);
@@ -151,13 +150,12 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
 
     m_queueSemaphore.acquire();
     if (!m_messageQueue.contains(item)) {
-        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage || item.type == OperationCompletedMessage || item.type == DirectMessage) {
+        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
             qCDebug(KDENLIVE_LOG) << item.text;
 
             // Put the new error message at first place and immediately show it
-            if (item.timeoutMillis < 3000) {
-                item.timeoutMillis = 3000;
-            }
+            item.timeoutMillis = qMax(item.timeoutMillis, 3000);
+
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
                 QList<StatusBarMessageItem> cleanList;
@@ -179,6 +177,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             m_queueTimer.start(delay);
         } else {
             // Message with normal priority
+            item.timeoutMillis = qMax(item.timeoutMillis, 2000);
             m_messageQueue.push_back(item);
             if (!m_queueTimer.isValid() || m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);
@@ -226,13 +225,11 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     if (!m_messageQueue.isEmpty()) {
 
         if (!m_currentMessage.needsConfirmation()) {
-            // If we only have the default message left to show in the queue,
-            // keep the current one for a little longer.
-            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * static_cast<int>(m_messageQueue.at(0).type == DefaultMessage));
+            m_queueTimer.start(m_currentMessage.timeoutMillis);
         }
     }
 
-    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(m_container).color();
+    QColor errorBgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(m_container->palette()).color();
     const char *iconName = nullptr;
     m_container->setColor(m_container->palette().window().color());
     switch (m_currentMessage.type) {
@@ -249,7 +246,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         iconName = "dialog-information";
         m_pixmap->setCursor(Qt::ArrowCursor);
         QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
-        anim->setDuration(3000);
+        anim->setDuration(qMin(m_currentMessage.timeoutMillis, 3000));
         anim->setEasingCurve(QEasingCurve::InOutQuad);
         anim->setKeyValueAt(0.2, m_container->palette().highlight().color());
         anim->setEndValue(m_container->palette().window().color());
@@ -261,11 +258,11 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         iconName = "dialog-warning";
         m_pixmap->setCursor(Qt::ArrowCursor);
         QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
-        anim->setStartValue(bgColor);
-        anim->setKeyValueAt(0.8, bgColor);
+        anim->setStartValue(errorBgColor);
+        anim->setKeyValueAt(0.8, errorBgColor);
         anim->setEndValue(m_container->palette().window().color());
         anim->setEasingCurve(QEasingCurve::OutCubic);
-        anim->setDuration(4000);
+        anim->setDuration(qMin(m_currentMessage.timeoutMillis, 4000));
         anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
     }
@@ -273,15 +270,16 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         iconName = "dialog-close";
         m_pixmap->setCursor(Qt::PointingHandCursor);
         QPropertyAnimation *anim = new QPropertyAnimation(m_container, "color", this);
-        anim->setStartValue(bgColor);
-        anim->setEndValue(bgColor);
+        anim->setStartValue(errorBgColor);
+        anim->setEndValue(errorBgColor);
         anim->setEasingCurve(QEasingCurve::OutCubic);
-        anim->setDuration(3000);
+        anim->setDuration(qMin(m_currentMessage.timeoutMillis, 3000));
         anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
     }
     case DefaultMessage:
         m_pixmap->setCursor(Qt::ArrowCursor);
+        m_label->setText(m_tooltipText);
     default:
         break;
     }

@@ -3,32 +3,32 @@
         <name>Cairo Affine Blend</name>
         <description>Composites second input on first input applying user-defined transformation, opacity and blend mode.</description>
         <author>Janne Liljeblad</author>
-        <parameter type="simplekeyframe" name="0" max="1000" min="0" default="0=400" factor="1000">
+        <parameter type="simplekeyframe" name="0" max="1000" min="0" default="0.4" factor="1000">
                 <name>X position</name>
         </parameter>
-        <parameter type="simplekeyframe" name="1" max="1000" min="0" default="0=400" factor="1000">
+        <parameter type="simplekeyframe" name="1" max="1000" min="0" default="0.4" factor="1000">
                 <name>Y position</name>
         </parameter>
-        <parameter type="simplekeyframe" name="2" max="5000" min="0" default="0=200" factor="1000">
+        <parameter type="simplekeyframe" name="2" max="5000" min="0" default="0.2" factor="1000">
                 <name>X scale</name>
         </parameter>
-        <parameter type="simplekeyframe" name="3" max="5000" min="0" default="0=200" factor="1000">
+        <parameter type="simplekeyframe" name="3" max="5000" min="0" default="0.2" factor="1000">
                 <name>Y scale</name>
         </parameter>
-        <parameter type="simplekeyframe" name="4" max="360" min="0" default="0=0" factor="360">
+        <parameter type="simplekeyframe" name="4" max="360" min="0" default="0" factor="360">
                 <name>Rotation</name>
         </parameter>
-        <parameter type="simplekeyframe" name="5" max="100" min="0" default="0=100" factor="100">
+        <parameter type="simplekeyframe" name="5" max="100" min="0" default="100" factor="100">
                 <name>Opacity</name>
         </parameter>
         <parameter type="list" name="6" default="normal" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity" >
                 <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
                 <name>Blend mode</name>
         </parameter>
-        <parameter type="constant" name="7" max="1000" min="0" default="0=0" factor="1000">
+        <parameter type="constant" name="7" max="1000" min="0" default="0" factor="1000">
                 <name>Rotation X center</name>
         </parameter>
-        <parameter type="constant" name="8" max="1000" min="0" default="0=0" factor="1000">
+        <parameter type="constant" name="8" max="1000" min="0" default="0" factor="1000">
                 <name>Rotation Y center</name>
         </parameter>
 </transition>

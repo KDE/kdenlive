@@ -1,23 +1,13 @@
 /*
- * Copyright (c) 2013 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013 Meltytech LLC
+    SPDX-FileCopyrightText: 2013 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import com.enums 1.0
 
 Item {
     id: rulerRoot
@@ -39,6 +29,7 @@ Item {
     property var effectZones: timeline.masterEffectZones
     property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height + 2 : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
+    property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
     
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -110,24 +101,35 @@ Item {
         delegate:
         Item {
             id: guideRoot
-            z: proxy.position == model.frame ? 20 : 10
+            property bool activated : proxy.position == model.frame
+            z: activated ? 20 : 10
             Rectangle {
                 id: markerBase
                 width: 1
                 height: rulerRoot.height
                 x: model.frame * timeline.scaleFactor
-                color: model.color
+                color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
                     visible: timeline.showMarkers
                     width: mlabel.contentWidth + 4
                     height: guideLabelHeight
                     radius: timeline.guidesLocked ? 0 : height / 4
+                    color: markerBase.color
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
-                    color: model.color
+                    Rectangle {
+                        // Shadow delimiting marker start
+                        width: 1
+                        height: guideLabelHeight
+                        color: activePalette.dark
+                        anchors {
+                            right: parent.left
+                        }
+                    }
+
                     Text {
                         id: mlabel
                         text: model.comment
@@ -173,7 +175,9 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: {
-                            proxy.position = model.frame
+                            if (root.activeTool !== ProjectTool.SlipTool) {
+                                proxy.position = model.frame
+                            }
                         }
                         onEntered: {
                             rulerRoot.hoverGuide = true
@@ -209,16 +213,14 @@ Item {
                 anchors.bottom: parent.bottom
                 height: parent.showText ? 8 : 4
                 width: 1
-                color: activePalette.windowText
-                opacity: 0.5
+                color: dimmedColor
             }
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
-                opacity: 0.7
                 text: timeline.timecode(parent.realPos)
                 font: miniFont
-                color: activePalette.windowText
+                color: dimmedColor
             }
         }
     }
@@ -275,6 +277,7 @@ Item {
         color: "orchid"
         anchors.bottom: parent.bottom
         height: zoneHeight - 1
+        opacity: 0.7
         function updateZone(start, end, update)
         {
             timeline.updateEffectZone(start, end, update)

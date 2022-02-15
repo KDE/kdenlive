@@ -1,23 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2018 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "monitorproxy.h"
 #include "core.h"
@@ -26,6 +12,8 @@
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
+
+#include <QUuid>
 
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltFilter.h>
@@ -44,6 +32,9 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_clipId(-1)
     , m_seekFinished(true)
     , m_td(nullptr)
+    , m_trimmingFrames1(0)
+    , m_trimmingFrames2(0)
+    , m_boundsCount(0)
 {
 }
 
@@ -88,11 +79,16 @@ void MonitorProxy::setOverlayType(int ix)
 
 bool MonitorProxy::setPosition(int pos)
 {
+    return setPositionAdvanced(pos, false);
+}
+
+bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
+{
     if (m_position == pos) {
         return true;
     }
     m_position = pos;
-    emit requestSeek(pos);
+    emit requestSeek(pos, noAudioScrub);
     if (m_seekFinished) {
         m_seekFinished = false;
         emit seekFinishedChanged();
@@ -205,6 +201,9 @@ void MonitorProxy::resetZone()
 {
     m_zoneIn = 0;
     m_zoneOut = -1;
+    m_clipBounds = {};
+    m_boundsCount = 0;
+    emit clipBoundsChanged();
 }
 
 double MonitorProxy::fps() const
@@ -269,6 +268,9 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
             if (qFuzzyCompare(projectFps, currentFps)) {
                 tmpProd->seek(q->m_producer->position());
             } else {
+                int maxLength = int(q->m_producer->get_length() * currentFps / projectFps);
+                tmpProd->set("length", maxLength);
+                tmpProd->set("out", maxLength - 1);
                 tmpProd->seek(int(q->m_producer->position() * currentFps / projectFps));
             }
             frame = tmpProd->get_frame();
@@ -305,7 +307,7 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
-void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName)
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
 {
     if (clipId != m_clipId) {
         m_clipId = clipId;
@@ -327,7 +329,7 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     emit clipNameChanged();
 }
 
-void MonitorProxy::setAudioThumb(const QList <int> streamIndexes, QList <int> channels)
+void MonitorProxy::setAudioThumb(const QList <int> &streamIndexes, const QList <int> &channels)
 {
     m_audioChannels = channels;
     m_audioStreams = streamIndexes;
@@ -386,10 +388,40 @@ const QString MonitorProxy::timecode() const
     return QString();
 }
 
+const QString MonitorProxy::trimmingTC1() const
+{
+    return toTimecode(m_trimmingFrames1);
+}
+
+const QString MonitorProxy::trimmingTC2() const
+{
+    return toTimecode(m_trimmingFrames2);
+}
+
 void MonitorProxy::setTimeCode(TimecodeDisplay *td)
 {
     m_td = td;
     connect(m_td, &TimecodeDisplay::timeCodeUpdated, this, &MonitorProxy::timecodeChanged);
+}
+
+void MonitorProxy::setTrimmingTC1(int frames, bool isRelativ)
+{
+    if (isRelativ) {
+        m_trimmingFrames1 -= frames;
+    } else {
+        m_trimmingFrames1 = frames;
+    }
+    emit trimmingTC1Changed();
+}
+
+void MonitorProxy::setTrimmingTC2(int frames, bool isRelativ)
+{
+    if (isRelativ) {
+        m_trimmingFrames2 -= frames;
+    } else {
+        m_trimmingFrames2 = frames;
+    }
+    emit trimmingTC2Changed();
 }
 
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const
@@ -405,3 +437,26 @@ void MonitorProxy::setSpeed(double speed)
         emit speedChanged();
     }
 }
+
+QByteArray MonitorProxy::getUuid() const
+{
+    return QUuid::createUuid().toByteArray();
+}
+
+void MonitorProxy::updateClipBounds(const QVector<QPoint> &bounds)
+{
+    if (bounds.size() == m_boundsCount) {
+        // Enforce refresh, in/out points may have changed
+        m_boundsCount = 0;
+        emit clipBoundsChanged();
+    }
+    m_clipBounds = bounds;
+    m_boundsCount = bounds.size();
+    emit clipBoundsChanged();
+}
+
+const QPoint MonitorProxy::clipBoundary(int ix)
+{
+    return m_clipBounds.at(ix);
+}
+

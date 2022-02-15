@@ -1,27 +1,13 @@
-/***************************************************************************
- *   Copyright (C) 2015 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "recmanager.h"
 #include "capture/managecapturesdialog.h"
-#include "capture/mltdevicecapture.h"
+//#include "capture/mltdevicecapture.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -31,10 +17,10 @@
 #include <KMessageBox>
 
 #include <QComboBox>
-#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QMenu>
+#include <QScreen>
 #include <QStandardPaths>
 #include <QToolBar>
 #include <QToolButton>
@@ -283,7 +269,7 @@ void RecManager::slotRecord(bool record)
     QString captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        QRect screenSize = QApplication::screens()[m_screenIndex]->geometry();
+        QRect screenSize = QApplication::screens().at(m_screenIndex)->geometry();
         captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
@@ -403,6 +389,7 @@ Mlt::Producer *RecManager::createV4lProducer()
 {
     QString profilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/video4linux");
     Mlt::Profile *vidProfile = new Mlt::Profile(profilePath.toUtf8().constData());
+    bool profileUsed = false;
     Mlt::Producer *prod = nullptr;
     if (m_recVideo->isChecked()) {
         prod = new Mlt::Producer(*vidProfile, QStringLiteral("video4linux2:%1").arg(KdenliveSettings::video4vdevice()).toUtf8().constData());
@@ -416,6 +403,7 @@ Mlt::Producer *RecManager::createV4lProducer()
         p->set("channel", ui->v4lChannelSpinBox->value());
         p->set("audio_ix", ui->v4lAudioComboBox->currentIndex());*/
         prod->set("force_seekable", 0);
+        profileUsed = true;
     }
     if (m_recAudio->isChecked() && (prod != nullptr) && prod->is_valid()) {
         // Add audio track
@@ -432,6 +420,10 @@ Mlt::Producer *RecManager::createV4lProducer()
         delete audio;
         prod = new Mlt::Producer(tractor->get_producer());
         delete tractor;
+        profileUsed = true;
+    }
+    if (!profileUsed) {
+        delete vidProfile;
     }
     return prod;
 }
@@ -467,7 +459,7 @@ void RecManager::slotPreview(bool preview)
     profile.frame_rate_num / profile.frame_rate_den);
        if (!m_captureDevice->slotStartPreview(producer, isXml)) {
            // v4l capture failed to start
-           video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters..."));
+           video_frame->setText(i18n("Failed to start Video4Linux,\ncheck your parameters…"));
 
        } else {
            m_playAction->setEnabled(false);

@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef ASSETPARAMETERMODEL_H
 #define ASSETPARAMETERMODEL_H
@@ -40,9 +24,11 @@ typedef QVector<QPair<QString, QVariant>> paramVector;
 enum class ParamType {
     Double,
     List, // Value can be chosen from a list of pre-defined ones
-    UrlList, // File can be choosen from a list of pre-defined ones or a custom file can be used (like url)
+    ListWithDependency,  // Value can be chosen from a list of pre-defined ones. Some values might not be available due to missing dependencies
+    UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
+    MultiSwitch,
     RestrictedAnim, // animated 1 dimensional param with linear support only
     Animated,
     AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
@@ -75,6 +61,9 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
 {
     Q_OBJECT
 
+friend class KeyframeModelList;
+friend class KeyframeModel;
+
 public:
     /**
      *
@@ -106,7 +95,9 @@ public:
         ValueRole,
         AlphaRole,
         ListValuesRole,
+        InstalledValuesRole,
         ListNamesRole,
+        ListDependenciesRole,
         NewStuffRole,
         ModeRole,
         FactorRole,
@@ -159,8 +150,13 @@ public:
 
     /** @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;
+    /** @brief Get a parameter value from its name */
+    const QVariant getParamFromName(const QString &paramName);
     /** @brief Returns a json definition of the effect with all param values */
     QJsonDocument toJson(bool includeFixed = true) const;
+    /** @brief Returns the interpolated value at the given position with all param values as json*/
+    QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
+
     void savePreset(const QString &presetFile, const QString &presetName);
     void deletePreset(const QString &presetFile, const QString &presetName);
     const QStringList getPresetList(const QString &presetFile) const;
@@ -195,6 +191,8 @@ public:
     const QString getParam(const QString &paramName);
     /** @brief Returns the current asset */
     Mlt::Properties *getAsset();
+    /** @brief Returns a frame time as click time (00:00:00.000) */
+    const QString framesToTime(int t) const;
 
 public slots:
     /** @brief Sets the value of a list of parameters
@@ -247,6 +245,8 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
+    QVector<int>m_selectedKeyframes;
+    int m_activeKeyframe;
     /** @brief if true, keyframe tools will be hidden by default */
     bool m_hideKeyframesByDefault;
     /** @brief true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate */

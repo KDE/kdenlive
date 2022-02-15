@@ -1,21 +1,16 @@
 /*
-Copyright (C) 2014  Till Theato <root@ttill.de>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "notesplugin.h"
 #include "core.h"
 #include "dialogs/noteswidget.h"
-#include "mainwindow.h"
 #include "doc/kdenlivedoc.h"
+#include "klocalizedstring.h"
+#include "mainwindow.h"
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
-#include "klocalizedstring.h"
 
 #include <QStyle>
 
@@ -36,10 +31,9 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     container->setLayout(lay);
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
     connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
-
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
     m_widget->setTabChangesFocus(true);
-    m_widget->setPlaceholderText(i18n("Enter your project notes here ..."));
+    m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
     m_notesDock->close();
     connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);
@@ -47,8 +41,8 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
 
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
-    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
+    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, Qt::UniqueConnection);
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
@@ -64,6 +58,7 @@ void NotesPlugin::setProject(KdenliveDoc *document)
 void NotesPlugin::showDock()
 {
     m_notesDock->show();
+    m_notesDock->raise();
 }
 
 void NotesPlugin::slotInsertTimecode()
@@ -78,15 +73,21 @@ void NotesPlugin::slotInsertTimecode()
             return;
         }
         QString clipName = pCore->bin()->getBinClipName(binId);
-        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, QString::number(frames)).arg(clipName, position));
+        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
-        m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
+        QPair <int,QString>currentTrackInfo = pCore->currentTrackInfo();
+        if (currentTrackInfo.first != -1) {
+            // Insert timeline position with track reference
+            m_widget->insertHtml(QString("<a href=\"%1?%2\">%3 %4</a> ").arg(QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
+        } else {
+            m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
+        }
     }
 }
 
-void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
+void NotesPlugin::slotReAssign(const QStringList &anchors, const QList <QPoint> &points)
 {
     const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
     int ix = 0;
@@ -107,7 +108,6 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
                 updatedLink.prepend(QString("%1#").arg(binId));
             }
         } else {
-            updatedLink = a;
             position = a.toInt();
             if (!binId.isEmpty()) {
                 updatedLink.prepend(QString("%1#").arg(binId));
@@ -119,7 +119,7 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
         QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
-            cur.insertHtml(QString("<a href=\"%1\">%2:%3</a> ").arg(updatedLink).arg(clipName, pos));
+            cur.insertHtml(QString("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));
         } else {
             // Timestamp relative to project timeline
             cur.insertHtml(QString("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));

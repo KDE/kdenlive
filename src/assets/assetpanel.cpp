@@ -1,52 +1,36 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assetpanel.hpp"
 #include "core.h"
 #include "definitions.h"
+#include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "effects/effectsrepository.hpp"
-#include "transitions/view/transitionstackview.hpp"
 #include "transitions/view/mixstackview.hpp"
+#include "transitions/view/transitionstackview.hpp"
 
 #include "view/assetparameterview.hpp"
 
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KDualAction>
-#include <KSqueezedTextLabel>
 #include <KMessageWidget>
+#include <KSqueezedTextLabel>
 #include <QApplication>
+#include <QComboBox>
+#include <QFontDatabase>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QScrollArea>
-#include <QScrollBar>
-#include <QComboBox>
-#include <QFontDatabase>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
@@ -68,7 +52,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : qAsConst(allTransitions)) {
-        m_switchCompoButton->addItem(transition.second, transition.first);
+        if (transition.first != QLatin1String("mix")) {
+            m_switchCompoButton->addItem(transition.second, transition.first);
+        }
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
@@ -94,6 +80,15 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchBuiltStack->setVisible(false);
     // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
     buttonToolbar->addWidget(m_switchBuiltStack);
+
+    m_saveEffectStack = new QToolButton(this);
+    m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
+    m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
+    // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
+    // See https://stackoverflow.com/a/17645563/5172513
+    m_saveEffectStack->setEnabled(false);
+    connect(m_saveEffectStack, &QToolButton::released, this, &AssetPanel::slotSaveStack);
+    buttonToolbar->addWidget(m_saveEffectStack);
 
     m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
@@ -150,6 +145,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
+
+    connect(this, &AssetPanel::slotSaveStack, m_effectStackWidget, &EffectStackView::slotSaveStack);
 }
 
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
@@ -168,22 +165,31 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
-    m_transitionWidget->setModel(transitionModel, QSize(), true);
+    QSize s = pCore->getCompositionSizeOnTrack(id);
+    m_transitionWidget->setModel(transitionModel, s, true);
 }
 
-void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel)
+void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel, bool refreshOnly)
 {
     if (cid == -1) {
         clear();
         return;
     }
     ObjectId id = {ObjectType::TimelineMix, cid};
-    if (m_mixWidget->stackOwner() == id) {
-        // already on this effect stack, do nothing
-        return;
+    if (refreshOnly) {
+        if (m_mixWidget->stackOwner() != id) {
+            // item not currently displayed, ignore
+            return;
+        }
+    } else {
+        if (m_mixWidget->stackOwner() == id) {
+            // already on this effect stack, do nothing
+            return;
+        }
     }
     clear();
-    m_switchAction->setVisible(true);
+    // There is only 1 audio composition, so hide switch combobox
+    m_switchAction->setVisible(transitionModel->getAssetId() != QLatin1String("mix"));
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
@@ -200,6 +206,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         // Item is not ready
         m_splitButton->setVisible(false);
         m_enableStackButton->setVisible(false);
+        m_saveEffectStack->setEnabled(false);
         clear();
         return;
     }
@@ -243,6 +250,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_assetTitle->setText(title);
     m_titleAction->setVisible(true);
     m_splitButton->setVisible(showSplit);
+    m_saveEffectStack->setEnabled(true);
     m_enableStackButton->setVisible(id.first != ObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -298,6 +306,7 @@ void AssetPanel::clear()
     m_mixWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
+    m_saveEffectStack->setEnabled(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
@@ -322,6 +331,7 @@ const QString AssetPanel::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
+    //QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
 
@@ -376,10 +386,6 @@ const QString AssetPanel::getStyleSheet()
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
                                      "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
-
-    // transparent qcombobox
-    stylesheet.append(QStringLiteral("QComboBox { background-color: transparent;} "));
-
     return stylesheet;
 }
 
@@ -424,6 +430,7 @@ bool AssetPanel::addEffect(const QString &effectId)
     return m_effectStackWidget->addEffect(effectId);
 }
 
+
 void AssetPanel::enableStack(bool enable)
 {
     if (!m_effectStackWidget->isVisible()) {
@@ -466,10 +473,10 @@ void AssetPanel::slotCheckWheelEventFilter()
         // widget has scroll bar,
         blockWheel = true;
     }
-    emit m_effectStackWidget->blockWheenEvent(blockWheel);
+    emit m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString &/*id*/, const QString &message)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {
@@ -484,4 +491,37 @@ void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, 
     m_infoMessage->setCloseButtonVisible(true);
     m_infoMessage->setMessageType(KMessageWidget::Warning);
     m_infoMessage->animatedShow();
+}
+
+void AssetPanel::slotAddRemoveKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->addRemoveKeyframe();
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->addRemoveKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->addRemoveKeyframe();
+    }
+}
+
+void AssetPanel::slotNextKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(true);
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->nextKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->nextKeyframe();
+    }
+}
+
+void AssetPanel::slotPreviousKeyframe()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->slotGoToKeyframe(false);
+    } else if (m_transitionWidget->isVisible()) {
+        emit m_transitionWidget->previousKeyframe();
+    } else if (m_mixWidget->isVisible()) {
+        emit m_mixWidget->previousKeyframe();
+    }
 }

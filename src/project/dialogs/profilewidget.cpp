@@ -1,23 +1,9 @@
 /*
-Copyright (C) 2016  Jean-Baptiste Mardelle <jb@kdenlive.org>
-Copyright (C) 2017  Nicolas Carion
+SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2017 Nicolas Carion
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "profilewidget.h"
@@ -38,19 +24,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
+    , m_originalProfile(QStringLiteral("invalid"))
 {
-    m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
-    QLabel *fpsLabel = new QLabel(i18n("Fps"), this);
+    auto *fpsLabel = new QLabel(i18n("Fps:"), this);
     m_fpsFilt = new QComboBox(this);
     fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
     labelLay->addWidget(m_fpsFilt);
 
-    QLabel *scanningLabel = new QLabel(i18n("Scanning"), this);
+    auto *scanningLabel = new QLabel(i18n("Scanning:"), this);
     m_scanningFilt = new QComboBox(this);
     scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
@@ -78,7 +64,8 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
-        QModelIndex current, old;
+        QModelIndex current;
+        QModelIndex old;
         if (!selected.indexes().isEmpty()) {
             current = selected.indexes().front();
         }
@@ -205,8 +192,8 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(),
                             profile->display_aspect_den());
         description += i18n("Frame rate: %1 fps<br/>", profile->fps());
-        description += i18n("Pixel Aspect Ratio: %1<br/>", profile->sar());
-        description += i18n("Color Space: %1<br/>", profile->colorspaceDescription());
+        description += i18n("Pixel aspect ratio: %1<br/>", profile->sar());
+        description += i18n("Color space: %1<br/>", profile->colorspaceDescription());
         QString interlaced = i18n("yes");
         if (profile->progressive()) {
             interlaced = i18n("no");

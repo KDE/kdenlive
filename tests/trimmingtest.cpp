@@ -4,7 +4,7 @@
 using namespace fakeit;
 Mlt::Profile profile_trimming;
 
-TEST_CASE("Advanced trimming operations", "[Trimming]")
+TEST_CASE("Simple trimming operations", "[Trimming]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
@@ -16,6 +16,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -532,6 +533,302 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     pCore->m_projectManager = nullptr;
 }
 
+TEST_CASE("Spacer operations", "[Spacer]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock)
+
+    QString binId = createProducer(profile_trimming, "red", binModel);
+    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+    QString binId3 = createProducerWithSound(profile_trimming, binModel);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int tid1 = TrackModel::construct(timeline);
+
+    // Add an audio track
+    //int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    //int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+
+    SECTION("Simple one track space insertion")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 20;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, false, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, false, undo, redo));
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
+    }
+
+    SECTION("Simple one track space insertion with guides")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 20;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        guideModel->addMarker(GenTime(l/2, profile_trimming.fps()), "guide1");
+        guideModel->addMarker(GenTime(l+2, profile_trimming.fps()), "guide2");
+        guideModel->addMarker(GenTime(l+7, profile_trimming.fps()), "guide3");
+        guideModel->addMarker(GenTime(p2 + l/2, profile_trimming.fps()), "guide4");
+        guideModel->addMarker(GenTime(p3, profile_trimming.fps()), "guide5");
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, true, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space});
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, true, undo, redo));
+        auto state2 = [&]() {
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space + space2});
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+        undoStack->redo();
+        state2();
+    }
+
+    SECTION("Simple one track space deletion")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        int l = timeline->getClipPlaytime(cid1);
+        int p2 = l + 10;
+        REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
+        int p3 = l + l + 10;
+        REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2);
+            REQUIRE(timeline->getClipPosition(cid3) == p3);
+
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state();
+
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        REQUIRE(spacerIid > -1);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        int itemPos = timeline->getItemPosition(spacerIid);
+        // space to remove is larger than possible (at the end only 10 frames should be removed)
+        int space = 18;
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space, tid1, false, undo, redo));
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == p2 - 10);
+            REQUIRE(timeline->getClipPosition(cid3) == p3 - 10);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+        };
+        state1();
+
+        int startPos = timeline->getClipPosition(cid3) + l/2;
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        REQUIRE(spacerIid > -1);
+        undo = []() { return true; };
+        redo = []() { return true; };
+        itemPos = timeline->getItemPosition(spacerIid);
+        int space2 = 3;
+        REQUIRE(!TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space2, tid1, false, undo, redo));
+        state1();
+
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state1();
+    }
+
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+
 TEST_CASE("Insert/delete", "[Trimming2]")
 {
     auto binModel = pCore->projectItemModel();
@@ -544,6 +841,8 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -716,6 +1015,7 @@ TEST_CASE("Copy/paste", "[CP]")
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
@@ -1069,3 +1369,750 @@ TEST_CASE("Copy/paste", "[CP]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+
+TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock)
+
+    QString binId = createProducer(profile_trimming, "red", binModel);
+    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+
+    int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+    timeline->m_allClips[cid4]->m_endlessResize = false;
+    timeline->m_allClips[cid5]->m_endlessResize = false;
+
+    // sliping a fullsized clips should not to anything
+    SECTION("Slip single fullsized clip")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+        };
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, 3) == 3);
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, -3) == -3);
+        state();
+
+        undoStack->undo();
+        state();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state();
+        undoStack->redo();
+        state();
+    }
+
+    // slipping a downsized clip should only change the in and out point
+    SECTION("Slip single cutted clip")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+        REQUIRE(timeline->requestItemResize(cid1, l - 5, true) == l - 5);
+        REQUIRE(timeline->requestItemResize(cid1, l - 11, false) == l - 11);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+        };
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, 3) == 3);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 9);
+        };
+        state2();
+
+        REQUIRE(timeline->requestClipSlip(cid1, -3) == -3);
+        state();
+
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state();
+
+    }
+
+    // if offset is bigger than the borders use the biggest possible offset without going beyond the borders
+    SECTION("Slip beyond borders")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->requestItemResize(cid1, l - 5, true) == l - 5);
+        REQUIRE(timeline->requestItemResize(cid1, l - 11, false) == l - 11);
+        REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+        };
+        state();
+
+        // left border
+        REQUIRE(timeline->requestClipSlip(cid1, 30) == 30);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 12);
+        };
+        state2();
+
+        // right border
+        REQUIRE(timeline->requestClipSlip(cid1, -30) == -30);
+        auto state3 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 11);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+        };
+        state3();
+
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state3();
+    }
+
+    // slipping one clip of a group should slip all members
+    SECTION("Slip group")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        REQUIRE(timeline->requestItemResize(cid1, l1 - 5, true) == l1 - 5);
+        REQUIRE(timeline->requestItemResize(cid1, l1 - 11, false) == l1 - 11);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+        REQUIRE(timeline->requestItemResize(cid2, l2 - 11, false) == l2 - 11);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 25));
+        int l3 = timeline->getClipPlaytime(cid3);
+        REQUIRE(timeline->requestItemResize(cid3, l3 - 5, true) == l3 - 5);
+
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 0));
+        int l4 = timeline->getClipPlaytime(cid4);
+        REQUIRE(timeline->requestItemResize(cid4, l4 - 9, true) == l4 - 9);
+        REQUIRE(timeline->requestItemResize(cid4, l4 - 17, false) == l4 - 17);
+
+        REQUIRE(timeline->requestClipMove(cid5, tid2, 60));
+        int l5 = timeline->getClipPlaytime(cid5);
+        int gid1 = timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}), true, GroupType::Normal);
+        REQUIRE(gid1 > -1);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 6);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
+            REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 11);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 -1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
+            REQUIRE(timeline->getClipPosition(cid3) == 25);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
+            REQUIRE(timeline->getClipPosition(cid4) == 8);
+            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 8);
+            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 10);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid5) == l5);
+            REQUIRE(timeline->getClipPosition(cid5) == 60);
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(timeline->getClipTrackId(cid5) == tid2);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+        };
+        state();
+
+        REQUIRE(timeline->requestClipSlip(cid1, 3) == 3);
+
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 9);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
+            REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 8);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 4);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
+            REQUIRE(timeline->getClipPosition(cid3) == 25);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
+            REQUIRE(timeline->getClipPosition(cid4) == 8);
+            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 5);
+            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 13);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid5) == l5);
+            REQUIRE(timeline->getClipPosition(cid5) == 60);
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(timeline->getClipTrackId(cid5) == tid2);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+        };
+        state2();
+
+        REQUIRE(timeline->requestClipSlip(cid4, 30) == 30);
+
+        auto state3 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
+            REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 12);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
+            REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 12);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
+            REQUIRE(timeline->getClipPosition(cid3) == 25);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
+            REQUIRE(timeline->getClipPosition(cid4) == 8);
+            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 18);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+
+            REQUIRE(timeline->getClipPlaytime(cid5) == l5);
+            REQUIRE(timeline->getClipPosition(cid5) == 60);
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(timeline->getClipTrackId(cid5) == tid2);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+        };
+        state3();
+
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state3();
+    }
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+
+TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock)
+
+    QString binId = createProducer(profile_trimming, "red", binModel);
+    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+
+    int tid1 = TrackModel::construct(timeline);
+    int tid2 = TrackModel::construct(timeline);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    timeline->m_allClips[cid1]->m_endlessResize = false;
+    timeline->m_allClips[cid2]->m_endlessResize = false;
+    timeline->m_allClips[cid3]->m_endlessResize = false;
+    timeline->m_allClips[cid4]->m_endlessResize = false;
+    timeline->m_allClips[cid5]->m_endlessResize = false;
+
+    // ripple resize a fullsized clip longer should not to anything
+    SECTION("Ripple resize single fullsized clip (longer)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 80));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 80);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+        };
+        state();
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l1 + 5, true));
+        state();
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l1 + 5, false));
+        state();
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 + 5, true));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l2 + 5, false));
+        state();
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid3, l3 + 5, true));
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid3, l3 + 5, false));
+        state();
+
+        undoStack->undo();
+        state();
+        undoStack->undo();
+        state();
+
+        undoStack->redo();
+        state();
+        undoStack->redo();
+        state();
+    }
+
+    // ripple resize a fullsized clip shorter should resize the clip and move following clips
+    SECTION("Ripple resize single fullsized clip (shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 80));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 80);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 75);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+        };
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
+        stateA1();
+        stateB();
+
+        auto stateC = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 72);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+        };
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
+        stateA1();
+        stateC();
+
+        undoStack->undo();
+        stateA1();
+        stateB();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateA1();
+        stateB();
+
+        undoStack->redo();
+        stateA1();
+        stateC();
+    }
+
+    // ripple resize a grouped clip should move the affect all group partners on other tracks with same position as well
+    SECTION("Ripple resize fullsized multitrack group (shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 80));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 5));
+        int l4 = timeline->getClipPlaytime(cid4);
+        REQUIRE(l4 == l1);
+        int gid1 = timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid4}), true, GroupType::Normal);
+
+        REQUIRE(timeline->requestClipMove(cid5, tid2, 50));
+        int l5 = timeline->getClipPlaytime(cid5);
+        REQUIRE(l5 == l2);
+        int gid2 = timeline->requestClipsGroup(std::unordered_set<int>({cid2, cid5}), true, GroupType::Normal);
+
+        REQUIRE(timeline->requestClipMove(cid6, tid2, 80));
+        int l6 = timeline->getClipPlaytime(cid6);
+        REQUIRE(l6 == l3);
+        int gid3 = timeline->requestClipsGroup(std::unordered_set<int>({cid3, cid6}), true, GroupType::Normal);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid4) == timeline->getClipPlaytime(cid1));
+            REQUIRE(timeline->getClipPosition(cid4) == timeline->getClipPosition(cid1));
+            REQUIRE(timeline->getClipPtr(cid4)->getIn() == timeline->getClipPtr(cid1)->getIn());
+            REQUIRE(timeline->getClipPtr(cid4)->getOut() == timeline->getClipPtr(cid1)->getOut());
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 80);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
+            REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
+            REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
+            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
+            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 75);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
+            REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
+            REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
+            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
+            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+        };
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
+        stateA1();
+        stateB();
+
+        auto stateC = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 72);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
+            REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
+            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
+            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
+            REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
+            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
+            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+        };
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
+        stateA1();
+        stateC();
+
+        undoStack->undo();
+        stateA1();
+        stateB();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateA1();
+        stateB();
+
+        undoStack->redo();
+        stateA1();
+        stateC();
+    }
+
+    SECTION("Ripple resize fullsized single track group (shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 50));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 80));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        int gid1 = timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid2, cid3}), true, GroupType::Normal);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 80);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 75);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
+        stateA1();
+        stateB();
+
+        auto stateC = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
+            REQUIRE(timeline->getClipPosition(cid2) == 50);
+            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 72);
+            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+
+            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+        };
+
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
+        stateA1();
+        stateC();
+
+        undoStack->undo();
+        stateA1();
+        stateB();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateA1();
+        stateB();
+
+        undoStack->redo();
+        stateA1();
+        stateC();
+    }
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+

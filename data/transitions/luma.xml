@@ -9,4 +9,10 @@
     <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
         <name>Softness</name>
     </parameter>
+    <parameter type="bool" name="alpha_over" max="1" min="0" default="1">
+        <name>Use transparency</name>
+    </parameter>
+    <parameter type="bool" name="reverse" max="1" min="0" default="0">
+        <name>Reverse</name>
+    </parameter>
 </transition>

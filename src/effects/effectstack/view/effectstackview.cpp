@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "effectstackview.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
@@ -31,16 +15,16 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 
+#include <QDir>
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
+#include <QInputDialog>
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
-#include <QInputDialog>
-#include <QDir>
 
 #include <KMessageBox>
 #include <utility>
@@ -205,7 +189,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     // m_builtStack->setModel(model, stackOwner());
 }
 
-void EffectStackView::activateEffect(QModelIndex ix, bool active)
+void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
 {
     m_effectsTree->setCurrentIndex(ix);
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
@@ -263,19 +247,19 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
-        connect(view, &CollapsibleEffectView::saveStack, this, &EffectStackView::slotSaveStack);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) {
             m_model->setActiveEffect(row);
         });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
-        connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
+        connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
+
         connect(pCore.get(), &Core::updateEffectZone, view, [=](const QPoint p, bool withUndo) {
             // Update current effect zone
             if (view->isActive()) {
@@ -474,10 +458,16 @@ void EffectStackView::slotFocusEffect()
 
 void EffectStackView::slotSaveStack()
 {
-    QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
-    if (name.trimmed().isEmpty() || m_model->rowCount() <= 0) {
+    if (m_model->rowCount() <= 0) {
+        KMessageBox::sorry(this, i18n("No effect selected."));
         return;
     }
+    QString name = QInputDialog::getText(this, i18nc("@title:window", "Save Effect Stack"), i18n("Name for saved stack: "));
+    if (name.trimmed().isEmpty()) {
+        KMessageBox::sorry(this, i18n("No name provided, effect stack not saved."));
+        return;
+    }
+
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
@@ -507,6 +497,7 @@ void EffectStackView::slotSaveStack()
     QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
+        out.setCodec("UTF-8");
         out << doc.toString();
     }
     file.close();
@@ -521,3 +512,31 @@ void EffectStackView::switchBuiltStack(bool show)
     KdenliveSettings::setShowbuiltstack(show);
 }
 */
+
+void EffectStackView::slotGoToKeyframe(bool next)
+{
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        auto item = m_model->getEffectStackRow(currentActive);
+        QModelIndex ix = m_model->getIndexFromItem(item);
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        if (next) {
+            w->slotNextKeyframe();
+        } else {
+            w->slotPreviousKeyframe();
+        }
+    }
+}
+
+void EffectStackView::addRemoveKeyframe()
+{
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        auto item = m_model->getEffectStackRow(currentActive);
+        QModelIndex ix = m_model->getIndexFromItem(item);
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        w->addRemoveKeyframe();
+    }
+}

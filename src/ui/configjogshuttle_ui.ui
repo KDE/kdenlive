@@ -50,7 +50,7 @@
       <bool>false</bool>
      </property>
      <property name="title">
-      <string>Device configuration</string>
+      <string>Device Configuration</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -77,6 +77,9 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset theme="view-refresh"/>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -95,7 +98,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Device</string>
+         <string>Device:</string>
         </property>
        </widget>
       </item>
@@ -176,7 +179,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Device name</string>
+         <string>Device name:</string>
         </property>
        </widget>
       </item>

@@ -1,26 +1,13 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-#include "gentime.h"
+#include "utils/gentime.h"
 
 #include "kdenlive_debug.h"
 
@@ -53,6 +40,8 @@ GroupType groupTypeFromStr(const QString &s);
 enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
 
+enum class MixAlignment { AlignNone, AlignLeft, AlignRight, AlignCenter };
+
 enum OperationType {
     None = 0,
     WaitingForConfirm,
@@ -78,7 +67,7 @@ enum OperationType {
 
 namespace PlaylistState {
 Q_NAMESPACE
-enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
+enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3, Unknown = 4 };
 Q_ENUM_NS(ClipState)
 } // namespace PlaylistState
 
@@ -98,7 +87,7 @@ enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 
 namespace AssetListType {
 Q_NAMESPACE
-enum AssetType { Preferred, Video, Audio, Custom, CustomAudio, Favorites, AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Hidden = -1 };
+enum AssetType { Preferred, Video, Audio, Custom, CustomAudio, Template, TemplateAudio, Favorites, AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Text, Hidden = -1 };
 Q_ENUM_NS(AssetType)
 }
 
@@ -129,7 +118,20 @@ enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipTyp
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
-enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2 };
+namespace ToolType {
+Q_NAMESPACE
+enum ProjectTool {
+    SelectTool = 0,
+    RazorTool = 1,
+    SpacerTool = 2,
+    RippleTool = 3,
+    RollTool = 4,
+    SlipTool = 5,
+    SlideTool = 6,
+    MulticamTool = 7
+};
+Q_ENUM_NS(ProjectTool)
+}
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,
@@ -138,11 +140,11 @@ enum MonitorSceneType {
     MonitorSceneCorners,
     MonitorSceneRoto,
     MonitorSceneSplit,
-    MonitorSceneRipple,
+    MonitorSceneTrimming,
     MonitorSplitTrack
 };
 
-enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, DirectMessage };
+enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
 
 namespace BinMessage {
     enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };

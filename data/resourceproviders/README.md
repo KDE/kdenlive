@@ -1,5 +1,5 @@
 # How To Write Provider Configurations
-Intruction written 2021 by Julius Künzel as part of Kdenlive (www.kdenlive.org)
+Instruction written 2021 by Julius Künzel as part of Kdenlive (www.kdenlive.org)
 ## Overview
 Provider configuration files are json files.
 Here is an example for [freesound](https://freesound.org)
@@ -55,7 +55,7 @@ Here is an example for [freesound](https://freesound.org)
 ```
 
 ## Base Structure
-Each provider config files should only specify a certain media type such as `video`. If the provider provids multiple types, create one config file for each.
+Each provider config files should only specify a certain media type such as `video`. If the provider provides multiple types, create one config file for each.
 
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
@@ -64,7 +64,7 @@ Each provider config files should only specify a certain media type such as `vid
 | type | String | yes | one of `video`, `image`, `music`, `sound` |
 | integration | String | yes | Must be `buildin` as this is the only supported value at the moment |
 | clientkey | String | If OAuth2 or `%clientkey%` is used | The client key to access the api. </br>_Kdenlive has some keys build in:  `%pixabay_apikey%`, `%freesound_apikey%` and `%pexels_apikey%` will be replaced by a key for the certain provider._ |
-| downloadOAuth2 | bool | no | Whether OAuth2 authentification is need to download files
+| downloadOAuth2 | bool | no | Whether OAuth2 authentication is needed to download files
 | api | Object | yes | see  [Api](#api) |
 
 ## Api
@@ -119,13 +119,13 @@ The objects in the arrays in `params` and `header` should contain two fields: `k
 | previewUrl | String | no | Url to preview file of the item |
 | imageUrl | String | no | Url to image thumb of the item (for audio e.g. album cover, for video a still)|
 
-##### Mutliple Download Urls
+##### Multiple Download Urls
 
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
 | key | String | yes | Name of the key containing the list holding the files. The following fields are relative to a item of this list |
 | url | String | yes | Name of the key in a list element holding the download url |
-| name | String | yes | Label for the certain file verison |
+| name | String | yes | Label for the certain file version |
 
 ###### Example
 ```json
@@ -141,7 +141,7 @@ Only necessary in special cases (e.g. https://archive.org) when no download urls
 
 For the `req` object see the description of the [`req` obeject for `search`](#request)
 
-The `res` object should hold two fileds: `format` (same as in [search response](#response)) and `downloadUrl` (same as in [search response](#response)) or `downloadUrls`. The field `downloadUrls` is again similar to the one in [search response](#response), but has some additional fields:
+The `res` object should hold two fields: `format` (same as in [search response](#response)) and `downloadUrl` (same as in [search response](#response)) or `downloadUrls`. The field `downloadUrls` is again similar to the one in [search response](#response), but has some additional fields:
 
 | Key | Type | Required | Description |
 | :------------- | :------------- | :------------- | :------------- |
@@ -167,9 +167,9 @@ If `isObject` is `true` there is a special case for `format`, `url` and `name`: 
 }
 ```
 ### Special Keys
-Special keys are avaible for the following fields in [Search `res`](#response): `author`, `authorUrl`, `name`, `filetype`, `description`, `id`, `url`, `licenseUrl`, `imageUrl`, `previewUrl`, `downloadUrl`, `downloadUrls.url` and `downloadUrls.name`.
+Special keys are available for the following fields in [Search `res`](#response): `author`, `authorUrl`, `name`, `filetype`, `description`, `id`, `url`, `licenseUrl`, `imageUrl`, `previewUrl`, `downloadUrl`, `downloadUrls.url` and `downloadUrls.name`.
 
-In [`res` of Fetch Download Urls](#fetch-download-urls) they are avaible for these fields: `downloadUrl`, `downloadUrls.format`,`downloadUrls.url` and `downloadUrls.name`
+In [`res` of Fetch Download Urls](#fetch-download-urls) they are available for these fields: `downloadUrl`, `downloadUrls.format`,`downloadUrls.url` and `downloadUrls.name`
 #### Placeholders
 Placeholders are expressions that will be replaced by something.
 

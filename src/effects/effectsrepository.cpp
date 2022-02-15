@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "effectsrepository.hpp"
 #include "core.h"
@@ -63,7 +47,7 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt() const
 
 Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId) const
 {
-    return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
+    return pCore->getMltRepository()->metadata(mlt_service_filter_type, effectId.toLatin1().data());
 }
 
 void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
@@ -97,9 +81,17 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             }
             QString type = base.attribute(QStringLiteral("type"), QString());
             if (type == QLatin1String("customAudio")) {
-                result.type = AssetListType::AssetType::CustomAudio;
+                if (file_name.contains(QStringLiteral("effect-templates"))) {
+                    result.type = AssetListType::AssetType::TemplateAudio;
+                } else {
+                    result.type = AssetListType::AssetType::CustomAudio;
+                }
             } else {
-                result.type = AssetListType::AssetType::Custom;
+                if (file_name.contains(QStringLiteral("effect-templates"))) {
+                    result.type = AssetListType::AssetType::Template;
+                } else {
+                    result.type = AssetListType::AssetType::Custom;
+                }
             }
             result.id = base.attribute(QStringLiteral("id"), QString());
             if (result.id.isEmpty()) {
@@ -128,7 +120,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         Info result;
         bool ok = parseInfoFromXml(currentEffect, result);
         if (!ok) {
-            qDebug()<<"==== PARSING ABORTED FOR: "<<file_name;
             continue;
         }
 
@@ -169,6 +160,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 }
                 file.close();
             }
+        } else if (type == QLatin1String("text")) {
+            result.type = AssetListType::AssetType::Text;
         }
         customAssets[result.id] = result;
     }
@@ -182,7 +175,9 @@ std::unique_ptr<EffectsRepository> &EffectsRepository::get()
 
 QStringList EffectsRepository::assetDirs() const
 {
-    return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
+    dirs.append(QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory));
+    return dirs;
 }
 
 void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
@@ -385,6 +380,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
         }
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << doc.toString();
         }
         file.close();
@@ -410,7 +406,17 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
 {
     if (m_assets.count(assetId) > 0) {
         AssetListType::AssetType type = m_assets.at(assetId).type;
-        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio ;
+    }
+    return false;
+}
+
+bool EffectsRepository::isTextEffect(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        if (m_assets.at(assetId).type == AssetListType::AssetType::Text) {
+            return true;
+        }
     }
     return false;
 }

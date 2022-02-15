@@ -1,29 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2021 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TEXTBASEDEDIT_H
 #define TEXTBASEDEDIT_H
 
 #include "ui_textbasededit_ui.h"
 #include "definitions.h"
+#include "pythoninterfaces/speechtotext.h"
 
 #include <QProcess>
 #include <QAction>
@@ -63,11 +48,11 @@ public:
     const QString selectionEndAnchor(QTextCursor &cursor, int end, int min);
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
-    QVector<QPoint> processedZones(QVector<QPoint> sourceZones);
+    QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
     QVector<QPoint> getInsertZones();
     /** @brief Remove all text outside loadZones
      */
-    void processCutZones(QList <QPoint> loadZones);
+    void processCutZones(const QList <QPoint> &loadZones);
     void rebuildZones();
     QVector< QPair<double, double> > speechZones;
     QVector <QPoint> cutZones;
@@ -163,7 +148,6 @@ private slots:
     void startRecognition();
     void slotProcessSpeech();
     void slotProcessSpeechError();
-    void parseVoskDictionaries();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     /** @brief insert currently selected zones to timeline */
     void insertToTimeline();
@@ -196,6 +180,7 @@ private:
     QTimer m_hideTimer;
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
+    SpeechToText *m_stt;
 };
 
 #endif

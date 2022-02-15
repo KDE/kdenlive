@@ -35,6 +35,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -246,7 +247,13 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         state1(6.1);
 
         REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
-        REQUIRE_FALSE(model->moveKeyframe(GenTime(6.1), GenTime(12.6), -1, true));
+        // Moving a keyframe past another one another will move it 1 frame before or after.
+        REQUIRE(model->moveKeyframe(GenTime(6.1), GenTime(14), -1, true));
+        bool ok;
+        // There should be no keyframe after 12.6
+        model->getNextKeyframe(GenTime(12.6), &ok);
+        REQUIRE_FALSE(ok);
+        undoStack->undo();
         undoStack->undo();
         state1(6.1);
     }

@@ -1,29 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef TIMELINEMODEL_H
 #define TIMELINEMODEL_H
 
 #include "definitions.h"
 #include "undohelper.hpp"
+#include "trackmodel.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
 #include <QUuid>
@@ -112,6 +97,7 @@ public:
     friend class TimelineController;
     friend class SubtitleModel;
     friend class MarkerListModel;
+    friend class TimeRemap;
     friend struct TimelineFunctions;
 
     /// Two level model: tracks and clips on track
@@ -133,6 +119,7 @@ public:
         TypeRole,    /// clip only
         KeyframesRole,
         DurationRole,
+        FinalMoveRole,
         MaxDurationRole,
         InPointRole,    /// clip only
         OutPointRole,   /// clip only
@@ -160,7 +147,9 @@ public:
         FileHashRole,       /// clip only
         SpeedRole,          /// clip only
         ReloadThumbRole,    /// clip only
+        ReloadAudioThumbRole,    /// clip only
         PositionOffsetRole, /// clip only
+        TimeRemapRole,      /// clip only
         ItemATrack,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
@@ -221,6 +210,7 @@ public:
     int getSubtitlePosition(int subId) const;
     int getCompositionPlaytime(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
+    int getMixDuration(int cid) const;
 
     /** @brief Returns an item position, item can be clip or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
@@ -283,10 +273,19 @@ public:
     /** @brief Return the next track of same type as source trackId, or trackId if no track found */
     Q_INVOKABLE int getNextTrackId(int trackId);
 
+    /** @brief Returns true if the clip has a mix composition at the end
+       @param clipId Id of the clip to test
+    */
+    Q_INVOKABLE bool hasClipEndMix(int clipId) const;
+
     /** @brief Returns the in cut position of a clip
        @param clipId Id of the clip to test
     */
     int getClipIn(int clipId) const;
+    /** @brief Returns the in and playtime of a clip
+       @param clipId Id of the clip to test
+    */
+    QPoint getClipInDuration(int clipId) const;
 
     /** @brief Returns the in/out cut of a clip
        @param clipId Id of the clip to test
@@ -373,11 +372,11 @@ public:
        @param updateView if set to false, no signal is sent to qml
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
+    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false, bool revertMove = false);
     Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
     bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
-    bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /** @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -389,7 +388,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>());
+    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool groupMove = false, const QMap <int, int> &moving_clips = QMap <int, int>(), std::pair<MixInfo, MixInfo>mixData = {});
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
@@ -432,7 +431,7 @@ public:
                               bool useTargets = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                              Fun &redo, QVector<int> allowedTracks = QVector<int>());
+                              Fun &redo, const QVector<int> &allowedTracks = QVector<int>());
 
     /** @brief Switch current composition type
      *  @param cid the id of the composition we want to change
@@ -447,6 +446,12 @@ public:
     /**  @brief Returns a list of the master effects zones
      */
     QVariantList getMasterEffectZones() const;
+    /**  @brief Returns a list of proxied clips at position pos
+     */
+    QStringList getProxiesAt(int position);
+    /**  @brief Returns the current project xml playlist for saving
+     */
+    const QString sceneList(const QString &root, const QString &fullPath = QString(), const QString &filterData = QString());
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -483,9 +488,9 @@ public:
        @param logUndo if set to true, an undo object is created
        @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
-    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks = true, 
-                          bool allowViewRefresh = true, QVector<int> allowedTracks = QVector<int>());
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool revertMove = false);
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool revertMove = false, bool moveMirrorTracks = true, 
+                          bool allowViewRefresh = true, const QVector<int> &allowedTracks = QVector<int>());
 
     /** @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
@@ -497,27 +502,52 @@ public:
     bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo);
 
     /** @brief Change the duration of an item (clip or composition)
-       This action is undoable
-       Returns the real size reached (can be different, if snapping occurs).
-       If it fails, nothing is modified, and -1 is returned
-       @param itemId is the ID of the item
-       @param size is the new size of the item
-       @param right is true if we change the right side of the item, false otherwise
-       @param logUndo if set to true, an undo object is created
-       @param snap if set to true, the resize order will be coerced to use the snapping grid
-       if @param allowSingleResize is false, then the resize will also be applied to any clip in the same AV group (allow resizing audio and video at the same
-       time)
+     *  This action is undoable
+     *  Returns the real size reached (can be different, if snapping occurs).
+     *  If it fails, nothing is modified, and -1 is returned
+     *  @param itemId is the ID of the item
+     *  @param size is the new size of the item
+     *  @param right is true if we change the right side of the item, false otherwise
+     *  @param logUndo if set to true, an undo object is created
+     *  @param snap if set to true, the resize order will be coerced to use the snapping grid
+     *  if @param allowSingleResize is false, then the resize will also be applied to any clip in the same AV group (allow resizing audio and video at the same
+     *  time)
     */
     Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
 
-    /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
-    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+    /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
+    bool requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief @todo TODO */
+    int requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    /** @brief @todo TODO */
+    bool requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief Move ("slip") in and out point of a clip by the given offset
+       This action is undoable
+       @param itemId is the ID of the clip
+       @param offset is how many frames in and out point should be slipped
+       @param logUndo if set to true, an undo object is created
+       @param allowSingleResize is false, then the resize will also be applied to any clip in the same group
+       @return The request offset (can be different from real offset). If it fails, nothing is modified, and 0 is returned
+    */
+    Q_INVOKABLE int requestClipSlip(int itemId, int offset, bool logUndo = true, bool allowSingleResize = false);
+
+    /** @brief Same function, but accumulates undo and redo
+     *  @return If it fails, nothing is modified, and false is returned
+     */
+    bool requestClipSlip(int itemId, int offset, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+
+    /** @brief Slip all the clips of the current timeline selection
+     * @see requestClipSlip
+     */
+    Q_INVOKABLE int requestSlipSelection(int offset, bool logUndo);
 
     /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
     /** @brief Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
-    Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);
+    Q_INVOKABLE void processGroupResize(QVariantList startPosList, QVariantList endPosList, bool right);
 
     Q_INVOKABLE int requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed);
 
@@ -537,7 +567,7 @@ public:
        @param id of the clip to degroup (all clips belonging to the same group will be ungrouped as well)
     */
     bool requestClipUngroup(int itemId, bool logUndo = true);
-    /* Same function, but accumulates undo and redo*/
+    /** Same function, but accumulates undo and redo @see requestClipUngroup*/
     bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
     /** @brief convenience functions for several ids at the same time */
     bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
@@ -584,6 +614,9 @@ public:
     /** @brief Returns the model's identifier (uuid)
      */
     const QUuid uuid() const;
+    /** @brief Calculate timeline hash based on clips, mixes and compositions
+    */
+    QByteArray timelineHash();
 
 protected:
     /** @brief Requests the best snapped position for a clip
@@ -640,7 +673,7 @@ public:
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, QString originalDecimalPoint = QString());
+                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, const QString &originalDecimalPoint = QString());
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)
@@ -684,6 +717,7 @@ public:
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
+    TimelineMode::EditMode editMode() const;
     Q_INVOKABLE bool normalEdit() const;
 
     /** @brief Returns the effectstack of a given clip. */
@@ -701,6 +735,9 @@ public:
     /** @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
     bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
+    bool requestClipTimeRemap(int clipId, bool enable = true);
+    bool requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun &redo);
+    std::shared_ptr<Mlt::Producer> getClipProducer(int clipId);
 
     void replugClip(int clipId);
 
@@ -745,9 +782,24 @@ public:
     /** @brief Import project's master effects */
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
-    bool mixClip(int idToMove = -1, int delta = 0);
+    bool mixClip(int idToMove = -1, const QString &mixId = QStringLiteral("luma"), int delta = 0);
     Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
+    void requestResizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
+    /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
+    int getMixCutPos(int cid) const;
+    MixAlignment getMixAlign(int cid) const;
     std::shared_ptr<SubtitleModel> getSubtitleModel();
+    /** @brief Get the frame size of the clip above a composition */
+    const QSize getCompositionSizeOnTrack(const ObjectId &id);
+    /** @brief Get a track tag (A1, V1, V2,...) through its id */
+    const QString getTrackTagById(int trackId) const;
+    /** @brief returns true if track is empty at position on playlist */
+    bool trackIsBlankAt(int tid, int pos, int playlist) const;
+    /** @brief returns true if track is empty at position on playlist */
+    bool trackIsAvailable(int tid, int pos, int duration, int playlist) const;
+    /** @brief returns the position of the clip start on a playlist */
+    int getClipStartAt(int tid, int pos, int playlist) const;
+    int getClipEndAt(int tid, int pos, int playlist) const;
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -815,14 +867,12 @@ protected:
     bool unplantComposition(int compoId);
 
     /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
-    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
     bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();
-    /** @brief Get a track tag (A1, V1, V2,...) through its id */
-    const QString getTrackTagById(int trackId) const;
 
     /** @brief Attempt to make a clip move without ever updating the view */
     bool requestClipMoveAttempt(int clipId, int trackId, int position);
@@ -832,7 +882,7 @@ protected:
 
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
-    bool checkConsistency();
+    bool checkConsistency(const std::vector<int> &guideSnaps = {});
 
 protected:
     /** @brief Refresh project monitor if cursor was inside range */
@@ -855,7 +905,7 @@ signals:
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /** @brief Signal sent whenever the selected mix changes */
-    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset, bool refreshOnly = false);
     /** @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /** @brief Emitted when a clip is deleted to check if it was not used in timeline qml */

@@ -1,6 +1,6 @@
 # Script to build KF5 Frameworks for digiKam bundle.
 #
-# Copyright (c) 2015-2020 by Gilles Caulier  <caulier dot gilles at gmail dot com>
+# SPDX-FileCopyrightText: 2015-2020 Gilles Caulier <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
@@ -222,7 +222,7 @@ InstallKF5Component(kpackage            ${KF5_VERSION} ""                       
 InstallKF5Component(kcodecs             ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kauth               ${KF5_VERSION} "${MacosKauthBackend}"                                               "")
 InstallKF5Component(knewstuff           ${KF5_VERSION} ""                                                                   "")
-InstallKF5Component(kguiaddons          ${KF5_VERSION} "-DWITH_WAYLAND=OFF"                                                                   "")
+InstallKF5Component(kguiaddons          ${KF5_VERSION} "-DWITH_WAYLAND=OFF"                                                 "")
 InstallKF5Component(kwidgetsaddons      ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kdeclarative        ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kitemviews          ${KF5_VERSION} ""                                                                   "")
@@ -233,16 +233,16 @@ InstallKF5Component(kservice            ${KF5_VERSION} ""                       
 InstallKF5Component(kglobalaccel        ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kxmlgui             ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kbookmarks          ${KF5_VERSION} ""                                                                   "")
-InstallKF5Component(kdoctools          ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(kdoctools           ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kimageformats       ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(knotifyconfig       ${KF5_VERSION} ""                                                                   "knotifyconfig-drop-phonon.diff")
 InstallKF5Component(knotifications      ${KF5_VERSION} ""                                                                   "knotifications-drop-phonon.diff")
 InstallKF5Component(kjobwidgets         ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(sonnet              ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(ktextwidgets        ${KF5_VERSION} ""                                                                   "")
-InstallKF5Component(attica                 ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(attica              ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kio                 ${KF5_VERSION} ""                                                                   "")
-InstallKF5Component(frameworkintegration ${KF5_VERSION} ""                                                                   "")
+InstallKF5Component(frameworkintegration ${KF5_VERSION} ""                                                                  "")
 InstallKF5Component(kirigami2           ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(kactivities         ${KF5_VERSION} ""                                                                   "")
 InstallKF5Component(qqc2-desktop-style  ${KF5_VERSION} ""                                                                   "")

@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "effectlistwidget.hpp"
 #include "../model/effectfilter.hpp"
@@ -25,15 +9,19 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KActionCategory>
+#include <KIO/FileCopyJob>
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFileDialog>
+#include <QFormLayout>
+#include <QLineEdit>
 #include <QMenu>
 #include <QQmlContext>
 #include <QStandardPaths>
-#include <memory>
-#include <QFormLayout>
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QLineEdit>
 #include <QTextEdit>
+#include <memory>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
@@ -66,7 +54,6 @@ void EffectListWidget::updateFavorite(const QModelIndex &index)
 
 EffectListWidget::~EffectListWidget()
 {
-    qDebug() << " - - -Deleting effect list widget";
 }
 
 void EffectListWidget::setFilterType(const QString &type)
@@ -82,6 +69,11 @@ void EffectListWidget::setFilterType(const QString &type)
     } else {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Preferred);
     }
+}
+
+bool EffectListWidget::isAudio(const QString &assetId) const
+{
+    return EffectsRepository::get()->isAudioEffect(assetId);
 }
 
 QString EffectListWidget::getMimeType(const QString &assetId) const
@@ -101,6 +93,13 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
 {
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);
     m_proxyModel->sort(0, Qt::AscendingOrder);
+}
+
+void EffectListWidget::downloadNewEffects()
+{
+    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_effects.knsrc")) > 0) {
+        // reloadCustomEffect();
+    }
 }
 
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
@@ -124,8 +123,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     if(dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
@@ -133,5 +132,28 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
            return;
         }
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
+    }
+}
+
+void EffectListWidget::exportCustomEffect(const QModelIndex &index) {
+    QString name = getName(index);
+    if (name.isEmpty()) {
+        return;
+    }
+
+    QString filter = QString("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
+    QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveExportCustomEffect"));
+    QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(name));
+    startFolder.append(source.fileName());
+
+    QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Custom Effect"), startFolder, filter);
+    QUrl target = QUrl::fromLocalFile(filename);
+
+    if (source.isValid() && target.isValid()) {
+        KRecentDirs::add(QStringLiteral(":KdenliveExportCustomEffect"), target.adjusted(QUrl::RemoveFilename).toLocalFile());
+        KIO::FileCopyJob *copyjob = KIO::file_copy(source, target);
+        if (!copyjob->exec()) {
+            KMessageBox::sorry(this, i18n("Unable to write to file %1", target.toLocalFile()));
+        }
     }
 }

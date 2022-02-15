@@ -43,7 +43,7 @@ set(AT_SHARED_ONLY --disable-static --enable-shared)
 set(AT_CPP_FLAGS "-I${EXT_INSTALL_DIR}/include -I${EXT_INSTALL_DIR}/openssl/include")
 set(AT_LD_FLAGS "-L${EXT_INSTALL_DIR}/lib -L${EXT_INSTALL_DIR}/openssl/lib")
 
-set(PATCH_COMMAND patch)
+set(PATCH_COMMAND patch -l)
 
 # this list must be dependency-ordered
 add_subdirectory( ext_iconv )
@@ -87,6 +87,7 @@ add_subdirectory( ext_sdl2 )
 add_subdirectory( ext_sox )
 add_subdirectory( ext_jack )
 add_subdirectory( ext_ladspa )
+add_subdirectory( ext_tap-plugins )
 add_subdirectory( ext_x264 )
 add_subdirectory( ext_x265 )
 add_subdirectory( ext_libvpx )

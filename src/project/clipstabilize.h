@@ -1,28 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   Copyright (C) 2011 by Marco Gittler (marco@gitma.de)                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2011 Marco Gittler <marco@gitma.de>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef CLIPSTABILIZE_H
 #define CLIPSTABILIZE_H
 
 #include "definitions.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 #include "ui_clipstabilize_ui.h"
 #include <QUrl>
 #include <unordered_map>
@@ -39,6 +26,8 @@ public:
     ~ClipStabilize() override;
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
+    /** @brief Should the generated clip be moved in a specific folder. */
+    bool addClipInFolder() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
     std::unordered_map<QString, QVariant> filterParams() const;
     /** @brief Return the destination file or folder. */

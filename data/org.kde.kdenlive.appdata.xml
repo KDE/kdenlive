@@ -2,9 +2,9 @@
 <component type="desktop">
   <id>org.kde.kdenlive.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-3.0-only</project_license>
   <name>Kdenlive</name>
-  <name xml:lang="ar">كدينلايڤ</name>
+  <name xml:lang="ar">كدينلايف</name>
   <name xml:lang="az">Kdenlive</name>
   <name xml:lang="bs">Kdenlive</name>
   <name xml:lang="ca">Kdenlive</name>
@@ -64,7 +64,7 @@
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
   <summary xml:lang="ru">Видеоредактор</summary>
   <summary xml:lang="sk">Editor videa</summary>
-  <summary xml:lang="sl">Urejevalnik videa</summary>
+  <summary xml:lang="sl">Program za videomontažo</summary>
   <summary xml:lang="sv">Videoeditor</summary>
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
@@ -73,7 +73,7 @@
   <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
     <p>Kdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.</p>
-    <p xml:lang="ar">«كدينلايڤ» هو محرّر فيديوهات غير خطّي. بُني على إطار عمل MLT ويقبل العديد من نُسق الصّوت والفيديو. كما ويسمح بإضافة التّأثيرات والانتقالات.</p>
+    <p xml:lang="ar">«كدينلايف» هو محرّر فيديوهات غير خطّي. بُني على إطار عمل MLT ويقبل العديد من نُسق الصّوت والفيديو. كما ويسمح بإضافة التّأثيرات والانتقالات.</p>
     <p xml:lang="az">Kdenlive xətti olmayan bir video redaktorudur. MLT platformasına əsaslanır və bir çox səs və video formatını dəstəkləyir, effektlər, keçidlər əlavə etməyə və seçdiyiniz formata çevirməyə imkan verir.</p>
     <p xml:lang="ca">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">El Kdenlive és un editor no lineal de vídeo. Està basat en l'entorn de treball MLT i accepta molts formats d'àudio i vídeo, permetent afegir efectes, transicions i representacions en el format de la vostra elecció.</p>
@@ -98,12 +98,12 @@
     <p xml:lang="pt-BR">Kdenlive é um editor de vídeo não-linear. É baseado na plataforma MLT e aceita diversos formatos de áudio e vídeo, permitindo-lhe adicionar efeitos, transições e gravar no formato da sua escolha.</p>
     <p xml:lang="ru">Kdenlive — это нелинейный видеоредактор. Основан на Framework MLT и берёт из него множество звуковых и видео форматов, позволяет добавлять эффекты и переходы, собирать видео в выбранный вами формат.</p>
     <p xml:lang="sk">Kdenline je nelineárny video editor. Je založený na frameworku MLT a podporuje veľa audio a video formátov, umožní pridávať efekty, prechody a renderovanie do formátu podľa vášho výberu.</p>
-    <p xml:lang="sl">Kdenlive je nelinearni urejevalnik videa, ki temelji na ogrodju MLT. Kdenlive zmore obdelati številne vrste zvočnih in video datotek, omogoča dodajanje učinkov, prehodov in izvoz videa v vrsto po vaši izbiri.</p>
+    <p xml:lang="sl">Kdenlive je program za nelinearno montažo videa, ki temelji na ogrodju MLT. Kdenlive zmore obdelati številne vrste zvočnih in video datotek, omogoča dodajanje učinkov, prehodov in izvoz videa v zapisu po vašem izboru.</p>
     <p xml:lang="sv">Kdenlive är en icke-linjär videoeditor. Den är baserad på MLT-ramverket och accepterar många ljud- och videoformat, låter dig lägga till effekter, övergångar och återge med valfritt format.</p>
     <p xml:lang="tr">Kdenlive doğrusal olmayan bir video düzenleyicisidir. MLT çalışma çerçevesi tabanlıdır ve birçok ses ile video biçimini destekleyerek; efektler ve geçişler eklemenizi ve istediğiniz biçime dönüştürmenizi sağlar.</p>
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
     <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
-    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为您想要的格式。</p>
+    <p xml:lang="zh-CN">Kdenlive 是一款非线性视频编辑工具。它基于 MLT 多媒体程序框架开发，支持输入多种音频和视频格式，可以添加各种特效和转场，并导出为任意格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
@@ -137,7 +137,7 @@
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
-    <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Intuitive multitrack interface.</li>
@@ -166,7 +166,7 @@
       <li xml:lang="pt-BR">Interface multifaixa intuitiva.</li>
       <li xml:lang="ru">Интуитивно понятный многодорожечный интерфейс;</li>
       <li xml:lang="sk">Intuitívne viacstopové rozhranie.</li>
-      <li xml:lang="sl">Intuitiven vmesnik z več sledmi.</li>
+      <li xml:lang="sl">Intuitiven vmesnik z več stezami.</li>
       <li xml:lang="sv">Intuitivt gränssnitt med flera spår.</li>
       <li xml:lang="tr">Sezgisel çok parçalı arayüz.</li>
       <li xml:lang="uk">Інтуїтивно зрозумілий інтерфейс для роботи з декількома доріжками одночасно.</li>
@@ -209,8 +209,8 @@
       <li>Color scopes</li>
       <li xml:lang="ar">نطاقات الألوان</li>
       <li xml:lang="az">Rəng əhatə dairələri</li>
-      <li xml:lang="ca">Àmbits de color</li>
-      <li xml:lang="ca-valencia">Àmbits de color</li>
+      <li xml:lang="ca">Electroscopis de color</li>
+      <li xml:lang="ca-valencia">Electroscopis de color</li>
       <li xml:lang="cs">Rozsahy barev</li>
       <li xml:lang="da">Farveskoper</li>
       <li xml:lang="de">Farbbereiche</li>
@@ -237,23 +237,24 @@
       <li xml:lang="tr">Renk kapsamları</li>
       <li xml:lang="uk">Контексти кольорів</li>
       <li xml:lang="x-test">xxColor scopesxx</li>
-      <li xml:lang="zh-CN">颜色范围</li>
+      <li xml:lang="zh-CN">颜色示波器</li>
       <li xml:lang="zh-TW">顏色範圍</li>
     </ul>
   </description>
   <releases>
-    <release version="21.04.1" date="2021-05-13"/>
-    <release version="21.04.0" date="2021-04-22"/>
-    <release version="20.12.3" date="2021-03-04"/>
-    <release version="20.12.2" date="2021-02-04"/>
+    <release version="21.12.2" date="2022-02-03"/>
+    <release version="21.12.1" date="2022-01-06"/>
+    <release version="21.12.0" date="2021-12-09"/>
+    <release version="21.08.3" date="2021-11-04"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
-  <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
+  <url type="help">https://docs.kdenlive.org</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
       <caption>Kdenlive Timeline</caption>
+      <caption xml:lang="ar">الخط الزمني في كدينلايڤ</caption>
       <caption xml:lang="az">Kdenlive zaman qrafiki</caption>
       <caption xml:lang="ca">Línia de temps del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Línia de temps del Kdenlive</caption>
@@ -265,6 +266,7 @@
       <caption xml:lang="es">Línea de tiempo de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive ajatelg</caption>
       <caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption>
+      <caption xml:lang="fi">Kdenlive aikajana</caption>
       <caption xml:lang="fr">Montage Kdenlive</caption>
       <caption xml:lang="id">Linimasa Kdenlive</caption>
       <caption xml:lang="it">Linea temporale Kdenlive</caption>
@@ -286,6 +288,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
+      <caption xml:lang="ar">تضبيط اللصوت في كدينلايف</caption>
       <caption xml:lang="az">Kdenlive səs tənzimləmələri</caption>
       <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Ajustaments de l'àudio del Kdenlive</caption>
@@ -297,6 +300,7 @@
       <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive helikohendused</caption>
       <caption xml:lang="eu">Kdenlive audio doikuntzak</caption>
+      <caption xml:lang="fi">Kdenlive äänen säädöt</caption>
       <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
       <caption xml:lang="id">Penyetelan Audio Kdenlive</caption>
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
@@ -318,6 +322,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Effects</caption>
+      <caption xml:lang="ar">تأثيرات كدينلايف</caption>
       <caption xml:lang="az">Kdenlive effekti</caption>
       <caption xml:lang="ca">Efectes del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Efectes del Kdenlive</caption>
@@ -329,6 +334,7 @@
       <caption xml:lang="es">Efectos de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive efektid</caption>
       <caption xml:lang="eu">Kdenlive efektuak</caption>
+      <caption xml:lang="fi">Kdenlive tehosteet</caption>
       <caption xml:lang="fr">Effets Kdenlive</caption>
       <caption xml:lang="id">Efek Kdenlive</caption>
       <caption xml:lang="it">Effetti Kdenlive</caption>
@@ -344,7 +350,7 @@
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
-      <caption xml:lang="zh-CN">Kdenlive 特效</caption>
+      <caption xml:lang="zh-CN">Kdenlive 效果控制</caption>
       <caption xml:lang="zh-TW">Kdenlive 特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>

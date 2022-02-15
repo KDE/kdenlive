@@ -1,22 +1,9 @@
-/***************************************************************************
- *   copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)                                 *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "graphicsscenerectmove.h"
 #include "titler/gradientwidget.h"
@@ -75,7 +62,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
-    connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
+    connect(document(), &QTextDocument::contentsChange, this, &MyTextItem::doUpdateGeometry);
     updateTW(false, 2, 1, 0, 0);
 }
 
@@ -160,7 +147,7 @@ void MyTextItem::refreshFormat()
     setTextCursor(cursor);
 }
 
-void MyTextItem::updateGeometry(int, int, int)
+void MyTextItem::doUpdateGeometry()
 {
     updateGeometry();
     // update gradient if necessary
@@ -245,11 +232,11 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 void MyTextItem::updateTW(bool enabled, int step, int mode, int sigma, int seed)
 {
-    tw_enabled = enabled;
-    tw_step = step;
-    tw_mode = mode;
-    tw_sigma = sigma;
-    tw_seed = seed;
+    m_tw_enabled = enabled;
+    m_tw_step = step;
+    m_tw_mode = mode;
+    m_tw_sigma = sigma;
+    m_tw_seed = seed;
 }
 
 void MyTextItem::loadTW(const QStringList &info)
@@ -264,9 +251,9 @@ void MyTextItem::loadTW(const QStringList &info)
 QStringList MyTextItem::twInfo() const
 {
     QStringList info;
-    info << QString::number(tw_enabled) << QString::number(tw_step)
-         << QString::number(tw_mode)
-         << QString::number(tw_sigma) << QString::number(tw_seed);
+    info << QString::number(int(m_tw_enabled)) << QString::number(m_tw_step)
+         << QString::number(m_tw_mode)
+         << QString::number(m_tw_sigma) << QString::number(m_tw_seed);
     return info;
 }
 
@@ -413,6 +400,12 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -477,6 +470,12 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -511,6 +510,12 @@ QVariant MyEllipseItem::itemChange(GraphicsItemChange change, const QVariant &va
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -535,6 +540,12 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -559,6 +570,12 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
+            if (QApplication::keyboardModifiers() == Qt::ShiftModifier) {
+                xV = pos().x();
+            }
+            if (QApplication::keyboardModifiers() == (Qt::ShiftModifier | Qt::AltModifier)) {
+                yV = pos().y();
+            }
             newPos = QPoint(xV, yV);
         }
         return newPos;
@@ -628,32 +645,32 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
     }
     switch (keyEvent->key()) {
     case Qt::Key_Left:
-        for (QGraphicsItem *qgi : selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(-diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Right:
-        for (QGraphicsItem *qgi : selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(diff, 0);
         }
         emit itemMoved();
         break;
     case Qt::Key_Up:
-        for (QGraphicsItem *qgi : selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, -diff);
         }
         emit itemMoved();
         break;
     case Qt::Key_Down:
-        for (QGraphicsItem *qgi : selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, diff);
         }
         emit itemMoved();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
-        for (QGraphicsItem *qgi : selectedItems()) {
+        foreach (QGraphicsItem *qgi, selectedItems()) {
             if (qgi->data(-1).toInt() == -1) {
                 continue;
             }

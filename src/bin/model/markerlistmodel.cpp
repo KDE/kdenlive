@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "markerlistmodel.hpp"
 #include "bin/bin.h"
@@ -121,7 +105,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     return false;
 }
 
-bool MarkerListModel::addMarkers(QMap <GenTime, QString> markers, int type)
+bool MarkerListModel::addMarkers(const QMap <GenTime, QString> &markers, int type)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -255,7 +239,7 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
     return true;
 }
 
-void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset, bool updateView)
+void MarkerListModel::moveMarkersWithoutUndo(const QVector<int> &markersId, int offset, bool updateView)
 {
     QWriteLocker locker(&m_lock);
     if(markersId.length() <= 0) {
@@ -263,7 +247,7 @@ void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset,
     }
     int firstRow = -1;
     int lastRow = -1;
-    for (int &mid : markersId) {
+    for (auto mid : markersId) {
         Q_ASSERT(m_markerList.count(mid) > 0);
         GenTime t = m_markerList.at(mid).time() + GenTime(offset, pCore->getCurrentFps());
         m_markerList[mid].setTime(t);
@@ -287,7 +271,7 @@ void MarkerListModel::moveMarkersWithoutUndo(QVector<int> markersId, int offset,
     }
 }
 
-bool MarkerListModel::moveMarkers(QList<CommentedTime> markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
+bool MarkerListModel::moveMarkers(const QList<CommentedTime> &markers, GenTime fromPos, GenTime toPos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
 
@@ -655,11 +639,11 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     }
 
     if (!exists && createIfNotFound) {
-        marker = CommentedTime(pos, QString());
+        marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString());
     }
 
     QScopedPointer<MarkerDialog> dialog(
-        new MarkerDialog(clip, marker, m_uuid, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit guide") : i18n("Edit marker"), parent));
+        new MarkerDialog(clip, marker, m_uuid, pCore->bin()->projectTimecode(), m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();

@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "documentvalidator.h"
 
@@ -838,8 +825,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // keyframe to real end of transition
 
         // Get profile info (width / height)
-        int profileWidth;
-        int profileHeight;
         QDomElement profile = m_doc.firstChildElement(QStringLiteral("profile"));
         if (profile.isNull()) {
             profile = infoXml.firstChildElement(QStringLiteral("profileinfo"));
@@ -852,6 +837,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 mlt.insertBefore(pr, firstProd);
             }
         }
+        //TODO MLT7: port?
+        /*int profileWidth;
+        int profileHeight;
         if (profile.isNull()) {
             // could not find profile info, set PAL
             profileWidth = 720;
@@ -863,6 +851,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
         max = transitions.count();
         for (int i = 0; i < max; ++i) {
+
             QDomElement trans = transitions.at(i).toElement();
             int out = trans.attribute(QStringLiteral("out")).toInt() - trans.attribute(QStringLiteral("in")).toInt();
             QString geom = Xml::getXmlProperty(trans, QStringLiteral("geometry"));
@@ -878,7 +867,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
             delete g;
-        }
+
+        }*/
     }
 
     if (version <= 0.87) {
@@ -1738,6 +1728,189 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             Xml::setXmlProperty(masterProducers.at(i).toElement(), QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
         }
     }
+
+    // Doc 1.01: Kdenlive 21.08.0
+    if (version < 1.01) {
+        // Upgrade wipe composition replace old mlt geometry with mlt rect
+        // Upgrade affine effect and transition (geometry parameter renamed to rect)
+        // Warn about deprecated automask
+        // Some tracks were added, adjust compositions
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        int max = transitions.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = transitions.at(i).toElement();
+            if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("wipe")) {
+                QString animation = Xml::getXmlProperty(t, QStringLiteral("geometry"));
+                if (animation == QLatin1String("0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0")) {
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%"));
+                } else if (animation == QLatin1String("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100")) {
+                    Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%"));
+                }
+            }
+            else if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("affine")) {
+                Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
+            }
+        }
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        max = effects.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("pan_zoom")) {
+                Xml::renameXmlProperty(t, QStringLiteral("transition.geometry"), QStringLiteral("transition.rect"));
+            }
+        }
+    }
+
+    // Doc 1.02: Kdenlive 21.08.1
+    if (version < 1.02) {
+        // Custom affine effects: replace old mlt geometry with mlt rect
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (Xml::getXmlProperty(t, QStringLiteral("mlt_service")) == QLatin1String("affine") &&  kdenliveId != QLatin1String("pan_zoom")) {
+                QDomElement effect = EffectsRepository::get()->getXml(kdenliveId);
+
+                // check wether the effect already uses mlt rect
+                if (!Xml::hasXmlProperty(t, QStringLiteral("transition.rect"))) {
+                    QString newId = kdenliveId.append(" mlt7");
+
+                    Xml::renameXmlProperty(t, QStringLiteral("transition.geometry"), QStringLiteral("transition.rect"));
+                    Xml::setXmlProperty(t, QStringLiteral("kdenlive_id"), newId);
+
+                    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+
+                    if (!dir.exists(newId + QStringLiteral(".xml")))
+                    {
+                        // update the custom effect xml too (create a new fixed xml with "(mlt7)" appendix)
+                        QDomDocument doc;
+                        doc.appendChild(doc.importNode(effect, true));
+
+                        if (!dir.exists()) {
+                            dir.mkpath(QStringLiteral("."));
+                        }
+                        QFile file(dir.absoluteFilePath(newId + QStringLiteral(".xml")));
+
+                        QDomElement root = doc.documentElement();
+                        QDomElement nodelist = root.firstChildElement("name");
+                        QDomElement newNodeTag = doc.createElement(QString("name"));
+                        QDomText text = doc.createTextNode(newId);
+                        newNodeTag.appendChild(text);
+                        root.replaceChild(newNodeTag, nodelist);
+
+                        //QDomElement e = doc.documentElement();
+                        //e.setAttribute("id", newId);
+
+                        auto params = doc.elementsByTagName(QStringLiteral("parameter"));
+                        for (int j = 0; j < params.count(); j++) {
+                            QString paramName = params.at(j).attributes().namedItem("name").nodeValue();
+                            if(paramName == QStringLiteral("transition.geometry")) {
+                                QDomElement e = params.at(j).toElement();
+                                e.setAttribute("name", QStringLiteral("transition.rect"));
+                            }
+                        }
+
+                        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+                            QTextStream out(&file);
+                            out.setCodec("UTF-8");
+                            out << doc.toString();
+                        }
+                        file.close();
+
+                        changedEffects << dir.absoluteFilePath(newId + QStringLiteral(".xml"));
+                    }
+                }
+            }
+        }
+        if(!changedEffects.isEmpty()) {
+            KMessageBox::informationList(nullptr, "changedEffects", changedEffects);
+            pCore->window()->slotReloadEffects(changedEffects);
+        }
+    }
+    // Doc 1.03: Kdenlive 21.08.2
+    if (version < 1.03) {
+        // Fades: replace deprecated syntax (using start/end properties and alpha=-1) with level and alpha animated properties
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId.startsWith(QLatin1String("fade_"))) {
+                bool fadeIn = kdenliveId.startsWith(QLatin1String("fade_from_"));
+                bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() ==  -1;
+                // Clear unused properties
+                Xml::removeXmlProperty(t, QStringLiteral("start"));
+                Xml::removeXmlProperty(t, QStringLiteral("end"));
+                Xml::removeXmlProperty(t, QStringLiteral("alpha"));
+                QString params;
+                if (fadeIn) {
+                    params = QStringLiteral("0=0;-1=1");
+                } else {
+                    params = QStringLiteral("0=1;-1=0");
+                }
+                if (isAlpha) {
+                    Xml::setXmlProperty(t, QStringLiteral("level"), QStringLiteral("1"));
+                    Xml::setXmlProperty(t, QStringLiteral("alpha"), params);
+                } else {
+                    Xml::setXmlProperty(t, QStringLiteral("level"), params);
+                    Xml::setXmlProperty(t, QStringLiteral("alpha"), QStringLiteral("1"));
+                }
+            }
+        }
+    }
+    // Doc 1.03: Kdenlive 21.08.2
+    if (version < 1.04) {
+        // Slide: replace buggy composite transition with affine
+        QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+        int max = transitions.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = transitions.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("slide")) {
+                // Switch to affine and rect instead of composite and geometry
+                Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
+                Xml::setXmlProperty(t, QStringLiteral("mlt_service"), QStringLiteral("affine"));
+            }
+        }
+    }
+    // Doc 1.1: Kdenlive 21.12.0
+    if (version < 1.1) {
+        // OpenCV tracker: Fix for older syntax where filter had in/out defined
+        QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
+        int max = effects.count();
+        QStringList changedEffects;
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = effects.at(i).toElement();
+            QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
+            if (kdenliveId == QLatin1String("opencv.tracker") && t.hasAttribute(QLatin1String("in"))) {
+                QString filterIn = t.attribute(QLatin1String("in"));
+                int inPoint;
+                Mlt::Properties props;
+                props.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+                if (!filterIn.contains(QLatin1Char(':'))) {
+                    inPoint = filterIn.toInt();
+                } else {
+                    // Convert from hh:mm:ss.mmm to frames
+                    inPoint = props.time_to_frames(filterIn.toUtf8().constData());
+                }
+                qDebug()<<"=== FOUND TRACKER WITH IN POINT: "<<inPoint;
+                QString animation = Xml::getXmlProperty(t, QStringLiteral("results"));
+                props.set("key", animation.toUtf8().constData());
+                // This is a fake query to force the animation to be parsed
+                (void)props.anim_get_double("key", 0, -1);
+                Mlt::Animation anim = props.get_animation("key");
+                anim.shift_frames(inPoint);
+                Xml::setXmlProperty(t, QStringLiteral("results"), qstrdup(anim.serialize_cut()));
+                t.removeAttribute("in");
+                t.removeAttribute("out");
+            }
+        }
+    }
+
     m_modified = true;
     return true;
 }
@@ -1751,8 +1924,8 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
         auto fixTimecode = [decimalPoint] (QString &value) {
-            QRegExp reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
-            QRegExp reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
+            QRegularExpression reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
+            QRegularExpression reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
             value.replace(reTimecode, "\\1.\\2")
                     .replace(reValue, "\\1.\\2");
         };
@@ -1786,7 +1959,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                     QString value(originalValue);
                     if (propName == "resource") {
                         // Fix entries like <property name="resource">0,500000:/path/to/video
-                        value.replace(QRegExp("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
+                        value.replace(QRegularExpression("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
                     } else if (autoReplace) {
                         // Just replace decimal point
                         value.replace(decimalPoint, '.');
@@ -2045,10 +2218,12 @@ bool DocumentValidator::checkMovit()
     bool hasWB = EffectsRepository::get()->exists(QStringLiteral("frei0r.colgate"));
     bool hasBlur = EffectsRepository::get()->exists(QStringLiteral("frei0r.IIRblur"));
     QString compositeTrans;
-    if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
-        compositeTrans = QStringLiteral("qtblend");
+    if (KdenliveSettings::preferredcomposite() != i18n("auto") && TransitionsRepository::get()->exists(KdenliveSettings::preferredcomposite())) {
+        compositeTrans = KdenliveSettings::preferredcomposite();
     } else if (TransitionsRepository::get()->exists(QStringLiteral("frei0r.cairoblend"))) {
         compositeTrans = QStringLiteral("frei0r.cairoblend");
+    } else if (TransitionsRepository::get()->exists(QStringLiteral("qtblend"))) {
+        compositeTrans = QStringLiteral("qtblend");
     }
 
     // Parse all effects in document

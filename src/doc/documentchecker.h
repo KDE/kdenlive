@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef DOCUMENTCHECKER_H
 #define DOCUMENTCHECKER_H
@@ -61,6 +48,7 @@ private slots:
 private:
     QUrl m_url;
     QDomDocument m_doc;
+    QString m_documentid;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
     QPair<QString, QString> m_rootReplacement;
@@ -77,16 +65,23 @@ private:
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
     QStringList m_changedClips;
+    // List clips whose proxy is missing
+    QList<QDomElement> m_missingProxies;
+    // List clips who have a working proxy but no source clip
+    QList<QDomElement> m_missingSources;
     bool m_abortSearch;
     bool m_checkRunning;
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
-    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl, const QDomNodeList &producers);
+    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
+    void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
     /** @brief Returns list of transitions containing luma files */
     QMap<QString, QString> getLumaPairs() const;
     /** @brief Remove _missingsourcec flag in fixed clips */
-    void fixMissingSource(const QString &id, QDomNodeList producers);
+    void fixMissingSource(const QString &id, const QDomNodeList &producers);
+    /** @brief Check for various missing elements */
+    QString getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths, const QStringList &serviceToCheck, const QString &root, const QString &storageFolder);
 
 signals:
     void showScanning(const QString);

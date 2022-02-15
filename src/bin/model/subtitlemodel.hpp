@@ -1,30 +1,14 @@
-/***************************************************************************
- *   Copyright (C) 2020 by Sashmita Raghav                                 *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef SUBTITLEMODEL_HPP
 #define SUBTITLEMODEL_HPP
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "gentime.h"
+#include "utils/gentime.h"
 #include "undohelper.hpp"
 
 #include <QAbstractListModel>
@@ -55,8 +39,8 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */ 
-    bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false, bool updateFilter = true);
-    bool addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter = true);
+    bool addSubtitle(int id, GenTime start,GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
+    bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
@@ -85,10 +69,10 @@ public:
     bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /** @brief Edit subtitle text
-        @param startPos is start timing position of subtitles
+        @param id the model id of the subtitle
         @param newSubtitleText is (new) subtitle text
     */
-    void editSubtitle(GenTime startPos, QString newSubtitleText);
+    bool editSubtitle(int id, const QString &newSubtitleText);
 
     /** @brief Remove subtitle at start position (pos) */
     bool removeSubtitle(int id, bool temporary = false, bool updateFilter = true);
@@ -97,7 +81,7 @@ public:
     void removeAllSubtitles();
     
     /** @brief Update some properties in the view */
-    void updateSub(int id, QVector <int> roles);
+    void updateSub(int id, const QVector <int> &roles);
 
     /** @brief Move an existing subtitle
         @param subId is the subtitle's ID
@@ -107,7 +91,7 @@ public:
     void requestSubtitleMove(int clipId, GenTime position);
     
     /** @brief Function that imports a subtitle file */
-    void importSubtitle(const QString filePath, int offset = 0, bool externalImport = false);
+    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();
@@ -123,7 +107,8 @@ public:
     bool isSelected(int id) const;
     /** @brief Cut a subtitle */
     bool cutSubtitle(int position);
-    bool cutSubtitle(int position, Fun &undo, Fun &redo);
+    /** @brief Cut a subtitle, return the id of newly created subtitle */
+    int cutSubtitle(int position, Fun &undo, Fun &redo);
     QString getText(int id) const;
     int getRowForId(int id) const;
     GenTime getStartPosForId(int id) const;
@@ -137,28 +122,32 @@ public:
     void switchLocked();
     bool isLocked() const;
     /** @brief Load some subtitle filter properties from file */
-    void loadProperties(QMap<QString, QString> subProperties);
+    void loadProperties(const QMap<QString, QString> &subProperties);
     /** @brief Add all subtitle items to snaps */
     void allSnaps(std::vector<int> &snaps);
     /** @brief Returns an xml representation of the subtitle with id \@sid */
     QDomElement toXml(int sid, QDomDocument &document);
     /** @brief Returns the size of the space between subtitles */
     int getBlankSizeAtPos(int pos) const;
+    /** @brief Returns the position of the first blank frame before a position */
+    int getBlankStart(int pos) const;
     /** @brief Switch a subtitle's grab state */
     void switchGrab(int sid);
     /** @brief Ungrab all items */
     void clearGrab();
     /** @brief Release timeline model pointer */
     void unsetModel();
+    /** @brief Get in/out of a subtitle item */
+    QPair<int, int> getInOut(int sid) const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */
-    void parseSubtitle(const QString subPath = QString());
+    void parseSubtitle(const QString &subPath = QString());
     
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
     void jsontoSubtitle(const QString &data);
     /** @brief Update a subtitle text*/
-    bool setText(int id, const QString text);
+    bool setText(int id, const QString &text);
 
 private:
     std::shared_ptr<TimelineItemModel> m_timeline;

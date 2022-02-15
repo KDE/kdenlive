@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef EFFECTSTACKVIEW_H
 #define EFFECTSTACKVIEW_H
@@ -73,9 +57,18 @@ public:
      */
     void enableStack(bool enable);
     bool isStackEnabled() const;
-    /** @brief Collaps / expand current effect
+    /** @brief Collapse / expand current effect
      */
     void switchCollapsed();
+    /** @brief Go to next keyframe in current effect
+     */
+    void slotGoToKeyframe(bool next);
+    void addRemoveKeyframe();
+
+public slots:
+    /** @brief Save current effect stack
+     */
+    void slotSaveStack();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -105,15 +98,12 @@ private slots:
     void loadEffects();
     void updateTreeHeight();
     void slotFocusEffect();
-    /** @brief Save current effect stack
-     */
-    void slotSaveStack();
     /** @brief Refresh the enabled state on widgets
      */
     void changeEnabledState();
     /** @brief Activate an effect in the view
      */
-    void activateEffect(QModelIndex ix, bool active);
+    void activateEffect(const QModelIndex &ix, bool active);
 
     //    void switchBuiltStack(bool show);
 
@@ -123,7 +113,7 @@ signals:
     void reloadEffect(const QString &path);
     void updateEnabledState();
     void removeCurrentEffect();
-    void blockWheenEvent(bool block);
+    void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
 };

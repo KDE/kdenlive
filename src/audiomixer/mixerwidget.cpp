@@ -1,35 +1,19 @@
-/***************************************************************************
- *   Copyright (C) 2019 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2019 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "mixerwidget.hpp"
 
-#include "mlt++/MltFilter.h"
-#include "mlt++/MltTractor.h"
-#include "mlt++/MltEvent.h"
-#include "mlt++/MltProfile.h"
+#include "audiolevelwidget.hpp"
+#include "capture/mediacapture.h"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "mixermanager.hpp"
-#include "audiolevelwidget.hpp"
-#include "capture/mediacapture.h"
+#include "mlt++/MltEvent.h"
+#include "mlt++/MltFilter.h"
+#include "mlt++/MltProfile.h"
+#include "mlt++/MltTractor.h"
 
 #include <KDualAction>
 #include <KSqueezedTextLabel>
@@ -82,9 +66,9 @@ static inline int fromDB(double level)
     return value;
 }
 
-void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
+void MixerWidget::property_changed( mlt_service , MixerWidget *widget, mlt_event_data data )
 {
-    if (widget && !strcmp(name, "_position")) {
+    if (widget && !strcmp(Mlt::EventData(data).to_string(), "_position")) {
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
@@ -130,6 +114,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
+    , m_balanceSpin(nullptr)
     , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
@@ -266,10 +251,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             // Muting master, special case
             if (m_levelFilter) {
                 if (active) {
-                    m_lastVolume = m_levelFilter->get_int("level");
+                    m_lastVolume = m_levelFilter->get_double("level");
                     m_levelFilter->set("level", -1000);
+                    m_levelFilter->set("disable", 0);
                 } else {
                     m_levelFilter->set("level", m_lastVolume);
+                    m_levelFilter->set("disable", qFuzzyIsNull(m_lastVolume) ? 1 : 0);
                 }
             }
         } else {
@@ -309,7 +296,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     } else {
         m_collapse = new QToolButton(this);
         m_collapse->setIcon(KdenliveSettings::mixerCollapse() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
-        m_collapse->setToolTip(i18n("Show Channels"));
+        m_collapse->setToolTip(i18n("Show channels"));
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
         m_collapse->setChecked(KdenliveSettings::mixerCollapse() );
@@ -422,7 +409,7 @@ void MixerWidget::setTrackName(const QString &name) {
     if (name.isEmpty() || m_tid == -1) {
         m_trackLabel->setText(m_trackTag);
     } else {
-        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag).arg(name));
+        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag, name));
     }
 }
 
@@ -432,8 +419,10 @@ void MixerWidget::setMute(bool mute)
     m_volumeSlider->setEnabled(!mute);
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
-    m_balanceSpin->setEnabled(!mute);
-    m_balanceSlider->setEnabled(!mute);
+    if (m_balanceSlider) {
+        m_balanceSpin->setEnabled(!mute);
+        m_balanceSlider->setEnabled(!mute);
+    }
     updateLabel();
 }
 
@@ -519,15 +508,19 @@ void MixerWidget::setRecordState(bool recording)
     QSignalBlocker bk2(m_volumeSlider);
     if (m_recording) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
-        m_balanceSlider->setEnabled(false);
-        m_balanceSpin->setEnabled(false);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(false);
+            m_balanceSpin->setEnabled(false);
+        }
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
     } else {
-        m_balanceSlider->setEnabled(true);
-        m_balanceSpin->setEnabled(true);
+        if (m_balanceSlider) {
+            m_balanceSlider->setEnabled(true);
+            m_balanceSpin->setEnabled(true);
+        }
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         m_volumeSpin->setRange(-100, 60);
@@ -542,7 +535,7 @@ void MixerWidget::connectMixer(bool doConnect)
 {
     if (doConnect) {
         if (m_listener == nullptr) {
-            m_listener = m_monitorFilter->listen("property-changed", this, mlt_listener(property_changed));
+            m_listener = m_monitorFilter->listen("property-changed", this, reinterpret_cast<mlt_listener>(property_changed));
         }
     } else {
         delete m_listener;

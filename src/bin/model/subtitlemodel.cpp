@@ -1,37 +1,21 @@
-/***************************************************************************
- *   Copyright (C) 2020 by Sashmita Raghav                                 *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2020 Sashmita Raghav
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "subtitlemodel.hpp"
 #include "bin/bin.h"
 #include "core.h"
-#include "project/projectmanager.h"
 #include "doc/kdenlivedoc.h"
-#include "timeline2/model/snapmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
+#include "timeline2/model/snapmodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "undohelper.hpp"
 
-#include <mlt++/MltProperties.h>
 #include <mlt++/Mlt.h>
+#include <mlt++/MltProperties.h>
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -84,7 +68,7 @@ void SubtitleModel::unsetModel()
     m_timeline.reset();
 }
 
-void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
+void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport)
 {
     QString start,end,comment;
     QString timeLine;
@@ -146,6 +130,8 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                } else {
+                    qDebug()<<"===== INVALID SUBTITLE ITEM FOUND: "<<start<<"-"<<end<<", "<<comment;
                 }
                 //reinitialize
                 comment.clear();
@@ -156,7 +142,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug()<< "ass File";
-        QString startTime,endTime,text;
+        QString startTime,endTime;
         QString EventFormat, section;
         turn = 0;
         int maxSplit =0;
@@ -172,6 +158,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         scriptInfoSection.clear();
         styleSection.clear();
         eventSection.clear();
+        int textIndex = 9;
         while (stream.readLineInto(&line)) {
             line = line.simplified();
             if (!line.isEmpty()) {
@@ -223,8 +210,8 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                     QStringList format;
                     if (line.contains("Format:")) {
                     	eventSection += line +"\n";
-                        EventFormat += line;
-                        format = (EventFormat.split(": ")[1].replace(" ","")).split(',');
+                        EventFormat += line.toLower().simplified().remove(QLatin1Char(' '));
+                        format = EventFormat.split(":")[1].split(QLatin1Char(','));
                         //qDebug() << format << format.count();
                         maxSplit = format.count();
                         //TIME
@@ -233,34 +220,35 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                         if (maxSplit > 3)
                             endTime = format.at(2);
                         // Text
-                        if (maxSplit > 9)
-                            text = format.at(9);
-                        //qDebug()<< startTime << endTime << text;
+                        if (format.contains(QStringLiteral("text"))) {
+                            textIndex = format.indexOf(QStringLiteral("text"));
+                        }
                     } else {
-                        QString EventDialogue;
-                        QStringList dialogue;
-                        start = "";end = "";comment = "";
-                        EventDialogue += line;
-                        dialogue = EventDialogue.split(": ")[1].split(',');
-                        if (dialogue.count() > 9) {
-                            QString remainingStr = "," + EventDialogue.split(": ")[1].section(',', maxSplit);
-                            //qDebug()<< dialogue;
+                        start.clear();
+                        end.clear();
+                        comment.clear();
+                        QStringList dialogue = line.section(":", 1).split(QLatin1Char(','));
+                        if (dialogue.count() >= textIndex) {
                             //TIME
                             start = dialogue.at(1);
                             startPos= stringtoTime(start);
                             end = dialogue.at(2);
                             endPos= stringtoTime(end);
                             // Text
-                            comment = dialogue.at(9)+ remainingStr;
-                            //qDebug()<<"Start: "<< start << "End: "<<end << comment;
-                            addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                            comment = dialogue.at(textIndex);
+                            // qDebug()<<"Start: "<< start << "End: "<<end << comment;
+                            if (endPos > startPos) {
+                                addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                            } else {
+                                qDebug()<<"==== FOUND INVALID SUBTITLE ITEM: "<<start<<"-"<<end<<", "<<comment;
+                            }
                         }
                     }
                 }
                 turn++;
             } else {
                 turn = 0;
-                text = startTime = endTime = "";
+                startTime = endTime = QString();
             }
         }
         assFile.close();
@@ -276,7 +264,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
     }
 }
 
-void SubtitleModel::parseSubtitle(const QString subPath)
+void SubtitleModel::parseSubtitle(const QString &subPath)
 {   
 	qDebug()<<"Parsing started";
     if (!subPath.isEmpty()) {
@@ -321,7 +309,7 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     return pos;
 }
 
-bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter)
+bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter)
 {
     if (isLocked()) {
         return false;
@@ -346,7 +334,7 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, F
     return true;
 }
 
-bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary, bool updateFilter)
+bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary, bool updateFilter)
 {
 	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0 || isLocked()) {
         qDebug()<<"Time error: is negative";
@@ -457,7 +445,7 @@ QString SubtitleModel::getText(int id) const
     return m_subtitleList.at(start).first;
 }
 
-bool SubtitleModel::setText(int id, const QString text)
+bool SubtitleModel::setText(int id, const QString &text)
 {
     if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end() || isLocked()) {
         return false;
@@ -466,15 +454,15 @@ bool SubtitleModel::setText(int id, const QString text)
     GenTime end = m_subtitleList.at(start).second;
     QString oldText = m_subtitleList.at(start).first;
     m_subtitleList[start].first = text;
-    Fun local_redo = [this, start, end, text]() {
-        editSubtitle(start, text);
+    Fun local_redo = [this, start, id, end, text]() {
+        editSubtitle(id, text);
         QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
         return true;
     };
-    Fun local_undo = [this, start, end, oldText]() {
-        editSubtitle(start, oldText);
+    Fun local_undo = [this, start, id, end, oldText]() {
+        editSubtitle(id, oldText);
         QPair<int, int> range = {start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
         pCore->invalidateRange(range);
         pCore->refreshProjectRange(range);
@@ -521,11 +509,10 @@ bool SubtitleModel::cutSubtitle(int position)
     return false;
 }
 
-
-bool SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
+int SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
 {
     if (isLocked()) {
-        return false;
+        return -1;
     }
     GenTime pos(position, pCore->getCurrentFps());
     GenTime start = GenTime(-1);
@@ -553,12 +540,12 @@ bool SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
             };
             if (local_redo()) {
                 UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-                return true;
+                return id;
             }
         }
     }
     undo();
-    return false;
+    return -1;
 }
 
 void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
@@ -765,23 +752,27 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
     return true;
 }
 
-void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText)
+bool SubtitleModel::editSubtitle(int id, const QString &newSubtitleText)
 {
     if (isLocked()) {
-        return;
+        return false;
     }
-    if(startPos.frames(pCore->getCurrentFps()) < 0) {
-        qDebug()<<"Time error: is negative";
-        return;
+    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+        qDebug()<<"No Subtitle at pos in model";
+        return false;
     }
+    GenTime start = m_timeline->m_allSubtitles.at(id);
+    if (m_subtitleList.count(start) <= 0) {
+        qDebug()<<"No Subtitle at pos in model";
+        return false;
+    }
+
     qDebug()<<"Editing existing subtitle in model";
-    m_subtitleList[startPos].first = newSubtitleText ;
-    int id = getIdForStartPos(startPos);
-    qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+    m_subtitleList[start].first = newSubtitleText ;
     int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), QVector<int>() << SubtitleRole);
     emit modelChanged();
-    return;
+    return true;
 }
 
 bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
@@ -1078,7 +1069,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
 }
 
-void SubtitleModel::updateSub(int id, QVector <int> roles)
+void SubtitleModel::updateSub(int id, const QVector <int> &roles)
 {
     int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), roles);
@@ -1099,6 +1090,12 @@ int SubtitleModel::getSubtitleEnd(int id) const
 {
     GenTime startPos = m_timeline->m_allSubtitles.at(id);
     return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps());
+}
+
+QPair<int, int> SubtitleModel::getInOut(int sid) const
+{
+    GenTime startPos = m_timeline->m_allSubtitles.at(sid);
+    return {startPos.frames(pCore->getCurrentFps()), m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps())};
 }
 
 void SubtitleModel::setSelected(int id, bool select)
@@ -1177,7 +1174,7 @@ bool SubtitleModel::isLocked() const
     return m_subtitleFilter->get_int("kdenlive:locked") == 1;
 }
 
-void SubtitleModel::loadProperties(QMap<QString, QString> subProperties)
+void SubtitleModel::loadProperties(const QMap<QString, QString> &subProperties)
 {
     QMap<QString, QString>::const_iterator i = subProperties.constBegin();
     while (i != subProperties.constEnd()) {
@@ -1224,4 +1221,19 @@ int SubtitleModel::getBlankSizeAtPos(int pos) const
         }
     }
     return max.frames(pCore->getCurrentFps()) - min.frames(pCore->getCurrentFps());
+}
+
+int SubtitleModel::getBlankStart(int pos) const
+{
+    GenTime matchPos(pos, pCore->getCurrentFps());
+    std::unordered_set<int> matching;
+    bool found = false;
+    GenTime min;
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+            min = subtitles.second.second;
+            found = true;
+        }
+    }
+    return found ? min.frames(pCore->getCurrentFps()) + 1 : 0;
 }

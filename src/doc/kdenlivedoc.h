@@ -1,21 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 /** @class KdenliveDoc
  *  @brief Represents a kdenlive project file
@@ -37,8 +24,8 @@
 #include "../bin/model/subtitlemodel.hpp"
 
 #include "definitions.h"
-#include "gentime.h"
-#include "timecode.h"
+#include "utils/gentime.h"
+#include "utils/timecode.h"
 
 class MainWindow;
 class TrackInfo;
@@ -48,7 +35,7 @@ class Render;
 class ProfileParam;
 class SubtitleModel;
 class TimelineWidget;
-class DocumentObjectModel;
+class KdenliveDocObjectModel;
 
 class QUndoGroup;
 class QUndoCommand;
@@ -73,6 +60,8 @@ public:
     QUrl url() const;
     QUuid uuid;
     KAutoSaveFile *m_autosave;
+    /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
+    bool m_sameProjectFolder;
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
 
@@ -84,7 +73,7 @@ public:
     const QString projectName() const;
     void setUrl(const QUrl &url);
     /** @brief Update path of subtitle url. */
-    void updateSubtitle(QString newUrl = QString());
+    void updateSubtitle(const QString &newUrl = QString());
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -100,8 +89,6 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene);
-    /** @brief Saves only the MLT xml to a file for preview rendering. */
-    void saveMltPlaylist(const QString &fileName);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
@@ -180,12 +167,16 @@ public:
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
     const QString subTitlePath(bool final);
+    /** @brief Return the document version. */
+    double getDocumentVersion() const;
+    /** @brief Replace proxy clips with originals for rendering. */
+    void useOriginals(QDomDocument &doc);
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Store a reference to the timeline model. */
     void setModels(TimelineWidget *timelineWidget, std::shared_ptr<ProjectItemModel> projectModel);
-    std::shared_ptr<DocumentObjectModel> objectModel();
+    std::shared_ptr<KdenliveDocObjectModel> objectModel();
     /** @brief Returns a project item's duration. */
     std::pair<int,int> getItemInOut(const ObjectId &id);
 
@@ -229,7 +220,7 @@ private:
     QMap<QString, QString> m_documentMetadata;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
     std::shared_ptr<MarkerListModel> m_guideModel;
-    std::shared_ptr<DocumentObjectModel>m_objectModel;
+    std::shared_ptr<KdenliveDocObjectModel>m_objectModel;
     QString m_documentProfile;
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     QString m_modifiedDecimalPoint;
@@ -262,6 +253,7 @@ public slots:
      * 
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
+    QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath = QMap<QString, QString>());
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
@@ -270,7 +262,7 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
-    void switchProfile(ProfileParam* pf);
+    void switchProfile(ProfileParam* pf, const QString clipName);
 
 private slots:
     void slotModified();

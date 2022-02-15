@@ -1,22 +1,8 @@
 /*
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "projectsortproxymodel.h"
@@ -151,7 +137,7 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetFilters(const QStringList tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
+void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
 {
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
@@ -191,11 +177,11 @@ void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModel
 }
 
 
-void ProjectSortProxyModel::selectAll()
+void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)
 {
-        QModelIndex topLeft = index(0, 0, QModelIndex());
-        QModelIndex bottomRight = index(rowCount(QModelIndex()) - 1,
-            columnCount(QModelIndex()) - 1, QModelIndex());
-        QItemSelection selection(topLeft, bottomRight);
-        m_selection->select(selection, QItemSelectionModel::Select);
+    QModelIndex topLeft = index(0, 0, rootIndex);
+    QModelIndex bottomRight = index(rowCount(rootIndex) - 1,
+        columnCount(rootIndex) - 1, rootIndex);
+    QItemSelection selection(topLeft, bottomRight);
+    m_selection->select(selection, QItemSelectionModel::Select);
 }

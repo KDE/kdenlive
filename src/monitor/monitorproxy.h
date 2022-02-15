@@ -1,23 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2018 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef MONITORPROXY_H
 #define MONITORPROXY_H
@@ -47,8 +33,11 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QString markerComment MEMBER m_markerComment NOTIFY markerChanged)
     Q_PROPERTY(QColor markerColor MEMBER m_markerColor NOTIFY markerChanged)
     Q_PROPERTY(QString timecode READ timecode NOTIFY timecodeChanged)
+    Q_PROPERTY(QString trimmingTC1 READ trimmingTC1 NOTIFY trimmingTC1Changed)
+    Q_PROPERTY(QString trimmingTC2 READ trimmingTC2 NOTIFY trimmingTC2Changed)
     Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
+    Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
@@ -56,14 +45,14 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
-    /** @brief: Returns true if current clip in monitor has Audio and Video
+    /** @brief Returns true if current clip in monitor has Audio and Video
      * */
     Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
-    /** @brief: Contains the name of clip currently displayed in monitor
+    /** @brief Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
     Q_PROPERTY(QString clipStream MEMBER m_clipStream NOTIFY clipStreamChanged)
-    /** @brief: Contains the name of clip currently displayed in monitor
+    /** @brief Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
     Q_PROPERTY(int clipId MEMBER m_clipId NOTIFY clipIdChanged)
@@ -75,15 +64,20 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
+    const QString trimmingTC1() const;
+    const QString trimmingTC2() const;
     const QString timecode() const;
-    /** brief: update position and end seeking if we reached the requested seek position.
+    int getPosition() const;
+    /** @brief update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
      * */
-    int getPosition() const;
     Q_INVOKABLE bool setPosition(int pos);
+    bool setPositionAdvanced(int pos, bool noAudioScrub);
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
+    Q_INVOKABLE QByteArray getUuid() const;
+    Q_INVOKABLE const QPoint clipBoundary(int ix);
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
     void positionFromConsumer(int pos, bool playing);
@@ -108,12 +102,21 @@ public:
     Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     QPoint profile();
-    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
-    void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());
+    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
+    void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
     /** @brief Store a reference to the timecode display */
     void setTimeCode(TimecodeDisplay *td);
+    /** @brief Set position in frames to be displayed in the monitor overlay for preview tile one
+     *  @param frames Position in frames
+     *  @param isRelative Whether @p frames is the absoulute position (overwrite current) or an offset position (subtract from current)
+     */
+    void setTrimmingTC1(int frames, bool isRelativ = false);
+    /** @brief Set position in frames to be displayed in the monitor overlay for preview tile two
+     *  @see setTrimmingTC1
+     */
+    void setTrimmingTC2(int frames, bool isRelativ = false);
     /** @brief When the producer changes, ensure we reset the stored position*/
     void resetPosition();
     /** @brief Used to display qml info about speed*/
@@ -122,7 +125,7 @@ public:
 signals:
     void positionChanged(int);
     void seekFinishedChanged();
-    void requestSeek(int pos);
+    void requestSeek(int pos, bool noAudioScrub);
     void zoneChanged();
     void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
@@ -148,7 +151,10 @@ signals:
     void profileChanged();
     void autoKeyframeChanged();
     void timecodeChanged();
+    void trimmingTC1Changed();
+    void trimmingTC2Changed();
     void speedChanged();
+    void clipBoundsChanged();
 
 private:
     GLWidget *q;
@@ -168,6 +174,13 @@ private:
     bool m_seekFinished;
     QPoint m_undoZone;
     TimecodeDisplay *m_td;
+    int m_trimmingFrames1;
+    int m_trimmingFrames2;
+    QVector <QPoint> m_clipBounds;
+    int m_boundsCount;
+
+public slots:
+    void updateClipBounds(const QVector <QPoint>&bounds);
 };
 
 #endif

@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bigsh0t_rect_to_eq" id="frei0r.bigsh0t_rect_to_eq">
+	<name>VR360 Rectilinear to Equirectangular</name>
+	<description>Converts a rectilinear (a normal-looking) image to an equirectangular image. Use this together with Transform 360 to place "normal" footage in a 360 movie.</description>
+	<author>Leo Sutic</author>
+     <parameter type="animated" name="hfov" default="90" min="0" max="180" factor="1" suffix="deg">
+		<name>Vertical Start</name>
+	</parameter>
+    <parameter type="animated" name="vfov" default="60" min="0" max="180" factor="1" suffix="deg">
+		<name>Horizontal Start</name>
+	</parameter>
+	<parameter type="list" name="interpolation" default="0" paramlist="0;1">
+                <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
+                <name>Interpolation</name>
+        </parameter>
+</effect>

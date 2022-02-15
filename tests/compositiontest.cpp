@@ -1,13 +1,15 @@
 #include "test_utils.hpp"
 
 Mlt::Profile profile_composition;
-QString aCompo;
-TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
+
+static QString getACompo()
 {
+
     // Check whether repo works
     QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
     REQUIRE(!transitions.isEmpty());
 
+    QString aCompo;
     // Look for a compo
     for (const auto &trans : qAsConst(transitions)) {
         if (TransitionsRepository::get()->isComposition(trans.first)) {
@@ -15,8 +17,13 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
             break;
         }
     }
-
     REQUIRE(!aCompo.isEmpty());
+    return aCompo;
+}
+
+TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
+{
+    QString aCompo = getACompo();
 
     // Check construction from repo
     std::unique_ptr<Mlt::Transition> mlt_transition(TransitionsRepository::get()->getTransition(aCompo));
@@ -51,6 +58,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(QUuid(), undoStack));
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(QUuid(), &profile_composition, guideModel, undoStack);
+
+    QString aCompo = getACompo();
 
     int tid0 = TrackModel::construct(timeline);
     Q_UNUSED(tid0);

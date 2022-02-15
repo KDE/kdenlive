@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
@@ -17,6 +22,7 @@ Item {
     property point center
     property double scalex
     property double scaley
+    property bool captureRightClick: false
     // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
@@ -91,12 +97,16 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: root.activateTrack(index);
+                    acceptedButtons: Qt.LeftButton
+                    onClicked: {
+                        root.activateTrack(index)
+                        controller.triggerAction('perform_multitrack_mode')
+                    }
                 }
             }
         }
     }
-    SceneToolBar {
+    MultiScreenToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right

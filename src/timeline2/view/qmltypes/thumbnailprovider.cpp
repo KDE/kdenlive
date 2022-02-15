@@ -1,27 +1,16 @@
 /*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "thumbnailprovider.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "utils/thumbnailcache.hpp"
 #include "doc/kthumb.h"
+#include "utils/thumbnailcache.hpp"
 
 #include <QCryptographicHash>
 #include <QDebug>
@@ -70,7 +59,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
     time = time.left(time.size() - 1);
     QString key;
     if (hash.isEmpty()) {
-        key = QString("%1 %2 %3").arg(service).arg(resource, time);
+        key = QString("%1 %2 %3").arg(service, resource, time);
         QCryptographicHash hash2(QCryptographicHash::Sha1);
         hash2.addData(key.toUtf8());
         key = hash2.result().toHex();

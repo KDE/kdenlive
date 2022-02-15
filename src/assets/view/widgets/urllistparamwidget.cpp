@@ -1,31 +1,13 @@
-/***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartlab.uber.space>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "mltconnection.h"
 #include "mainwindow.h"
-
-#include <kns3/downloaddialog.h>
+#include "mltconnection.h"
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -50,15 +32,17 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     slotRefresh();
 
     connect(m_download, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
-    connect(m_open, &QToolButton::clicked, this, &UrlListParamWidget::openFile);
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
-    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, [this](int) {
-                emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true);
+    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index) {
+        if (m_list->currentData() == QStringLiteral("custom_file")) {
+            openFile();
+        } else {
+            m_currentIndex = index;
+            emit valueChanged(m_index, m_list->currentData().toString(), true);
+        }
     });
-
 }
 
 void UrlListParamWidget::setCurrentIndex(int index)
@@ -104,13 +88,12 @@ void UrlListParamWidget::slotRefresh()
     m_list->clear();
     QStringList names = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
-    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString currentValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
     filter.remove(0, filter.indexOf("(")+1);
     filter.remove(filter.indexOf(")")-1, -1);
     m_fileExt = filter.split(" ");
-
-    if (values.first() == QLatin1String("%lumaPaths")) {
+    if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
         values.clear();
         names.clear();
@@ -128,17 +111,13 @@ void UrlListParamWidget::slotRefresh()
         }
         m_list->addItem(i18n("None (Dissolve)"));
     }
-    if (values.first() == QLatin1String("%lutPaths")) {
+    if (!values.isEmpty() && values.first() == QLatin1String("%lutPaths")) {
         // special case: LUT files
         values.clear();
         names.clear();
-        // check for Kdenlive installed luts files
 
-        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-#ifdef Q_OS_WIN
-        // Windows downloaded lumas are saved in AppLocalDataLocation
-        customLuts.append(QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory));
-#endif
+        // check for Kdenlive installed luts files
+        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
         for (const QString &folderpath : qAsConst(customLuts)) {
             QDir dir(folderpath);
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
@@ -148,44 +127,49 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     // add all matching files in the location of the current item too
-    if (!value.isEmpty()) {
-        QString path = QUrl(value).adjusted(QUrl::RemoveFilename).toString();
+    if (!currentValue.isEmpty()) {
+        QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
         QDir dir(path);
-        for (const auto &filename : dir.entryList(m_fileExt, QDir::Files)) {
+        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
+        for (const auto &filename : qAsConst(entrys)) {
             values.append(dir.filePath(filename));
         }
         // make sure the current value is added. If it is a duplicate we remove it later
-        values << value;
+        values << currentValue;
     }
 
     values.removeDuplicates();
 
     // build ui list
     for (const QString &value : qAsConst(values)) {
-        names.append(QUrl(value).fileName());
+        names.append(pCore->nameForLumaFile(QUrl(value).fileName()));
     }
     for (int i = 0; i < values.count(); i++) {
         const QString &entry = values.at(i);
-        m_list->addItem(names.at(i), entry);
+        QString name = QFileInfo(names.at(i)).baseName();
+        m_list->addItem(name, entry);
+        int ix = m_list->findData(entry);
         // Create thumbnails
         if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
             if (MainWindow::m_lumacache.contains(entry)) {
-                m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             } else {
                 QImage pix(entry);
                 if (!pix.isNull()) {
                     MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    m_list->setItemIcon(i + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 }
             }
         }
     }
+    m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
 
     // select current value
-    if (!value.isEmpty()) {
-        int ix = m_list->findData(value);
+    if (!currentValue.isEmpty()) {
+        int ix = m_list->findData(currentValue);
         if (ix > -1)  {
             m_list->setCurrentIndex(ix);
+            m_currentIndex = ix;
         }
     }
 }
@@ -202,27 +186,12 @@ void UrlListParamWidget::openFile()
     QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
-        QString path = QUrl(urlString).adjusted(QUrl::RemoveFilename).toString();
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         emit valueChanged(m_index, urlString, true);
         slotRefresh();
+    } else {
+        m_list->setCurrentIndex(m_currentIndex);
     }
-}
-
-int UrlListParamWidget::getNewStuff(const QString &configFile)
-{
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    for (const KNS3::Entry &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    delete dialog;
-    return entries.size();
 }
 
 void UrlListParamWidget::downloadNewItems()
@@ -233,7 +202,7 @@ void UrlListParamWidget::downloadNewItems()
         return;
     }
 
-    if (getNewStuff(configFile) > 0) {
+    if (pCore->getNewStuff(configFile) > 0) {
         if(configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
             MltConnection::refreshLumas();
         }

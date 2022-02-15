@@ -1,30 +1,17 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "noteswidget.h"
-#include "kdenlive_debug.h"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
+#include "kdenlive_debug.h"
 
 #include <QMenu>
-#include <QMouseEvent>
 #include <QMimeData>
+#include <QMouseEvent>
 #include <klocalizedstring.h>
 
 NotesWidget::NotesWidget(QWidget *parent)
@@ -70,7 +57,7 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void NotesWidget::createMarker(QStringList anchors)
+void NotesWidget::createMarker(const QStringList &anchors)
 {
     QMap <QString, QList<int>> clipMarkers;
     QList<int> guides;
@@ -128,7 +115,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         // That's a Bin Clip reference.
         pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
     } else {
-        emit seekProject(anchor.toInt());
+        emit seekProject(anchor);
     }
     e->setAccepted(true);
 }

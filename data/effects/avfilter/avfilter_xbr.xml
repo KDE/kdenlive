@@ -7,4 +7,11 @@
             <paramlistdisplay>2xBR,3xBR,4xBR</paramlistdisplay>
                 <name>Interpolation factor</name>
         </parameter>
+        	<parameter type="constant" name="av.threads" min="0" default="0" max="8">
+                <name>Maximum number of threads</name>
+        </parameter>
+        <parameter type="list" name="position" default="frame" paramlist="frame;filter;source;producer">
+            <paramlistdisplay>frame,filter,source,producer</paramlistdisplay>
+                <name>Position to set the filter</name>
+        </parameter>
 </effect>

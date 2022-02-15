@@ -1,27 +1,12 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "clipcreator.hpp"
 #include "bin/bin.h"
 #include "core.h"
+#include "dialogs/clipcreationdialog.h"
 #include "doc/kdenlivedoc.h"
 
 #include "kdenlivesettings.h"
@@ -75,7 +60,10 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -87,7 +75,10 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"));
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -160,9 +151,6 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
         properties.insert(QStringLiteral("resource"), path);
         Xml::addXmlProperties(prod, properties);
     }
-    if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
-        prod.setAttribute(QStringLiteral("_checkProfile"), 1);
-    }
     return xml;
 }
 
@@ -201,7 +189,10 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -234,7 +225,10 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     }
 
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"));
+    std::function<void(const QString &)> callBack = [](const QString &binId) {
+        pCore->activeBin()->selectClipById(binId);
+    };
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
@@ -242,29 +236,64 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                                       Fun &undo, Fun &redo, bool topLevel)
 {
     QString createdItem;
-    /*QScopedPointer<QProgressDialog> progressDialog;
-    if (topLevel) {
-        progressDialog.reset(new QProgressDialog(pCore->window()));
-        progressDialog->setWindowTitle(i18n("Loading clips"));
-        progressDialog->setCancelButton(nullptr);
-        progressDialog->setLabelText(i18n("Importing bin clips..."));
-        progressDialog->setMaximum(0);
-        progressDialog->show();
-        progressDialog->repaint();
-        qApp->processEvents();
-    }*/
-    qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
+    // Check for duplicates
+    QList<QUrl> cleanList;
+    QStringList duplicates;
+    bool firstClip = topLevel;
+    pCore->bin()->shouldCheckProfile = (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && pCore->bin()->isEmpty();
+    for (const QUrl &url : list) {
+        if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
+            cleanList << url;
+        } else {
+            duplicates << url.toLocalFile();
+        }
+    }
+    if (!duplicates.isEmpty()) {
+        if (KMessageBox::warningYesNoList(QApplication::activeWindow(), i18n("The following clips are already inserted in the project. Do you want to duplicate them?"), duplicates) ==
+                KMessageBox::Yes) {
+                cleanList = list;
+            }
+    }
+
+    qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
-    for (const QUrl &file : list) {
+    int urlsCount = cleanList.count();
+    int current = 0;
+    for (const QUrl &file : qAsConst(cleanList)) {
+        current++;
         if (!QFile::exists(file.toLocalFile())) {
             continue;
+        }
+        if (urlsCount > 3) {
+            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100*current/urlsCount));
         }
         QFileInfo info(file.toLocalFile());
         if (info.isDir()) {
             // user dropped a folder, import its files
             QDir dir(file.toLocalFile());
+            bool ok = false;
+            QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
+            thumbFolder = pCore->currentDoc()->getCacheDir(CachePreview, &ok);
+            if (ok && thumbFolder == dir) {
+                // Do not try to import our thumbnail folder
+                continue;
+            }
             QString folderId;
             Fun local_undo = []() { return true; };
             Fun local_redo = []() { return true; };
@@ -285,11 +314,16 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
                 if (!sublist.isEmpty()) {
-                    // Create main folder
-                    bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-                    if (!folderCreated) {
-                        continue;
+                    if (!KdenliveSettings::ignoresubdirstructure() || topLevel) {
+                        // Create main folder
+                        bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                        if (!folderCreated) {
+                            continue;
+                        }
+                    } else {
+                        folderId = parentFolder;
                     }
+
                     createdItem = folderId;
                     // load subfolders
                     const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
@@ -298,10 +332,14 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
             } else {
-                // Create main folder
-                bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-                if (!folderCreated) {
-                    continue;
+                if (!KdenliveSettings::ignoresubdirstructure() || topLevel) {
+                    // Create main folder
+                    bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                    if (!folderCreated) {
+                        continue;
+                    }
+                } else {
+                    folderId = parentFolder;
                 }
                 createdItem = folderId;
                 const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
@@ -338,13 +376,21 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
 
                 if (answer == KMessageBox::Cancel) continue;
             }
-            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
+            std::function<void(const QString &)> callBack = [](const QString &) {};
+            if (firstClip) {
+                callBack = [](const QString &binId) {
+                    pCore->activeBin()->selectClipById(binId);
+                };
+                firstClip = false;
+            }
+            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
                 createdItem = clipId;
             }
         }
-        //qApp->processEvents();
+        qApp->processEvents();
     }
+    pCore->displayMessage(i18n("Loading done"), OperationCompletedMessage, 100);
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }

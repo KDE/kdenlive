@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assetcommand.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -40,17 +24,45 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
-    QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
-    m_oldValue = previousVal.type() == previousVal.toString();
+    m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
 
 void AssetCommand::undo()
 {
+    if (m_name.contains(QLatin1Char('\n'))) {
+        // Check if it is a multi param
+        auto type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::MultiSwitch) {
+            QStringList names = m_name.split(QLatin1Char('\n'));
+            QStringList oldValues = m_oldValue.split(QLatin1Char('\n'));
+            if (names.count() == oldValues.count()) {
+                for (int i = 0; i < names.count(); i++) {
+                    m_model->setParameter(names.at(i), oldValues.at(i), true, m_index);
+                }
+                return;
+            }
+        }
+    }
     m_model->setParameter(m_name, m_oldValue, true, m_index);
 }
 
 void AssetCommand::redo()
 {
+    if (m_name.contains(QLatin1Char('\n'))) {
+        // Check if it is a multi param
+        auto type = m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::MultiSwitch) {
+            QStringList names = m_name.split(QLatin1Char('\n'));
+            QStringList values = m_value.split(QLatin1Char('\n'));
+            if (names.count() == values.count()) {
+                for (int i = 0; i < names.count(); i++) {
+                    m_model->setParameter(names.at(i), values.at(i), m_updateView, m_index);
+                }
+                m_updateView = true;
+                return;
+            }
+        }
+    }
     m_model->setParameter(m_name, m_value, m_updateView, m_index);
     m_updateView = true;
 }
@@ -71,7 +83,7 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList <QModelIndex> indexes, const QStringList values, QUndoCommand *parent)
+AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList <QModelIndex> &indexes, const QStringList &values, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_indexes(indexes)
@@ -80,7 +92,7 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     , m_stamp(QTime::currentTime())
 {
     qDebug()<<"CREATING MULTIPLE COMMAND!!!\nVALUES: "<<m_values;
-    m_name = m_model->data(indexes.first(), AssetParameterModel::NameRole).toString();
+    m_name = m_model->data(m_indexes.first(), AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", EffectsRepository::get()->getName(id)));

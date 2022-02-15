@@ -1,12 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2012 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *   This file is part of kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2012 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "audioEnvelope.h"
 #include "audioStreamInfo.h"
@@ -14,10 +11,10 @@
 #include "bin/projectclip.h"
 #include "core.h"
 #include "kdenlive_debug.h"
-#include <QImage>
-#include <QElapsedTimer>
-#include <QtConcurrent>
 #include <KLocalizedString>
+#include <QElapsedTimer>
+#include <QImage>
+#include <QtConcurrent>
 #include <algorithm>
 #include <cmath>
 #include <memory>
@@ -97,7 +94,7 @@ const std::vector<qint64> &AudioEnvelope::envelope()
 
 AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 {
-    qCDebug(KDENLIVE_LOG) << "Loading envelope ...";
+    qCDebug(KDENLIVE_LOG) << "Loading envelope …";
     AudioSummary summary(m_envelopeSize);
     if (!m_info || m_info->size() < 1) {
         return summary;
@@ -113,7 +110,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
     for (size_t i = 0; i < max; ++i) {
         std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame(int(i)));
         qint64 position = mlt_frame_get_position(frame->get_frame());
-        int samples = mlt_sample_calculator(float(m_producer->get_fps()), samplingRate, position);
+        int samples = mlt_audio_calculate_frame_samples(float(m_producer->get_fps()), samplingRate, position);
         auto *data = static_cast<qint16 *>(frame->get_audio(format_s16, samplingRate, channels, samples));
 
         summary.audioAmplitudes[i] = 0;
@@ -123,7 +120,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
         pCore->displayMessage(i18n("Processing data analysis"), ProcessingJobMessage, int(100 * i / max));
     }
     qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
-    qCDebug(KDENLIVE_LOG) << "Normalizing envelope ...";
+    qCDebug(KDENLIVE_LOG) << "Normalizing envelope …";
     const qint64 meanBeforeNormalization =
         std::accumulate(summary.audioAmplitudes.begin(), summary.audioAmplitudes.end(), 0LL) / qint64(summary.audioAmplitudes.size());
 

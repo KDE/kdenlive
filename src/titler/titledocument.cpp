@@ -1,21 +1,11 @@
-/***************************************************************************
-                          titledocument.h  -  description
-                             -------------------
-    begin                : Feb 28 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: Rafał Lalik
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
-/***************************************************************************
+/*
  *                                                                         *
  *   Modifications by Rafał Lalik to implement Patterns mechanism          *
  *                                                                         *
@@ -26,7 +16,7 @@
 
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
-#include "timecode.h"
+#include "utils/timecode.h"
 
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
@@ -548,8 +538,8 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         // template text box, adjust size for later remplacement text
                         if (txt->alignment() == Qt::AlignHCenter) {
                             // grow dimensions on both sides
-                            double width = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();
-                            double xcenter = (width - xPosition) / 2.0;
+                            double boxWidth = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();
+                            double xcenter = (boxWidth - xPosition) / 2.0;
                             xPosition = xcenter - txt->boundingRect().width() / 2;
                         } else if (txt->alignment() == Qt::AlignRight) {
                             // grow to the left

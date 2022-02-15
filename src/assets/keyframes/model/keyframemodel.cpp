@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "keyframemodel.hpp"
 #include "core.h"
@@ -27,10 +11,10 @@
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
-#include <QSize>
-#include <QLineF>
 #include <QDebug>
 #include <QJsonDocument>
+#include <QLineF>
+#include <QSize>
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -81,13 +65,18 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
         QVariant oldValue = m_keyframeList[pos].second;
         local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
         local_redo = updateKeyframe_lambda(pos, type, value, notify);
+        if (local_redo()) {
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+            return true;
+        }
     } else {
-        local_redo = addKeyframe_lambda(pos, type, value, notify);
-        local_undo = deleteKeyframe_lambda(pos, notify);
-    }
-    if (local_redo()) {
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-        return true;
+        Fun redo_first = addKeyframe_lambda(pos, type, value, notify);
+        if (redo_first()) {
+            local_redo = addKeyframe_lambda(pos, type, value, true);
+            local_undo = deleteKeyframe_lambda(pos, true);
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+            return true;
+        }
     }
     return false;
 }
@@ -116,7 +105,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
     return res;
 }
 
-bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify)
+bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify, bool updateSelection)
 {
     qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps()) << " NOTIFY: " << notify;
     qDebug() << "before" << getAnimProperty();
@@ -124,11 +113,46 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType oldType = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
-    Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
-    Fun local_redo = deleteKeyframe_lambda(pos, notify);
-    if (local_redo()) {
+    Fun select_undo = []() { return true; };
+    Fun select_redo = []() { return true; };
+    if (updateSelection) {
+        if (auto ptr = m_model.lock()) {
+            if (!ptr->m_selectedKeyframes.isEmpty()) {
+                int ix = getIndexForPos(pos);
+                QVector<int> selection;
+                QVector<int> prevSelection = ptr->m_selectedKeyframes;
+                for (auto &kf : prevSelection) {
+                    if (kf == ix) {
+                        continue;
+                    }
+                    if (kf < ix) {
+                        selection << kf;
+                    } else {
+                        selection << (kf - 1);
+                    }
+                }
+                setActiveKeyframe(-1);
+                std::sort(selection.begin(), selection.end());
+                select_redo = [this, selection]() {
+                    setSelectedKeyframes(selection);
+                    return true;
+                };
+                select_undo = [this, prevSelection]() {
+                    setSelectedKeyframes(prevSelection);
+                    return true;
+                };
+
+            }
+        }
+    }
+    Fun redo_first = deleteKeyframe_lambda(pos, notify);
+    if (redo_first()) {
+        Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
+        Fun local_redo = deleteKeyframe_lambda(pos, true);
+        select_redo();
         qDebug() << "after" << getAnimProperty();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        UPDATE_UNDO_REDO(select_redo, select_undo, undo, redo);
         return true;
     }
     return false;
@@ -172,7 +196,110 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo)
+GenTime KeyframeModel::getPosAtIndex(int ix) const
+{
+    QList<GenTime> positions = getKeyframePos();
+    std::sort(positions.begin(), positions.end());
+    if (ix < 0 || ix >= positions.count()) {
+        return GenTime();
+    }
+    return positions.at(ix);
+}
+
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView)
+{
+    qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
+    QWriteLocker locker(&m_lock);
+    // Check if we have several selected keyframes
+    if (oldPos == pos) {
+        if (!newVal.isValid()) {
+            // no change
+            return true;
+        }
+    }
+    if (auto ptr = m_model.lock()) {
+        if (ptr->m_selectedKeyframes.size() > 1) {
+            // We have several selected keyframes, move them all
+            double offset = 0.;
+            if (newVal.isValid() && newVal.type() == QVariant::Double) {
+                int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
+                double oldVal = data(index(row), NormalizedValueRole).toDouble();
+                offset = newVal.toDouble() - oldVal;
+            }
+            QVector<GenTime> positions;
+            for (auto &kf : ptr->m_selectedKeyframes) {
+                if (kf > 0) {
+                    positions << getPosAtIndex(kf);
+                }
+            }
+            GenTime delta = pos - oldPos;
+            if (pos > oldPos) {
+                // Moving right, reverse sort
+                std::sort(positions.rbegin(), positions.rend());
+                // Check max pos
+                bool ok = false;
+                GenTime test = positions.first();
+                auto next = getNextKeyframe(test, &ok);
+                if (ok) {
+                    delta = qMin(delta, next.first - GenTime(1, pCore->getCurrentFps()) - test);
+                }
+            } else {
+                // Moving left
+                std::sort(positions.begin(), positions.end());
+                // Check min pos
+                bool ok = false;
+                GenTime test = positions.first();
+                auto next = getPrevKeyframe(test, &ok);
+                if (ok) {
+                    delta = qMax(delta, (next.first + GenTime(1, pCore->getCurrentFps())) - test);
+                }
+            }
+            if (delta == GenTime()) {
+                if (!newVal.isValid()) {
+                    // no change
+                    return true;
+                }
+            }
+            bool res = true;
+            for (auto &p : positions) {
+                if (p == oldPos) {
+                    res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, undo, redo, updateView);
+                } else {
+                    if (!qFuzzyIsNull(offset)) {
+                        // Calculate new value
+                        int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(p)));
+                        double newVal2 = qBound(0., data(index(row), NormalizedValueRole).toDouble() + offset, 1.);
+                        res = res && moveOneKeyframe(p, p + delta, newVal2, undo, redo, updateView);
+                    } else {
+                        res = res && moveOneKeyframe(p, p + delta, QVariant(), undo, redo, updateView);
+                    }
+                }
+            }
+            return res;
+        } else {
+            // We have only one selected keyframe
+            if (pos > oldPos) {
+                // Moving right
+                bool ok = false;
+                auto next = getNextKeyframe(oldPos, &ok);
+                if (ok) {
+                    pos = qMin(pos, next.first - GenTime(1, pCore->getCurrentFps()));
+                }
+            } else {
+                // Moving left
+                bool ok = false;
+                auto next = getPrevKeyframe(oldPos, &ok);
+                if (ok) {
+                    pos = qMax(pos, next.first + GenTime(1, pCore->getCurrentFps()));
+                }
+            }
+            return moveOneKeyframe(oldPos, pos, newVal, undo, redo, updateView);
+        }
+    }
+    return false;
+}
+
+bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
@@ -200,7 +327,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();
     // TODO: use the new Animation::key_set_frame to move a keyframe
-    bool res = removeKeyframe(oldPos, local_undo, local_redo);
+    bool res = removeKeyframe(oldPos, local_undo, local_redo, true, false);
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
@@ -208,14 +335,14 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
             if (!newVal.isValid()) {
                 newVal = oldValue;
             }
-            res = addKeyframe(pos, oldType, newVal, true, local_undo, local_redo);
+            res = addKeyframe(pos, oldType, newVal, updateView, local_undo, local_redo);
         } else if (newVal.isValid()) {
             QVariant result = getNormalizedValue(newVal.toDouble());
             if (result.isValid()) {
-                res = addKeyframe(pos, oldType, result, true, local_undo, local_redo);
+                res = addKeyframe(pos, oldType, result, updateView, local_undo, local_redo);
             }
         } else {
-            res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);
+            res = addKeyframe(pos, oldType, oldValue, updateView, local_undo, local_redo);
         }
         qDebug() << "Move keyframe finished insertion:" << res;
         qDebug() << getAnimProperty();
@@ -297,7 +424,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
     KeyframeType type = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     // Check if keyframe is different
-    if (m_paramType == ParamType::KeyframeParam) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
     auto operation = updateKeyframe_lambda(pos, type, value, update);
@@ -345,7 +472,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, std::move(value), undo, redo);
+    bool res = updateKeyframe(pos, value, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -373,7 +500,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     KeyframeType newType = convertFromMltType(mlt_keyframe_type(type));
     QVariant value = m_keyframeList[pos].second;
     // Check if keyframe is different
-    if (m_paramType == ParamType::KeyframeParam) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (oldType == newType) return true;
     }
     auto operation = updateKeyframe_lambda(pos, newType, value, true);
@@ -443,6 +570,8 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[FrameRole] = "frame";
     roles[TypeRole] = "type";
     roles[ValueRole] = "value";
+    roles[SelectedRole] = "selected";
+    roles[ActiveRole] = "active";
     roles[NormalizedValueRole] = "normalizedValue";
     return roles;
 }
@@ -467,11 +596,6 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             double converted = data.section(QLatin1Char(' '), -1).toDouble(&ok);
             if (!ok) {
                 qDebug() << "QLocale: Could not convert animated rect opacity" << data;
-            }
-            if (auto ptr = m_model.lock()) {
-                if (ptr->getAssetId() != QLatin1String("qtblend")) {
-                    converted /= 100.;
-                }
             }
             return converted;
         }
@@ -512,6 +636,16 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return it->first.frames(pCore->getCurrentFps());
     case TypeRole:
         return QVariant::fromValue<KeyframeType>(it->second.first);
+    case SelectedRole:
+        if (auto ptr = m_model.lock()) {
+            return ptr->m_selectedKeyframes.contains(index.row());
+        }
+        break;
+    case ActiveRole:
+        if (auto ptr = m_model.lock()) {
+            return ptr->m_activeKeyframe == index.row();
+        }
+        break;
     }
     return QVariant();
 }
@@ -532,7 +666,7 @@ bool KeyframeModel::singleKeyframe() const
 Keyframe KeyframeModel::getKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
-    if (m_keyframeList.count(pos) <= 0) {
+    if (m_keyframeList.count(pos) == 0) {
         // return empty marker
         *ok = false;
         return {GenTime(), KeyframeType::Linear};
@@ -603,10 +737,13 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
 bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     int kfrCount = int(m_keyframeList.size()) - 1;
+    // Clear selection
+    if (auto ptr = m_model.lock()) {
+        ptr->m_selectedKeyframes = {};
+    }
     if (kfrCount <= 0) {
         // Nothing to do
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -631,13 +768,11 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     };
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
-    for (const auto &m : m_keyframeList) {
-        all_pos.push_back(m.first);
-    }
+    QList<GenTime> all_pos = getKeyframePos();
     update_redo_start();
     bool res = true;
     bool first = true;
-    for (const auto &p : all_pos) {
+    for (const auto &p : qAsConst(all_pos)) {
         if (first) { // skip first point
             first = false;
             continue;
@@ -737,7 +872,7 @@ QString KeyframeModel::getRotoProperty() const
         int out = in + ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QVariantMap map;
         for (const auto &keyframe : m_keyframeList) {
-            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(int(log10(double(out + 1))), '0'), keyframe.second.second);
+            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(int(log10(double(out))) + 1, '0'), keyframe.second.second);
         }
         doc = QJsonDocument::fromVariant(map);
     }
@@ -961,33 +1096,29 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     bool useOpacity = false;
     if (auto ptr = m_model.lock()) {
         ptr->passProperties(mlt_prop);
-        ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     }
-    if (m_paramType == ParamType::KeyframeParam) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+
+    if (!animData.isEmpty() && (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel)) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
+    }
+    if (!animData.isEmpty() && m_paramType == ParamType::AnimatedRect) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
+        QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+        if (useOpacity) {
+            res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
         }
-        return QVariant();
-    } else if (m_paramType == ParamType::AnimatedRect) {
-        if (!animData.isEmpty()) {
-            mlt_prop.set("key", animData.toUtf8().constData());
-            // This is a fake query to force the animation to be parsed
-            (void)mlt_prop.anim_get_double("key", 0, out);
-            mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-            if (useOpacity) {
-                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
-            }
-            return QVariant(res);
-        }
-        return QVariant();
-    } else if (m_paramType == ParamType::Roto_spline) {
+        return QVariant(res);
+    }
+    if (m_paramType == ParamType::Roto_spline) {
         // interpolate
         auto next = m_keyframeList.upper_bound(pos);
         if (next == m_keyframeList.cbegin()) {
@@ -1036,7 +1167,7 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline || m_paramType == ParamType::ColorWheel) {
             m_lastData = getAnimProperty();
             ptr->setParameter(name, m_lastData, false, m_index);
         } else {
@@ -1053,7 +1184,7 @@ QString KeyframeModel::realValue(double normalizedValue) const
         value *= ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         QString result;
         if (decimals == 0) {
-            if (ptr->getAssetId() == QLatin1String("qtblend")) {
+            if (m_paramType == ParamType::AnimatedRect) {
                 value = qRound(value * 100.);
             }
             // Fix rounding erros in double > int conversion
@@ -1087,7 +1218,7 @@ void KeyframeModel::refresh()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
         parseAnimProperty(animData);
     } else if (m_paramType == ParamType::Roto_spline) {
         parseRotoProperty(animData);
@@ -1121,7 +1252,7 @@ void KeyframeModel::reset()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
+    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
         qDebug() << "parsing keyframe" << animData;
         resetAnimProperty(animData);
     } else if (m_paramType == ParamType::Roto_spline) {
@@ -1242,6 +1373,16 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
         all_pos.push_back(m.first);
     }
     int kfrCount = int(all_pos.size());
+    // Remove deleted keyframes from selection
+    if (auto ptr = m_model.lock()) {
+        QVector <int> selection;
+        for (auto &ix : ptr->m_selectedKeyframes) {
+            if (ix < kfrCount) {
+                selection << ix;
+            }
+        }
+        ptr->m_selectedKeyframes = selection;
+    }
     // we trigger only one global remove/insertrow event
     Fun update_redo_start = [this, firstPos, kfrCount]() {
         beginRemoveRows(QModelIndex(), firstPos, kfrCount);
@@ -1262,9 +1403,8 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     PUSH_LAMBDA(update_redo_start, local_redo);
     PUSH_LAMBDA(update_undo_start, local_undo);
     update_redo_start();
-    bool res = true;
     for (const auto &p : all_pos) {
-        res = removeKeyframe(p, local_undo, local_redo, false);
+        bool res = removeKeyframe(p, local_undo, local_redo, false);
         if (!res) {
             bool undone = local_undo();
             Q_ASSERT(undone);
@@ -1276,4 +1416,84 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     PUSH_LAMBDA(update_undo_end, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
+}
+
+void KeyframeModel::setSelectedKeyframe(int ix, bool add)
+{
+    QVector<int> previous;
+    if (auto ptr = m_model.lock()) {
+        if (add) {
+            if (ptr->m_selectedKeyframes.contains(ix)) {
+                // remove from selection
+                ptr->m_selectedKeyframes.removeAll(ix);
+            } else {
+                ptr->m_selectedKeyframes << ix;
+            }
+        } else {
+            previous = ptr->m_selectedKeyframes;
+            ptr->m_selectedKeyframes = {ix};
+        }
+    }
+    if (!add) {
+        for (auto &ix2 : previous) {
+            if (ix2 > -1) {
+                emit requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
+            }
+        }
+    }
+    if (ix > -1) {
+        emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+    }
+}
+
+void KeyframeModel::setSelectedKeyframes(QVector<int> selection)
+{
+    QVector<int> previous;
+    selection.removeAll(-1);
+    std::sort(selection.begin(), selection.end());
+    if (auto ptr = m_model.lock()) {
+        previous = ptr->m_selectedKeyframes;
+        ptr->m_selectedKeyframes = selection;
+    }
+    if (!selection.isEmpty()) {
+        emit requestModelUpdate(index(selection.first()), index(selection.last()), {SelectedRole});
+    }
+    for (auto &ix : previous) {
+        if (ix > -1 && !selection.contains(ix)) {
+            emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+        }
+    }
+}
+
+int KeyframeModel::activeKeyframe() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->m_activeKeyframe;
+    }
+    return -1;
+}
+
+void KeyframeModel::setActiveKeyframe(int ix)
+{
+    int oldActive = -1;
+    if (auto ptr = m_model.lock()) {
+        oldActive = ptr->m_activeKeyframe;
+        if (oldActive == ix) {
+            // Keyframe already active
+            return;
+        }
+        ptr->m_activeKeyframe = ix;
+    }
+    emit requestModelUpdate(index(ix), index(ix), {ActiveRole});
+    if (oldActive > -1) {
+        emit requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
+    }
+}
+
+int KeyframeModel::getIndexForPos(const GenTime pos) const
+{
+    if (m_keyframeList.count(pos) == 0) {
+        return -1;
+    }
+    return static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
 }

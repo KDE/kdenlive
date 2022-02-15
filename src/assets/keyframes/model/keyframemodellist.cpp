@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "keyframemodellist.hpp"
 #include "assets/model/assetcommand.hpp"
@@ -38,7 +22,6 @@ KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, c
 {
     qDebug() << "Construct keyframemodellist. Checking model:" << m_model.expired();
     addParameter(index);
-    connect(m_parameters.begin()->second.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
 }
 
 ObjectId KeyframeModelList::getOwnerId() const
@@ -57,6 +40,42 @@ const QString KeyframeModelList::getAssetId()
     return {};
 }
 
+QVector<int> KeyframeModelList::selectedKeyframes() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->m_selectedKeyframes;
+    }
+    return {};
+}
+
+int KeyframeModelList::activeKeyframe() const
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->m_activeKeyframe;
+    }
+    return -1;
+}
+
+void KeyframeModelList::setActiveKeyframe(int ix)
+{
+    m_parameters.begin()->second->setActiveKeyframe(ix);
+}
+
+void KeyframeModelList::removeFromSelected(int ix)
+{
+    m_parameters.begin()->second->setSelectedKeyframe(ix, true);
+}
+
+void KeyframeModelList::setSelectedKeyframes(const QVector<int> &list)
+{
+    m_parameters.begin()->second->setSelectedKeyframes(list);
+}
+
+void KeyframeModelList::appendSelectedKeyframe(int ix)
+{
+    m_parameters.begin()->second->setSelectedKeyframe(ix, true);
+}
+
 const QString KeyframeModelList::getAssetRow()
 {
     if (auto ptr = m_model.lock()) {
@@ -68,7 +87,18 @@ const QString KeyframeModelList::getAssetRow()
 void KeyframeModelList::addParameter(const QModelIndex &index)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
+    connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
+    connect(parameter.get(), &KeyframeModel::requestModelUpdate, this, &KeyframeModelList::slotUpdateModels);
     m_parameters.insert({index, std::move(parameter)});
+}
+
+void KeyframeModelList::slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
+{
+    // Propagate change to all keyframe models
+    for (const auto &param : m_parameters) {
+        emit param.second->dataChanged(ix1, ix2, roles);
+    }
+    emit modelDisplayChanged();
 }
 
 bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString)
@@ -185,11 +215,11 @@ bool KeyframeModelList::removeNextKeyframes(GenTime pos)
     return applyOperation(op, i18n("Delete keyframes"));
 }
 
-bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
+bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
-    auto op = [oldPos, pos](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo); };
+    auto op = [oldPos, pos, updateView](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo, updateView); };
     return applyOperation(op, logUndo ? i18nc("@action", "Move keyframe") : QString());
 }
 
@@ -222,11 +252,6 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
                 if (isRectParam) {
                     if (normalizedVal.isValid()) {
                         double newValue = normalizedVal.toDouble();
-                        if (auto ptr = m_model.lock()) {
-                            if (ptr->getAssetId() != QLatin1String("qtblend")) {
-                                newValue *= 100.;
-                            }
-                        }
                         value = param->getInterpolatedValue(oldPos);
                         value = param->updateInterpolated(value, newValue);
                     }
@@ -404,7 +429,7 @@ KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index
     return nullptr;
 }
 
-void KeyframeModelList::moveKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo)
+void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
 {
     // Get list of keyframes positions
     QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
@@ -425,8 +450,7 @@ void KeyframeModelList::moveKeyframes(int oldIn, int oldOut, int in, int out, Fu
 
 void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
-    bool ok;
-    bool ok2;
+    bool ok = false, ok2 = false;
     QList<GenTime> positions;
     if (!adjustFromEnd) {
         if (offset != 0) {
@@ -574,12 +598,12 @@ void KeyframeModelList::checkConsistency()
 
 GenTime KeyframeModelList::getPosAtIndex(int ix)
 {
-    QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
-    std::sort(positions.begin(), positions.end());
-    if (ix < 0 || ix >= positions.count()) {
-        return GenTime();
-    }
-    return positions.at(ix);
+    return m_parameters.begin()->second->getPosAtIndex(ix);
+}
+
+int KeyframeModelList::getIndexForPos(GenTime pos)
+{
+    return m_parameters.begin()->second->getIndexForPos(pos);
 }
 
 QModelIndex KeyframeModelList::getIndexAtRow(int row)

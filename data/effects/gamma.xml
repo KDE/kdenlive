@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="gamma" id="gamma">
-	<name context="Gamma Effect Name">Gamma</name>
+	<name context="Gamma Effect Name">Gamma (keyframable)</name>
 	<description>Change gamma color value</description>
 	<author>Charles Yates</author>
 	<parameter type="animated" name="gamma" max="300" min="1" default="1" factor="100">

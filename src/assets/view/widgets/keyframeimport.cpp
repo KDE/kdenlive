@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or         *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation; either version 2 of        *
- *   the License or (at your option) version 3 or any later version        *
- *   accepted by the membership of KDE e.V. (or its successor approved     *
- *   by the membership of KDE e.V.), which shall act as a proxy            *
- *   defined in Section 14 of version 3 of the license.                    *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "klocalizedstring.h"
 #include <QCheckBox>
@@ -38,6 +22,7 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "keyframeimport.h"
+#include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "widgets/positionwidget.h"
 #include <macros.hpp>
@@ -46,14 +31,17 @@
 #include "mlt++/MltProperties.h"
 
 
-KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes, int parentIn, int parentDuration, QWidget *parent)
+KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, const QList<QPersistentModelIndex> &indexes, int parentIn, int parentDuration, QWidget *parent)
     : QDialog(parent)
     , m_model(std::move(model))
     , m_indexes(indexes)
     , m_supportsAnim(false)
     , m_previewLabel(nullptr)
+    , m_sourceCombo(nullptr)
+    , m_targetCombo(nullptr)
     , m_isReady(false)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     auto *lay = new QVBoxLayout(this);
     auto *l1 = new QHBoxLayout;
     QLabel *lab = new QLabel(i18n("Data to import:"), this);
@@ -115,6 +103,10 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             continue;
         }
         QString name = entryObj[QLatin1String("name")].toString();
+        QString displayName = entryObj[QLatin1String("DisplayName")].toString();
+        if (displayName.isEmpty()) {
+            displayName = name;
+        }
         QString value = entryObj[QLatin1String("value")].toString();
         int type = entryObj[QLatin1String("type")].toInt(0);
         double min = entryObj[QLatin1String("min")].toDouble(0);
@@ -125,17 +117,20 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         if (out == -1) {
             out = entryObj[QLatin1String("out")].toInt(0);
         }
-        m_dataCombo->insertItem(ix, name);
+        bool opacity = entryObj[QLatin1String("opacity")].toBool(true);
+        m_dataCombo->insertItem(ix, displayName);
         m_dataCombo->setItemData(ix, value, Qt::UserRole);
         m_dataCombo->setItemData(ix, type, Qt::UserRole + 1);
         m_dataCombo->setItemData(ix, min, Qt::UserRole + 2);
         m_dataCombo->setItemData(ix, max, Qt::UserRole + 3);
+        m_dataCombo->setItemData(ix, opacity, Qt::UserRole + 4);
         ix++;
     }
     m_previewLabel = new QLabel(this);
     m_previewLabel->setMinimumSize(100, 150);
     m_previewLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_previewLabel->setScaledContents(true);
+
     lay->addWidget(m_previewLabel);
     // Zone in / out
     in = qMax(0, in);
@@ -149,11 +144,23 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
+    // Output offset
+    int clipIn = parentIn;
+    m_offsetPoint = new PositionWidget(i18n("Time offset:"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
+    lay->addWidget(m_offsetPoint);
+
+    int count = 0;
     // Check what kind of parameters are in our target
     for (const QPersistentModelIndex &idx : indexes) {
         auto type = m_model->data(idx, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
             m_simpleTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
+            QString name(m_model->data(idx, AssetParameterModel::NameRole).toString());
+            if(name.contains("Position X") || name.contains("Position Y") || name.contains("Size X") || name.contains("Size Y")) {
+                count++;
+            }
+        } else if (type == ParamType::Roto_spline) {
+            m_simpleTargets.insert(i18n("Rotoscoping shape"), idx);
         } else if (type == ParamType::AnimatedRect) {
             m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
         }
@@ -162,8 +169,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     l1 = new QHBoxLayout;
     m_targetCombo = new QComboBox(this);
     m_sourceCombo = new QComboBox(this);
-    ix = 0;
-    /*if (!m_geometryTargets.isEmpty()) {
+    /*ix = 0;
+    if (!m_geometryTargets.isEmpty()) {
         m_sourceCombo->insertItem(ix, i18n("Geometry"));
         m_sourceCombo->setItemData(ix, QString::number(10), Qt::UserRole);
         ix++;
@@ -185,30 +192,57 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         m_sourceCombo->setItemData(ix, QString::number(3), Qt::UserRole);
         ix++;
     }*/
-    connect(m_sourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRange()));
-    m_alignCombo = new QComboBox(this);
-    m_alignCombo->addItems(QStringList() << i18n("Align top left") << i18n("Align center") << i18n("Align bottom right"));
+    connect(m_sourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateRange);
+    connect(m_sourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateView);
+    m_alignSourceCombo = new QComboBox(this);
+    m_alignSourceCombo->addItem(i18n("Top left"), 0);
+    m_alignSourceCombo->addItem(i18n("Top center"), 1);
+    m_alignSourceCombo->addItem(i18n("Top right"), 2);
+    m_alignSourceCombo->addItem(i18n("Left center"), 3);
+    m_alignSourceCombo->addItem(i18n("Center"), 4);
+    m_alignSourceCombo->addItem(i18n("Right center"), 5);
+    m_alignSourceCombo->addItem(i18n("Bottom left"), 6);
+    m_alignSourceCombo->addItem(i18n("Bottom center"), 7);
+    m_alignSourceCombo->addItem(i18n("Bottom right"), 8);
+    m_alignTargetCombo = new QComboBox(this);
+    m_alignTargetCombo->addItem(i18n("Top left"), 0);
+    m_alignTargetCombo->addItem(i18n("Top center"), 1);
+    m_alignTargetCombo->addItem(i18n("Top right"), 2);
+    m_alignTargetCombo->addItem(i18n("Left center"), 3);
+    m_alignTargetCombo->addItem(i18n("Center"), 4);
+    m_alignTargetCombo->addItem(i18n("Right center"), 5);
+    m_alignTargetCombo->addItem(i18n("Bottom left"), 6);
+    m_alignTargetCombo->addItem(i18n("Bottom center"), 7);
+    m_alignTargetCombo->addItem(i18n("Bottom right"), 8);
+    connect(m_alignSourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateView);
+    connect(m_alignTargetCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateView);
     lab = new QLabel(i18n("Map "), this);
     QLabel *lab2 = new QLabel(i18n(" to "), this);
     l1->addWidget(lab);
     l1->addWidget(m_sourceCombo);
+    l1->addWidget(m_alignSourceCombo);
     l1->addWidget(lab2);
     l1->addWidget(m_targetCombo);
-    l1->addWidget(m_alignCombo);
-    l1->addStretch(10);
+    l1->addWidget(m_alignTargetCombo);
     ix = 0;
     QMap<QString, QModelIndex>::const_iterator j = m_geometryTargets.constBegin();
     while (j != m_geometryTargets.constEnd()) {
         m_targetCombo->insertItem(ix, j.key());
         m_targetCombo->setItemData(ix, j.value(), Qt::UserRole);
+        m_originalParams.insert(j.value(), m_model->data(j.value(), AssetParameterModel::ValueRole).toString());
         ++j;
         ix++;
+    }
+    if(count == 4) {
+        // add an option to map to a a fake rectangle (pretend position params are a mlt rect)
+        m_targetCombo->insertItem(ix, i18n("Rectangle"));
     }
     ix = 0;
     j = m_simpleTargets.constBegin();
     while (j != m_simpleTargets.constEnd()) {
         m_targetCombo->insertItem(ix, j.key());
         m_targetCombo->setItemData(ix, j.value(), Qt::UserRole);
+        m_originalParams.insert(j.value(), m_model->data(j.value(), AssetParameterModel::ValueRole).toString());
         ++j;
         ix++;
     }
@@ -217,21 +251,31 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     lay->addLayout(l1);
 
-    // Output offset
-    int clipIn = parentIn;
-    m_offsetPoint = new PositionWidget(i18n("Offset"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
-    lay->addWidget(m_offsetPoint);
+    m_offsetX.setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
+    m_offsetY.setRange(-pCore->getCurrentProfile()->height(), pCore->getCurrentProfile()->height());
+    connect(&m_offsetX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateView);
+    connect(&m_offsetY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateView);
+
+    // Destination range
+    l1 = new QHBoxLayout;
+    lab = new QLabel(i18n("Position offset:"), this);
+    l1->addWidget(lab);
+    l1->addWidget(&m_offsetX);
+    l1->addWidget(&m_offsetY);
+    lay->addLayout(l1);
+
 
     // Source range
     m_sourceRangeLabel = new QLabel(i18n("Source range %1 to %2", 0, 100), this);
     lay->addWidget(m_sourceRangeLabel);
 
     // update range info
-    connect(m_targetCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDestinationRange()));
+
+    connect(m_targetCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateDestinationRange);
 
     // Destination range
     l1 = new QHBoxLayout;
-    lab = new QLabel(i18n("Destination range"), this);
+    lab = new QLabel(i18n("Destination range:"), this);
 
     l1->addWidget(lab);
     l1->addWidget(&m_destMin);
@@ -257,8 +301,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addLayout(l1);
     connect(m_limitKeyframes, &QCheckBox::toggled, m_limitNumber, &QSpinBox::setEnabled);
     connect(m_limitKeyframes, &QAbstractButton::toggled, this, &KeyframeImport::updateDisplay);
-    connect(m_limitNumber, SIGNAL(valueChanged(int)), this, SLOT(updateDisplay()));
-    connect(m_dataCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateDataDisplay()));
+    connect(m_limitNumber, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateDisplay);
+    connect(m_dataCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateDataDisplay);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
@@ -266,6 +310,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     m_isReady = true;
     updateDestinationRange();
     updateDataDisplay();
+    updateView();
 }
 
 KeyframeImport::~KeyframeImport() = default;
@@ -280,18 +325,42 @@ void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
     auto type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
+    auto values = m_dataCombo->currentData(Qt::UserRole).toString().split(QLatin1Char(';'));
+
+    // we do not need all the options if there is only one keyframe
+    bool onlyOne = values.length() == 1;
+    m_previewLabel->setVisible(!onlyOne);
+    m_limitKeyframes->setVisible(!onlyOne);
+    m_limitNumber->setVisible(!onlyOne);
+    m_inPoint->setVisible(!onlyOne);
+    m_outPoint->setVisible(!onlyOne);
+
     m_maximas = KeyframeModel::getRanges(comboData, m_model);
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {
         // 1 dimensional param.
         m_sourceCombo->addItem(m_dataCombo->currentText(), ImportRoles::SimpleValue);
+
+        // map rotation to rotation by default if possible
+        if (m_dataCombo->currentText() == QStringLiteral("rotation")) {
+            int idx = m_targetCombo->findText(i18n("Rotation"));
+            if (idx > -1) {
+                m_targetCombo->setCurrentIndex(idx);
+            }
+        }
         updateRange();
+        return;
+    }
+    if (type == ParamType::Roto_spline) {
+        m_sourceCombo->addItem(i18n("Rotoscoping shape"), ImportRoles::RotoData);
         return;
     }
     double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     m_sourceCombo->addItem(i18n("Geometry"), ImportRoles::FullGeometry);
     m_sourceCombo->addItem(i18n("Position"), ImportRoles::Position);
+    m_sourceCombo->addItem(i18n("Inverted Position"), ImportRoles::InvertedPosition);
+    m_sourceCombo->addItem(i18n("Offset Position"), ImportRoles::OffsetPosition);
     m_sourceCombo->addItem(i18n("X"), ImportRoles::XOnly);
     m_sourceCombo->addItem(i18n("Y"), ImportRoles::YOnly);
     if (wDist > 0) {
@@ -299,6 +368,12 @@ void KeyframeImport::updateDataDisplay()
     }
     if (hDist > 0) {
         m_sourceCombo->addItem(i18n("Height"), ImportRoles::HeightOnly);
+    }
+
+    // if available map to Rectangle by default
+    int idx = m_targetCombo->findText(i18n("Rectangle"));
+    if (idx > -1) {
+        m_targetCombo->setCurrentIndex(idx);
     }
     updateRange();
     /*if (!m_inPoint->isValid()) {
@@ -315,7 +390,12 @@ void KeyframeImport::updateDataDisplay()
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
-    m_alignCombo->setEnabled(pos == ImportRoles::Position);
+    m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_offsetX.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_offsetY.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
+    m_limitRange->setEnabled(pos != ImportRoles::RotoData);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
@@ -367,6 +447,13 @@ void KeyframeImport::updateRange()
 
 void KeyframeImport::updateDestinationRange()
 {
+    if (m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
+        m_destMin.setEnabled(false);
+        m_destMax.setEnabled(false);
+        m_limitRange->setEnabled(false);
+        return;
+    }
+
     if (m_simpleTargets.contains(m_targetCombo->currentText())) {
         // 1 dimension target
         m_destMin.setEnabled(true);
@@ -385,6 +472,7 @@ void KeyframeImport::updateDestinationRange()
         m_destMin.setEnabled(false);
         m_destMax.setEnabled(false);
         m_limitRange->setEnabled(false);
+        updateView();
     }
 }
 
@@ -475,6 +563,10 @@ QString KeyframeImport::selectedData() const
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->height()));
         }
         std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
+        if (m_dataCombo->currentText() == "spline") {
+            QJsonDocument doc = QJsonDocument::fromJson(m_dataCombo->currentData().toString().toLocal8Bit());
+            return QString(doc.toJson(QJsonDocument::Compact));
+        }
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         int existingKeys = anim->key_count();
@@ -511,9 +603,8 @@ QString KeyframeImport::selectedData() const
             anim2->interpolate();
             int length = lastKeyframe;
             double interval = double(length) / (m_limitNumber->value() - 1);
-            int pos = 0;
             for (int i = 0; i < m_limitNumber->value(); i++) {
-                pos = firstKeyframe + in + i * interval;
+                int pos = firstKeyframe + in + i * interval;
                 pos = qMin(pos, length - 1);
                 double dval = animData->anim_get_double("key", pos);
                 animData2->anim_set("key", dval, pos);
@@ -559,15 +650,13 @@ QString KeyframeImport::selectedData() const
                 keyPos = anim2->next_key(keyPos);
             }
             anim2->interpolate();
-            int length = lastKeyframe;
+            int length = lastKeyframe - firstKeyframe;
             double interval = double(length) / (m_limitNumber->value() - 1);
-            int pos = 0;
             for (int i = 0; i < m_limitNumber->value(); i++) {
-                pos = firstKeyframe + in + i * interval;
-                pos = qMin(pos, length - 1);
+                int pos = firstKeyframe + i * interval;
+                pos = qMin(pos, lastKeyframe);
                 mlt_rect rect = animData->anim_get_rect("key", pos);
                 animData2->anim_set("key", rect, pos);
-                
             }
             anim2->interpolate();
             return anim2->serialize_cut();
@@ -728,19 +817,33 @@ void KeyframeImport::importSelectedData()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Geometry target
-    int finalAlign = m_alignCombo->currentIndex();
+    int sourceAlign = m_alignSourceCombo->currentData().toInt();
+    int targetAlign = m_alignTargetCombo->currentData().toInt();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : qAsConst(m_indexes)) {
         // update keyframes in other indexes
         KeyframeModel *km = kfrModel->getKeyModel(ix);
         qDebug()<<"== "<<ix<<" = "<<m_targetCombo->currentData().toModelIndex();
-        if (ix == m_targetCombo->currentData().toModelIndex()) {
+
+        // wether we are mapping to a fake rectangle
+        bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
+        bool useOpacity = m_dataCombo->currentData(Qt::UserRole + 4).toBool();
+        if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes
-            int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
+            if (convertMode == ImportRoles::RotoData && m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
+                QJsonObject json = QJsonDocument::fromJson(selectedData().toLocal8Bit()).object();
+                for (int i = 0; i < json.count(); i++) {
+                    int frame = json.keys().at(i).toInt();
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType::Linear, json.value(json.keys().at(i)), true, undo, redo);
+                }
+                continue;
+            }
             mlt_keyframe_type type;
+            mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
             for (int i = 0; i < anim->key_count(); i++) {
+                int frame = 0;
                 int error = anim->key_get(i, frame, type);
                 if (error) {
                     continue;
@@ -753,6 +856,11 @@ void KeyframeImport::importSelectedData()
                 }
                 QStringList kfrData = current.toString().split(QLatin1Char(' '));
                 // Safety check
+                if (fakeRect) {
+                    while (kfrData.size() < 4) {
+                        kfrData.append("0");
+                    }
+                }
                 int size = kfrData.size();
                 switch (convertMode) {
                     case ImportRoles::FullGeometry:
@@ -763,6 +871,8 @@ void KeyframeImport::importSelectedData()
                         }
                         break;
                     case ImportRoles::Position:
+                    case ImportRoles::InvertedPosition:
+                    case ImportRoles::OffsetPosition:
                     case ImportRoles::YOnly:
                         if (size < 2) {
                             continue;
@@ -775,32 +885,116 @@ void KeyframeImport::importSelectedData()
                         break;
                 }
                 mlt_rect rect = animData->anim_get_rect("key", frame);
-                if (convertMode == ImportRoles::Position) {
-                    switch (finalAlign) {
+                if (!useOpacity) {
+                    rect.o = 1;
+                }
+                if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
+                    switch (sourceAlign) {
                     case 1:
+                        // Align top center
+                        rect.x += rect.w / 2;
+                        break;
+                    case 2:
+                        // Align top right
+                        rect.x += rect.w;
+                        break;
+                    case 3:
+                        // Align left center
+                        rect.y += rect.h / 2;
+                        break;
+                    case 4:
                         // Align center
                         rect.x += rect.w / 2;
                         rect.y += rect.h / 2;
                         break;
-                    case 2:
-                        //Align bottom right
+                    case 5:
+                        // Align right center
+                        rect.x += rect.w;
+                        rect.y += rect.h / 2;
+                        break;
+                    case 6:
+                        // Align bottom left
+                        rect.y += rect.h;
+                        break;
+                    case 7:
+                        // Align bottom center
+                        rect.x += rect.w / 2;
+                        rect.y += rect.h;
+                        break;
+                    case 8:
+                        // Align bottom right
                         rect.x += rect.w;
                         rect.y += rect.h;
                         break;
                     default:
                         break;
                     }
+                    switch (targetAlign) {
+                        case 1:
+                        // Align top center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        break;
+                    case 2:
+                        // Align top right
+                        rect.x -= kfrData[2].toInt();
+                        break;
+                    case 3:
+                        // Align left center
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 4:
+                        // Align center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 5:
+                        // Align right center
+                        rect.x -= kfrData[2].toInt();
+                        rect.y -= kfrData[3].toInt() / 2;
+                        break;
+                    case 6:
+                        // Align bottom left
+                        rect.y -= kfrData[3].toInt();
+                        break;
+                    case 7:
+                        // Align bottom center
+                        rect.x -= kfrData[2].toInt() / 2;
+                        rect.y -= kfrData[3].toInt();
+                        break;
+                    case 8:
+                        // Align bottom right
+                        rect.x -= kfrData[2].toInt();
+                        rect.y -= kfrData[3].toInt();
+                        break;
+                    default:
+                        break;
+                    }
                 }
+                rect.x += m_offsetX.value();
+                rect.y += m_offsetY.value();
                 switch (convertMode) {
+                    case ImportRoles::RotoData:
+                        break;
                     case ImportRoles::FullGeometry:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
                         kfrData[2] = locale.toString(int(rect.w));
                         kfrData[3] = locale.toString(int(rect.h));
+                        if (size > 4) {
+                            kfrData[4] = QString::number(rect.o);
+                        }
                         break;
                     case ImportRoles::Position:
                         kfrData[0] = locale.toString(int(rect.x));
                         kfrData[1] = locale.toString(int(rect.y));
+                        break;
+                    case ImportRoles::InvertedPosition:
+                        kfrData[0] = locale.toString(int(-rect.x));
+                        kfrData[1] = locale.toString(int(-rect.y));
+                        break;
+                    case ImportRoles::OffsetPosition:
+                        kfrData[0] = locale.toString(int(firstRect.x - rect.x));
+                        kfrData[1] = locale.toString(int(firstRect.y - rect.y));
                         break;
                     case ImportRoles::SimpleValue:
                     case ImportRoles::XOnly:
@@ -816,7 +1010,32 @@ void KeyframeImport::importSelectedData()
                         kfrData[3] = locale.toString(int(rect.h));
                         break;
                 }
-                current = kfrData.join(QLatin1Char(' '));
+                // map the fake rectangle internaly to the right params
+                QString name = ix.data(AssetParameterModel::NameRole).toString();
+                QSize frameSize = pCore->getCurrentFrameSize();
+                if (name.contains("Position X")
+                        && !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::YOnly) ) {
+                    current = kfrData[0].toDouble() / frameSize.width();
+                    if (convertMode == ImportRoles::FullGeometry) {
+                        current = current.toDouble() + rect.w / frameSize.width() / 2;
+                    }
+                } else if (name.contains("Position Y")
+                          && !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::XOnly)) {
+                    current = kfrData[1].toDouble() / frameSize.height();
+                    if (convertMode == ImportRoles::FullGeometry) {
+                        current = current.toDouble() + rect.h / frameSize.height() / 2;
+                    }
+                } else if (name.contains("Size X")
+                          && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition || convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::WidthOnly)) {
+                    current = kfrData[2].toDouble() / frameSize.width() / 2;
+                } else if (name.contains("Size Y")
+                          && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition || convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::HeightOnly)) {
+                    current = kfrData[3].toDouble() / frameSize.height() / 2;
+                } else if(fakeRect){
+                    current = km->getInterpolatedValue(frame).toDouble();
+                } else {
+                    current = kfrData.join(QLatin1Char(' '));
+                }
                 km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType(type), current, true, undo, redo);
             }
         } else {
@@ -842,4 +1061,259 @@ int KeyframeImport::getImportType() const
         return -1;
     }
     return m_sourceCombo->currentData().toInt();
+}
+
+void KeyframeImport::updateView()
+{
+    QPersistentModelIndex ix = m_targetCombo->currentData().toModelIndex();
+    QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
+
+    // Calculate updated keyframes
+    std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, selectedData());
+    std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
+    // Geometry target
+    int sourceAlign = m_alignSourceCombo->currentData().toInt();
+    int targetAlign = m_alignTargetCombo->currentData().toInt();
+    QLocale locale; // Import from clipboard – OK to use locale here?
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    // update keyframes in other indexes
+    if (!m_originalParams.contains(ix)) {
+        qDebug()<<"=== Original parameter not found";
+        return;
+    }
+    animData->set("original", m_originalParams.value(ix).toUtf8().constData());
+    std::shared_ptr<Mlt::Animation> animo(new Mlt::Animation(animData->get_animation("original")));
+    animo->interpolate();
+    // wether we are mapping to a fake rectangle
+    bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
+    // Import our keyframes
+    int frame = 0;
+    KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
+    mlt_keyframe_type type;
+    mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
+    for (int i = 0; i < anim->key_count(); i++) {
+        int error = anim->key_get(i, frame, type);
+        if (error) {
+            continue;
+        }
+        //QVariant current = km->getInterpolatedValue(frame);
+        mlt_rect sourceRect = animData->anim_get_rect("original", frame);
+        QStringList kfrData = {QString::number(sourceRect.x), QString::number(sourceRect.y), QString::number(sourceRect.w), QString::number(sourceRect.h), QString::number(sourceRect.o)};
+        // Safety check
+        if (fakeRect) {
+            while (kfrData.size() < 4) {
+                kfrData.append("0");
+            }
+        }
+        int size = kfrData.size();
+        switch (convertMode) {
+            case ImportRoles::FullGeometry:
+            case ImportRoles::HeightOnly:
+            case ImportRoles::WidthOnly:
+                if (size < 4) {
+                    continue;
+                }
+                break;
+            case ImportRoles::Position:
+            case ImportRoles::InvertedPosition:
+            case ImportRoles::OffsetPosition:
+            case ImportRoles::YOnly:
+                if (size < 2) {
+                    continue;
+                }
+                break;
+            default:
+                if (size == 0) {
+                    continue;
+                }
+                break;
+        }
+        mlt_rect rect = animData->anim_get_rect("key", frame);
+        if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
+            switch (sourceAlign) {
+            case 1:
+                // Align top center
+                rect.x += rect.w / 2;
+                break;
+            case 2:
+                // Align top right
+                rect.x += rect.w;
+            break;
+            case 3:
+                // Align left center
+                rect.y += rect.h / 2;
+                break;
+            case 4:
+                // Align center
+                rect.x += rect.w / 2;
+                rect.y += rect.h / 2;
+                break;
+            case 5:
+                // Align right center
+                rect.x += rect.w;
+                rect.y += rect.h / 2;
+                break;
+            case 6:
+                // Align bottom left
+                rect.y += rect.h;
+                break;
+            case 7:
+                // Align bottom center
+                rect.x += rect.w / 2;
+                rect.y += rect.h;
+                break;
+            case 8:
+                // Align bottom right
+                rect.x += rect.w;
+                rect.y += rect.h;
+                break;
+            default:
+                break;
+            }
+            switch (targetAlign) {
+                case 1:
+                // Align top center
+                rect.x -= kfrData[2].toInt() / 2;
+                break;
+            case 2:
+                // Align top right
+                rect.x -= kfrData[2].toInt();
+                break;
+            case 3:
+                // Align left center
+                rect.y -= kfrData[3].toInt() / 2;
+                break;
+            case 4:
+                // Align center
+                rect.x -= kfrData[2].toInt() / 2;
+                rect.y -= kfrData[3].toInt() / 2;
+                break;
+            case 5:
+                // Align right center
+                rect.x -= kfrData[2].toInt();
+                rect.y -= kfrData[3].toInt() / 2;
+                break;
+            case 6:
+                // Align bottom left
+                rect.y -= kfrData[3].toInt();
+                break;
+            case 7:
+                // Align bottom center
+                rect.x -= kfrData[2].toInt() / 2;
+                rect.y -= kfrData[3].toInt();
+                break;
+            case 8:
+                // Align bottom right
+                rect.x -= kfrData[2].toInt();
+                rect.y -= kfrData[3].toInt();
+                break;
+            default:
+                break;
+            }
+        }
+        rect.x += m_offsetX.value();
+        rect.y += m_offsetY.value();
+        switch (convertMode) {
+            case ImportRoles::RotoData:
+                break;
+            case ImportRoles::FullGeometry:
+                kfrData[0] = locale.toString(int(rect.x));
+                kfrData[1] = locale.toString(int(rect.y));
+                kfrData[2] = locale.toString(int(rect.w));
+                kfrData[3] = locale.toString(int(rect.h));
+                kfrData[4] = QString::number(rect.o);
+                break;
+            case ImportRoles::Position:
+                kfrData[0] = locale.toString(int(rect.x));
+                kfrData[1] = locale.toString(int(rect.y));
+                break;
+            case ImportRoles::InvertedPosition:
+                kfrData[0] = locale.toString(int(-rect.x));
+                kfrData[1] = locale.toString(int(-rect.y));
+                break;
+            case ImportRoles::OffsetPosition:
+                kfrData[0] = locale.toString(int(firstRect.x - rect.x));
+                kfrData[1] = locale.toString(int(firstRect.y - rect.y));
+                break;
+            case ImportRoles::SimpleValue:
+            case ImportRoles::XOnly:
+                kfrData[0] = locale.toString(int(rect.x));
+                break;
+            case ImportRoles::YOnly:
+                kfrData[1] = locale.toString(int(rect.y));
+                break;
+            case ImportRoles::WidthOnly:
+                kfrData[2] = locale.toString(int(rect.w));
+                break;
+            case ImportRoles::HeightOnly:
+                kfrData[3] = locale.toString(int(rect.h));
+                break;
+        }
+        // map the fake rectangle internaly to the right params
+        QString name = ix.data(AssetParameterModel::NameRole).toString();
+        QSize frameSize = pCore->getCurrentFrameSize();
+        QString current;
+        if (name.contains("Position X")
+                && !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::YOnly) ) {
+            current = kfrData[0].toDouble() / frameSize.width();
+            if (convertMode == ImportRoles::FullGeometry) {
+                current = current.toDouble() + rect.w / frameSize.width() / 2;
+            }
+        } else if (name.contains("Position Y")
+                        && !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::XOnly)) {
+            current = kfrData[1].toDouble() / frameSize.height();
+            if (convertMode == ImportRoles::FullGeometry) {
+                current = current.toDouble() + rect.h / frameSize.height() / 2;
+            }
+        } else if (name.contains("Size X")
+                        && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition || convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::WidthOnly)) {
+            current = kfrData[2].toDouble() / frameSize.width() / 2;
+        } else if (name.contains("Size Y")
+                        && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition || convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::HeightOnly)) {
+            current = kfrData[3].toDouble() / frameSize.height() / 2;
+        } else if(fakeRect){
+            current = QString::number(animData->anim_get_double("original", frame));
+        } else {
+            current = kfrData.join(QLatin1Char(' '));
+        }
+        animData->anim_set("key2", current.toUtf8().constData(), frame - m_inPoint->getPosition() + m_offsetPoint->getPosition());
+    }
+    std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData->get_animation("key2")));
+    anim2->interpolate();
+    m_model->getAsset()->set(paramName.toUtf8().constData(), anim2->serialize_cut());
+    if (m_model->getOwnerId().first == ObjectType::BinClip) {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
+    } else {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
+    }
+    emit updateQmlView();
+}
+
+void KeyframeImport::reject()
+{
+    if (m_targetCombo == nullptr) {
+        // no data to import, close
+        QDialog::reject();
+        return;
+    }
+    for (int i = 0; i < m_targetCombo->count(); i++) {
+        QPersistentModelIndex ix = m_targetCombo->itemData(i).toModelIndex();
+        if (m_originalParams.contains(ix)) {
+            QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
+            m_model->getAsset()->set(paramName.toUtf8().constData(), m_originalParams.value(ix).toUtf8().constData());
+        }
+    }
+    if (m_model->getOwnerId().first == ObjectType::BinClip) {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
+    } else {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
+    }
+    emit updateQmlView();
+    QDialog::reject();
+}
+
+void KeyframeImport::accept()
+{
+    importSelectedData();
+    QDialog::accept();
 }

@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef ABSTRACTPARAMWIDGET_H
 #define ABSTRACTPARAMWIDGET_H
@@ -37,7 +21,7 @@ class AbstractParamWidget : public QWidget
     Q_OBJECT
 public:
     AbstractParamWidget() = delete;
-    AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, QWidget *parent);
     ~AbstractParamWidget() override = default;
 
     /** @brief Factory method to construct a parameter widget.
@@ -45,7 +29,7 @@ public:
         @param index Index of the parameter in the given model
         @param parent parent widget
     */
-    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, QModelIndex index, QSize frameSize, QWidget *parent);
+    static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent);
 
 signals:
     /** @brief Signal sent when the parameters hold by the widgets are modified
@@ -54,7 +38,6 @@ signals:
         The bool allows to decide whether an undo object should be created
      */
     void valueChanged(QModelIndex, QString, bool);
-    void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
 
     /** @brief Signal sent when the filter needs to be deactivated or reactivated.
        This happens for example when the user has to pick a color.
@@ -62,13 +45,13 @@ signals:
     void disableCurrentFilter(bool);
 
     void seekToPos(int);
-    void updateHeight(int height = -1);
+    void updateHeight();
     void activateEffect();
 
 public slots:
     /** @brief Toggle the comments on or off
      */
-    virtual void slotShowComment(bool) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
+    virtual void slotShowComment(bool /*show*/) { qDebug() << "DEBUG: show_comment not correctly overridden"; }
 
     /** @brief refresh the properties to reflect changes in the model
      */

@@ -1,19 +1,8 @@
-/***************************************************************************
-                          positionedit.cpp  -  description
-                             -------------------
-    begin                : 03 Aug 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Marco Gittler <g.marco@freenet.de>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "positionwidget.h"
 
@@ -84,6 +73,7 @@ void PositionWidget::setRange(int min, int max, bool absolute)
         m_slider->setRange(0, max - min);
         m_display->setRange(0, max - min);
     }
+    m_slider->setSingleStep(std::ceil((max - min) / 10.));
 }
 
 bool PositionWidget::isValid() const

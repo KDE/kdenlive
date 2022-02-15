@@ -66,14 +66,16 @@ cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 # TO remove once we switch to the newer Qt5.12 Appimage dependency
 # cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 
-cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
-cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/share/mlt-7  $APPDIR/usr/share
+cp -r $DEPS_INSTALL_PREFIX/lib/mlt-7  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libharfbuzz*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libfribidi*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libpango*  $APPDIR/usr/lib
+cp -r $DEPS_INSTALL_PREFIX/lib/ladspa  $APPDIR/usr/lib || true
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/frei0r-1  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/bin/melt  $APPDIR/usr/bin
+cp -r $DEPS_INSTALL_PREFIX/bin/melt-7  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffmpeg  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffplay  $APPDIR/usr/bin
 cp -r $DEPS_INSTALL_PREFIX/bin/ffprobe  $APPDIR/usr/bin
@@ -84,7 +86,7 @@ cp -r $DEPS_INSTALL_PREFIX/plugins/audio  $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/org.kde.kdecoration2 $APPIMAGEPLUGINS
 cp -r $DEPS_INSTALL_PREFIX/plugins/kstyle_breeze_config.so $APPIMAGEPLUGINS
 
-cp $BUILD_PREFIX/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1 || true
+#cp $BUILD_PREFIX/deps-build/ext_bigshot/ext_bigshot-prefix/src/ext_bigshot-build/*.so $APPDIR/usr/lib/frei0r-1 || true
 mkdir -p $APPDIR/usr/libexec
 
 cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
@@ -128,7 +130,7 @@ done
 #  patchelf --set-rpath '$ORIGIN/../../lib' $lib;
 #done
 
-for lib in $APPDIR/usr/lib/mlt/*.so*; do
+for lib in $APPDIR/usr/lib/mlt-7/*.so*; do
   patchelf --set-rpath '$ORIGIN/..' $lib;
 done
 
@@ -189,7 +191,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -qmldir=$DEPS_INSTALL_PREFIX/qml \
   -verbose=2 \
   -bundle-non-qt-libs \
-  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins,$APPDIR/usr/qml,$APPDIR/usr/share/locale \
+  -extra-plugins=$APPDIR/usr/lib/mlt-7,$APPDIR/usr/plugins,$APPDIR/usr/qml,$APPDIR/usr/share/locale \
   -exclude-libs=libnss3.so,libnssutil3.so,libGL.so.1
 
 #  -appimage \
@@ -212,7 +214,7 @@ rm  $APPDIR/AppRun
 cat > $APPDIR/AppRun << EOF
 #!/bin/bash
 
-DIR="\`dirname \"\$0\"\`" 
+DIR="\`dirname \"\$0\"\`"
 DIR="\`( cd \"\$DIR\" && pwd )\`"
 export APPDIR=\$DIR
 export LC_ALL=\$LANG
@@ -229,14 +231,14 @@ export XDG_CONFIG_HOME=\$HOME/.config/
 export PATH=\$DIR/usr/bin:\$DIR/usr/lib:\$DIR/usr/lib/libexec/kf5::\$PATH
 export KDE_FORK_SLAVES=1
 
-export MLT_REPOSITORY=\$DIR/usr/lib/mlt/
-export MLT_DATA=\$DIR/usr/share/mlt/
+export MLT_REPOSITORY=\$DIR/usr/lib/mlt-7/
+export MLT_DATA=\$DIR/usr/share/mlt-7/
 export MLT_ROOT_DIR=\$DIR/usr/
 export LADSPA_PATH=\$DIR/usr/lib/ladspa
 export LIBVA_DRIVERS_PATH=\$DIR/usr/lib/va
 export FREI0R_PATH=\$DIR/usr/lib/frei0r-1
-export MLT_PROFILES_PATH=\$DIR/usr/share/mlt/profiles/
-export MLT_PRESETS_PATH=\$DIR/usr/share/mlt/presets/
+export MLT_PROFILES_PATH=\$DIR/usr/share/mlt-7/profiles/
+export MLT_PRESETS_PATH=\$DIR/usr/share/mlt-7/presets/
 export SDL_AUDIODRIVER=pulseaudio
 export GST_PLUGIN_SCANNER=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
 export GST_PLUGIN_PATH=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/
@@ -250,6 +252,8 @@ export APPIMAGE_STARTUP_LD_LIBRARY_PATH=\$LD_LIBRARY_PATH
 export APPIMAGE_STARTUP_QT_PLUGIN_PATH=\$QT_PLUGIN_PATH
 export APPIMAGE_STARTUP_XDG_DATA_DIRS=\$XDG_DATA_DIRS
 export APPIMAGE_STARTUP_PATH=\$PATH
+
+export PACKAGE_TYPE=appimage
 
 kdenlive --config kdenlive-appimagerc \$@
 EOF
@@ -269,6 +273,21 @@ else
 	VERSION=$KDENLIVE_VERSION
 fi
 
+# Check that important libraries are in
+RequiredLibs=("$APPDIR/usr/lib/mlt-7/libmltfrei0r.so" "$APPDIR/usr/lib/mlt-7/libmltavformat.so" "$APPDIR/usr/lib/mlt-7/libmltvidstab.so" "$APPDIR/usr/lib/mlt-7/libmltrubberband.so")
+RecommendedLibs=("$APPDIR/usr/lib/mlt-7/libmltopencv.so" "$APPDIR/usr/share/locale/fr/LC_MESSAGES/kdenlive.mo")
+
+set +x
+
+for val1 in ${RequiredLibs[*]}; do
+    if [ ! -f $val1 ]; then
+        printf  "+++++++++++++++++++\n\n MISSING: $val1\n\n+++++++++++++++++++++++"
+        exit 1
+    fi
+done
+
+set -x
+
 # Return to our build root
 cd $BUILD_PREFIX
 
@@ -278,3 +297,10 @@ appimagetool $APPDIR
 APPIMAGE=kdenlive-"$VERSION"-x86_64.appimage
 mv Kdenlive-x86_64.AppImage $APPIMAGE
 
+set +x
+
+for val2 in ${RecommendedLibs[*]}; do
+    if [ ! -f $val2 ]; then
+        printf  "+++++++++++++++++++\n\nMISSING: $val2\n\n+++++++++++++++++++++++"
+    fi
+done

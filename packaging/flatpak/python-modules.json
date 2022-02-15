@@ -1,0 +1,89 @@
+{
+    "name": "python-modules",
+    "modules": [
+      {
+        "name": "pyaaf2",
+        "buildsystem": "simple",
+        "build-commands": [
+          "python3 setup.py install --prefix=/app --root=/"
+        ],
+        "sources": [
+          {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/69/0a/64f466f1517c9e5d63f8d65545aca085a2dfa47d5c0332d5dafea25d7785/pyaaf2-1.4.0.tar.gz",
+            "sha256": "160d3c26c7cfef7176d0bdb0e55772156570435982c3abfa415e89639f76e71b"
+          }
+        ]
+      },
+      {
+        "name": "OpenTimelineIO",
+        "buildsystem": "simple",
+        "build-commands": [
+          "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.9'|\" -i setup.py",
+          "python3 setup.py install --prefix=/app --root=/"
+        ],
+        "sources": [
+          {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/9c/6a/d74b3ab7e7b21cafafb7f746ce50fd414fcc2a8abee7a53701a1ab3975ea/OpenTimelineIO-0.14.1.tar.gz",
+            "sha256": "0b9adc0fd303b978af120259d6b1d23e0623800615b4a3e2eb9f9fb2c70d5d13"
+          }
+        ]
+      },
+      {
+        "name": "python3-cffi",
+        "skip-arches": ["aarch64"],
+        "buildsystem": "simple",
+        "build-commands": [
+          "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"cffi\" --no-build-isolation"
+        ],
+        "sources": [
+          {
+              "type": "file",
+              "url": "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz",
+              "sha256": "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
+          },
+          {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl",
+            "sha256": "8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"
+          }
+        ]
+      },
+      {
+        "name": "python3-vosk",
+        "skip-arches": ["aarch64"],
+        "buildsystem": "simple",
+        "build-commands": [
+          "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"vosk\" --no-build-isolation"
+        ],
+        "sources": [
+          {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/e0/d8/73fa801ee551a2aadc859e07d1e81031407317b3d34dd9f49b49734158ed/vosk-0.3.32-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl",
+            "sha256": "cbc18e23abba1db37db5545c167f00133df8c040b54df7b11d53a1167b9bdbde"
+          },
+          {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/22/67/73c70f4ba6e32c6e089888086a29078d53123cec4c7d8ef050355d24020f/vosk-0.3.32-py3-none-linux_armv7l.whl",
+            "sha256": "12978cd72ef01923434e42a26b572a1e4ffbb90aaa41e71fdbd990da612b929f"
+          }
+        ]
+      },
+      {
+        "name": "python3-srt",
+        "skip-arches": ["aarch64"],
+        "buildsystem": "simple",
+        "build-commands": [
+          "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"srt\" --no-build-isolation"
+        ],
+        "sources": [
+          {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/c6/7f/cff94ab26fffeacf1f64d9ba1ef0d3045e958159e450360b0d8a9e1a3b7e/srt-3.5.0.tar.gz",
+            "sha256": "9378e67fcc7c110eca7ec12bdb17a174085f67e3b371f7e586a4c68a0dda245b"
+          }
+        ]
+      }
+    ]
+}

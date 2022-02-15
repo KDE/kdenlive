@@ -1,11 +1,6 @@
 /*
-Copyright (C) 2020 Simon A. Eugster <simon.eu@gmail.com>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2020 Simon A. Eugster <simon.eu@gmail.com>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "localeHandling.h"
@@ -50,11 +45,11 @@ void LocaleHandling::resetLocale()
 void LocaleHandling::resetAllLocale()
 {
 #ifdef Q_OS_FREEBSD
-    setlocale(LC_ALL, "C");
+    setlocale(LC_ALL, "C.UTF-8");
 #else
-    std::setlocale(LC_ALL, "C");
+    std::setlocale(LC_ALL, "C.UTF-8");
 #endif
-    ::qputenv("LC_ALL", "C");
+    ::qputenv("LC_ALL", "C.UTF-8");
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)

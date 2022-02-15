@@ -1,37 +1,28 @@
 /*
- * Copyright (c) 2013-2021 Meltytech, LLC
- * Copyright (c) 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2021 Meltytech LLC
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "audiolevelstask.h"
-#include "core.h"
-#include "bin/projectitemmodel.h"
-#include "bin/projectclip.h"
 #include "audio/audioStreamInfo.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
 
-#include <QString>
-#include <QVariantList>
+#include <KMessageWidget>
+#include <QElapsedTimer>
+#include <QFile>
 #include <QImage>
 #include <QList>
-#include <QRgb>
-#include <QThreadPool>
 #include <QMutex>
+#include <QRgb>
+#include <QString>
+#include <QThreadPool>
 #include <QTime>
-#include <QFile>
-#include <QElapsedTimer>
+#include <QVariantList>
+#include <klocalizedstring.h>
 
 static QList<AudioLevelsTask*> tasksList;
 static QMutex tasksListMutex;
@@ -52,8 +43,9 @@ void AudioLevelsTask::start(const QUuid &uuid, const ObjectId &owner, QObject* o
     AudioLevelsTask* task = new AudioLevelsTask(uuid, owner, object);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
+        qDebug()<<"AUDIO LEVELS TASK STARTED TWICE!!!!";
         delete task;
-        task = 0;
+        task = nullptr;
     }
     if (task) {
         // Otherwise, start a new audio levels generation thread.
@@ -83,15 +75,16 @@ void AudioLevelsTask::run()
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
     if ((producer == nullptr) || !producer->is_valid()) {
-        /*m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
-        m_done = true;
-        m_successful = false;*/
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", QFileInfo(binClip->url()).fileName())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int lengthInFrames = producer->get_length(); // Multiply this if we want more than 1 sample per frame
-    if (lengthInFrames == INT_MAX) {
+    if (lengthInFrames == INT_MAX || lengthInFrames == 0) {
         // This is a broken file or live feed, don't attempt to generate audio thumbnails
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
@@ -104,6 +97,7 @@ void AudioLevelsTask::run()
     QMap <int, QString> streams = binClip->audioInfo()->streams();
     QMap <int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
+    bool audioCreated = false;
     while (st.hasNext() && !m_isCanceled) {
         st.next();
         int stream = st.key();
@@ -113,7 +107,6 @@ void AudioLevelsTask::run()
         // Generate one thumb per stream
         QString cachePath = binClip->getAudioThumbPath(stream);
         QVector <uint8_t> mltLevels;
-        qDebug()<<" TESTING AUDIO CACHE : "<<cachePath;
         if (!m_isForce && QFile::exists(cachePath)) {
             // Audio thumb already exists
             QImage image(cachePath);
@@ -145,7 +138,8 @@ void AudioLevelsTask::run()
         }
         QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
         if (!audioProducer->is_valid()) {
-            //m_errorMessage.append(i18n("Audio thumbs: cannot open file %1", producer->get("resource")));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -198,7 +192,7 @@ void AudioLevelsTask::run()
                 QString key = QString("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
                 producer->unlock();
-                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
+                QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
             }
         }
         
@@ -219,10 +213,9 @@ void AudioLevelsTask::run()
             producer->set(key2.toUtf8().constData(), int(maxLevel));
             producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
             producer->unlock();
-            qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
+            //qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail");
             // Put into an image for caching.
             int count = mltLevels.size();
             QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
@@ -242,9 +235,14 @@ void AudioLevelsTask::run()
                 image.setPixel(i / 2, i % channels, p);
             }
             image.save(cachePath);
+            audioCreated = true;
+            QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
         }
     }
-    qDebug()<<"============= TASK WAS CANCELED: "<<m_isCanceled<<"\n\n===================";
+    if (!audioCreated && !m_isCanceled) {
+        // Audio was cached, ensure the bin thumbnail is loaded
+        QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, true));
+    }
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
 }

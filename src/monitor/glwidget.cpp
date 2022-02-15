@@ -1,24 +1,16 @@
 /*
- * Copyright (c) 2011-2016 Meltytech, LLC
- * Original author: Dan Dennedy <dan@dennedy.org>
- * Modified for Kdenlive: Jean-Baptiste Mardelle
- *
- * GL shader based on BSD licensed code from Peter Bengtsson:
- * https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2011-2016 Meltytech LLC
+    SPDX-FileCopyrightText: Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    
+    GL shader based on BSD licensed code from Peter Bengtsson:
+    https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
+    SPDX-FileCopyrightText: 2004 Peter Bengtsson
+
+    SPDX-License-Identifier: BSD-3-Clause
+*/
 
 #include <KDeclarative/KDeclarative>
 #include <KLocalizedContext>
@@ -40,8 +32,8 @@
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"
 #include "timeline2/view/qmltypes/thumbnailprovider.h"
-#include <mlt++/Mlt.h>
 #include <lib/localeHandling.h>
+#include <mlt++/Mlt.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
 #ifdef GL_UNPACK_ROW_LENGTH_EXT
@@ -122,7 +114,10 @@ GLWidget::GLWidget(int id, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-    m_offscreenSurface.setFormat(QOpenGLContext::globalShareContext()->format());
+    auto fmt = QOpenGLContext::globalShareContext()->format();
+    fmt.setDepthBufferSize(format().depthBufferSize());
+    fmt.setStencilBufferSize(format().stencilBufferSize());
+    m_offscreenSurface.setFormat(fmt);
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
@@ -139,7 +134,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
-    connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
+    //connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -311,9 +306,9 @@ void GLWidget::createYUVTextureProjectFragmentProg()
                                       "varying highp vec2 coordinates;"
                                       "void main(void) {"
                                       "  mediump vec3 texel;"
-                                      "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
-                                      "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
-                                      "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
+                                      "  texel.r = texture2D(Ytex, coordinates).r - 16.0/255.0;" // Y
+                                      "  texel.g = texture2D(Utex, coordinates).r - 128.0/255.0;"    // U
+                                      "  texel.b = texture2D(Vtex, coordinates).r - 128.0/255.0;"    // V
                                       "  mediump mat3 coefficients;"
                                       "  if (colorspace == 601) {"
                                       "    coefficients = mat3("
@@ -417,7 +412,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_glsl_texture)));
+            m_texture[0] = *(reinterpret_cast<const GLuint *>(m_sharedFrame.get_image(mlt_image_opengl_texture)));
         }
     }
 
@@ -581,11 +576,15 @@ void GLWidget::paintGL()
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
+        if (!qFuzzyCompare(m_zoom, 1.0f)) {
+            // Disable monitor zoom to render frame
+            modelView = QMatrix4x4();
+            m_shader->setUniformValue(m_modelViewLocation, modelView);
+        }
         if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
             fmt.setSamples(1);
-            fmt.setInternalTextureFormat(GL_RGB);                             // GL_RGBA32F);  // which one is the fastest ?
             m_fbo = new QOpenGLFramebufferObject(m_profileSize.width(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
@@ -622,21 +621,11 @@ void GLWidget::paintGL()
 void GLWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
-        if (qFuzzyCompare(m_zoom, 1.0f)) {
-            setZoom(2.0f);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(3.0f);
-        } else if (m_zoom < 1.0f) {
-            setZoom(m_zoom * 2);
+        if (m_zoom < 12.0f) {
+            setZoom(m_zoom * 1.2);
         }
-    } else {
-        if (qFuzzyCompare(m_zoom, 3.0f)) {
-            setZoom(2.0);
-        } else if (qFuzzyCompare(m_zoom, 2.0f)) {
-            setZoom(1.0);
-        } else if (m_zoom > 0.2f) {
-            setZoom(m_zoom / 2);
-        }
+    } else if (m_zoom > 0.2f) {
+        setZoom(m_zoom / 1.2f);
     }
 }
 
@@ -651,9 +640,13 @@ bool GLWidget::isReady() const
     return m_consumer != nullptr;
 }
 
-void GLWidget::requestSeek(int position)
+void GLWidget::requestSeek(int position, bool noAudioScrub)
 {
-    m_consumer->set("scrub_audio", 1);
+    if(KdenliveSettings::audio_scrub() && !noAudioScrub){
+        m_consumer->set("scrub_audio", 1);
+    } else {
+        m_consumer->set("scrub_audio", 0);
+    }
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
@@ -689,11 +682,16 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
-    int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
-        if (isPlaying && pos >= maxPos) {
+        if (isPlaying && pos >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
+                m_producer->set_speed(0);
+                m_proxy->setSpeed(0);
+                m_consumer->set("refresh", 0);
+                m_proxy->setPosition(m_loopOut);
+                m_producer->seek(m_loopOut);
+                m_loopOut = 0;
                 return false;
             }
             m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
@@ -704,8 +702,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        maxPos -= offset;
-        if (pos >= (maxPos - 1) && !(speed < 0.)) {
+        int maxPos = m_producer->get_length() - 1 - offset;
+        if (pos > maxPos - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
@@ -730,7 +728,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
+    if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
         QQuickView::mousePressEvent(event);
@@ -750,8 +748,8 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
-    event->accept();
     QQuickView::mousePressEvent(event);
+    event->accept();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -808,24 +806,33 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
     (*thread)->start();
 }
 
-static void onThreadCreate(mlt_properties owner, GLWidget *self, RenderThread **thread, int *priority, thread_function_t function, void *data)
+
+static void onThreadCreate(mlt_properties owner, GLWidget* self, mlt_event_data data)
 {
     Q_UNUSED(owner)
-    Q_UNUSED(priority)
-    // self->clearFrameRenderer();
-    self->createThread(thread, function, data);
-    self->lockMonitor();
+    auto threadData = (mlt_event_data_thread*) Mlt::EventData(data).to_object();
+    if (threadData) {
+        auto renderThread = (RenderThread*) threadData->thread;
+        self->createThread(&renderThread, threadData->function, threadData->data);
+        // TODO: useless ?
+        // self->lockMonitor();
+    }
 }
 
-static void onThreadJoin(mlt_properties owner, GLWidget *self, RenderThread *thread)
+static void onThreadJoin(mlt_properties owner, GLWidget* self, mlt_event_data data)
 {
     Q_UNUSED(owner)
-    if (thread) {
-        thread->quit();
-        thread->wait();
-        delete thread;
-        // self->clearFrameRenderer();
-        self->releaseMonitor();
+    Q_UNUSED(self)
+    auto threadData = (mlt_event_data_thread*) Mlt::EventData(data).to_object();
+    if (threadData) {
+        auto renderThread = (RenderThread*) threadData->thread;
+        if (renderThread) {
+            renderThread->quit();
+            renderThread->wait();
+            delete renderThread;
+            // TODO: useless ?
+            // self->releaseMonitor();
+        }
     }
 }
 
@@ -843,7 +850,7 @@ void GLWidget::startGlsl()
     }
 }
 
-static void onThreadStarted(mlt_properties owner, GLWidget *self)
+static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->startGlsl();
@@ -874,7 +881,7 @@ void GLWidget::stopGlsl()
     m_texture[0] = 0;
 }
 
-static void onThreadStopped(mlt_properties owner, GLWidget *self)
+static void onThreadStopped(mlt_properties owner, GLWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->stopGlsl();
@@ -946,7 +953,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         m_proxy->resetPosition();
     }
     m_consumer->set("scrub_audio", 0);
-    m_proxy->setPosition(position > 0 ? position : m_producer->position());
+    if(position != -2) {
+        m_proxy->setPositionAdvanced(position > 0 ? position : m_producer->position(), true);
+    }
     return error;
 }
 
@@ -1084,7 +1093,7 @@ int GLWidget::reconfigure()
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), audioBackend.toLatin1().constData()));
+            m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
             } else {
@@ -1096,7 +1105,7 @@ int GLWidget::reconfigure()
                         // Already tested
                         continue;
                     }
-                    m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), bk.toLatin1().constData()));
+                    m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), bk.toLatin1().constData()));
                     if (m_consumer->is_valid()) {
                         if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
                             // switch sdl audio backend
@@ -1130,7 +1139,7 @@ int GLWidget::reconfigure()
 
         delete m_threadCreateEvent;
         delete m_threadJoinEvent;
-        if (m_consumer) {
+        if (m_glslManager) {
             m_threadCreateEvent = m_consumer->listen("consumer-thread-create", this, mlt_listener(onThreadCreate));
             m_threadJoinEvent = m_consumer->listen("consumer-thread-join", this, mlt_listener(onThreadJoin));
         }
@@ -1188,8 +1197,9 @@ int GLWidget::reconfigure()
                 m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
             }
         }
-        /*if (!pCore->getCurrentProfile()->progressive())
-            m_consumer->set("progressive", property("progressive").toBool());*/
+        if (!pCore->getProjectProfile()->progressive()) {
+            m_consumer->set("progressive", KdenliveSettings::monitor_progressive());
+        }
         m_consumer->set("volume", volume / 100.0);
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
@@ -1205,7 +1215,11 @@ int GLWidget::reconfigure()
         m_consumer->set("buffer", qMax(25, fps));
         m_consumer->set("prefill", qMax(1, fps / 25));
         m_consumer->set("drop_max", fps / 4);
-        m_consumer->set("scrub_audio", 1);
+        if (KdenliveSettings::audio_scrub()) {
+            m_consumer->set("scrub_audio", 1);
+        } else {
+            m_consumer->set("scrub_audio", 0);
+        }
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         } else {
@@ -1261,9 +1275,12 @@ QPoint GLWidget::offset() const
 
 void GLWidget::setZoom(float zoom)
 {
+    if (m_zoom == zoom) {
+        return;
+    }
     double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
-    emit zoomChanged();
+    emit zoomChanged(zoomRatio);
     if (rootObject()) {
         rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
@@ -1358,39 +1375,6 @@ void GLWidget::resetConsumer(bool fullReset)
     reconfigure();
 }
 
-const QString GLWidget::sceneList(const QString &root, const QString &fullPath, QString filterData)
-{
-    LocaleHandling::resetLocale();
-    QString playlist;
-    Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
-    if (!root.isEmpty()) {
-        xmlConsumer.set("root", root.toUtf8().constData());
-    }
-    if (!xmlConsumer.is_valid()) {
-        return QString();
-    }
-    xmlConsumer.set("store", "kdenlive");
-    xmlConsumer.set("time_format", "clock");
-    // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
-    // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
-    // xmlConsumer.set("no_meta", 1);
-    Mlt::Service s(m_producer->get_service());
-    std::unique_ptr<Mlt::Filter> filter = nullptr;
-    if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
-        filter->set("fgcolour", "#ffffff");
-        filter->set("bgcolour", "#bb333333");
-        s.attach(*filter.get());
-    }
-    xmlConsumer.connect(s);
-    xmlConsumer.run();
-    if (filter) {
-        s.detach(*filter.get());
-    }
-    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
-    return playlist;
-}
-
 void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 {
     m_texture[0] = yName;
@@ -1398,11 +1382,10 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     m_texture[2] = vName;
 }
 
-void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
-    if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
+    auto frame = Mlt::EventData(data).to_frame();
+    if (frame.is_valid() && frame.get_int("rendered")) {
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1410,11 +1393,10 @@ void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
     }
 }
 
-void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_nosync_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1422,11 +1404,10 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
     }
 }
 
-void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+void GLWidget::on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
 {
-    Mlt::Frame frame(frame_ptr);
+    auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1635,7 +1616,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         m_proxy->setSpeed(speed);
         if (qFuzzyCompare(speed, 1.0) || speed < -6. || speed > 6.) {
             m_consumer->set("scrub_audio", 0);
-        } else {
+        } else if (KdenliveSettings::audio_scrub()){
             m_consumer->set("scrub_audio", 1);
         }
         if (qFuzzyIsNull(current_speed)) {
@@ -1666,7 +1647,7 @@ bool GLWidget::playZone(bool loop)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", m_proxy->zoneOut());
+    m_loopOut = m_proxy->zoneOut();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1704,7 +1685,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     m_consumer->purge();
-    m_producer->set("out", inOut.y());
+    m_loopOut = inOut.y();
     m_producer->set_speed(1.0);
     restartConsumer();
     m_consumer->set("scrub_audio", 0);
@@ -1719,8 +1700,8 @@ void GLWidget::resetZoneMode()
     if (!m_isZoneMode && !m_isLoopMode) {
         return;
     }
-    m_producer->set("out", m_producer->get_length());
     m_loopIn = 0;
+    m_loopOut = 0;
     m_isZoneMode = false;
     m_isLoopMode = false;
 }
@@ -1846,7 +1827,6 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 
 bool GLWidget::updateScaling()
 {
-#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
@@ -1873,26 +1853,13 @@ bool GLWidget::updateScaling()
         return false;
     }
     m_profileSize = profileSize;
+    pCore->getMonitorProfile().set_width(m_profileSize.width());
+    pCore->getMonitorProfile().set_height(m_profileSize.height());
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());
         resizeGL(width(), height());
     }
-#else
-    int previewHeight = pCore->getCurrentFrameSize().height();
-    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-    if (pWidth% 2 > 0) {
-        pWidth ++;
-    }
-    QSize profileSize(pWidth, previewHeight);
-    if (profileSize == m_profileSize) {
-        return false;
-    }
-    m_profileSize = profileSize;
-    if (m_consumer) {
-        resizeGL(width(), height());
-    }
-#endif
     return true;
 }
 

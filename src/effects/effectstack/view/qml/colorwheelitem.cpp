@@ -1,24 +1,13 @@
 /*
- * Copyright (c) 2013-2016 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- * Author: Brian Matherly <pez4brian@yahoo.com>
- * Author: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
- * Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
- * and Steinar Gunderson's Movit demo app.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2013-2016 Meltytech LLC
+    SPDX-FileCopyrightText: 2013-2016 Dan Dennedy <dan@dennedy.org>
+    SPDX-FileCopyrightText: 2013-2016 Brian Matherly <pez4brian@yahoo.com>
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org> small adaptations for Kdenlive
+    Some ideas came from Qt-Plus: https://github.com/liuyanghejerry/Qt-Plus
+    and Steinar Gunderson's Movit demo app.
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "colorwheelitem.h"
 #include <QApplication>
@@ -28,54 +17,6 @@
 #include <qmath.h>
 
 static const qreal WHEEL_SLIDER_RATIO = 10.0;
-
-NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromHsvF(h, s, l < 0 ? -l : l, a);
-    color.sign_r = l < 0 ? -1 : 1;
-    color.sign_g = l < 0 ? -1 : 1;
-    color.sign_b = l < 0 ? -1 : 1;
-    return color;
-}
-
-NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
-{
-    NegQColor color;
-    color.qcolor = QColor::fromRgbF(r < 0 ? -r : r, g < 0 ? -g : g, b < 0 ? -b : b, a);
-    color.sign_r = r < 0 ? -1 : 1;
-    color.sign_g = g < 0 ? -1 : 1;
-    color.sign_b = b < 0 ? -1 : 1;
-    return color;
-}
-qreal NegQColor::redF()
-{
-    return qcolor.redF() * sign_r;
-}
-qreal NegQColor::greenF()
-{
-    return qcolor.greenF() * sign_g;
-}
-qreal NegQColor::blueF()
-{
-    return qcolor.blueF() * sign_b;
-}
-qreal NegQColor::valueF()
-{
-    return qcolor.valueF() * sign_g;
-}
-int NegQColor::hue()
-{
-    return qcolor.hue();
-}
-qreal NegQColor::hueF()
-{
-    return qcolor.hueF();
-}
-qreal NegQColor::saturationF()
-{
-    return qcolor.saturationF();
-}
 
 ColorWheelItem::ColorWheelItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)

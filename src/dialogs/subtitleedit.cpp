@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2020 by Jean-Baptiste Mardelle                          *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "subtitleedit.h"
 #include "bin/model/subtitlemodel.hpp"
@@ -25,10 +9,10 @@
 
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "timecodedisplay.h"
+#include "widgets/timecodedisplay.h"
 
-#include "klocalizedstring.h"
 #include "QTextEdit"
+#include "klocalizedstring.h"
 
 #include <QEvent>
 #include <QKeyEvent>
@@ -73,12 +57,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
-    connect(subText, &KTextEdit::textChanged, [this]() {
+    connect(subText, &KTextEdit::textChanged, this, [this]() {
         if (m_activeSub > -1) {
             buttonApply->setEnabled(true);
         }
     });
-    connect(subText, &KTextEdit::cursorPositionChanged, [this]() {
+    connect(subText, &KTextEdit::cursorPositionChanged, this, [this]() {
         if (m_activeSub > -1) {
             buttonCut->setEnabled(true);
         }
@@ -99,7 +83,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     duration_box->addWidget(m_duration);
     spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     duration_box->addSpacerItem(spacer);
-    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -109,7 +93,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
         }
     });
-    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -119,7 +103,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
         }
     });
-    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
@@ -163,7 +147,7 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
         QSignalBlocker bk(subText);
         subText->clear();
     } else {
-        connect(m_model.get(), &SubtitleModel::dataChanged, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
+        connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
             if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
                 if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) || roles.contains(SubtitleModel::EndFrameRole)) {
                     setActiveSubtitle(m_activeSub);

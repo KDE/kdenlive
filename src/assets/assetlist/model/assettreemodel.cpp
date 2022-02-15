@@ -1,34 +1,12 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assettreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
-
-int AssetTreeModel::nameCol = 0;
-int AssetTreeModel::idCol = 1;
-int AssetTreeModel::typeCol = 2;
-int AssetTreeModel::favCol = 3;
-int AssetTreeModel::preferredCol = 5;
 
 AssetTreeModel::AssetTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -54,7 +32,7 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
     if (item->depth() == 1) {
         return item->dataColumn(0).toString();
     }
-    return item->dataColumn(AssetTreeModel::nameCol).toString();
+    return item->dataColumn(AssetTreeModel::NameCol).toString();
 }
 
 bool AssetTreeModel::isFavorite(const QModelIndex &index) const
@@ -66,7 +44,7 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     if (item->depth() == 1) {
         return false;
     }
-    return item->dataColumn(AssetTreeModel::favCol).toBool();
+    return item->dataColumn(AssetTreeModel::FavCol).toBool();
 }
 
 QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) const
@@ -78,7 +56,7 @@ QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) 
     if (isEffect && item->depth() == 1) {
         return QString();
     }
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
     if (isEffect && EffectsRepository::get()->exists(id)) {
         return EffectsRepository::get()->getDescription(id);
     }
@@ -98,11 +76,11 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     switch (role) {
     case IdRole:
-        return item->dataColumn(AssetTreeModel::idCol);
+        return item->dataColumn(AssetTreeModel::IdCol);
     case FavoriteRole:
-        return item->dataColumn(AssetTreeModel::favCol);
+        return item->dataColumn(AssetTreeModel::FavCol);
     case TypeRole:
-        return item->dataColumn(AssetTreeModel::typeCol);
+        return item->dataColumn(AssetTreeModel::TypeCol);
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());

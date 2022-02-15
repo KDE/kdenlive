@@ -1,0 +1,49 @@
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="frei0r.alphaspot" id="frei0r.alphaspot">
+        <name>Alpha shapes</name>
+        <description>Draws simple shapes into the alpha channel</description>
+        <author>Marko Cebokli</author>
+
+
+        <parameter type="list" name="Shape" default="0" paramlist="0;0.38;0.62;1">
+                <paramlistdisplay>Rectangle,Ellipse,Triangle,Diamond</paramlistdisplay>
+                <name>Shape</name>
+        </parameter>
+
+        <parameter type="animated" name="Position X" default="0.5" min="-500" max="1500" factor="1000">
+                <name>Position X</name>
+        </parameter>
+
+        <parameter type="animated" name="Position Y" default="0.5" min="-500" max="1500" factor="1000">
+                <name>Position Y</name>
+        </parameter>
+
+        <parameter type="animated" name="Size X" default="0.1" min="0" max="1000" factor="1000">
+                <name>Size X</name>
+        </parameter>
+
+        <parameter type="animated" name="Size Y" default="0.1" min="0" max="1000" factor="1000">
+                <name>Size Y</name>
+        </parameter>
+
+        <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
+                <name>Tilt</name>
+        </parameter>
+
+        <parameter type="animated" name="Transition width" default="0.2" min="0" max="1000" factor="1000">
+                <name>Transition width</name>
+        </parameter>
+
+        <parameter type="animated" name="Min" default="0" min="0" max="1000" factor="1000">
+                <name>Min</name>
+        </parameter>
+
+        <parameter type="animated" name="Max" default="1" min="0" max="1000" factor="1000">
+                <name>Max</name>
+        </parameter>
+
+        <parameter type="list" name="Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
+                <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
+                <name>Operation</name>
+        </parameter>
+</effect>

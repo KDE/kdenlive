@@ -1,42 +1,26 @@
-/***************************************************************************
- *   Copyright (C) 2021 by Julius Künzel (jk.kdedev@smartlab.uber.space)   *
- *   Copyright (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <https://www.gnu.org/licenses/>.*
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2021 Julius Künzel <jk.kdedev@smartlab.uber.space>
+    SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "providermodel.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
+#include <KMessageBox>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFile>
-#include <QJsonValue>
 #include <QJsonArray>
-#include <QUrlQuery>
-#include <KMessageBox>
-#include <klocalizedstring.h>
-#include <kio/storedtransferjob.h>
+#include <QJsonValue>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QDesktopServices>
+#include <QNetworkRequest>
+#include <QUrlQuery>
+#include <kio/storedtransferjob.h>
+#include <klocalizedstring.h>
 
 ProviderModel::ProviderModel(const QString &path)
     : m_path(path)
@@ -122,15 +106,15 @@ ProviderModel::ProviderModel(const QString &path)
 
             });
 
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](QAbstractOAuth::Status status) {
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
                 if (status == QAbstractOAuth::Status::Granted ) {
                     emit authenticated(m_oauth2.token());
                 } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
                     KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
                 }
             });
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, [=](const QString &error, const QString &errorDescription) {
-                qCWarning(KDENLIVE_LOG) << "Error in autorization flow. " << error << " " << errorDescription;
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
+                qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
                 emit authenticated(QString());
             });
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
@@ -267,7 +251,7 @@ bool ProviderModel::requiresLogin() const {
  * @return value
  * Gets a value of item identified by key. The key is translated to the key the provider uses (configured in the providers config file)
  * E.g. the provider uses "photographer" as key for the author and another provider uses "user".
- * With this funtion you can simply use "author" as key no matter of the providers specific key.
+ * With this function you can simply use "author" as key no matter of the providers specific key.
  * In addition this function takes care of modifiers like "$" for placeholders, etc. but does not parse them (use objectGetString for this purpose)
  */
 
@@ -323,7 +307,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
  * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and palceholders.
  */
 
-QString ProviderModel::objectGetString(QJsonObject item, QString key, const QString &id, const QString &parentKey) {
+QString ProviderModel::objectGetString(QJsonObject item, const QString &key, const QString &id, const QString &parentKey) {
     QJsonValue val = objectGetValue(item, key);
     if(!val.isString()) {
         return QString();
@@ -350,7 +334,7 @@ QString ProviderModel::objectGetString(QJsonObject item, QString key, const QStr
     return result;
 }
 
-QString ProviderModel::replacePlaceholders(QString string, const QString query, const int page, const QString id) {
+QString ProviderModel::replacePlaceholders(QString string, const QString &query, const int page, const QString &id) {
     string = string.replace("%query%", query);
     string = string.replace("%pagenum%", QString::number(page));
     string = string.replace("%perpage%", QString::number(m_perPage));
@@ -386,7 +370,7 @@ QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page) {
  * @brief ProviderModel::slotFetchFiles
  * @param searchText The search query
  * @param page The page to request
- * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ * Fetch metadata about the available files, if they are not included in the search response (e.g. archive.org)
  */
 void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 {
@@ -405,7 +389,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
         }
         QNetworkReply *reply = manager->get(request);
 
-        connect(reply, &QNetworkReply::finished, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [=]() {
             if(reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QList<ResourceItemInfo>, const int> result = parseSearchResponse(response);
@@ -493,7 +477,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
  * @brief ProviderModel::getFilesUrl
  * @param id The providers id of the item the data should be fetched for
  * @return the url
- * Get the url to fetch metadata about the aviable files.
+ * Get the url to fetch metadata about the available files.
  */
 QUrl ProviderModel::getFilesUrl(const QString &id) {
 
@@ -517,7 +501,7 @@ QUrl ProviderModel::getFilesUrl(const QString &id) {
 /**
  * @brief ProviderModel::slotFetchFiles
  * @param id The providers id of the item the date should be fetched for
- * Fetch metadata about the aviable files, if they are not included in the search respons (e.g. archive.org)
+ * Fetch metadata about the available files, if they are not included in the search response (e.g. archive.org)
  */
 void ProviderModel::slotFetchFiles(const QString &id) {
 
@@ -540,7 +524,7 @@ void ProviderModel::slotFetchFiles(const QString &id) {
         }
         QNetworkReply *reply = manager->get(request);
 
-        connect(reply, &QNetworkReply::finished, [=]() {
+        connect(reply, &QNetworkReply::finished, this, [=]() {
             if(reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);

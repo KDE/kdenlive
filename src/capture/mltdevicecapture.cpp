@@ -1,19 +1,7 @@
-/***************************************************************************
-                        mltdevicecapture.cpp  -  description
-                           -------------------
-   begin                : Sun May 21 2011
-   copyright            : (C) 2011 by Jean-Baptiste Mardelle (jb@kdenlive.org)
-
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+   SPDX-FileCopyrightText: 2011 Jean-Baptiste Mardelle <jb@kdenlive.org>
+   SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "mltdevicecapture.h"
 
@@ -94,7 +82,7 @@ bool MltDeviceCapture::buildConsumer(const QString &profileName)
     // OpenGL monitor
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile, KdenliveSettings::audiobackend().toUtf8().constData());
     m_mltConsumer->set("preview_off", 1);
-    m_mltConsumer->set("preview_format", mlt_image_rgb24);
+    m_mltConsumer->set("preview_format", mlt_image_rgb);
     m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, mlt_listener(consumer_gl_frame_show));
     // m_mltConsumer->set("resize", 1);
     // m_mltConsumer->set("terminate_on_pause", 1);
@@ -155,7 +143,7 @@ void MltDeviceCapture::stop()
     if (m_mltProducer) {
         Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
-        if (service.type() == tractor_type) {
+        if (service.type() == mlt_service_tractor_type) {
             isPlaylist = true;
             Mlt::Tractor tractor(service);
             mlt_tractor_close(tractor.get_tractor());
@@ -196,7 +184,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
     /*
     //TEST: is it better to convert the frame in a thread outside of MLT??
     if (processingImage) return;
-    mlt_image_format format = (mlt_image_format) frame.get_int("format"); //mlt_image_rgb24;
+    mlt_image_format format = (mlt_image_format) frame.get_int("format"); //mlt_image_rgb;
     int width = frame.get_int("width");
     int height = frame.get_int("height");
     unsigned char *buffer = (unsigned char *) frame.get_data("image");
@@ -205,7 +193,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
     }
     */
 
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb;
     int width = 0;
     int height = 0;
     const uchar *image = frame.get_image(format, width, height);
@@ -217,7 +205,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
 
 void MltDeviceCapture::showFrame(Mlt::Frame &frame)
 {
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb;
     int width = 0;
     int height = 0;
     const uchar *image = frame.get_image(format, width, height);
@@ -301,7 +289,7 @@ void MltDeviceCapture::slotCheckDroppedFrames()
 
 void MltDeviceCapture::saveFrame(Mlt::Frame &frame)
 {
-    mlt_image_format format = mlt_image_rgb24;
+    mlt_image_format format = mlt_image_rgb;
     int width = 0;
     int height = 0;
     const uchar *image = frame.get_image(format, width, height);
@@ -401,7 +389,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         // OpenGL monitor
         previewProps->set("mlt_service", KdenliveSettings::audiobackend().toUtf8().constData());
         previewProps->set("preview_off", 1);
-        previewProps->set("preview_format", mlt_image_rgb24);
+        previewProps->set("preview_format", mlt_image_rgb);
         previewProps->set("terminate_on_pause", 0);
         m_showFrameEvent = m_mltConsumer->listen("consumer-frame-show", this, mlt_listener(consumer_gl_frame_show));
         // m_mltConsumer->set("resize", 1);
@@ -469,7 +457,7 @@ void MltDeviceCapture::setOverlay(const QString &path)
     }
 
     Mlt::Service service(parentProd.get_service());
-    if (service.type() != tractor_type) {
+    if (service.type() != mlt_service_tractor_type) {
         qCWarning(KDENLIVE_LOG) << "// TRACTOR PROBLEM";
         return;
     }

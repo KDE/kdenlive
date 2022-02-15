@@ -1,20 +1,9 @@
 /*
- * Copyright (c) 2011-2014 Meltytech, LLC
- * Author: Dan Dennedy <dan@dennedy.org>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+    SPDX-FileCopyrightText: 2011-2014 Meltytech LLC
+    SPDX-FileCopyrightText: 2011-2014 Dan Dennedy <dan@dennedy.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
@@ -53,7 +42,8 @@ class MonitorProxy;
 
 using thread_function_t = void *(*)(void *);
 
-/* QQuickView that renders an .
+/** @class GLWidget
+ *  @brief QQuickView that renders an .
  *
  * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
  *
@@ -86,9 +76,6 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    /** @brief Get the current MLT producer playlist.
-     * @return A string describing the playlist */
-    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();
@@ -146,13 +133,19 @@ public:
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
-    /** @brief Update producer, should ONLY be called from monitor */
+    /** @brief Update producer, should ONLY be called from monitor
+    * @param producer
+    * @param isActive
+    * @param position If == 0 producer position will be used.
+    * If == -1 consumer position will be used if possible.
+    * If == -2 position will not be set.
+    */
     int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position);
     int setProducer(const QString &file);
     QString frameToTime(int frames) const;
 
 public slots:
-    void requestSeek(int position);
+    void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
@@ -176,7 +169,7 @@ signals:
     void paused();
     void playing();
     void rectChanged();
-    void zoomChanged();
+    void zoomChanged(float zoomRatio);
     void offsetChanged();
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
@@ -234,13 +227,14 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     int m_loopIn;
+    int m_loopOut;
     QPoint m_offset;
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;
-    static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
+    static void on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data);
     static void on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame);
-    static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
-    static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
+    static void on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
+    static void on_gl_nosync_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();

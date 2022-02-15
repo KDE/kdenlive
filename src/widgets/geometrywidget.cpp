@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Jean-Baptiste Mardelle                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Jean-Baptiste Mardelle
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "geometrywidget.h"
 #include "core.h"
@@ -29,14 +13,14 @@
 #include <QGridLayout>
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                               bool useOpacity, bool percentOpacity, QWidget *parent)
+                               bool useOpacity, QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
     , m_opacity(nullptr)
-    , m_opacityFactor(percentOpacity ? 1. : 100.)
+    , m_opacityFactor(100.)
 {
     Q_UNUSED(useRatioLock)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -361,7 +345,7 @@ void GeometryWidget::adjustSizeValue()
 void GeometryWidget::slotAdjustRectKeyframeValue()
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-    updateMonitorGeometry(rect);
+    emit updateMonitorGeometry(rect);
     emit valueChanged(getValue());
 }
 
@@ -382,7 +366,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    updateMonitorGeometry(r);
+    //emit updateMonitorGeometry(r);
     adjustSizeValue();
     emit valueChanged(getValue());
 }
@@ -413,7 +397,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     adjustSizeValue();
-    updateMonitorGeometry(r);
+    emit updateMonitorGeometry(r);
 }
 
 const QString GeometryWidget::getValue() const
@@ -438,7 +422,7 @@ void GeometryWidget::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-        updateMonitorGeometry(rect);
+        emit updateMonitorGeometry(rect);
     } else {
         m_monitor->setEffectKeyframe(false);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);

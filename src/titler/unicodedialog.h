@@ -1,11 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Simon Andreas Eugster (simon.eu@gmail.com)      *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Simon Andreas Eugster <simon.eu@gmail.com>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef UNICODEDIALOG_H
 #define UNICODEDIALOG_H
@@ -55,8 +52,6 @@ private:
     /** Selected input method */
     UnicodeDialog::InputMethod m_inputMethod;
 
-    /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
-    QString validateText(const QString &text);
     /** \brief Removes all leading zeros */
     QString trimmedUnicodeNumber(QString text);
     /** \brief Checks whether the given string is a control character */
@@ -71,7 +66,6 @@ private:
     void updateOverviewChars(uint unicode);
     void clearOverviewChars();
 
-    int m_lastCursorPos;
     QString m_lastUnicodeNumber;
 
     /** \brief Reads the last used unicode number from the config file. */

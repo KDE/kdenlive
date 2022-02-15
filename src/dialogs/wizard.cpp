@@ -1,28 +1,15 @@
-/***************************************************************************
- *   Copyright (C) 2016 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "wizard.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
-#include "effects/effectsrepository.hpp"
 
 #include "utils/thememanager.h"
 #ifdef USE_V4L
@@ -40,6 +27,7 @@
 #include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
+#include <QApplication>
 #include <QCheckBox>
 #include <QFile>
 #include <QLabel>
@@ -49,24 +37,15 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTimer>
-#include <QApplication>
-#include <kio_version.h>
 #include <QXmlStreamWriter>
+#include <kio_version.h>
 
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
 #include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegate>
 #endif
 
 // Recommended MLT version
-const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
-const int mltVersionMinor = MLT_MIN_MINOR_VERSION;
-const int mltVersionRevision = MLT_MIN_PATCH_VERSION;
-
-static const char kdenlive_version[] = KDENLIVE_VERSION;
-
-static QStringList acodecsList;
-static QStringList vcodecsList;
-
 MyWizardPage::MyWizardPage(QWidget *parent)
     : QWizardPage(parent)
 
@@ -83,18 +62,18 @@ bool MyWizardPage::isComplete() const
     return m_isComplete;
 }
 
-Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
+Wizard::Wizard(bool autoClose, QWidget *parent)
     : QWizard(parent)
     , m_systemCheckIsOk(false)
     , m_brokenModule(false)
 {
-    setWindowTitle(i18n("Welcome to Kdenlive"));
+    setWindowTitle(i18nc("@title:window", "Welcome to Kdenlive"));
     int logoHeight = int(fontMetrics().height() * 2.5);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnLastPage, true);
     // setOption(QWizard::ExtendedWatermarkPixmap, false);
     m_page = new MyWizardPage(this);
-    m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(kdenlive_version)));
+    m_page->setTitle(i18n("Welcome to Kdenlive %1", QString(KDENLIVE_VERSION)));
     m_page->setSubTitle(i18n("Using MLT %1", mlt_version_get_string()));
     setPixmap(QWizard::LogoPixmap, QIcon::fromTheme(QStringLiteral(":/pics/kdenlive.png")).pixmap(logoHeight, logoHeight));
     m_startLayout = new QVBoxLayout;
@@ -133,13 +112,23 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
             list->addItems(conversion.second);
         }
     }
-    if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty() && !appImageCheck)) {
+    if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty())) {
         QLabel *lab = new QLabel(this);
         lab->setText(i18n("Startup error or warning, check our <a href='#'>online manual</a>."));
         connect(lab, &QLabel::linkActivated, this, &Wizard::slotOpenManual);
         m_startLayout->addWidget(lab);
-    } else {
-        // Everything is ok, auto close the wizard
+    }
+    if (!m_infos.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Information);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
+    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
+        // Everything is ok only some info message, show codec status
         m_page->setComplete(true);
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
@@ -192,15 +181,6 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         auto *errorLabel = new KMessageWidget(this);
         errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
         errorLabel->setMessageType(KMessageWidget::Warning);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        errorLabel->show();
-    }
-    if (!m_infos.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_infos + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Information);
         errorLabel->setWordWrap(true);
         errorLabel->setCloseButtonVisible(false);
         m_startLayout->addWidget(errorLabel);
@@ -405,11 +385,11 @@ void Wizard::checkMltComponents()
         m_errors.append(i18n("<li>Cannot start MLT backend, check your installation</li>"));
         m_systemCheckIsOk = false;
     } else {
-        int mltVersion = (mltVersionMajor << 16) + (mltVersionMinor << 8) + mltVersionRevision;
+        int mltVersion = QT_VERSION_CHECK(MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION);
         int runningVersion = mlt_version_get_int();
         if (runningVersion < mltVersion) {
             m_errors.append(
-                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", mltVersionMajor, mltVersionMinor, mltVersionRevision));
+                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION));
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
@@ -424,15 +404,19 @@ void Wizard::checkMltComponents()
         // Check that we have the frei0r effects installed
         Mlt::Properties *filters = pCore->getMltRepository()->filters();
         bool hasFrei0r = false;
-        QString filterName;
         for (int i = 0; i < filters->count(); ++i) {
-            filterName = filters->get_name(i);
+            QString filterName = filters->get_name(i);
             if (filterName.startsWith(QStringLiteral("frei0r."))) {
                 hasFrei0r = true;
                 break;
             }
         }
-        delete filters;
+        if (!hasFrei0r) {
+            // Frei0r effects not found
+            qDebug() << "Missing Frei0r module";
+            m_warnings.append(
+                i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
+        }
         if (!hasFrei0r) {
             // Frei0r effects not found
             qDebug() << "Missing Frei0r module";
@@ -440,7 +424,41 @@ void Wizard::checkMltComponents()
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
 
-#ifndef Q_OS_WIN
+        // Check that we have the avfilter effects installed
+        bool hasAvfilter = false;
+        for (int i = 0; i < filters->count(); ++i) {
+            QString filterName = filters->get_name(i);
+            if (filterName.startsWith(QStringLiteral("avfilter."))) {
+                hasAvfilter = true;
+                break;
+            }
+        }
+        if (!hasAvfilter) {
+            // Frei0r effects not found
+            qDebug() << "Missing AVFilter module";
+            m_warnings.append(
+                i18n("<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install recommended</li>"));
+        } else {
+            // Check that we have the avfilter.subtitles effects installed
+            bool hasSubtitle = false;
+            for (int i = 0; i < filters->count(); ++i) {
+                QString filterName = filters->get_name(i);
+                if (filterName == QStringLiteral("avfilter.subtitles")) {
+                    hasSubtitle = true;
+                    break;
+                }
+            }
+            if (!hasAvfilter) {
+                // Frei0r effects not found
+                qDebug() << "Missing avfilter.subtitles module";
+                m_warnings.append(
+                    i18n("<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle feature. Install recommended</li>"));
+            }
+        }
+        delete filters;
+
+
+#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
         // Check that we have the breeze icon theme installed
         const QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;
@@ -486,9 +504,20 @@ void Wizard::checkMltComponents()
             m_errors.append(i18n("<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio output</li>"));
             m_systemCheckIsOk = false;
         }
-        // AVformat module
+
         Mlt::Consumer *consumer = nullptr;
         Mlt::Profile p;
+        // XML module
+        if (consumersItemList.contains(QStringLiteral("xml"))) {
+            consumer = new Mlt::Consumer(p, "xml");
+        }
+        if (consumer == nullptr || !consumer->is_valid()) {
+            qDebug() << "Missing XML MLT module";
+            m_errors.append(i18n("<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"));
+            m_systemCheckIsOk = true;
+        }
+        // AVformat module
+        consumer = nullptr;
         if (consumersItemList.contains(QStringLiteral("avformat"))) {
             consumer = new Mlt::Consumer(p, "avformat");
         }
@@ -497,19 +526,6 @@ void Wizard::checkMltComponents()
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         } else {
-            consumer->set("vcodec", "list");
-            consumer->set("acodec", "list");
-            consumer->set("f", "list");
-            consumer->start();
-            Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
-            for (int i = 0; i < vcodecs.count(); ++i) {
-                vcodecsList << QString(vcodecs.get(i));
-            }
-            Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
-            for (int i = 0; i < acodecs.count(); ++i) {
-                acodecsList << QString(acodecs.get(i));
-            }
-            checkMissingCodecs();
             delete consumer;
         }
 
@@ -544,97 +560,8 @@ void Wizard::checkMltComponents()
     }
 }
 
-void Wizard::checkMissingCodecs()
-{
-    bool replaceVorbisCodec = false;
-    if (acodecsList.contains(QStringLiteral("libvorbis"))) {
-        replaceVorbisCodec = true;
-    }
-    bool replaceLibfaacCodec = false;
-    if (!acodecsList.contains(QStringLiteral("aac")) && acodecsList.contains(QStringLiteral("libfaac"))) {
-        replaceLibfaacCodec = true;
-    }
-    QStringList profilesList;
-    profilesList << QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    QDir directory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/"));
-    QStringList filter;
-    filter << QStringLiteral("*.xml");
-    const QStringList fileList = directory.entryList(filter, QDir::Files);
-    for (const QString &filename : fileList) {
-        profilesList << directory.absoluteFilePath(filename);
-    }
-
-    // We should parse customprofiles.xml in last position, so that user profiles
-    // can also override profiles installed by KNewStuff
-    QStringList requiredACodecs;
-    QStringList requiredVCodecs;
-    for (const QString &filename : qAsConst(profilesList)) {
-        QDomDocument doc;
-        QFile file(filename);
-        doc.setContent(&file, false);
-        file.close();
-        QString std;
-        QString format;
-        QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
-        for (int i = 0; i < profiles.count(); ++i) {
-            std = profiles.at(i).toElement().attribute(QStringLiteral("args"));
-            format.clear();
-            if (std.startsWith(QLatin1String("acodec="))) {
-                format = std.section(QStringLiteral("acodec="), 1, 1);
-            } else if (std.contains(QStringLiteral(" acodec="))) {
-                format = std.section(QStringLiteral(" acodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                requiredACodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
-            }
-            format.clear();
-            if (std.startsWith(QLatin1String("vcodec="))) {
-                format = std.section(QStringLiteral("vcodec="), 1, 1);
-            } else if (std.contains(QStringLiteral(" vcodec="))) {
-                format = std.section(QStringLiteral(" vcodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                requiredVCodecs << format.section(QLatin1Char(' '), 0, 0).toLower();
-            }
-        }
-    }
-    requiredACodecs.removeDuplicates();
-    requiredVCodecs.removeDuplicates();
-    if (replaceVorbisCodec) {
-        int ix = requiredACodecs.indexOf(QStringLiteral("vorbis"));
-        if (ix > -1) {
-            requiredACodecs.replace(ix, QStringLiteral("libvorbis"));
-        }
-    }
-    if (replaceLibfaacCodec) {
-        int ix = requiredACodecs.indexOf(QStringLiteral("aac"));
-        if (ix > -1) {
-            requiredACodecs.replace(ix, QStringLiteral("libfaac"));
-        }
-    }
-    for (int i = 0; i < acodecsList.count(); ++i) {
-        requiredACodecs.removeAll(acodecsList.at(i));
-    }
-    for (int i = 0; i < vcodecsList.count(); ++i) {
-        requiredVCodecs.removeAll(vcodecsList.at(i));
-    }
-    /*
-     * Info about missing codecs is given in render widget, no need to put this at first start
-     * if (!requiredACodecs.isEmpty() || !requiredVCodecs.isEmpty()) {
-        QString missing = requiredACodecs.join(QLatin1Char(','));
-        if (!missing.isEmpty() && !requiredVCodecs.isEmpty()) {
-            missing.append(',');
-        }
-        missing.append(requiredVCodecs.join(QLatin1Char(',')));
-        missing.prepend(i18n("The following codecs were not found on your system. Check our <a href=''>online manual</a> if you need them: "));
-        m_infos.append(QString("<li>%1</li>").arg(missing));
-    }*/
-}
-
 void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
 {
-    bool allIsOk = true;
-
     // Check first in same folder as melt exec
     const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
@@ -649,7 +576,6 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
             if (exepath.isEmpty()) {
                 warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
-                allIsOk = false;
             }
         }
     }
@@ -723,10 +649,29 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
             KdenliveSettings::setDefaultaudioapp(program);
         }
     }
-    if (allIsOk) {
-        // OK
-    } else {
-        // WRONG
+
+    if (KdenliveSettings::defaultaudioapp().isEmpty()) {
+        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
+        if (program.isEmpty()) {
+            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        }
+        if (!program.isEmpty()) {
+            KdenliveSettings::setDefaultaudioapp(program);
+        }
+    }
+
+    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
+        program = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
+#ifdef Q_OS_WIN
+        if (program.isEmpty()) {
+            program = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), {"C:/Program Files/MediaInfo", "C:/Program Files (x86)/MediaInfo"});
+        }
+#endif
+        if (program.isEmpty()) {
+            infos.append(i18n("<li>Missing app: <b>mediainfo</b><br/>optional for technical clip information</li>"));
+        } else {
+            KdenliveSettings::setMediainfopath(program);
+        }
     }
 }
 
@@ -926,9 +871,14 @@ bool Wizard::isOk() const
 void Wizard::slotOpenManual()
 {
 #if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
-    KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"));
+    auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
+    // exist in both classes
+    job->start();
+    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 #else
-    KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this, KRun::RunFlags());
+    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this, KRun::RunFlags());
 #endif
 }
 
@@ -939,7 +889,7 @@ void Wizard::slotSaveCaptureFormat()
         return;
     }
     std::unique_ptr<ProfileParam> profile(new ProfileParam(pCore->getCurrentProfile().get()));
-    profile->m_description = QStringLiteral("Video4Linux capture");
+    profile->m_description = QStringLiteral("Video4Linux Capture");
     profile->m_colorspace = 601;
     profile->m_width = format.at(1).toInt();
     profile->m_height = format.at(2).toInt();
@@ -1008,6 +958,43 @@ void Wizard::testHwEncoders()
     }
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
 
+    // VAAPI with scaling support
+    QStringList scaleargs{"-hide_banner", "-y"
+                     ,"-hwaccel"
+                     ,"vaapi"
+                     ,"-hwaccel_output_format"
+                     ,"vaapi"
+                     ,"/dev/dri/renderD128"
+                     ,"-f"
+                     ,"lavfi"
+                     ,"-i"
+                     ,"smptebars=duration=5:size=1280x720:rate=25"
+                     ,"-vf"
+                     ,"scale_vaapi=w=640:h=-2:format=nv12,hwupload"
+                     ,"-c:v"
+                     ,"h264_vaapi"
+                     ,"-an"
+                     ,"-f"
+                     ,"mp4"
+                     ,tmp.fileName()};
+    qDebug() << "// FFMPEG ARGS: " << scaleargs;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), scaleargs);
+    bool vaapiScalingSupported = false;
+    if (hwEncoders.waitForFinished()) {
+        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
+            qDebug() << "/// ++ VAAPI NOT SUPPORTED";
+        } else {
+            if (tmp.exists() && tmp.size() > 0) {
+                qDebug() << "/// ++ VAAPI YES SUPPORTED ::::::";
+                // vaapi support enabled
+                vaapiScalingSupported = true;
+            } else {
+                qDebug() << "/// ++ VAAPI FAILED ::::::";
+                // vaapi support not enabled
+            }
+        }
+    }
+    KdenliveSettings::setVaapiScalingEnabled(vaapiScalingSupported);
     // NVIDIA testing
     QTemporaryFile tmp2(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
     if (!tmp2.open()) {
@@ -1015,7 +1002,8 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp2.close();
-    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",           "smptebars=duration=5:size=1280x720:rate=25",
+    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",
+                      "smptebars=duration=5:size=1280x720:rate=25",
                       "-c:v", "h264_nvenc", "-an",   "-f", "mp4",   tmp2.fileName()};
     qDebug() << "// FFMPEG ARGS: " << args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);

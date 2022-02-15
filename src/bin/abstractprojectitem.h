@@ -1,23 +1,9 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef ABSTRACTPROJECTITEM_H
@@ -93,13 +79,13 @@ public:
 
     // TODO refac : these ref counting are probably deprecated by smart ptrs
     /** @brief Set current usage count. */
-    void setRefCount(uint count);
+    void setRefCount(uint count, uint audioCount);
     /** @brief Returns clip's current usage count in timeline. */
     uint refCount() const;
     /** @brief Increase usage count. */
-    void addRef();
+    void addRef(bool isAudio);
     /** @brief Decrease usage count. */
-    void removeRef();
+    void removeRef(bool isAudio);
 
     enum DataType {
         // display name of item
@@ -116,6 +102,7 @@ public:
         DataDescription,
         // Number of occurrences used in timeline
         UsageCount,
+        AudioUsageCount,
         // Empty if clip has no effect, icon otherwise
         IconOverlay,
         // item type (clip, subclip, folder)
@@ -197,7 +184,7 @@ public:
     uint rating() const;
     virtual void setRating(uint rating);
     const QString &tags() const;
-    void setTags(const QString tags);
+    void setTags(const QString &tags);
 
 signals:
     void childAdded(AbstractProjectItem *child);
@@ -214,6 +201,7 @@ protected:
     QDateTime m_date;
     QString m_binId;
     uint m_usage;
+    uint m_AudioUsage;
     uint m_rating;
     QString m_tags;
     FileStatus::ClipStatus m_clipStatus;

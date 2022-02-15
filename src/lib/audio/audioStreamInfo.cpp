@@ -1,11 +1,6 @@
 /*
-Copyright (C) 2012  Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
-This file is part of kdenlive. See www.kdenlive.org.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "audioStreamInfo.h"
@@ -244,7 +239,7 @@ void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
     }
 }
 
-void AudioStreamInfo::renameStream(int ix, const QString streamName)
+void AudioStreamInfo::renameStream(int ix, const QString &streamName)
 {
     if (m_audioStreams.contains(ix)) {
         m_audioStreams.insert(ix, streamName);

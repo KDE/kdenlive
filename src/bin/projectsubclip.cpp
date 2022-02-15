@@ -1,33 +1,19 @@
 /*
-Copyright (C) 2015  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "projectsubclip.h"
-#include "projectclip.h"
-#include "projectitemmodel.h"
-#include "core.h"
-#include "doc/kdenlivedoc.h"
-#include "doc/docundostack.hpp"
 #include "bincommands.h"
+#include "core.h"
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
+#include "projectclip.h"
+#include "projectitemmodel.h"
 #include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>
@@ -38,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ClipController;
 
 ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                               const QString &timecode, const QMap<QString, QString> zoneProperties)
+                               const QString &timecode, const QMap<QString, QString> &zoneProperties)
     : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
 {
@@ -64,7 +50,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
                                                           const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                          const QMap<QString, QString> zoneProperties)
+                                                          const QMap<QString, QString> &zoneProperties)
 {
     std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, zoneProperties));
     baseFinishConstruct(self);
@@ -200,6 +186,10 @@ bool ProjectSubClip::hasAudioAndVideo() const
 void ProjectSubClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
+    if (percent < 0) {
+        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, m_inPoint));
+        return;
+    }
     int duration = m_outPoint - m_inPoint;
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;

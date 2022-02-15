@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #ifndef GROUPMODEL_H
 #define GROUPMODEL_H
@@ -65,7 +49,7 @@ public:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
      */
-    bool ungroupItem(int id, Fun &undo, Fun &redo);
+    bool ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan = true);
 
     /** @brief Create a groupItem in the hierarchy. Initially it is not part of a group
        @param id id of the groupItem
@@ -159,7 +143,7 @@ public:
        To workaround that, we currently identify clips by their position + track
     */
     const QString toJson() const;
-    const QString toJson(std::unordered_set<int> roots) const;
+    const QString toJson(const std::unordered_set<int> &roots) const;
     bool fromJson(const QString &data);
     bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo);
 
@@ -171,6 +155,20 @@ public:
        @param checkTimelineConsistency: if true, we make sure that the group data of the parent timeline are consistent
     */
     bool checkConsistency(bool failOnSingleGroups = true, bool checkTimelineConsistency = false);
+
+    /** @brief Remove an item from all the groups it belongs to.
+       @param id of the groupItem
+    */
+    void removeFromGroup(int id);
+
+    /** @brief change the group of a given item
+       @param id of the groupItem
+       @param groupId id of the group to assign it to
+       @param changeState when false, the grouped role for item won't be updated (for selection)
+    */
+    void setGroup(int id, int groupId, bool changeState = true);
+
+    QString debugString();
 
 protected:
     /** @brief Destruct a groupItem in the hierarchy.
@@ -184,18 +182,6 @@ protected:
     bool destructGroupItem(int id, bool deleteOrphan, Fun &undo, Fun &redo);
     /* Lambda version */
     Fun destructGroupItem_lambda(int id);
-
-    /** @brief change the group of a given item
-       @param id of the groupItem
-       @param groupId id of the group to assign it to
-       @param changeState when false, the grouped role for item won't be updated (for selection)
-    */
-    void setGroup(int id, int groupId, bool changeState = true);
-
-    /** @brief Remove an item from all the groups it belongs to.
-       @param id of the groupItem
-    */
-    void removeFromGroup(int id);
 
     /** @brief This is the actual recursive implementation of the copy function. */
     bool processCopy(int gid, std::unordered_map<int, int> &mapping, Fun &undo, Fun &redo);
@@ -220,7 +206,7 @@ protected:
     */
     void setType(int gid, GroupType type);
     
-    void adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap);
+    void adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

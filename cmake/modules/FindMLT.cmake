@@ -1,12 +1,12 @@
 # Find the MLT includes and libraries
 #
-# Copyright (c) 2007-2012 Jean-Baptiste Mardell (jb@kdenlive.org)
-# Copyright (c) 2012 Alberto Villa <avilla@FreeBSD.org>
+# SPDX-FileCopyrightText: 2007-2012 Jean-Baptiste Mardell <jb@kdenlive.org>
+# SPDX-FileCopyrightText: 2012 Alberto Villa <avilla@FreeBSD.org>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 
 find_package(PkgConfig QUIET)
-pkg_check_modules(PC_MLT mlt++)
+pkg_check_modules(PC_MLT mlt++-7)
 
 # Workaround cmake 3.17 issue (dropped .dll extension for library search)
 if(WIN32)
@@ -21,11 +21,11 @@ find_path(MLT_INCLUDE_DIR
   PATHS
     /usr/local/include
     /usr/include
-  PATH_SUFFIXES mlt
+  PATH_SUFFIXES mlt-7
 )
 
 find_library(MLT_LIBRARIES
-  NAMES mlt
+  NAMES mlt-7
   HINTS
     ${PC_MLT_LIBDIR}
     ${PC_MLT_PREFIX}/lib
@@ -42,10 +42,11 @@ find_path(MLTPP_INCLUDE_DIR
   PATHS
     /usr/local/include
     /usr/include
+  PATH_SUFFIXES mlt-7
 )
 
 find_library(MLTPP_LIBRARIES
-  NAMES mlt++
+  NAMES mlt++-7
   HINTS
     ${PC_MLT_LIBDIR}
     ${PC_MLT_PREFIX}/lib

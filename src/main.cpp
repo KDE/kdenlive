@@ -1,22 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2007 by Marco Gittler (g.marco@freenet.de)              *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2007 Marco Gittler <g.marco@freenet.de>
+    SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "core.h"
 #ifdef CRASH_AUTO_TEST
@@ -27,6 +14,7 @@
 
 #include <mlt++/Mlt.h>
 
+#include "kcoreaddons_version.h"
 #include "kxmlgui_version.h"
 #include "mainwindow.h"
 
@@ -43,10 +31,10 @@
 
 #include "definitions.h"
 #include "kdenlive_debug.h"
+#ifndef NODBUS
 #include <KDBusService>
+#endif
 #include <KIconTheme>
-#include <kiconthemes_version.h>
-#include <QResource>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -54,9 +42,11 @@
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
-#include <QUrl> //new
-#include <klocalizedstring.h>
+#include <QResource>
 #include <QSplashScreen>
+#include <QUrl> //new
+#include <kiconthemes_version.h>
+#include <klocalizedstring.h>
 
 #ifdef Q_OS_WIN
 extern "C"
@@ -104,9 +94,8 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
 
-    QPixmap pixmap(":/pics/splash-background.png");
     qApp->processEvents(QEventLoop::AllEvents);
-    Splash splash(pixmap);
+    Splash splash;
     qApp->processEvents(QEventLoop::AllEvents);
     splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();
@@ -136,6 +125,29 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = qApp->applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        } if (appPath.contains(QStringLiteral("/snap"))) {
+            packageType = QStringLiteral("snap");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+        }
+    }
+
+    bool inSandbox = false;
+    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
+        inSandbox = true;
+        // use a dedicated config file for sandbox packages,
+        // however the next line has no effect if the --config cmd option is used
+        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
+    }
+
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
@@ -158,8 +170,10 @@ int main(int argc, char *argv[])
     qputenv("XDG_CURRENT_DESKTOP","KDE");
 #endif
 
+#ifndef NODBUS
     // Init DBus services
-    KDBusService programDBusService(KDBusService::NoExitOnFailure);
+    KDBusService programDBusService;
+#endif
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
@@ -168,8 +182,12 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
-    KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2021 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
+    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"), QStringLiteral("https://bugs.kde.org/"));
+    if (!packageType.isEmpty()) {
+        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
+    }
+    KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
+                         i18n("Copyright © 2007–2022 Kdenlive authors"), otherText,
                          QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
@@ -192,8 +210,16 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,87,0)
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+#endif
+
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,84,0)
+    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(), QStringLiteral("https://mltframework.org")/*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(), QStringLiteral("https://ffmpeg.org"));
+#endif
+
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data
@@ -211,6 +237,7 @@ int main(int argc, char *argv[])
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
 
+    // config option is processed in KConfig (src/core/kconfig.cpp)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
@@ -235,9 +262,9 @@ int main(int argc, char *argv[])
                                      "ClipState",                     // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(FileStatus::staticMetaObject, // static meta object
-                                     "com.enums",                     // import statement
-                                     1, 0,                            // major and minor version of the import
-                                     "ClipStatus",                     // name in QML
+                                     "com.enums",                  // import statement
+                                     1, 0,                         // major and minor version of the import
+                                     "ClipStatus",                 // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement
@@ -245,9 +272,14 @@ int main(int argc, char *argv[])
                                      "ProducerType",             // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(AssetListType::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "AssetType",                     // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(ToolType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement
                                      1, 0,                       // major and minor version of the import
-                                     "AssetType",             // name in QML
+                                     "ProjectTool",              // name in QML
                                      "Error: only enums");
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
@@ -266,15 +298,15 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     int result = 0;
-    if (!Core::build()) {
+    if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
         QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
+        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&] () {
             splash.finish(pCore->window());
         });
-        pCore->initGUI(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
+        pCore->initGUI(inSandbox, parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();

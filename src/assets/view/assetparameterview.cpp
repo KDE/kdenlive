@@ -1,23 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2017 by Nicolas Carion                                  *
- *   This file is part of Kdenlive. See www.kdenlive.org.                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) version 3 or any later version accepted by the       *
- *   membership of KDE e.V. (or its successor approved  by the membership  *
- *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
- *   version 3 of the license.                                             *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2017 Nicolas Carion
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 
 #include "assetparameterview.hpp"
 
@@ -63,11 +47,11 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_presetMenu->clear();
         m_presetGroup.reset(new QActionGroup(this));
         m_presetGroup->setExclusive(true);
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(resetValues()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, &AssetParameterView::resetValues);
         // Save preset
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, SLOT(slotSavePreset()));
-        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, SLOT(slotUpdatePreset()));
-        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, SLOT(slotDeletePreset()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset…"), this, [&](){ slotSavePreset(); });
+        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, &AssetParameterView::slotUpdatePreset);
+        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
         if (presetName.isEmpty() || presets.isEmpty()) {
@@ -75,7 +59,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             deletePreset->setEnabled(false);
         }
         for (const QString &pName : qAsConst(presets)) {
-            QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
+            QAction *ac = m_presetMenu->addAction(pName, this, &AssetParameterView::slotLoadPreset);
             m_presetGroup->addAction(ac);
             ac->setData(pName);
             ac->setCheckable(true);
@@ -86,49 +70,41 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     });
     emit updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    if (paramTag.endsWith(QStringLiteral("lift_gamma_gain")) || m_model->getParam(QStringLiteral("mlt_service")).endsWith(QStringLiteral("lift_gamma_gain"))) {
-        // Special case, the colorwheel widget manages several parameters
-        QModelIndex index = model->index(0, 0);
-        auto w = AbstractParamWidget::construct(model, index, frameSize, this);
-        connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
-        connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-        m_lay->addWidget(w);
-        connect(w, &AbstractParamWidget::updateHeight, this, [&](int h) {
-            setFixedHeight(h + m_lay->contentsMargins().bottom());
-            emit updateHeight();
-        });
-        m_widgets.push_back(w);
-    } else {
-        int minHeight = 0;
-        for (int i = 0; i < model->rowCount(); ++i) {
-            QModelIndex index = model->index(i, 0);
-            auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-            if (m_mainKeyframeWidget &&
-                (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam)) {
-                // Keyframe widget can have some extra params that shouldn't build a new widget
-                qDebug() << "// FOUND ADDED PARAM";
+    int minHeight = 0;
+    for (int i = 0; i < model->rowCount(); ++i) {
+        QModelIndex index = model->index(i, 0);
+        auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        if (m_mainKeyframeWidget &&
+            (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+            // Keyframe widget can have some extra params that shouldn't build a new widget
+            qDebug() << "// FOUND ADDED PARAM";
+            if (type != ParamType::ColorWheel) {
                 m_mainKeyframeWidget->addParameter(index);
-            } else {
-                auto w = AbstractParamWidget::construct(model, index, frameSize, this);
-                connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-                connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
-                connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                    setFixedHeight(contentHeight());
-                    emit updateHeight();
-                });
-                m_lay->addWidget(w);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
-                    m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
-                } else {
-                    minHeight += w->minimumHeight();
-                }
-                m_widgets.push_back(w);
             }
+        } else {
+            auto *w = AbstractParamWidget::construct(model, index, frameSize, this);
+            connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
+            connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+            connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
+            connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+            connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
+            connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
+                setFixedHeight(contentHeight());
+                emit updateHeight();
+            });
+            m_lay->addWidget(w);
+            if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline || type == ParamType::ColorWheel) {
+                m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+                connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+                connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
+            } else {
+                minHeight += w->minimumHeight();
+            }
+            m_widgets.push_back(w);
         }
-        setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
     }
+    setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
     if (addSpacer) {
         m_lay->addStretch();
     }
@@ -145,7 +121,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
-        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
+        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel) {
             QString val = defaultValue.toString();
             if (!val.contains(QLatin1Char('='))) {
                 val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
@@ -174,6 +150,11 @@ void AssetParameterView::resetValues()
     }
 }
 
+void AssetParameterView::disableCurrentFilter(bool disable)
+{
+    m_model->setParameter(QStringLiteral("disable"), disable ? 1 : 0, true);
+}
+
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
@@ -186,7 +167,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
     }
 }
 
-void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo)
+void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetMultiCommand(m_model, indexes, values);
@@ -209,10 +190,10 @@ void AssetParameterView::unsetModel()
 
     // clear layout
     m_widgets.clear();
-    QLayoutItem *child;
+    QLayoutItem *child = nullptr;
     while ((child = m_lay->takeAt(0)) != nullptr) {
         if (child->layout()) {
-            QLayoutItem *subchild;
+            QLayoutItem *subchild = nullptr;
             while ((subchild = child->layout()->takeAt(0)) != nullptr) {
                 delete subchild->widget();
                 delete subchild->spacerItem();
@@ -313,7 +294,7 @@ void AssetParameterView::toggleKeyframes(bool enable)
     }
 }
 
-void AssetParameterView::slotDeletePreset()
+void AssetParameterView::slotDeleteCurrentPreset()
 {
     QAction *ac = m_presetGroup->checkedAction();
     if (!ac) {
@@ -348,7 +329,7 @@ void AssetParameterView::slotSavePreset(QString presetName)
 {
     if (presetName.isEmpty()) {
         bool ok;
-        presetName = QInputDialog::getText(this, i18n("Enter preset name"), i18n("Enter the name of this preset"), QLineEdit::Normal, QString(), &ok);
+        presetName = QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
         if (!ok) return;
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));

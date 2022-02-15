@@ -1,23 +1,9 @@
 /*
-Copyright (C) 2012  Till Theato <root@ttill.de>
-Copyright (C) 2014  Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2012 Till Theato <root@ttill.de>
+SPDX-FileCopyrightText: 2014 Jean-Baptiste Mardelle <jb@kdenlive.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of
-the License or (at your option) version 3 or any later version
-accepted by the membership of KDE e.V. (or its successor approved
-by the membership of KDE e.V.), which shall act as a proxy
-defined in Section 14 of version 3 of the license.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #ifndef CLIPCONTROLLER_H
@@ -100,7 +86,7 @@ public:
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
 
     /** @brief Rename an audio stream. */
-    virtual void renameAudioStream(int id, QString name) = 0;
+    virtual void renameAudioStream(int id, const QString &name) = 0;
 
     /** @brief Add an audio effect on a specific audio stream for this clip. */
     virtual void requestAddStreamEffect(int streamIndex, const QString effectName) = 0;
@@ -133,6 +119,7 @@ public:
      * @param name name o the property
      */
     QMap<QString, QString> currentProperties(const QMap<QString, QString> &props);
+    bool hasProducerProperty(const QString &name) const;
     QString getProducerProperty(const QString &key) const;
     int getProducerIntProperty(const QString &key) const;
     qint64 getProducerInt64Property(const QString &key) const;
@@ -224,6 +211,9 @@ public:
     const QString getOriginalUrl();
 
 protected:
+    /** @brief Mutex to protect the producer properties on read/write */
+    mutable QReadWriteLock m_producerLock;
+
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
     virtual void connectEffectStack(){};
 
@@ -256,8 +246,6 @@ protected:
     std::shared_ptr<Mlt::Producer> m_thumbsProducer;
 
 private:
-    /** @brief Mutex to protect the producer properties on read/write */
-    mutable QReadWriteLock m_producerLock;
     /** @brief Temporarily store clip properties until producer is available */
     QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;
