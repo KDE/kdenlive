@@ -3951,11 +3951,13 @@ void MainWindow::slotToggleAutoPreview(bool enable)
     }
 }
 
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,91,0)
 void MainWindow::configureToolbars()
 {
     // Since our timeline toolbar is a non-standard toolbar (as it is docked in a custom widget, not
     // in a QToolBarDockArea, we have to hack KXmlGuiWindow to avoid a crash when saving toolbar config.
     // This is why we hijack the configureToolbars() and temporarily move the toolbar to a standard location
+    // Fixed upstream since KF 5.91.0
     auto *ctnLay = static_cast<QVBoxLayout *>(m_timelineToolBarContainer->layout());
     ctnLay->removeWidget(m_timelineToolBar);
     addToolBar(Qt::BottomToolBarArea, m_timelineToolBar);
@@ -3980,6 +3982,7 @@ void MainWindow::rebuildTimlineToolBar()
     connect(m_timelineToolBar, &QWidget::customContextMenuRequested, this, &MainWindow::showTimelineToolbarMenu);
     m_timelineToolBar->setVisible(true);
 }
+#endif
 
 void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 {
