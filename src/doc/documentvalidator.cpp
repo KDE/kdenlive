@@ -60,12 +60,19 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     } else if (rootDir.isEmpty()) {
         mlt.setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     }
+    QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
+    QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); i++) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            main_playlist = playlists.at(i).toElement();
+            break;
+        }
+    }
 
     QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
 
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) { // Backwards compatibility
         // Check document numeric separator (added in Kdenlive 16.12.1 and removed in Kdenlive 20.08)
-        QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
         QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
         QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C"); // Backwards compatibility
         qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
@@ -88,8 +95,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
-        QDomElement main = mlt.firstChildElement(QStringLiteral("playlist"));
-        version = Xml::getXmlProperty(main, QStringLiteral("kdenlive:docproperties.version")).toDouble();
+        version = Xml::getXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.version")).toDouble();
     } else {
         bool ok;
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
@@ -1241,24 +1247,18 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
         // Find bin playlist
-        playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
-        QDomElement playlist;
+        QDomElement main_playlist;
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
-                playlist = playlists.at(i).toElement();
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+                main_playlist = playlists.at(i).toElement();
                 break;
             }
         }
-        if (playlist.isNull()) {
-            for (int i = 0; i < playlists.count(); i++) {
-                if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
-                    playlist = playlists.at(i).toElement();
-                    playlist.setAttribute("id", BinPlaylist::binPlaylistId);
-                    break;
-                }
-            }
+        if (main_playlist.attribute(QStringLiteral("id")) != BinPlaylist::binPlaylistId) {
+            main_playlist.setAttribute("id", BinPlaylist::binPlaylistId);
         }
-        if (playlist.isNull()) {
+
+        if (main_playlist.isNull()) {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot recover this project file"));
             return false;
         }
@@ -1267,7 +1267,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         if (!notesList.isEmpty()) {
             QDomElement notes_elem = notesList.at(0).toElement();
             QString notes = notes_elem.firstChild().nodeValue();
-            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:documentnotes"), notes);
+            Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:documentnotes"), notes);
         }
         // Migrate clip groups
         QDomNodeList groupElement = m_doc.elementsByTagName(QStringLiteral("groups"));
@@ -1275,7 +1275,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement groups = groupElement.at(0).toElement();
             QDomDocument d2;
             d2.importNode(groups, true);
-            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:clipgroups"), d2.toString());
+            Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:clipgroups"), d2.toString());
         }
         // Migrate custom effects
         QDomNodeList effectsElement = m_doc.elementsByTagName(QStringLiteral("customeffects"));
@@ -1283,11 +1283,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QDomElement effects = effectsElement.at(0).toElement();
             QDomDocument d2;
             d2.importNode(effects, true);
-            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:customeffects"), d2.toString());
+            Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:customeffects"), d2.toString());
         }
-        Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
+        Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.version"), QString::number(currentVersion));
         if (!infoXml.isNull()) {
-            Xml::setXmlProperty(playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
+            Xml::setXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.projectfolder"), infoXml.attribute(QStringLiteral("projectfolder")));
         }
 
         // Remove deprecated Kdenlive extra info from xml doc before sending it to MLT
@@ -1445,7 +1445,14 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     }
     if (version < 0.97) {
         // move guides to new JSON format
-        QDomElement main_playlist = m_doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+        QDomElement main_playlist;
+        QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+        for (int i = 0; i < playlists.count(); i++) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
+                main_playlist = playlists.at(i).toElement();
+                break;
+            }
+        }
         QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
         QJsonArray guidesList;
         QMap<QString, QJsonArray> markersList;
@@ -1538,7 +1545,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // AV clips are not supported anymore. Check if we have some and add extra audio tracks if necessary
         // Update the main bin name as well to be xml compliant
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
                 mainplaylist = playlists.at(i);
                 QString oldGroups = Xml::getXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:clipgroups"));
@@ -2335,6 +2342,13 @@ void DocumentValidator::checkOrphanedProducers()
 {
     QDomElement mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
     QDomElement main = mlt.firstChildElement(QStringLiteral("playlist"));
+    QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); i++) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            main = playlists.at(i).toElement();
+            break;
+        }
+    }
     QDomNodeList bin_producers = main.childNodes();
     QStringList binProducers;
     for (int k = 0; k < bin_producers.count(); k++) {

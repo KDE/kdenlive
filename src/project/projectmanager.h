@@ -109,10 +109,10 @@ public:
     /** @brief Get a document b< uuid */
     KdenliveDoc *getDocument(const QUuid &uuid);
     void activateDocument(const QUuid &uuid);
-    bool closeDocument(const QUuid &uuid, bool lastTab);
+    bool closeDocument(const QUuid &uuid);
 
 public slots:
-    void newFile(QString profileName, bool showProjectSettings = true, bool closeCurrent = false);
+    void newFile(QString profileName, bool showProjectSettings = true, bool closeCurrent = true);
     void newFile(bool showProjectSettings = true, bool closeCurrent = true);
     /** @brief Shows file open dialog. */
     void openFile();

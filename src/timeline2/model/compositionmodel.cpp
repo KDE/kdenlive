@@ -13,7 +13,7 @@
 #include <mlt++/MltTransition.h>
 #include <utility>
 
-CompositionModel::CompositionModel(std::weak_ptr<DocumentObjectModel> objectModel, std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
+CompositionModel::CompositionModel(std::weak_ptr<KdenliveDocObjectModel> objectModel, std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
                                    const QString &transitionId, const QString &originalDecimalPoint)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(objectModel, std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id}, originalDecimalPoint)

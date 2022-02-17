@@ -89,12 +89,39 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    qDebug()<<"======= BUILDING PLAYLIST FROM: "<<xml.toString()<<"\n\nAAAAAAAAAAAAAAAAAAAAAAA";
+    /*QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+    tmp.setAutoRemove(false);
+    if (!tmp.open()) {
+        // Something went wrong
+        return QString("-1");
+    }
+    QTextStream stream( &tmp );
+    stream << xml.toString();
+    tmp.close();
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml", tmp.fileName().toUtf8().constData()));*/
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
     prod->set("kdenlive:uuid", QUuid::createUuid().toString().toUtf8().constData());
     prod->set("kdenlive:clipname", i18n("Playlist").toUtf8().constData());
     prod->set("kdenlive:duration", 1);
+    //qDebug()<<"===== CREATED PLAYLIST CLIP: "<<tmp.fileName();
     bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    //bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
+    return res ? id : QStringLiteral("-1");
+}
+
+QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder,
+                                     const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer, const QUuid uuid, const QMap<QString, QString> mainProperties)
+{
+    QString id;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    QMapIterator<QString, QString> i(mainProperties);
+    while (i.hasNext()) {
+        i.next();
+        producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    bool res = model->requestAddBinClip(id, producer, parentFolder, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
     //bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");

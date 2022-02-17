@@ -537,8 +537,9 @@ TEST_CASE("Spacer operations", "[Spacer]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(uuid, undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -552,7 +553,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(uuid, &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -1374,8 +1375,9 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(uuid, undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -1388,7 +1390,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(uuid, &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -1697,8 +1699,9 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(uuid, undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -1709,9 +1712,8 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_trimming, undoStack);
+    TimelineItemModel tim(uuid, &profile_trimming, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);

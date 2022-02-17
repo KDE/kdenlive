@@ -74,9 +74,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, const QString &
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(uuid, m_commandStack, this))
+//    , m_guideModel(new MarkerListModel(uuid, m_commandStack, this))
 {
-    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+//    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
@@ -109,6 +109,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, const QString &
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
+    m_documentProperties[QStringLiteral("uuid")] = uuid.toString();
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -246,6 +247,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, const QString &
     } else {
         m_clipsCount = m_document.elementsByTagName(QLatin1String("entry")).size();
     }
+    m_guideModel.reset(new MarkerListModel(uuid, m_commandStack, this));
+    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
 
     if (!m_projectFolder.isEmpty()) {
         // Ask to create the project directory if it does not exist
@@ -1356,34 +1359,47 @@ void KdenliveDoc::loadDocumentProperties()
     if (!m_documentRoot.isEmpty()) {
         m_documentRoot = QDir::cleanPath(m_documentRoot) + QLatin1Char('/');
     }
-    if (!list.isEmpty()) {
-        QDomElement pl = list.at(0).toElement();
-        if (pl.isNull()) {
-            return;
+    // Find main playlist
+    QDomElement pl;
+    for (int i = 0; i < list.count(); i++) {
+        pl = list.at(i).toElement();
+        const QString id = pl.attribute(QStringLiteral("id"));
+        if (id == QLatin1String("main_bin") || id == QLatin1String("main bin")) {
+            break;
         }
+        pl = QDomElement();
+    }
+    if (pl.isNull()) {
+        qDebug()<<"==== DOCUMENT PLAYLIST NOT FOUND!!!!!";
+        return;
+    }
         //QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
-        QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
-        QString name;
-        QDomElement e;
-        for (int i = 0; i < props.count(); i++) {
-            e = props.at(i).toElement();
-            name = e.attribute(QStringLiteral("name"));
-            if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
-                name = name.section(QLatin1Char('.'), 1);
-                if (name == QStringLiteral("storagefolder")) {
-                    // Make sure we have an absolute path
-                    QString value = e.firstChild().nodeValue();
-                    if (QFileInfo(value).isRelative()) {
-                        value.prepend(m_documentRoot);
-                    }
-                    m_documentProperties.insert(name, value);
-                } else {
-                    m_documentProperties.insert(name, e.firstChild().nodeValue());
+    QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
+    QString name;
+    QDomElement e;
+    for (int i = 0; i < props.count(); i++) {
+        e = props.at(i).toElement();
+        name = e.attribute(QStringLiteral("name"));
+        if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
+            name = name.section(QLatin1Char('.'), 1);
+            if (name == QStringLiteral("storagefolder")) {
+                // Make sure we have an absolute path
+                QString value = e.firstChild().nodeValue();
+                if (QFileInfo(value).isRelative()) {
+                    value.prepend(m_documentRoot);
                 }
-            } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
-                name = name.section(QLatin1Char('.'), 1);
-                m_documentMetadata.insert(name, e.firstChild().nodeValue());
+                m_documentProperties.insert(name, value);
+            } else {
+                m_documentProperties.insert(name, e.firstChild().nodeValue());
+                if (name == QLatin1String("uuid")) {
+                    uuid = QUuid(e.firstChild().nodeValue());
+                } else if (name == QLatin1String("timelines")) {
+                    qDebug()<<"=======\n\nFOUND EXTRA TIMELINES:\n\n"<<e.firstChild().nodeValue()<<"\n\n=========";
+                }
             }
+        } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
+            name = name.section(QLatin1Char('.'), 1);
+            m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
     }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
@@ -1859,6 +1875,11 @@ QString& KdenliveDoc::modifiedDecimalPoint() {
 
 const QStringList KdenliveDoc::getSecondaryTimelines() const
 {
+    qDebug()<<"::: GOT DOCUMENT TIMELINES: "<<getDocumentProperty(QStringLiteral("timelines"));
+    QString timelines = getDocumentProperty(QStringLiteral("timelines"));
+    if (timelines.isEmpty()) {
+        return QStringList();
+    }
     return getDocumentProperty(QStringLiteral("timelines")).split(QLatin1Char(';'));
 }
 
@@ -1879,18 +1900,21 @@ void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
     m_subtitleModel = m_subtitle;
 }
 
-void KdenliveDoc::addTimeline(const QString &path, const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel)
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel)
 {
-    m_timelineMaps.insert(path, uuid);
     m_timelineGuides.insert(uuid, std::move(guideModel));
+    QStringList timelines;
+    QMapIterator<QUuid, std::shared_ptr<MarkerListModel>> i(m_timelineGuides);
+    while (i.hasNext()) {
+        i.next();
+        timelines << i.key().toString();
+    }
+    setDocumentProperty(QStringLiteral("timelines"), timelines.join(QLatin1Char(';')));
 }
 
-const QUuid KdenliveDoc::findTimeline(const QString & path) const
+int KdenliveDoc::timelineCount() const
 {
-    if (m_timelineMaps.contains(path)) {
-        return m_timelineMaps.value(path);
-    }
-    return QUuid();
+    return m_timelineGuides.size();
 }
 
 void KdenliveDoc::useOriginals(QDomDocument &doc)

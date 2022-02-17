@@ -90,7 +90,9 @@ signals:
 public slots:
     TimelineWidget *addTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
     void connectCurrent(int ix);
-    void closeTimeline(int ix);
+    void closeTimelineByIndex(int ix);
+    void closeTimeline(const QUuid &uuid);
+    void renameTab(const QUuid &uuid, const QString &name);
 
 private:
     TimelineWidget *m_activeTimeline;

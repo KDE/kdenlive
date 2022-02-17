@@ -48,6 +48,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     m_clipType = binClip->clipType();
     if (binClip) {
         m_endlessResize = !binClip->hasLimitedDuration();
+        qDebug()<<"====\n++++\n CLIP endless resize: "<<m_endlessResize<<", CLIP LENGTH: "<<binClip->getProducerDuration()<<" / "<<m_producer->get_length();
     } else {
         m_endlessResize = false;
     }
@@ -79,6 +80,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
     qDebug()<<"// GET TIMELINE PROD FOR STREAM: "<<audioStream;
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, audioStream, speed);
+    qDebug()<<"=== CLIPMODEL PRODUCER MAX: "<<cutProducer->get_int("kdenlive:maxduration")<<"\n\nOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO";
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     if (!qFuzzyCompare(speed, 1.)) {
         cutProducer->parent().set("warp_pitch", warp_pitch ? 1 : 0);
@@ -1460,6 +1462,9 @@ int ClipModel::getMaxDuration() const
     READ_LOCK();
     if (m_endlessResize) {
         return -1;
+    }
+    if (m_clipType == ClipType::Playlist && m_producer->property_exists("kdenlive:maxduration")) {
+        return m_producer->get_int("kdenlive:maxduration");
     }
     return m_producer->get_length();
 }

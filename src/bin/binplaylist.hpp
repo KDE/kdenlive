@@ -8,6 +8,7 @@
 
 #include "definitions.h"
 #include <QObject>
+#include <QUuid>
 #include <memory>
 #include <unordered_set>
 
@@ -29,7 +30,7 @@ class BinPlaylist : public QObject
 {
 
 public:
-    BinPlaylist();
+    BinPlaylist(const QUuid &uuid);
     /** @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
        This is because the function will be called in the middle of the element's destructor, so no smart pointer is available at that time.
@@ -80,7 +81,7 @@ protected:
 private:
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;
-
+    const QUuid m_uuid;
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
 };

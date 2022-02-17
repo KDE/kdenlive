@@ -1210,14 +1210,14 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && id.first != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
 
 void Core::updateMasterZones()
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
     }
 }

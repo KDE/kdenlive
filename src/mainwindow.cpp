@@ -402,6 +402,7 @@ void MainWindow::init(const QString &mltPath)
         getCurrentTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
     });
 
+    connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&] () {
@@ -2367,6 +2368,15 @@ void MainWindow::connectTimeline()
     }
 }
 
+void MainWindow::closeDocument(const QUuid &uuid)
+{
+    // TODO: perform operation on all project's timelines
+    getCurrentTimeline()->unsetModel();
+    pCore->window()->resetSubtitles();
+    closeTimeline(uuid);
+    m_commandStack->setActiveStack(nullptr);
+}
+
 void MainWindow::connectDocument()
 {
     KdenliveDoc *project = pCore->currentDoc();
@@ -2405,7 +2415,8 @@ void MainWindow::connectDocument()
     connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
     
     // Load master effect zones
-    getCurrentTimeline()->controller()->updateMasterZones(getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
+    //TODO-MULTITL
+    //getCurrentTimeline()->controller()->updateMasterZones(getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
 
     m_buttonSelectTool->setChecked(true);
     getCurrentTimeline()->focusTimeline();
@@ -4191,9 +4202,9 @@ TimelineWidget *MainWindow::getCurrentTimeline() const
     return m_timelineTabs->getCurrentTimeline();
 }
 
-void MainWindow::closeTimelines()
+void MainWindow::closeTimeline(const QUuid &uuid)
 {
-    m_timelineTabs->closeTimelines();
+    m_timelineTabs->closeTimeline(uuid);
 }
 
 bool MainWindow::hasTimeline() const

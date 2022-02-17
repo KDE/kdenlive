@@ -327,7 +327,7 @@ public:
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
     void registerPlaylist(QUuid uuid, const QString id);
-    void updatePlaylistClip(const QUuid &uuid, const QUuid &current);
+    void updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -605,6 +605,8 @@ signals:
     /** @brief Selected all markers in clip properties dialog. */
     void selectMarkers();
     void requestBinClose();
+    /** @brief Update a timeline tab name on clip rename. */
+    void updateTabName(const QUuid &, const QString &);
 };
 
 #endif

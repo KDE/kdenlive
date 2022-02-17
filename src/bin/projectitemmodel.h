@@ -251,7 +251,6 @@ private:
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     std::unique_ptr<FileWatcher> m_fileWatcher;
-
     std::unordered_map<QString,std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
 
     int m_nextId;

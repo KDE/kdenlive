@@ -1,10 +1,11 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   doc/documentchecker.cpp
+  doc/documentobjectmodel.cpp
   doc/documentvalidator.cpp
   doc/kdenlivedoc.cpp
-  doc/documentobjectmodel.cpp
   doc/kthumb.cpp
   doc/docundostack.cpp
   PARENT_SCOPE)
+  
 

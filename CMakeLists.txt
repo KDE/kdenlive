@@ -21,7 +21,7 @@ endif()
 
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
-option(BUILD_TESTING "Build tests" ON)
+option(BUILD_TESTING "Build tests" OFF)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(NODBUS "Build without DBus IPC" OFF)

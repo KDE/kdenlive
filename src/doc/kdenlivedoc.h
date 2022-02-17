@@ -187,8 +187,9 @@ public:
     /** @brief Used to store timeline position on tab switch */
     int position;
 
-    void addTimeline(const QString &path, const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel);
-    const QUuid findTimeline(const QString & path) const;
+    void addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel);
+    /** @brief Returns the number of opened extra timelines */
+    int timelineCount() const;
 
 private:
     QUrl m_url;
@@ -224,7 +225,6 @@ private:
     QString m_documentProfile;
     std::unique_ptr<Mlt::Profile> m_projectProfile;
     QString m_modifiedDecimalPoint;
-    QMap <QString, QUuid> m_timelineMaps;
     QMap <QUuid, std::shared_ptr<MarkerListModel>> m_timelineGuides;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;

@@ -13,6 +13,9 @@
 #include <unordered_map>
 
 class ProjectItemModel;
+namespace Mlt {
+class Producer;
+}
 
 /** @brief This namespace provides convenience functions to create clips based on various parameters
  */
@@ -28,6 +31,8 @@ namespace ClipCreator {
 QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
 
 QString createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
+QString createPlaylistClip(const QString &name, const QString &parentFolder,
+                                     const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer, const QUuid uuid, const QMap<QString, QString> mainProperties);
 
 /** @brief Create a title clip
    @param properties : title properties (xmldata, etc)

@@ -35,7 +35,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
         tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
     }*/
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
-    connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimeline);
+    connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
 }
 
 void TimelineTabs::raiseTimeline(const QUuid &uuid)
@@ -73,31 +73,45 @@ void TimelineTabs::connectCurrent(int ix)
 {
     qDebug()<<"==== SWITCHING CURRENT TIMELINE TO: "<<ix;
     QUuid previousTab = QUuid();
+    int duration = 0;
     if (m_activeTimeline) {
         previousTab = m_activeTimeline->uuid;
+        duration = m_activeTimeline->model()->duration();
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
         qDebug()<<"==== NO PRECIOUS TIMELINE";
     }
+    if (ix < 0 || ix >= count()) {
+        m_activeTimeline = nullptr;
+        return;
+    }
     m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
     connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
     if (previousTab != QUuid()) {
-        pCore->bin()->updatePlaylistClip(previousTab, m_activeTimeline->uuid);
+        pCore->bin()->updatePlaylistClip(previousTab, duration, m_activeTimeline->uuid);
     }
 }
 
-void TimelineTabs::closeTimeline(int ix)
+void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
+{
+    qDebug()<<"==== READY TO RENAME!!!!!!!!!";
+    for (int i = 0; i < count(); i++) {
+        if (static_cast<TimelineWidget *>(widget(i))->uuid == uuid) {
+            tabBar()->setTabText(i, name);
+            break;
+        }
+    }
+}
+
+void TimelineTabs::closeTimelineByIndex(int ix)
 {
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
     const QUuid uuid = timeline->uuid;
-    bool lastTab = count() == 1;
-    if (pCore->projectManager()->closeDocument(uuid, lastTab)) {
-        if (!lastTab) {
-            removeTab(ix);
-            delete timeline;
-        }
+    if (pCore->projectManager()->closeDocument(uuid)) {
+        removeTab(ix);
+        delete timeline;
     }
 }
 
@@ -119,6 +133,24 @@ void TimelineTabs::closeTimelines()
 {
     for (int i = 0; i < count(); i++) {
         static_cast<TimelineWidget *>(widget(i))->unsetModel();
+    }
+}
+
+void TimelineTabs::closeTimeline(const QUuid &uuid)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (uuid == timeline->uuid) {
+            if (m_activeTimeline == timeline) {
+                pCore->window()->disconnectTimeline(m_activeTimeline);
+                disconnectTimeline(m_activeTimeline);
+                m_activeTimeline = nullptr;
+            }
+            timeline->unsetModel();
+            removeTab(i);
+            delete timeline;
+            break;
+        }
     }
 }
 

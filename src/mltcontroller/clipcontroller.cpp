@@ -161,6 +161,7 @@ void ClipController::getInfoForProducer()
 {
     QReadLocker lock(&m_producerLock);
     m_service = m_properties->get("mlt_service");
+    qDebug()<<"=== GETTING INFO FOR PRODUCER SERVICE:\n\n SERVICE = "<<m_service;
     if (m_service == QLatin1String("qtext")) {
         // Placeholder clip, find real service
         QString originalService = m_properties->get("kdenlive:orig_service");
@@ -233,7 +234,7 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
         m_hasLimitedDuration = false;
-    } else if (m_service.startsWith(QLatin1String("xml")) || m_service == QLatin1String("consumer")) {
+    } else if (m_service.startsWith(QLatin1String("xml")) || m_service == QLatin1String("consumer") || m_service == QLatin1String("tractor")) {
         m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
@@ -680,7 +681,7 @@ void ClipController::checkAudioVideo()
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
             m_hasAudio = m_masterProducer->get_int("audio_index") >= 0;
             m_hasVideo = m_masterProducer->get_int("video_index") >= 0;
-        } else if (orig_service.startsWith(QStringLiteral("xml"))) {
+        } else if (orig_service.startsWith(QStringLiteral("xml")) || orig_service == QLatin1String("tractor")) {
             // Playlist, assume we have audio and video
             m_hasAudio = true;
             m_hasVideo = true;

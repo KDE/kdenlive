@@ -1865,7 +1865,9 @@ void Bin::cleanDocument()
     emit requestShowClipProperties(nullptr);
 
     // Cleanup previous project
-    m_itemModel->clean();
+    if (m_itemModel) {
+        m_itemModel->clean();
+    }
     delete m_itemView;
     m_itemView = nullptr;
     isLoading = false;
@@ -4947,10 +4949,15 @@ void Bin::registerPlaylist(QUuid uuid, const QString id)
     m_openedPlaylists.insert(uuid, id);
 }
 
-void Bin::updatePlaylistClip(const QUuid &uuid, const QUuid &current)
+void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current)
 {
     if (m_openedPlaylists.contains(uuid)) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
+        qDebug()<<"==== ADJUSTING CLIP DURATION: "<<duration;
+        clip->setProducerProperty(QStringLiteral("length"), duration);
+        clip->setProducerProperty(QStringLiteral("out"), duration - 1);
+        clip->setProducerProperty(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
+        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), duration);
         clip->reloadPlaylist();
     }
     QMapIterator<QUuid, QString> i(m_openedPlaylists);

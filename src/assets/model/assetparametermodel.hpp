@@ -6,18 +6,20 @@
 #ifndef ASSETPARAMETERMODEL_H
 #define ASSETPARAMETERMODEL_H
 
+#include "doc/documentobjectmodel.h"
 #include "definitions.h"
-#include "klocalizedstring.h"
+
+#include <KLocalizedString>
 #include <QAbstractListModel>
 #include <QDomElement>
 #include <QJsonDocument>
-#include <unordered_map>
 
+#include <unordered_map>
 #include <memory>
 #include <mlt++/MltProperties.h>
 
 class KeyframeModelList;
-class DocumentObjectModel;
+class KdenliveDocObjectModel;
 
 typedef QVector<QPair<QString, QVariant>> paramVector;
 
@@ -75,7 +77,7 @@ public:
      * so numbers are parsed correctly.
      * @param parent
      */
-    explicit AssetParameterModel(std::weak_ptr<DocumentObjectModel> objectModel, std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+    explicit AssetParameterModel(std::weak_ptr<KdenliveDocObjectModel> objectModel, std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                  const QString& originalDecimalPoint = QString(),
                                  QObject *parent = nullptr);
     ~AssetParameterModel() override;
@@ -231,7 +233,7 @@ protected:
 
     QString m_assetId;
     ObjectId m_ownerId;
-    std::weak_ptr<DocumentObjectModel> m_objectModel;
+    std::weak_ptr<KdenliveDocObjectModel> m_objectModel;
     bool m_active;
     /** @brief Keep track of parameter order, important for sox */
     std::vector<QString> m_paramOrder;

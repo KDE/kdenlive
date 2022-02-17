@@ -130,7 +130,7 @@ public:
     TimelineWidget *getCurrentTimeline() const;
 
     /** @brief Prepare closure of timelines */
-    void closeTimelines();
+    void closeTimeline(const QUuid &uuid);
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
@@ -325,6 +325,7 @@ public slots:
 
     void slotPreferences(int page = -1, int option = -1);
     void connectDocument();
+    void closeDocument(const QUuid &uuid);
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void configureToolbars() override;

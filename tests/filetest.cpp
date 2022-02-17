@@ -15,8 +15,9 @@ TEST_CASE("Save File", "[SF]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(uuid, undoStack);
 
     // Here we do some trickery to enable testing.
 
@@ -45,7 +46,7 @@ TEST_CASE("Save File", "[SF]")
         pCore->m_projectManager->m_project->m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(uuid, &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -124,7 +125,7 @@ TEST_CASE("Save File", "[SF]")
         pCore->m_projectManager->m_project->m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(uuid, &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline, guideModel);
@@ -147,8 +148,7 @@ TEST_CASE("Save File", "[SF]")
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        bool projectErrors;
-        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), QDateTime(), 0, &projectErrors);
+        constructTimelineFromTractor(uuid, timeline, binModel, tractor, nullptr, QString());
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(2);
         int cid1 = timeline->getClipByStartPosition(tid1, 0);
