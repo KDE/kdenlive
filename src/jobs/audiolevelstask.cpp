@@ -113,7 +113,7 @@ void AudioLevelsTask::run()
                 // convert cached image
                 int n = image.width() * image.height();
                 for (int i = 0; n > 1 && i < n; i++) {
-                    QRgb p = image.pixel(i / 2, i % channels);
+                    QRgb p = image.pixel(i / channels, i % channels);
                     mltLevels << qRed(p);
                     mltLevels << qGreen(p);
                     mltLevels << qBlue(p);
@@ -231,7 +231,7 @@ void AudioLevelsTask::run()
                     int a = last;
                     p = qRgba(r, g, b, a);
                 }
-                image.setPixel(i / 2, i % channels, p);
+                image.setPixel(i / channels, i % channels, p);
             }
             image.save(cachePath);
             audioCreated = true;
