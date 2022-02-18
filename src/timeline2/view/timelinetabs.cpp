@@ -74,8 +74,9 @@ void TimelineTabs::connectCurrent(int ix)
     qDebug()<<"==== SWITCHING CURRENT TIMELINE TO: "<<ix;
     QUuid previousTab = QUuid();
     int duration = 0;
-    if (m_activeTimeline) {
+    if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->uuid;
+        m_activeTimeline->model()->updateDuration();
         duration = m_activeTimeline->model()->duration();
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
@@ -87,6 +88,11 @@ void TimelineTabs::connectCurrent(int ix)
         return;
     }
     m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
+    if (m_activeTimeline->model() == nullptr || m_activeTimeline->model()->m_closing) {
+        // Closing app
+        qDebug()<<"++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
+        return;
+    }
     connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
     if (previousTab != QUuid()) {
@@ -100,6 +106,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
     for (int i = 0; i < count(); i++) {
         if (static_cast<TimelineWidget *>(widget(i))->uuid == uuid) {
             tabBar()->setTabText(i, name);
+            pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
             break;
         }
     }

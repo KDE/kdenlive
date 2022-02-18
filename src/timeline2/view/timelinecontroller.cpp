@@ -82,11 +82,14 @@ void TimelineController::prepareClose()
     // Clear root so we don't call its methods anymore
     QObject::disconnect( m_deleteConnection );
     disconnect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
-    disconnect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     disconnect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     disconnect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
-    disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
-    disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    if (m_model) {
+        m_model->prepareClose();
+        disconnect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
+        disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
+        disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    }
     m_ready = false;
     m_root = nullptr;
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate

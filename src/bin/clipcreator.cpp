@@ -101,7 +101,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml", tmp.fileName().toUtf8().constData()));*/
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
     prod->set("kdenlive:uuid", QUuid::createUuid().toString().toUtf8().constData());
-    prod->set("kdenlive:clipname", i18n("Playlist").toUtf8().constData());
+    prod->set("kdenlive:clipname", name.toUtf8().constData());
     prod->set("kdenlive:duration", 1);
     //qDebug()<<"===== CREATED PLAYLIST CLIP: "<<tmp.fileName();
     bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);

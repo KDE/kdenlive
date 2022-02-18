@@ -105,11 +105,16 @@ public:
 
     /** @brief Open a new timeline to edit a playlist clip */
     void openTimeline(const QString &id);
+    
+    /** @brief Store a property in a secondary timeline */
+    void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
 
-    /** @brief Get a document b< uuid */
+    /** @brief Get a document by uuid */
     KdenliveDoc *getDocument(const QUuid &uuid);
     void activateDocument(const QUuid &uuid);
     bool closeDocument(const QUuid &uuid);
+    /** @brief The number of existing timelines for this project */
+    int getTimelinesCount() const;
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true, bool closeCurrent = true);
@@ -222,8 +227,6 @@ private:
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
     QMap<QUuid, KdenliveDoc*> m_openedDocuments;
-    std::unordered_map<QString,QUuid> m_secondaryTimelineEntries;
-    std::unordered_map<std::shared_ptr<TimelineItemModel>,QUuid> m_secondaryTimelines;
     std::unordered_map<QString,std::shared_ptr<TimelineItemModel>> m_timelineModels;
     QMap<QUuid, QString> m_timelinePath;
     QMap<QUuid, QUuid> m_uuidMap;

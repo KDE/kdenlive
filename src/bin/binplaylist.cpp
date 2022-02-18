@@ -101,6 +101,7 @@ void BinPlaylist::removeBinClip(const QString &id)
             ok = true;
         }
     }
+    //TODO-MULTITL this crashes when trying to delete the "main playlist" nonexistent item on exit
     Q_ASSERT(ok);
 }
 

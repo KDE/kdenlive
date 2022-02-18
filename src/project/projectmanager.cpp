@@ -1452,21 +1452,21 @@ void ProjectManager::openTimeline(const QString &id)
         std::shared_ptr<Mlt::Producer>main(m_mainTimelineModel->tractor());
         //std::shared_ptr<Mlt::Producer>main(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, "color:red"));
         QMap<QString, QString> mainProperties;
-        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Playlist"));
+        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Main Playlist"));
         int duration = m_mainTimelineModel->duration();
         mainProperties.insert("kdenlive:maxduration", QString::number(duration));
         mainProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration - 1));
         mainProperties.insert(QStringLiteral("length"), QString::number(duration));
         //mainProperties.insert("out", QString::number(duration - 1));
         mainProperties.insert(QStringLiteral("kdenlive:uuid"), m_mainTimelineModel->uuid().toString().toUtf8().constData());
-        QString mainId = ClipCreator::createPlaylistClip(i18n("Playlist"), QStringLiteral("-1"), std::move(pCore->projectItemModel()), main, m_mainTimelineModel->uuid(), mainProperties);
+        QString mainId = ClipCreator::createPlaylistClip(i18n("Main Playlist"), QStringLiteral("-1"), std::move(pCore->projectItemModel()), main, m_mainTimelineModel->uuid(), mainProperties);
         pCore->bin()->registerPlaylist(m_mainTimelineModel->uuid(), mainId);
         std::shared_ptr<ProjectClip>mainClip = pCore->bin()->getBinClip(mainId);
         QObject::connect(m_mainTimelineModel.get(), &TimelineModel::durationUpdated, [model = m_mainTimelineModel, mainClip]() {
             QMap<QString, QString> properties;
             properties.insert(QStringLiteral("kdenlive:duration"), QString::number(model->duration()));
             properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
-            qDebug()<<"=== UPDATEING CLIP DURATION: "<<model->duration();
+            qDebug()<<"=== UPDATEING MAIN CLIP DURATION: "<<model->duration();
             mainClip->setProperties(properties, true);
         });
     }
@@ -1498,70 +1498,69 @@ void ProjectManager::openTimeline(const QString &id)
     //timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     //QDomDocument doc = m_project->createEmptyDocument(2, 2);
     if (internalLoad) {
-        qDebug()<<"============= LOADING INTERNAL PLAYLIST!!!!";
+        qDebug()<<"============= LOADING INTERNAL PLAYLIST: "<<timeline->uuid;
         if (!constructTimelineFromTractor(timeline->uuid, timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint())) {
             qDebug()<<"===== LOADING PROJECT INTERNAL ERROR";
         }
         std::shared_ptr<Mlt::Producer>prod = std::make_shared<Mlt::Producer>(timeline->tractor());
         prod->set("kdenlive:duration", timelineModel->duration());
-            prod->set("kdenlive:maxduration", timelineModel->duration());
-            prod->set("length", timelineModel->duration());
-            prod->set("out", timelineModel->duration() - 1);
-            prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
-            prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
-            QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
-                QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
-                qDebug()<<"=== UPDATEING CLIP DURATION: "<<timelineModel->duration();
-                clip->setProperties(properties, true);
-            });
-            clip->setProducer(prod);
-    }
-    else {
-    Mlt::Service s(xmlProd->producer()->get_service());
-    if (s.type() == mlt_service_multitrack_type) {
-        Mlt::Multitrack multi(s);
-        qDebug()<<"===== LOADING PROJECT FROM MULTITRACK: " <<multi.count()<<"\n============";
-        if (!constructTimelineFromMelt(timeline->uuid, timelineModel, nullptr, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
-            //TODO: act on project load failure
-            qDebug()<<"// Project failed to load!!";
-        }
-    } else if (s.type() == mlt_service_tractor_type) {
-        Mlt::Tractor tractor(s);
-        qDebug()<<"==== GOT PROJECT CLIP LENGTH: "<<xmlProd->get_length()<<", TYPE:"<<s.type();
-        qDebug()<<"==== GOT TRACKS: "<<tractor.count();
-        if (!constructTimelineFromTractor(timeline->uuid, timelineModel, nullptr, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
-            //TODO: act on project load failure
-            qDebug()<<"// Project failed to load!!";
-        }
+        prod->set("kdenlive:maxduration", timelineModel->duration());
+        prod->set("length", timelineModel->duration());
+        prod->set("out", timelineModel->duration() - 1);
+        prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
+            QMap<QString, QString> properties;
+            properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
+            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
+            qDebug()<<"=== UPDATEING SECONDARY CLIP DURATION: "<<timelineModel->duration();
+            clip->setProperties(properties, true);
+        });
+        clip->setProducer(prod);
     } else {
-        // Is it a Kdenlive project
-            Mlt::Tractor tractor2(( mlt_tractor )xmlProd->get_producer());
-            if (tractor2.count() == 0) {
-                qDebug()<<"=== INVALID TRACTORE";
-            }
-            if (!constructTimelineFromTractor(timeline->uuid, timelineModel, nullptr, tractor2, m_progressDialog, m_project->modifiedDecimalPoint())) {
+        Mlt::Service s(xmlProd->producer()->get_service());
+        if (s.type() == mlt_service_multitrack_type) {
+            Mlt::Multitrack multi(s);
+            qDebug()<<"===== LOADING PROJECT FROM MULTITRACK: " <<multi.count()<<"\n============";
+            if (!constructTimelineFromMelt(timeline->uuid, timelineModel, nullptr, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
+                //TODO: act on project load failure
                 qDebug()<<"// Project failed to load!!";
             }
-            //std::shared_ptr<Mlt::Producer>prod(new Mlt::Producer(timeline->tractor()));
-            std::shared_ptr<Mlt::Producer>prod = std::make_shared<Mlt::Producer>(timeline->tractor());
-            prod->set("kdenlive:duration", timelineModel->duration());
-            prod->set("kdenlive:maxduration", timelineModel->duration());
-            prod->set("length", timelineModel->duration());
-            prod->set("out", timelineModel->duration() - 1);
-            prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
-            prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
-            QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
-                QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
-                qDebug()<<"=== UPDATEING CLIP DURATION: "<<timelineModel->duration();
-                clip->setProperties(properties, true);
-            });
-            clip->setProducer(prod);
-            QString retain = QStringLiteral("xml_retain %1").arg(timelineModel->uuid().toString());
-            m_mainTimelineModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
+        } else if (s.type() == mlt_service_tractor_type) {
+            Mlt::Tractor tractor(s);
+            qDebug()<<"==== GOT PROJECT CLIP LENGTH: "<<xmlProd->get_length()<<", TYPE:"<<s.type();
+            qDebug()<<"==== GOT TRACKS: "<<tractor.count();
+            if (!constructTimelineFromTractor(timeline->uuid, timelineModel, nullptr, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
+                //TODO: act on project load failure
+                qDebug()<<"// Project failed to load!!";
+            }
+        } else {
+            // Is it a Kdenlive project
+                Mlt::Tractor tractor2(( mlt_tractor )xmlProd->get_producer());
+                if (tractor2.count() == 0) {
+                    qDebug()<<"=== INVALID TRACTORE";
+                }
+                if (!constructTimelineFromTractor(timeline->uuid, timelineModel, nullptr, tractor2, m_progressDialog, m_project->modifiedDecimalPoint())) {
+                    qDebug()<<"// Project failed to load!!";
+                }
+                //std::shared_ptr<Mlt::Producer>prod(new Mlt::Producer(timeline->tractor()));
+                std::shared_ptr<Mlt::Producer>prod = std::make_shared<Mlt::Producer>(timeline->tractor());
+                prod->set("kdenlive:duration", timelineModel->duration());
+                prod->set("kdenlive:maxduration", timelineModel->duration());
+                prod->set("length", timelineModel->duration());
+                prod->set("out", timelineModel->duration() - 1);
+                prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+                prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
+                QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
+                    QMap<QString, QString> properties;
+                    properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
+                    properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
+                    qDebug()<<"=== UPDATEING CLIP DURATION: "<<timelineModel->duration();
+                    clip->setProperties(properties, true);
+                });
+                clip->setProducer(prod);
+                QString retain = QStringLiteral("xml_retain %1").arg(timelineModel->uuid().toString());
+                m_mainTimelineModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
 
         /*
         QFile f(clip->url());
@@ -1580,7 +1579,7 @@ void ProjectManager::openTimeline(const QString &id)
             std::shared_ptr<TimelineItemModel> mainModel = m_project->objectModel()->timeline()->model();
             mainModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
         }*/
-    }
+        }
     }
     pCore->window()->raiseTimeline(timeline->uuid);
 }
@@ -1591,7 +1590,22 @@ std::shared_ptr<MarkerListModel> ProjectManager::getGuideModel()
     return nullptr;
 }
 
+void ProjectManager::setTimelinePropery(QUuid uuid, const QString &prop, const QString &val)
+{
+    auto match = m_timelineModels.find(uuid.toString());
+    if (match == m_timelineModels.end()) {
+        qDebug()<<"=== ERROR";
+        return;
+    }
+    match->second->tractor()->set(prop.toUtf8().constData(), val.toUtf8().constData());
+}
+
 KdenliveDoc *ProjectManager::getDocument(const QUuid &uuid)
 {
     return m_openedDocuments.value(uuid);
+}
+
+int ProjectManager::getTimelinesCount() const
+{
+    return m_timelineModels.size();
 }

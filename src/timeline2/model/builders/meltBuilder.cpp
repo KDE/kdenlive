@@ -581,9 +581,15 @@ bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineIte
                         // Clip was marked for deletion
                         continue;
                     }
+                    QString resource = clip->parent().get("resource");
+                    if (resource.endsWith(QLatin1String("<tractor>"))) {
+                        // This is a bogus internal clip
+                        continue;
+                    }
+                    qDebug()<<"=======================\n\nBOGUS CLIP: "<<resource<<"\n\n=======";
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
-                    QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
+                    QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
                     QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>").arg(QString::number(position), QString::number(timeline->getTrackPosition(tid)+1), timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
                     if (!fixedId.isEmpty()) {
                         binId = fixedId.first();

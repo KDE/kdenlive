@@ -136,13 +136,13 @@ void AudioLevelsTask::run()
             service = QStringLiteral("avformat");
         } else if (service.startsWith(QLatin1String("xml"))) {
             service = QStringLiteral("xml-nogl");
-            if (resource.simplified() == QLatin1String("<tractor>")) {
+            if (resource.endsWith(QLatin1String("<tractor>"))) {
                 // We need to create a temporary xml file to create audio thumbs
                 pCore->taskManager.taskDone(m_owner.second, this);
                 return;
             }
         } else {
-            if (resource.simplified() == QLatin1String("<tractor>")) {
+            if (resource.endsWith(QLatin1String("<tractor>"))) {
                 // We need to create a temporary xml file to create audio thumbs
                 pCore->taskManager.taskDone(m_owner.second, this);
                 return;

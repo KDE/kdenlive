@@ -3329,8 +3329,11 @@ void Bin::slotCreateProjectClip()
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this);
         break;
     case ClipType::Playlist:
-        ClipCreationDialog::createPlaylistClip(m_doc, parentFolder, m_itemModel);
-        break;
+        {
+            int timelinesCount = pCore->projectManager()->getTimelinesCount();
+            ClipCreationDialog::createPlaylistClip(i18n("Playlist %1", timelinesCount), m_doc, parentFolder, m_itemModel);
+            break;
+        }
     default:
         break;
     }
@@ -4960,6 +4963,8 @@ void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &curre
         clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), duration);
         clip->reloadPlaylist();
     }
+    // Hide bin item for current playlist
+    /*
     QMapIterator<QUuid, QString> i(m_openedPlaylists);
     if ((m_itemView != nullptr) && m_listType == BinTreeView) {
         auto *view = static_cast<QTreeView *>(m_itemView);
@@ -4991,6 +4996,7 @@ void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &curre
             }
         }
     }
+    */
 }
 
 void Bin::updateClipsCount()

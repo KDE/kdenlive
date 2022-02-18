@@ -98,6 +98,7 @@ public:
     friend class SubtitleModel;
     friend class MarkerListModel;
     friend class TimeRemap;
+    friend class TimelineTabs;
     friend struct TimelineFunctions;
 
     /// Two level model: tracks and clips on track
