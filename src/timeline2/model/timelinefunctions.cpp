@@ -2061,6 +2061,9 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
         int lastFrame = 0;
         for (const auto &track: timeline->m_allTracks) {
             if (!track->isLocked()) {
+                if (!track->isBlankAt(position)) {
+                    return false;
+                }
                 lastFrame = track->getBlankStart(position);
                 if (lastFrame > spaceStart) {
                     spaceStart = lastFrame;
@@ -2079,6 +2082,9 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
             // Subtitle track
             spaceStart = timeline->getSubtitleModel()->getBlankStart(position);
         } else {
+            if (!timeline->getTrackById_const(trackId)->isBlankAt(position)) {
+                return false;
+            }
             spaceStart = timeline->getTrackById_const(trackId)->getBlankStart(position);
         }
     }
