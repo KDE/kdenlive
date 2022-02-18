@@ -2088,7 +2088,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
             spaceStart = timeline->getTrackById_const(trackId)->getBlankStart(position);
         }
     }
-    if (spaceStart == position) {
+    if (spaceStart > position) {
         return false;
     }
     int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
