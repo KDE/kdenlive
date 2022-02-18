@@ -105,6 +105,10 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     prod->set("kdenlive:duration", 1);
     //qDebug()<<"===== CREATED PLAYLIST CLIP: "<<tmp.fileName();
     bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    if (res) {
+        // Open playlist timeline
+        pCore->openTimeline(id);
+    }
     pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
     //bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");

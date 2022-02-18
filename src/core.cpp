@@ -1281,3 +1281,7 @@ void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, cons
     pCore->window()->getCurrentTimeline()->controller()->loadPreview(chunks, dirty, documentDate, enablePreview, playlist);
 }
 
+void Core::openTimeline(const QString &binId)
+{
+    m_projectManager->openTimeline(binId);
+}

@@ -131,12 +131,24 @@ void AudioLevelsTask::run()
             }
         }
         QString service = producer->get("mlt_service");
+        QString resource = producer->get("resource");
         if (service == QLatin1String("avformat-novalidate")) {
             service = QStringLiteral("avformat");
         } else if (service.startsWith(QLatin1String("xml"))) {
             service = QStringLiteral("xml-nogl");
+            if (resource.simplified() == QLatin1String("<tractor>")) {
+                // We need to create a temporary xml file to create audio thumbs
+                pCore->taskManager.taskDone(m_owner.second, this);
+                return;
+            }
+        } else {
+            if (resource.simplified() == QLatin1String("<tractor>")) {
+                // We need to create a temporary xml file to create audio thumbs
+                pCore->taskManager.taskDone(m_owner.second, this);
+                return;
+            }
         }
-        QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
+        QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
         if (!audioProducer->is_valid()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
                                   Q_ARG(int, int(KMessageWidget::Warning)));

@@ -296,6 +296,8 @@ public:
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, Mlt::Playlist &playlist);
+    /** @brief Open a new timeline for a playlist clip */
+    void openTimeline(const QString &binId);
 
     QString packageType() { return m_packageType; };
 
