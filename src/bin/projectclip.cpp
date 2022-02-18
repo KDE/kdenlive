@@ -569,7 +569,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     updateTimelineClips({TimelineModel::IsProxyRole});
     bool generateProxy = false;
     QList<std::shared_ptr<ProjectClip>> clipList;
-    if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
+    if (pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) {
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
             if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
