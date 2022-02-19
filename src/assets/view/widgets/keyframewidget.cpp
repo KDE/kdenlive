@@ -24,6 +24,8 @@
 #include "widgets/geometrywidget.h"
 
 #include <KActionCategory>
+#include <KActionMenu>
+#include <KDualAction>
 #include <KSelectAction>
 #include <QApplication>
 #include <QCheckBox>
@@ -57,49 +59,32 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_keyframes = m_model->getKeyframeModel();
     m_keyframeview = new KeyframeView(m_keyframes, duration, this);
 
+    m_addDeleteAction = new KDualAction(this);
+    m_addDeleteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
+    m_addDeleteAction->setActiveText(i18n("Add keyframe"));
+    m_addDeleteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
+    m_addDeleteAction->setInactiveText(i18n("Delete keyframe"));
 
-    m_buttonAddDelete = new QToolButton(this);
-    m_buttonAddDelete->setAutoRaise(true);
-
-    connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
+    connect(m_addDeleteAction, &KDualAction::triggered, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(this, &KeyframeWidget::addRemove, m_keyframeview, &KeyframeView::slotAddRemove);
 
-    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
-    m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
-
-
-    QToolButton *buttonPrevious = new QToolButton(this);
-    buttonPrevious->setAutoRaise(true);
-    buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
-    buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
-    connect(buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
+    auto *previousKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), this);
+    connect(previousKFAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(this, &KeyframeWidget::goToPrevious, m_keyframeview, &KeyframeView::slotGoToPrev);
 
-    QToolButton *buttonNext = new QToolButton(this);
-    buttonNext->setAutoRaise(true);
-    buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
-    buttonNext->setToolTip(i18n("Go to next keyframe"));
-    connect(buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
+    auto *nextKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), this);
+    connect(nextKFAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotGoToNext);
     connect(this, &KeyframeWidget::goToNext, m_keyframeview, &KeyframeView::slotGoToNext);
     
     // Move keyframe to cursor
-    m_buttonCenter = new QToolButton(this);
-    m_buttonCenter->setAutoRaise(true);
-    m_buttonCenter->setIcon(QIcon::fromTheme(QStringLiteral("align-horizontal-center")));
-    m_buttonCenter->setToolTip(i18n("Move selected keyframe to cursor"));
+    m_centerAction = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Move selected keyframe to cursor"), this);
     
     // Duplicate selected keyframe at cursor pos
-    m_buttonCopy = new QToolButton(this);
-    m_buttonCopy->setAutoRaise(true);
-    m_buttonCopy->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")));
-    m_buttonCopy->setToolTip(i18n("Duplicate selected keyframe"));
+    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Duplicate selected keyframe"), this);
     
     // Apply current value to selected keyframes
-    m_buttonApply = new QToolButton(this);
-    m_buttonApply->setAutoRaise(true);
-    m_buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
-    m_buttonApply->setToolTip(i18n("Apply current position value to selected keyframes"));
-    m_buttonApply->setFocusPolicy(Qt::StrongFocus);
+    auto *applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")),
+                                    i18n("Apply current position value to selected keyframes"), this);
     
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
@@ -131,12 +116,12 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_time->setRange(0, duration - 1);
     m_time->setOffset(m_model->data(index, AssetParameterModel::ParentInRole).toInt());
 
-    m_toolbar->addWidget(buttonPrevious);
-    m_toolbar->addWidget(m_buttonAddDelete);
-    m_toolbar->addWidget(buttonNext);
-    m_toolbar->addWidget(m_buttonCenter);
-    m_toolbar->addWidget(m_buttonCopy);
-    m_toolbar->addWidget(m_buttonApply);
+    m_toolbar->addAction(previousKFAction);
+    m_toolbar->addAction(m_addDeleteAction);
+    m_toolbar->addAction(nextKFAction);
+    m_toolbar->addAction(m_centerAction);
+    m_toolbar->addAction(m_copyAction);
+    m_toolbar->addAction(applyAction);
     m_toolbar->addAction(m_selectType);
 
     QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), this);
@@ -189,14 +174,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     }
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered),
             this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
-    auto *container = new QMenu(this);
-    container->addAction(seekKeyframe);
-    container->addAction(copy);
-    container->addAction(copyValue);
-    container->addAction(paste);
-    container->addSeparator();
-    container->addAction(kfType);
-    container->addAction(removeNext);
 
     // rotoscoping only supports linear keyframes
     if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
@@ -207,16 +184,23 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     }
 
     // Menu toolbutton
-    auto *menuButton = new QToolButton(this);
-    menuButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
-    menuButton->setToolTip(i18n("Options"));
-    menuButton->setMenu(container);
-    menuButton->setPopupMode(QToolButton::InstantPopup);
-    m_toolbar->addWidget(menuButton);
-    m_toolbar->addWidget(m_time);
+    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
+    menuAction->setPopupMode(QToolButton::InstantPopup);
+    menuAction->addAction(seekKeyframe);
+    menuAction->addAction(copy);
+    menuAction->addAction(copyValue);
+    menuAction->addAction(paste);
+    menuAction->addSeparator();
+    menuAction->addAction(kfType);
+    menuAction->addAction(removeNext);
+    m_toolbar->addAction(menuAction);
 
     m_lay->addWidget(m_keyframeview);
-    m_lay->addWidget(m_toolbar);
+    auto *hlay = new QHBoxLayout(this);
+    hlay->addWidget(m_toolbar);
+    hlay->addWidget(m_time);
+    hlay->addStretch();
+    m_lay->addLayout(hlay);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int pos) {
@@ -229,7 +213,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
             m_time->setValue(p);
             m_keyframeview->slotSetPosition(p, true);
         }
-        m_buttonAddDelete->setEnabled(pos > 0);
+        m_addDeleteAction->setEnabled(pos > 0);
         slotRefreshParams();
         emit seekToPos(pos);
     });
@@ -237,9 +221,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
 
-    connect(m_buttonCenter, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotCenterKeyframe);
-    connect(m_buttonCopy, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
-    connect(m_buttonApply, &QAbstractButton::pressed, this, [this]() {
+    connect(m_centerAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotCenterKeyframe);
+    connect(m_copyAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
+    connect(applyAction, &QAction::triggered, this, [this]() {
         QMultiMap<QPersistentModelIndex, QString> paramList;
         QList<QPersistentModelIndex> rectParams;
         for (const auto &w : m_parameters) {
@@ -349,7 +333,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 KeyframeWidget::~KeyframeWidget()
 {
     delete m_keyframeview;
-    delete m_buttonAddDelete;
     delete m_time;
 }
 
@@ -376,7 +359,7 @@ void KeyframeWidget::monitorSeek(int pos)
     }
     bool isInRange = pos >= in && pos < out;
     connectMonitor(isInRange && m_model->isActive());
-    m_buttonAddDelete->setEnabled(isInRange && pos > in);
+    m_addDeleteAction->setEnabled(isInRange && pos > in);
     int framePos = qBound(in, pos, out) - in;
     if (isInRange && framePos != m_time->getValue()) {
         slotSetPosition(framePos, false);
@@ -435,7 +418,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
         m_time->setValue(pos);
     }
     m_keyframeview->slotSetPosition(pos, true);
-    m_buttonAddDelete->setEnabled(pos > 0);
+    m_addDeleteAction->setEnabled(pos > 0);
     slotRefreshParams();
 
     if (update) {
@@ -456,15 +439,9 @@ void KeyframeWidget::updateTimecodeFormat()
 
 void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
-    if (atKeyframe) {
-        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
-        m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
-    } else {
-        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
-        m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
-    }
-    m_buttonCenter->setEnabled(!atKeyframe);
-    m_buttonCopy->setEnabled(!atKeyframe);
+    m_addDeleteAction->setActive(!atKeyframe);
+    m_centerAction->setEnabled(!atKeyframe);
+    m_copyAction->setEnabled(!atKeyframe);
     emit updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {

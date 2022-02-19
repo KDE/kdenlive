@@ -24,6 +24,7 @@ class QToolBar;
 class TimecodeDisplay;
 class KSelectAction;
 class KeyframeMonitorHelper;
+class KDualAction;
 
 class KeyframeWidget : public AbstractParamWidget
 {
@@ -77,10 +78,9 @@ private:
     std::shared_ptr<KeyframeModelList> m_keyframes;
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
-    QToolButton *m_buttonAddDelete;
-    QToolButton *m_buttonCenter;
-    QToolButton *m_buttonCopy;
-    QToolButton *m_buttonApply;
+    KDualAction *m_addDeleteAction;
+    QAction *m_centerAction;
+    QAction *m_copyAction;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
