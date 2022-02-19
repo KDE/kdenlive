@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QTimer>
 #include <QToolBar>
+#include <QWidgetAction>
 
 #include <memory>
 #include <unordered_set>
@@ -53,6 +54,17 @@ protected:
 signals:
     void addEffect(const QStringList &);
     void doKeyPressEvent(QKeyEvent *);
+};
+
+class VolumeAction : public QWidgetAction
+{
+    Q_OBJECT
+public:
+    explicit VolumeAction(QObject *parent);
+    QWidget *createWidget(QWidget *parent) override;
+
+signals:
+    void volumeChanged(int volume);
 };
 
 
@@ -212,7 +224,6 @@ private:
     QAction *m_fiveLess;
     QAction *m_fiveMore;
     QLabel *m_trimmingOffset;
-    QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;

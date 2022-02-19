@@ -107,6 +107,43 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+VolumeAction::VolumeAction(QObject *parent)
+    : QWidgetAction(parent)
+{
+
+}
+
+QWidget *VolumeAction::createWidget(QWidget *parent)
+{
+    auto *hlay = new QHBoxLayout(parent);
+    auto *iconLabel = new QLabel();
+    iconLabel->setToolTip(i18n("Audio volume"));
+    auto *slider = new QSlider(Qt::Horizontal, parent);
+    slider->setRange(0, 100);
+    auto *percentLabel = new QLabel(parent);
+    connect(slider, &QSlider::valueChanged, this, [percentLabel, iconLabel](int value){
+        percentLabel->setText(i18n("%1%", value));
+        int h = 16;
+        QString iconName(QStringLiteral("audio-volume-high"));
+        if (value == 0) {
+            iconName = QStringLiteral("audio-volume-muted");
+        } else if (value < 33) {
+            iconName = QStringLiteral("audio-volume-low");
+        } else if (value < 66) {
+            iconName = QStringLiteral("audio-volume-medium");
+        }
+        iconLabel->setPixmap(QIcon::fromTheme(iconName).pixmap(h, h));
+    });
+    slider->setValue(KdenliveSettings::volume()); 
+    connect(slider, &QSlider::valueChanged, this, &VolumeAction::volumeChanged);
+    hlay->addWidget(iconLabel);
+    hlay->addWidget(slider);
+    hlay->addWidget(percentLabel);
+    auto w = new QWidget(parent);
+    w->setLayout(hlay);
+    return w;
+}
+
 Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent)
     : AbstractMonitor(id, manager, parent)
     , m_controller(nullptr)
@@ -358,7 +395,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     playButton->setDefaultAction(m_playAction);
     m_configMenu = new QMenu(i18n("Misc…"), this);
-
+    auto *volumeAction = new VolumeAction(this);
+    connect(volumeAction, &VolumeAction::volumeChanged, this, &Monitor::slotSetVolume);
+    m_configMenu->addAction(volumeAction);
 
     if (id == Kdenlive::ClipMonitor) {
         m_markerMenu = new QMenu(i18n("Go to Marker…"), this);
@@ -378,19 +417,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_configMenu->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
     connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
-
-    // Create Volume slider popup
-    m_audioSlider = new QSlider(Qt::Vertical);
-    m_audioSlider->setRange(0, 100);
-    m_audioSlider->setValue(KdenliveSettings::volume());
-    connect(m_audioSlider, &QSlider::valueChanged, this, &Monitor::slotSetVolume);
-    auto *widgetslider = new QWidgetAction(this);
-    widgetslider->setText(i18n("Audio volume"));
-    widgetslider->setDefaultWidget(m_audioSlider);
-    auto *menu = new QMenu(i18n("Volume"), this);
-    menu->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
-    menu->addAction(widgetslider);
-    m_configMenu->addMenu(menu);
 
     if (m_id == Kdenlive::ClipMonitor) {
         m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
@@ -413,14 +439,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             buildBackgroundedProducer(position());
         });
     }
-
-    /*QIcon icon;
-    if (KdenliveSettings::volume() == 0) {
-        icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
-    } else {
-        icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
-    }
-    m_audioButton->setIcon(icon);*/
 
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     setLayout(layout);
