@@ -48,6 +48,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <profiles/profilemodel.hpp>
 #include <utils/thumbnailcache.hpp>
 
+#include <KActionMenu>
 #include <KColorScheme>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIconEffect>
@@ -1033,7 +1034,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     QWidget *container = new QWidget(this);
     auto *lay = new QHBoxLayout;
     m_slider = new QSlider(Qt::Horizontal, this);
-    m_slider->setMaximumWidth(100);
     m_slider->setMinimumWidth(40);
     m_slider->setRange(0, 10);
     m_slider->setValue(KdenliveSettings::bin_zoom());
@@ -1048,8 +1048,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     lay->addWidget(m_slider);
     lay->addWidget(tb1);
     container->setLayout(lay);
-    auto *widgetslider = new QWidgetAction(this);
-    widgetslider->setDefaultWidget(container);
+    auto *zoomWidget = new QWidgetAction(this);
+    zoomWidget->setDefaultWidget(container);
 
     // View type
     KSelectAction *listType = new KSelectAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("View Mode"), this);
@@ -1090,9 +1090,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         }
     });
 
-    QMenu *sort = new QMenu(i18n("Sort By"), this);
+    auto *sortAction = new KActionMenu(i18n("Sort By"), this);
     int binSort = KdenliveSettings::binSorting() % 100;
-    m_sortGroup = new QActionGroup(sort);
+    m_sortGroup = new QActionGroup(sortAction);
     QAction *sortByName = new QAction(i18n("Name"), m_sortGroup);
     sortByName->setCheckable(true);
     sortByName->setData(0);
@@ -1121,15 +1121,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     sortByRating->setCheckable(true);
     sortByRating->setData(7);
     sortByRating->setChecked(binSort == 7);
-    sort->addAction(sortByName);
-    sort->addAction(sortByDate);
-    sort->addAction(sortByDuration);
-    sort->addAction(sortByRating);
-    sort->addAction(sortByType);
-    sort->addAction(sortByInsert);
-    sort->addAction(sortByDesc);
-    sort->addSeparator();
-    sort->addAction(m_sortDescend);
+    sortAction->addAction(sortByName);
+    sortAction->addAction(sortByDate);
+    sortAction->addAction(sortByDuration);
+    sortAction->addAction(sortByRating);
+    sortAction->addAction(sortByType);
+    sortAction->addAction(sortByInsert);
+    sortAction->addAction(sortByDesc);
+    sortAction->addSeparator();
+    sortAction->addAction(m_sortDescend);
     connect(m_sortGroup, &QActionGroup::triggered, this, [&] (QAction *ac) {
         int actionData = ac->data().toInt();
         if ((m_itemView != nullptr) && m_listType == BinTreeView) {
@@ -1160,13 +1160,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
 
     // Settings menu
-    QMenu *settingsMenu = new QMenu(i18n("Settings"), this);
-    settingsMenu->addAction(listType);
-    QMenu *sliderMenu = new QMenu(i18n("Zoom"), this);
-    sliderMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    sliderMenu->addAction(widgetslider);
-    settingsMenu->addMenu(sliderMenu);
-    settingsMenu->addMenu(sort);
+    auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
+    settingsAction->setPopupMode(QToolButton::InstantPopup);
+    settingsAction->addAction(zoomWidget);
+    settingsAction->addAction(listType);
+    settingsAction->addAction(sortAction);
 
     // Column show / hide actions
     m_showDate = new QAction(i18n("Show Date"), this);
@@ -1182,16 +1180,16 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_showRating->setData(7);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
 
-    settingsMenu->addAction(m_showDate);
-    settingsMenu->addAction(m_showDesc);
-    settingsMenu->addAction(m_showRating);
-    settingsMenu->addAction(disableEffects);
-    settingsMenu->addAction(hoverPreview);
+    settingsAction->addAction(m_showDate);
+    settingsAction->addAction(m_showDesc);
+    settingsAction->addAction(m_showRating);
+    settingsAction->addAction(disableEffects);
+    settingsAction->addAction(hoverPreview);
 
     if (!m_isMainBin) {
         // Add close action
         QAction *close = KStandardAction::close(this, SIGNAL(requestBinClose()), this);
-        settingsMenu->addAction(close);
+        settingsAction->addAction(close);
     }
 
     // Show tags panel
@@ -1309,13 +1307,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     m_tagAction->setCheckable(true);
     m_toolbar->addAction(m_tagAction);
-
-    auto *button = new QToolButton;
-    button->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
-    button->setToolTip(i18n("Options"));
-    button->setMenu(settingsMenu);
-    button->setPopupMode(QToolButton::InstantPopup);
-    m_toolbar->addWidget(button);
+    m_toolbar->addAction(settingsAction);
 
     if (m_isMainBin) {
         // small info button for pending jobs
