@@ -7,6 +7,5 @@ set(kdenlive_SRCS
   project/dialogs/slideshowclip.cpp
   project/dialogs/temporarydata.cpp
   project/dialogs/profilewidget.cpp
-  project/dialogs/clipspeed.cpp
   PARENT_SCOPE)
 
