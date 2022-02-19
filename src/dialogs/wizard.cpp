@@ -448,7 +448,7 @@ void Wizard::checkMltComponents()
                     break;
                 }
             }
-            if (!hasAvfilter) {
+            if (!hasSubtitle) {
                 // Frei0r effects not found
                 qDebug() << "Missing avfilter.subtitles module";
                 m_warnings.append(
