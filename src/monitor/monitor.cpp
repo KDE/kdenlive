@@ -32,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/thumbnailcache.hpp"
 
 #include "klocalizedstring.h"
+#include <KActionMenu>
 #include <KDualAction>
 #include <KFileWidget>
 #include <KMessageBox>
@@ -393,20 +394,19 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         Monitor::slotForward();
     });
 
+    m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("More Options…"), m_toolbar);
+    m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
+    connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
+
     playButton->setDefaultAction(m_playAction);
-    m_configMenu = new QMenu(i18n("Misc…"), this);
     auto *volumeAction = new VolumeAction(this);
     connect(volumeAction, &VolumeAction::volumeChanged, this, &Monitor::slotSetVolume);
-    m_configMenu->addAction(volumeAction);
+    m_configMenuAction->addAction(volumeAction);
 
-    if (id == Kdenlive::ClipMonitor) {
-        m_markerMenu = new QMenu(i18n("Go to Marker…"), this);
-    } else {
-        m_markerMenu = new QMenu(i18n("Go to Guide…"), this);
-    }
+    m_markerMenu = new KActionMenu(id == Kdenlive::ClipMonitor ? i18n("Go to Marker…") : i18n("Go to Guide…"), this);
     m_markerMenu->setEnabled(false);
-    m_configMenu->addMenu(m_markerMenu);
-    connect(m_markerMenu, &QMenu::triggered, this, &Monitor::slotGoToMarker);
+    m_configMenuAction->addAction(m_markerMenu);
+    connect(m_markerMenu->menu(), &QMenu::triggered, this, &Monitor::slotGoToMarker);
     m_forceSize = new KSelectAction(QIcon::fromTheme(QStringLiteral("transform-scale")), i18n("Force Monitor Size"), this);
     QAction *fullAction = m_forceSize->addAction(QIcon(), i18n("Force 100%"));
     fullAction->setData(100);
@@ -414,7 +414,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     halfAction->setData(50);
     QAction *freeAction = m_forceSize->addAction(QIcon(), i18n("Free Resize"));
     freeAction->setData(0);
-    m_configMenu->addAction(m_forceSize);
+    m_configMenuAction->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
     connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
 
@@ -426,7 +426,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         whiteAction->setData("white");
         QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
         pinkAction->setData("#ff00ff");
-        m_configMenu->addAction(m_background);
+        m_configMenuAction->addAction(m_background);
         if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
             m_background->setCurrentAction(whiteAction);
         } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
@@ -467,13 +467,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     m_toolbar->addSeparator();
     m_toolbar->addWidget(m_timePos);
-
-    auto *configButton = new QToolButton(m_toolbar);
-    configButton->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
-    configButton->setToolTip(i18n("Options"));
-    configButton->setMenu(m_configMenu);
-    configButton->setPopupMode(QToolButton::InstantPopup);
-    m_toolbar->addWidget(configButton);
+    m_toolbar->addAction(m_configMenuAction);
     m_toolbar->addSeparator();
     QMargins mrg = m_toolbar->contentsMargins();
     m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - mrg.top() - mrg.bottom(), this);
@@ -652,11 +646,12 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_playMenu->addAction(loopClip);
     }
 
-    m_contextMenu->addMenu(m_markerMenu);
+    m_contextMenu->addAction(m_markerMenu);
     if (m_id == Kdenlive::ClipMonitor) {
         //m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
-        QAction *extractZone =
-            m_configMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this, &Monitor::slotExtractCurrentZone);
+        auto *extractZone = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this);
+        connect(extractZone, &QAction::triggered, this, &Monitor::slotExtractCurrentZone);
+        m_configMenuAction->addAction(extractZone);
         m_contextMenu->addAction(extractZone);
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("insert_project_tree")));
     }
@@ -669,7 +664,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     } else if (m_id == Kdenlive::ClipMonitor) {
         QAction *setThumbFrame =
             m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
-        m_configMenu->addAction(setThumbFrame);
+        m_configMenuAction->addAction(setThumbFrame);
         QAction *alwaysShowAudio =
             new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
@@ -679,14 +674,16 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         });
         alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
         m_contextMenu->addAction(alwaysShowAudio);
-        m_configMenu->addAction(alwaysShowAudio);
+        m_configMenuAction->addAction(alwaysShowAudio);
     }
 
     if (overlayMenu) {
         m_contextMenu->addMenu(overlayMenu);
     }
 
-    QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
+    QAction *switchAudioMonitor = new QAction(i18n("Show Audio Levels"), this);
+    connect(switchAudioMonitor, &QAction::triggered, this, &Monitor::slotSwitchAudioMonitor);
+    m_configMenuAction->addAction(switchAudioMonitor);
     switchAudioMonitor->setCheckable(true);
     switchAudioMonitor->setChecked((KdenliveSettings::monitoraudio() & m_id) != 0);
     
@@ -695,7 +692,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         recordTimecode->setCheckable(true);
         connect(recordTimecode, &QAction::triggered, this, &Monitor::slotSwitchRecTimecode);
         recordTimecode->setChecked(KdenliveSettings::rectimecode());
-        m_configMenu->addAction(recordTimecode);
+        m_configMenuAction->addAction(recordTimecode);
     }
 
     // For some reason, the frame in QAbstracSpinBox (base class of TimeCodeDisplay) needs to be displayed once, then hidden
@@ -778,18 +775,25 @@ void Monitor::buildBackgroundedProducer(int pos) {
 
 void Monitor::updateMarkers()
 {
-    if (m_controller) {
-        m_markerMenu->clear();
-        QList<CommentedTime> markers = m_controller->getMarkerModel()->getAllMarkers();
-        if (!markers.isEmpty()) {
-            for (int i = 0; i < markers.count(); ++i) {
-                int pos = markers.at(i).time().frames(pCore->getCurrentFps());
-                QString position = pCore->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
-                QAction *go = m_markerMenu->addAction(position);
-                go->setData(pos);
+    if (m_markerMenu) {
+        // Fill guide menu
+        m_markerMenu->menu()->clear();
+        std::shared_ptr<MarkerListModel> model;
+        if (m_id == Kdenlive::ClipMonitor && m_controller) {
+            model = m_controller->getMarkerModel();
+        } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
+            model = pCore->currentDoc()->getGuideModel();
+        }
+        if (model) {
+            QList<CommentedTime> markersList = model->getAllMarkers();
+            for (const CommentedTime &mkr : qAsConst(markersList)) {
+                QString label = pCore->timecode().getTimecode(mkr.time()) + QLatin1Char(' ') + mkr.comment();
+                QAction *a = new QAction(label);
+                a->setData(mkr.time().frames(pCore->getCurrentFps()));
+                m_markerMenu->addAction(a);
             }
         }
-        m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+        m_markerMenu->setEnabled(!m_markerMenu->menu()->isEmpty());
     }
 }
 
@@ -909,24 +913,7 @@ void Monitor::slotShowMenu(const QPoint pos)
 {
     slotActivateMonitor();
     if (m_contextMenu) {
-        if (m_markerMenu) {
-            // Fill guide menu
-            m_markerMenu->clear();
-            std::shared_ptr<MarkerListModel> model;
-            if (m_id == Kdenlive::ClipMonitor && m_controller) {
-                model = m_controller->getMarkerModel();
-            } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-                model = pCore->currentDoc()->getGuideModel();
-            }
-            if (model) {
-                QList<CommentedTime> markersList = model->getAllMarkers();
-                for (const CommentedTime &mkr : qAsConst(markersList)) {
-                    QAction *a = m_markerMenu->addAction(mkr.comment());
-                    a->setData(mkr.time().frames(pCore->getCurrentFps()));
-                }
-            }
-            m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
-        }
+        updateMarkers();
         m_contextMenu->popup(pos);
     }
 }

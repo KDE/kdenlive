@@ -26,6 +26,7 @@ class ProjectClip;
 class MonitorManager;
 class QSlider;
 class QToolButton;
+class KActionMenu;
 class KDualAction;
 class KSelectAction;
 class KMessageWidget;
@@ -205,10 +206,10 @@ private:
     /** Has to be available so we can enable and disable it. */
     QAction *m_loopClipAction;
     QAction *m_zoomVisibilityAction;
+    KActionMenu *m_configMenuAction;
     QMenu *m_contextMenu;
-    QMenu *m_configMenu;
     QMenu *m_playMenu;
-    QMenu *m_markerMenu;
+    KActionMenu *m_markerMenu;
     QMenu *m_audioChannels;
     QToolButton *m_streamsButton;
     QAction *m_streamAction;
