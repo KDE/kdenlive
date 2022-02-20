@@ -2420,7 +2420,7 @@ void TitleWidget::readChoices()
     outlineColor.setAlpha(titleConfig.readEntry("font_outline_alpha", outlineColor.alpha()));
     fontColorButton->setColor(fontColor);
     textOutlineColor->setColor(outlineColor);
-    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value() / 10.0));
+    textOutline->setValue(titleConfig.readEntry("font_outline", textOutline->value()) / 10.0);
 
     int weight;
     if (titleConfig.readEntry("font_bold", false)) {
