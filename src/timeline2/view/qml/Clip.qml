@@ -68,7 +68,7 @@ Rectangle {
     property bool forceReloadThumb
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property bool hideClipViews: false
+    property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < 16
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
@@ -82,7 +82,6 @@ Rectangle {
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onScrollStartChanged: {
-        clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
         if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
@@ -374,7 +373,7 @@ Rectangle {
             //clip: true
             asynchronous: true
             visible: status == Loader.Ready
-            source: clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : timeline.showThumbnails ? "ClipThumbs.qml" : ""
+            source: (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color) ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : timeline.showThumbnails ? "ClipThumbs.qml" : ""
         }
 
         Rectangle {
