@@ -237,7 +237,17 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
             if (mltService == QLatin1String("avformat")) {
                 mltService = QStringLiteral("avformat-novalidate");
             }
-            std::unique_ptr<Mlt::Producer> thumbProd(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+            std::unique_ptr<Mlt::Producer> thumbProd;
+            Mlt::Profile *profile = pCore->thumbProfile();
+            if (mltService.startsWith(QLatin1String("xml"))) {
+                int profileWidth = profile->width();
+                int profileHeight= profile->height();
+                thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+                profile->set_width(profileWidth);
+                profile->set_height(profileHeight);
+            } else {
+                thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(),mltResource.toUtf8().constData()));
+            }
             if (thumbProd) {
                 thumbProd->set("audio_index", -1);
                 Mlt::Properties original(producer->get_properties());
