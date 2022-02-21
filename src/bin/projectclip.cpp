@@ -649,7 +649,17 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        Mlt::Profile *profile = pCore->thumbProfile();
+        if (mltService.startsWith(QLatin1String("xml"))) {
+            // Xml producers can corrupt the profile, so enforce width/height again after loading
+            int profileWidth = profile->width();
+            int profileHeight= profile->height();
+            m_thumbsProducer.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+            profile->set_width(profileWidth);
+            profile->set_height(profileHeight);
+        } else {
+            m_thumbsProducer.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        }
         if (m_thumbsProducer->is_valid()) {
             Mlt::Properties original(m_masterProducer->get_properties());
             Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
