@@ -1128,16 +1128,22 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 if (parentId.isEmpty()) {
                     parentId = QStringLiteral("-1");
                 }
+                // Create container clip, somehow this is necessary to embed a playlist
                 QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
                 std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
-                prod->set("kdenlive:uuid", t.toUtf8().constData());
-    
-                //std::shared_ptr<Mlt::Producer>prod(playlist);
+                // Load playlist clip
+                std::shared_ptr<Mlt::Producer>prod2 = std::make_shared<Mlt::Producer>(*playlist.get());
+                Mlt::Properties original(prod2->get_properties());
+                for (int i = 0; i < original.count(); i++) {
+                    QString pName = original.get_name(i);
+                    if (pName.startsWith(QLatin1String("kdenlive:"))) {
+                        prod->set(pName.toUtf8().constData(), original.get(i));
+                    }
+                }
                 requestAddBinClip(newId, std::move(prod), parentId, undo, redo);
                 binIdCorresp[currId] = newId;
                 std::shared_ptr<ProjectClip>clip = pCore->bin()->getBinClip(newId);
                 //playlist->set("xml_retain", 1);
-                std::shared_ptr<Mlt::Producer>prod2 = std::make_shared<Mlt::Producer>(*playlist.get());
                 clip->setProducer(prod2);
                 QString retain = QStringLiteral("xml_retain %1").arg(playlist->get("id"));
                 modelTractor->set(retain.toUtf8().constData(), playlist->get_service(), 0);
