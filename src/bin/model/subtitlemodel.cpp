@@ -1235,5 +1235,5 @@ int SubtitleModel::getBlankStart(int pos) const
             found = true;
         }
     }
-    return found ? min.frames(pCore->getCurrentFps()) + 1 : 0;
+    return found ? min.frames(pCore->getCurrentFps()) : 0;
 }
