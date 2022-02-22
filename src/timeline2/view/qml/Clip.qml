@@ -68,7 +68,7 @@ Rectangle {
     property bool forceReloadThumb
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < 16
+    property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < root.minClipWidthForViews
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
@@ -883,7 +883,7 @@ Rectangle {
                     color: clipRoot.selected ? 'darkred' : '#66000000'
                     width: label.width + (2 * itemBorder.border.width)
                     height: label.height
-                    visible: clipRoot.width > width / 2
+                    visible: clipRoot.width > root.baseUnit
                     anchors.left: debugCidRect.visible ? debugCidRect.right : parent.left
                     anchors.leftMargin: clipRoot.timeremap ? labelRect.height : 0
                     Text {

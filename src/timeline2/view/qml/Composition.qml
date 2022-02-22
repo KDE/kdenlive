@@ -46,7 +46,7 @@ Item {
     property double speed: 1.0
     property color color: displayRect.color
     property color borderColor: 'black'
-    property bool hideCompoViews
+    property bool hideCompoViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || width < root.minClipWidthForViews
     property int scrollStart: scrollView.contentX - modelStart * timeline.scaleFactor
     property int mouseXPos: mouseArea.mouseX
 
@@ -60,7 +60,6 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
-        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.width < 0
         if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
@@ -413,6 +412,7 @@ Item {
                 // text background
                 id: labelRect
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
+                visible: compositionRoot.width > root.baseUnit
                 width: label.width + 2
                 height: label.height
                 Text {
