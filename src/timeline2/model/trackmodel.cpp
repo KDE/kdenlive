@@ -2453,7 +2453,7 @@ QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
 bool TrackModel::loadMix(Mlt::Transition *t)
 {
     int in = t->get_in();
-    int out = t->get_out();
+    int out = t->get_out() - 1;
     bool reverse = t->get_int("reverse") == 1;
     int cid1 = getClipByPosition(in, reverse ? 1 : 0);
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
