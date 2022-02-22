@@ -37,7 +37,7 @@ void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
         task = nullptr;
     }
     if (task) {
-        // Otherwise, start a new audio levels generation thread.
+        // Otherwise, start a new proxy generation thread.
         task->m_isForce = force;
         pCore->taskManager.startTask(owner.second, task);
     }

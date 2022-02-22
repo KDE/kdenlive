@@ -501,7 +501,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
+bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb)
 {
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
@@ -542,6 +542,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer)
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
+    if (generateThumb && m_clipType != ClipType::Audio) {
+        // Generate video thumb
+        ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
+    }
     if (KdenliveSettings::audiothumbnails() && (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist || m_clipType == ClipType::Unknown)) {
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }

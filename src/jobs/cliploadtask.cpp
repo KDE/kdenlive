@@ -225,7 +225,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     // Fetch thumbnail
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-    if (binClip->clipType() != ClipType::Audio && producer->get_int("video_index") > -1) {
+    if (producer->get_int("video_index") > -1) {
         if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
             // Thumbnail found in cache
             QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
@@ -659,13 +659,12 @@ void ClipLoadTask::run()
     if (!m_isCanceled) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer), Q_ARG(bool,true));
             if (checkProfile && !isVariableFrameRate && seekable) {
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
             }
         }
-        generateThumbnail(binClip, producer);
         emit taskDone();
     } else {
         // Might be aborted by profile switch
