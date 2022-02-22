@@ -369,7 +369,8 @@ Rectangle {
     }
 
     property int activeTool: ProjectTool.SelectTool
-    property real baseUnit: Math.max(12, fontMetrics.font.pixelSize)
+    property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
+    property int minClipWidthForViews: 1.5 * baseUnit
     property real fontUnit: fontMetrics.font.pointSize
     property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     property int minHeaderWidth: 6 * collapsedHeight
