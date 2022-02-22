@@ -65,7 +65,7 @@ public:
     /** @brief: Returns directory currently used to store the preview files. */
     const QDir getCacheDir() const;
     /** @brief: Load existing ruler chunks. */
-    void loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate, Mlt::Playlist &playlist);
+    void loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, Mlt::Playlist &playlist);
     int setOverlayTrack(Mlt::Playlist *overlay);
     /** @brief Remove the effect compare overlay track */
     void removeOverlayTrack();

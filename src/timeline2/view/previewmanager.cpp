@@ -131,7 +131,7 @@ bool PreviewManager::buildPreviewTrack()
     return true;
 }
 
-void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, const QDateTime &documentDate, Mlt::Playlist &playlist)
+void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyChunks, Mlt::Playlist &playlist)
 {
     if (previewChunks.isEmpty()) {
         previewChunks = m_renderedChunks;
@@ -140,27 +140,6 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         dirtyChunks = m_dirtyChunks;
     }
 
-    // First chech if there are invalid chunks (created after document date)
-    QFileInfoList chunksList = m_cacheDir.entryInfoList({QString("*.%1").arg(m_extension)}, QDir::Files, QDir::Time);
-    for (auto &chunkFile : chunksList) {
-        if (chunkFile.lastModified() > documentDate) {
-            // This chunk is invalid
-            QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
-            bool ok;
-            int chunkFrame = chunkName.toInt(&ok);
-            if (!ok) {
-                // This is not one of our chunks
-                continue;
-            }
-            previewChunks.removeAll(chunkName);
-            dirtyChunks << chunkFrame;
-            // Physically remove chunk file
-            m_cacheDir.remove(chunkFile.fileName());
-        } else {
-            // Done
-            break;
-        }
-    }
     QStringList existingChuncks;
     if (!previewChunks.isEmpty()) {
         existingChuncks = m_cacheDir.entryList(QDir::Files);

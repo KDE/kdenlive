@@ -1000,7 +1000,8 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     bool projectErrors = false;
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {
+    m_project->cleanupTimelinePreview(documentDate);
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty, enablePreview, &projectErrors)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }

@@ -1878,3 +1878,33 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
         }
     }
 }
+
+void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
+{
+    if (m_url.isEmpty()) {
+        // Document was never saved, nothing to do
+        return;
+    }
+    bool ok;
+    QDir cacheDir = getCacheDir(CachePreview, &ok);
+    if (cacheDir.exists() && cacheDir.dirName() == QLatin1String("preview") && ok) {
+        QFileInfoList chunksList = cacheDir.entryInfoList(QDir::Files, QDir::Time);
+        for (auto &chunkFile : chunksList) {
+            if (chunkFile.lastModified() > documentDate) {
+                // This chunk is invalid
+                QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
+                bool ok;
+                chunkName.toInt(&ok);
+                if (!ok) {
+                    // This is not one of our chunks
+                    continue;
+                }
+                // Physically remove chunk file
+                cacheDir.remove(chunkFile.fileName());
+            } else {
+                // Done
+                break;
+            }
+        }
+    }
+}
