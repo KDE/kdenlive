@@ -1791,7 +1791,7 @@ void TimeRemap::selectedClip(int cid)
                 int max = min + lastLength;
                 pCore->selectBinClip(m_binId, true, min, {min,max});
             }
-            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(topPos);
+            pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeekIfVisible(topPos);
         }
         if (bottomPos > -1) {
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);

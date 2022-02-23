@@ -158,7 +158,6 @@ public:
     void focusTimecode();
     /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
     void fixFocus();
-    
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -242,6 +241,8 @@ private:
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
+    /** @brief Returns true if monitor is currently visible (not in a tab or hidden)*/
+    bool monitorVisible() const;
 
 private slots:
     void slotSetThumbFrame();
@@ -346,6 +347,8 @@ public slots:
     void slotSwitchAudioMonitor();
     /** @brief Request seeking */
     void requestSeek(int pos);
+    /** @brief Request seeking only if monitor is visible*/
+    void requestSeekIfVisible(int pos);
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;

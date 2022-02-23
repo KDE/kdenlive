@@ -1560,7 +1560,7 @@ void Monitor::refreshMonitor(bool directUpdate)
         } else {
             m_glMonitor->requestRefresh();
         }
-    } else if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+    } else if (monitorVisible()) {
         slotActivateMonitor();
         if (isActive()) {
             m_glMonitor->refresh();
@@ -1572,6 +1572,11 @@ void Monitor::refreshMonitor(bool directUpdate)
             });
         }
     }
+}
+
+bool Monitor::monitorVisible() const
+{
+    return m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty();
 }
 
 void Monitor::refreshMonitorIfActive(bool directUpdate)
@@ -1821,7 +1826,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
-            if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+            if (monitorVisible()) {
                 slotActivateMonitor();
             }
             buildBackgroundedProducer(in);
@@ -1837,7 +1842,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
         //m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
-        if (m_glWidget->isFullScreen() || !m_glWidget->visibleRegion().isEmpty()) {
+        if (monitorVisible()) {
             slotActivateMonitor();
         }
     }
@@ -2557,6 +2562,13 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
 void Monitor::requestSeek(int pos)
 {
     m_glMonitor->getControllerProxy()->setPosition(pos);
+}
+
+void Monitor::requestSeekIfVisible(int pos)
+{
+    if (monitorVisible()) {
+        requestSeek(pos);
+    }
 }
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
