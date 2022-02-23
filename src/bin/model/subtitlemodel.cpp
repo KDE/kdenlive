@@ -486,7 +486,7 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFr
             // Outside range
             continue;
         }
-        if (subtitles.first >= startTime || subtitles.second.second >= startTime) {
+        if (subtitles.first >= startTime || subtitles.second.second > startTime) {
             int sid = getIdForStartPos(subtitles.first);
             if (sid > -1) {
                 matching.emplace(sid);
@@ -1204,33 +1204,27 @@ QDomElement SubtitleModel::toXml(int sid, QDomDocument &document)
     return container;
 }
 
-
-int SubtitleModel::getBlankSizeAtPos(int pos) const
+bool SubtitleModel::isBlankAt(int pos) const
 {
     GenTime matchPos(pos, pCore->getCurrentFps());
-    std::unordered_set<int> matching;
-    GenTime min;
-    GenTime max;
     for (const auto &subtitles : m_subtitleList) {
-        if (subtitles.first > matchPos && (max == GenTime() ||  subtitles.first < max)) {
-            // Outside range
-            max = subtitles.first;
+        if (subtitles.first > matchPos) {
+            continue;
         }
-        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
-            min = subtitles.second.second;
+        if (subtitles.second.second > matchPos) {
+            return false;
         }
     }
-    return max.frames(pCore->getCurrentFps()) - min.frames(pCore->getCurrentFps());
+    return true;;
 }
 
 int SubtitleModel::getBlankStart(int pos) const
 {
     GenTime matchPos(pos, pCore->getCurrentFps());
-    std::unordered_set<int> matching;
     bool found = false;
     GenTime min;
     for (const auto &subtitles : m_subtitleList) {
-        if (subtitles.second.second < matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+        if (subtitles.second.second <= matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
             min = subtitles.second.second;
             found = true;
         }

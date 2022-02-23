@@ -127,10 +127,10 @@ public:
     void allSnaps(std::vector<int> &snaps);
     /** @brief Returns an xml representation of the subtitle with id \@sid */
     QDomElement toXml(int sid, QDomDocument &document);
-    /** @brief Returns the size of the space between subtitles */
-    int getBlankSizeAtPos(int pos) const;
     /** @brief Returns the position of the first blank frame before a position */
     int getBlankStart(int pos) const;
+    /** @brief Returns true is track is empty at pos */
+    bool isBlankAt(int pos) const;
     /** @brief Switch a subtitle's grab state */
     void switchGrab(int sid);
     /** @brief Ungrab all items */
@@ -152,6 +152,7 @@ public slots:
 private:
     std::shared_ptr<TimelineItemModel> m_timeline;
     std::weak_ptr<DocUndoStack> m_undoStack;
+    /** @brief A list of subtitles as: start time, text, end time */
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
 
     QString scriptInfoSection, styleSection,eventSection;
