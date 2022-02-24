@@ -1126,10 +1126,10 @@ void RemapView::goPrev()
 void RemapView::updateBeforeSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
+    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
     QMap<int, int> updatedKfrs;
     QList<int> toDelete;
-    if (*it != m_keyframes.first() && it != m_keyframes.end()) {
+    if (*it != m_keyframes.first() && it != m_keyframes.constEnd()) {
         m_keyframesOrigin = m_keyframes;
         it--;
         int updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
@@ -1140,11 +1140,11 @@ void RemapView::updateBeforeSpeed(double speed)
         m_bottomPosition = m_currentKeyframe.first;
         m_selectedKeyframes.clear();
         m_selectedKeyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
-        it++;
+        it = m_keyframes.constFind(m_currentKeyframe.first);
         if (*it != m_keyframes.last()) {
             it++;
             // Update all keyframes after that so that we don't alter the speeds
-            while (m_moveNext && it != m_keyframes.end()) {
+            while (m_moveNext && it != m_keyframes.constEnd()) {
                 toDelete << it.key();
                 updatedKfrs.insert(it.key() + offset, it.value());
                 it++;
@@ -1170,7 +1170,7 @@ void RemapView::updateBeforeSpeed(double speed)
 void RemapView::updateAfterSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
+    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
     if (*it != m_keyframes.last()) {
         m_keyframesOrigin = m_keyframes;
         it++;
@@ -1179,7 +1179,7 @@ void RemapView::updateAfterSpeed(double speed)
         int updatedLength = qFuzzyIsNull(speed) ? 0 : (it.value() - m_currentKeyframe.second) * 100. / speed;
         int offset = m_currentKeyframe.first + updatedLength - it.key();
         if (m_moveNext) {
-            while (it != m_keyframes.end()) {
+            while (it != m_keyframes.constEnd()) {
                 toDelete << it.key();
                 updatedKfrs.insert(it.key() + offset, it.value());
                 it++;
