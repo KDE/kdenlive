@@ -174,6 +174,10 @@ void ClipController::getInfoForProducer()
             path.prepend(pCore->currentDoc()->documentRoot());
             m_properties->set("resource", path.toUtf8().constData());
         }
+        if (QFileInfo(proxy).isRelative()) {
+            proxy.prepend(pCore->currentDoc()->documentRoot());
+            m_properties->set("kdenlive:proxy", proxy.toUtf8().constData());
+        }
         // This is a proxy producer, read original url from kdenlive property
         path = m_properties->get("kdenlive:originalurl");
         if (QFileInfo(path).isRelative()) {
