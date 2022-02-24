@@ -164,6 +164,7 @@ QMap<QString, QString> BinPlaylist::getProxies(const QString &root)
             proxies.insert(proxy, sourceUrl);
         }
     }
+    qDebug()<<"AAAAAAAAAAAAAAAAAAAAAAA\n FOUND PROXIES IN PROJECT:"<<proxies<<"\n\nAAAAAAAAAAAAAAAAAAAAAAAAAA";
     return proxies;
 }
 
