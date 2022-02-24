@@ -139,7 +139,6 @@ void TaskManager::slotCancelJobs()
 void TaskManager::startTask(int ownerId, AbstractTask *task)
 {
     m_tasksListLock.lockForWrite();
-    qDebug()<<"========== STARTING TASK FOR: "<<ownerId;
     if (m_taskList.find(ownerId) == m_taskList.end()) {
         // First task for this clip
         m_taskList[ownerId] = {task};

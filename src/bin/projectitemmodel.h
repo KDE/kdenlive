@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QReadWriteLock>
 #include <QSize>
+#include <QUuid>
 
 class AbstractProjectItem;
 class BinPlaylist;
@@ -206,6 +207,8 @@ public:
     int clipsCount() const;
     /** @brief Check if  a file is already in Bin */
     bool urlExists(const QString &path) const;
+    /** @brief Check if  a file is already in Bin */
+    QUuid uuid() const { return m_uuid; };
 
 protected:
     /** @brief Register the existence of a new element
@@ -247,6 +250,8 @@ private:
     int m_nextId;
     QIcon m_blankThumb;
     PlaylistState::ClipState m_dragType;
+    QUuid m_uuid;
+
 signals:
     /** @brief thumbs of the given clip were modified, request update of the monitor if need be */
     void refreshAudioThumbs(const QString &id);

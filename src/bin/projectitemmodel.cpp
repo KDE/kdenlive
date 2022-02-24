@@ -42,6 +42,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
+    , m_uuid(QUuid::createUuid())
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
@@ -514,6 +515,7 @@ void ProjectItemModel::clean()
     }
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
+    m_uuid = QUuid::createUuid();
     m_fileWatcher->clear();
 }
 

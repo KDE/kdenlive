@@ -215,6 +215,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QList<QUrl> cleanList;
     QStringList duplicates;
     bool firstClip = topLevel;
+    const QUuid uuid = model->uuid();
     pCore->bin()->shouldCheckProfile = (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && pCore->bin()->isEmpty();
     for (const QUrl &url : list) {
         if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
@@ -238,6 +239,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     int current = 0;
     for (const QUrl &file : qAsConst(cleanList)) {
         current++;
+        if (model->uuid() != uuid) {
+            // Project was closed, abort
+            pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+            return QString();
+        }
         if (!QFile::exists(file.toLocalFile())) {
             continue;
         }
@@ -357,6 +363,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     pCore->activeBin()->selectClipById(binId);
                 };
                 firstClip = false;
+            }
+            if (model->uuid() != uuid) {
+                // Project was closed, abort
+                pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+                return QString();
             }
             const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
             if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
