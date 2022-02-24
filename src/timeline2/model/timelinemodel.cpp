@@ -2952,51 +2952,61 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
 
 int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance)
 {
-    if (snapDistance > 0) {
-        int trackId = getItemTrackId(itemId);
-        bool checkMix = trackId != -1;
-        Fun temp_undo = []() { return true; };
-        Fun temp_redo = []() { return true; };
-        if (checkMix && right && size > out - in && isClip(itemId)) {
-            int playlist = -1;
-            if (getTrackById_const(trackId)->hasEndMix(itemId)) {
-                playlist = m_allClips[itemId]->getSubPlaylistIndex();
-            }
-            int targetPos = in + size - 1;
-            if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-                size = getTrackById_const(trackId)->getBlankEnd(out + 1, playlist) - in;
-            }
-        } else if (checkMix && !right && size > (out - in) && isClip(itemId)) {
-            int targetPos = out - size;
-            int playlist = -1;
-            if (getTrackById_const(trackId)->hasStartMix(itemId)) {
-                playlist = m_allClips[itemId]->getSubPlaylistIndex();
-            }
-            if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-                size = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
-            }
+    int trackId = getItemTrackId(itemId);
+    bool checkMix = trackId != -1;
+    Fun temp_undo = []() { return true; };
+    Fun temp_redo = []() { return true; };
+    bool skipSnaps = snapDistance <= 0;
+    if (checkMix && right && size > out - in && isClip(itemId)) {
+        int playlist = -1;
+        if (getTrackById_const(trackId)->hasEndMix(itemId)) {
+            playlist = m_allClips[itemId]->getSubPlaylistIndex();
         }
-        int timelinePos = pCore->getTimelinePosition();
+        int targetPos = in + size - 1;
+        if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
+            int updatedSize = getTrackById_const(trackId)->getBlankEnd(out + 1, playlist) - in;
+            if (size - updatedSize > snapDistance) {
+                skipSnaps = true;
+            }
+            size = updatedSize;
+        }
+    } else if (checkMix && !right && size > (out - in) && isClip(itemId)) {
+        int targetPos = out - size;
+        int playlist = -1;
+        if (getTrackById_const(trackId)->hasStartMix(itemId)) {
+            playlist = m_allClips[itemId]->getSubPlaylistIndex();
+        }
+        if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
+            int updatedSize = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
+            if (size - updatedSize > snapDistance) {
+                skipSnaps = true;
+            }
+            size = updatedSize;
+        }
+    }
+    int timelinePos = pCore->getTimelinePosition();
+    int proposed_size = size;
+    if (!skipSnaps) {
         m_snaps->addPoint(timelinePos);
-        int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
+        proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
         m_snaps->removePoint(timelinePos);
-        if (proposed_size > 0) {
-            // only test move if proposed_size is valid
-            bool success = false;
-            if (isClip(itemId)) {
-                bool hasMix = getTrackById_const(trackId)->hasMix(itemId);
-                success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false, hasMix);
-            } else if (isComposition(itemId)) {
-                success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
-            } else if (isSubTitle(itemId)) {
-                //TODO: don't allow subtitle overlap?
-                success = true;
-            }
-            // undo temp move
-            temp_undo();
-            if (success) {
-                size = proposed_size;
-            }
+    }
+    if (proposed_size > 0) {
+        // only test move if proposed_size is valid
+        bool success = false;
+        if (isClip(itemId)) {
+            bool hasMix = getTrackById_const(trackId)->hasMix(itemId);
+            success = m_allClips[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false, hasMix);
+        } else if (isComposition(itemId)) {
+            success = m_allCompositions[itemId]->requestResize(proposed_size, right, temp_undo, temp_redo, false);
+        } else if (isSubTitle(itemId)) {
+            //TODO: don't allow subtitle overlap?
+            success = true;
+        }
+        // undo temp move
+        temp_undo();
+        if (success) {
+            size = proposed_size;
         }
     }
     return size;
@@ -3097,13 +3107,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int offset = getItemPlaytime(itemId);
     int tid = getItemTrackId(itemId);
     int out = offset;
-    qDebug()<<"======= REQUESTING NEW CLIP SIZE: "<<size;
+    qDebug()<<"======= REQUESTING NEW CLIP SIZE: "<<size<<", ON TID: "<<tid;
     if (tid != -1 || !isClip(itemId)) {
         in = qMax(0, getItemPosition(itemId));
         out += in;
         size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
     }
-    qDebug()<<"======= ADJUSTED NEW CLIP SIZE: "<<size;
+    qDebug()<<"======= ADJUSTED NEW CLIP SIZE: "<<size<<" FROM "<<offset;
     offset -= size;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
