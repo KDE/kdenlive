@@ -275,7 +275,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                     int imageWidth(pCore->thumbProfile()->width());
                     int fullWidth(int(imageHeight * pCore->getCurrentDar() + 0.5));
                     QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
-                    if (result.isNull()) {
+                    if (result.isNull() && !m_isCanceled) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
                         result = QImage(fullWidth, imageHeight, QImage::Format_ARGB32_Premultiplied);
                         result.fill(Qt::red);
@@ -283,7 +283,8 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         p.setPen(Qt::white);
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
-                    } else if (!m_isCanceled) {
+                    } else if (binClip.get()) {
+                        // We don't follow m_isCanceled there,
                         qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
