@@ -80,6 +80,12 @@ NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
     return color;
 }
 
+QDebug operator<<(QDebug qd, const NegQColor &color)
+{
+    qd << color.qcolor;
+    return qd.maybeSpace();
+}
+
 NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
 {
     NegQColor color;

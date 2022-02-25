@@ -41,4 +41,6 @@ public:
     qreal saturationF() const;
 };
 
+QDebug operator<<(QDebug qd, const NegQColor &color);
+
 #endif // QCOLORUTILS_H
