@@ -311,15 +311,20 @@ void RemapView::loadKeyframes(const QString &mapData)
             m_duration = qMax(m_duration, pos - m_inFrame);
             m_duration = qMax(m_duration, val - m_inFrame);
         }
-
+        bool isKfr = m_keyframes.contains(m_bottomPosition + m_inFrame);
+        if (isKfr) {
+            bool isLast = m_bottomPosition + m_inFrame == m_keyframes.firstKey() || m_bottomPosition + m_inFrame == m_keyframes.lastKey();
+            emit atKeyframe(isKfr, isLast);
+        } else {
+            emit atKeyframe(false, false);
+        }
         if (m_keyframes.contains(m_currentKeyframe.first)) {
-            bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
-            emit atKeyframe(true, isLast);
+            //bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
+            //emit atKeyframe(true, isLast);
             std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
             std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
             emit selectedKf(m_currentKeyframe, speeds, atEnd);
         } else {
-            emit atKeyframe(false, false);
             m_currentKeyframe = {-1,-1};
             emit selectedKf(m_currentKeyframe, {-1,-1} );
         }
@@ -1981,6 +1986,7 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
         }
         return true;
     };
+    local_redo();
     if (durationChanged) {
         int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
         std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
@@ -1989,7 +1995,6 @@ void TimeRemap::updateKeyframesWithUndo(QMap<int,int>updatedKeyframes, QMap<int,
             model->requestItemResize(m_splitId, length, true, true, undo, redo);
         }
     }
-    local_redo();
     UPDATE_UNDO_REDO_NOLOCK(redo, undo, local_undo, local_redo);
     pCore->pushUndo(local_undo, local_redo, i18n("Edit Timeremap keyframes"));
 }
