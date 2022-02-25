@@ -1877,7 +1877,6 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
             }
         }
     }
-    qDebug()<<"BBBBBBBBBBBBB\n\nDOCUMENT FOR RENDER:\n"<<doc.toString()<<"\n\nBBBBBBBBBBBBBBBBBBBBB";
 }
 
 void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)

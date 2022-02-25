@@ -658,7 +658,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
             // Xml producers can corrupt the profile, so enforce width/height again after loading
             int profileWidth = profile->width();
             int profileHeight= profile->height();
-            m_thumbsProducer.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+            m_thumbsProducer.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
             profile->set_width(profileWidth);
             profile->set_height(profileHeight);
         } else {

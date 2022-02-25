@@ -99,6 +99,9 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     delete m_timelinePreview;
     m_zone = QPoint(-1, -1);
+    m_hasAudioTarget = 0;
+    m_lastVideoTarget = -1;
+    m_lastAudioTarget.clear();
     m_timelinePreview = nullptr;
     m_model = std::move(model);
     m_activeSnaps.clear();

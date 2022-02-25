@@ -207,7 +207,7 @@ public:
     int clipsCount() const;
     /** @brief Check if  a file is already in Bin */
     bool urlExists(const QString &path) const;
-    /** @brief Check if  a file is already in Bin */
+    /** @brief Returns the unique uuid for this project item model */
     QUuid uuid() const { return m_uuid; };
 
 protected:
