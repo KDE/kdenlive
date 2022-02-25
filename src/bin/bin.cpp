@@ -1857,6 +1857,9 @@ void Bin::cleanDocument()
 
     // Cleanup previous project
     m_itemModel->clean();
+    if (m_propertiesPanel) {
+        m_propertiesPanel->setProperty("clipId", QString());
+    }
     delete m_itemView;
     m_itemView = nullptr;
     isLoading = false;
