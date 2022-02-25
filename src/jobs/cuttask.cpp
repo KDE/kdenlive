@@ -186,7 +186,7 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
             return;
         }
     }
-    CutTask *task = new CutTask(owner, path, encodingParams, in, out, ui.add_clip->isChecked(), object);
+    CutTask *task = new CutTask(owner, path, encodingParams, in, out, KdenliveSettings::add_new_clip(), object);
     if (task) {
         // Otherwise, start a filter thread.
         task->m_isForce = force;
