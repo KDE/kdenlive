@@ -6,6 +6,7 @@
 #ifndef QCOLORUTILS_H
 #define QCOLORUTILS_H
 
+#include <QDebug>
 #include <QtGlobal>
 #include <QColor>
 
