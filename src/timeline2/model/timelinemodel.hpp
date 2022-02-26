@@ -368,7 +368,7 @@ public:
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false, bool revertMove = false);
     Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
     bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
-    bool cutSubtitle(int position, Fun &undo, Fun &redo);
+    int cutSubtitle(int position, Fun &undo, Fun &redo);
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /** @brief Move a composition to a specific position This action is undoable
