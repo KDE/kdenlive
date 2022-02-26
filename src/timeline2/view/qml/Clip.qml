@@ -58,6 +58,7 @@ Rectangle {
     property int originalDuration: clipDuration
     property int lastValidDuration: clipDuration
     property int draggedX: x
+    property double xIntegerOffset: 0
     property bool selected: false
     property bool isLocked: parentTrack && parentTrack.isLocked === true
     property bool hasAudio
@@ -132,7 +133,7 @@ Rectangle {
     }*/
 
     onClipDurationChanged: {
-        width = Math.round(clipDuration * timeScale)
+        width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
             thumbsLoader.item.reload(1)
@@ -140,11 +141,13 @@ Rectangle {
     }
 
     onModelStartChanged: {
-        x = Math.round(modelStart * timeScale);
+        x = modelStart * timeScale
+        xIntegerOffset = Math.ceil(x) - x
     }
 
     onFakePositionChanged: {
-        x = Math.round(fakePosition * timeScale);
+        x = fakePosition * timeScale
+        xIntegerOffset = Math.ceil(x) - x
     }
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {
@@ -181,8 +184,9 @@ Rectangle {
     }
 
     onTimeScaleChanged: {
-        x = Math.round(modelStart * timeScale);
-        width = Math.round(clipDuration * timeScale);
+        x = modelStart * timeScale;
+        xIntegerOffset = Math.ceil(x) - x
+        width = clipDuration * timeScale;
         updateLabelOffset()
         if (!clipRoot.hideClipViews) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
@@ -366,8 +370,8 @@ Rectangle {
             // Thumbs container
             id: thumbsLoader
             anchors.fill: parent
-            anchors.leftMargin: parentTrack.isAudio ? 0 : itemBorder.border.width + mixContainer.width
-            anchors.rightMargin: parentTrack.isAudio ? 0 : itemBorder.border.width
+            anchors.leftMargin: parentTrack.isAudio ? xIntegerOffset : itemBorder.border.width + mixContainer.width
+            anchors.rightMargin: parentTrack.isAudio ? clipRoot.width - Math.floor(clipRoot.width) : itemBorder.border.width
             anchors.topMargin: itemBorder.border.width
             anchors.bottomMargin: itemBorder.border.width
             //clip: true
