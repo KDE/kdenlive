@@ -890,7 +890,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
-            int updated_length = int(original_length / std::abs(speed) + 0.5);
+            int updated_length = qRound(original_length / std::abs(speed));
             warpProducer->set("length", updated_length);
             if (!original_resource.isEmpty()) {
                 // Don't lose original resource for placeholder clips
@@ -908,7 +908,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     //if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
     int ttl = originalProducer()->get_int("ttl");
     if(ttl > 0) {
-        int new_ttl = ttl / std::abs(speed) + 0.5;
+        int new_ttl = qRound(ttl / std::abs(speed));
         warpProducer->set("ttl", std::max(new_ttl, 1));
     }
 

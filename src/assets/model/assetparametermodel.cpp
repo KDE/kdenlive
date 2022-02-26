@@ -765,11 +765,11 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
             double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
-            contentHeight = int(height * factor + 0.5);
+            contentHeight = qRound(height * factor);
         } else {
             // Fit to height
             double factor = double(height) / frameSize.height();
-            contentWidth =int(frameSize.width() / pCore->getCurrentSar() * factor + 0.5);
+            contentWidth = qRound(frameSize.width() / pCore->getCurrentSar() * factor);
         }
         // Center
         content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);

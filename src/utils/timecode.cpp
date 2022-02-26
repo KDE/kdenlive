@@ -80,7 +80,7 @@ Timecode::~Timecode() = default;
 
 void Timecode::setFormat(double framesPerSecond, Formats format)
 {
-    m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
+    m_displayedFramesPerSecond = qRound(framesPerSecond);
     m_dropFrameTimecode = qFuzzyCompare(framesPerSecond, 30000.0/1001.0);
     m_format = format;
     m_realFps = framesPerSecond;
@@ -206,7 +206,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
     }
 
     auto seconds = (int)(frames / fps);
-    int frms = frames % (int)(fps + 0.5);
+    int frms = frames % qRound(fps);
     int minutes = seconds / 60;
     seconds = seconds % 60;
     int hours = minutes / 60;

@@ -156,7 +156,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = pCore->getCurrentFrameSize();
-    m_frameWidth = int(profileSize.height() * pCore->getCurrentDar() + 0.5);
+    m_frameWidth = qRound(profileSize.height() * pCore->getCurrentDar());
     m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
 
@@ -1001,7 +1001,7 @@ void TitleWidget::slotAdjustZoom()
     /*double scalex = graphicsView->width() / (double)(m_frameWidth * 1.2);
     double scaley = graphicsView->height() / (double)(m_frameHeight * 1.2);
     if (scalex > scaley) scalex = scaley;
-    int zoompos = (int)(scalex * 7 + 0.5);*/
+    int zoompos = qRound(scalex * 7);*/
     graphicsView->fitInView(m_frameBorder, Qt::KeepAspectRatio);
     int zoompos = int(graphicsView->transform().m11() * 100);
     zoom_slider->setValue(zoompos);
@@ -1526,7 +1526,7 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     if (!i->data(TitleDocument::ZoomFactor).isNull()) {
         itemzoom->setValue(i->data(TitleDocument::ZoomFactor).toInt());
     } else {
-        itemzoom->setValue(int(t.scalex * 100.0 + 0.5));
+        itemzoom->setValue(qRound(t.scalex * 100.0));
     }
 
     itemrotatex->setValue(int(t.rotatex));
@@ -3163,7 +3163,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         if (!referenceItem->data(TitleDocument::ZoomFactor).isNull()) {
             itemzoom->setValue(referenceItem->data(TitleDocument::ZoomFactor).toInt());
         } else {
-            itemzoom->setValue(int(m_transformations.value(referenceItem).scalex * 100.0 + 0.5));
+            itemzoom->setValue(qRound(m_transformations.value(referenceItem).scalex * 100.0));
         }
         itemrotatex->setValue(int(m_transformations.value(referenceItem).rotatex));
         itemrotatey->setValue(int(m_transformations.value(referenceItem).rotatey));
