@@ -273,7 +273,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                 if ((frame != nullptr) && frame->is_valid()) {
                     int imageHeight(pCore->thumbProfile()->height());
                     int imageWidth(pCore->thumbProfile()->width());
-                    int fullWidth(int(imageHeight * pCore->getCurrentDar() + 0.5));
+                    int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
                     QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
                     if (result.isNull() && !m_isCanceled) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";

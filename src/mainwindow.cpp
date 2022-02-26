@@ -1946,7 +1946,7 @@ bool MainWindow::readOptions()
     }
     QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
     // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, int(QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+    int baseUnit = qMax(28, qRound(QFontInfo(ft).pixelSize() * 1.8));
     if (KdenliveSettings::trackheight() == 0) {
         int trackHeight = qMax(50, int(2.2 * baseUnit + 6));
         KdenliveSettings::setTrackheight(trackHeight);

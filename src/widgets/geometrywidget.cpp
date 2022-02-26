@@ -172,7 +172,7 @@ void GeometryWidget::slotAdjustToSource()
 {
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinWidth->setValue((int)(m_sourceSize.width() / pCore->getCurrentSar() + 0.5), false);
+    m_spinWidth->setValue(qRound(m_sourceSize.width() / pCore->getCurrentSar()), false);
     m_spinHeight->setValue(m_sourceSize.height(), false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
@@ -191,13 +191,13 @@ void GeometryWidget::slotAdjustToFrameSize()
     if (sourceDar > monitorDar) {
         // Fit to width
         double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
-        m_spinHeight->setValue((int)(m_sourceSize.height() * factor + 0.5));
+        m_spinHeight->setValue(qRound(m_sourceSize.height() * factor));
         m_spinWidth->setValue(m_defaultSize.width());
     } else {
         // Fit to height
         double factor = (double)m_defaultSize.height() / m_sourceSize.height();
         m_spinHeight->setValue(m_defaultSize.height());
-        m_spinWidth->setValue((int)(m_sourceSize.width() / pCore->getCurrentSar() * factor + 0.5));
+        m_spinWidth->setValue(qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor));
     }
     // Center
     QSignalBlocker bk3(m_spinX);
@@ -212,7 +212,7 @@ void GeometryWidget::slotFitToWidth()
     double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue((int)(m_sourceSize.height() * factor + 0.5));
+    m_spinHeight->setValue(qRound(m_sourceSize.height() * factor));
     m_spinWidth->setValue(m_defaultSize.width());
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
@@ -224,7 +224,7 @@ void GeometryWidget::slotFitToHeight()
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
     m_spinHeight->setValue(m_defaultSize.height());
-    m_spinWidth->setValue((int)(m_sourceSize.width() / pCore->getCurrentSar() * factor + 0.5));
+    m_spinWidth->setValue(qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor));
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
@@ -296,9 +296,9 @@ void GeometryWidget::slotAdjustRectHeight()
     if (m_lockRatio->isChecked()) {
         m_spinWidth->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinWidth->setValue((int)(m_spinHeight->value() * m_sourceSize.width() / m_sourceSize.height() + 0.5));
+            m_spinWidth->setValue(qRound(m_spinHeight->value() * m_sourceSize.width() / m_sourceSize.height()));
         } else {
-            m_spinWidth->setValue((int)(m_spinHeight->value() * m_defaultSize.width() / m_defaultSize.height() + 0.5));
+            m_spinWidth->setValue(qRound(m_spinHeight->value() * m_defaultSize.width() / m_defaultSize.height()));
         }
         m_spinWidth->blockSignals(false);
     }
@@ -311,9 +311,9 @@ void GeometryWidget::slotAdjustRectWidth()
     if (m_lockRatio->isChecked()) {
         m_spinHeight->blockSignals(true);
         if (m_originalSize->isChecked()) {
-            m_spinHeight->setValue((int)(m_spinWidth->value() * m_sourceSize.height() / m_sourceSize.width() + 0.5));
+            m_spinHeight->setValue(qRound(m_spinWidth->value() * m_sourceSize.height() / m_sourceSize.width()));
         } else {
-            m_spinHeight->setValue((int)(m_spinWidth->value() * m_defaultSize.height() / m_defaultSize.width() + 0.5));
+            m_spinHeight->setValue(qRound(m_spinWidth->value() * m_defaultSize.height() / m_defaultSize.width()));
         }
         m_spinHeight->blockSignals(false);
     }
@@ -389,7 +389,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
         if (opacity < 0) {
             opacity = 100 / m_opacityFactor;
         }
-        m_opacity->setValue((int)(opacity * m_opacityFactor + 0.5));
+        m_opacity->setValue(qRound(opacity * m_opacityFactor));
         m_opacity->blockSignals(false);
     }
     m_spinX->blockSignals(false);

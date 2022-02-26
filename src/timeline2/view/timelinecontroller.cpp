@@ -4556,7 +4556,7 @@ void TimelineController::collapseActiveTrack()
     }
     int collapsed = m_model->getTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed")).toInt();
     // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.8 + 0.5));
+    int baseUnit = qMax(28, qRound(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.8));
     m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QString::number(baseUnit));
 }
 

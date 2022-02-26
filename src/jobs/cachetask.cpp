@@ -23,7 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object)
     : AbstractTask(owner, AbstractTask::CACHEJOB, object)
-    , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : int(pCore->thumbProfile()->height() * pCore->getCurrentDar() + 0.5))
+    , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : qRound(pCore->thumbProfile()->height() * pCore->getCurrentDar()))
     , m_thumbsCount(thumbsCount)
     , m_in(in)
     , m_out(out)

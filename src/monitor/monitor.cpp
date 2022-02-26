@@ -41,6 +41,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KSelectAction>
 #include <KWindowConfig>
 #include <kio_version.h>
+#include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QDrag>
@@ -395,7 +396,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("More Options…"), m_toolbar);
+#if KWIDGETSADDONS_VERSION <  QT_VERSION_CHECK(5, 77, 0)
+    m_configMenuAction->setDelayed(false);
+#else
     m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
+#endif
     connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
 
     playButton->setDefaultAction(m_playAction);

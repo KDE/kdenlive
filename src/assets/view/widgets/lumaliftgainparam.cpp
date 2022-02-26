@@ -45,22 +45,19 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     setLayout(m_flowLayout);
     slotRefresh(0);
 
-    connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
-        NegQColor liftColor = m_lift->color();
+    connect(this, &LumaLiftGainParam::liftChanged, [this, indexes](const NegQColor &color) {
         QList <QModelIndex> ixes{indexes.value(QStringLiteral("lift_r")),indexes.value(QStringLiteral("lift_g")), indexes.value(QStringLiteral("lift_b"))};
-        QStringList values {QString::number(liftColor.redF() * LIFT_FACTOR, 'f'), QString::number(liftColor.greenF() * LIFT_FACTOR, 'f'), QString::number(liftColor.blueF() * LIFT_FACTOR, 'f')};
+        QStringList values {QString::number(color.redF() * LIFT_FACTOR, 'f'), QString::number(color.greenF() * LIFT_FACTOR, 'f'), QString::number(color.blueF() * LIFT_FACTOR, 'f')};
         emit valuesChanged(ixes, values, true);
     });
-    connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes]() {
-        NegQColor gammaColor = m_gamma->color();
+    connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes](const NegQColor &color) {
         QList <QModelIndex> ixes{indexes.value(QStringLiteral("gamma_r")),indexes.value(QStringLiteral("gamma_g")), indexes.value(QStringLiteral("gamma_b"))};
-        QStringList values {QString::number(gammaColor.redF() * GAMMA_FACTOR, 'f'), QString::number(gammaColor.greenF() * GAMMA_FACTOR, 'f'), QString::number(gammaColor.blueF() * GAMMA_FACTOR, 'f')};
+        QStringList values {QString::number(color.redF() * GAMMA_FACTOR, 'f'), QString::number(color.greenF() * GAMMA_FACTOR, 'f'), QString::number(color.blueF() * GAMMA_FACTOR, 'f')};
         emit valuesChanged(ixes, values, true);
     });
-    connect(this, &LumaLiftGainParam::gainChanged, [this, indexes]() {
-        NegQColor gainColor = m_gain->color();
+    connect(this, &LumaLiftGainParam::gainChanged, [this, indexes](const NegQColor &color) {
         QList <QModelIndex> ixes{indexes.value(QStringLiteral("gain_r")),indexes.value(QStringLiteral("gain_g")), indexes.value(QStringLiteral("gain_b"))};
-        QStringList values {QString::number(gainColor.redF() * GAIN_FACTOR, 'f'), QString::number(gainColor.greenF() * GAIN_FACTOR, 'f'), QString::number(gainColor.blueF() * GAIN_FACTOR, 'f')};
+        QStringList values {QString::number(color.redF() * GAIN_FACTOR, 'f'), QString::number(color.greenF() * GAIN_FACTOR, 'f'), QString::number(color.blueF() * GAIN_FACTOR, 'f')};
         emit valuesChanged(ixes, values, true);
     });
 }

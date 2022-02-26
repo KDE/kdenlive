@@ -511,7 +511,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, int(m_displayRulerHeight * devicePixelRatio() * 0.5 + 0.5), int(width), int(height));
+    f->glViewport(0, qRound(m_displayRulerHeight * devicePixelRatio() * 0.5), int(width), int(height));
     check_error(f);
     f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
     f->glClear(GL_COLOR_BUFFER_BIT);

@@ -6,6 +6,7 @@
 #ifndef QCOLORUTILS_H
 #define QCOLORUTILS_H
 
+#include <QDebug>
 #include <QtGlobal>
 #include <QColor>
 
@@ -40,5 +41,7 @@ public:
     qreal hueF() const;
     qreal saturationF() const;
 };
+
+QDebug operator<<(QDebug qd, const NegQColor &color);
 
 #endif // QCOLORUTILS_H

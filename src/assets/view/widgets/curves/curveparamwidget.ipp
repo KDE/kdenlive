@@ -389,8 +389,7 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefr
 {
     if (m_model->data(m_index, AssetParameterModel::TypeRole).template value<ParamType>() == ParamType::Curve) {
         QList<QPointF> points;
-        // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
-        int number = int(m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10 + 0.5);
+        int number = qRound(m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10);
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums

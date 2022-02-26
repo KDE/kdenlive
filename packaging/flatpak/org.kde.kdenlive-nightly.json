@@ -81,7 +81,13 @@
         {
           "type": "archive",
           "url": "https://github.com/rttrorg/rttr/releases/download/v0.9.6/rttr-0.9.6-src.tar.gz",
-          "sha256": "f62caee43016489320f8a69145c9208cddd72e451ea95618bc26a49a4cd6c990"
+          "sha256": "f62caee43016489320f8a69145c9208cddd72e451ea95618bc26a49a4cd6c990",
+          "x-checker-data": {
+              "type": "json",
+              "url": "https://api.github.com/repos/rttrorg/rttr/releases/latest",
+              "version-query": ".tag_name | sub(\"^v\"; \"\")",
+              "url-query": ".assets[] | select(.name==\"rttr-\" + $version + \"-src.tar.gz\") | .browser_download_url"
+          }
         }
       ]
     },
@@ -96,7 +102,13 @@
         {
           "type": "archive",
           "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
-          "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626"
+          "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
+          "x-checker-data": {
+              "type": "json",
+              "url": "https://gitlab.com/api/v4/projects/libeigen%2Feigen/releases",
+              "version-query": "map(select(.tag_name | test(\"^[\\\\d.]{3,}$\"))) | .[0].tag_name",
+              "url-query": ".[] | select(.tag_name==$version) | .assets.sources[] | select(.format==\"tar.bz2\") | .url"
+          }
         }
       ]
     },
@@ -143,7 +155,13 @@
         {
           "type": "archive",
           "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
-          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7"
+          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7",
+          "x-checker-data": {
+              "type": "json",
+              "url": "https://api.github.com/repos/sekrit-twc/zimg/releases/latest",
+              "version-query": ".tag_name | sub(\"^v\"; \"\")",
+              "url-query": ".tarball_url"
+          }
         }
       ]
     },
@@ -199,7 +217,13 @@
         {
           "type": "archive",
           "url": "https://github.com/jackaudio/jack2/archive/v1.9.19.tar.gz",
-          "sha256": "9030f4dc11773351b6ac96affd9c89803a5587ebc1b091e5ff866f433327e4b0"
+          "sha256": "9030f4dc11773351b6ac96affd9c89803a5587ebc1b091e5ff866f433327e4b0",
+          "x-checker-data": {
+              "type": "json",
+              "url": "https://api.github.com/repos/jackaudio/jack2/releases/latest",
+              "version-query": ".tag_name | sub(\"^v\"; \"\")",
+              "url-query": ".tarball_url"
+          }
         }
       ]
     },
@@ -588,7 +612,13 @@
         {
           "type": "archive",
           "url": "https://www.ffmpeg.org/releases/ffmpeg-5.0.tar.xz",
-          "sha256": "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298"
+          "sha256": "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 5405,
+            "stable-only": true,
+            "url-template": "https://www.ffmpeg.org/releases/ffmpeg-$version.tar.xz"
+        }
         }
       ]
     },

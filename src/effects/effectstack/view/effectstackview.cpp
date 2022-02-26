@@ -22,12 +22,15 @@
 #include <QInputDialog>
 #include <QMimeData>
 #include <QMutexLocker>
+#include <QPainter>
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
 
 #include <KMessageBox>
 #include <utility>
+
+int dragRow = -1;
 
 WidgetDelegate::WidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -59,6 +62,13 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     QStyleOptionViewItem opt(option);
     initStyleOption(&opt, index);
     QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+    if (index.row() == dragRow && !opt.rect.isNull()) {
+        QPen pen(QPalette().highlight().color());
+        pen.setWidth(4);
+        painter->setPen(pen);
+        painter->drawLine(opt.rect.topLeft(), opt.rect.topRight());
+    }
+
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 }
 
@@ -116,11 +126,16 @@ void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void EffectStackView::dropEvent(QDropEvent *event)
+void EffectStackView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     event->accept();
-    QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
-    int row = m_model->rowCount();
+    dragRow = -1;
+    repaint();
+}
+
+void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
+{
+    dragRow = m_model->rowCount();
     for (int i = 0; i < m_model->rowCount(); i++) {
         auto item = m_model->getEffectStackRow(i);
         if (item->childCount() > 0) {
@@ -131,25 +146,34 @@ void EffectStackView::dropEvent(QDropEvent *event)
         QModelIndex ix = m_model->getIndexFromItem(eff);
         QWidget *w = m_effectsTree->indexWidget(ix);
         if (w && w->geometry().contains(event->pos())) {
-            qDebug() << "// DROPPED ON EFF: " << eff->getAssetId();
-            row = i;
+            dragRow = i;
             break;
         }
     }
+    repaint();
+}
+
+void EffectStackView::dropEvent(QDropEvent *event)
+{
+    if (dragRow < 0) {
+        return;
+    }
+    event->accept();
+    QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     if (event->source() == this) {
         QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char('-'), 2, 2).toInt();
-        qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << row;
-        if (row == oldRow || (row == m_model->rowCount() && oldRow == row - 1)) {
+        qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << dragRow;
+        if (dragRow == oldRow || (dragRow == m_model->rowCount() && oldRow == dragRow - 1)) {
             return;
         }
-        m_model->moveEffect(row, m_model->getEffectStackRow(oldRow));
+        m_model->moveEffect(dragRow, m_model->getEffectStackRow(oldRow));
     } else {
         bool added = false;
-        if (row < m_model->rowCount()) {
+        if (dragRow < m_model->rowCount()) {
             if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
                 added = true;
-                m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
+                m_model->moveEffect(dragRow, m_model->getEffectStackRow(m_model->rowCount() - 1));
             }
         } else {
             if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
@@ -160,6 +184,19 @@ void EffectStackView::dropEvent(QDropEvent *event)
         if (added) {
             m_scrollTimer.start();
         }
+    }
+    dragRow = -1;
+}
+
+void EffectStackView::paintEvent(QPaintEvent *event)
+{
+    if (dragRow == m_model->rowCount()) {
+        QWidget::paintEvent(event);
+        QPainter p(this);
+        QPen pen(palette().highlight().color());
+        pen.setWidth(4);
+        p.setPen(pen);
+        p.drawLine(0, m_effectsTree->height(), width(), m_effectsTree->height());
     }
 }
 

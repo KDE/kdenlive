@@ -9,6 +9,7 @@
 #include "abstractparamwidget.hpp"
 #include <QWidget>
 #include <QDomElement>
+#include "utils/qcolorutils.h"
 
 class ColorWheel;
 class FlowLayout;
@@ -43,9 +44,9 @@ protected:
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */
-    void liftChanged();
-    void gammaChanged();
-    void gainChanged();
+    void liftChanged(const NegQColor &color);
+    void gammaChanged(const NegQColor &color);
+    void gainChanged(const NegQColor &color);
     void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
     void updateHeight(int height);
 
