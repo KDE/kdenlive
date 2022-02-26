@@ -1172,12 +1172,12 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
-bool TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
+int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
 {
     if (m_subtitleModel) {
         return m_subtitleModel->cutSubtitle(position, undo, redo);
     }
-    return false;
+    return -1;
 }
 
 bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)

@@ -127,7 +127,8 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         return false;
     }
     if (isSubtitle) {
-        return timeline->cutSubtitle(position, undo, redo);
+        newId = timeline->cutSubtitle(position, undo, redo);
+        return newId > -1;
     }
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix

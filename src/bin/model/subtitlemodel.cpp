@@ -502,7 +502,7 @@ bool SubtitleModel::cutSubtitle(int position)
 {
     Fun redo = []() { return true; };
     Fun undo = []() { return true; };
-    if (cutSubtitle(position, undo, redo)) {
+    if (cutSubtitle(position, undo, redo) > -1) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
         return true;
     }
