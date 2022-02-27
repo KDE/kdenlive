@@ -266,6 +266,7 @@ public:
                         painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                         tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
                     }
+                    painter->setBrush(Qt::NoBrush);
                 }
                 if (!subText.isEmpty()) {
                     r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
