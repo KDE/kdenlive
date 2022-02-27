@@ -86,6 +86,7 @@ class TimelineWaveform : public QQuickPaintedItem
 public:
     TimelineWaveform(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
+        , m_speed(1.)
         , m_opaquePaint(false)
     {
         setAntialiasing(false);
