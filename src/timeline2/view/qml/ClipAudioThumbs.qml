@@ -85,6 +85,7 @@ Row {
             scaleFactor: timeline.scaleFactor
             format: timeline.audioThumbFormat
             normalize: timeline.audioThumbNormalize
+            speed: clipRoot.speed
             waveInPoint: clipRoot.speed < 0 ? (Math.round((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - ((index + waveform.offset) * waveform.maxWidth / timeline.scaleFactor) * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / timeline.scaleFactor)) * clipRoot.speed) * clipRoot.audioChannels)
             waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / timeline.scaleFactor * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (waveInPoint + Math.round(width / timeline.scaleFactor * clipRoot.speed) * clipRoot.audioChannels)
             fillColor0: clipRoot.color

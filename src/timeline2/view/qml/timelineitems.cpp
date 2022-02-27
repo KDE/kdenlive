@@ -77,6 +77,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(double scaleFactor MEMBER m_scale)
+    Q_PROPERTY(double speed MEMBER m_speed)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
@@ -133,7 +134,7 @@ public:
         }
         QPen pen(painter->pen());
         double increment = qMax(1., m_scale / m_channels); //qMax(1., 1. / qAbs(indicesPrPixel));
-        qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        qreal indicesPrPixel = m_channels / m_scale * qAbs(m_speed); //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = int(height());
         double offset = 0;
         bool pathDraw = increment > 1.2;
@@ -270,6 +271,7 @@ private:
     int m_precisionFactor;
     int m_stream;
     double m_scale;
+    double m_speed;
     double m_audioMax;
     bool m_firstChunk;
     bool m_opaquePaint;
