@@ -2950,6 +2950,7 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     Fun temp_undo = []() { return true; };
     Fun temp_redo = []() { return true; };
     bool skipSnaps = snapDistance <= 0;
+    bool sizeUpdated = false;
     if (checkMix && right && size > out - in && isClip(itemId)) {
         int playlist = -1;
         if (getTrackById_const(trackId)->hasEndMix(itemId)) {
@@ -2957,11 +2958,12 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         }
         int targetPos = in + size - 1;
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-            int updatedSize = getTrackById_const(trackId)->getBlankEnd(out + 1, playlist) - in;
-            if (size - updatedSize > snapDistance) {
+            int updatedSize = getTrackById_const(trackId)->getBlankEnd(out, playlist) - in + 1;
+            if (!skipSnaps && size - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
             size = updatedSize;
+            sizeUpdated = true;
         }
     } else if (checkMix && !right && size > (out - in) && isClip(itemId)) {
         int targetPos = out - size;
@@ -2971,20 +2973,21 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         }
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
             int updatedSize = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
-            if (size - updatedSize > snapDistance) {
+            if (!skipSnaps && size - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
             size = updatedSize;
+            sizeUpdated = true;
         }
     }
-    int timelinePos = pCore->getTimelinePosition();
     int proposed_size = size;
     if (!skipSnaps) {
+        int timelinePos = pCore->getTimelinePosition();
         m_snaps->addPoint(timelinePos);
         proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
         m_snaps->removePoint(timelinePos);
     }
-    if (proposed_size > 0) {
+    if (proposed_size > 0 && (!skipSnaps || sizeUpdated)) {
         // only test move if proposed_size is valid
         bool success = false;
         if (isClip(itemId)) {
