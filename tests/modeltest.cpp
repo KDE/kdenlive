@@ -569,9 +569,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state2();
 
         // the gap between the two clips is 1 frame, we try to resize them by 2 frames
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
+        // It will only be resized by one frame
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == length - 3);
+        undoStack->undo();
         state2();
-        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
+        // Resize a clip over another clip will resize it to fill the gap
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == length - 1);
+        undoStack->undo();
         state2();
 
         REQUIRE(timeline->requestClipMove(cid2, tid1, length - 4));
