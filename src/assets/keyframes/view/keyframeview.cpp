@@ -809,8 +809,8 @@ void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
     qDebug()<<"=== COPYING VALS: "<<val<<" AT POS: "<<m_position<<", PARAM NAME_ "<<paramName;
     auto *parentCommand = new QUndoCommand();
     bool multiParams = paramName.contains(QLatin1Char(' '));
-    for (int &kf : m_model->selectedKeyframes()) {
-        QString oldValue = m_model->getInterpolatedValue(kf, ix).toString();
+    for (int &kfrIx : m_model->selectedKeyframes()) {
+        QString oldValue = m_model->getInterpolatedValue(kfrIx, ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));
         bool found = false;
         if (paramName.contains(QLatin1String("spinX"))) {
@@ -859,7 +859,7 @@ void KeyframeView::copyCurrentValue(QModelIndex ix, const  QString paramName)
         } else if (multiParams) {
             parentCommand->setText(i18n("Update keyframes value"));
         }
-        bool result = m_model->updateKeyframe(GenTime(kf + offset, pCore->getCurrentFps()), newVal, ix, parentCommand);
+        bool result = m_model->updateKeyframe(m_model->getPosAtIndex(kfrIx), newVal, ix, parentCommand);
         if (result) {
             pCore->displayMessage(i18n("Keyframe value copied"), InformationMessage);
         }
