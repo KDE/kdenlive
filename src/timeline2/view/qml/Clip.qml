@@ -1083,6 +1083,14 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
+                    property: "scrollStart"
+                    value: clipRoot.scrollStart
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    // TODO: use restoreMode for Qt >= 5.15
+                    // restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
                     property: "clipId"
                     value: clipRoot.clipId
                     when: effectRow.status == Loader.Ready && effectRow.item
