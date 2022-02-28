@@ -717,6 +717,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         if (pos < 0) continue;
         double scaledPos = pos * m_scale;
         if (scaledPos < m_zoomStart || qFloor(scaledPos) > zoomEnd) {
+            kfrIx++;
             continue;
         }
         if (kfrIx == m_model->activeKeyframe()) {
