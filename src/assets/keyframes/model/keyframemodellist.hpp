@@ -115,6 +115,11 @@ public:
        @param pos is the position where we interpolate
        @param index is the index of the queried parameter. */
     QVariant getInterpolatedValue(int pos, const QPersistentModelIndex &index) const;
+    /** @brief Return the interpolated value of a parameter.
+       @param pos is the position where we interpolate
+       @param index is the index of the queried parameter. */
+    QVariant getInterpolatedValue(const GenTime &pos, const QPersistentModelIndex &index) const;
+
 
     /** @brief Load keyframes from the current parameter value. */
     void refresh();

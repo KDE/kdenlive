@@ -808,7 +808,7 @@ void KeyframeView::copyCurrentValue(const QModelIndex &ix, const  QString &param
     auto *parentCommand = new QUndoCommand();
     bool multiParams = paramName.contains(QLatin1Char(' '));
     for (int &kfrIx : m_model->selectedKeyframes()) {
-        QString oldValue = m_model->getInterpolatedValue(kfrIx, ix).toString();
+        QString oldValue = m_model->getInterpolatedValue(m_model->getPosAtIndex(kfrIx), ix).toString();
         QStringList oldVals = oldValue.split(QLatin1Char(' '));
         bool found = false;
         if (paramName.contains(QLatin1String("spinX"))) {

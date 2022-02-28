@@ -397,6 +397,13 @@ QVariant KeyframeModelList::getInterpolatedValue(int pos, const QPersistentModel
     return m_parameters.at(index)->getInterpolatedValue(pos);
 }
 
+QVariant KeyframeModelList::getInterpolatedValue(const GenTime &pos, const QPersistentModelIndex &index) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_parameters.count(index) > 0);
+    return m_parameters.at(index)->getInterpolatedValue(pos);
+}
+
 KeyframeModel *KeyframeModelList::getKeyModel()
 {
     if (m_inTimelineIndex.isValid()) {
