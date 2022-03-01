@@ -5,12 +5,14 @@
 
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "kdenlivesettings.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
+    , m_isLumaList(false)
 {
     setupUi(this);
 
@@ -29,6 +31,7 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     m_download->setHidden(configFile.isEmpty());
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
     slotRefresh();
 
     connect(m_download, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
@@ -95,6 +98,7 @@ void UrlListParamWidget::slotRefresh()
     m_fileExt = filter.split(" ");
     if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
+        m_isLumaList = true;
         values.clear();
         names.clear();
         if (pCore->getCurrentFrameSize().width() > 1000) {
@@ -141,16 +145,39 @@ void UrlListParamWidget::slotRefresh()
     values.removeDuplicates();
 
     // build ui list
+    QMap <QString, QString> entryMap;
+    int ix = 0;
+    // Put all name/value combinations in a map
     for (const QString &value : qAsConst(values)) {
-        names.append(pCore->nameForLumaFile(QUrl(value).fileName()));
+        if (m_isLutList) {
+            if (value.toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(value)) {
+                // Open LUT file and check validity
+                if (isValidCubeFile(value)) {
+                    entryMap.insert(QFileInfo(value).baseName(), value);
+                    QStringList validated = KdenliveSettings::validated_luts();
+                    validated << value;
+                    KdenliveSettings::setValidated_luts(validated);
+                } else {
+                    qDebug()<<":::: FOUND INVALID LUT FILE: "<<value;
+                }
+            } else {
+                entryMap.insert(QFileInfo(value).baseName(), value);
+            }
+        } else if (m_isLumaList) {
+            entryMap.insert(pCore->nameForLumaFile(QFileInfo(value).fileName()), value);
+        } else if (ix < names.count()) {
+            entryMap.insert(names.at(ix), value);
+        }
+        ix++;
     }
-    for (int i = 0; i < values.count(); i++) {
-        const QString &entry = values.at(i);
-        QString name = QFileInfo(names.at(i)).baseName();
-        m_list->addItem(name, entry);
+    QMapIterator<QString, QString> i(entryMap);
+    while (i.hasNext()) {
+        i.next();
+        const QString &entry = i.value();
+        m_list->addItem(i.key(), entry);
         int ix = m_list->findData(entry);
         // Create thumbnails
-        if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
+        if (!entry.isEmpty() && (entry.toLower().endsWith(QLatin1String(".png")) || entry.toLower().endsWith(QLatin1String(".pgm")))) {
             if (MainWindow::m_lumacache.contains(entry)) {
                 m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             } else {
@@ -174,6 +201,25 @@ void UrlListParamWidget::slotRefresh()
     }
 }
 
+bool UrlListParamWidget::isValidCubeFile(const QString &path)
+{
+    QFile f(path);
+    if (f.open(QFile::ReadOnly | QFile::Text)) {
+        int lineCt = 0;
+        QTextStream in(&f);
+        while (!in.atEnd() && lineCt < 30)
+        {
+            QString line = in.readLine();
+            if (line.contains(QStringLiteral("LUT_3D_SIZE"))) {
+                f.close();
+                return true;
+            }
+        }
+        f.close();
+    }
+    return false;
+}
+
 void UrlListParamWidget::openFile()
 {
     QString path = KRecentDirs::dir(QStringLiteral(":KdenliveUrlListParamFolder"));
@@ -187,17 +233,26 @@ void UrlListParamWidget::openFile()
 
     if (!urlString.isEmpty()) {
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
-        emit valueChanged(m_index, urlString, true);
-        slotRefresh();
-    } else {
-        m_list->setCurrentIndex(m_currentIndex);
+        if (m_isLutList && urlString.toLower().endsWith(QLatin1String(".cube"))) {
+            if (isValidCubeFile(urlString)) {
+                emit valueChanged(m_index, urlString, true);
+                slotRefresh();
+                return;
+            } else {
+                pCore->displayMessage(i18n("Invalid LUT file %1", urlString), ErrorMessage);
+            }
+        } else {
+            emit valueChanged(m_index, urlString, true);
+            slotRefresh();
+            return;
+        }
     }
+    m_list->setCurrentIndex(m_currentIndex);
 }
 
 void UrlListParamWidget::downloadNewItems()
 {
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
-
     if(configFile.isEmpty()) {
         return;
     }

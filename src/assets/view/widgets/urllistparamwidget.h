@@ -61,6 +61,11 @@ public:
 private:
     QStringList m_fileExt;
     int m_currentIndex;
+    bool m_isLutList;
+    bool m_isLumaList;
+    /** @brief Reads the first 30 lines of a .cube LUT file and check for validity
+     */
+    bool isValidCubeFile(const QString &path);
 
 public slots:
     /** @brief Toggle the comments on or off
