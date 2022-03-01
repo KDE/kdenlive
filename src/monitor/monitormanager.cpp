@@ -547,7 +547,7 @@ void MonitorManager::setupActions()
     interlace->addAction(i18n("YADIF - temporal + spacial (best)"));
     if (KdenliveSettings::mltdeinterlacer() == QLatin1String("linearblend")) {
         interlace->setCurrentItem(1);
-    } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-temporal")) {
+    } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif-nospatial")) {
         interlace->setCurrentItem(2);
     } else if (KdenliveSettings::mltdeinterlacer() == QLatin1String("yadif")) {
         interlace->setCurrentItem(3);
@@ -645,7 +645,11 @@ void MonitorManager::slotSetDeinterlacer(int ix)
         value = QStringLiteral("onefield");
     }
     KdenliveSettings::setMltdeinterlacer(value);
+#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
     setConsumerProperty(QStringLiteral("deinterlace_method"), value);
+#else
+    setConsumerProperty(QStringLiteral("deinterlacer"), value);
+#endif
 }
 
 void MonitorManager::slotSetInterpolation(int ix)

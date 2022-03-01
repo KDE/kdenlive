@@ -86,9 +86,15 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip)
             }
             thumbProd->seek(i);
             QScopedPointer<Mlt::Frame> frame(thumbProd->get_frame());
+#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
             frame->set("deinterlace_method", "onefield");
             frame->set("top_field_first", -1);
             frame->set("rescale.interp", "nearest");
+#else
+            frame->set("consumer.deinterlacer", "onefield");
+            frame->set("consumer.top_field_first", -1);
+            frame->set("consumer.rescale", "nearest");
+#endif
             if (frame != nullptr && frame->is_valid()) {
                 QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
                 if (!result.isNull()) {

@@ -755,9 +755,15 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
+#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1);
     frame->set("rescale.interp", "nearest");
+#else
+    frame->set("consumer.deinterlacer", "onefield");
+    frame->set("consumer.top_field_first", -1);
+    frame->set("consumer.rescale", "nearest");
+#endif
     QImage img = KThumb::getFrame(frame.data());
     return QPixmap::fromImage(img/*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
