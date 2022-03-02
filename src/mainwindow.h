@@ -333,6 +333,7 @@ public slots:
     void slotDownloadResources();
     void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
     void slotTranscode(const QStringList &urls = QStringList());
+    /** @brief Open the transcode to edit friendly format dialog. */
     void slotFriendlyTranscode(const QString &binId, bool checkProfile);
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle(const QString &text = QString());

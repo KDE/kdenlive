@@ -462,6 +462,8 @@ public slots:
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix = QString());
+    /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
+    void requestSelectionTranscoding();
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();
 
@@ -487,7 +489,7 @@ private:
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     QMenu *m_extractAudioAction;
-    QMenu *m_transcodeAction;
+    QAction *m_transcodeAction;
     QMenu *m_clipsActionsMenu;
     QAction *m_inTimelineAction;
     QAction *m_showDate;

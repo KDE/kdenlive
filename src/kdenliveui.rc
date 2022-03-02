@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="206" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="207" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -77,6 +77,7 @@
       <Menu name="clip_actions" ><text>Clip Jobs</text>
 	<ActionList name="clip_jobs" />
       </Menu>
+      <Action name="friendly_transcoder" />
       <Menu name="transcoders" ><text>Transcode</text>
 	  <ActionList name="transcoders_list" />
       </Menu>

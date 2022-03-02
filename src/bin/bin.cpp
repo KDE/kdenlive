@@ -2496,11 +2496,9 @@ void Bin::slotSetIconSize(int size)
 
 void Bin::rebuildMenu()
 {
-    m_transcodeAction = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("transcoders"), pCore->window()));
     m_extractAudioAction = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
     m_clipsActionsMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
-    m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
 }
 
@@ -2541,42 +2539,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         }
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                         m_proxyAction->setChecked(clip->hasProxy());
-                        QList<QAction *> transcodeActions;
-                        if (m_transcodeAction) {
-                            transcodeActions = m_transcodeAction->actions();
-                        }
-                        QStringList dataList;
-                        QString condition;
-                        audioCodec = clip->codec(true);
-                        QString videoCodec = clip->codec(false);
-                        type = clip->clipType();
-                        if (clip->hasUrl()) {
-                            isImported = true;
-                        }
-                        bool noCodecInfo = false;
-                        if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
-                            noCodecInfo = true;
-                        }
-                        for (int i = 0; i < transcodeActions.count(); ++i) {
-                            dataList = transcodeActions.at(i)->data().toStringList();
-                            if (dataList.count() > 4) {
-                                condition = dataList.at(4);
-                                if (condition.isEmpty()) {
-                                    transcodeActions.at(i)->setEnabled(true);
-                                    continue;
-                                }
-                                if (noCodecInfo) {
-                                    // No audio / video codec, this is an MLT clip, disable conditional transcoding
-                                    transcodeActions.at(i)->setEnabled(false);
-                                    continue;
-                                }
-                                if (condition.startsWith(QLatin1String("vcodec"))) {
-                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
-                                } else if (condition.startsWith(QLatin1String("acodec"))) {
-                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
-                                }
-                            }
-                        }
                         m_proxyAction->blockSignals(false);
                     } else {
                         // Disable find in timeline option
@@ -2606,10 +2568,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
 
-    if (m_transcodeAction) {
-        m_transcodeAction->setEnabled(enableClipActions);
-        m_transcodeAction->menuAction()->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
-    }
+    m_transcodeAction->setEnabled(enableClipActions);
+    m_transcodeAction->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
+
     m_clipsActionsMenu->menuAction()->setVisible(
         itemType != AbstractProjectItem::FolderItem &&
         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
@@ -3013,13 +2974,6 @@ void Bin::setupGeneratorMenu()
         m_extractAudioAction = addMenu;
     }
 
-    addMenu = qobject_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("transcoders"), pCore->window()));
-    if (addMenu) {
-        m_menu->addMenu(addMenu);
-        addMenu->setEnabled(!addMenu->isEmpty());
-        m_transcodeAction = addMenu;
-    }
-
     addMenu = qobject_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
     if (addMenu) {
         m_menu->addMenu(addMenu);
@@ -3043,6 +2997,9 @@ void Bin::setupGeneratorMenu()
     }
     if (m_duplicateAction) {
         m_menu->addAction(m_duplicateAction);
+    }
+    if (m_transcodeAction) {
+        m_menu->addAction(m_transcodeAction);
     }
     if (m_proxyAction) {
         m_menu->addAction(m_proxyAction);
@@ -3090,6 +3047,12 @@ void Bin::setupMenu()
     m_reloadAction->setData("reload_clip");
     m_reloadAction->setEnabled(false);
     connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
+
+    m_transcodeAction =
+        addAction(QStringLiteral("friendly_transcoder"), i18n("Transcode to Edit Friendly Format…"), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_transcodeAction->setData("transcode_clip");
+    m_transcodeAction->setEnabled(false);
+    connect(m_transcodeAction, &QAction::triggered, this, &Bin::requestSelectionTranscoding);
 
     m_replaceAction =
         addAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
@@ -4828,6 +4791,44 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
         }
         selectClipById(id);
     }
+}
+
+void Bin::requestSelectionTranscoding()
+{
+    if (m_transcodingDialog == nullptr) {
+        m_transcodingDialog = new TranscodeSeek(this);
+        connect(m_transcodingDialog, &QDialog::accepted, this, [&] () {
+            QMap<QString,QString> ids = m_transcodingDialog->ids();
+            QString firstId = ids.firstKey();
+            QMapIterator<QString, QString> i(ids);
+            while (i.hasNext()) {
+                i.next();
+                std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value(), m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, false);
+            }
+            m_transcodingDialog->deleteLater();
+            m_transcodingDialog = nullptr;
+        });
+        connect(m_transcodingDialog, &QDialog::rejected, this, [&] () {
+            QString firstId = m_transcodingDialog->ids().firstKey();
+            m_transcodingDialog->deleteLater();
+            m_transcodingDialog = nullptr;
+        });
+    }
+    std::vector<QString> ids = selectedClipsIds();
+    for (const auto &id : ids) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+        if (clip) {
+            const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+            if (clipService.startsWith(QLatin1String("avformat"))) {
+                QString resource = clip->clipUrl();
+                int integerFps = qRound(clip->originalFps());
+                QString suffix = QString("-%1fps").arg(integerFps);
+                m_transcodingDialog->addUrl(resource, id, suffix);
+            }
+        }
+    }
+    m_transcodingDialog->show();
 }
 
 void Bin::requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix)
