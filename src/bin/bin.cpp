@@ -4798,13 +4798,13 @@ void Bin::requestSelectionTranscoding()
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&] () {
-            QMap<QString,QString> ids = m_transcodingDialog->ids();
+            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
             QString firstId = ids.firstKey();
-            QMapIterator<QString, QString> i(ids);
+            QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
                 i.next();
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value(), m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, false);
+                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, false);
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
@@ -4822,9 +4822,10 @@ void Bin::requestSelectionTranscoding()
             const QString clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
             if (clipService.startsWith(QLatin1String("avformat"))) {
                 QString resource = clip->clipUrl();
+                ClipType::ProducerType type = clip->clipType();
                 int integerFps = qRound(clip->originalFps());
                 QString suffix = QString("-%1fps").arg(integerFps);
-                m_transcodingDialog->addUrl(resource, id, suffix);
+                m_transcodingDialog->addUrl(resource, id, suffix, type);
             }
         }
     }
@@ -4836,13 +4837,13 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile] () {
-            QMap<QString,QString> ids = m_transcodingDialog->ids();
+            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
             QString firstId = ids.firstKey();
-            QMapIterator<QString, QString> i(ids);
+            QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
                 i.next();
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value(), m_transcodingDialog->preParams(), m_transcodingDialog->params(), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
+                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
@@ -4860,10 +4861,15 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
             QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id, suffix);
+            ClipType::ProducerType type = clip->clipType();
+            m_transcodingDialog->addUrl(resource, id, suffix, type);
         }
     } else {
-        m_transcodingDialog->addUrl(url, id, suffix);
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+        if (clip) {
+            ClipType::ProducerType type = clip->clipType();
+            m_transcodingDialog->addUrl(url, id, suffix, type);
+        }
     }
     m_transcodingDialog->show();
 }
