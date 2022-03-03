@@ -4825,14 +4825,14 @@ void Bin::requestSelectionTranscoding()
                 ClipType::ProducerType type = clip->clipType();
                 int integerFps = qRound(clip->originalFps());
                 QString suffix = QString("-%1fps").arg(integerFps);
-                m_transcodingDialog->addUrl(resource, id, suffix, type);
+                m_transcodingDialog->addUrl(resource, id, suffix, type, QString());
             }
         }
     }
     m_transcodingDialog->show();
 }
 
-void Bin::requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix)
+void Bin::requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix, const QString &message)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
@@ -4861,14 +4861,12 @@ void Bin::requestTranscoding(const QString &url, const QString &id, bool checkPr
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
             QString resource = clip->clipUrl();
-            ClipType::ProducerType type = clip->clipType();
-            m_transcodingDialog->addUrl(resource, id, suffix, type);
+            m_transcodingDialog->addUrl(resource, id, suffix, (ClipType::ProducerType) type, message);
         }
     } else {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
-            ClipType::ProducerType type = clip->clipType();
-            m_transcodingDialog->addUrl(url, id, suffix, type);
+            m_transcodingDialog->addUrl(url, id, suffix, (ClipType::ProducerType) type, message);
         }
     }
     m_transcodingDialog->show();

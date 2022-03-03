@@ -23,7 +23,7 @@ public:
     TranscodeSeek(QWidget *parent = nullptr);
     ~TranscodeSeek() override;
 
-    void addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type);
+    void addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message);
     QMap<QString,QStringList>  ids() const;
     QString params(int clipType) const;
     QString preParams() const;

@@ -474,13 +474,23 @@ void ClipLoadTask::run()
         abort();
         return;
     }
+    const QString mltService = producer->get("mlt_service");
     if (producer->get_length() == INT_MAX && producer->get("eof") == QLatin1String("loop")) {
         // This is a live source or broken clip
+        // Check for AV
+        ClipType::ProducerType cType = type;
         if (producer) {
+            if (mltService.startsWith(QLatin1String("avformat")) && cType == ClipType::Unknown) {
+                // Check if it is an audio or video only clip
+                if (producer->get_int("video_index") == -1) {
+                    cType = ClipType::Audio;
+                } else if (producer->get_int("audio_index") == -1) {
+                    cType = ClipType::Video;
+                }
+            }
             producer.reset();
         }
-        qDebug()<<"=== MAX DURATION: "<<INT_MAX<<", DURATION: "<<(INT_MAX / 25 / 60)<<"; RES: "<<resource;
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, pCore->bin()->shouldCheckProfile));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
         }
@@ -502,7 +512,6 @@ void ClipLoadTask::run()
         clipOut = m_xml.attribute(QStringLiteral("out")).toInt();
     }
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-    const QString mltService = producer->get("mlt_service");
     QMimeDatabase db;
     const QString mime = db.mimeTypeForFile(resource).name();
     const bool isGif = mime.contains(QLatin1String("image/gif"));
@@ -611,7 +620,16 @@ void ClipLoadTask::run()
             if (checkProfile) {
                 pCore->bin()->shouldCheckProfile = false;
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile));
+            ClipType::ProducerType cType = type;
+            if (cType == ClipType::Unknown) {
+                // Check if it is an audio or video only clip
+                if (!hasVideo) {
+                    cType = ClipType::Audio;
+                } else if (!hasAudio) {
+                    cType = ClipType::Video;
+                }
+            }
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
         }
 
         // check if there are multiple streams
@@ -645,7 +663,16 @@ void ClipLoadTask::run()
                 int integerFps = qRound(fps);
                 adjustedFpsString = QString("-%1fps").arg(integerFps);
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString));
+            ClipType::ProducerType cType = type;
+            if (cType == ClipType::Unknown) {
+                // Check if it is an audio or video only clip
+                if (!hasVideo) {
+                    cType = ClipType::Audio;
+                } else if (!hasAudio) {
+                    cType = ClipType::Video;
+                }
+            }
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString), Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
         }
 
         if (fps <= 0 && !m_isCanceled) {

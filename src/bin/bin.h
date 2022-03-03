@@ -461,7 +461,7 @@ public slots:
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */
-    void requestTranscoding(const QString &url, const QString &id, bool checkProfile, const QString suffix = QString());
+    void requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix = QString(), const QString &message = QString());
     /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
     void requestSelectionTranscoding();
     /** @brief Build the project bin audio/video icons according to color theme */

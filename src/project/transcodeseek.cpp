@@ -31,18 +31,33 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
         encodingprofiles->setCurrentIndex(ix);
     }
     autorotate->setChecked(KdenliveSettings::transcodeFriendlyRotate());
+    messagewidget->setVisible(false);
 }
 
 TranscodeSeek::~TranscodeSeek()
 {
 }
 
-void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type)
+void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message)
 {
     QListWidgetItem *it = new QListWidgetItem(file, listWidget);
     it->setData(Qt::UserRole, id);
     it->setData(Qt::UserRole + 1, suffix);
     it->setData(Qt::UserRole + 2, QString::number(type));
+    if (!message.isEmpty()) {
+        if (messagewidget->text().isEmpty()) {
+            messagewidget->setText(message);
+            messagewidget->animatedShow();
+        } else {
+            QString mText = messagewidget->text();
+            if (mText.length() < 120) {
+                mText.append(QStringLiteral("<br/>"));
+                mText.append(message);
+                messagewidget->setText(mText);
+                messagewidget->animatedShow();
+            }
+        }
+    }
     if (listWidget->count() == 1) {
         if (type == ClipType::Audio) {
             if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
