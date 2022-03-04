@@ -188,16 +188,22 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
     } else {
         std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
 
-        description += i18n("<h5>Video Settings</h5>");
-        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(),
-                            profile->display_aspect_den());
-        description += i18n("Frame rate: %1 fps<br/>", profile->fps());
-        description += i18n("Pixel aspect ratio: %1<br/>", profile->sar());
-        description += i18n("Color space: %1<br/>", profile->colorspaceDescription());
-        description += i18n("Interlaced: %1</p>", profile->progressive() ? i18n("no") : i18n("yes"));
+        description += QStringLiteral("<h5>%1</h5>").arg(i18n("Video Settings"));
+        description += QStringLiteral("<p style='font-size:small'>%1<br/>")
+                .arg(i18n("Frame size: %1 x %2 (%3:%4)", profile->width(), profile->height(), profile->display_aspect_num(),
+                            profile->display_aspect_den()));
+        description += i18n("Frame rate: %1 fps", profile->fps());
+        description += QStringLiteral("<br/>");
+        description += i18n("Pixel aspect ratio: %1", profile->sar());
+        description += QStringLiteral("<br/>");
+        description += i18n("Color space: %1", profile->colorspaceDescription());
+        description += QStringLiteral("<br/>");
+        description += i18n("Interlaced: %1", profile->progressive() ? i18n("no") : i18n("yes"));
         if (!profile->progressive()) {
-            description += i18n("Field order: %1</p>", profile->bottom_field_first() ? i18n("Bottom field first") : i18n("Top field first"));
+            description += QStringLiteral("<br/>");
+            description += i18n("Field order: %1", profile->bottom_field_first() ? i18n("Bottom field first") : i18n("Top field first"));
         }
+        description += QStringLiteral("</p>");
     }
     m_descriptionPanel->setHtml(description);
 }
