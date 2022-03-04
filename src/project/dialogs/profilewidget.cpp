@@ -167,7 +167,7 @@ const QString ProfileWidget::selectedProfile() const
 
 void ProfileWidget::slotEditProfiles()
 {
-    auto *w = new ProfilesDialog(m_currentProfile);
+    auto *w = new ProfilesDialog(ProfileRepository::get()->getProfile(m_currentProfile)->description());
     w->exec();
     if (w->profileTreeChanged()) {
         // Rebuild profiles tree
