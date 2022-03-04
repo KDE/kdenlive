@@ -52,7 +52,7 @@ Row {
             cache: enableCache
             //sourceSize.width: width
             //sourceSize.height: height
-            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
+            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint * clipRoot.speed + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
             source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
             onStatusChanged: {
