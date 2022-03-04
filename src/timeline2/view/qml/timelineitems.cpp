@@ -84,6 +84,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(double scaleFactor MEMBER m_scale)
     Q_PROPERTY(double speed MEMBER m_speed)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
+    Q_PROPERTY(bool enforceRepaint MEMBER m_repaint NOTIFY propertyChanged)
     Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY normalizeChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
     Q_PROPERTY(bool isOpaque MEMBER m_opaquePaint)
@@ -91,6 +92,7 @@ class TimelineWaveform : public QQuickPaintedItem
 public:
     TimelineWaveform(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
+        , m_repaint(false)
         , m_speed(1.)
         , m_opaquePaint(false)
     {
@@ -271,6 +273,7 @@ private:
     QColor m_color;
     QColor m_color2;
     bool m_format;
+    bool m_repaint;
     bool m_normalize;
     int m_channels;
     int m_precisionFactor;

@@ -14,7 +14,6 @@ Item{
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
     property bool isAudio
-    property real timeScale: 1.0
     property bool isLocked: false
     property int trackInternalId : -42
     property int trackThumbsFormat
@@ -63,12 +62,6 @@ Item{
                 id: loader
                 Binding {
                     target: loader.item
-                    property: "timeScale"
-                    value: trackRoot.timeScale
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
                     when: loader.status == Loader.Ready && loader.item && clipItem
@@ -113,6 +106,12 @@ Item{
                     target: loader.item
                     property: "modelStart"
                     value: model.start
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
+                    property: "timeScale"
+                    value: root.timeScale
                     when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
@@ -316,7 +315,7 @@ Item{
                         // Store original speed
                         speedController.originalSpeed = clip.speed
                     }
-                    clip.x += clip.width - (newDuration * trackRoot.timeScale)
+                    clip.x += clip.width - (newDuration * root.timeScale)
                     clip.width = newDuration * root.timeScale
                     speedController.x = clip.x + clip.border.width
                     speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
@@ -393,7 +392,7 @@ Item{
                     }
                     speedController.x = clip.x + clip.border.width
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
-                    clip.width = newDuration * trackRoot.timeScale
+                    clip.width = newDuration * root.timeScale
                     speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration

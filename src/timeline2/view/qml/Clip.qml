@@ -184,17 +184,14 @@ Rectangle {
     }
 
     onTimeScaleChanged: {
-        x = modelStart * timeScale;
+        x = modelStart * clipRoot.timeScale;
         xIntegerOffset = Math.ceil(x) - x
-        width = clipDuration * timeScale;
+        width = clipDuration * clipRoot.timeScale;
         updateLabelOffset()
         if (!clipRoot.hideClipViews) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
             }
-        }
-        if (isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload(1)
         }
     }
     onScrollXChanged: {
@@ -206,7 +203,7 @@ Rectangle {
     
     function updateLabelOffset()
     {
-        labelRect.anchors.leftMargin = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale + (clipRoot.timeremap ? labelRect.height : 0) : clipRoot.timeremap ? labelRect.height : 0
+        labelRect.anchors.leftMargin = scrollX > modelStart * clipRoot.timeScale ? scrollX - modelStart * clipRoot.timeScale + (clipRoot.timeremap ? labelRect.height : 0) : clipRoot.timeremap ? labelRect.height : 0
     }
 
     /*border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -534,8 +531,8 @@ Rectangle {
                         width: 1
                         height: container.height
                         x: clipRoot.speed < 0
-                           ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - itemBorder.border.width
-                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - itemBorder.border.width;
+                           ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
+                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -555,7 +552,7 @@ Rectangle {
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                                                               ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed))
+                                                                               ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed))
                                                                                : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
@@ -563,7 +560,7 @@ Rectangle {
                         id: textMetrics
                         font: miniFont
                         text: model.comment
-                        elide: root.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
                         elideWidth: root.maxLabelWidth
                     }
                     Text {
@@ -633,7 +630,7 @@ Rectangle {
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / timeScale)
+                        var currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / clipRoot.timeScale)
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
@@ -764,7 +761,7 @@ Rectangle {
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var newDuration = Math.round((x + width) / timeScale)
+                        var newDuration = Math.round((x + width) / clipRoot.timeScale)
                         if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = maxDuration - inPoint
                         }
@@ -835,7 +832,7 @@ Rectangle {
                 // Green fade in triangle
                 id: fadeInTriangle
                 fillColor: 'green'
-                width: Math.min(clipRoot.fadeIn * timeScale, container.width)
+                width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -846,7 +843,7 @@ Rectangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
                 fillColor: 'red'
-                width: Math.min(clipRoot.fadeOut * timeScale, container.width)
+                width: Math.min(clipRoot.fadeOut * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -1247,7 +1244,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ timeScale)
+                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
                     if (lastDuration != duration) {
@@ -1343,7 +1340,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = Math.round((x + width / 2) / timeScale)
+                    var delta = Math.round((x + width / 2) / clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {
@@ -1432,7 +1429,7 @@ Rectangle {
             Rectangle {
                 id: currentRegionMoved
                 color: parent.color
-                x: slipBackground.x + slipControler.inPoint * timeScale + itemBorder.border.width
+                x: slipBackground.x + slipControler.inPoint * clipRoot.timeScale + itemBorder.border.width
                 anchors.bottom: parent.bottom
                 height: parent.height / 2
                 width: container.width

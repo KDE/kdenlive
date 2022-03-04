@@ -16,6 +16,7 @@ Row {
     property int totalChunks: 0
     property bool usesOffset: false
     property int offset: -1
+    property real timeScale: root.timeScale
     anchors.fill: parent
 
     Timer {
@@ -37,6 +38,10 @@ Row {
         waveTimer.start()
     }
 
+    onTimeScaleChanged: {
+        waveTimer.start()
+    }
+
     function processReload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
@@ -51,8 +56,10 @@ Row {
             waveform.usesOffset = true
             updatedOffset = Math.max(0, Math.floor(clipRoot.scrollStart / waveform.maxWidth - 2))
             if (updatedOffset < waveform.offset || updatedOffset > (waveform.offset + 5) || total != waveform.totalChunks) {
-                waveformRepeater.model = 0
+                // Enforce repaint
+                //waveformRepeater.model = 0
             } else {
+                // All required audio thumbs chunks are already painted
                 return
             }
             chunks = Math.min(10, total - updatedOffset)
@@ -64,6 +71,9 @@ Row {
         waveform.totalChunks = total
         if (waveformRepeater.model === undefined || chunks !== waveformRepeater.model) {
             waveformRepeater.model = chunks
+        } else {
+            // Enforce repaint
+            waveformRepeater.repaintNodes = !waveformRepeater.repaintNodes
         }
     }
     Item {
@@ -73,6 +83,7 @@ Row {
 
     Repeater {
         id: waveformRepeater
+        property bool repaintNodes: false
         TimelineWaveform {
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
@@ -82,15 +93,16 @@ Row {
             audioStream: clipRoot.audioStream
             isFirstChunk: index + waveform.offset == 0
             isOpaque: true
-            scaleFactor: timeline.scaleFactor
+            scaleFactor: waveform.timeScale
             format: timeline.audioThumbFormat
             normalize: timeline.audioThumbNormalize
             speed: clipRoot.speed
-            waveInPoint: clipRoot.speed < 0 ? (Math.round((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - ((index + waveform.offset) * waveform.maxWidth / timeline.scaleFactor) * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / timeline.scaleFactor)) * clipRoot.speed) * clipRoot.audioChannels)
-            waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / timeline.scaleFactor * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (waveInPoint + Math.round(width / timeline.scaleFactor * clipRoot.speed) * clipRoot.audioChannels)
+            waveInPoint: clipRoot.speed < 0 ? (Math.round((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale) * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale)) * clipRoot.speed) * clipRoot.audioChannels)
+            waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / waveform.timeScale * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (waveInPoint + Math.round(width / waveform.timeScale * clipRoot.speed) * clipRoot.audioChannels)
             fillColor0: clipRoot.color
             fillColor1: root.thumbColor1
             fillColor2: root.thumbColor2
+            enforceRepaint: waveformRepeater.repaintNodes
         }
     }
 }
