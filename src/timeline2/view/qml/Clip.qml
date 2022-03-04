@@ -375,6 +375,11 @@ Rectangle {
             asynchronous: true
             visible: status == Loader.Ready
             source: (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color) ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : timeline.showThumbnails ? "ClipThumbs.qml" : ""
+            onStatusChanged: {
+                if (!parentTrack.isAudio && thumbsLoader.item) {
+                    thumbsLoader.item.initialSpeed = clipRoot.speed
+                }
+            }
         }
 
         Rectangle {
