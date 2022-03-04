@@ -14,9 +14,11 @@
 #include <QDir>
 #include <QFile>
 #include <memory>
+
 ProfileModel::ProfileModel(const QString &path)
     : m_path(path)
     , m_invalid(false)
+    , m_bottom_field_first(false)
 {
     if (!QFile::exists(path) && path.contains(QLatin1Char('/'))) {
         qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND PROFILE " << path << ". We will default to DV_PAL profile";
@@ -28,6 +30,21 @@ ProfileModel::ProfileModel(const QString &path)
             qCWarning(KDENLIVE_LOG) << "WARNING, COULD NOT FIND MLT PROFILE " << path << ". We will default to DV_PAL profile";
             m_invalid = true;
         }
+    }
+    QFile f(path);
+    if (f.open(QFile::ReadOnly | QFile::Text)) {
+        int lineCt = 0;
+        QTextStream in(&f);
+        while (!in.atEnd() && lineCt < 30)
+        {
+            QString line = in.readLine();
+            if (line.contains(QStringLiteral("bottom_field_first"))) {
+                m_bottom_field_first = line.split(QStringLiteral("=")).at(1).toInt() == 1;
+                qDebug() << "FOUND" << "bottom_field_first value:" << m_bottom_field_first;
+                f.close();
+            }
+        }
+        f.close();
     }
     m_profile = std::make_unique<Mlt::Profile>(path.toStdString().c_str());
     m_description = QString(m_profile->description());
@@ -71,6 +88,11 @@ int ProfileModel::height() const
 bool ProfileModel::progressive() const
 {
     return m_profile->progressive();
+}
+
+bool ProfileModel::bottom_field_first() const
+{
+    return m_bottom_field_first;
 }
 
 int ProfileModel::sample_aspect_num() const
@@ -132,7 +154,8 @@ ProfileParam::ProfileParam(QDomElement element)
     : m_description(element.attribute(QStringLiteral("description")))
     , m_frame_rate_num(element.attribute(QStringLiteral("frame_rate_num")).toInt())
     , m_frame_rate_den(element.attribute(QStringLiteral("frame_rate_den")).toInt())
-    , m_progressive((element.attribute(QStringLiteral("progressive")).toInt() != 0))
+    , m_progressive(element.attribute(QStringLiteral("progressive")).toInt() != 0)
+    , m_bottom_field_first(element.attribute(QStringLiteral("bottom_field_first")).toInt() != 0)
     , m_sample_aspect_num(element.attribute(QStringLiteral("sample_aspect_num")).toInt())
     , m_sample_aspect_den(element.attribute(QStringLiteral("sample_aspect_den")).toInt())
     , m_display_aspect_num(element.attribute(QStringLiteral("display_aspect_num")).toInt())
@@ -164,6 +187,7 @@ ProfileParam::ProfileParam(ProfileInfo *p)
     , m_width(p->width())
     , m_height(p->height())
     , m_progressive(p->progressive())
+    , m_bottom_field_first(p->bottom_field_first())
     , m_sample_aspect_num(p->sample_aspect_num())
     , m_sample_aspect_den(p->sample_aspect_den())
     , m_display_aspect_num(p->display_aspect_num())
@@ -183,6 +207,7 @@ ProfileParam::ProfileParam(ProfileParam *p)
     , m_width(p->width())
     , m_height(p->height())
     , m_progressive(p->progressive())
+    , m_bottom_field_first(p->bottom_field_first())
     , m_sample_aspect_num(p->sample_aspect_num())
     , m_sample_aspect_den(p->sample_aspect_den())
     , m_display_aspect_num(p->display_aspect_num())
@@ -200,6 +225,7 @@ ProfileParam::ProfileParam(Mlt::Profile *p)
     , m_width(p->width())
     , m_height(p->height())
     , m_progressive(p->progressive())
+    , m_bottom_field_first(false)
     , m_sample_aspect_num(p->sample_aspect_num())
     , m_sample_aspect_den(p->sample_aspect_den())
     , m_display_aspect_num(p->display_aspect_num())
@@ -237,6 +263,10 @@ int ProfileParam::height() const
 bool ProfileParam::progressive() const
 {
     return m_progressive;
+}
+bool ProfileParam::bottom_field_first() const
+{
+    return m_bottom_field_first;
 }
 int ProfileParam::sample_aspect_num() const
 {

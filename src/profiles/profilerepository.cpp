@@ -178,6 +178,7 @@ const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profi
         << "width=" << profile->width() << '\n'
         << "height=" << profile->height() << '\n'
         << "progressive=" << static_cast<int>(profile->progressive()) << '\n'
+        << "bottom_field_first=" << static_cast<int>(profile->bottom_field_first()) << '\n'
         << "sample_aspect_num=" << profile->sample_aspect_num() << '\n'
         << "sample_aspect_den=" << profile->sample_aspect_den() << '\n'
         << "display_aspect_num=" << profile->display_aspect_num() << '\n'

@@ -480,6 +480,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
         emit m_monitorManager->updatePreviewScaling();
         if (m_guiConstructed && m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
+            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateFieldOrderFilter(getCurrentProfile());
             checkProfileValidity();
             emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
         }

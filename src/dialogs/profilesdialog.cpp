@@ -28,9 +28,6 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
     m_view.setupUi(this);
     m_view.info_message->hide();
-    // TODO setting the fied order is not implemented yet
-    m_view.label_field_order->setVisible(false);
-    m_view.field_order->setVisible(false);
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -78,9 +75,6 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
 {
     m_view.setupUi(this);
     m_view.info_message->hide();
-    // TODO setting the fied order is not implemented yet
-    m_view.label_field_order->setVisible(false);
-    m_view.field_order->setVisible(false);
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -285,6 +279,7 @@ void ProfilesDialog::saveProfile(const QString &path)
     profile->m_width = m_view.size_w->value();
     profile->m_height = m_view.size_h->value();
     profile->m_progressive = m_view.scanning->currentIndex() == 1;
+    profile->m_bottom_field_first = m_view.field_order->currentIndex() == 1;
     profile->m_sample_aspect_num = m_view.aspect_num->value();
     profile->m_sample_aspect_den = m_view.aspect_den->value();
     profile->m_display_aspect_num = m_view.display_num->value();
@@ -334,6 +329,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
     m_view.frame_num->setValue(curProfile->frame_rate_num());
     m_view.frame_den->setValue(curProfile->frame_rate_den());
     m_view.scanning->setCurrentIndex(curProfile->progressive() ? 1 : 0);
+    m_view.field_order->setCurrentIndex(curProfile->bottom_field_first() ? 1 : 0);
     slotScanningChanged(m_view.scanning->currentIndex());
     if (curProfile->progressive() != 0) {
         m_view.fields->setText(locale.toString(double(curProfile->frame_rate_num() / curProfile->frame_rate_den()), 'f', 2));

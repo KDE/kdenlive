@@ -194,11 +194,10 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         description += i18n("Frame rate: %1 fps<br/>", profile->fps());
         description += i18n("Pixel aspect ratio: %1<br/>", profile->sar());
         description += i18n("Color space: %1<br/>", profile->colorspaceDescription());
-        QString interlaced = i18n("yes");
-        if (profile->progressive()) {
-            interlaced = i18n("no");
+        description += i18n("Interlaced: %1</p>", profile->progressive() ? i18n("no") : i18n("yes"));
+        if (!profile->progressive()) {
+            description += i18n("Field order: %1</p>", profile->bottom_field_first() ? i18n("Bottom field first") : i18n("Top field first"));
         }
-        description += i18n("Interlaced: %1</p>", interlaced);
     }
     m_descriptionPanel->setHtml(description);
 }
