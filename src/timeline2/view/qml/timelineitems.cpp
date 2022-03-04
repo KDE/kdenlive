@@ -163,11 +163,17 @@ public:
         if (m_audioMax > 1) {
             scaleFactor = m_audioMax;
         }
+        bool reverse = m_speed < 0;
+        int maxLength = m_audioLevels.length();
+        if (reverse) {
+            m_inPoint = qMin(m_inPoint, maxLength - m_channels);
+        }
         int startPos = int(m_inPoint / indicesPrPixel);
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
             int j = 0;
+            int idx = 0;
             QPainterPath path;
             if (pathDraw) {
                 path.moveTo(j - 1, height());
@@ -175,10 +181,15 @@ public:
             for (; i <= width(); j++) {
                 double level;
                 i = j * increment;
-                int idx = qCeil((startPos + i) * indicesPrPixel);
-                idx += idx % m_channels;
+                if (reverse) {
+                    idx = qCeil((startPos - i) * indicesPrPixel);
+                    idx -= idx % m_channels;
+                } else {
+                    idx = qCeil((startPos + i) * indicesPrPixel);
+                    idx += idx % m_channels;
+                }
                 i -= offset;
-                if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
+                if (idx + m_channels >= maxLength || idx < 0) {
                     break;
                 }
                 level = m_audioLevels.at(idx) / scaleFactor;
@@ -228,13 +239,19 @@ public:
                 painter->setOpacity(1);
                 double i = 0;
                 int j = 0;
+                int idx = 0;
                 for (; i <= width(); j++) {
                     i = j * increment;
-                    int idx = int(ceil((startPos + i) * indicesPrPixel));
-                    idx += idx % m_channels;
+                    if (reverse) {
+                        idx = qCeil((startPos - i) * indicesPrPixel);
+                        idx -= idx % m_channels;
+                    } else {
+                        idx = qCeil((startPos + i) * indicesPrPixel);
+                        idx += idx % m_channels;
+                    }
                     i -= offset;
                     idx += channel;
-                    if (idx >= m_audioLevels.length() || idx < 0) break;
+                    if (idx >= maxLength || idx < 0) break;
                     if (pathDraw) {
                         level = m_audioLevels.at(idx) * scaleFactor;
                         path.lineTo(i, y - level);
