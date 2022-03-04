@@ -62,6 +62,12 @@ Item{
                 id: loader
                 Binding {
                     target: loader.item
+                    property: "timeScale"
+                    value: root.timeScale
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
                     when: loader.status == Loader.Ready && loader.item && clipItem
@@ -106,12 +112,6 @@ Item{
                     target: loader.item
                     property: "modelStart"
                     value: model.start
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "timeScale"
-                    value: root.timeScale
                     when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
