@@ -3121,7 +3121,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     std::unordered_set<int> all_items;
     QList <int> tracksWithMixes;
     all_items.insert(itemId);
-    if (logUndo && isClip(itemId)) { 
+    if (logUndo && isClip(itemId)) {
         if (tid > -1) {
             if (right) {
                 if (getTrackById_const(tid)->hasEndMix(itemId)) {

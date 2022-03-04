@@ -634,8 +634,14 @@ Rectangle {
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
-                            if (delta > 0 && clipRoot.mixDuration > 0 && (clipRoot.mixDuration - clipRoot.mixCut - delta < 0)) {
-                                return
+                            if (delta > 0 && (clipRoot.mixDuration > 0 && clipRoot.mixDuration - clipRoot.mixCut - delta < (clipRoot.mixCut == 0 ? 1 : 0))) {
+                                if (clipRoot.mixCut == 0 && clipRoot.mixDuration > 1) {
+                                    delta = clipRoot.mixDuration - clipRoot.mixCut - 1
+                                } else if (clipRoot.mixCut > 0 && clipRoot.mixDuration > clipRoot.mixCut) {
+                                    delta = clipRoot.mixDuration - clipRoot.mixCut
+                                } else {
+                                    return
+                                }
                             }
                             var newDuration = 0;
                             if (root.activeTool === ProjectTool.RippleTool) {
