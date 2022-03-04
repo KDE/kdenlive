@@ -14,23 +14,17 @@
    <string>Profiles</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="6">
-    <widget class="QToolButton" name="button_delete">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="0" column="4">
+    <widget class="QToolButton" name="button_create">
+     <property name="toolTip">
+      <string>Create  new profile</string>
      </property>
      <property name="text">
-      <string>D</string>
+      <string>C</string>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="5">
-    <widget class="QToolButton" name="button_save">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>S</string>
+     <property name="icon">
+      <iconset theme="document-new">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -41,10 +35,20 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
-    <widget class="QToolButton" name="button_create">
+   <item row="0" column="6">
+    <widget class="QToolButton" name="button_delete">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string>Delete profile</string>
+     </property>
      <property name="text">
-      <string>C</string>
+      <string>D</string>
+     </property>
+     <property name="icon">
+      <iconset theme="delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -54,18 +58,131 @@
       <string>Properties</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="4" column="3">
+       <widget class="QSpinBox" name="aspect_den">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="size_w">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QSpinBox" name="size_h">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="fields">
         <property name="text">
-         <string>Description:</string>
+         <string notr="true">interl: 2*fps</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_dar">
+        <property name="text">
+         <string>Display aspect ratio:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Frame rate:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item row="0" column="1" colspan="3">
        <widget class="QLineEdit" name="description"/>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="size_w">
+      <item row="7" column="1" colspan="3">
+       <widget class="KComboBox" name="colorspace"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_8">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>/</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1" colspan="3">
+       <widget class="QComboBox" name="field_order">
+        <item>
+         <property name="text">
+          <string>Top Field First</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Bottom Field First</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="display_num">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_scanning">
+        <property name="text">
+         <string>Scanning:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>/</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="aspect_num">
         <property name="minimum">
          <number>1</number>
         </property>
@@ -87,21 +204,28 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QSpinBox" name="size_h">
-        <property name="minimum">
-         <number>1</number>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Description:</string>
         </property>
-        <property name="maximum">
-         <number>10000</number>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Frame rate:</string>
-        </property>
+      <item row="8" column="1" colspan="3">
+       <widget class="QComboBox" name="scanning">
+        <item>
+         <property name="text">
+          <string>Interlaced</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Progressive</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="2" column="1">
@@ -114,8 +238,71 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_4">
+      <item row="5" column="3">
+       <widget class="QSpinBox" name="display_den">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0" colspan="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>105</width>
+          <height>17</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Pixel aspect ratio:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Colorspace:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Size:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_field_order">
+        <property name="text">
+         <string>Field order:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_7">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -137,134 +324,30 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Pixel aspect ratio:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="aspect_num">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_7">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>/</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QSpinBox" name="aspect_den">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Display aspect ratio:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QSpinBox" name="display_num">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="label_8">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>/</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QSpinBox" name="display_den">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="2">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>105</width>
-          <height>17</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Size:</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
          <string>Fields per second:</string>
         </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="fields">
-        <property name="text">
-         <string notr="true">interl: 2*fps</string>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_12">
+      <item row="10" column="1" colspan="3">
+       <widget class="KMessageWidget" name="effect_warning">
         <property name="text">
-         <string>Colorspace:</string>
+         <string>The &quot;avfilter.fieldorder&quot; effect is internally used to set the field order, but the effect was not found.
+This feature will not work as expected.</string>
         </property>
-       </widget>
-      </item>
-      <item row="7" column="1" colspan="3">
-       <widget class="KComboBox" name="colorspace"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QCheckBox" name="progressive">
-        <property name="text">
-         <string>Progressive</string>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="closeButtonVisible">
+         <bool>false</bool>
+        </property>
+        <property name="messageType">
+         <enum>KMessageWidget::Warning</enum>
         </property>
        </widget>
       </item>
@@ -284,29 +367,20 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0" colspan="7">
-    <widget class="QFrame" name="messageFrame">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
+   <item row="0" column="5">
+    <widget class="QToolButton" name="button_save">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+     <property name="toolTip">
+      <string>Save profile</string>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+     <property name="text">
+      <string>S</string>
      </property>
-    </widget>
-   </item>
-   <item row="3" column="5" colspan="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
+     <property name="icon">
+      <iconset theme="document-save">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -323,6 +397,19 @@
      </property>
     </spacer>
    </item>
+   <item row="3" column="5" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="profiles_list"/>
+   </item>
    <item row="3" column="0" colspan="3">
     <widget class="QPushButton" name="button_default">
      <property name="text">
@@ -330,8 +417,12 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QComboBox" name="profiles_list"/>
+   <item row="2" column="0" colspan="8">
+    <widget class="KMessageWidget" name="info_message">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -340,6 +431,11 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -351,8 +447,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>587</x>
+     <y>632</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -367,8 +463,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>587</x>
+     <y>632</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
