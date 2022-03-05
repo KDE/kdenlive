@@ -2498,8 +2498,8 @@ void Bin::rebuildMenu()
 {
     m_extractAudioAction = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
     m_clipsActionsMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
-    m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
-    m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
+    m_menu->insertMenu(m_locateAction, m_extractAudioAction);
+    m_menu->insertMenu(m_locateAction, m_clipsActionsMenu);
 }
 
 void Bin::contextMenuEvent(QContextMenuEvent *event)
@@ -2540,6 +2540,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                         m_proxyAction->setChecked(clip->hasProxy());
                         m_proxyAction->blockSignals(false);
+                        if (clip->hasUrl()) {
+                            isImported = true;
+                        }
                     } else {
                         // Disable find in timeline option
                         emit findInTimeline(QString());
