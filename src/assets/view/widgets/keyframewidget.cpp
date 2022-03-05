@@ -317,6 +317,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
                     if (!params.contains(ix)) {
                         params.insert(ix, {});
                     }
+                } else {
+                    params.insert(ix, {});
                 }
             }
         }
