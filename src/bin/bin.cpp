@@ -1464,6 +1464,9 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::MouseButtonRelease) {
         if (!m_monitor->isActive()) {
             m_monitor->slotActivateMonitor();
+        } else {
+            // Force raise
+            m_monitor->parentWidget()->raise();
         }
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {

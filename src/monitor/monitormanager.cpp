@@ -100,7 +100,12 @@ void MonitorManager::lockMonitor(Kdenlive::MonitorId name, bool lock)
 
 void MonitorManager::focusProjectMonitor()
 {
-    activateMonitor(Kdenlive::ProjectMonitor);
+    if (!m_projectMonitor->isActive()) {
+        activateMonitor(Kdenlive::ProjectMonitor);
+    } else {
+        // Force raise
+        m_projectMonitor->parentWidget()->raise();
+    }
 }
 
 void MonitorManager::refreshProjectRange(QPair<int, int> range)
