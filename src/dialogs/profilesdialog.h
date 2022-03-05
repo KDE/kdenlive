@@ -38,6 +38,7 @@ private slots:
     void slotAdjustWidth();
     /** @brief Make sure the profile's height is always a multiple of 2 */
     void slotAdjustHeight();
+    void slotScanningChanged(int ix);
     void accept() override;
     void reject() override;
 
@@ -50,7 +51,6 @@ private:
     QString m_customProfilePath;
     /** @brief True if a profile was saved / deleted and profile tree requires a reload. */
     bool m_profilesChanged{false};
-    KMessageWidget *m_infoMessage;
     void saveProfile(const QString &path);
     bool askForSave();
     void connectDialog();

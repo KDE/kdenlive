@@ -14,6 +14,7 @@ Row {
     anchors.fill: parent
     visible: !isAudio
     clip: true
+    property real initialSpeed: 1
     opacity: clipState === ClipState.Disabled ? 0.2 : 1
     property bool fixedThumbs: clipRoot.itemType === ProducerType.Image || clipRoot.itemType === ProducerType.Text || clipRoot.itemType === ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
@@ -37,12 +38,12 @@ Row {
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
         property int thumbStartFrame: fixedThumbs ? 0 :
                                                     (clipRoot.speed >= 0)
-                                                    ? Math.round(clipRoot.inPoint * clipRoot.speed)
-                                                    : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -clipRoot.speed - 1)
+                                                    ? Math.round(clipRoot.inPoint * thumbRow.initialSpeed)
+                                                    : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -thumbRow.initialSpeed - 1)
         property int thumbEndFrame: fixedThumbs ? 0 :
                                                   (clipRoot.speed >= 0)
-                                                  ? Math.round(clipRoot.outPoint * clipRoot.speed)
-                                                  : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -clipRoot.speed - 1)
+                                                  ? Math.round(clipRoot.outPoint * thumbRow.initialSpeed)
+                                                  : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -thumbRow.initialSpeed - 1)
 
         Image {
             width: thumbRepeater.imageWidth
@@ -52,19 +53,17 @@ Row {
             cache: enableCache
             //sourceSize.width: width
             //sourceSize.height: height
-            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
+            property int currentFrame: fixedThumbs ? 0 : thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint * thumbRow.initialSpeed + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
             source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.width) ? '' : clipRoot.baseThumbPath + currentFrame
             onStatusChanged: {
-                if (thumbRepeater.count < 3) {
-                    if (status === Image.Ready) {
-                        thumbPlaceholder.source = source
-                    }
+                if (status === Image.Ready && (index == 0  || index == thumbRepeater.count - 1)) {
+                    thumbPlaceholder.source = source
                 }
             }
             Image {
                 id: thumbPlaceholder
-                visible: parent.status != Image.Ready
+                visible: parent.status != Image.Ready && (index == 0  || index == thumbRepeater.count - 1)
                 anchors.left: parent.left
                 anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
                 width: parent.width

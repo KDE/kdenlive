@@ -17,6 +17,7 @@
 #include <KMessageBox>
 
 #include <QComboBox>
+#include <QCheckBox>
 #include <QDir>
 #include <QFile>
 #include <QMenu>

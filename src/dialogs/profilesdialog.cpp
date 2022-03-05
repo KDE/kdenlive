@@ -4,6 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include "effects/effectsrepository.hpp"
 #include "profilesdialog.h"
 #include "core.h"
 #include "kdenlivesettings.h"
@@ -26,13 +27,10 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     ProfileRepository::get()->refresh();
 
     m_view.setupUi(this);
-
-    // Add message widget
-    auto *lay = static_cast<QGridLayout *>(layout());
-    m_infoMessage = new KMessageWidget;
-    lay->addWidget(m_infoMessage, 2, 0, 1, -1);
-    m_infoMessage->setCloseButtonVisible(true);
-    m_infoMessage->hide();
+    m_view.info_message->hide();
+    // TODO setting the fied order is not implemented yet
+    m_view.label_field_order->setVisible(false);
+    m_view.field_order->setVisible(false);
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -42,13 +40,6 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
-
-    m_view.button_delete->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
-    m_view.button_delete->setToolTip(i18n("Delete profile"));
-    m_view.button_save->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-    m_view.button_save->setToolTip(i18n("Save profile"));
-    m_view.button_create->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    m_view.button_create->setToolTip(i18n("Create new profile"));
 
     fillList(profileDescription);
     slotUpdateDisplay();
@@ -70,7 +61,8 @@ void ProfilesDialog::connectDialog()
     connect(m_view.aspect_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.display_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.scanning, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.scanning, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ProfilesDialog::slotScanningChanged);
     connect(m_view.size_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_h, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustHeight);
     m_view.size_h->setSingleStep(2);
@@ -85,13 +77,10 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     , m_customProfilePath(profilePath)
 {
     m_view.setupUi(this);
-
-    // Add message widget
-    auto *lay = static_cast<QGridLayout *>(layout());
-    m_infoMessage = new KMessageWidget;
-    lay->addWidget(m_infoMessage, 2, 0, 1, -1);
-    m_infoMessage->setCloseButtonVisible(true);
-    m_infoMessage->hide();
+    m_view.info_message->hide();
+    // TODO setting the fied order is not implemented yet
+    m_view.label_field_order->setVisible(false);
+    m_view.field_order->setVisible(false);
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -102,8 +91,6 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     QStringList profilesFilter;
     profilesFilter << QStringLiteral("*");
 
-    m_view.button_save->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-    m_view.button_save->setToolTip(i18n("Save profile"));
     m_view.button_create->setHidden(true);
     m_view.profiles_list->setHidden(true);
     m_view.button_delete->setHidden(true);
@@ -122,13 +109,12 @@ void ProfilesDialog::slotAdjustWidth()
     int correctedWidth = val + (val % 2);
     if (val == correctedWidth) {
         // Ok, no action required, width is a multiple of 2
-        m_infoMessage->animatedHide();
+        m_view.info_message->animatedHide();
     } else {
         m_view.size_w->setValue(correctedWidth);
-        m_infoMessage->setText(i18n("Profile width must be a multiple of 2. It was adjusted to %1", correctedWidth));
-        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
-        m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->animatedShow();
+        m_view.info_message->setText(i18n("Profile width must be a multiple of 2. It was adjusted to %1", correctedWidth));
+        m_view.info_message->setMessageType(KMessageWidget::Warning);
+        m_view.info_message->animatedShow();
     }
 }
 
@@ -140,13 +126,23 @@ void ProfilesDialog::slotAdjustHeight()
     int correctedHeight = val + (val % 2);
     if (val == correctedHeight) {
         // Ok, no action required, height is a multiple of 2
-        m_infoMessage->animatedHide();
+        m_view.info_message->animatedHide();
     } else {
         m_view.size_h->setValue(correctedHeight);
-        m_infoMessage->setText(i18n("Profile height must be a multiple of 2. It was adjusted to %1", correctedHeight));
-        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
-        m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->animatedShow();
+        m_view.info_message->setText(i18n("Profile height must be a multiple of 2. It was adjusted to %1", correctedHeight));
+        m_view.info_message->setMessageType(KMessageWidget::Warning);
+        m_view.info_message->animatedShow();
+    }
+}
+
+void ProfilesDialog::slotScanningChanged(int ix)
+{
+    m_view.field_order->setEnabled(ix == 0);
+    m_view.label_field_order->setEnabled(ix == 0);
+    if (ix == 0 && !EffectsRepository::get()->hasInternalEffect(QStringLiteral("avfilter.fieldorder"))) {
+        m_view.effect_warning->show();
+    } else {
+        m_view.effect_warning->hide();
     }
 }
 
@@ -228,10 +224,9 @@ void ProfilesDialog::slotCreateProfile()
 void ProfilesDialog::slotSetDefaultProfile()
 {
     if (m_profileIsModified) {
-        m_infoMessage->setText(i18n("Save your profile before setting it to default"));
-        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
-        m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->animatedShow();
+        m_view.info_message->setText(i18n("Save your profile before setting it to default"));
+        m_view.info_message->setMessageType(KMessageWidget::Warning);
+        m_view.info_message->animatedShow();
         return;
     }
     int ix = m_view.profiles_list->currentIndex();
@@ -289,7 +284,7 @@ void ProfilesDialog::saveProfile(const QString &path)
     profile->m_frame_rate_den = m_view.frame_den->value();
     profile->m_width = m_view.size_w->value();
     profile->m_height = m_view.size_h->value();
-    profile->m_progressive = static_cast<int>(m_view.progressive->isChecked());
+    profile->m_progressive = m_view.scanning->currentIndex() == 1;
     profile->m_sample_aspect_num = m_view.aspect_num->value();
     profile->m_sample_aspect_den = m_view.aspect_den->value();
     profile->m_display_aspect_num = m_view.display_num->value();
@@ -338,7 +333,8 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
     m_view.display_den->setValue(curProfile->display_aspect_den());
     m_view.frame_num->setValue(curProfile->frame_rate_num());
     m_view.frame_den->setValue(curProfile->frame_rate_den());
-    m_view.progressive->setChecked(curProfile->progressive() != 0);
+    m_view.scanning->setCurrentIndex(curProfile->progressive() ? 1 : 0);
+    slotScanningChanged(m_view.scanning->currentIndex());
     if (curProfile->progressive() != 0) {
         m_view.fields->setText(locale.toString(double(curProfile->frame_rate_num() / curProfile->frame_rate_den()), 'f', 2));
     } else {

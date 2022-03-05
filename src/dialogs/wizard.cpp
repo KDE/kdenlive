@@ -417,12 +417,6 @@ void Wizard::checkMltComponents()
             m_warnings.append(
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
-        if (!hasFrei0r) {
-            // Frei0r effects not found
-            qDebug() << "Missing Frei0r module";
-            m_warnings.append(
-                i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
-        }
 
         // Check that we have the avfilter effects installed
         bool hasAvfilter = false;
@@ -434,7 +428,7 @@ void Wizard::checkMltComponents()
             }
         }
         if (!hasAvfilter) {
-            // Frei0r effects not found
+            // AVFilter effects not found
             qDebug() << "Missing AVFilter module";
             m_warnings.append(
                 i18n("<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install recommended</li>"));
@@ -449,7 +443,7 @@ void Wizard::checkMltComponents()
                 }
             }
             if (!hasSubtitle) {
-                // Frei0r effects not found
+                // avfilter.subtitles effect not found
                 qDebug() << "Missing avfilter.subtitles module";
                 m_warnings.append(
                     i18n("<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle feature. Install recommended</li>"));

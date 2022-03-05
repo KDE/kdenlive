@@ -62,6 +62,12 @@ Item{
                 id: loader
                 Binding {
                     target: loader.item
+                    property: "speed"
+                    value: model.speed
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "timeScale"
                     value: root.timeScale
                     when: loader.status == Loader.Ready && loader.item
@@ -278,8 +284,7 @@ Item{
                         item.multiStream = model.multiStream
                         item.aStreamIndex = model.audioStreamIndex
                         console.log('loaded clip with Astream: ', model.audioStream)
-                        // Speed change triggers a new clip insert so no binding necessary
-                        item.speed = model.speed
+                        
                     } else if (model.clipType == ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
