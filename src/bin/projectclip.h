@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFuture>
 #include <QMutex>
 #include <QTimer>
+#include <QUuid>
 #include <memory>
 
 class ClipPropertiesController;
@@ -237,6 +238,8 @@ public:
     /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
 
+    const QString baseThumbPath();
+
 protected:
     friend class ClipModel;
     /** @brief This is a call-back called by a ClipModel when it is created
@@ -318,6 +321,7 @@ private:
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
+    QUuid m_uuid;
 
 signals:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);

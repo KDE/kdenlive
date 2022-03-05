@@ -236,8 +236,8 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "forceReloadThumb"
-                    value: model.reloadThumb
+                    property: "clipThumbId"
+                    value: model.clipThumbId
                     when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {

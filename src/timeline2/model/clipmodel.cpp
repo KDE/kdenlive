@@ -1474,3 +1474,12 @@ QString ClipModel::clipHash() const
     container.appendChild(m_effectStack->toXml(document));
     return document.toString();
 }
+
+const QString ClipModel::clipThumbPath()
+{
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    if (binClip) {
+        return binClip->baseThumbPath();
+    }
+    return QString();
+}

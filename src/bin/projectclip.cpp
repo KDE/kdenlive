@@ -72,6 +72,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     , ClipController(id, producer)
     , m_resetTimelineOccurences(false)
     , m_audioCount(0)
+    , m_uuid(QUuid::createUuid())
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     if (producer->get_int("_placeholder") == 1) {
@@ -142,6 +143,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     , ClipController(id)
     , m_resetTimelineOccurences(false)
     , m_audioCount(0)
+    , m_uuid(QUuid::createUuid())
 {
     m_clipStatus = FileStatus::StatusWaiting;
     m_thumbnail = thumb;
@@ -377,10 +379,13 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
-        ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+        ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB);
         m_thumbsProducer.reset();
+        // Reset uuid to enforce reloading thumbnails from qml cache
+        m_uuid = QUuid::createUuid();
+        updateTimelineClips({TimelineModel::ClipThumbRole});
         ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
@@ -419,6 +424,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             }
             m_audioThumbCreated = false;
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            // Reset uuid to enforce reloading thumbnails from qml cache
+            m_uuid = QUuid::createUuid();
+            updateTimelineClips({TimelineModel::ClipThumbRole});
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
@@ -475,7 +483,7 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
     }
     if (!inCache && (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate)) {
         // Title clips always use the same thumb as bin, refresh
-        updateTimelineClips({TimelineModel::ReloadThumbRole});
+        updateTimelineClips({TimelineModel::ClipThumbRole});
     }
 }
 
@@ -2233,4 +2241,9 @@ const QStringList ProjectClip::enforcedParams() const
         }
     }
     return params;
+}
+
+const QString ProjectClip::baseThumbPath()
+{
+    return QString("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
 }

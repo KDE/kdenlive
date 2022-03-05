@@ -66,7 +66,7 @@ Rectangle {
     property bool canBeVideo
     property double speed: 1.0
     property color borderColor: "#000000"
-    property bool forceReloadThumb
+    property string clipThumbId
     property bool forceReloadAudioThumb
     property bool isComposition: false
     property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < root.minClipWidthForViews
@@ -163,16 +163,6 @@ Rectangle {
         }
     }
 
-    onForceReloadThumbChanged: {
-        // TODO: find a way to force reload of clip thumbs
-        if (isAudio) {
-            return;
-        }
-        if (thumbsLoader.item) {
-            thumbsLoader.item.reload(0)
-        }
-    }
-
     onForceReloadAudioThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
         if (!isAudio) {
@@ -260,7 +250,7 @@ Rectangle {
     }
 */
     property bool noThumbs: (isAudio || itemType === ProducerType.Color || mltService === '')
-    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/#'
+    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot

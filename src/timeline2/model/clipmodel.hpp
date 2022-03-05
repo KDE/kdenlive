@@ -147,6 +147,7 @@ public:
     /** @brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;
     void setSubPlaylistIndex(int index, int trackId);
+    const QString clipThumbPath();
 
     friend class TrackModel;
     friend class TimelineModel;

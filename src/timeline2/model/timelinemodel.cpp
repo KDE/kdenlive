@@ -5499,7 +5499,7 @@ void TimelineModel::replugClip(int clipId)
 void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
 {
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
-    if (roles.contains(TimelineModel::ReloadThumbRole) || roles.contains(TimelineModel::ReloadAudioThumbRole)) {
+    if (roles.contains(TimelineModel::ReloadAudioThumbRole)) {
         m_allClips[clipId]->forceThumbReload = !m_allClips[clipId]->forceThumbReload;
     }
     notifyChange(modelIndex, modelIndex, roles);
