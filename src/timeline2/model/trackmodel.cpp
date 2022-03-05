@@ -2469,6 +2469,12 @@ bool TrackModel::loadMix(Mlt::Transition *t)
             field->unlock();
             return false;
         }
+    } else {
+        int firstClipIn = m_allClips[cid1]->getPosition();
+        if (in == firstClipIn) {
+            // Incorrecty detected revert mix
+            std::swap(cid1, cid2);
+        }
     }
     // Ensure in/out points are in sync with the clips
     int clipIn = m_allClips[cid2]->getPosition();

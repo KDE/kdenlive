@@ -282,6 +282,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
         }
     }
+    // Load same track mixes
     for (auto compo : qAsConst(compositions)) {
         timeline->plantMix(tid, compo);
     }
