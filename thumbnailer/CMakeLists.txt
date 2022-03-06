@@ -17,5 +17,5 @@ target_link_libraries(mltpreview
   ${MLTPP_LIBRARIES}
 )
 #FIXME: For some reason the plugin only seems to work if installed in $lib/qt5/plugins and not in $lib/plugins like KF5 recommends
-install(TARGETS mltpreview DESTINATION ${PLUGIN_INSTALL_DIR})
+install(TARGETS mltpreview DESTINATION ${KDE_INSTALL_PLUGINDIR})
 install(FILES mltpreview.desktop DESTINATION ${SERVICES_INSTALL_DIR})
