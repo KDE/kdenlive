@@ -1209,6 +1209,9 @@ void TimelineController::editGuide(int frame)
 
 void TimelineController::moveGuide(int frame, int newFrame)
 {
+    if (newFrame < 0) {
+        return;
+    }
     auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     GenTime newPos(newFrame, pCore->getCurrentFps());
@@ -1217,6 +1220,9 @@ void TimelineController::moveGuide(int frame, int newFrame)
 
 void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
 {
+    if (newFrame < 0) {
+        return;
+    }
     auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime newPos(newFrame, pCore->getCurrentFps());
     guideModel->moveMarker(mid, newPos);
