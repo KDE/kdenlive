@@ -5694,10 +5694,15 @@ void TimelineModel::updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr)
                 // If the profile is progressiv, field order is redundant: remove
                 // Also we only need one field order filter
                 m_tractor->detach(*fl.get());
+                pCore->currentDoc()->setModified(true);
             } else {
                 foFilter = fl;
                 foFilter->set("internal_added", 237);
-                foFilter->set("av.order", ptr->bottom_field_first() ? "bff" : "tff");
+                QString value = ptr->bottom_field_first() ? "bff" : "tff";
+                if (foFilter->get("av.order") != value) {
+                    pCore->currentDoc()->setModified(true);
+                }
+                foFilter->set("av.order", value.toUtf8().constData());
             }
         }
     }
@@ -5708,6 +5713,7 @@ void TimelineModel::updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr)
             foFilter->set("internal_added", 237);
             foFilter->set("av.order", ptr->bottom_field_first() ? "bff" : "tff");
             m_tractor->attach(*foFilter.get());
+            pCore->currentDoc()->setModified(true);
         }
     }
 }

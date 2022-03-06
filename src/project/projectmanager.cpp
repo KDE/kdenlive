@@ -657,6 +657,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     }
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
+    m_mainTimelineModel->updateFieldOrderFilter(pCore->getCurrentProfile());
     emit docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     if (openBackup) {

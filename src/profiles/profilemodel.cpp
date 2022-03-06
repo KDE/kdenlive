@@ -40,7 +40,6 @@ ProfileModel::ProfileModel(const QString &path)
             QString line = in.readLine();
             if (line.contains(QStringLiteral("bottom_field_first"))) {
                 m_bottom_field_first = line.split(QStringLiteral("=")).at(1).toInt() == 1;
-                qDebug() << "FOUND" << "bottom_field_first value:" << m_bottom_field_first;
                 f.close();
             }
         }
