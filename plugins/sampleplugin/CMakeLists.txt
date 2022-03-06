@@ -24,4 +24,4 @@ target_link_libraries(kdenlive_sampleplugin
   ${QT_LIBRARIES}
 )
 
-install(TARGETS kdenlive_sampleplugin DESTINATION ${PLUGIN_INSTALL_DIR})
+install(TARGETS kdenlive_sampleplugin DESTINATION ${KDE_INSTALL_PLUGINDIR})
