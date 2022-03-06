@@ -54,6 +54,7 @@ private:
     void saveProfile(const QString &path);
     bool askForSave();
     void connectDialog();
+    void showMessage(const QString &text = QString(), KMessageWidget::MessageType type = KMessageWidget::Warning);
 };
 
 #endif

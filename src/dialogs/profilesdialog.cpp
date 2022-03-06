@@ -27,7 +27,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     ProfileRepository::get()->refresh();
 
     m_view.setupUi(this);
-    m_view.info_message->hide();
+    showMessage();
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -74,7 +74,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     , m_customProfilePath(profilePath)
 {
     m_view.setupUi(this);
-    m_view.info_message->hide();
+    showMessage();
 
     // Fill colorspace list (see mlt_profile.h)
     m_view.colorspace->addItem(ProfileRepository::getColorspaceDescription(601), 601);
@@ -103,12 +103,10 @@ void ProfilesDialog::slotAdjustWidth()
     int correctedWidth = val + (val % 2);
     if (val == correctedWidth) {
         // Ok, no action required, width is a multiple of 2
-        m_view.info_message->animatedHide();
+        showMessage();
     } else {
         m_view.size_w->setValue(correctedWidth);
-        m_view.info_message->setText(i18n("Profile width must be a multiple of 2. It was adjusted to %1", correctedWidth));
-        m_view.info_message->setMessageType(KMessageWidget::Warning);
-        m_view.info_message->animatedShow();
+        showMessage(i18n("Profile width must be a multiple of 2. It was adjusted to %1", correctedWidth));
     }
 }
 
@@ -120,12 +118,10 @@ void ProfilesDialog::slotAdjustHeight()
     int correctedHeight = val + (val % 2);
     if (val == correctedHeight) {
         // Ok, no action required, height is a multiple of 2
-        m_view.info_message->animatedHide();
+        showMessage();
     } else {
         m_view.size_h->setValue(correctedHeight);
-        m_view.info_message->setText(i18n("Profile height must be a multiple of 2. It was adjusted to %1", correctedHeight));
-        m_view.info_message->setMessageType(KMessageWidget::Warning);
-        m_view.info_message->animatedShow();
+        showMessage(i18n("Profile height must be a multiple of 2. It was adjusted to %1", correctedHeight));
     }
 }
 
@@ -218,9 +214,7 @@ void ProfilesDialog::slotCreateProfile()
 void ProfilesDialog::slotSetDefaultProfile()
 {
     if (m_profileIsModified) {
-        m_view.info_message->setText(i18n("Save your profile before setting it to default"));
-        m_view.info_message->setMessageType(KMessageWidget::Warning);
-        m_view.info_message->animatedShow();
+        showMessage(i18n("Save your profile before setting it to default"));
         return;
     }
     int ix = m_view.profiles_list->currentIndex();
@@ -314,10 +308,13 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
         currentProfilePath = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     }
     m_isCustomProfile = currentProfilePath.contains(QLatin1Char('/'));
+    // Don't allow editing of the current Project, since this produces crashes at the moment
+    bool isCurrentlyUsed = pCore->getCurrentProfilePath() == currentProfilePath;
+    showMessage(isCurrentlyUsed ? i18n("The profile of the current project cannot be edited while the project is open.") : QString());
     m_view.button_create->setEnabled(true);
-    m_view.button_delete->setEnabled(m_isCustomProfile);
-    m_view.properties->setEnabled(m_isCustomProfile);
-    m_view.button_save->setEnabled(m_isCustomProfile);
+    m_view.button_delete->setEnabled(m_isCustomProfile && !isCurrentlyUsed);
+    m_view.properties->setEnabled(m_isCustomProfile && !isCurrentlyUsed);
+    m_view.button_save->setEnabled(m_isCustomProfile && !isCurrentlyUsed);
     std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(currentProfilePath);
     m_view.description->setText(curProfile->description());
     m_view.size_w->setValue(curProfile->width());
@@ -347,4 +344,15 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
 bool ProfilesDialog::profileTreeChanged() const
 {
     return m_profilesChanged;
+}
+
+void ProfilesDialog::showMessage(const QString &text, KMessageWidget::MessageType type)
+{
+    if (text.isEmpty()) {
+        m_view.info_message->hide();
+    } else {
+        m_view.info_message->setText(text);
+        m_view.info_message->setMessageType(type);
+        m_view.info_message->animatedShow();
+    }
 }
