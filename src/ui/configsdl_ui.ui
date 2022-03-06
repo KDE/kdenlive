@@ -6,11 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>611</width>
-    <height>506</height>
+    <width>410</width>
+    <height>382</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <item row="2" column="2" colspan="4">
+    <widget class="QComboBox" name="kcfg_audio_backend"/>
+   </item>
    <item row="0" column="0" colspan="6">
     <widget class="QLabel" name="label_2">
      <property name="text">
@@ -21,7 +24,113 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="6">
+   <item row="9" column="5">
+    <widget class="QToolButton" name="reload_blackmagic">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="view-refresh">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Monitor background color:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" colspan="4">
+    <widget class="KColorButton" name="kcfg_window_background">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="defaultColor">
+      <color>
+       <red>180</red>
+       <green>180</green>
+       <blue>180</blue>
+      </color>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Output device:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_external_display">
+     <property name="text">
+      <string>Use external display (Blackmagic card)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2" colspan="4">
+    <widget class="QComboBox" name="fullscreen_monitor"/>
+   </item>
+   <item row="9" column="1" colspan="4">
+    <widget class="QComboBox" name="kcfg_blackmagic_output_device">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="7" column="0" colspan="6">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Audio Backend:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="6">
+    <widget class="QCheckBox" name="kcfg_gpu_accel">
+     <property name="text">
+      <string>Use GPU processing (Movit library) - restart Kdenlive to apply</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Preview volume:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="6">
     <widget class="QGroupBox" name="group_sdl">
      <property name="title">
       <string/>
@@ -62,112 +171,14 @@
      </layout>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Monitor for fullscreen output:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="6">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Output device:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2" colspan="4">
-    <widget class="QComboBox" name="fullscreen_monitor"/>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Audio Backend</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3" colspan="3">
-    <widget class="QComboBox" name="kcfg_audio_backend"/>
-   </item>
-   <item row="1" column="0" colspan="6">
-    <widget class="QCheckBox" name="kcfg_gpu_accel">
-     <property name="text">
-      <string>Use GPU processing (Movit library) - restart Kdenlive to apply</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Preview volume:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="5">
-    <widget class="QToolButton" name="reload_blackmagic">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="view-refresh"/>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="4">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="0" colspan="6">
-    <widget class="QCheckBox" name="kcfg_audio_scrub">
-     <property name="text">
-      <string>Enable audio scrubbing:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0" colspan="4">
-    <widget class="QCheckBox" name="kcfg_external_display">
-     <property name="text">
-      <string>Use external display (Blackmagic card)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Monitor background color:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1" colspan="4">
-    <widget class="QComboBox" name="kcfg_blackmagic_output_device">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2" colspan="4">
+   <item row="4" column="2" colspan="4">
     <widget class="QSpinBox" name="kcfg_volume">
      <property name="suffix">
       <string>%</string>
@@ -177,23 +188,6 @@
      </property>
      <property name="value">
       <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2" colspan="4">
-    <widget class="KColorButton" name="kcfg_window_background">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="defaultColor">
-      <color>
-       <red>180</red>
-       <green>180</green>
-       <blue>180</blue>
-      </color>
      </property>
     </widget>
    </item>

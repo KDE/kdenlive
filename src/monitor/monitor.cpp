@@ -686,6 +686,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_contextMenu->addMenu(overlayMenu);
     }
 
+    m_configMenuAction->addAction(m_monitorManager->getAction("mlt_scrub"));
+
     QAction *switchAudioMonitor = new QAction(i18n("Show Audio Levels"), this);
     connect(switchAudioMonitor, &QAction::triggered, this, &Monitor::slotSwitchAudioMonitor);
     m_configMenuAction->addAction(switchAudioMonitor);

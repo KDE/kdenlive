@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="207" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="208" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -241,6 +241,7 @@
           <Action name="mlt_interpolation" />
           <Action name="mlt_gamma" />
           <Action name="mlt_realtime" />
+          <Action name="mlt_scrub" />
           <Action name="mlt_mute" />
       </Menu>
       <Action name="switch_monitor" />

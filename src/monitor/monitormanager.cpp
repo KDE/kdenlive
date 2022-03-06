@@ -589,11 +589,19 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
     
-    QAction *progressive = new QAction(QIcon::fromTheme(QString()), i18n("Progressive playback"), this);
+    QAction *progressive = new QAction(i18n("Progressive playback"), this);
     connect(progressive, &QAction::triggered, this, &MonitorManager::slotProgressivePlay);
     pCore->window()->addAction(QStringLiteral("mlt_progressive"), progressive);
     progressive->setCheckable(true);
     progressive->setChecked(KdenliveSettings::monitor_progressive());
+
+    QAction *audioScrub = new QAction(i18n("Audio Scrubbing"), this);
+    connect(audioScrub, &QAction::triggered, this, [&] (bool enable) {
+        KdenliveSettings::setAudio_scrub(enable);
+    });
+    pCore->window()->addAction(QStringLiteral("mlt_scrub"), audioScrub);
+    audioScrub->setCheckable(true);
+    audioScrub->setChecked(KdenliveSettings::audio_scrub());
 
     m_muteAction = new KDualAction(i18n("Mute Monitor"), i18n("Unmute Monitor"), this);
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
