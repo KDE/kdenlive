@@ -312,39 +312,30 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
     if (e->type() == QEvent::Wheel) {
         auto *we = static_cast<QWheelEvent *>(e);
         if (!m_blockWheel || we->modifiers() != Qt::NoModifier) {
-            e->accept();
             return false;
         }
         if (qobject_cast<QAbstractSpinBox *>(o)) {
-            if (!qobject_cast<QAbstractSpinBox *>(o)->hasFocus()) {
-                e->ignore();
+            if (m_blockWheel && !qobject_cast<QAbstractSpinBox *>(o)->hasFocus()) {
                 return true;
             }
-            e->accept();
             return false;
         }
         if (qobject_cast<QComboBox *>(o)) {
             if (qobject_cast<QComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
-                e->accept();
                 return false;
             }
-            e->ignore();
             return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (!qobject_cast<QProgressBar *>(o)->hasFocus()) {
-                e->ignore();
                 return true;
             }
-            e->accept();
             return false;
         }
         if (qobject_cast<WheelContainer *>(o)) {
             if (!qobject_cast<WheelContainer *>(o)->hasFocus()) {
-                e->ignore();
                 return true;
             }
-            e->accept();
             return false;
         }
     }
@@ -885,6 +876,27 @@ void CollapsibleEffectView::enableView(bool enabled)
 void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
+    Qt::FocusPolicy policy = block ? Qt::StrongFocus : Qt::WheelFocus;
+    foreach (QSpinBox *sp, findChildren<QSpinBox *>()) {
+        sp->installEventFilter(this);
+        sp->setFocusPolicy(policy);
+    }
+    foreach (QComboBox *cb, findChildren<QComboBox *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
+    foreach (QProgressBar *cb, findChildren<QProgressBar *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
+    foreach (WheelContainer *cb, findChildren<WheelContainer *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
+    foreach (QDoubleSpinBox *cb, findChildren<QDoubleSpinBox *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
 }
 
 void CollapsibleEffectView::switchInOut(bool checked)

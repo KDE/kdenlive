@@ -73,6 +73,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_intEdit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
                 static_cast<void (DragValue::*)(int)>(&DragValue::slotSetValue));
         connect(m_intEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
+        m_intEdit->installEventFilter(this);
     } else {
         m_doubleEdit = new QDoubleSpinBox(this);
         m_doubleEdit->setDecimals(decimals);
@@ -96,6 +97,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         //m_label->setStep(1);
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
+        m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
@@ -149,6 +151,33 @@ DragValue::~DragValue()
     delete m_label;
     // delete m_scale;
     // delete m_directUpdate;
+}
+
+bool DragValue::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::Wheel)
+    {
+        // Check if we should ignore the event
+        bool useEvent = false;
+        if (m_intEdit) {
+            useEvent = m_intEdit->hasFocus();
+        } else if (m_doubleEdit) {
+            useEvent = m_doubleEdit->hasFocus();
+        }
+        if (!useEvent) {
+            return true;
+        }
+
+        auto *we = static_cast<QWheelEvent *>(event);
+        if (we->angleDelta().y() > 0) {
+            m_label->slotValueInc();
+        } else {
+            m_label->slotValueDec();
+        }
+        // Stop processing, event accepted
+        return false;
+    }
+    return QObject::eventFilter(watched, event);
 }
 
 bool DragValue::hasEditFocus() const
@@ -305,36 +334,9 @@ void DragValue::setValue(double value, bool final)
     }
 }
 
-void DragValue::focusOutEvent(QFocusEvent *)
-{
-    if (m_intEdit) {
-        m_intEdit->setFocusPolicy(Qt::StrongFocus);
-    } else {
-        m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
-    }
-}
-
-void DragValue::focusInEvent(QFocusEvent *e)
-{
-    if (m_intEdit) {
-        m_intEdit->setFocusPolicy(Qt::WheelFocus);
-    } else {
-        m_doubleEdit->setFocusPolicy(Qt::WheelFocus);
-    }
-
-    if (e->reason() == Qt::TabFocusReason || e->reason() == Qt::BacktabFocusReason) {
-        if (m_intEdit) {
-            m_intEdit->setFocus(e->reason());
-        } else {
-            m_doubleEdit->setFocus(e->reason());
-        }
-    } else {
-        QWidget::focusInEvent(e);
-    }
-}
-
 void DragValue::slotEditingFinished()
 {
+    qDebug()<<"::: EDITING FINISHED...";
     if (m_intEdit) {
         int newValue = m_intEdit->value();
         m_intEdit->blockSignals(true);
@@ -529,6 +531,7 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     if (e->delta() > 0) {
 #else
+    qDebug()<<":::: GOT WHEEL DELTA: "<<e->angleDelta().y();
     if (e->angleDelta().y() > 0) {
 #endif
         if (e->modifiers() == Qt::ControlModifier) {
@@ -576,14 +579,4 @@ void CustomLabel::setNewValue(double value, bool update)
 void CustomLabel::setStep(double step)
 {
     m_step = step;
-}
-
-void CustomLabel::focusInEvent(QFocusEvent *)
-{
-    setFocusPolicy(Qt::WheelFocus);
-}
-
-void CustomLabel::focusOutEvent(QFocusEvent *)
-{
-    setFocusPolicy(Qt::StrongFocus);
 }

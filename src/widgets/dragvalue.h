@@ -23,6 +23,8 @@ public:
     explicit CustomLabel(const QString &label, bool showSlider = true, int range = 1000, QWidget *parent = nullptr);
     void setProgressValue(double value);
     void setStep(double step);
+    void slotValueInc(double factor = 1);
+    void slotValueDec(double factor = 1);
 
 protected:
     // virtual void mouseDoubleClickEvent(QMouseEvent * event);
@@ -31,8 +33,6 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     // virtual void paintEvent(QPaintEvent *event);
     void wheelEvent(QWheelEvent *event) override;
-    void focusInEvent(QFocusEvent *e) override;
-    void focusOutEvent(QFocusEvent *e) override;
 
 private:
     QPoint m_dragStartPosition;
@@ -41,8 +41,6 @@ private:
     bool m_showSlider;
     double m_step;
     double m_value;
-    void slotValueInc(double factor = 1);
-    void slotValueDec(double factor = 1);
     void setNewValue(double, bool);
 
 signals:
@@ -121,8 +119,8 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *e);*/
     /** @brief Forwards tab focus to lineedit since it is disabled. */
-    void focusInEvent(QFocusEvent *e) override;
-    void focusOutEvent(QFocusEvent *e) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
     // virtual void keyPressEvent(QKeyEvent *e);
     // virtual void wheelEvent(QWheelEvent *e);
     // virtual void paintEvent( QPaintEvent * event );
