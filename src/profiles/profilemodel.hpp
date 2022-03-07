@@ -36,6 +36,7 @@ public:
     int width() const override;
     int height() const override;
     bool progressive() const override;
+    bool bottom_field_first() const override;
     int sample_aspect_num() const override;
     int sample_aspect_den() const override;
     double sar() const override;
@@ -57,6 +58,7 @@ protected:
     QString m_path;
     bool m_invalid;
     QString m_description;
+    bool m_bottom_field_first;
 
     std::unique_ptr<Mlt::Profile> m_profile;
 };
@@ -81,6 +83,7 @@ public:
     int width() const override;
     int height() const override;
     bool progressive() const override;
+    bool bottom_field_first() const override;
     int sample_aspect_num() const override;
     int sample_aspect_den() const override;
     int display_aspect_num() const override;
@@ -101,6 +104,7 @@ public:
     int m_width;
     int m_height;
     bool m_progressive;
+    bool m_bottom_field_first;
     int m_sample_aspect_num;
     int m_sample_aspect_den;
     int m_display_aspect_num;

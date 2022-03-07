@@ -29,6 +29,7 @@ public:
     virtual int width() const = 0;
     virtual int height() const = 0;
     virtual bool progressive() const = 0;
+    virtual bool bottom_field_first() const = 0;
     virtual int sample_aspect_num() const = 0;
     virtual int sample_aspect_den() const = 0;
     virtual double sar() const = 0;

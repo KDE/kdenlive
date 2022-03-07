@@ -24,6 +24,7 @@
 //#include "timeline2/view/timelinewidget.h"
 //#include "timeline2/view/timelinecontroller.h"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "profiles/profilemodel.hpp"
 
 #include "monitor/monitormanager.h"
 
@@ -5675,6 +5676,46 @@ void TimelineModel::updateProfile(Mlt::Profile *profile)
     m_blackClip->set_profile(*m_profile);
     // Rebuild compositions since profile has changed
     buildTrackCompositing(true);
+}
+
+void TimelineModel::updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr)
+{
+    std::shared_ptr<Mlt::Filter> foFilter = nullptr;
+    for (int i = 0; i < m_tractor->filter_count(); i++) {
+        std::shared_ptr<Mlt::Filter> fl(m_tractor->filter(i));
+        if (!fl->is_valid()) {
+            continue;
+        }
+        const QString filterService = fl->get("mlt_service");
+        int foundCount = 0;
+        if (filterService == QLatin1String("avfilter.fieldorder")) {
+            foundCount++;
+            if ((ptr->progressive() || foundCount > 1) && fl->get_int("internal_added") == 237) {
+                // If the profile is progressiv, field order is redundant: remove
+                // Also we only need one field order filter
+                m_tractor->detach(*fl.get());
+                pCore->currentDoc()->setModified(true);
+            } else {
+                foFilter = fl;
+                foFilter->set("internal_added", 237);
+                QString value = ptr->bottom_field_first() ? "bff" : "tff";
+                if (foFilter->get("av.order") != value) {
+                    pCore->currentDoc()->setModified(true);
+                }
+                foFilter->set("av.order", value.toUtf8().constData());
+            }
+        }
+    }
+    // Build default filter if not found
+    if (!ptr->progressive() && foFilter == nullptr) {
+        foFilter.reset(new Mlt::Filter(m_tractor->get_profile(), "avfilter.fieldorder"));
+        if (foFilter->is_valid()) {
+            foFilter->set("internal_added", 237);
+            foFilter->set("av.order", ptr->bottom_field_first() ? "bff" : "tff");
+            m_tractor->attach(*foFilter.get());
+            pCore->currentDoc()->setModified(true);
+        }
+    }
 }
 
 int TimelineModel::getBlankSizeNearClip(int clipId, bool after) const

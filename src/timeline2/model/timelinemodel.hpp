@@ -28,6 +28,7 @@ class SnapModel;
 class SubtitleModel;
 class TimelineItemModel;
 class TrackModel;
+class ProfileModel;
 
 /** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -732,6 +733,9 @@ public:
 
     /** @brief Refresh the tractor profile in case a change was requested. */
     void updateProfile(Mlt::Profile *profile);
+
+    /** @brief Add, remove or refresh the internal added avfilter.fieldorder effect based on the given profile*/
+    void updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr);
 
     /** @brief Clear the current selection
         @param onDeletion is true when the selection is cleared as a result of a deletion
