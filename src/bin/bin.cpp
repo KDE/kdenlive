@@ -2541,6 +2541,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                             emit findInTimeline(clip->clipId(), clip->timelineInstances());
                         }
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+                        type = clip->clipType();
                         m_proxyAction->setChecked(clip->hasProxy());
                         m_proxyAction->blockSignals(false);
                         if (clip->hasUrl()) {
