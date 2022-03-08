@@ -57,9 +57,8 @@ void DoubleWidget::setSpinSize(int width)
 
 void DoubleWidget::setValue(double value)
 {
-    m_dragVal->blockSignals(true);
+    QSignalBlocker bk(m_dragVal);
     m_dragVal->setValue(value * m_factor);
-    m_dragVal->blockSignals(false);
 }
 
 void DoubleWidget::enableEdit(bool enable)

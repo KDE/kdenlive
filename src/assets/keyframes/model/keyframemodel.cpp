@@ -883,7 +883,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    QSignalBlocker bk(this);
     removeAllKeyframes(undo, redo);
     int in = 0;
     int out = 0;
@@ -938,7 +938,6 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
     }
-    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 void KeyframeModel::resetAnimProperty(const QString &prop)
@@ -947,7 +946,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     Fun redo = []() { return true; };
 
     // Delete all existing keyframes
-    disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    QSignalBlocker bk(this);
     removeAllKeyframes(undo, redo);
 
     Mlt::Properties mlt_prop;
@@ -1014,7 +1013,6 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     PUSH_LAMBDA(update_local, undo);
     PUSH_LAMBDA(update_local, redo);
     PUSH_UNDO(undo, redo, i18n("Reset %1", effectName));
-    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 void KeyframeModel::parseRotoProperty(const QString &prop)
