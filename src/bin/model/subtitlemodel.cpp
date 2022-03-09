@@ -290,20 +290,9 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     total = str.split(QLatin1Char(':'));
     if (total.count() == 3) {
         //There is an hour timestamp
-        hours = atoi(total.at(0).toStdString().c_str());
-        mins = atoi(total.at(1).toStdString().c_str());
-        if (total.at(2).contains(QLatin1Char('.'))) {
-            secs = total.at(2).split(QLatin1Char('.')); //ssa file
-	} else {
-            secs = total.at(2).split(QLatin1Char(',')); //srt file
-	}
-        if (secs.count() < 2) {
-            seconds = atoi(total.at(2).toStdString().c_str());
-        } else {
-            seconds = atoi(secs.at(0).toStdString().c_str());
-            ms = atoi(secs.at(1).toStdString().c_str());
-        }
-    } else if (total.count() == 2) {
+        hours = atoi(total.takeFirst().toStdString().c_str());
+    }
+    if (total.count() == 2) {
         mins = atoi(total.at(0).toStdString().c_str());
         if (total.at(1).contains(QLatin1Char('.'))) {
             secs = total.at(1).split(QLatin1Char('.')); //ssa file
