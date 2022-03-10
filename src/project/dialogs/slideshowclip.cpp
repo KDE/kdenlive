@@ -484,10 +484,10 @@ QString SlideshowClip::lumaFile() const
 
 QString SlideshowClip::animation() const
 {
-    if (m_view.animation->itemData(m_view.animation->currentIndex()).isNull()) {
+    if (m_view.animation->currentData().isNull()) {
         return QString();
     }
-    return m_view.animation->itemData(m_view.animation->currentIndex()).toString();
+    return m_view.animation->currentData().toString();
 }
 
 void SlideshowClip::slotUpdateDurationFormat(int ix)
@@ -530,16 +530,16 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     QString geometry;
     if (animation.startsWith(QLatin1String("Pan and zoom"))) {
         geometry = QString::asprintf(
-            "0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%;%d=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%", ttl - 1,
+            "0=0%% 0%% 100%% 100%%;%d=-8%% -8%% 107%% 107%%;%d=-5%% -5%% 110%% 110%%;%d=0%% 0%% 100%% 100%%;%d=2%% 5%% 108%% 108%%;%d=-5%% 0%% 105%% 105%%", ttl - 1,
             ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1);
         ttl *= 3;
     } else if (animation.startsWith(QLatin1String("Pan"))) {
-        geometry = QString::asprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/"
-                                     "-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
+        geometry = QString::asprintf("0=-5%% -5%% 107%% 107%%;%d=0%% 0%% 102%% 102%%;%d=0%% 0%% 106%% 106%%;%d=0%% -4%% 108%% 108%%;%d=0%% -4%% 108%% 108%%;%d=-5%%/"
+                                     "-5%% 108%% 108%%;%d=0%% -5%% 108%% 108%%;%d=-5%% 0%% 108%% 108%%",
                                      ttl - 1, ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1, ttl * 3, ttl * 4 - 1);
         ttl *= 4;
     } else if (animation.startsWith(QLatin1String("Zoom"))) {
-        geometry = QString::asprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%", ttl - 1);
+        geometry = QString::asprintf("0=0%% 0%% 100%% 100%%;%d=-6%% -6%% 112%% 112%%", ttl - 1);
     }
     return geometry;
 }

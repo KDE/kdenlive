@@ -179,8 +179,9 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
                         producer->attach(*blur);
                     }
                 }
-                filter->set("transition.geometry", geometry.toUtf8().data());
+                filter->set("transition.rect", geometry.toUtf8().data());
                 filter->set("transition.cycle", cycle);
+                filter->set("transition.mirror_off", 1);
                 producer->attach(*filter);
             }
         }
