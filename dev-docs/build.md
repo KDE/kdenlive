@@ -9,7 +9,7 @@ Currently supported distributions are:
 * Ubuntu 20.04 LTS Focal Fossa and derivatives
 * Arch Linux
 
-But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50, MLT >= 7.0.0.
+But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50, MLT >= 7.4.0.
 
 ## Build on Linux
 

@@ -32,7 +32,7 @@ option(OLD_FALLBACK_ICONS "Install old looking fallback icons (deprecated, bette
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
-set(MLT_MIN_MINOR_VERSION 0)
+set(MLT_MIN_MINOR_VERSION 4)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
