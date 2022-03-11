@@ -460,3 +460,8 @@ const QPoint MonitorProxy::clipBoundary(int ix)
     return m_clipBounds.at(ix);
 }
 
+bool MonitorProxy::seekOnDrop() const
+{
+    return KdenliveSettings::seekonaddeffect();
+}
+

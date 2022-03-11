@@ -101,6 +101,7 @@ public:
     Q_INVOKABLE void switchAutoKeyframe();
     Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
+    Q_INVOKABLE bool seekOnDrop() const;
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());

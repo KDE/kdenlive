@@ -267,9 +267,13 @@ Rectangle {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list
-                controller.addClipEffect(clipRoot.clipId, dropData);
+                controller.addClipEffect(clipRoot.clipId, dropData)
+                if (proxy.seekOnDrop() && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
+                    // If timeline cursor is not inside clip, seek to drop position
+                    proxy.position = clipRoot.modelStart + drag.x / timeScale
+                }
             } else {
-                controller.copyClipEffect(clipRoot.clipId, dropSource);
+                controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
             dropSource = ''
             dropRow = -1

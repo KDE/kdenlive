@@ -1284,6 +1284,8 @@ void TimelineController::addAsset(const QVariantMap &data)
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     const auto selection = m_model->getCurrentSelection();
     bool audioEffect = EffectsRepository::get()->isAudioEffect(effect);
+    int affectedClips = 0;
+    int cid = -1;
     if (!selection.empty()) {
         QList<int> effectSelection;
         for (int id : selection) {
@@ -1291,15 +1293,23 @@ void TimelineController::addAsset(const QVariantMap &data)
                 effectSelection << id;
             }
         }
-        bool foundMatch = false;
         for (int id : qAsConst(effectSelection)) {
             if (m_model->addClipEffect(id, effect, false)) {
-                foundMatch = true;
+                cid = id;
+                affectedClips++;
             }
         }
-        if (!foundMatch) {
+        if (affectedClips == 0) {
             QString effectName = EffectsRepository::get()->getName(effect);
             pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
+        } else if (KdenliveSettings::seekonaddeffect() && effectSelection.count() == 1) {
+            // Move timeline cursor inside clip if it is not
+            int in = m_model->getClipPosition(cid);
+            int out = in + m_model->getClipPlaytime(cid);
+            int position = pCore->getTimelinePosition();
+            if (position < in || position > out) {
+                emit seeked(in);
+            }
         }
     } else {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), ErrorMessage, 500);
@@ -3071,8 +3081,15 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
             return;
         }
     }
-    qDebug() << "/// ADDING ASSET: " << assetId;
-    m_model->addClipEffect(clipId, assetId);
+    if (m_model->addClipEffect(clipId, assetId) && KdenliveSettings::seekonaddeffect()) {
+        // Move timeline cursor inside clip if it is not
+        int in = m_model->getClipPosition(clipId);
+        int out = in + m_model->getClipPlaytime(clipId);
+        int position = pCore->getTimelinePosition();
+        if (position < in || position > out) {
+            emit seeked(in);
+        }
+    }
 }
 
 bool TimelineController::splitAV()
