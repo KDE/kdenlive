@@ -1340,13 +1340,7 @@ bool ClipModel::checkConsistency()
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     auto instances = binClip->timelineInstances();
-    bool found = false;
-    for (const auto &i : qAsConst(instances)) {
-        if (i == m_id) {
-            found = true;
-            break;
-        }
-    }
+    bool found = instances.contains(m_id);
     if (!found) {
         qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence";
         return false;

@@ -2599,7 +2599,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     }
 
     bool markerFound = false;
-    CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &markerFound);
+    clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
@@ -2648,7 +2648,7 @@ void MainWindow::slotEditClipMarker()
     }
 
     bool markerFound = false;
-    CommentedTime oldMarker = clip->getMarkerModel()->getMarker(pos, &markerFound);
+    clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
@@ -2959,7 +2959,6 @@ void MainWindow::slotAddTransition(QAction *result)
 
 void MainWindow::slotAddEffect(QAction *result)
 {
-    qDebug() << "// EFFECTS MENU TRIGGERED: " << result->data().toString();
     if (!result) {
         return;
     }
