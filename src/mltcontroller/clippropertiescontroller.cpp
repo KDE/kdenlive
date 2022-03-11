@@ -167,20 +167,19 @@ public:
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
             if (info.valueType() == QVariant::DateTime) {
-                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << value.toDateTime().toString(Qt::DefaultLocaleShortDate));
+                new QTreeWidgetItem(m_tree, {info.displayName(), value.toDateTime().toString(Qt::DefaultLocaleShortDate)});
             } else if (info.valueType() == QVariant::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName()
-                                                              << QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s"));
+                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
                 } else {
-                    new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(val));
+                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val)});
                 }
             } else if (info.valueType() == QVariant::Double) {
-                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << QString::number(value.toDouble()));
+                new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(value.toDouble())});
             } else {
-                new QTreeWidgetItem(m_tree, QStringList() << info.displayName() << value.toString());
+                new QTreeWidgetItem(m_tree, {info.displayName(), value.toString()});
             }
         }
     }
@@ -1309,9 +1308,19 @@ void ClipPropertiesController::fillProperties()
     if (m_type == ClipType::Image) {
         int width = m_sourceProperties.get_int("meta.media.width");
         int height = m_sourceProperties.get_int("meta.media.height");
-        propertyMap.append(QStringList() << i18n("Image size:") << QString::number(width) + QLatin1Char('x') + QString::number(height));
-    }
-    if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
+        propertyMap.append({i18n("Image size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
+    } else if (m_type == ClipType::SlideShow) {
+        int ttl = m_sourceProperties.get_int("ttl");
+        propertyMap.append({i18n("Image duration:"), m_properties->frames_to_time(ttl)});
+        if (ttl > 0) {
+            int length = m_sourceProperties.get_int("length");
+            if (length == 0) {
+                length = m_properties->time_to_frames(m_sourceProperties.get("length"));
+            }
+            int cnt = qCeil(length/ ttl);
+            propertyMap.append({i18n("Image count:"), QString::number(cnt)});
+        }
+    } else if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
         int vindex = m_sourceProperties.get_int("video_index");
         int default_audio = m_sourceProperties.get_int("audio_index");
 
@@ -1470,7 +1479,7 @@ void ClipPropertiesController::slotAddMarker()
 void ClipPropertiesController::slotSaveMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters({QStringLiteral("application/json"), QStringLiteral("text/plain")});
     fd->setFileMode(QFileDialog::AnyFile);
     fd->setAcceptMode(QFileDialog::AcceptSave);
     if (fd->exec() != QDialog::Accepted) {
@@ -1496,7 +1505,7 @@ void ClipPropertiesController::slotSaveMarkers()
 void ClipPropertiesController::slotLoadMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters({QStringLiteral("application/json"), QStringLiteral("text/plain")});
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
         return;
@@ -1534,10 +1543,10 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         Mlt::Properties subProperties;
         subProperties.pass_values(*m_properties, "kdenlive:meta.exiftool.");
         if (subProperties.count() > 0) {
-            QTreeWidgetItem *exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
+            QTreeWidgetItem *exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
             exif->setExpanded(true);
             for (int i = 0; i < subProperties.count(); i++) {
-                new QTreeWidgetItem(exif, QStringList() << subProperties.get_name(i) << subProperties.get(i));
+                new QTreeWidgetItem(exif, {subProperties.get_name(i), subProperties.get(i)});
             }
         }
     } else if (KdenliveSettings::use_exiftool()) {
@@ -1566,12 +1575,12 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     }
                     if (!tag.section(QLatin1Char('='), 0, 0).isEmpty() && !tag.section(QLatin1Char('='), 1).simplified().isEmpty()) {
                         if (!exif) {
-                            exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
+                            exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
                             exif->setExpanded(true);
                         }
                         m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
                                                       tag.section(QLatin1Char('='), 1).simplified());
-                        new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                        new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
                     }
                 }
             }
@@ -1598,7 +1607,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                             continue;
                         }
                         if (!exif) {
-                            exif = new QTreeWidgetItem(tree, QStringList() << i18n("Exif") << QString());
+                            exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
                             exif->setExpanded(true);
                         }
                         if (m_type != ClipType::Image) {
@@ -1606,7 +1615,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                             m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
                                                           tag.section(QLatin1Char('='), 1).simplified());
                         }
-                        new QTreeWidgetItem(exif, QStringList() << tag.section(QLatin1Char('='), 0, 0) << tag.section(QLatin1Char('='), 1).simplified());
+                        new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
                     }
                 }
             }
@@ -1619,12 +1628,12 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         QTreeWidgetItem *magicL = nullptr;
         for (int i = 0; i < subProperties.count(); i++) {
             if (!magicL) {
-                magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
+                magicL = new QTreeWidgetItem(tree, {i18n("Magic Lantern"), QString()});
                 QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                 magicL->setIcon(0, icon);
                 magicL->setExpanded(true);
             }
-            new QTreeWidgetItem(magicL, QStringList() << subProperties.get_name(i) << subProperties.get(i));
+            new QTreeWidgetItem(magicL, {subProperties.get_name(i), subProperties.get(i)});
         }
     } else if (m_type != ClipType::Image && KdenliveSettings::use_magicLantern()) {
         QString url = m_controller->clipUrl();
@@ -1645,13 +1654,12 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                     m_controller->setProducerProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(),
                                                       line.section(QLatin1Char(':'), 1).simplified());
                     if (!magicL) {
-                        magicL = new QTreeWidgetItem(tree, QStringList() << i18n("Magic Lantern") << QString());
+                        magicL = new QTreeWidgetItem(tree, {i18n("Magic Lantern"), QString()});
                         QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
                         magicL->setIcon(0, icon);
                         magicL->setExpanded(true);
                     }
-                    new QTreeWidgetItem(magicL, QStringList()
-                                                    << line.section(QLatin1Char(':'), 0, 0).simplified() << line.section(QLatin1Char(':'), 1).simplified());
+                    new QTreeWidgetItem(magicL, {line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified()});
                 }
             }
         }
@@ -1670,7 +1678,7 @@ void ClipPropertiesController::slotFillAnalysisData()
     subProperties.pass_values(*m_properties, "kdenlive:clipanalysis.");
     if (subProperties.count() > 0) {
         for (int i = 0; i < subProperties.count(); i++) {
-            new QTreeWidgetItem(m_analysisTree, QStringList() << subProperties.get_name(i) << subProperties.get(i));
+            new QTreeWidgetItem(m_analysisTree, {subProperties.get_name(i), subProperties.get(i)});
         }
     }
     m_analysisTree->resizeColumnToContents(0);
