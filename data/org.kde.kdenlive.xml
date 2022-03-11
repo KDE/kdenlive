@@ -12,6 +12,7 @@
     <comment xml:lang="eu">Kdenlive-ko bideo-proiektuaren dokumentua</comment>
     <comment xml:lang="fi">Kdenlive-videoprojektitiedosto</comment>
     <comment xml:lang="fr">Document de projet vidéo pour Kdenlive</comment>
+    <comment xml:lang="id">Dokumen projek video Kdenlive</comment>
     <comment xml:lang="it">Progetto video di Kdenlive</comment>
     <comment xml:lang="ko">Kdenlive 동영상 프로젝트 문서</comment>
     <comment xml:lang="lt">Kdenlive video projekto dokumentas</comment>
@@ -40,6 +41,7 @@
     <comment xml:lang="eu">Kdenlive-ko bideo-izenburua</comment>
     <comment xml:lang="fi">Kdenlive-video-otsikko</comment>
     <comment xml:lang="fr">Titre de vidéo pour Kdenlive</comment>
+    <comment xml:lang="id">Judul video Kdenlive</comment>
     <comment xml:lang="it">Titolo video di Kdenlive</comment>
     <comment xml:lang="ko">Kdenlive 동영상 타이틀</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
@@ -67,6 +69,7 @@
     <comment xml:lang="eu">Kdenlive aplikazioaren antolaera</comment>
     <comment xml:lang="fi">Kdenlive-sovelluksen-asettelu</comment>
     <comment xml:lang="fr">Mise en page de l'application Kdenlive</comment>
+    <comment xml:lang="id">Tata letak aplikasi Kdenlive</comment>
     <comment xml:lang="it">Disposizione dell'applicazione Kdenlive</comment>
     <comment xml:lang="ko">Kdenlive 프로그램 레이아웃</comment>
     <comment xml:lang="nl">Toepassingsindeling van Kdenlive</comment>
