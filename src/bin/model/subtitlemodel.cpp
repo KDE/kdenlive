@@ -75,7 +75,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     GenTime startPos, endPos;
     int turn = 0,r = 0;
     /*
-     * turn = 0 -> Parse next subtitle line [srt] (or) Parse next section [ssa]
+     * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
      * turn > 1 -> Add string to completeLine
      */
@@ -87,7 +87,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         return true;
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
-    if (filePath.endsWith(".srt")) {
+    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt")) { //SRT and VTT formats are nearly identical, VTT holds additional information after the timestamps which this function will ignore. When Kdenlive has the functionality and ability to change the look of the captions this information can be used.
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -109,10 +109,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 if (line.contains(QLatin1String("-->"))) {
                     timeLine += line;
                     QStringList srtTime = timeLine.split(QLatin1Char(' '));
-                    if (srtTime.count() < 3) {
-                        // invalid time
-                        continue;
-                    }
                     start = srtTime.at(0);
                     startPos= stringtoTime(start);
                     end = srtTime.at(2);
@@ -124,7 +120,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     if (r == 1)
                         comment += line;
                     else
-                        comment = comment + "\n" +line; //changed from \r
+                        comment = comment + "\n" + line;
                 }
                 turn++;
             } else {
@@ -136,7 +132,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 //reinitialize
                 comment.clear();
                 timeLine.clear();
-                turn = 0; r = 0;
+                if (!filePath.endsWith(".vtt")) {turn = 0;}
+                r = 0;
             }            
         }  
         srtFile.close();
@@ -252,6 +249,16 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             }
         }
         assFile.close();
+	} else {
+	  if (endPos > startPos) {
+	    addSubtitle(startPos+subtitleOffset, endPos+subtitleOffset, comment, undo, redo, false);
+	  } else {
+	    qDebug()<<"===== INVALID VTT SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
+	  }
+	//   reinitialize for next comment:
+	  comment.clear();
+	  timeLine.clear();
+	  turn = 0; r = 0;	      
     }
     Fun update_model= [this]() {
         emit modelChanged();

@@ -34,7 +34,7 @@
    <item row="1" column="0">
     <widget class="KUrlRequester" name="subtitle_url">
      <property name="filter">
-      <string>*.srt *.ass</string>
+      <string>*.srt *.ass *.vtt</string>
      </property>
     </widget>
    </item>
