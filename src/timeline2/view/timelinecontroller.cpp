@@ -127,6 +127,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
@@ -5021,4 +5022,14 @@ void TimelineController::setMulticamIn(int pos)
     multicamIn = pos;
     m_model->addSnap(multicamIn);
     emit multicamInChanged();
+}
+
+void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles)
+{
+    if (roles.contains(TimelineModel::StartRole)) {
+        int id = int(topLeft.internalId());
+        if (m_model->isComposition(id) || m_model->isClip(id)) {
+            emit updateAssetPosition(id);
+        }
+    }
 }

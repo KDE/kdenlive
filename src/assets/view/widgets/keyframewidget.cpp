@@ -465,18 +465,20 @@ void KeyframeWidget::slotRefresh()
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
     int out = in + duration;
 
-    // m_model->dataChanged(QModelIndex(), QModelIndex());
-    //->getKeyframeModel()->getKeyModel(m_index)->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration, in);
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
-    int pos = m_time->getValue();
-    bool isInRange = pos >= in && pos < out;
-    connectMonitor(isInRange && m_model->isActive());
-    m_addDeleteAction->setEnabled(isInRange && pos > in);
-    int framePos = qBound(in, pos, out) - in;
-    if (isInRange && framePos != m_time->getValue()) {
-        slotSetPosition(framePos, false);
+    if (m_model->monitorId == Kdenlive::ProjectMonitor) {
+        monitorSeek(pCore->getTimelinePosition());
+    } else {
+        int pos = m_time->getValue();
+        bool isInRange = pos >= in && pos < out;
+        connectMonitor(isInRange && m_model->isActive());
+        m_addDeleteAction->setEnabled(isInRange && pos > in);
+        int framePos = qBound(in, pos, out) - in;
+        if (isInRange && framePos != m_time->getValue()) {
+            slotSetPosition(framePos, false);
+        }
     }
     slotRefreshParams();
 }

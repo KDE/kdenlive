@@ -73,6 +73,7 @@ signals:
     /** @brief Requests that a given effectstack model is displayed in the asset panel */
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize, bool);
     void showSubtitle(int itemId);
+    void updateAssetPosition(int itemId);
     /** @brief Zoom level changed in timeline, update slider
      */
     void updateZoom(int);

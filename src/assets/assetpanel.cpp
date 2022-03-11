@@ -15,6 +15,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include "transitions/view/mixstackview.hpp"
 #include "transitions/view/transitionstackview.hpp"
+#include "monitor/monitor.h"
 
 #include "view/assetparameterview.hpp"
 
@@ -523,5 +524,20 @@ void AssetPanel::slotPreviousKeyframe()
         emit m_transitionWidget->previousKeyframe();
     } else if (m_mixWidget->isVisible()) {
         emit m_mixWidget->previousKeyframe();
+    }
+}
+
+void AssetPanel::updateAssetPosition(int itemId)
+{
+    if (m_effectStackWidget->isVisible()) {
+        ObjectId id = {ObjectType::TimelineClip, itemId};
+        if (m_effectStackWidget->stackOwner() == id) {
+            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getTimelinePosition());
+        }
+    } else if (m_transitionWidget->isVisible()) {
+        ObjectId id = {ObjectType::TimelineComposition, itemId};
+        if (m_transitionWidget->stackOwner() == id) {
+            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getTimelinePosition());
+        }
     }
 }

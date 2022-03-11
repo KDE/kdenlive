@@ -70,6 +70,8 @@ public slots:
     void slotAddRemoveKeyframe();
     void slotNextKeyframe();
     void slotPreviousKeyframe();
+    /** @brief Update timelinbe position in keyframe views */
+    void updateAssetPosition(int itemId);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

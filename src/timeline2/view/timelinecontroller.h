@@ -694,6 +694,8 @@ public slots:
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     void updateTrimmingMode();
+    /** @brief When a clip or composition is moved, inform asset panel to update cursor position in keyframe views. */
+    void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
 
 private slots:
     void updateClipActions();
@@ -809,6 +811,7 @@ signals:
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
+    void updateAssetPosition(int itemId);
 };
 
 #endif
