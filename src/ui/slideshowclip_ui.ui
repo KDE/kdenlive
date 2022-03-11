@@ -6,119 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>582</height>
+    <width>354</width>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Slideshow Clip</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
+   <property name="verticalSpacing">
+    <number>6</number>
+   </property>
+   <item row="12" column="0" colspan="4">
+    <widget class="QListWidget" name="icon_list"/>
+   </item>
+   <item row="10" column="2" colspan="2">
+    <widget class="KComboBox" name="animation">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QCheckBox" name="slide_crop">
+     <property name="text">
+      <string>Center crop</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Name:</string>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="clip_name"/>
-   </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Image Selection Method</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="method_mime">
-        <property name="text">
-         <string>&amp;MIME type</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QRadioButton" name="method_pattern">
-        <property name="text">
-         <string>Fi&amp;lename pattern</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QStackedWidget" name="stackedWidget">
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="page">
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Folder:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="KUrlRequester" name="folder_url"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Image type:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="KComboBox" name="image_type"/>
-          </item>
-          <item row="2" column="1">
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="page_2">
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>First frame</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="KUrlRequester" name="pattern_url"/>
-          </item>
-          <item row="1" column="1">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
@@ -151,20 +74,16 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="3">
-    <widget class="KComboBox" name="clip_duration_format"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="slide_loop">
-     <property name="text">
-      <string>Loop</string>
+   <item row="8" column="2" colspan="2">
+    <widget class="QSlider" name="luma_softness">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="slide_fade">
-     <property name="text">
-      <string>Dissolve:</string>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -194,7 +113,7 @@
      </item>
     </layout>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QCheckBox" name="luma_fade">
      <property name="enabled">
       <bool>false</bool>
@@ -204,14 +123,21 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2" colspan="2">
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="slide_fade">
+     <property name="text">
+      <string>Dissolve:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2" colspan="2">
     <widget class="KComboBox" name="luma_file">
      <property name="enabled">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="label_softness">
      <property name="enabled">
       <bool>false</bool>
@@ -221,23 +147,127 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="2" colspan="2">
-    <widget class="QSlider" name="luma_softness">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="1" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Image Selection Method</string>
      </property>
-     <property name="maximum">
-      <number>100</number>
-     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="verticalSpacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="method_mime">
+        <property name="text">
+         <string>&amp;MIME type</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QRadioButton" name="method_pattern">
+        <property name="text">
+         <string>Fi&amp;lename pattern</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QStackedWidget" name="stackedWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="page">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Folder:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Image type:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="KUrlRequester" name="folder_url"/>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="KComboBox" name="image_type"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>First frame</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="KUrlRequester" name="pattern_url"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="14" column="2" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
     </widget>
    </item>
-   <item row="9" column="0" colspan="4">
-    <widget class="QListWidget" name="icon_list"/>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="slide_loop">
+     <property name="text">
+      <string>Loop</string>
+     </property>
+    </widget>
    </item>
-   <item row="10" column="0" colspan="4">
+   <item row="0" column="1" colspan="3">
+    <widget class="QLineEdit" name="clip_name"/>
+   </item>
+   <item row="13" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QCheckBox" name="show_thumbs">
@@ -268,37 +298,23 @@
      </item>
     </layout>
    </item>
-   <item row="11" column="2" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+   <item row="2" column="3">
+    <widget class="KComboBox" name="clip_duration_format"/>
    </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QCheckBox" name="slide_crop">
-     <property name="text">
-      <string>Center crop</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Animation:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="2" colspan="2">
-    <widget class="KComboBox" name="animation">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="11" column="0" colspan="4">
+    <widget class="QCheckBox" name="low_pass">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Low pass</string>
      </property>
     </widget>
    </item>
@@ -312,7 +328,7 @@
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>

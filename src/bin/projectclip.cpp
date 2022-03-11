@@ -1277,7 +1277,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         QStringLiteral("force_colorspace"), QStringLiteral("force_tff"), QStringLiteral("force_progressive"), QStringLiteral("video_delay")
     };
     QStringList forceReloadProperties{QStringLiteral("rotate"),QStringLiteral("autorotate"), QStringLiteral("templatetext"), QStringLiteral("resource"), QStringLiteral("force_fps"), QStringLiteral("set.test_image"), QStringLiteral("video_index"), QStringLiteral("disable_exif")};
-    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"), QStringLiteral("softness"), QStringLiteral("crop"), QStringLiteral("animation")};
+    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"), QStringLiteral("softness"), QStringLiteral("crop"), QStringLiteral("animation"), QStringLiteral("low-pass")};
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();

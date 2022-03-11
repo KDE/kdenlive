@@ -167,18 +167,23 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 {
     int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
+    bool lowPass = Xml::getXmlProperty(m_xml, QStringLiteral("low-pass"), QStringLiteral("0")).toInt() == 1;
+    if (lowPass) {
+        auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "avfilter.avgblur");
+        if ((blur == nullptr) || !blur->is_valid()) {
+            delete blur;
+            blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
+        }
+        if ((blur != nullptr) && blur->is_valid()) {
+            producer->attach(*blur);
+        }
+    }
     if (!anim.isEmpty()) {
         auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
             if (!geometry.isEmpty()) {
-                if (anim.contains(QStringLiteral("low-pass"))) {
-                    auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
-                    if ((blur != nullptr) && blur->is_valid()) {
-                        producer->attach(*blur);
-                    }
-                }
                 filter->set("transition.rect", geometry.toUtf8().data());
                 filter->set("transition.cycle", cycle);
                 filter->set("transition.mirror_off", 1);

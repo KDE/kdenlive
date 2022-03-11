@@ -19,6 +19,7 @@ install(FILES
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
   kdenlivedefaultlayouts.rc
+  slideanimations.rc
 
   DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX})
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

@@ -4160,6 +4160,7 @@ void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)
         properties.insert(QStringLiteral("luma_file"), dia->lumaFile());
         properties.insert(QStringLiteral("softness"), QString::number(dia->softness()));
         properties.insert(QStringLiteral("animation"), dia->animation());
+        properties.insert(QStringLiteral("low-pass"), QString::number(dia->lowPass()));
 
         QMap<QString, QString> oldProperties;
         oldProperties.insert(QStringLiteral("out"), clip->getProducerProperty(QStringLiteral("out")));
@@ -4173,6 +4174,8 @@ void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)
         oldProperties.insert(QStringLiteral("luma_file"), clip->getProducerProperty(QStringLiteral("luma_file")));
         oldProperties.insert(QStringLiteral("softness"), clip->getProducerProperty(QStringLiteral("softness")));
         oldProperties.insert(QStringLiteral("animation"), clip->getProducerProperty(QStringLiteral("animation")));
+        oldProperties.insert(QStringLiteral("low-pass"), clip->getProducerProperty(QStringLiteral("low-pass")));
+
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), oldProperties, properties);
     }
     delete dia;
