@@ -4359,7 +4359,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
         // Clear effect stack
-        clearAssetView(clipId);
+        emit requestClearAssetView(clipId);
         if (!m_closing) {
             emit checkItemDeletion(clipId);
         }
@@ -4799,7 +4799,7 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); // composition must be ungrouped at this point
         requestClearSelection(true);
-        clearAssetView(compoId);
+        emit requestClearAssetView(compoId);
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
         return true;
@@ -5363,11 +5363,6 @@ void TimelineModel::checkRefresh(int start, int end)
     if (currentPos >= start && currentPos < end) {
         emit requestMonitorRefresh();
     }
-}
-
-void TimelineModel::clearAssetView(int itemId)
-{
-    emit requestClearAssetView(itemId);
 }
 
 std::shared_ptr<AssetParameterModel> TimelineModel::getCompositionParameterModel(int compoId) const

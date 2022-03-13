@@ -1501,7 +1501,6 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
         subtitleOnlyCopy = true;
     }
 
-    timeline->requestClearSelection();
     // TODO better guess for master track
     int masterTid = timeline->getItemTrackId(mainId);
     bool audioCopy = subtitleOnlyCopy ? false : timeline->isAudioTrack(masterTid);
@@ -1561,9 +1560,24 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
     QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
     container.appendChild(grp);
-
     std::unordered_set<int> groupRoots;
-    std::transform(allIds.begin(), allIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
+    std::transform(allIds.begin(), allIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) {
+        int parent = timeline->m_groups->getRootId(id);
+        if (timeline->m_groups->getType(parent) == GroupType::Selection) {
+            std::unordered_set<int> children = timeline->m_groups->getDirectChildren(parent);
+            for (const auto &gid : children) {
+                std::unordered_set<int> leaves = timeline->m_groups->getLeaves(gid);
+                if (leaves.count(id) == 1) {
+                    return gid;
+                }
+            }
+            // This should not happen
+            qDebug()<<"INCORRECT GROUP ID FOUND";
+            return -1;
+        } else {
+            return parent;
+        }
+    });
 
     qDebug() << "==============\n GROUP ROOTS: ";
     for (int gp : groupRoots) {

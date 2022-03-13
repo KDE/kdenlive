@@ -547,7 +547,7 @@ void TimelineController::deleteSelectedClips()
         // Check if a mix is selected
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
-            m_model->clearAssetView(m_model->m_selectedMix);
+            m_model->requestClearAssetView(m_model->m_selectedMix);
             m_model->requestClearSelection(true);
         }
         return;
@@ -602,7 +602,6 @@ void TimelineController::copyItem()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
-    m_model->requestSetSelection(selectedIds);
 }
 
 bool TimelineController::pasteItem(int position, int tid)
