@@ -881,9 +881,6 @@ protected:
     /** @brief Refresh project monitor if cursor was inside range */
     void checkRefresh(int start, int end);
 
-    /** @brief Send signal to require clearing effet/composition view */
-    void clearAssetView(int itemId);
-
     bool m_blockRefresh;
 
 signals:
