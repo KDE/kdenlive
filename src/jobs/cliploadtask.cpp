@@ -492,6 +492,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (producer->get_int("audio_index") == -1) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             producer.reset();
@@ -633,6 +635,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (!hasAudio) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
@@ -676,6 +680,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (!hasAudio) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString), Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));

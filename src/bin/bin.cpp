@@ -4867,16 +4867,17 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
             }
         });
     }
-    if (url.isEmpty()) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-        if (clip) {
-            QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id, suffix, (ClipType::ProducerType) type, message);
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+    if (clip) {
+        ClipType::ProducerType cType = (ClipType::ProducerType)type;
+        if (cType == ClipType::Unknown) {
+            cType = clip->clipType();
         }
-    } else {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-        if (clip) {
-            m_transcodingDialog->addUrl(url, id, suffix, (ClipType::ProducerType) type, message);
+        if (url.isEmpty()) {
+            QString resource = clip->clipUrl();
+            m_transcodingDialog->addUrl(resource, id, suffix,  cType, message);
+        } else {
+            m_transcodingDialog->addUrl(url, id, suffix, cType, message);
         }
     }
     m_transcodingDialog->show();
