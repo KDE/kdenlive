@@ -1578,8 +1578,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     QAction *ac = new QAction(i18n("Transcode"), this);
     warningMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [&]() {
-        
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(bool, false));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0), Q_ARG(bool, false));
     });
     m_in = new TimecodeDisplay(pCore->timecode(), this);
     inLayout->addWidget(m_in);
