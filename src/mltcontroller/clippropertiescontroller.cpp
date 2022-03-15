@@ -391,6 +391,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
         spin1->setObjectName(QStringLiteral("force_aspect_num_value"));
+        hlay->addStretch(10);
         hlay->addWidget(spin1);
         hlay->addWidget(new QLabel(QStringLiteral(":")));
         auto *spin2 = new QSpinBox(this);
@@ -589,26 +590,32 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Disable autorotate"), this);
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         box->setObjectName(QStringLiteral("autorotate"));
         box->setChecked(autorotate == QLatin1String("0"));
-        hlay->addWidget(box);
-        fpBox->addLayout(hlay);
+        int vix = m_sourceProperties.get_int("video_index");
+        QString query = QString("meta.attr.%1.stream.rotate.markup").arg(vix);
+        int angle = m_sourceProperties.get_int(query.toUtf8().constData());
+        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
 
         // Rotate
         int rotate = 0;
         if (m_properties->property_exists("rotate")) {
             rotate = m_properties->get_int("rotate");
             m_originalProperties.insert(QStringLiteral("rotate"), QString::number(rotate));
+        } else {
+            // Display automatic rotation
+            rotate = angle;
         }
-        hlay = new QHBoxLayout;
-        auto *label = new QLabel(i18n("Force rotate"), this);
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("rotate_value"));
-        combo->addItem(i18n("0"), 0);
-        combo->addItem(i18n("90"), 90);
-        combo->addItem(i18n("180"), 180);
-        combo->addItem(i18n("270"), 270);
+        for (int i = 0; i < 4; i++) {
+            int a = 90 * i;
+            if (a == angle) {
+                combo->addItem(i18n("%1 (default)", a), a);
+            } else {
+                combo->addItem(QString::number(a), a);
+            }
+        }
         if (rotate > 0) {
             combo->setCurrentIndex(combo->findData(rotate));
         }
@@ -618,32 +625,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             combo->setEnabled(state != Qt::Unchecked);
         });
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        hlay->addWidget(label);
+        hlay->addWidget(box);
         hlay->addWidget(combo);
-        fpBox->addLayout(hlay);
-
-        // Decoding threads
-        QString threads = m_properties->get("threads");
-        m_originalProperties.insert(QStringLiteral("threads"), threads);
-        hlay = new QHBoxLayout;
-        hlay->addWidget(new QLabel(i18n("Threads:")));
-        auto *spinI = new QSpinBox(this);
-        spinI->setMaximum(4);
-        spinI->setMinimum(1);
-        spinI->setObjectName(QStringLiteral("threads_value"));
-        if (!threads.isEmpty()) {
-            spinI->setValue(threads.toInt());
-        } else {
-            spinI->setValue(1);
-        }
-        connect(spinI, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-                static_cast<void (ClipPropertiesController::*)(int)>(&ClipPropertiesController::slotValueChanged));
-        hlay->addWidget(spinI);
         fpBox->addLayout(hlay);
 
         // Video index
         if (!m_videoStreams.isEmpty()) {
-            QString vix = m_sourceProperties.get("video_index");
+            QString vix = m_properties->get("video_index");
             m_originalProperties.insert(QStringLiteral("video_index"), vix);
             hlay = new QHBoxLayout;
 
