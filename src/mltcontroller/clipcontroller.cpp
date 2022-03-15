@@ -836,9 +836,9 @@ void ClipController::clearBackupProperties()
         }
     }
     for (const QString &p : qAsConst(passProps)) {
-        m_properties->set(p.toUtf8().constData(), nullptr);
+        m_properties->clear(p.toUtf8().constData());
     }
-    m_properties->set("kdenlive:original.backup", nullptr);
+    m_properties->clear("kdenlive:original.backup");
 }
 
 void ClipController::mirrorOriginalProperties(Mlt::Properties &props)

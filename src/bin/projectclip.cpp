@@ -423,13 +423,14 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 }
             }
             m_audioThumbCreated = false;
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             // Reset uuid to enforce reloading thumbnails from qml cache
             m_uuid = QUuid::createUuid();
             updateTimelineClips({TimelineModel::ClipThumbRole});
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
         }
     }
