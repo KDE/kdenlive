@@ -228,7 +228,7 @@ protected:
 
 public slots:
     /** @brief An item in the list was modified, notify */
-    void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role);
+    void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles);
     void onItemUpdated(const QString &binId, int role);
 
     void setDragType(PlaylistState::ClipState type);

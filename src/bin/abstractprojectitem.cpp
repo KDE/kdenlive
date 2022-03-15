@@ -58,7 +58,7 @@ void AbstractProjectItem::setRefCount(uint count, uint audioCount)
     m_AudioUsage = audioCount;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
-                                                                       AbstractProjectItem::UsageCount);
+                                                                       {AbstractProjectItem::UsageCount});
 }
 
 uint AbstractProjectItem::refCount() const
@@ -74,7 +74,7 @@ void AbstractProjectItem::addRef(bool isAudio)
     }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
-                                                                       AbstractProjectItem::UsageCount);
+                                                                       {AbstractProjectItem::UsageCount});
 }
 
 void AbstractProjectItem::removeRef(bool isAudio)
@@ -85,7 +85,7 @@ void AbstractProjectItem::removeRef(bool isAudio)
     }
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
-                                                                       AbstractProjectItem::UsageCount);
+                                                                       {AbstractProjectItem::UsageCount});
 }
 
 const QString &AbstractProjectItem::clipId() const

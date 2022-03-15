@@ -72,7 +72,7 @@ bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE typ
     }
     std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
     for (AbstractTask* t : taskList) {
-        if (type == t->m_type && t->m_progress < 100) {
+        if (type == t->m_type && t->m_progress < 100 && !t->m_isCanceled) {
             return true;
         }
     }
