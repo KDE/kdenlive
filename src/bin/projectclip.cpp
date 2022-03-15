@@ -185,7 +185,7 @@ void ProjectClip::connectEffectStack()
     connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, [&]() {
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::IconOverlay);
+                                                                           {AbstractProjectItem::IconOverlay});
         }
     });
 }
@@ -408,6 +408,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
+            m_clipStatus = FileStatus::StatusWaiting;
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
@@ -480,7 +481,7 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::DataThumbnail);
+                                                                       {AbstractProjectItem::DataThumbnail});
     }
     if (!inCache && (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate)) {
         // Title clips always use the same thumb as bin, refresh
@@ -512,7 +513,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb)
 {
-    qDebug() << "################### ProjectClip::setproducer";
+    qDebug() << "################### ProjectClip::setproducer #################";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     updateProducer(producer);
@@ -537,14 +538,17 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    QVector<int>updateRoles;
     if (m_clipStatus != currentStatus) {
+        updateRoles = {AbstractProjectItem::ClipStatus, AbstractProjectItem::IconOverlay};
         updateTimelineClips({TimelineModel::StatusRole});
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     if (auto ptr = m_model.lock()) {
+        updateRoles << AbstractProjectItem::DataDuration;
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::DataDuration);
+                                                                       updateRoles);
         std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
     }
     // Make sure we have a hash for this clip
@@ -649,7 +653,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }
-    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr) {
+    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
     }
     QMutexLocker lock(&m_thumbMutex);
@@ -1269,7 +1273,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_description = properties.value(QStringLiteral("templatetext"));
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::ClipStatus);
+                                                                           {AbstractProjectItem::ClipStatus});
         refreshPanel = true;
     }
     // Some properties also need to be passed to track producers
@@ -1362,7 +1366,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_duration = getStringDuration();
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataDuration);
+                                                                           {AbstractProjectItem::DataDuration});
         refreshOnly = false;
         reload = true;
     }
@@ -1371,7 +1375,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         setTags(properties.value(QStringLiteral("kdenlive:tags")));
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataTag);
+                                                                           {AbstractProjectItem::DataTag});
         }
         refreshRoles << TimelineModel::TagRole;
     }
@@ -1380,7 +1384,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshPanel = true;
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataName);
+                                                                           {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
     }
@@ -2006,7 +2010,7 @@ void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
     updateTimelineClips({TimelineModel::StatusRole});
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::IconOverlay);
+                                                                       {AbstractProjectItem::IconOverlay});
     }
 }
 

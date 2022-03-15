@@ -356,14 +356,14 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     return mimeData;
 }
 
-void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role)
+void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles)
 {
     QWriteLocker locker(&m_lock);
     auto tItem = std::static_pointer_cast<TreeItem>(item);
     auto ptr = tItem->parentItem().lock();
     if (ptr) {
         auto index = getIndexFromItem(tItem);
-        emit dataChanged(index, index, {role});
+        emit dataChanged(index, index, roles);
     }
 }
 
@@ -372,7 +372,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
     QWriteLocker locker(&m_lock);
     std::shared_ptr<AbstractProjectItem> item = getItemByBinId(binId);
     if (item) {
-        onItemUpdated(item, role);
+        onItemUpdated(item, {role});
     }
 }
 

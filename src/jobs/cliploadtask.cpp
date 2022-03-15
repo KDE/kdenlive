@@ -55,7 +55,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
         task = nullptr;
     }
     if (task) {
-        // Otherwise, start a new audio levels generation thread.
+        // Otherwise, start a new load task thread.
         task->m_isForce = force;
         connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
             QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
