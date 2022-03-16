@@ -446,12 +446,14 @@ CommentedTime MarkerListModel::getMarker(const GenTime &pos, bool *ok) const
     return marker(pos);
 }
 
-QList<CommentedTime> MarkerListModel::getAllMarkers() const
+QList<CommentedTime> MarkerListModel::getAllMarkers(int type) const
 {
     READ_LOCK();
     QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
-        markers << marker.second;
+        if (type == -1 || marker.second.markerType() == type) {
+            markers << marker.second;
+        }
     }
     std::sort(markers.begin(), markers.end());
     return markers;

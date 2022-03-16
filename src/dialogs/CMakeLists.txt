@@ -7,6 +7,7 @@ set(kdenlive_SRCS
   dialogs/profilesdialog.cpp
   dialogs/proxytest.cpp
   dialogs/renderwidget.cpp
+  dialogs/renderpresetdialog.cpp
   dialogs/speechdialog.cpp
   dialogs/subtitleedit.cpp
   dialogs/textbasededit.cpp
