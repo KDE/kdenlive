@@ -373,7 +373,7 @@
 
     <entry name="seekonaddeffect" type="Bool">
       <label>Seek to clip when adding an effect.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="scrollvertically" type="Bool">
