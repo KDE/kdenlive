@@ -86,8 +86,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 // Tracker needs some special config on reset
                 QString current = m_model->getAsset()->get(m_keyParam.toUtf8().constData());
                 if (!current.isEmpty()) {
-                    // Extract first keyframe
-                    current = current.section(QLatin1Char('='), 1);
+                    // Only keep first keyframe
                     current = current.section(QLatin1Char(';'), 0, 0);
                 }
                 if (current.isEmpty()) {
