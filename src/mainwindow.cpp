@@ -2221,7 +2221,7 @@ void MainWindow::setRenderingProgress(const QString &url, int progress, int fram
 {
     emit setRenderProgress(progress);
     if (m_renderWidget) {
-        m_renderWidget->setRenderJob(url, progress, frame);
+        m_renderWidget->setRenderProgress(url, progress, frame);
     }
 }
 
