@@ -574,10 +574,10 @@ void RenderWidget::slotEditPreset()
     delete dialog;
 }
 
-void RenderWidget::focusItem(const QString &preset)
+void RenderWidget::focusItem(const QString &profile)
 {
     QItemSelectionModel *selection = m_view.profileTree->selectionModel();
-    QModelIndex index = m_treeModel->findPreset(preset.isEmpty() ? QStringLiteral("MP4-H264/AAC") : preset);
+    QModelIndex index = m_treeModel->findPreset(profile);
     if (!index.isValid() && RenderPresetRepository::get()->presetExists(KdenliveSettings::renderProfile())) {
         index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
     }
