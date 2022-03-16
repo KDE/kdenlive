@@ -917,7 +917,7 @@
 
     <entry name="renderProfile" type="String">
       <label>Default render profile.</label>
-      <default></default>
+      <default>MP4-H264/AAC</default>
     </entry>
 
     <entry name="validated_luts" type="StringList">
