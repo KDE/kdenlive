@@ -113,10 +113,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     auto state2 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
-        REQUIRE(timeline->getClipPlaytime(cid3) > 20);
+        REQUIRE(timeline->getClipPlaytime(cid3) == 32);
         REQUIRE(timeline->getClipPosition(cid3) == 500);
-        REQUIRE(timeline->getClipPlaytime(cid4) > 20);
-        REQUIRE(timeline->getClipPosition(cid4) < 520);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 33);
+        REQUIRE(timeline->getClipPosition(cid4) == 507);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
@@ -362,7 +363,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state2();
         // Resize right clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid4, 4, false, true) == 4);
+        REQUIRE(timeline->requestItemResize(cid4, 4, false, true) == 20);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
@@ -380,6 +381,35 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state2();
+
+        // Before mix: CID 3 length=20, pos=500, CID4 length=20, pos=520
+        // Default mix duration = 25 frames (12 before / 13 after)
+
+        // Resize left clip before right clip start, then right clip outside left clip, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        undoStack->undo();
+        state2();
+
+        // Resize right clip after left clip end, then left clip outside right clip, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
         undoStack->undo();
         state2();
 
@@ -428,7 +458,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state3();
         // Resize right clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 4);
+        REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 30);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
         REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
