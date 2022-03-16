@@ -118,7 +118,7 @@ public:
     void saveConfig();
     void loadConfig();
     void setGuides(std::weak_ptr<MarkerListModel> guidesModel);
-    void focusItem(const QString &profile = QString());
+    void focusItem(const QString &preset = QString());
     void setRenderProgress(const QString &dest, int progress = 0, int frame = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setRenderProfile(const QMap<QString, QString> &props);

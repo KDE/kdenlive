@@ -174,10 +174,11 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         }
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
+            QDir folder(projectFolder);
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
                 projectFolder.append(QLatin1Char('/'));
             }
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
+            documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(documentId));
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), QStringList(), projectTracks.first, projectTracks.second, audioChannels, KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());

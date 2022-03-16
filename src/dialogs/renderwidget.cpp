@@ -1,7 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "renderwidget.h"
@@ -573,10 +574,10 @@ void RenderWidget::slotEditPreset()
     delete dialog;
 }
 
-void RenderWidget::focusItem(const QString &profile)
+void RenderWidget::focusItem(const QString &preset)
 {
     QItemSelectionModel *selection = m_view.profileTree->selectionModel();
-    QModelIndex index = m_treeModel->findPreset(profile);
+    QModelIndex index = m_treeModel->findPreset(preset.isEmpty() ? QStringLiteral("MP4-H264/AAC") : preset);
     if (!index.isValid() && RenderPresetRepository::get()->presetExists(KdenliveSettings::renderProfile())) {
         index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
     }
