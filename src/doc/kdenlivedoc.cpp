@@ -1308,8 +1308,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
     if (!m_projectFolder.isEmpty()) {
-        m_documentProperties.insert(QStringLiteral("storagefolder"),
-                                    m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
+        QDir folder(m_projectFolder);
+        m_documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(m_documentProperties.value(QStringLiteral("documentid"))));
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
     if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
