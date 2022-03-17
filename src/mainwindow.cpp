@@ -282,7 +282,7 @@ void MainWindow::init(const QString &mltPath)
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
-    QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
+    QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock] (int id) {
         if (id > -1) {
