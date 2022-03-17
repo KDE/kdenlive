@@ -71,22 +71,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     aRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     aRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
 
-    connect(aRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
-        switch (index) {
-            case RenderPresetModel::RateControl::Average:
-            case RenderPresetModel::RateControl::Constant:
-                aBitrate->setEnabled(true);
-                aQuality->setEnabled(false);
-                break;
-            case RenderPresetModel::RateControl::Quality:
-            default:
-                aBitrate->setEnabled(false);
-                aQuality->setEnabled(true);
-                break;
-        };
-        slotUpdateParams();
-    });
-
     audioChannels->addItem(i18n("1 (mono)"), 1);
     audioChannels->addItem(i18n("2 (stereo)"), 2);
     audioChannels->addItem(i18n("4"), 4);
@@ -382,6 +366,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     connect(bFramesSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(additionalParams, &QPlainTextEdit::textChanged, this, &RenderPresetDialog::slotUpdateParams);
 
+    connect(aRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(aBitrate, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(aQuality, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(audioChannels, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
@@ -614,24 +599,44 @@ void RenderPresetDialog::slotUpdateParams() {
     if (audioSampleRate->currentText().toInt() > 0) {
         params.append(QStringLiteral("ar=%1").arg(audioSampleRate->currentText().toInt()));
     }
-    if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Average
-            || aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
-        params.append(QStringLiteral("ab=%audiobitrate+'k'"));
-        if (acodec == "libopus") {
-            if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
-                params.append(QStringLiteral("vbr=off"));
-            } else {
-                params.append(QStringLiteral("vbr=constrained"));
-            }
-        }
-    } else if (acodec == "libopus") {
-        params.append(QStringLiteral("vbr=on"));
-        // TODO
-        //params.append(QStringLiteral("compression_level= "));
-        //setIfNotSet(p, "compression_level", TO_ABSOLUTE(0, 10, ui->audioQualitySpinner->value()));
+    if (acodec.startsWith(QStringLiteral("pcm_"))) {
+        aRateControlCombo->setEnabled(false);
+        aBitrate->setEnabled(false);
+        aQuality->setEnabled(false);
     } else {
-        params.append(QStringLiteral("aq=%audioquality"));
+        aRateControlCombo->setEnabled(true);
+        switch (aRateControlCombo->currentIndex()) {
+            case RenderPresetModel::RateControl::Average:
+            case RenderPresetModel::RateControl::Constant:
+                aBitrate->setEnabled(true);
+                aQuality->setEnabled(false);
+                break;
+            case RenderPresetModel::RateControl::Quality:
+            default:
+                aBitrate->setEnabled(false);
+                aQuality->setEnabled(true);
+                break;
+        };
+        if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Average
+                || aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
+            params.append(QStringLiteral("ab=%audiobitrate+'k'"));
+            if (acodec == "libopus") {
+                if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
+                    params.append(QStringLiteral("vbr=off"));
+                } else {
+                    params.append(QStringLiteral("vbr=constrained"));
+                }
+            }
+        } else if (acodec == "libopus") {
+            params.append(QStringLiteral("vbr=on"));
+            // TODO
+            //params.append(QStringLiteral("compression_level= "));
+            //setIfNotSet(p, "compression_level", TO_ABSOLUTE(0, 10, ui->audioQualitySpinner->value()));
+        } else {
+            params.append(QStringLiteral("aq=%audioquality"));
+        }
     }
+
     QString addionalParams = additionalParams->toPlainText().simplified();
 
     QStringList removed;
