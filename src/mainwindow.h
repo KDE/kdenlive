@@ -576,6 +576,7 @@ signals:
     void setPreviewProgress(int);
     void setRenderProgress(int);
     void displayMessage(const QString &, MessageType, int);
+    void displaySelectionMessage(const QString &);
     void displayProgressMessage(const QString &, MessageType, int);
     /** @brief Project profile changed, update render widget accordingly. */
     void updateRenderWidgetProfile();

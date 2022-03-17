@@ -174,6 +174,8 @@ public:
     void pushUndo(QUndoCommand *command);
     /** @brief display a user info/warning message in statusbar */
     void displayMessage(const QString &message, MessageType type, int timeout = -1);
+    /** @brief display timeline selection info in statusbar */
+    void displaySelectionMessage(const QString &message);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
     /** @brief Returns the effectstack of a given bin clip. */
