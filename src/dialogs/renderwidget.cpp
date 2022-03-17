@@ -1330,8 +1330,9 @@ void RenderWidget::refreshParams()
 
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
-    int min = profile->videoQualities().first().toInt();
-    int max = profile->videoQualities().last().toInt();
+    // historically qualities are sorted from best to worse for some reason
+    int min = profile->videoQualities().last().toInt();
+    int max = profile->videoQualities().first().toInt();
     int val = profile->defaultVQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
         if (min < max) {
@@ -1354,8 +1355,9 @@ void RenderWidget::refreshParams()
     // cvbr = Constrained Variable Bit Rate
     params.replace(QStringLiteral("%cvbr"), QString::number(val));
 
-    min = profile->audioQualities().first().toInt();
-    max = profile->audioQualities().last().toInt();
+    // historically qualities are sorted from best to worse for some reason
+    min = profile->audioQualities().last().toInt();
+    max = profile->audioQualities().first().toInt();
     val = profile->defaultAQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
         if (min < max) {
