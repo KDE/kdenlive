@@ -428,6 +428,11 @@ Rectangle {
                         onPressed: {
                             controller.requestMixSelection(clipRoot.clipId);
                         }
+                        onEntered: {
+                            var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
+                            .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
+                            timeline.showToolTip(text)
+                        }
                     }
                     Rectangle {
                         id: mixCutPos
@@ -484,6 +489,13 @@ Rectangle {
                                 if (currentFrame != previousMix) {
                                     parent.width = currentFrame * clipRoot.timeScale
                                     sizeChanged = true
+                                    if (currentFrame > previousMix) {
+                                        timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                    } else {
+                                        timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                    }
+                                } else {
+                                    timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
                                 }
                                 if (x < mixCutPos.x) {
                                     // This will delete the mix
@@ -496,13 +508,17 @@ Rectangle {
                         onEntered: {
                             if (!pressed) {
                                 mixOut.color = 'red'
-                                timeline.showToolTip(i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
                             }
                         }
                         onExited: {
                             if (!pressed) {
                                 mixOut.color = itemBorder.border.color
-                                timeline.showToolTip()
+                                if (!mouseArea.containsMouse) {
+                                    timeline.showToolTip()
+                                } else {
+                                    clipRoot.showClipInfo()
+                                }
                             }
                         }
                         Rectangle {

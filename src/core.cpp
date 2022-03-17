@@ -794,6 +794,13 @@ int Core::undoIndex() const
     return m_projectManager->undoStack()->index();
 }
 
+void Core::displaySelectionMessage(const QString &message)
+{
+    if (m_mainWindow) {
+        emit m_mainWindow->displaySelectionMessage(message);
+    }
+}
+
 void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {

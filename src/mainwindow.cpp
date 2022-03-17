@@ -282,7 +282,7 @@ void MainWindow::init(const QString &mltPath)
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
-    QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
+    QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock] (int id) {
         if (id > -1) {
@@ -1351,6 +1351,7 @@ void MainWindow::setupActions()
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     connect(this, &MainWindow::displayMessage, m_messageLabel, &StatusBarMessageLabel::setMessage);
+    connect(this, &MainWindow::displaySelectionMessage, m_messageLabel, &StatusBarMessageLabel::setSelectionMessage);
     connect(this, &MainWindow::displayProgressMessage, m_messageLabel, &StatusBarMessageLabel::setProgressMessage);
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addPermanentWidget(toolbar);

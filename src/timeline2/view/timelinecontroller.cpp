@@ -3752,11 +3752,13 @@ void TimelineController::updateClipActions()
         emit showItemEffectStack(QString(), nullptr, QSize(), false);
         pCore->timeRemapWidget()->selectedClip(-1);
         emit showSubtitle(-1);
+        pCore->displaySelectionMessage(QString());
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
-    int item = *m_model->getCurrentSelection().begin();
-    int selectionSize = m_model->getCurrentSelection().size();
+    std::unordered_set<int>selectedItems = m_model->getCurrentSelection();
+    int item = *selectedItems.begin();
+    int selectionSize = selectedItems.size();
     if (selectionSize == 1) {
         if (m_model->isClip(item) || m_model->isComposition(item)) {
             showAsset(item);
@@ -3764,6 +3766,21 @@ void TimelineController::updateClipActions()
         } else if (m_model->isSubTitle(item)) {
             emit showSubtitle(item);
         }
+        pCore->displaySelectionMessage(QString());
+    } else {
+        int min = -1;
+        int max = -1;
+        for (const auto &id : selectedItems) {
+            int itemPos = m_model->getItemPosition(id);
+            int itemOut = itemPos + m_model->getItemPlaytime(id);
+            if (min == -1 || itemPos < min) {
+                min = itemPos;
+            }
+            if (max == -1 || itemOut > max) {
+                max = itemOut;
+            }
+        }
+        pCore->displaySelectionMessage(i18n("%1 items selected (%2) |", selectionSize, simplifiedTC(max - min)));
     }
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
