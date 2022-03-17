@@ -832,7 +832,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled()) {
         if (delayedRendering) {
             if (KMessageBox::warningContinueCancel(this, i18n("Script rendering and multi track audio export can not be used together.\n"
-                                                        "Script will be saved without multi tracke export."))
+                                                        "Script will be saved without multi track export."))
                                                    == KMessageBox::Cancel) { return; };
         }
         int audioCount = 0;

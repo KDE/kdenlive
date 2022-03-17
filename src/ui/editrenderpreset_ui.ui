@@ -223,7 +223,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_16">
                  <property name="text">
-                  <string>Display Apect Ratio:</string>
+                  <string>Display Aspect Ratio:</string>
                  </property>
                 </widget>
                </item>
@@ -453,7 +453,7 @@
                <item row="13" column="1">
                 <widget class="QCheckBox" name="fixedGop">
                  <property name="toolTip">
-                  <string>A fixed GOP means that keyframes will not be inserteted at detected scene changes.</string>
+                  <string>A fixed GOP means that keyframes will not be inserted at detected scene changes.</string>
                  </property>
                  <property name="text">
                   <string>Fixed</string>
@@ -610,7 +610,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label_14">
              <property name="text">
-              <string>Rate Controle:</string>
+              <string>Rate Control:</string>
              </property>
             </widget>
            </item>

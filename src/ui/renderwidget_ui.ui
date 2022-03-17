@@ -407,7 +407,7 @@
              <item>
               <widget class="QLabel" name="label">
                <property name="text">
-                <string>Guides to use as seperator:</string>
+                <string>Guides to use as separator:</string>
                </property>
               </widget>
              </item>
@@ -697,7 +697,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&quot;Encoding threads&quot;</string>
+                <string>Encoding threads</string>
                </property>
                <property name="specialValueText">
                 <string>Auto</string>
