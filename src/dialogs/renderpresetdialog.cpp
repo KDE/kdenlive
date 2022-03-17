@@ -60,7 +60,8 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                           QStringLiteral("aspect"),
                           QStringLiteral("sc_threshold"),
                           QStringLiteral("strict_gop"),
-                          QStringLiteral("keyint_min")
+                          QStringLiteral("keyint_min"),
+                          QStringLiteral("channels")
                       });
 
     formatCombo->addItems(RenderPresetRepository::supportedFormats());
