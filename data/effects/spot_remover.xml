@@ -3,7 +3,7 @@
 	<name>Spot Remover</name>
 	<description>Replace an area with interpolated pixels. The new pixel values are interpolated from the nearest pixels immediately outside of the specified area.</description>
 	<author>Meltytech, LLC</author>
-        <parameter type="animatedrect" name="rect" default="0 0 100% 100%" opacity="false">
+        <parameter type="animatedrect" name="rect" default="42% 42% 16% 16%" opacity="false">
 		<name>Rectangle</name>
 		<comment>Defines the rectangle of the area that will be removed.</comment>
         </parameter>
