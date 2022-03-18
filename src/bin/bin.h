@@ -344,6 +344,8 @@ public:
     std::atomic<bool> shouldCheckProfile;
     /** @brief Set the message for key binding info. */
     void updateKeyBinding(const QString &bindingMessage = QString());
+    /** @brief Returns true if a clip with id cid is visible in this bin. */
+    bool containsId(const QString &cid) const;
 
 private slots:
     void slotAddClip();
