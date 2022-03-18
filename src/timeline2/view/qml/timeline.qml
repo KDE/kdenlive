@@ -299,7 +299,6 @@ Rectangle {
     }
 
     function endDrag() {
-        console.log('ENDING DRAG!!!!!!!!!!!!!!!!!!!!!!\n')
         dragProxy.draggedItem = -1
         dragProxy.x = 0
         dragProxy.y = 0
@@ -712,6 +711,7 @@ Rectangle {
                 clearDropData()
             } else {
                 // Clip is dropped
+                processDrop()
             }
         }
         onPositionChanged: {
@@ -2086,7 +2086,6 @@ Rectangle {
             }
         }
     }
-
 
     // This provides continuous scrolling at the left/right edges.
     Timer {
