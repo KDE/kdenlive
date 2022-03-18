@@ -310,6 +310,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     // Folder ids are represented like:  #2 (where 2 is the folder's id)
     auto *mimeData = new QMimeData();
     QStringList list;
+    QString parentId;
     size_t duration = 0;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
@@ -319,6 +320,9 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(ix);
         if (!item->statusReady()) {
             continue;
+        }
+        if (parentId.isEmpty()) {
+            parentId = ix.parent().data(AbstractProjectItem::DataId).toString();
         }
         AbstractProjectItem::PROJECTITEMTYPE type = item->itemType();
         if (type == AbstractProjectItem::ClipItem) {
@@ -350,6 +354,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
+        mimeData->setData(QStringLiteral("kdenlive/rootId"),parentId.toLatin1());
         mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
         mimeData->setText(QString::number(duration));
     }
