@@ -3005,6 +3005,10 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
         // Make sure parent folder is expanded
         auto *view = static_cast<QTreeView *>(m_itemView);
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
+    } else {
+        // Ensure parent folder is currently opened
+        m_itemView->setRootIndex(m_proxyModel->mapFromSource(ix.parent()));
+        m_upAction->setEnabled(!ix.parent().data(AbstractProjectItem::DataId).toString().isEmpty());
     }
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
 }
@@ -5040,4 +5044,22 @@ void Bin::updateKeyBinding(const QString &bindingMessage)
 void Bin::showBinInfo()
 {
     pCore->window()->showKeyBinding(QString("%1%2").arg(m_clipsCountMessage, m_keyBindingMessage));
+}
+
+bool Bin::containsId(const QString &clipId) const
+{
+    if (m_listType == BinIconView) {
+        // Check if the clip is in our folder
+        const QString rootId = m_itemView->rootIndex().data(AbstractProjectItem::DataId).toString();
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
+        if (clip) {
+            std::shared_ptr<AbstractProjectItem> par = clip->parent();
+            if (par && par->clipId() == rootId) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+    }
+    return true;
 }

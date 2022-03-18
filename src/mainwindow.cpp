@@ -3273,7 +3273,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
 void MainWindow::raiseBin()
 {
     Bin *bin = activeBin();
-    if (bin && !bin->isVisible()) {
+    if (bin) {
         bin->parentWidget()->setVisible(true);
         bin->parentWidget()->raise();
     }
@@ -3283,7 +3283,24 @@ void MainWindow::slotClipInProjectTree()
 {
     QList<int> ids = getMainTimeline()->controller()->selection();
     if (!ids.isEmpty()) {
-        raiseBin();
+        const QString binId = getMainTimeline()->controller()->getClipBinId(ids.constFirst());
+        // If we have multiple bins, check first if a visible bin contains it
+        bool binFound = false;
+        if (binCount() > 1) {
+            for (auto &bin : m_binWidgets) {
+                if (bin->isVisible() && !bin->visibleRegion().isEmpty()) {
+                    // Check if clip is a child of this bin
+                    if (bin->containsId(binId)) {
+                        binFound = true;
+                        bin->setFocus();
+                        raiseBin();
+                    }
+                }
+            }
+        }
+        if (!binFound) {
+            raiseBin();
+        }
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
@@ -3318,7 +3335,7 @@ void MainWindow::slotClipInProjectTree()
         if (!containsPos) {
             pos = start;
         }
-        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), true, pos, zone);
+        activeBin()->selectClipById(binId, pos, zone, true);
     }
 }
 
