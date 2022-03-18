@@ -75,6 +75,7 @@ protected:
     void focusInEvent(QFocusEvent *event) override;
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 signals:
     void focusView();
@@ -499,7 +500,7 @@ private:
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */
-    QSize m_iconSize;
+    QSize m_baseIconSize;
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
     QVBoxLayout *m_layout;

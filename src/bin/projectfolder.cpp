@@ -20,7 +20,6 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, const std::
 {
     m_name = name;
     m_clipStatus = FileStatus::StatusReady;
-    m_thumbnail = QIcon::fromTheme(QStringLiteral("folder"));
 }
 
 std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
