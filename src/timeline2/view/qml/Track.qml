@@ -283,8 +283,7 @@ Item{
                         item.audioStream = model.audioStream
                         item.multiStream = model.multiStream
                         item.aStreamIndex = model.audioStreamIndex
-                        console.log('loaded clip with Astream: ', model.audioStream)
-                        
+                        console.log('loaded clip with Astream: ', model.audioStream)                       
                     } else if (model.clipType == ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
