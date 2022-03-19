@@ -1678,7 +1678,7 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
     if (!m_view->movingKeyframe()) {
         int newDuration = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
         // Check if the keyframes were modified by an external resize operation
-        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->model();
+        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
         std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
         QMap<QString,QString> values = clip->getRemapValues();
         if (values.value(QLatin1String("map")) == m_view->getKeyframesData()) {
