@@ -207,6 +207,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
     connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setEncodethreads);
+    connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::refreshParams);
 
     connect(m_view.video_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.audio_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
@@ -1202,7 +1203,7 @@ void RenderWidget::loadProfile()
     m_view.checkTwoPass->setEnabled(passes);
     m_view.checkTwoPass->setChecked(passes && params.contains(QStringLiteral("passes=2")));
 
-    m_view.encoder_threads->setEnabled(!params.contains(QStringLiteral("threads=")));
+    m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
 
     m_view.video_box->setChecked(profile->getParam(QStringLiteral("vn")) != QStringLiteral("1"));
     m_view.audio_box->setChecked(profile->getParam(QStringLiteral("an")) != QStringLiteral("1"));
