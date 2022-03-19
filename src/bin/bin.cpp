@@ -2588,10 +2588,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     bool enableClipActions = false;
     ClipType::ProducerType type = ClipType::Unknown;
     bool isFolder = false;
+    bool hasAudio = false;
     bool isImported = false;
     AbstractProjectItem::PROJECTITEMTYPE itemType = AbstractProjectItem::FolderItem;
     QString clipService;
-    QString audioCodec;
     bool clickInView = false;
     if (m_itemView) {
         QRect viewRect(m_itemView->mapToGlobal(QPoint(0,0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
@@ -2620,6 +2620,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         }
                         clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                         type = clip->clipType();
+                        hasAudio = clip->hasAudio();
                         m_proxyAction->setChecked(clip->hasProxy());
                         m_proxyAction->blockSignals(false);
                         if (clip->hasUrl()) {
@@ -2646,7 +2647,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 
     m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
-    m_extractAudioAction->setEnabled(enableClipActions);
     m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_replaceAction->setVisible(itemType == AbstractProjectItem::ClipItem);
@@ -2654,12 +2654,12 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
 
     m_transcodeAction->setEnabled(enableClipActions);
-    m_transcodeAction->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
+    m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
 
     m_clipsActionsMenu->menuAction()->setVisible(
         itemType != AbstractProjectItem::FolderItem &&
         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
-    m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
+    m_extractAudioAction->menuAction()->setVisible(!isFolder && hasAudio);
     m_locateAction->setVisible(itemType == AbstractProjectItem::ClipItem && (isImported));
 
     // New folder can be created from level of another folder.
