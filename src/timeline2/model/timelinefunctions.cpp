@@ -2093,7 +2093,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
             }
         }
     } else {
-        if (trackId == -2) {
+        if (timeline->isSubtitleTrack(trackId)) {
             // Subtitle track
             if (!timeline->getSubtitleModel()->isBlankAt(position)) {
                 return false;

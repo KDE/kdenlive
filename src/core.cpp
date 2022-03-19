@@ -548,10 +548,10 @@ QPair <int,QString> Core::currentTrackInfo() const
     if (m_mainWindow->getCurrentTimeline()->controller()) {
         int tid = m_mainWindow->getCurrentTimeline()->controller()->activeTrack();
         if (tid >= 0) {
-            return {m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackMltIndex(tid), m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackTagById(tid)};
+            return {m_mainWindow->getCurrentTimeline()->model()->getTrackMltIndex(tid), m_mainWindow->getCurrentTimeline()->model()->getTrackTagById(tid)};
         }
-        if (tid == -2) {
-            return {-2, i18n("Subtitles")};
+        if (m_mainWindow->getCurrentTimeline()->model()->isSubtitleTrack(tid)) {
+            return {tid, i18n("Subtitles")};
         }
     }
     return {-1,QString()};

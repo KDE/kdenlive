@@ -286,7 +286,7 @@ bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
 {
     int currentClip = -1;
     if (type == ObjectType::TimelineClip) {
-        currentClip = m_activeTrack == -2 ? m_model->getSubtitleByPosition(pCore->getTimelinePosition()) : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
+        currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getTimelinePosition()) : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
     } else if (type == ObjectType::TimelineComposition) {
         currentClip =  m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
     } else if (type == ObjectType::TimelineMix) {
@@ -950,7 +950,7 @@ void TimelineController::setInPoint(bool ripple)
                     selectionFound = true;
                 }
             }
-        } else if (m_activeTrack == -2) {
+        } else if (m_model->isSubtitleTrack(m_activeTrack)) {
             // Subtitle track
             auto subtitleModel = pCore->getSubtitleModel();
             if (subtitleModel) {
@@ -1030,7 +1030,7 @@ void TimelineController::setOutPoint(bool ripple)
                     selectionFound = true;
                 }
             }
-        } else if (m_activeTrack == -2) {
+        } else if (m_model->isSubtitleTrack(m_activeTrack)) {
             // Subtitle track
             auto subtitleModel = pCore->getSubtitleModel();
             if (subtitleModel) {
@@ -1618,7 +1618,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     const auto selection = m_model->getCurrentSelection();
-    if (track == -2) {
+    if (m_model->isSubtitleTrack(track)) {
         // Subtitle cut
         auto subtitleModel = pCore->getSubtitleModel();
         subtitleModel->cutSubtitle(position);
@@ -1644,7 +1644,7 @@ void TimelineController::cutClipUnderCursor(int position, int track)
             if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
-        } else if (track == -2) {
+        } else if (m_model->isSubtitleTrack(track)) {
             // Subtitle cut
             auto subtitleModel = pCore->getSubtitleModel();
             foundClip = subtitleModel->cutSubtitle(position);
@@ -3269,7 +3269,8 @@ void TimelineController::makeAllTrackActive()
 
 void TimelineController::switchTrackDisabled()
 {
-    if (m_activeTrack == -2) {
+
+    if (m_model->isSubtitleTrack(m_activeTrack)) {
         // Subtitle track
         switchSubtitleDisable();
     } else {
@@ -3283,7 +3284,7 @@ void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {
         // apply to active track only
-        if (m_activeTrack == -2) {
+        if (m_model->isSubtitleTrack(m_activeTrack)) {
             // Subtitle track
             switchSubtitleLock();
         } else {
@@ -3315,7 +3316,7 @@ void TimelineController::switchTrackLock(bool applyToAll)
             m_model->setTrackLockedState(id, !isLocked);
         }
         if (hasSubtitleTrack) {
-            if (!leaveOneUnlocked || m_activeTrack != -2) {
+            if (!leaveOneUnlocked || !m_model->isSubtitleTrack(m_activeTrack)) {
                 switchSubtitleLock();
             }
         }
@@ -3441,7 +3442,7 @@ void TimelineController::selectCurrentTrack()
         return;
     }
     std::unordered_set<int> ids;
-    if (m_activeTrack == -2) {
+    if (m_model->isSubtitleTrack(m_activeTrack)) {
         for (const auto &sub : m_model->m_allSubtitles) {
             ids.insert(sub.first);
         }
@@ -4588,7 +4589,7 @@ void TimelineController::collapseActiveTrack()
     if (m_activeTrack == -1) {
         return;
     }
-    if (m_activeTrack == -2) {
+    if (m_model->isSubtitleTrack(m_activeTrack)) {
         // Subtitle track
         QMetaObject::invokeMethod(m_root, "switchSubtitleTrack", Qt::QueuedConnection);
         return;
