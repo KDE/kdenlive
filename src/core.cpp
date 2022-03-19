@@ -347,18 +347,18 @@ void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame,
 
 void Core::selectTimelineItem(int id)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-        m_mainWindow->getCurrentTimeline()->controller()->getModel()->requestAddToSelection(id, true);
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+        m_mainWindow->getCurrentTimeline()->model()->requestAddToSelection(id, true);
     }
 }
 
 std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-        auto subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+        auto subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
         if (enforce && subModel == nullptr) {
             m_mainWindow->slotEditSubtitle();
-            subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+            subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
         }
         return subModel;
     }
@@ -478,9 +478,9 @@ bool Core::setCurrentProfile(const QString &profilePath)
         emit m_mainWindow->updateRenderWidgetProfile();
         m_monitorManager->resetProfiles();
         emit m_monitorManager->updatePreviewScaling();
-        if (m_guiConstructed && m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
-            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateFieldOrderFilter(getCurrentProfile());
+        if (m_guiConstructed && m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+            m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
+            m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
             checkProfileValidity();
             emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
         }
@@ -540,7 +540,7 @@ void Core::refreshProjectRange(QPair<int, int> range)
 
 const QSize Core::getCompositionSizeOnTrack(const ObjectId &id)
 {
-    return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionSizeOnTrack(id);
+    return m_mainWindow->getCurrentTimeline()->model()->getCompositionSizeOnTrack(id);
 }
 
 QPair <int,QString> Core::currentTrackInfo() const
@@ -562,18 +562,18 @@ int Core::getItemPosition(const ObjectId &id)
     if (!m_guiConstructed) return 0;
     switch (id.first) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPosition(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getClipPosition(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getCompositionPosition(id.second);
         }
         break;
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second).first;
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getMixInOut(id.second).first;
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -590,14 +590,14 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->model()) {
         qWarning() << "GUI not build";
         return 0;
     }
     switch (id.first) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipIn(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getClipIn(id.second);
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -619,8 +619,8 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
     if (!m_guiConstructed) return PlaylistState::Disabled;
     switch (id.first) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipState(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getClipState(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
@@ -628,7 +628,7 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
     case ObjectType::BinClip:
         return m_mainWindow->getBin()->getClipState(id.second);
     case ObjectType::TimelineTrack:
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
+        return m_mainWindow->getCurrentTimeline()->model()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     case ObjectType::Master:
         return PlaylistState::Disabled;
     default:
@@ -643,13 +643,13 @@ int Core::getItemDuration(const ObjectId &id)
     if (!m_guiConstructed) return 0;
     switch (id.first) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipPlaytime(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getClipPlaytime(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPlaytime(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getCompositionPlaytime(id.second);
         }
         break;
     case ObjectType::BinClip:
@@ -658,8 +658,8 @@ int Core::getItemDuration(const ObjectId &id)
     case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixDuration(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getMixDuration(id.second);
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -675,8 +675,8 @@ QSize Core::getItemFrameSize(const ObjectId &id)
     if (!m_guiConstructed) return QSize();
     switch (id.first) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipFrameSize(id.second);
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->model()->getClipFrameSize(id.second);
         }
         break;
     case ObjectType::BinClip:
@@ -699,7 +699,7 @@ int Core::getItemTrack(const ObjectId &id)
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
     case ObjectType::TimelineMix:
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
+        return m_mainWindow->getCurrentTimeline()->model()->getItemTrackId(id.second);
     default:
         qWarning() << "unhandled object type";
     }
@@ -712,17 +712,17 @@ void Core::refreshProjectItem(const ObjectId &id)
     switch (id.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
             m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isComposition(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
             m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
         }
         break;
     case ObjectType::TimelineTrack:
-        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isTrack(id.second)) {
+        if (m_mainWindow->getCurrentTimeline()->model()->isTrack(id.second)) {
             requestMonitorRefresh();
         }
         break;
@@ -839,13 +839,13 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
     case int(ObjectType::TimelineClip):
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
+        return m_mainWindow->getCurrentTimeline()->model()->getClipEffectStack(itemId);
     case int(ObjectType::TimelineTrack):
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackEffectStackModel(itemId);
+        return m_mainWindow->getCurrentTimeline()->model()->getTrackEffectStackModel(itemId);
     case int(ObjectType::BinClip):
         return m_mainWindow->getBin()->getClipEffectStack(itemId);
     case int(ObjectType::Master):
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectStackModel();
+        return m_mainWindow->getCurrentTimeline()->model()->getMasterEffectStackModel();
     default:
         return nullptr;
     }
@@ -915,7 +915,7 @@ void Core::invalidateItem(ObjectId itemId)
 
 double Core::getClipSpeed(int id) const
 {
-    return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipSpeed(id);
+    return m_mainWindow->getCurrentTimeline()->model()->getClipSpeed(id);
 }
 
 void Core::updateItemKeyframes(ObjectId id)
@@ -1041,17 +1041,17 @@ QString Core::getTimelineClipBinId(int cid)
     if (!m_guiConstructed) {
         return QString();
     }
-    if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(cid)) {
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipBinId(cid);
+    if (m_mainWindow->getCurrentTimeline()->model()->isClip(cid)) {
+        return m_mainWindow->getCurrentTimeline()->model()->getClipBinId(cid);
     }
     return QString();
 }
 std::unordered_set<QString> Core::getAllTimelineTracksId()
 {
-    std::unordered_set<int> timelineClipIds = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemsInRange(-1,0);
+    std::unordered_set<int> timelineClipIds = m_mainWindow->getCurrentTimeline()->model()->getItemsInRange(-1,0);
     std::unordered_set<QString> tClipBinIds;
     for(int id : timelineClipIds) {
-        auto idString = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipBinId(id);
+        auto idString = m_mainWindow->getCurrentTimeline()->model()->getClipBinId(id);
         tClipBinIds.insert(idString);
     }
     return tClipBinIds;
@@ -1167,7 +1167,7 @@ void Core::showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked)
 void Core::updateMasterZones()
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-        m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectZones());
+        m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->model()->getMasterEffectZones());
     }
 }
 
