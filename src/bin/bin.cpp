@@ -521,7 +521,7 @@ public:
                     painter->fillRect(thumbRect, bgColor);
                 }
                 thumbRect.setSize(m_audioIcon.size());
-                thumbRect.translate(0, 2);
+                thumbRect.translate(3, 2);
                 QRect videoThumbRect = thumbRect;
                 videoThumbRect.moveTop(thumbRect.bottom() + 2);
                 if (opt.state & QStyle::State_MouseOver) {
@@ -1487,9 +1487,9 @@ void Bin::slotUpdatePalette()
         QPainter p2(&m_videoIcon);
         videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
         m_audioUsedIcon = m_audioIcon;
-        KIconEffect::toMonochrome(m_audioUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
+        KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
         m_videoUsedIcon = m_videoIcon;
-        KIconEffect::toMonochrome(m_videoUsedIcon, palette().highlight().color(), palette().highlight().color(), 1);
+        KIconEffect::toMonochrome(m_videoUsedIcon, palette().link().color(), palette().link().color(), 1);
     }
 }
 
