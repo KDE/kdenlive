@@ -1516,7 +1516,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress) {
         if (m_itemView && m_listType == BinTreeView) {
-        // Folder state is only valid in tree view mode
+            // Folder state is only valid in tree view mode
             auto *mouseEvent = static_cast<QMouseEvent *>(event);
             if (mouseEvent->button() == Qt::LeftButton && mouseEvent->modifiers() & Qt::ShiftModifier) {
                 QModelIndex idx = m_itemView->indexAt(mouseEvent->pos());
@@ -2244,20 +2244,17 @@ void Bin::selectProxyModel(const QModelIndex &id)
         if (id.column() != 0) {
             return;
         }
+        QString clipService;
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(id));
         if (currentItem) {
             // Set item as current so that it displays its content in clip monitor
             setCurrent(currentItem);
-            if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
-                m_reloadAction->setEnabled(true);
-                m_replaceAction->setEnabled(true);
-                m_locateAction->setEnabled(true);
-                m_duplicateAction->setEnabled(true);
-                std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(currentItem);
+            AbstractProjectItem::PROJECTITEMTYPE itemType = currentItem->itemType();
+            std::shared_ptr<ProjectClip> clip = nullptr;
+            if (itemType == AbstractProjectItem::ClipItem) {
+                clip = std::static_pointer_cast<ProjectClip>(currentItem);
                 m_tagsWidget->setTagData(clip->tags());
                 ClipType::ProducerType type = clip->clipType();
-                m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::Text || type == ClipType::TextTemplate);
-                emit requestShowClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
                 //TODO: testing only, we should check clip type...
@@ -2266,43 +2263,71 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 } else {
                     pCore->timeRemapWidget()->setClip(nullptr);
                 }
-            } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
+            } else if (itemType == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
-                m_openAction->setEnabled(false);
-                m_reloadAction->setEnabled(false);
-                m_replaceAction->setEnabled(false);
-                m_locateAction->setEnabled(false);
-                m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
-            } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
+            } else if (itemType == AbstractProjectItem::SubClipItem) {
                 m_tagsWidget->setTagData(currentItem->tags());
-                emit requestShowClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
-                m_openAction->setEnabled(false);
-                m_reloadAction->setEnabled(false);
-                m_replaceAction->setEnabled(false);
-                m_locateAction->setEnabled(false);
-                m_duplicateAction->setEnabled(false);
+                auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
+                clip = subClip->getMasterClip();
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             }
+            bool isImported = false;
+            bool hasAudio = false;
+            ClipType::ProducerType type = ClipType::Unknown;
+            if (clip) {
+                emit requestShowClipProperties(clip, false);
+                m_proxyAction->blockSignals(true);
+                if (itemType == AbstractProjectItem::ClipItem) {
+                    emit findInTimeline(clip->clipId(), clip->timelineInstances());
+                }
+                clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+                type = clip->clipType();
+                hasAudio = clip->hasAudio();
+                m_proxyAction->setChecked(clip->hasProxy());
+                m_proxyAction->blockSignals(false);
+                if (clip->hasUrl()) {
+                    isImported = true;
+                }
+            } else {
+                // Disable find in timeline option
+                emit findInTimeline(QString());
+                m_openAction->setEnabled(false);
+            }
+            m_clipsActionsMenu->setEnabled(itemType != AbstractProjectItem::FolderItem);
+            m_editAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_extractAudioAction->menuAction()->setVisible(hasAudio);
+            m_extractAudioAction->setEnabled(hasAudio);
+            m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
+            m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_duplicateAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
+            m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_inTimelineAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
+            m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
+            m_locateAction->setEnabled(itemType != AbstractProjectItem::FolderItem && isImported);
+            m_locateAction->setVisible(itemType != AbstractProjectItem::FolderItem && isImported);
+            m_proxyAction->setEnabled(m_doc->useProxy() && itemType != AbstractProjectItem::FolderItem);
+            m_reloadAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
+            m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_replaceAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
+            m_replaceAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_clipsActionsMenu->menuAction()->setVisible(
+                itemType != AbstractProjectItem::FolderItem &&
+                (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
+
+            m_transcodeAction->setEnabled(itemType != AbstractProjectItem::FolderItem);
+            m_transcodeAction->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
+
             m_deleteAction->setEnabled(true);
             m_renameAction->setEnabled(true);
-        } else {
-            m_reloadAction->setEnabled(false);
-            m_replaceAction->setEnabled(false);
-            m_locateAction->setEnabled(false);
-            m_duplicateAction->setEnabled(false);
-            m_openAction->setEnabled(false);
-            m_deleteAction->setEnabled(false);
-            m_renameAction->setEnabled(false);
+            updateClipsCount();
+            return;
         }
     } else {
         // No item selected in bin
-        m_openAction->setEnabled(false);
-        m_deleteAction->setEnabled(false);
-        m_renameAction->setEnabled(false);
         emit requestShowClipProperties(nullptr);
         emit requestClipShow(nullptr);
         // clear effect stack
@@ -2310,6 +2335,18 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // Display black bg in clip monitor
         emit openClip(std::shared_ptr<ProjectClip>());
     }
+    m_editAction->setEnabled(false);
+    m_clipsActionsMenu->setEnabled(false);
+    m_extractAudioAction->setEnabled(false);
+    m_transcodeAction->setEnabled(false);
+    m_proxyAction->setEnabled(false);
+    m_reloadAction->setEnabled(false);
+    m_replaceAction->setEnabled(false);
+    m_locateAction->setEnabled(false);
+    m_duplicateAction->setEnabled(false);
+    m_openAction->setEnabled(false);
+    m_deleteAction->setEnabled(false);
+    m_renameAction->setEnabled(false);
     updateClipsCount();
 }
 
@@ -2586,12 +2623,8 @@ void Bin::rebuildMenu()
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
-    ClipType::ProducerType type = ClipType::Unknown;
     bool isFolder = false;
-    bool isImported = false;
-    AbstractProjectItem::PROJECTITEMTYPE itemType = AbstractProjectItem::FolderItem;
     QString clipService;
-    QString audioCodec;
     bool clickInView = false;
     if (m_itemView) {
         QRect viewRect(m_itemView->mapToGlobal(QPoint(0,0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
@@ -2601,33 +2634,10 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
             if (idx.isValid()) {
                 // User right clicked on a clip
                 std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
-                itemType = currentItem->itemType();
                 if (currentItem) {
                     enableClipActions = true;
-                    std::shared_ptr<ProjectClip> clip = nullptr;
-                    if (itemType == AbstractProjectItem::ClipItem) {
-                        clip = std::static_pointer_cast<ProjectClip>(currentItem);
-                    } else if (itemType == AbstractProjectItem::SubClipItem) {
-                        auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
-                        clip = subClip->getMasterClip();
-                    } else if (itemType == AbstractProjectItem::FolderItem) {
+                    if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                         isFolder = true;
-                    }
-                    if (clip) {
-                        m_proxyAction->blockSignals(true);
-                        if (itemType == AbstractProjectItem::ClipItem) {
-                            emit findInTimeline(clip->clipId(), clip->timelineInstances());
-                        }
-                        clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-                        type = clip->clipType();
-                        m_proxyAction->setChecked(clip->hasProxy());
-                        m_proxyAction->blockSignals(false);
-                        if (clip->hasUrl()) {
-                            isImported = true;
-                        }
-                    } else {
-                        // Disable find in timeline option
-                        emit findInTimeline(QString());
                     }
                 }
             }
@@ -2636,31 +2646,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     if (!clickInView) {
         return;
     }
-    // Enable / disable clip actions
-    m_proxyAction->setEnabled((m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0) && enableClipActions);
-    m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
-    m_reloadAction->setEnabled(enableClipActions);
-    m_replaceAction->setEnabled(enableClipActions);
-    m_locateAction->setEnabled(enableClipActions);
-    m_duplicateAction->setEnabled(enableClipActions);
-
-    m_editAction->setVisible(!isFolder);
-    m_clipsActionsMenu->setEnabled(enableClipActions);
-    m_extractAudioAction->setEnabled(enableClipActions);
-    m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-    m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-    m_replaceAction->setVisible(itemType == AbstractProjectItem::ClipItem);
-    m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-    m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
-
-    m_transcodeAction->setEnabled(enableClipActions);
-    m_transcodeAction->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
-
-    m_clipsActionsMenu->menuAction()->setVisible(
-        itemType != AbstractProjectItem::FolderItem &&
-        (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
-    m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
-    m_locateAction->setVisible(itemType == AbstractProjectItem::ClipItem && (isImported));
 
     // New folder can be created from level of another folder.
     if (isFolder) {
@@ -3061,6 +3046,7 @@ void Bin::setupGeneratorMenu()
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(!addMenu->isEmpty());
         m_extractAudioAction = addMenu;
+        m_extractAudioAction->setEnabled(false);
     }
 
     addMenu = qobject_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
@@ -3068,6 +3054,7 @@ void Bin::setupGeneratorMenu()
         m_menu->addMenu(addMenu);
         addMenu->setEnabled(!addMenu->isEmpty());
         m_clipsActionsMenu = addMenu;
+        m_clipsActionsMenu->setEnabled(false);
     }
 
     addMenu = qobject_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_in_timeline"), pCore->window()));
@@ -3160,10 +3147,12 @@ void Bin::setupMenu()
     m_proxyAction->setData(QStringList() << QString::number(static_cast<int>(AbstractTask::PROXYJOB)));
     m_proxyAction->setCheckable(true);
     m_proxyAction->setChecked(false);
+    m_proxyAction->setEnabled(false);
 
     m_editAction =
         addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
+    m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
 
     m_openAction =
