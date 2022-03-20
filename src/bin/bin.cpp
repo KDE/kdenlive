@@ -309,7 +309,7 @@ public:
                                 painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                             }
                         }
-                    } else if (usage > 0) {
+                    } /*else if (usage > 0) {
                         QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
                         audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
                         audioRect.moveTop(bounding.top() + 1);
@@ -322,7 +322,7 @@ public:
                         if (usage - audioUsage > 0) {
                             painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                         }
-                    }
+                    }*/
                 }
                 if (type == AbstractProjectItem::ClipItem) {
                     // Overlay icon if necessary
@@ -502,18 +502,20 @@ public:
                 QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
                 tagRect.setWidth(m_thumbRect.height() / 5);
                 tagRect.setHeight(tagRect.width());
+                painter->save();
                 for (const QString &color : qAsConst(t)) {
                     painter->setBrush(QColor(color));
                     painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                     tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
                 }
+                painter->restore();
             }
 
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
-                QRect thumbRect = m_thumbRect.adjusted(0, 0, 0, 2);
+            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
+                QRect thumbRect = m_thumbRect;
                 thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
                 if (opt.state & QStyle::State_MouseOver || usage > 0) {
                     QColor bgColor = option.palette.window().color();
@@ -636,7 +638,7 @@ MyListView::MyListView(QWidget *parent)
     setUniformItemSizes(true);
     setDragEnabled(true);
     setAcceptDrops(true);
-    setDropIndicatorShown(true);
+    //setDropIndicatorShown(true);
     viewport()->setAcceptDrops(true);
 }
 
