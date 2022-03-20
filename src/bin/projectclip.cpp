@@ -1352,6 +1352,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
     if (!reload && (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty())) {
         reload = true;
+        updateRoles << TimelineModel::ResourceRole;
     }
     if (refreshAnalysis) {
         emit refreshAnalysisPanel();
