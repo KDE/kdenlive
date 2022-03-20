@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITOR_H
-#define MONITOR_H
+#pragma once
 
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
@@ -394,5 +393,3 @@ signals:
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
 };
-
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERPRESETDIALOG_H
-#define RENDERPRESETDIALOG_H
+#pragma once
 
 #include "ui_editrenderpreset_ui.h"
 
@@ -34,5 +33,3 @@ private:
 private slots:
     void slotUpdateParams();
 };
-
-#endif // RENDERPRESETDIALOG_H

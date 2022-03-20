@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINETABS_H
-#define TIMELINETABS_H
+#pragma once
 
 #include <QTabWidget>
 #include <memory>
@@ -81,5 +80,3 @@ signals:
 private:
     TimelineWidget *m_mainTimeline;
 };
-
-#endif

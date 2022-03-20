@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef HISTOGRAMGENERATOR_H
-#define HISTOGRAMGENERATOR_H
+#pragma once
 
 #include <QObject>
 #include "colorconstants.h"
@@ -56,5 +55,3 @@ public:
 
     enum Components { ComponentY = 1 << 0, ComponentR = 1 << 1, ComponentG = 1 << 2, ComponentB = 1 << 3, ComponentSum = 1 << 4 };
 };
-
-#endif // HISTOGRAMGENERATOR_H

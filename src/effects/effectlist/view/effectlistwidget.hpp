@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
+#pragma once
 
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
@@ -89,5 +88,3 @@ signals:
 private:
     EffectListWidget *q; // NOLINT
 };
-
-#endif

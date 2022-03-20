@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTBASKET_H
-#define EFFECTBASKET_H
+#pragma once
 
 #include <QListWidget>
 
@@ -34,5 +33,3 @@ private slots:
 signals:
     void activateAsset(const QVariantMap &);
 };
-
-#endif

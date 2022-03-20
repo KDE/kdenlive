@@ -9,8 +9,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  *
  *  Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
 */
-#ifndef KDENLIVEDOC_H
-#define KDENLIVEDOC_H
+
+#pragma once
 
 #include <QAction>
 #include <QDir>
@@ -273,5 +273,3 @@ signals:
     /** @brief Update compositing info */
     void updateCompositionMode(int);
 };
-
-#endif

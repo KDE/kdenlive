@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSCODESEEK_H
-#define TRANSCODESEEK_H
+#pragma once
 
 #include "definitions.h"
 #include "ui_transcodeseekable_ui.h"
@@ -32,5 +31,3 @@ private:
     QMap<QString, QString> m_encodeParams;
 
 };
-
-#endif

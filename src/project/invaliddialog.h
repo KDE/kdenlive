@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef INVALIDDIALOG_H
-#define INVALIDDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -26,5 +25,3 @@ public:
 private:
     QListWidget *m_clipList;
 };
-
-#endif // INVALIDDIALOG_H

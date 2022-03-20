@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef INTERFACES_H
-#define INTERFACES_H
+#pragma once
 
 #include <QStringList>
 
@@ -20,5 +19,3 @@ public:
 };
 
 Q_DECLARE_INTERFACE(ClipGenerator, "com.kdenlive.ClipGenerator.ClipGeneratorInterface/1.0")
-
-#endif

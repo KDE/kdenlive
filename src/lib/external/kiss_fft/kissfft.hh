@@ -1,4 +1,5 @@
-#ifndef KISSFFT_CLASS_HH
+#pragma once
+
 #include <complex>
 #include <vector>
 
@@ -296,4 +297,3 @@ class kissfft
         std::vector<int> _stageRemainder;
         traits_type _traits;
 };
-#endif

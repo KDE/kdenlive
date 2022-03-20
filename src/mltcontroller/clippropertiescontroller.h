@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPPROPERTIESCONTROLLER_H
-#define CLIPPROPERTIESCONTROLLER_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/timecode.h"
@@ -156,5 +155,3 @@ signals:
     void deleteProxy();
     void enableProxy(bool);
 };
-
-#endif

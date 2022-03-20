@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RGBPARADE_H
-#define RGBPARADE_H
+#pragma once
 
 #include "abstractgfxscopewidget.h"
 #include "ui_rgbparade_ui.h"
@@ -46,5 +45,3 @@ private:
     QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
     QImage renderBackground(uint accelerationFactor) override;
 };
-
-#endif // RGBPARADE_H

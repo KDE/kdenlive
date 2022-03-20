@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GENTIME_H
-#define GENTIME_H
+#pragma once
 
 #include <QString>
 #include <cmath>
@@ -92,5 +91,3 @@ private:
 };
 
 Q_DECLARE_TYPEINFO(GenTime, Q_COMPLEX_TYPE); //TODO Q_COMPLEX_TYPE is the default, but does Q_MOVABLE_TYPE fit better?
-
-#endif

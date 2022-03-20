@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GRAPHICSSCENERECTMOVE_H
-#define GRAPHICSSCENERECTMOVE_H
+#pragma once
 
 #include <QGraphicsEffect>
 #include <QGraphicsScene>
@@ -176,5 +175,3 @@ signals:
     void actionFinished();
     void doubleClickEvent();
 };
-
-#endif

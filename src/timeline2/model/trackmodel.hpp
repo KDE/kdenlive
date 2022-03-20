@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRACKMODEL_H
-#define TRACKMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -365,5 +364,3 @@ protected:
     /// A list of same track transitions for this track, in the form: {second_clip_id, transition}
     std::unordered_map<int, std::shared_ptr<AssetParameterModel>> m_sameCompositions;
 };
-
-#endif

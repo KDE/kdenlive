@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KTHUMB_H
-#define KTHUMB_H
+#pragma once
 
 #include <QImage>
 #include <QUrl>
@@ -27,5 +26,3 @@ QImage getFrame(Mlt::Frame *frame, int width = 0, int height = 0, int scaledWidt
  * */
 int imageVariance(const QImage &image);
 } // namespace KThumb
-
-#endif

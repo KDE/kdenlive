@@ -18,8 +18,7 @@ USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEOR
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KISS_FFTND_H
-#define KISS_FFTND_H
+#pragma once
 
 #include "../kiss_fft.h"
 
@@ -34,5 +33,4 @@ void kiss_fftnd(kiss_fftnd_cfg cfg, const kiss_fft_cpx *fin, kiss_fft_cpx *fout)
 
 #ifdef __cplusplus
 }
-#endif
 #endif

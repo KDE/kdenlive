@@ -7,8 +7,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTITEMMODEL_H
-#define PROJECTITEMMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "definitions.h"
@@ -267,5 +266,3 @@ signals:
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SPLASH_H
-#define SPLASH_H
+#pragma once
 
 #include <QSplashScreen>
 #include <QStyleOptionProgressBar>
@@ -27,5 +26,3 @@ private:
 protected:
     void drawContents(QPainter *painter) override;
 };
-
-#endif

@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEFUNCTIONS_H
-#define TIMELINEFUNCTIONS_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -136,5 +135,3 @@ struct TimelineFunctions
 
     static int spacerMinPos();
 };
-
-#endif

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROXYTASK_H
-#define PROXYTASK_H
+#pragma once
 
 #include "abstracttask.h"
 
@@ -30,6 +29,3 @@ private:
     QString m_errorMessage;
     QString m_logDetails;
 };
-
-
-#endif

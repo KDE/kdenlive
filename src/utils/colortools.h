@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLORTOOLS_H
-#define COLORTOOLS_H
+#pragma once
 
 #include <QImage>
 
@@ -87,5 +86,3 @@ public:
 signals:
     void signalYuvWheelCalculationFinished();
 };
-
-#endif // COLORTOOLS_H

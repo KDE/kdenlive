@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SHAREDFRAME_H
-#define SHAREDFRAME_H
+#pragma once
 
 #include <QExplicitlySharedDataPointer>
 #include <cstdint>
@@ -61,5 +60,3 @@ public:
 private:
     QExplicitlySharedDataPointer<FrameData> d; // NOLINT
 };
-
-#endif // SHAREDFRAME_H

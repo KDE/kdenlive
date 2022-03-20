@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETSREPOSITORY_H
-#define ASSETSREPOSITORY_H
+#pragma once
 
 #include "definitions.h"
 #include <QSet>
@@ -103,5 +102,3 @@ protected:
 };
 
 #include "abstractassetsrepository.ipp"
-
-#endif

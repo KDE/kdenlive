@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILEFILTER_H
-#define PROFILEFILTER_H
+#pragma once
 
 #include <QSortFilterProxyModel>
 #include <memory>
@@ -48,4 +47,3 @@ private:
     bool m_fps_enabled;
     double m_fps_value;
 };
-#endif

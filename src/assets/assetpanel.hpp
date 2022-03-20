@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETPANEL_H
-#define ASSETPANEL_H
+#pragma once
 
 #include <QVBoxLayout>
 #include <QWidget>
@@ -112,5 +111,3 @@ signals:
     void switchCurrentComposition(int tid, const QString &compoId);
     void slotSaveStack();
 };
-
-#endif

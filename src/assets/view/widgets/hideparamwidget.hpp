@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef HIDEPARAMWIDGET_H
-#define HIDEPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QWidget>
@@ -32,5 +31,3 @@ public slots:
      */
     void slotRefresh() override;
 };
-
-#endif

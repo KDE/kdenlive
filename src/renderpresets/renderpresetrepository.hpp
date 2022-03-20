@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERPRESETREPOSITORY_H
-#define RENDERPRESETREPOSITORY_H
+#pragma once
 
 #include "definitions.h" //for QString hash function
 #include <QReadWriteLock>
@@ -82,5 +81,3 @@ protected:
     std::unordered_map<QString, std::unique_ptr<RenderPresetModel>> m_profiles;
     QStringList m_groups;
 };
-
-#endif

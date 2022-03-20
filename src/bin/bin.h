@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_BIN_H
-#define KDENLIVE_BIN_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "utils/timecode.h"
@@ -603,5 +602,3 @@ signals:
     void selectMarkers();
     void requestBinClose();
 };
-
-#endif

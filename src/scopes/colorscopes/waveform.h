@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef WAVEFORM_H
-#define WAVEFORM_H
+#pragma once
 
 #include "abstractgfxscopewidget.h"
 
@@ -56,5 +55,3 @@ private:
     bool isScopeDependingOnInput() const override;
     bool isBackgroundDependingOnInput() const override;
 };
-
-#endif // WAVEFORM_H

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEMODEL_H
-#define TIMELINEMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -976,4 +975,3 @@ protected:
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
 };
-#endif

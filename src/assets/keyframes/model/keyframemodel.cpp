@@ -8,7 +8,7 @@
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
-#include "rotoscoping/bpoint.h"
+#include "../../bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
 #include <QDebug>

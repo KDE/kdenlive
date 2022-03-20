@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SCENESPLITTASK_H
-#define SCENESPLITTASK_H
+#pragma once
 
 #include "abstracttask.h"
 
@@ -34,6 +33,3 @@ private:
     QString m_logDetails;
     QList<double> m_results;
 };
-
-
-#endif

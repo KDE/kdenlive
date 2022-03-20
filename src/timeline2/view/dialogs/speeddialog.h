@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SPEEDDIALOG_H
-#define SPEEDDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -32,5 +31,3 @@ private:
     int m_duration;
     void checkSpeed(KMessageWidget *infoMessage, double res);
 };
-
-#endif // SPEEDDIALOG_H

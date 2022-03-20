@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTTREEMODEL_H
-#define EFFECTTREEMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
@@ -32,5 +31,3 @@ protected:
     std::shared_ptr<TreeItem> m_customCategory;
     std::shared_ptr<TreeItem> m_templateCategory;
 };
-
-#endif

@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DATAQUEUE_H
-#define DATAQUEUE_H
+#pragma once
 
 #include <QList>
 #include <QMutex>
@@ -140,5 +139,3 @@ template <class T> int DataQueue<T>::count() const
     QMutexLocker locker(&m_mutex);
     return m_queue.size();
 }
-
-#endif // DATAQUEUE_H

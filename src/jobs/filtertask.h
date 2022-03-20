@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef FILTERTASK_H
-#define FILTERTASK_H
+#pragma once
 
 #include "abstracttask.h"
 #include <memory>
@@ -50,6 +49,3 @@ private:
     QString m_logDetails;
     std::unique_ptr<QProcess> m_jobProcess;
 };
-
-
-#endif

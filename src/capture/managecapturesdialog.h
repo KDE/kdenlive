@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MANAGECAPTURESDIALOG_H
-#define MANAGECAPTURESDIALOG_H
+#pragma once
 
 #include <QPushButton>
 
@@ -32,5 +31,3 @@ private:
     Ui::ManageCaptures_UI m_view{};
     QPushButton *m_importButton;
 };
-
-#endif

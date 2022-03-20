@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPLOADTASK_H
-#define CLIPLOADTASK_H
+#pragma once
 
 #include "definitions.h"
 #include "abstracttask.h"
@@ -53,5 +52,3 @@ signals:
     void proposeTranscode(const QString &resource);
     void taskDone();
 };
-
-#endif // CLIPLOADTASK_H

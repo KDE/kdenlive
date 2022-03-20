@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef WAVEFORMGENERATOR_H
-#define WAVEFORMGENERATOR_H
+#pragma once
 
 #include <QObject>
 #include "colorconstants.h"
@@ -27,5 +26,3 @@ public:
     QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
                              const ITURec rec, uint accelFactor = 1);
 };
-
-#endif // WAVEFORMGENERATOR_H

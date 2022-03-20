@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTTREEMODEL_H
-#define ABSTRACTTREEMODEL_H
+#pragma once
 
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
@@ -107,5 +106,3 @@ protected:
 
     static int currentTreeId;
 };
-
-#endif

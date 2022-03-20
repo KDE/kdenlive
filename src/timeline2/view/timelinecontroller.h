@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINECONTROLLER_H
-#define TIMELINECONTROLLER_H
+#pragma once
 
 #include "definitions.h"
 #include "lib/audio/audioCorrelation.h"
@@ -813,5 +812,3 @@ signals:
     void regainFocus();
     void updateAssetPosition(int itemId);
 };
-
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SAMPLEPLUGIN_H
-#define SAMPLEPLUGIN_H
+#pragma once
 
 #include <QObject>
 #include <QStringList>
@@ -23,5 +22,3 @@ public:
     QUrl generatedClip(const QString &renderer, const QString &generator, const QUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles,
                        const double fps, const int width, const int height);
 };
-
-#endif

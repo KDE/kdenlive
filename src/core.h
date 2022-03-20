@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CORE_H
-#define CORE_H
+#pragma once
 
 #include "definitions.h"
 #include "jobs/taskmanager.h"
@@ -373,5 +372,3 @@ signals:
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef LISTPARAMWIDGET_H
-#define LISTPARAMWIDGET_H
+#pragma once
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_listparamwidget_ui.h"
@@ -68,5 +67,3 @@ public slots:
     void slotRefresh() override;
 
 };
-
-#endif

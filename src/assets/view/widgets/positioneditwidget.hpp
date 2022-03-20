@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef POSITIONEDITWIDGET_H
-#define POSITIONEDITWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include "utils/timecode.h"
@@ -54,5 +53,3 @@ private slots:
 signals:
     void valueChanged();
 };
-
-#endif

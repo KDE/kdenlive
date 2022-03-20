@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BOOLPARAMWIDGET_H
-#define BOOLPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include "ui_boolparamwidget_ui.h"
@@ -38,5 +37,3 @@ public slots:
      */
     void slotRefresh() override;
 };
-
-#endif

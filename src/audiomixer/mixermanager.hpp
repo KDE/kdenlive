@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MIXERMANGER_H
-#define MIXERMANGER_H
+#pragma once
 
 #include "definitions.h"
 #include <memory>
@@ -72,6 +71,3 @@ private:
     int m_recommendedWidth;
 
 };
-
-#endif
-

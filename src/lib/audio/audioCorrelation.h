@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOCORRELATION_H
-#define AUDIOCORRELATION_H
+#pragma once
 
 #include "audioCorrelationInfo.h"
 #include "audioEnvelope.h"
@@ -80,5 +79,3 @@ signals:
     void gotAudioAlignData(int, int);
     void displayMessage(const QString &, MessageType, int);
 };
-
-#endif // AUDIOCORRELATION_H

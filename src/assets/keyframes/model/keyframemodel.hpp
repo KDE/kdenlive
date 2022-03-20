@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KEYFRAMELISTMODEL_H
-#define KEYFRAMELISTMODEL_H
+#pragma once
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
@@ -217,5 +216,3 @@ public:
     auto end() -> decltype(m_keyframeList.end()) { return m_keyframeList.end(); }
 };
 // Q_DECLARE_METATYPE(KeyframeModel *)
-
-#endif

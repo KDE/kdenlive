@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTMANAGER_H
-#define PROJECTMANAGER_H
+#pragma once
 
 #include "kdenlivecore_export.h"
 #include <KRecentFilesAction>
@@ -215,5 +214,3 @@ private:
     bool m_loading{false};
     void saveRecentFiles();
 };
-
-#endif

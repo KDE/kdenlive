@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef VECTORSCOPE_H
-#define VECTORSCOPE_H
+#pragma once
 
 #include "abstractgfxscopewidget.h"
 #include "ui_vectorscope_ui.h"
@@ -84,5 +83,3 @@ private slots:
     void slotExportBackground();
     void slotColorSpaceChanged();
 };
-
-#endif // VECTORSCOPE_H

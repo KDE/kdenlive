@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SPEECHDIALOG_H
-#define SPEECHDIALOG_H
+#pragma once
 
 #include "ui_speechdialog_ui.h"
 #include "timeline2/model/timelineitemmodel.hpp"
@@ -46,5 +45,3 @@ private slots:
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone);
     void slotProcessProgress();
 };
-
-#endif

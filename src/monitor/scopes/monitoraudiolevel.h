@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITORAUDIOLEVEL_H
-#define MONITORAUDIOLEVEL_H
+#pragma once
 
 #include "scopewidget.h"
 #include <QWidget>
@@ -46,5 +45,3 @@ private:
 public slots:
     void setAudioValues(const QVector<int> &values);
 };
-
-#endif

@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PATTERNSMODEL_H
-#define PATTERNSMODEL_H
+#pragma once
 
 #include <QAbstractListModel>
 #include <QSize>
@@ -96,5 +95,3 @@ private:
 
     QSize m_tileSize{QSize(16,9)};
 };
-
-#endif // PATTERNSMODEL_H

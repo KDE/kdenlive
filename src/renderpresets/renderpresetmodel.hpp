@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERPRESETMODEL_H
-#define RENDERPRESETMODEL_H
+#pragma once
 
 #include <QDomElement>
 #include <QString>
@@ -104,5 +103,3 @@ private:
     QString m_errors;
     QString m_warnings;
 };
-
-#endif

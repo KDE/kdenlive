@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTGFXSCOPEWIDGET_H
-#define ABSTRACTGFXSCOPEWIDGET_H
+#pragma once
 
 #include <QString>
 #include <QWidget>
@@ -52,5 +51,3 @@ protected slots:
 signals:
     void signalFrameRequest(const QString &widgetName);
 };
-
-#endif // ABSTRACTGFXSCOPEWIDGET_H

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#pragma once
 
 #include "utils/gentime.h"
 
@@ -371,4 +370,3 @@ public:
 public: // actually private, but avoids compiler template friendship issues
     mutable std::weak_ptr<T> weak_this_;
 };
-#endif

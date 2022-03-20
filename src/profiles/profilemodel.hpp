@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILEMODEL_H
-#define PROFILEMODEL_H
+#pragma once
 
 #include "profileinfo.hpp"
 #include <QDomElement>
@@ -114,5 +113,3 @@ public:
     double m_sar;
     double m_dar;
 };
-
-#endif

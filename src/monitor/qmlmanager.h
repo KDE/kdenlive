@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef QMLMANAGER_H
-#define QMLMANAGER_H
+#pragma once
 
 #include "definitions.h"
 
@@ -44,5 +43,3 @@ signals:
     void effectPointsChanged(const QVariantList &);
     void activateTrack(int);
 };
-
-#endif

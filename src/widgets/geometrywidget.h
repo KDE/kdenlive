@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GEOMETRYWIDGET2_H
-#define GEOMETRYWIDGET2_H
+#pragma once
 
 #include <QWidget>
 #include <kselectaction.h>
@@ -85,5 +84,3 @@ signals:
     void valueChanged(const QString val);
     void updateMonitorGeometry(const QRect r);
 };
-
-#endif

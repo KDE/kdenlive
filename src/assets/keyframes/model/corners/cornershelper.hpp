@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CORNERHELPER_H
-#define CORNERHELPER_H
+#pragma once
 
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
 
@@ -37,5 +36,3 @@ public:
 private slots:
     void slotUpdateFromMonitorData(const QVariantList &v) override;
 };
-
-#endif

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QComboBox>
 #ifndef NODBUS
@@ -589,5 +588,3 @@ signals:
     bool focusTimeline(bool focus, bool highlight);
     void removeBinDock(const QString &name);
 };
-
-#endif

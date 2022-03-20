@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef QCOLORUTILS_H
-#define QCOLORUTILS_H
+#pragma once
 
 #include <QDebug>
 #include <QtGlobal>
@@ -43,5 +42,3 @@ public:
 };
 
 QDebug operator<<(QDebug qd, const NegQColor &color);
-
-#endif // QCOLORUTILS_H

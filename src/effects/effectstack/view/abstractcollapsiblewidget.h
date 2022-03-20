@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTCOLLAPSIBLEWIDGET_H
-#define ABSTRACTCOLLAPSIBLEWIDGET_H
+#pragma once
 
 #include "ui_collapsiblewidget_ui.h"
 
@@ -32,5 +31,3 @@ signals:
 
     void seekToPos(int);
 };
-
-#endif

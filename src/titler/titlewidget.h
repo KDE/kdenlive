@@ -11,8 +11,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TITLEWIDGET_H
-#define TITLEWIDGET_H
+#pragma once
 
 #include "graphicsscenerectmove.h"
 #include "utils/timecode.h"
@@ -402,5 +401,3 @@ signals:
     void requestBackgroundFrame(bool request);
     void updatePatternsBackgroundFrame();
 };
-
-#endif

@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MEDIACTRL_H
-#define MEDIACTRL_H
+#pragma once
 
 #include <linux/input.h>
 #include <sys/time.h>
@@ -145,6 +144,4 @@ int media_ctrl_get_keys_count(struct media_ctrl *);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

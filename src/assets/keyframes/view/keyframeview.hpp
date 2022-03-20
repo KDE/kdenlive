@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KEYFRAMEVIEW2_H
-#define KEYFRAMEVIEW2_H
+#pragma once
 
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -101,5 +100,3 @@ signals:
     void modified();
     void activateEffect();
 };
-
-#endif

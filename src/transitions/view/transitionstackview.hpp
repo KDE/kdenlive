@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSITIONSTACKVIEW_H
-#define TRANSITIONSTACKVIEW_H
+#pragma once
 
 #include "assets/view/assetparameterview.hpp"
 #include "definitions.h"
@@ -32,5 +31,3 @@ signals:
 private:
     QComboBox *m_trackBox{nullptr};
 };
-
-#endif

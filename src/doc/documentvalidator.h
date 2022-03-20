@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DOCUMENTVALIDATOR_H
-#define DOCUMENTVALIDATOR_H
+#pragma once
 
 #include <QColor>
 #include <QDomDocument>
@@ -50,5 +49,3 @@ private:
     void fixTitleProducerLocale(QDomElement &producer);
     void convertKeyframeEffect_093(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset);
 };
-
-#endif

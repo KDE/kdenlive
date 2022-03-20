@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef REOURCEWIDGET_H
-#define REOURCEWIDGET_H
+#pragma once
 
 #include "ui_resourcewidget_ui.h"
 #include "providersrepository.hpp"
@@ -77,5 +76,3 @@ signals:
     void addLicenseInfo(const QString &);
     void previewClip(const QString &path, const QString &title);
 };
-
-#endif // REOURCEWIDGET_H

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTGROUPMODEL_H
-#define EFFECTGROUPMODEL_H
+#pragma once
 
 #include "abstracteffectitem.hpp"
 #include "abstractmodel/treeitem.hpp"
@@ -41,5 +40,3 @@ protected:
 
     QString m_name;
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTEFFECTITEM_H
-#define ABSTRACTEFFECTITEM_H
+#pragma once
 
 #include "abstractmodel/treeitem.hpp"
 #include <mlt++/MltFilter.h>
@@ -57,5 +56,3 @@ protected:
     bool m_enabled;
     bool m_effectStackEnabled;
 };
-
-#endif
