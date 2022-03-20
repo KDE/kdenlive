@@ -111,6 +111,11 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         slotUpdateParams();
     });
 
+    connect(scanningCombo, &QComboBox::currentTextChanged, this, [&](){
+        fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
+        slotUpdateParams();
+    });
+
     groupName->addItems(RenderPresetRepository::get()->groupNames());
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
@@ -312,7 +317,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                                                                            speeds_list_str));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get());
-        if ((mode == Mode::Edit) && (oldName != m_saveName)) {
+        if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
             RenderPresetRepository::get()->deletePreset(oldName);
         }
         accept();
@@ -320,10 +325,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(formatCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(vCodecCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
-    connect(scanningCombo, &QComboBox::currentTextChanged, this, [&](){
-        fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
-        slotUpdateParams();
-    });
+
     connect(fieldOrderCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(aCodecCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(resWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);

@@ -41,28 +41,7 @@
       <layout class="QHBoxLayout" name="horizontalLayout1">
        <item>
         <widget class="QFrame" name="baseGroup">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <property name="leftMargin">
-           <number>6</number>
-          </property>
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="rightMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
-          <property name="spacing">
-           <number>6</number>
-          </property>
           <item row="8" column="0">
            <widget class="KMessageWidget" name="infoMessage">
             <property name="wordWrap">
@@ -230,6 +209,9 @@
                      <iconset theme="document-new">
                       <normaloff>.</normaloff>.</iconset>
                     </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -243,6 +225,9 @@
                     <property name="icon">
                      <iconset theme="edit-download">
                       <normaloff>.</normaloff>.</iconset>
+                    </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -268,6 +253,9 @@
                      <iconset theme="document-save-as">
                       <normaloff>.</normaloff>.</iconset>
                     </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -284,6 +272,9 @@
                     <property name="icon">
                      <iconset theme="document-edit">
                       <normaloff>.</normaloff>.</iconset>
+                    </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -302,6 +293,9 @@
                      <iconset theme="delete">
                       <normaloff>.</normaloff>.</iconset>
                     </property>
+                    <property name="autoRaise">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -310,7 +304,11 @@
               </layout>
              </item>
              <item>
-              <widget class="QTreeView" name="profileTree"/>
+              <widget class="QTreeView" name="profileTree">
+               <attribute name="headerVisible">
+                <bool>false</bool>
+               </attribute>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -432,12 +430,6 @@
        </item>
        <item>
         <widget class="QFrame" name="optionsGroup">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QGroupBox" name="video_box">
