@@ -1322,7 +1322,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                             QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Qt::QueuedConnection, Q_ARG(QList<QUrl>, {QUrl::fromLocalFile(selectedFile)}), Q_ARG(QString,folderInfo));
                         }
                     });
-                    if (!proxiedClips.isEmpty()) {
+                    if (proxiedClips.isEmpty()) {
                         // If there is a proxy, replacing it in timeline will trigger the monitor once replaced
                         refreshMonitor();
                     }
