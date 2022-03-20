@@ -5449,6 +5449,10 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     if (roles.contains(TimelineModel::ReloadAudioThumbRole)) {
         m_allClips[clipId]->forceThumbReload = !m_allClips[clipId]->forceThumbReload;
     }
+    if (roles.contains(TimelineModel::ResourceRole)) {
+        int in = getClipPosition(clipId);
+        emit invalidateZone(in, in + getClipPlaytime(clipId));
+    }
     notifyChange(modelIndex, modelIndex, roles);
 }
 
