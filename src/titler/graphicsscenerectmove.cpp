@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "graphicsscenerectmove.h"
 #include "titler/gradientwidget.h"
 #include "titler/titledocument.h"
+#include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
 #include <QApplication>
@@ -52,7 +53,7 @@ void MyQGraphicsEffect::draw(QPainter *painter)
 
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     : QGraphicsTextItem(txt, parent)
-    , m_alignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft)
+    , m_alignment(QFlags<Qt::AlignmentFlag>())
 {
     //Disabled because cache makes text cursor invisible and borders ugly
     //setCacheMode(QGraphicsItem::ItemCoordinateCache);
@@ -859,6 +860,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
             textItem->setFocus(Qt::MouseFocusReason);
+            textItem->setAlignment(QFlags<Qt::AlignmentFlag>(KdenliveSettings::titlerAlign()));
             emit newText(textItem);
             m_selectedItem = textItem;
             m_selectedItem->setSelected(true);

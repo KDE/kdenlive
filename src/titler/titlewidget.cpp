@@ -112,10 +112,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     colorGroup->addButton(gradient_color);
     colorGroup->addButton(plain_color);
 
-    auto *alignGroup = new QButtonGroup(this);
-    alignGroup->addButton(buttonAlignLeft);
-    alignGroup->addButton(buttonAlignCenter);
-    alignGroup->addButton(buttonAlignRight);
+    m_textAlignGroup = new QButtonGroup(this);
+    m_textAlignGroup->addButton(buttonAlignLeft, 0);
+    m_textAlignGroup->addButton(buttonAlignCenter, 1);
+    m_textAlignGroup->addButton(buttonAlignRight, 2);
+    QAbstractButton *selectedButton = m_textAlignGroup->button(KdenliveSettings::titlerAlign());
+    if (selectedButton) {
+        selectedButton->setChecked(true);
+    }
 
     textOutline->setMinimum(0);
     textOutline->setMaximum(200);
@@ -235,9 +239,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(buttonRealSize, &QAbstractButton::clicked, this, &TitleWidget::slotZoomOneToOne);
     connect(buttonItalic, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(buttonUnder, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
-    connect(buttonAlignLeft, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
-    connect(buttonAlignRight, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
-    connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
+    connect(m_textAlignGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, [this]() {
+        KdenliveSettings::setTitlerAlign(m_textAlignGroup->checkedId());
+        slotUpdateText();
+    });
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&] () {
@@ -272,12 +277,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonAlignCenter->setIconSize(iconSize);
     buttonAlignLeft->setIconSize(iconSize);
     buttonAlignRight->setIconSize(iconSize);
-
-    if (qApp->isLeftToRight()) {
-        buttonAlignRight->setChecked(true);
-    } else {
-        buttonAlignLeft->setChecked(true);
-    }
 
     m_unicodeAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
@@ -3006,8 +3005,13 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     buttonAlignCenter->setChecked(true);
                 } else if (i->alignment() == Qt::AlignRight) {
                     buttonAlignRight->setChecked(true);
-                } else {
+                } else if (i->alignment() == Qt::AlignLeft) {
                     buttonAlignLeft->setChecked(true);
+                } else {
+                    QAbstractButton *selectedButton = m_textAlignGroup->button(KdenliveSettings::titlerAlign());
+                    if (selectedButton) {
+                        selectedButton->setChecked(true);
+                    }
                 }
 
                 QStringList sInfo = i->shadowInfo();

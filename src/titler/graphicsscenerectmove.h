@@ -37,7 +37,7 @@ class MyTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    MyTextItem(const QString &, QGraphicsItem *parent = nullptr);
+    MyTextItem(const QString& txt, QGraphicsItem* parent = nullptr);
     void setAlignment(Qt::Alignment alignment);
     /** @brief returns an extended bounding containing shadow */
     QRectF boundingRect() const override;

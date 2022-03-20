@@ -1223,6 +1223,10 @@
         <label>Show titler background.</label>
         <default>false</default>
         </entry>
+        <entry name="titlerAlign" type="Int">
+        <label>Default text align for titler.</label>
+        <default>0</default>
+        </entry>
    </group>
    <group name="speech">
        <entry name="vosk_folder_path" type="String">
