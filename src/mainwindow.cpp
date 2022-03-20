@@ -2655,6 +2655,8 @@ void MainWindow::slotEditClipMarker()
     }
 
     clip->getMarkerModel()->editMarkerGui(pos, this, false, clip.get());
+    // Focus back clip monitor
+    m_clipMonitor->setFocus();
 }
 
 void MainWindow::slotAddMarkerGuideQuickly()
