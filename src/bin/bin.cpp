@@ -2981,19 +2981,22 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     QModelIndex ix = m_itemModel->getIndexFromItem(clip);
     int row = ix.row();
     const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
-    const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
-    if (id.isValid() && id2.isValid()) {
-        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
-    }
     // Ensure parent folder is expanded
     if (m_listType == BinTreeView) {
         // Make sure parent folder is expanded
         auto *view = static_cast<QTreeView *>(m_itemView);
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
+        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+        if (id.isValid() && id2.isValid()) {
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
+        }
     } else {
         // Ensure parent folder is currently opened
         m_itemView->setRootIndex(m_proxyModel->mapFromSource(ix.parent()));
         m_upAction->setEnabled(!ix.parent().data(AbstractProjectItem::DataId).toString().isEmpty());
+        if (id.isValid()) {
+            m_proxyModel->selectionModel()->setCurrentIndex(m_proxyModel->mapFromSource(id), QItemSelectionModel::ClearAndSelect);
+        }
     }
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
 }
