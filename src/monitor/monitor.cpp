@@ -1274,7 +1274,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                 KdenliveSettings::setPreviewScaling(0);
                 m_glMonitor->updateScaling();
             }
-            // Create Qimage with frame
+            // Create QImage with frame
             QImage frame;
             // check if we are using a proxy
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
@@ -1322,7 +1322,10 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                             QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Qt::QueuedConnection, Q_ARG(QList<QUrl>, {QUrl::fromLocalFile(selectedFile)}), Q_ARG(QString,folderInfo));
                         }
                     });
-                    refreshMonitor();
+                    if (!proxiedClips.isEmpty()) {
+                        // If there is a proxy, replacing it in timeline will trigger the monitor once replaced
+                        refreshMonitor();
+                    }
                     return;
                 } else {
                     frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
