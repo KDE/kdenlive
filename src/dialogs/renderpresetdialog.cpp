@@ -312,7 +312,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                                                                            speeds_list_str));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get());
-        if ((mode == Mode::Edit) && (oldName != m_saveName)) {
+        if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
             RenderPresetRepository::get()->deletePreset(oldName);
         }
         accept();
