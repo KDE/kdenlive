@@ -116,7 +116,7 @@ private slots:
     void deleteProxy();
     void deleteAudio();
     void deleteThumbs();
-    void deleteCurrentCacheData();
+    void deleteCurrentCacheData(bool warn = true);
     void deleteBackup();
     void cleanBackup();
     void openCacheFolder();
