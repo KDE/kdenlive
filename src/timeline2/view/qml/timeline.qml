@@ -1627,6 +1627,9 @@ Rectangle {
                                         timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
+                                onPositionChanged: {
+                                    tracksArea.positionChanged(mouse)
+                                }
                                 onExited: {
                                     timeline.showKeyBinding()
                                 }
@@ -1907,7 +1910,7 @@ Rectangle {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool === ProjectTool.RazorTool && tracksArea.mouseY > ruler.height
+                visible: root.activeTool === ProjectTool.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
                 color: 'red'
                 width: 1
                 opacity: 1
