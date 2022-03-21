@@ -1623,7 +1623,9 @@ Rectangle {
                                 hoverEnabled: true
                                 onWheel: zoomByWheel(wheel)
                                 onEntered: {
-                                    timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
+                                    if (root.activeTool === ProjectTool.SelectTool) {
+                                        timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
+                                    }
                                 }
                                 onExited: {
                                     timeline.showKeyBinding()
