@@ -149,7 +149,7 @@ int Timecode::getFrameCount(const QString &duration) const
             (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
         return frameNumber;
     }
-    return (int)((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
+    return qRound((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
 }
 
 QString Timecode::getDisplayTimecode(const GenTime &time, bool frameDisplay) const
