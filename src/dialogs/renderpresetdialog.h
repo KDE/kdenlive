@@ -29,6 +29,10 @@ private:
     QString m_saveName;
     QStringList m_uiParams;
     Monitor *m_monitor;
+    double m_fixedResRatio;
+
+    void setPixelAspectRatio(int num, int den);
+    void updateDisplayAspectRatio();
 
 private slots:
     void slotUpdateParams();
