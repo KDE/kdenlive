@@ -152,7 +152,7 @@ Rectangle {
                 root.wheelAccumulatedDelta = 0;
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
-            if (scrollVertically) {
+            if (scrollVertically || rubberSelect.visible) {
                 horizontalScroll(wheel)
             } else {
                 verticalScroll(wheel)
@@ -168,19 +168,33 @@ Rectangle {
     }
 
     function horizontalScroll(wheel) {
-        var newScroll = Math.min(
-          scrollView.contentX - wheel.angleDelta.y,
-          timeline.fullDuration * root.timeScale - scrollView.width
-        )
-        scrollView.contentX = Math.max(newScroll, 0)
+        var initialX = scrollView.contentX
+        if (wheel.angleDelta.y < 0) {
+            scrollView.contentX = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
+        } else {
+            scrollView.contentX = Math.max(scrollView.contentX - wheel.angleDelta.y, 0)
+        }
+        if (dragProxyArea.pressed && dragProxy.draggedItem > -1) {
+            dragProxy.x += scrollView.contentX - initialX
+            dragProxyArea.moveItem()
+        } else if (rubberSelect.visible) {
+            var newX = tracksArea.mouseX + scrollView.contentX
+            if (newX < rubberSelect.originX) {
+                rubberSelect.x = newX
+                rubberSelect.width = rubberSelect.originX - newX
+            } else {
+                rubberSelect.x = rubberSelect.originX
+                rubberSelect.width = newX - rubberSelect.originX
+            }
+        }
     }
 
     function verticalScroll(wheel) {
-        var newScroll = Math.min(
-            scrollView.contentY - wheel.angleDelta.y,
-            trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height
-        )
-        scrollView.contentY = Math.max(newScroll, 0)
+        if (wheel.angleDelta.y < 0) {
+            scrollView.contentY = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height)
+        } else {
+            scrollView.contentY = Math.max(scrollView.contentY - wheel.angleDelta.y, 0)
+        }
     }
 
     function continuousScrolling(x, y) {
@@ -1198,10 +1212,10 @@ Rectangle {
                 }
                 if ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
-                        rubberSelect.clickX = mouse.x + scrollView.contentX
-                        rubberSelect.clickY = mouse.y + scrollView.contentY
-                        rubberSelect.x = mouse.x + tracksArea.x
-                        rubberSelect.y = mouse.y
+                        rubberSelect.x = mouse.x + scrollView.contentX
+                        rubberSelect.y = mouse.y - ruler.height + scrollView.contentY
+                        rubberSelect.clickX = rubberSelect.x
+                        rubberSelect.clickY = rubberSelect.y
                         rubberSelect.originX = rubberSelect.clickX
                         rubberSelect.originY = rubberSelect.clickY
                         rubberSelect.width = 0
@@ -1346,26 +1360,26 @@ Rectangle {
                 if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
-                    var dy = rubberSelect.originY - (mouseY + scrollView.contentY)
+                    var dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
                     if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }
                 if (rubberSelect.visible) {
                     var newX = mouse.x + scrollView.contentX
-                    var newY = mouse.y + scrollView.contentY
+                    var newY = mouse.y + scrollView.contentY - ruler.height
                     if (newX < rubberSelect.originX) {
-                        rubberSelect.clickX = newX
-                        rubberSelect.x = newX - scrollView.contentX + tracksArea.x
+                        rubberSelect.x = newX
                         rubberSelect.width = rubberSelect.originX - newX
                     } else {
-                        rubberSelect.width = newX - rubberSelect.clickX
+                        rubberSelect.x = rubberSelect.originX
+                        rubberSelect.width = newX - rubberSelect.originX
                     }
                     if (newY < rubberSelect.originY) {
-                        rubberSelect.y = newY - scrollView.contentY
+                        rubberSelect.y = newY
                         rubberSelect.height = rubberSelect.originY - newY
                     } else {
-                        rubberSelect.y = rubberSelect.originY - scrollView.contentY
+                        rubberSelect.y = rubberSelect.originY
                         rubberSelect.height = newY - rubberSelect.originY
                     }
                     continuousScrolling(newX, newY)
@@ -1404,7 +1418,7 @@ Rectangle {
                 }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
-                    var y = rubberSelect.y - ruler.height + scrollView.contentY
+                    var y = rubberSelect.y
                     var selectSubs = false
                     var selectOnlySubs = false
                     var selectionHeight = rubberSelect.height
@@ -1433,8 +1447,8 @@ Rectangle {
                                 t.push(tracksRepeater.itemAt(i).trackInternalId)
                             }
                         }
-                        var startFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x) / root.timeScale
-                        var endFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / root.timeScale
+                        var startFrame = Math.round(rubberSelect.x / root.timeScale)
+                        var endFrame = Math.round((rubberSelect.x + rubberSelect.width) / root.timeScale)
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions, selectSubs);
                     }
                     rubberSelect.y = -1
@@ -1863,6 +1877,21 @@ Rectangle {
                                 height: width
                             }
                         }
+                        Rectangle {
+                            id: rubberSelect
+                            // Used to determine if drag start should trigger an event
+                            property int originX
+                            // Used to determine if drag start should trigger an event
+                            property int originY
+                            // Absolute position of the click event
+                            property int clickX
+                            property int clickY
+                            y: -1
+                            color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
+                            border.color: activePalette.highlight
+                            border.width: 1
+                            visible: false
+                        }
                         Repeater { id: guidesRepeater;
                             model: guidesDelegateModel
                         }
@@ -1998,22 +2027,6 @@ Rectangle {
             bubbleHelp.opacity = 0
         }
     }
-
-    Rectangle {
-        id: rubberSelect
-        // Used to determine if drag start should trigger an event
-        property int originX
-        // Used to determine if drag start should trigger an event
-        property int originY
-        // Absolute position of the click event
-        property int clickX
-        property int clickY
-        y: -1
-        color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
-        border.color: activePalette.highlight
-        border.width: 1
-        visible: false
-    }
     /*DropShadow {
         source: bubbleHelp
         anchors.fill: bubbleHelp
@@ -2133,10 +2146,46 @@ Rectangle {
                 }
             }
             if (rubberSelect.visible) {
-                rubberSelect.x -= horizontal
-                rubberSelect.width += horizontal
-                rubberSelect.y -= vertical
-                rubberSelect.height += vertical
+                if (horizontal != 0) {
+                    if (rubberSelect.x < rubberSelect.originX) {
+                        if (horizontal < 0) {
+                            // Expanding left
+                            rubberSelect.x += horizontal
+                            rubberSelect.width -= horizontal
+                        } else if (horizontal < rubberSelect.width) {
+                            // Expanding right
+                            rubberSelect.x -= horizontal
+                            rubberSelect.width -= horizontal
+                        } else {
+                            // Switching direction
+                            rubberSelect.width = rubberSelect.x + rubberSelect.width + horizontal - rubberSelect.originX
+                            rubberSelect.x = rubberSelect.originX
+                        }
+                    } else {
+                        rubberSelect.x = rubberSelect.originX
+                        rubberSelect.width += horizontal
+                    }
+                }
+                if (vertical != 0) {
+                    if (rubberSelect.y < rubberSelect.originY) {
+                         if (vertical < 0) {
+                            // Expanding up
+                            rubberSelect.y += vertical
+                            rubberSelect.height = rubberSelect.originY - rubberSelect.y
+                        } else if (vertical < rubberSelect.height) {
+                            // Expanding bottom
+                            rubberSelect.y += vertical
+                            rubberSelect.height = rubberSelect.originY - rubberSelect.y
+                        } else {
+                            // Switching direction
+                            rubberSelect.height = rubberSelect.y + rubberSelect.height + horizontal - rubberSelect.originY
+                            rubberSelect.y = rubberSelect.originY
+                        }
+                    } else {
+                        rubberSelect.y = rubberSelect.originY
+                        rubberSelect.height += vertical
+                    }
+                }
             }
         }
     }
