@@ -29,7 +29,7 @@ static int gcd(int a, int b)
 
 RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *preset, Mode mode)
     : QDialog(parent)
-    , m_saveName()
+    , m_saveName(preset ? preset->name() : "")
     , m_monitor(nullptr)
     , m_fixedResRatio(1.)
 {
@@ -375,7 +375,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                                                                            QString::number(aQuality->value()),
                                                                            speeds_list_str));
 
-        m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get());
+        m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
             RenderPresetRepository::get()->deletePreset(oldName);
         }

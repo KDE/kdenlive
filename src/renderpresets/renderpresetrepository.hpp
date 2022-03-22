@@ -50,7 +50,7 @@ public:
     /** @brief Saves given preset
      *  @returns The name of the saved preset
      */
-    const QString savePreset(RenderPresetModel *profile, const QString &overrideGroupName = {});
+    const QString savePreset(RenderPresetModel *profile, bool editMode = false, const QString &oldName = QString());
 
     /** @brief Delete a (custom) preset*/
     bool deletePreset(const QString &path, bool dontRefresh = false);
