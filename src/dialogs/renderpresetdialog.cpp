@@ -15,10 +15,23 @@
 #include <KMessageBox>
 #include <QPushButton>
 
+// TODO replace this by std::gcd ones why require C++17 or greater
+static int gcd(int a, int b)
+{
+    for (;;)
+    {
+        if (a == 0) return b;
+        b %= a;
+        if (b == 0) return a;
+        a %= b;
+    }
+}
+
 RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *preset, Mode mode)
     : QDialog(parent)
     , m_saveName()
     , m_monitor(nullptr)
+    , m_fixedResRatio(1.)
 {
     setupUi(this);
 
@@ -80,6 +93,26 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     QValidator *validator = new QIntValidator(this);
     audioSampleRate->setValidator(validator);
 
+    // Add some common pixel aspect ratios:
+    // The following code works, because setting a yet
+    // unknown ratio will add it to the combo box.
+    setPixelAspectRatio(1, 1);
+    setPixelAspectRatio(10, 11);
+    setPixelAspectRatio(12, 11);
+    setPixelAspectRatio(59, 54);
+    setPixelAspectRatio(4, 3);
+    setPixelAspectRatio(64, 45);
+    setPixelAspectRatio(11, 9);
+    setPixelAspectRatio(118, 81);
+    /*parCombo->addItem(QStringLiteral("1.0000 (1:1)"), QStringLiteral("1:1"));
+    parCombo->addItem(QStringLiteral("0.9090 (10:11)"), QStringLiteral("10:11"));
+    parCombo->addItem(QStringLiteral("1.0909 (12:11)"), QStringLiteral("12:11"));
+    parCombo->addItem(QStringLiteral("1.0925 (59:54)"), QStringLiteral("59:54"));
+    parCombo->addItem(QStringLiteral("1.3333 (4:3)"), QStringLiteral("4:3"));
+    parCombo->addItem(QStringLiteral("1.4222 (64:45)"), QStringLiteral("64:45"));
+    parCombo->addItem(QStringLiteral("1.4545 (11:9)"), QStringLiteral("11:9"));
+    parCombo->addItem(QStringLiteral("1.456790123 (118:81)"), QStringLiteral("118:81"));*/
+
     vRateControlCombo->addItem(i18n("Average Bitrate"));
     vRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
@@ -119,6 +152,8 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     groupName->addItems(RenderPresetRepository::get()->groupNames());
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
+    int parNum = projectProfile->sample_aspect_num();
+    int parDen = projectProfile->sample_aspect_den();
     if (preset) {
         groupName->setCurrentText(preset->groupName());
         if (mode != Mode::New) {
@@ -179,17 +214,14 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         QString sampAsp = preset->getParam(QStringLiteral("aspect"));
 
         if (!(sampAspNum.isEmpty() && sampAspDen.isEmpty())) {
-            pixelAspectNum->setValue(sampAspNum.toInt());
-            pixelAspectDen->setValue(sampAspDen.toInt());
+            parNum = sampAspNum.toInt();
+            parDen = sampAspDen.toInt();
         } else if (!sampAsp.isEmpty()) {
             QStringList list = sampAsp.split(QStringLiteral("/"));
             if (list.count() == 2) {
-                pixelAspectNum->setValue(list.at(0).toInt());
-                pixelAspectDen->setValue(list.at(1).toInt());
+                parNum = list.at(0).toInt();
+                parDen = list.at(1).toInt();
             }
-        } else {
-            pixelAspectNum->setValue(projectProfile->sample_aspect_num());
-            pixelAspectDen->setValue(projectProfile->sample_aspect_den());
         }
 
         if (preset->hasParam(QStringLiteral("display_aspect_num"))
@@ -272,12 +304,14 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         resWidth->setValue(projectProfile->width());
         framerateNum->setValue(projectProfile->frame_rate_num());
         framerateDen->setValue(projectProfile->frame_rate_den());
-        pixelAspectNum->setValue(projectProfile->sample_aspect_num());
-        pixelAspectDen->setValue(projectProfile->sample_aspect_den());
+        parNum = projectProfile->sample_aspect_num();
+        parDen = projectProfile->sample_aspect_den();
         displayAspectNum->setValue(projectProfile->display_aspect_num());
         displayAspectDen->setValue(projectProfile->display_aspect_den());
         scanningCombo->setCurrentIndex(projectProfile->progressive() ? 1 : 0);
     }
+
+    setPixelAspectRatio(parNum, parDen);
 
     if (groupName->currentText().isEmpty()) {
         groupName->setCurrentText(i18nc("Group Name", "Custom"));
@@ -328,26 +362,34 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(fieldOrderCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(aCodecCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
-    connect(resWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
-    connect(resHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
-    connect(pixelAspectNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
-        if (value == 0) {
-            pixelAspectDen->blockSignals(true);
-            pixelAspectDen->setValue(0);
-            pixelAspectDen->blockSignals(false);
-        }
-        slotUpdateParams();
+    connect(linkResoultion, &QToolButton::clicked, this, [&](){
+        m_fixedResRatio = double(resWidth->value()) / double(resHeight->value());
     });
-    connect(pixelAspectDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
-        if (value == 0) {
-            pixelAspectNum->blockSignals(true);
-            pixelAspectNum->setValue(0);
-            pixelAspectNum->blockSignals(false);
+    connect(resWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+        if (linkResoultion->isChecked()) {
+            resHeight->blockSignals(true);
+            resHeight->setValue(qRound(value / m_fixedResRatio));
+            resHeight->blockSignals(false);
         }
-        slotUpdateParams();
+        updateDisplayAspectRatio();
     });
-    connect(displayAspectNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
-    connect(displayAspectDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
+    connect(resHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+        if (linkResoultion->isChecked()) {
+            resWidth->blockSignals(true);
+            resWidth->setValue(qRound(value * m_fixedResRatio));
+            resWidth->blockSignals(false);
+        }
+        updateDisplayAspectRatio();
+    });
+    connect(parCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RenderPresetDialog::updateDisplayAspectRatio);
+    auto update_par = [&]() {
+        int parNum = displayAspectNum->value() * resHeight->value();
+        int parDen = displayAspectDen->value() * resWidth->value();
+        setPixelAspectRatio(parNum, parDen);
+        slotUpdateParams();
+    };
+    connect(displayAspectNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, update_par);
+    connect(displayAspectDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, update_par);
     connect(framerateNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
         if (value == 0) {
             framerateDen->blockSignals(true);
@@ -375,6 +417,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     connect(audioChannels, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(audioSampleRate, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
 
+    linkResoultion->setChecked(true);
     slotUpdateParams();
     // TODO
     if (false && m_monitor == nullptr) {
@@ -411,10 +454,11 @@ void RenderPresetDialog::slotUpdateParams() {
     if (resHeight->value() > 0) {
         params.append(QStringLiteral("height=%1").arg(resHeight->value()));
     }
-    if (pixelAspectNum->value() > 0 && pixelAspectDen->value() > 0) {
+    QStringList par = parCombo->currentData().toString().split(QStringLiteral(":"));
+    if (par.length() >= 2 && par.at(0).toInt() > 0 && par.at(1).toInt() > 0) {
         params.append(QStringLiteral("sample_aspect_num=%1 sample_aspect_den=%2")
-                      .arg(pixelAspectNum->value())
-                      .arg(pixelAspectDen->value()));
+                      .arg(par.at(0).toInt())
+                      .arg(par.at(1).toInt()));
     }
     if (displayAspectNum->value() > 0 && displayAspectDen->value() > 0 ) {
         params.append(QStringLiteral("display_aspect_num=%1 display_aspect_den=%2")
@@ -643,7 +687,7 @@ void RenderPresetDialog::slotUpdateParams() {
     QString addionalParams = additionalParams->toPlainText().simplified();
 
     QStringList removed;
-    for (auto p : m_uiParams) {
+    for (const auto &p : qAsConst(m_uiParams)) {
         QString store = addionalParams;
         if (store != addionalParams.remove(QRegularExpression(QStringLiteral("((^|\\s)%1=\\S*)").arg(p)))) {
               removed.append(p);
@@ -659,6 +703,42 @@ void RenderPresetDialog::slotUpdateParams() {
 
     parameters->setText(addionalParams.simplified());
 }
+
+void RenderPresetDialog::setPixelAspectRatio(int num, int den) {
+    parCombo->blockSignals(true);
+    if (num < 1) num = 1;
+    if (den < 1) den = 1;
+    int gcdV = gcd(num, den);
+    QString data = QStringLiteral("%1:%2").arg(num / gcdV).arg(den / gcdV);
+    int ix = parCombo->findData(data);
+    if (ix < 0) {
+        parCombo->addItem(QStringLiteral("%L1 (%2:%3)")
+                          .arg(double(num) / double(den), 0, 'g', 8)
+                          .arg(num / gcdV).arg(den / gcdV),
+                          data);
+        ix = parCombo->count() -1;
+    }
+    parCombo->setCurrentIndex(ix);
+    parCombo->blockSignals(false);
+}
+
+void RenderPresetDialog::updateDisplayAspectRatio() {
+    displayAspectNum->blockSignals(true);
+    displayAspectDen->blockSignals(true);
+    QStringList par = parCombo->currentData().toString().split(QStringLiteral(":"));
+    int parNum = resWidth->value();
+    int parDen = resHeight->value();
+    if (par.length() >= 2 && par.at(0).toInt() > 0 && par.at(1).toInt() > 0) {
+        parNum *= par.at(0).toInt();
+        parDen *= par.at(1).toInt();
+    }
+    int gcdV = gcd(parNum, parDen);
+    displayAspectNum->setValue(parNum / gcdV);
+    displayAspectDen->setValue(parDen / gcdV);
+    displayAspectNum->blockSignals(false);
+    displayAspectDen->blockSignals(false);
+    slotUpdateParams();
+};
 
 QString RenderPresetDialog::saveName()
 {

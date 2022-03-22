@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>461</width>
+    <width>463</width>
     <height>630</height>
    </rect>
   </property>
@@ -155,10 +155,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
+                  <widget class="QToolButton" name="linkResoultion">
                    <property name="text">
                     <string>...</string>
                    </property>
@@ -167,6 +164,9 @@
                      <normaloff>.</normaloff>.</iconset>
                    </property>
                    <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoRaise">
                     <bool>true</bool>
                    </property>
                   </widget>
@@ -181,44 +181,11 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <widget class="QSpinBox" name="pixelAspectNum">
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>8192</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_10">
-                   <property name="minimumSize">
-                    <size>
-                     <width>10</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string notr="true">:</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="pixelAspectDen">
-                   <property name="minimum">
-                    <number>1</number>
-                   </property>
-                   <property name="maximum">
-                    <number>8192</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <widget class="QComboBox" name="parCombo">
+                 <property name="sizeAdjustPolicy">
+                  <enum>QComboBox::AdjustToContents</enum>
+                 </property>
+                </widget>
                </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_16">
@@ -267,13 +234,6 @@
                  </item>
                 </layout>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>Frame Rate:</string>
-                 </property>
-                </widget>
-               </item>
                <item row="3" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout">
                  <item>
@@ -319,6 +279,30 @@
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Frame Rate:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>Fields per Second:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLabel" name="frameRateDisplay">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="text">
+                  <string>Placeholder</string>
+                 </property>
+                </widget>
                </item>
                <item row="5" column="0">
                 <widget class="QLabel" name="label_7">
@@ -382,6 +366,12 @@
                  </property>
                 </widget>
                </item>
+               <item row="8" column="1">
+                <widget class="QComboBox" name="vCodecCombo"/>
+               </item>
+               <item row="9" column="1">
+                <widget class="QComboBox" name="vRateControlCombo"/>
+               </item>
                <item row="8" column="0">
                 <widget class="QLabel" name="label_24">
                  <property name="text">
@@ -389,18 +379,12 @@
                  </property>
                 </widget>
                </item>
-               <item row="8" column="1">
-                <widget class="QComboBox" name="vCodecCombo"/>
-               </item>
                <item row="9" column="0">
                 <widget class="QLabel" name="label_12">
                  <property name="text">
                   <string>Rate Control:</string>
                  </property>
                 </widget>
-               </item>
-               <item row="9" column="1">
-                <widget class="QComboBox" name="vRateControlCombo"/>
                </item>
                <item row="10" column="0">
                 <widget class="QLabel" name="default_vbitrate_label">
@@ -450,16 +434,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="13" column="1">
-                <widget class="QCheckBox" name="fixedGop">
-                 <property name="toolTip">
-                  <string>A fixed GOP means that keyframes will not be inserted at detected scene changes.</string>
-                 </property>
-                 <property name="text">
-                  <string>Fixed</string>
-                 </property>
-                </widget>
-               </item>
                <item row="13" column="0">
                 <widget class="QLabel" name="label_26">
                  <property name="toolTip">
@@ -467,6 +441,16 @@
                  </property>
                  <property name="text">
                   <string>GOP:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="1">
+                <widget class="QCheckBox" name="fixedGop">
+                 <property name="toolTip">
+                  <string>A fixed GOP means that keyframes will not be inserted at detected scene changes.</string>
+                 </property>
+                 <property name="text">
+                  <string>Fixed</string>
                  </property>
                 </widget>
                </item>
@@ -491,23 +475,6 @@
                 <widget class="QSpinBox" name="bFramesSpinner">
                  <property name="maximum">
                   <number>8</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_22">
-                 <property name="text">
-                  <string>Fields per Second:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLabel" name="frameRateDisplay">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Placeholder</string>
                  </property>
                 </widget>
                </item>
@@ -681,14 +648,11 @@
            </item>
            <item>
             <widget class="KMessageWidget" name="overrideParamsWarning">
-             <property name="wordWrap">
+             <property name="wordWrap" stdset="0">
               <bool>true</bool>
              </property>
-             <property name="closeButtonVisible">
+             <property name="closeButtonVisible" stdset="0">
               <bool>false</bool>
-             </property>
-             <property name="messageType">
-              <enum>KMessageWidget::Warning</enum>
              </property>
             </widget>
            </item>
@@ -756,6 +720,7 @@
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
