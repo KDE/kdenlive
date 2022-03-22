@@ -1219,9 +1219,9 @@ void RenderWidget::refreshParams()
     if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
         return;
     }
-    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+    std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
 
-    if (profile->hasFixedSize()) {
+    if (preset->hasFixedSize()) {
         // profile has a fixed size, do not allow resize
         m_view.rescale->setEnabled(false);
         setRescaleEnabled(false);
@@ -1241,7 +1241,7 @@ void RenderWidget::refreshParams()
     QStringList newParams;
 
     // Audio Channels: don't override, only set if it is not yet set
-    if (!profile->hasParam(QStringLiteral("channels"))) {
+    if (!preset->hasParam(QStringLiteral("channels"))) {
         newParams.append(QStringLiteral("channels=%1").arg(pCore->audioChannels()));
     }
 
@@ -1251,15 +1251,19 @@ void RenderWidget::refreshParams()
     }
 
     // In case of libx265 add x265-param
-    if (profile->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
-        newParams.append(QStringLiteral("x265-param=%1").arg(profile->x265Params()));
+    if (preset->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
+        newParams.append(QStringLiteral("x265-param=%1").arg(preset->x265Params()));
     }
 
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
     if (rescale) {
-        removeParams.append({QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height")});
+        removeParams.append({QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("sample_aspect_num"), QStringLiteral("sample_aspect_den")});
         newParams.append(QStringLiteral("s=%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
+        if (preset->hasParam(QStringLiteral("sample_aspect_num")) || preset->hasParam(QStringLiteral("sample_aspect_den"))) {
+            //reset display aspect ratio to 1:1 if we override the resolution to avoid errors
+            newParams.append(QStringLiteral("sample_aspect_num=1 sample_aspect_den=1"));
+        }
     }
 
     // Preview rendering
@@ -1283,7 +1287,7 @@ void RenderWidget::refreshParams()
         m_view.buttonRender->setEnabled(false);
     } else {
         errorMessage(OptionsError, QString());
-        m_view.buttonRender->setEnabled(profile->error().isEmpty());
+        m_view.buttonRender->setEnabled(preset->error().isEmpty());
     }
 
     // Parallel Processing
@@ -1297,7 +1301,7 @@ void RenderWidget::refreshParams()
 
     // Adjust encoding speed
     if (m_view.speed->isEnabled()) {
-        QStringList speeds = profile->speeds();
+        QStringList speeds = preset->speeds();
         if (m_view.speed->value() < speeds.count()) {
             const QString &speedValue = speeds.at(m_view.speed->value());
             if (speedValue.contains(QLatin1Char('='))) {
@@ -1306,7 +1310,7 @@ void RenderWidget::refreshParams()
         }
     }
 
-    QString params = profile->params(removeParams);
+    QString params = preset->params(removeParams);
 
     // Set the thread counts
     if (!params.contains(QStringLiteral("threads="))) {
@@ -1332,9 +1336,9 @@ void RenderWidget::refreshParams()
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
     // historically qualities are sorted from best to worse for some reason
-    int min = profile->videoQualities().last().toInt();
-    int max = profile->videoQualities().first().toInt();
-    int val = profile->defaultVQuality().toInt();
+    int min = preset->videoQualities().last().toInt();
+    int max = preset->videoQualities().first().toInt();
+    int val = preset->defaultVQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
         if (min < max) {
             int range = max - min;
@@ -1346,10 +1350,10 @@ void RenderWidget::refreshParams()
     }
     params.replace(QStringLiteral("%quality"), QString::number(val));
     // TODO check if this is finally correct
-    params.replace(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(profile->defaultVBitrate()));
-    params.replace(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(profile->defaultVBitrate()));
+    params.replace(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
+    params.replace(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
 
-    val = profile->defaultABitrate().toInt() * 1000;
+    val = preset->defaultABitrate().toInt() * 1000;
     if (m_view.qualityGroup->isChecked()) {
         val *= percent;
     }
@@ -1357,9 +1361,9 @@ void RenderWidget::refreshParams()
     params.replace(QStringLiteral("%cvbr"), QString::number(val));
 
     // historically qualities are sorted from best to worse for some reason
-    min = profile->audioQualities().last().toInt();
-    max = profile->audioQualities().first().toInt();
-    val = profile->defaultAQuality().toInt();
+    min = preset->audioQualities().last().toInt();
+    max = preset->audioQualities().first().toInt();
+    val = preset->defaultAQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
         if (min < max) {
             int range = max - min;
@@ -1371,8 +1375,8 @@ void RenderWidget::refreshParams()
     }
     params.replace(QStringLiteral("%audioquality"), QString::number(val));
     // TODO check if this is finally correct
-    params.replace(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(profile->defaultABitrate()));
-    params.replace(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(profile->defaultABitrate()));
+    params.replace(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
+    params.replace(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     if (params.contains(QLatin1String("%dv_standard"))) {
