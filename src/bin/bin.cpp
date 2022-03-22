@@ -2259,12 +2259,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 ClipType::ProducerType type = clip->clipType();
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
-                //TODO: testing only, we should check clip type...
-                if (type == ClipType::Playlist) {
-                    pCore->timeRemapWidget()->setClip(clip);
-                } else {
-                    pCore->timeRemapWidget()->setClip(nullptr);
-                }
             } else if (itemType == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
@@ -2280,7 +2274,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             bool isImported = false;
             bool hasAudio = false;
             ClipType::ProducerType type = ClipType::Unknown;
-            if (clip) {
+            if (clip && clip->statusReady()) {
                 emit requestShowClipProperties(clip, false);
                 m_proxyAction->blockSignals(true);
                 if (itemType == AbstractProjectItem::ClipItem) {
