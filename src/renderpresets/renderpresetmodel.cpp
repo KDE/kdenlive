@@ -485,6 +485,7 @@ QString RenderPresetModel::warning() const
 
 int RenderPresetModel::estimateFileSize(int length)
 {
+    Q_UNUSED(length)
     // TODO
     /*RateControl vrc = videoRateControl();
     if (vrc == Average || vrc == Constant) {
