@@ -378,7 +378,7 @@ void RenderWidget::slotRenderModeChanged()
 {
     m_view.guide_zone_box->setVisible(m_view.render_guide->isChecked());
     m_view.guide_multi_box->setVisible(m_view.render_multi->isChecked());
-    m_view.buttonGenerateScript->setVisible(m_view.render_multi->isChecked());
+    m_view.buttonGenerateScript->setVisible(!m_view.render_multi->isChecked());
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)

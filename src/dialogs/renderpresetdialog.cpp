@@ -29,7 +29,7 @@ static int gcd(int a, int b)
 
 RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *preset, Mode mode)
     : QDialog(parent)
-    , m_saveName()
+    , m_saveName(preset ? preset->name() : "")
     , m_monitor(nullptr)
     , m_fixedResRatio(1.)
 {
@@ -77,6 +77,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                           QStringLiteral("channels")
                       });
 
+    // TODO: implement colorspace
+    colorspaceCombo->hide();
+    colorspaceLabel->hide();
+
     formatCombo->addItems(RenderPresetRepository::supportedFormats());
     vCodecCombo->addItems(RenderPresetRepository::vcodecs());
     aCodecCombo->addItems(RenderPresetRepository::acodecs());
@@ -104,48 +108,69 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     setPixelAspectRatio(64, 45);
     setPixelAspectRatio(11, 9);
     setPixelAspectRatio(118, 81);
-    /*parCombo->addItem(QStringLiteral("1.0000 (1:1)"), QStringLiteral("1:1"));
-    parCombo->addItem(QStringLiteral("0.9090 (10:11)"), QStringLiteral("10:11"));
-    parCombo->addItem(QStringLiteral("1.0909 (12:11)"), QStringLiteral("12:11"));
-    parCombo->addItem(QStringLiteral("1.0925 (59:54)"), QStringLiteral("59:54"));
-    parCombo->addItem(QStringLiteral("1.3333 (4:3)"), QStringLiteral("4:3"));
-    parCombo->addItem(QStringLiteral("1.4222 (64:45)"), QStringLiteral("64:45"));
-    parCombo->addItem(QStringLiteral("1.4545 (11:9)"), QStringLiteral("11:9"));
-    parCombo->addItem(QStringLiteral("1.456790123 (118:81)"), QStringLiteral("118:81"));*/
+
+    connect(vRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
+        switch (index) {
+            case RenderPresetModel::RateControl::Average:
+                default_vbitrate->setEnabled(true);
+                default_vbitrate_label->setEnabled(true);
+                default_vquality->setEnabled(false);
+                vquality_label->setEnabled(false);
+                vBuffer->setEnabled(false);
+                vBuffer_label->setEnabled(false);
+                break;
+            case RenderPresetModel::RateControl::Constant:
+                default_vbitrate->setEnabled(true);
+                default_vbitrate_label->setEnabled(true);
+                default_vquality->setEnabled(false);
+                vquality_label->setEnabled(false);
+                vBuffer->setEnabled(true);
+                vBuffer_label->setEnabled(true);
+                break;
+            case RenderPresetModel::RateControl::Constrained:
+                default_vbitrate->setEnabled(true);
+                default_vbitrate_label->setEnabled(true);
+                default_vquality->setEnabled(true);
+                vquality_label->setEnabled(true);
+                vBuffer->setEnabled(true);
+                vBuffer_label->setEnabled(true);
+                break;
+            case RenderPresetModel::RateControl::Quality:
+                default_vbitrate->setEnabled(false);
+                default_vbitrate_label->setEnabled(false);
+                default_vquality->setEnabled(true);
+                vquality_label->setEnabled(true);
+                vBuffer->setEnabled(false);
+                vBuffer_label->setEnabled(false);
+                break;
+        };
+        slotUpdateParams();
+    });
 
     vRateControlCombo->addItem(i18n("Average Bitrate"));
     vRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
     vRateControlCombo->addItem(i18n("Contrained VBR"));
 
-    connect(vRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
-        switch (index) {
-            case RenderPresetModel::RateControl::Average:
-                default_vbitrate->setEnabled(true);
-                default_vquality->setEnabled(false);
-                vBuffer->setEnabled(false);
-                break;
-            case RenderPresetModel::RateControl::Constant:
-                default_vbitrate->setEnabled(true);
-                default_vquality->setEnabled(false);
-                vBuffer->setEnabled(true);
-                break;
-            case RenderPresetModel::RateControl::Constrained:
-                default_vbitrate->setEnabled(true);
-                default_vquality->setEnabled(true);
-                vBuffer->setEnabled(true);
-                break;
-            case RenderPresetModel::RateControl::Quality:
-                default_vbitrate->setEnabled(false);
-                default_vquality->setEnabled(true);
-                vBuffer->setEnabled(false);
-                break;
-        };
-        slotUpdateParams();
-    });
-
     connect(scanningCombo, &QComboBox::currentTextChanged, this, [&](){
         fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
+        fieldOrderLabel->setEnabled(scanningCombo->currentIndex() != 1);
+        slotUpdateParams();
+    });
+    connect(gopSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&] (int value) {
+        fixedGop->setEnabled(value > 1);
+        bFramesSpinner->setEnabled(value > 1);
+        bFramesLabel->setEnabled(value > 1);
+        if (value <= 1) {
+            fixedGop->blockSignals(true);
+            fixedGop->setChecked(false);
+            fixedGop->blockSignals(false);
+            bFramesSpinner->blockSignals(true);
+            bFramesSpinner->setValue(-1);
+            bFramesSpinner->blockSignals(false);
+        } else {
+            bFramesSpinner->setMaximum(value - 1);
+        }
         slotUpdateParams();
     });
 
@@ -350,7 +375,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                                                                            QString::number(aQuality->value()),
                                                                            speeds_list_str));
 
-        m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get());
+        m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
             RenderPresetRepository::get()->deletePreset(oldName);
         }
@@ -407,7 +432,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         slotUpdateParams();
     });
     connect(fixedGop, &QCheckBox::stateChanged, this, &RenderPresetDialog::slotUpdateParams);
-    connect(gopSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(bFramesSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(additionalParams, &QPlainTextEdit::textChanged, this, &RenderPresetDialog::slotUpdateParams);
 
@@ -502,7 +526,7 @@ void RenderPresetDialog::slotUpdateParams() {
             break;
             }
         }
-        if (fixedGop->isChecked()) {
+        if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             params.append(QStringLiteral("sc_threshold=0"));
         }
     } else if (vcodec.contains("nvenc")) {
@@ -535,7 +559,7 @@ void RenderPresetDialog::slotUpdateParams() {
         /*if (ui->dualPassCheckbox->isChecked())
             setIfNotSet(p, "v2pass", 1);
         */
-        if (fixedGop->isChecked()) {
+        if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             params.append(QStringLiteral("sc_threshold=0 strict_gop=1"));
         }
     } else if (vcodec.endsWith("_amf")) {
@@ -571,7 +595,7 @@ void RenderPresetDialog::slotUpdateParams() {
         /*if (ui->dualPassCheckbox->isChecked())
             setIfNotSet(p, "v2pass", 1);
             */
-        if (fixedGop->isChecked()) {
+        if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             params.append(QStringLiteral("sc_threshold=0 strict_gop=1"));
         }
     } else {
@@ -618,7 +642,7 @@ void RenderPresetDialog::slotUpdateParams() {
             break;
             }
         }
-        if (fixedGop->isChecked()) {
+        if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
                 params.append(QStringLiteral("keyint_min=%1").arg(gopSpinner->value()));
             } else {
@@ -633,8 +657,12 @@ void RenderPresetDialog::slotUpdateParams() {
             setIfNotSet(p, "connection_type", "x11");
         }*/
     }
-    params.append(QStringLiteral("g=%1").arg(gopSpinner->value()));
-    params.append(QStringLiteral("bf=%1").arg(bFramesSpinner->value()));
+    if (gopSpinner->value() > 0) {
+        params.append(QStringLiteral("g=%1").arg(gopSpinner->value()));
+        if (bFramesSpinner->value() >= 0) {
+            params.append(QStringLiteral("bf=%1").arg(bFramesSpinner->value()));
+        }
+    }
 
     // audio tab
     QString acodec = aCodecCombo->currentText();

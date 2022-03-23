@@ -287,13 +287,10 @@ bool RenderPresetRepository::presetExists(const QString &name) const
     return m_profiles.count(name) > 0;
 }
 
-const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, const QString &overrideGroupName)
+const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool editMode, const QString &oldName)
 {
 
     QDomElement newPreset = preset->toXml();
-    if (!overrideGroupName.isEmpty()) {
-        newPreset.setAttribute(QStringLiteral("category"), overrideGroupName);
-    }
 
     QDomDocument doc;
 
@@ -331,23 +328,31 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, cons
         i++;
     }
 
-    bool ok;
     QString newPresetName = preset->name();
     while (existingProfileNames.contains(newPresetName)) {
-        QString updatedPresetName = QInputDialog::getText(nullptr, i18n("Preset already exists"),
-                                                           i18n("This preset name already exists. Change the name if you do not want to overwrite it."),
-                                                           QLineEdit::Normal, newPresetName, &ok);
-        if (!ok) {
-            return {};
+        QString updatedPresetName = newPresetName;
+        if (!editMode) {
+            bool ok;
+            updatedPresetName = QInputDialog::getText(nullptr, i18n("Preset already exists"),
+                                                               i18n("This preset name already exists. Change the name if you do not want to overwrite it."),
+                                                               QLineEdit::Normal, newPresetName, &ok);
+            if (!ok) {
+                return {};
+            }
         }
+
         if (updatedPresetName == newPresetName) {
             // remove previous profile
-            profiles.removeChild(profilelist.item(existingProfileNames.indexOf(newPresetName)));
+            int ix = existingProfileNames.indexOf(newPresetName);
+            profiles.removeChild(profilelist.item(ix));
+            existingProfileNames.removeAt(ix);
             break;
-        } else {
-            newPresetName = updatedPresetName;
-            newPreset.setAttribute(QStringLiteral("name"), newPresetName);
         }
+        newPresetName = updatedPresetName;
+        newPreset.setAttribute(QStringLiteral("name"), newPresetName);
+    }
+    if (editMode && !oldName.isEmpty() && existingProfileNames.contains(oldName)) {
+        profiles.removeChild(profilelist.item(existingProfileNames.indexOf(oldName)));
     }
 
     profiles.appendChild(newPreset);
