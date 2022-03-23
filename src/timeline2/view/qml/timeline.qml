@@ -170,7 +170,7 @@ Rectangle {
     function horizontalScroll(wheel) {
         var initialX = scrollView.contentX
         if (wheel.angleDelta.y < 0) {
-            scrollView.contentX = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width)
+            scrollView.contentX = Math.max(0, Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - scrollView.width))
         } else {
             scrollView.contentX = Math.max(scrollView.contentX - wheel.angleDelta.y, 0)
         }
@@ -191,7 +191,7 @@ Rectangle {
 
     function verticalScroll(wheel) {
         if (wheel.angleDelta.y < 0) {
-            scrollView.contentY = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height)
+            scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height + subtitleTrackHeader.height - tracksArea.height + horZoomBar.height + ruler.height))
         } else {
             scrollView.contentY = Math.max(scrollView.contentY - wheel.angleDelta.y, 0)
         }
@@ -680,7 +680,7 @@ Rectangle {
             clearDropData()
         }
         onEntered: {
-            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid')) {
+            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid') && timeline.exists(clipBeingDroppedId)) {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
             }
@@ -723,9 +723,13 @@ Rectangle {
                 // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 clearDropData()
-            } else {
+            } else if (clipBeingDroppedId > -1) {
                 // Clip is dropped
-                processDrop()
+                //console.log('Dragging on left side!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                var moveData = controller.suggestClipMove(clipBeingDroppedId, fakeTrack, 0, root.consumerPosition, root.snapping)
+                fakeFrame = moveData[0]
+                fakeTrack = moveData[1]
+                timeline.activeTrack = fakeTrack
             }
         }
         onPositionChanged: {

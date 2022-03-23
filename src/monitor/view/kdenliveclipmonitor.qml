@@ -69,6 +69,7 @@ Item {
     }
 
     signal editCurrentMarker()
+    signal endDrag()
 
     function updateScrolling()
     {
@@ -570,6 +571,12 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        property bool dragActive: drag.active
+                        onDragActiveChanged: {
+                            if (!drag.active) {
+                                root.endDrag()
+                            }
+                        }
                         onPressed: {
                             dragZone.uuid = controller.getUuid()
                         }
@@ -595,6 +602,12 @@ Item {
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
                         drag.target: parent
+                        property bool dragActive: drag.active
+                        onDragActiveChanged: {
+                            if (!drag.active) {
+                                root.endDrag()
+                            }
+                        }
                         onPressed: {
                             dragZone.uuid = controller.getUuid()
                         }
