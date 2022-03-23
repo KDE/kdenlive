@@ -700,6 +700,14 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
+    if ((event->buttons() & Qt::LeftButton) != 0u && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
+        QModelIndexList indexes = selectedIndexes();
+        auto *drag = new QDrag(this);
+        drag->setMimeData(model()->mimeData(indexes));
+        drag->exec();
+        emit processDragEnd();
+        return;
+    }
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
