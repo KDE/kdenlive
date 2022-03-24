@@ -497,7 +497,6 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
 
 void TimelineWidget::regainFocus()
 {
-    qDebug()<<"=== REG FOCUS: "<<underMouse();
     if (underMouse() && rootObject()) {
         QPoint mousePos = mapFromGlobal(QCursor::pos());
         QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));

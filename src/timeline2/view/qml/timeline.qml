@@ -325,19 +325,37 @@ Rectangle {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
         //console.log('checking item on TK: ', currentMouseTrack, ' AT: XPOS', (mousePos.x - trackHeaders.width), ', SCROLL:', scrollView.contentX, ', RES: ', ((mousePos.x - trackHeaders.width + scrollView.contentX) / root.timeScale), ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
-        var tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, dragProxy.isComposition)
+        var sourceTrack = Logic.getTrackById(currentMouseTrack)
+        var mouseYPos = (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY) - sourceTrack.y
+        var allowComposition = mouseYPos > sourceTrack.height / 2
+        var tentativeClip = undefined
+        if (allowComposition) {
+            tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, true)
+            if (tentativeClip) {
+                // Ensure mouse is really over the composition
+                if (mouseYPos < tentativeClip.displayHeight) {
+                    tentativeClip = undefined
+                }
+            }
+        }
+        if (!tentativeClip) {
+            tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, false)
+        }
+
         if (tentativeClip && tentativeClip.clipId) {
             dragProxy.draggedItem = tentativeClip.clipId
             var tk = controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
-            dragProxy.y = tentativeClip.y + Logic.getTrackYFromId(tk)
+            dragProxy.y = sourceTrack.y + (tentativeClip.isComposition ? tentativeClip.displayHeight : tentativeClip.y)
+            //+ Logic.getTrackYFromId(tk)
             dragProxy.width = tentativeClip.width
-            dragProxy.height = tentativeClip.height
+            dragProxy.height = tentativeClip.itemHeight()
             dragProxy.masterObject = tentativeClip
             dragProxy.sourceTrack = tk
             dragProxy.sourceFrame = tentativeClip.modelStart
             dragProxy.isComposition = tentativeClip.isComposition
-            console.log('missing item', tentativeClip.clipId, ', COORDS: ', tentativeClip.x, 'x', tentativeClip.y, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRM: ', dragProxy.sourceFrame)
+            dragProxy.verticalOffset = tentativeClip.isComposition ? tentativeClip.displayHeight : 0
+            //console.log('missing item', tentativeClip.clipId, ', COORDS: ', dragProxy.x, 'x', dragProxy.y,'-',dragProxy.width,'x',dragProxy.height, ', TK id: ', tk, ', TKY: ', Logic.getTrackYFromId(tk),' STARTFRM: ', dragProxy.sourceFrame)
         } else {
             console.log('item not found')
             if (dragProxy.draggedItem > -1) {
@@ -356,7 +374,7 @@ Rectangle {
         return audioCount;
     }
 
-    function getItemAtPos(tk, posx, isComposition) {
+    function getItemAtPos(tk, posx, compositionWanted) {
         var track = Logic.getTrackById(tk)
         if (track == undefined || track.children == undefined) {
             return undefined
@@ -367,8 +385,8 @@ Rectangle {
             if (container.children[i].children.length === 0 || container.children[i].children[0].children.length === 0) {
                 continue
             }
-            tentativeClip = container.children[i].children[0].childAt(posx, 1)
-            if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition === isComposition)) {
+            tentativeClip = container.children[i].children[0].childAt(posx, compositionWanted ? 5 : 0)
+            if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition === compositionWanted)) {
                 break
             }
         }
@@ -608,6 +626,7 @@ Rectangle {
                 }
             }
             clearDropData()
+            regainFocus(Qt.point(drag.x + trackHeaders.width, drag.y + ruler.height))
         }
     }
     DropArea {
@@ -772,6 +791,7 @@ Rectangle {
         }
         onDropped: {
             processDrop()
+            regainFocus(Qt.point(drag.x + trackHeaders.width, drag.y + ruler.height))
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)
@@ -1722,12 +1742,13 @@ Rectangle {
                                                     clickAccepted = true
                                                     dragProxy.draggedItem = tentativeClip.clipId
                                                     dragProxy.x = tentativeClip.x
-                                                    //dragProxy.y = tentativeClip.y
+                                                    dragProxy.y = currentMouseTrack.y + tentativeClip.isComposition ? tentativeClip.displayHeight : tentativeClip.y
+                                                    dragProxy.height = tentativeClip.itemHeight()
                                                     dragProxy.width = tentativeClip.width
-                                                    dragProxy.height = tentativeClip.height
                                                     dragProxy.masterObject = tentativeClip
                                                     dragProxy.sourceTrack = tk
                                                     dragProxy.isComposition = tentativeClip.isComposition
+                                                    dragProxy.verticalOffset = tentativeClip.isComposition ? tentativeClip.displayHeight : 0
                                                 } else {
                                                     console.log('item not found')
                                                     clickAccepted = false

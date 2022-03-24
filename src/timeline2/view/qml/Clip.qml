@@ -99,6 +99,11 @@ Rectangle {
         }
     }
 
+    function itemHeight() {
+        return clipRoot.height
+    }
+
+
     function boundValue(min, val, max) {
         return Math.max(min, Math.min(val, max))
     }
@@ -597,7 +602,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0 && !controller.hasClipEndMix(clipRoot.clipId))
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
                 hoverEnabled: true
                 drag.target: trimInMouseArea
                 drag.axis: Drag.XAxis
@@ -733,7 +738,7 @@ Rectangle {
                 width: root.baseUnit / 2
                 hoverEnabled: true
                 visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
