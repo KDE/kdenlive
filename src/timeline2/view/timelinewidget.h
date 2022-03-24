@@ -63,6 +63,7 @@ public slots:
     void endDrag();
     /** @brief Show menu to switch track target audio stream */
     void showTargetMenu(int tid = -1);
+    /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/
     void regainFocus();
 
 private slots:

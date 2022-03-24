@@ -49,6 +49,10 @@ Item {
     property bool hideCompoViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || width < root.minClipWidthForViews
     property int scrollStart: scrollView.contentX - modelStart * timeline.scaleFactor
     property int mouseXPos: mouseArea.mouseX
+    // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
+    property int trackOffset: 5
+    y: trackOffset
+    height: 5
 
     signal moved(var clip)
     signal dragged(var clip, var mouse)
@@ -81,6 +85,10 @@ Item {
         if (compositionRoot.isGrabbed) {
             grabItem()
         }
+    }
+
+    function itemHeight() {
+        return displayRect.height
     }
 
     function grabItem() {
@@ -133,7 +141,7 @@ Item {
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight
+        anchors.topMargin: displayHeight - compositionRoot.trackOffset
         height: parentTrack.height - displayHeight
         color: Qt.darker('mediumpurple')
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
