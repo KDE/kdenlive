@@ -601,7 +601,7 @@ public:
     /** @brief Set keyboard grabbing on current selection */
     Q_INVOKABLE void grabCurrent();
     /** @brief Returns keys for all used thumbnails */
-    QStringList getThumbKeys();
+    const std::unordered_map<QString, std::vector<int>> getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
     /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */

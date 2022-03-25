@@ -4184,17 +4184,24 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     return true;
 }
 
-QStringList TimelineController::getThumbKeys()
+const std::unordered_map<QString, std::vector<int>> TimelineController::getThumbKeys()
 {
-    QStringList result;
+    std::unordered_map<QString, std::vector<int>> framesToStore;
     for (const auto &clp : m_model->m_allClips) {
+        if (clp.second->isAudioOnly()) {
+            //Don't process audio clips
+            continue;
+        }
         const QString binId = getClipBinId(clp.first);
-        std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(binId);
-        result << binClip->hash() + QLatin1Char('#') + QString::number(clp.second->getIn()) + QStringLiteral(".jpg");
-        result << binClip->hash() + QLatin1Char('#') + QString::number(clp.second->getOut()) + QStringLiteral(".jpg");
+        framesToStore[binId].push_back(clp.second->getIn());
+        framesToStore[binId].push_back(clp.second->getOut());
     }
-    result.removeDuplicates();
-    return result;
+    for (auto p : framesToStore) {
+        std::sort(p.second.begin(), p.second.end());
+        auto last = std::unique(p.second.begin(), p.second.end());
+        p.second.erase(last, p.second.end());
+    }
+    return framesToStore;
 }
 
 bool TimelineController::isInSelection(int itemId)

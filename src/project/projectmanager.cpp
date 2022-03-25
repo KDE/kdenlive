@@ -360,8 +360,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    QStringList thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
-    ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
+    ThumbnailCache::get()->saveCachedThumbs(pCore->window()->getMainTimeline()->controller()->getThumbKeys());
     if (!saveACopy) {
         m_project->setUrl(url);
         // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
