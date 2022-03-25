@@ -426,7 +426,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             m_audioThumbCreated = false;
             // Reset uuid to enforce reloading thumbnails from qml cache
             m_uuid = QUuid::createUuid();
-            updateTimelineClips({TimelineModel::ClipThumbRole});
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
@@ -516,6 +515,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     qDebug() << "################### ProjectClip::setproducer #################";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
+    // Make sure we have a hash for this clip
+    getFileHash();
     updateProducer(producer);
     emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();
@@ -541,7 +542,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     QVector<int>updateRoles;
     if (m_clipStatus != currentStatus) {
         updateRoles = {AbstractProjectItem::ClipStatus, AbstractProjectItem::IconOverlay};
-        updateTimelineClips({TimelineModel::StatusRole});
+        updateTimelineClips({TimelineModel::StatusRole,TimelineModel::ClipThumbRole});
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
@@ -551,8 +552,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
                                                                        updateRoles);
         std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
     }
-    // Make sure we have a hash for this clip
-    getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
     if (generateThumb && m_clipType != ClipType::Audio) {
